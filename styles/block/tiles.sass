@@ -1,0 +1,138 @@
+.block.tiles
+    background: #ffffff
+
+    .tile-row
+        display: flex
+        flex-direction: row
+        margin-bottom: 20px
+        .bottom
+            background: linear-gradient(0, #000000 0%, rgba(0, 0, 0, 0) 83.33%)
+            width: 100%
+            position: absolute
+            bottom: 0
+            left: 0
+            height: 118px
+            z-index: 2
+        &.x-2
+            .item
+                height: 300px
+        &.x-3
+            .item
+                height: 300px
+                .bottom
+                    height: 165px
+                .info
+                    bottom: auto
+                    top: 0
+        &.x-4
+            .item
+                height: 220px
+                &.offer
+                    margin-bottom: 63px
+                .info
+                    padding: 14px
+                    .title
+                        font-size: 14px
+                        line-height: 17px
+        .item
+            background: #e5e5e5
+            margin-right: 20px
+            flex-grow: 1
+            flex-basis: 100%
+            position: relative
+            min-height: 50px
+            &:last-child
+                margin-right: 0
+            .body, .picture
+                width: 100%
+                height: 100%
+                position: absolute
+                top: 0
+                left: 0
+                z-index: 3
+            .picture
+                z-index: 1
+            .body
+                background: rgba(0,0,0,.1)
+                color: #ffffff
+            .flag, .flag img
+                width: 18px
+                height: 12px
+
+            .info
+                position: absolute
+                display: flex
+                flex-direction: row
+                padding: 30px 30px 18px
+                bottom: 0
+                left: 0
+                .flag
+                    margin-right: 10px
+                    line-height: 21px
+
+            .title
+                font-size: 18px
+                line-height: 21px
+                text-transform: uppercase
+                font-weight: 500
+            .count
+                font-size: 14px
+                line-height: 27px
+            .price
+                font-size: 18px
+                position: absolute
+                bottom: 27px
+                right: 30px
+                line-height: 18px
+                text-transform: uppercase
+                font-weight: 500
+                span
+                    font-size: 10px
+
+            .close
+                background: url("./images/cross-big.svg") no-repeat
+                width: 12px
+                height: 12px
+                background-size: 12px
+                cursor: pointer
+                border: 10px solid transparent
+                position: absolute
+                top: 20px
+                right: 20px
+                z-index: 10
+                box-sizing: content-box
+
+            .exclusive
+                font-weight: 700
+                text-transform: uppercase
+                border: 1px solid #D8DADC
+                height: 64px
+                position: absolute
+                top: 219px
+                padding: 21px
+                text-align: center
+                line-height: 21px
+                font-size: 18px
+                width: 100%
+
+    h1
+        text-transform: uppercase
+        font-size: 20px
+        line-height: 24px
+        margin: 63px 0 37px
+        span
+            position: relative
+            display: inline-block
+            &:after, &:before
+                content: ' '
+                position: absolute
+                right: -60px
+                top: 10px
+                background: #FECE08
+                background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+                width: 40px
+                height: 4px
+                border-radius: 4px
+            &:before
+                width: 10px
+                right: -76px

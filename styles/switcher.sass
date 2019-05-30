@@ -1,0 +1,43 @@
+@import "base/colors"
+
+.switcher
+    display: flex
+    flex-direction: row
+    margin-left: 30px
+    cursor: pointer
+    font-size: 14px
+
+    .avatar
+        margin: 20px 10px 0 0
+        &, & img, & svg
+            height: 30px
+            width: 30px
+            display: block
+
+    .flag
+        margin-right: 10px
+        margin-top: 30px
+        & svg
+            width: 15px
+            height: 15px
+            display: block
+
+    .dual
+        margin-top: 17px
+        line-height: 19px
+
+    .currency
+        span
+            color: $color-text-light
+
+    .company
+        font-size: 13px
+        line-height: 16px
+        color: $color-text-light
+
+    .switch-arrow
+        width: 9px
+        height: 4px
+        background: url("./images/dropdown-arrow.svg") no-repeat
+        margin: 34px 0 0 10px
+        display: inline-block

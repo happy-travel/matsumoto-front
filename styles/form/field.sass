@@ -1,0 +1,79 @@
+@import "../base/colors"
+
+.form .field
+    min-width: 88px
+    position: relative
+    flex-grow: 1
+    margin-right: 18px
+    &:last-child
+        margin-right: 0
+
+    .label
+        height: 36px
+        line-height: 36px
+        span
+            cursor: pointer
+
+    input, .button
+        width: 100%
+
+    &.size-medium
+        max-width: 273px
+
+    &.size-large
+        max-width: 367px
+
+    $padding: 15px
+    .input
+        border-radius: 4px
+        color: $color-text
+        background: #ffffff
+        border: 1px solid #D8DADC
+        height: 46px
+        line-height: 44px
+        padding: 0 $padding
+        position: relative
+        display: flex
+        flex-direction: row
+        font-size: 13px
+
+        &.focus
+            border-color: $color-brand
+        .inner
+            position: relative
+            display: inline-block
+            flex-grow: 2
+        .suggestion
+            position: absolute
+            left: 0
+            top: 0
+            z-index: 1
+            font-size: 13px
+            color: $color-text-light
+            span
+                color: #ffffff
+
+        input[type="text"], input[type="password"]
+            border: 0
+            width: 100%
+            font-size: 13px
+            background: transparent
+            position: relative
+            z-index: 3
+
+            &::placeholder
+                color: $color-text-light
+                opacity: 1
+
+        .flag
+            margin-right: 9px
+
+        .clear
+            background: url("./images/cross-small.svg") no-repeat
+            width: 8px
+            height: 8px
+            margin-left: 14px
+
+        .icon-wrap
+            padding-left: 14px
+            cursor: pointer

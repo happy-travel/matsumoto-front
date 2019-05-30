@@ -1,0 +1,25 @@
+@import "block/tiles"
+@import "base/colors"
+
+.block
+    &.search
+        background: #F5F9FA
+        padding: 60px 0 72px
+        display: flex
+        justify-content: center
+
+        .additionals
+            margin-top: 15px
+            height: 16px
+            line-height: 16px
+            button
+                margin-right: 18px
+                font-size: 13px
+            .button-expand
+                color: $color-blue
+                background: url("./images/dropdown-arrow-blue.svg") center right no-repeat
+                padding-right: 17px
+            .button-clear
+                color: #A4AAB3
+                background: url("./images/cross-small.svg") center left no-repeat
+                padding-left: 16px

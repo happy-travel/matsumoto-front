@@ -1,0 +1,73 @@
+@import 'base/colors'
+
+footer
+    background: #2e2f34
+    width: 100%
+    min-width: 200px
+    margin-top: 135px
+
+    .upper-part
+        padding: 47px 0 32px
+        color: #ffffff
+
+        .company
+            width: 110px
+            .logo-wrapper
+                height: 68px
+                border-top: 1px solid $color-text-light
+                text-align: center
+                .logo
+                    width: 71px
+                    height: 38px
+                    display: inline-block
+                    background: url("/images/logo/logo-small.png")
+                    background-size: cover
+            .social
+                display: flex
+                flex-direction: row
+                justify-content: space-evenly
+                a, a svg
+                    width: 27px
+                    height: 27px
+
+        section
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+
+        .links
+            flex-grow: 1
+            padding-left: 66px
+            & > menu
+                display: flex
+                flex-direction: row
+            .primary
+                line-height: 19px
+                margin-bottom: 16px
+                li
+                    margin-right: 40px
+            .secondary
+                font-size: 12px
+                a
+                    color: $color-text-light
+                li
+                    margin-right: 20px
+
+        .contact
+            h3
+                font-size: 14px
+                margin-bottom: 16px
+            div
+                font-size: 12px
+                margin-bottom: 12px
+                line-height: 18px
+            span
+                color: $color-text-light
+
+    .copyright
+        color: $color-text-light
+        height: 66px
+        line-height: 66px
+        font-size: 12px
+        text-align: center
+        border-top: 1px solid $color-text-light

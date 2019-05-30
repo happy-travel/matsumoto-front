@@ -1,0 +1,33 @@
+@import 'base/colors'
+
+button
+    cursor: pointer
+    display: inline-block
+    min-width: 0
+    min-height: 0
+    outline: 0
+    border: 0
+    background: transparent
+    font: inherit
+
+.button
+    height: 46px
+    line-height: 46px
+    background: $color-brand
+    background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+    font-size: 13px
+    font-weight: 700
+    letter-spacing: 1px
+    color: #ffffff
+    text-transform: uppercase
+    border: 0
+    border-radius: 4px
+    cursor: pointer
+
+    &.green
+        background-image: linear-gradient(90deg, #23d578, #1cbe69)
+
+    &.small
+        height: 26px
+        line-height: 26px
+        font-size: 10px
