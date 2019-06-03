@@ -1,15 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
-import { FieldText } from 'components/form';
+import { observer, Observer } from "mobx-react";
 
-import {data} from './mock'
+import { FieldText } from 'components/form';
+import SearchStore from 'stores/search-store';
 
 import Search from 'parts/search';
 
-const Variants = () => {
+@observer
+class Variants extends React.Component {
+
+render() {
     const { t, i18n } = useTranslation();
 
+    const store = SearchStore;
     return (
         <React.Fragment>
             <div class="variants block">
@@ -25,8 +30,8 @@ const Variants = () => {
                                 <div class="range-slider">
                                     <div class="slider"><div><div /></div></div>
                                     <div class="range-slider-values">
-                                        <span>USD  272.90</span>
-                                        <span>USD  1,056.90</span>
+                                        <span>USD 272.90</span>
+                                        <span>USD 1,056.90</span>
                                     </div>
                                 </div>
                             </div>
@@ -62,32 +67,38 @@ const Variants = () => {
                         <div class="item">Hotel Chain</div>
                     </div>
                     <div class="right-section">
-                        <div class="head">
-                            <div class="title">
+
+                        { store && !store.loaded &&
+                            <div>Loading...</div> }
+
+                        { store.loaded && !store.hotelArray &&
+                            <div>Nothing found</div> }
+
+
+                        { store.loaded && <div className="head">
+                            <div className="title">
                                 <h3>
-                                    Results for: <b>Moscow, Russia</b> <span>(3)</span>
+                                    Results for: <b>{ window.field('field-city') }</b> <span>({store.hotelArray.length})</span>
                                 </h3>
-                                <div class="breadcrumbs">
-                                    Find Accommodation > CIS > Russia > Moscow
+                                <div className="breadcrumbs">
+                                    Find Accommodation > { window.field('field-city') }
                                 </div>
                             </div>
-                            <div class="sorter">
+                            <div className="sorter">
                                 <button className="button-expand">
                                     Sort by
                                 </button>
                             </div>
-                            <div class="input-wrap">
-                                <div class="form">
+                            <div className="input-wrap">
+                                <div className="form">
                                     <FieldText
                                         placeholder={"Search hotel name ..."}
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </div> }
 
-                        { !(data && data.results) &&
-                            <div>Nothing found</div> }
-                        { data.results && data.results.map(item =>
+                        { store.hotelArray && store.hotelArray.map(item =>
                         <div class="variant" key={item.hotelDetails.id}>
                             <div class="summary">
                                 <div class="photo">
@@ -96,7 +107,9 @@ const Variants = () => {
                                 <div class="title">
                                     <h2>
                                         {item.hotelDetails.name}
-                                        <span class="stars"><i /><i /><i /><i /><i /></span>
+                                        <span class="stars">
+                                            { [...Array(window.getStarNumber(item.hotelDetails.rating))].map(() => <i />) }
+                                        </span>
                                     </h2>
                                     <div class="category">
                                         Hotels in {item.hotelDetails.location.country}, {item.hotelDetails.location.city}
@@ -109,15 +122,16 @@ const Variants = () => {
                                 </div>
                                 <div class="prices">
                                     <div class="from">From</div>
-                                    <div class="value">USD 30.27</div>
+                                    <div class="value">{item.agreements[0].currencyCode} {item.agreements[0].price.total}</div>
                                 </div>
                             </div>
                             <div class="description">
-                                <span>Location: Located in Moscow (Strogino), Hampton by Hilton Moscow Strogino is convenient to Crocus Expo Center and All Weather Mountain Skiing Complex. This hotel is within the vicinity of Krylatskoye Ice Palace and Memorial Museum of German Anti Fascists. Rooms: 206 guestrooms featuring flat-screen televisions. Complimentary wireless Internet ac </span>
+                                <span>Location: Located in {item.hotelDetails.location.city}, {item.hotelDetails.location.country} {item.hotelDetails.name}. This hotel is within the. Rooms: guestrooms featuring flat-screen televisions. Complimentary wireless Internet ac </span>
                                 <span class="expand">more...</span>
                             </div>
                             <div class="table">
                                 <table>
+                                    <tbody>
                                     <tr>
                                         <th>Room Type</th>
                                         <th>Board Basis</th>
@@ -126,13 +140,13 @@ const Variants = () => {
                                         <th>Total Price</th>
                                         <th />
                                     </tr>
-                                    <tr>
+                                    { item.agreements.map(line => <tr>
                                         <td>
-                                            Aloft Room, 1 King, Mini fridge, 27sqm/291sqft, Living/sitting area, Wireless
+                                            {line.rooms[0].type}, {line.tariffCode}
                                             <span class="icon icon-info" />
                                         </td>
                                         <td>
-                                            Breakfast
+                                            {line.roomPlan}
                                         </td>
                                         <td>
                                             None
@@ -148,17 +162,18 @@ const Variants = () => {
                                             <span class="icon icon-card" />
                                         </td>
                                         <td class="price">
-                                            USD 30.27
+                                            {line.currencyCode} {line.price.total}
                                         </td>
                                         <td class="buttons">
                                             <button class="button small">
                                                 Book now
                                             </button>
                                             <button class="button small gray round">
-                                                .
+                                                <span class="icon icon-arrow-expand" />
                                             </button>
                                         </td>
-                                    </tr>
+                                    </tr>) }
+                                    </tbody>
                                 </table>
                             </div>
                             <div class="show-more">
@@ -172,6 +187,7 @@ const Variants = () => {
             </div>
         </React.Fragment>
     );
+}
 };
 
 export default Variants;

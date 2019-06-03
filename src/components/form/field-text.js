@@ -1,6 +1,19 @@
 import React from 'react';
 
 const FieldText = class extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            customVisible: false
+        };
+        this.toggleCustom = this.toggleCustom.bind(this);
+    }
+
+    toggleCustom() {
+        this.setState({
+            customVisible: !this.state.customVisible
+        })
+    }
 
     render() {
         var {
@@ -9,8 +22,15 @@ const FieldText = class extends React.Component {
             Icon,
             Flag,
             clearable,
-            addClass
+            addClass,
+            id,
+            Custom,
+            value
         } = this.props;
+
+        var {
+            customVisible
+        } = this.state;
 
         return (
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
@@ -23,7 +43,13 @@ const FieldText = class extends React.Component {
                             { Flag }
                         </div>
                         <div class="inner">
-                            <input type="text" placeholder={ placeholder } />
+                            <input
+                                id={id}
+                                type="text"
+                                placeholder={ placeholder }
+                                value={ value }
+                                onFocus={ this.toggleCustom }
+                            />
                             <div class="suggestion">
                                 <span>{' ' || 'Ru' }</span>{' ' || 'ssia' }
                             </div>
@@ -36,6 +62,9 @@ const FieldText = class extends React.Component {
                         </div>
                     </div>
                 </label>
+                <div class={customVisible ? '' : 'hide'}>
+                    { Custom }
+                </div>
             </div>
         );
     }

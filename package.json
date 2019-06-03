@@ -9,9 +9,12 @@
     "react-dom": "16.8.6",
     "react-router-dom": "5.0.0",
     "mobx": "4.9.4",
-    "mobx-react": "5.4.3",
+    "mobx-react": "6.0.0-rc.4",
     "i18next": "15.1.0",
-    "react-i18next": "10.9.0"
+    "react-i18next": "10.9.0",
+    "react-daterange-picker": "2.0.1",
+    "moment": "2.24.0",
+    "moment-range": "3.0.3"
   },
   "devDependencies": {
     "dotenv": "6.2.0",
@@ -113,6 +116,20 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "env": {
+      "production": {}
+    },
+    "plugins": [
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ],
+      [
+        "@babel/plugin-proposal-optional-catch-binding"
+      ]
     ]
   }
 }
