@@ -2,6 +2,6 @@ version: "3"
 services:
   matsumoto-front:
     build: .
-    container_name: matsumoto-front
+    container_name: web
     ports:
       - "8080:80"
