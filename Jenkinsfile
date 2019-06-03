@@ -41,7 +41,7 @@ pipeline {
                 dir('docker/matsumoto-front/Helm') {
                     withCredentials([file(credentialsId: 'k8s', variable: 'k8s_cred')]) {
                         sh './setRevision.sh $BUILD_NUMBER'
-                        sh 'helm --kubeconfig /$k8s_cred upgrade --install $APP_NAME --wait --namespace $NAMESPACE ./'
+                        sh 'helm --kubeconfig /$k8s_cred upgrade --install $NAMESPACE-$APP_NAME --wait --namespace $NAMESPACE ./'
                     }
                 }
             }
@@ -54,12 +54,14 @@ pipeline {
         }
         success {
             echo 'I succeeeded!'
+            discordSend description: 'Job:'+' '+env.JOB_NAME+', build number: '+env.BUILD_NUMBER, footer: 'SUCCESSFUL', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME+' env: '+env.NAMESPACE, webhookURL: 'https://discordapp.com/api/webhooks/585188681892233239/eFnBXVIb-03zxCqOncAkCXvbnke02dWsDx2acpFDp1Lhe7JUyW5jGahAIH2VaiqzAbUQ'
         }
         unstable {
             echo 'I am unstable :/'
         }
         failure {
             echo 'I failed :('
+            discordSend description: 'Job:'+' '+env.JOB_NAME+', build number: '+env.BUILD_NUMBER, footer: 'FAILED', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME+' env: '+env.NAMESPACE, webhookURL: 'https://discordapp.com/api/webhooks/585188681892233239/eFnBXVIb-03zxCqOncAkCXvbnke02dWsDx2acpFDp1Lhe7JUyW5jGahAIH2VaiqzAbUQ'
         }
         changed {
             echo 'Things were different before...'
