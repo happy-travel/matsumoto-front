@@ -3,6 +3,7 @@
 body
     background: #ffffff
     color: $color-text
+    letter-spacing: 0.232143px
     font:
         family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial Neue", sans-serif
         size: 14px
@@ -10,3 +11,12 @@ body
 section
     width: 1100px
     margin: 0 auto
+    &.dual
+        display: flex
+        padding-top: 50px
+        .left-section
+            min-width: 230px
+            max-width: 230px
+            margin-right: 45px
+        .right-section
+            flex-grow: 1

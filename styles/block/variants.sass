@@ -1,0 +1,218 @@
+.variants
+    .head
+        margin-bottom: 50px
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        .title
+            flex-grow: 1
+            h3
+                font-size: 24px
+                line-height: 29px
+                margin-bottom: 6px
+                b
+                    color: $color-brand
+                    font-weight: 400
+                span
+                    color: $color-text-light
+        .breadcrumbs
+            font-size: 13px
+            line-height: 16px
+            color: $color-text-light
+        .sorter
+            padding-right: 27px
+            line-height: 46px
+            button
+                font-size: 13px
+
+        .input-wrap
+            width: 257px
+
+    .filters
+        .item
+            min-height: 18px
+            box-sizing: content-box
+            line-height: 18px
+            padding: 15px 0 15px
+            margin-bottom: 9px
+            font-size: 15px
+            font-weight: 500
+            border-bottom: 1px solid #D8DADC
+            cursor: pointer
+            &:first-child
+                padding-top: 0
+            &:after
+                content: ' '
+                background: url("./images/dropdown-arrow.svg") no-repeat
+                width: 9px
+                height: 4px
+                display: block
+                float: right
+                margin-top: 6px
+            &.open
+                &:after
+                    transform: rotate(180deg)
+            &.static
+                &:after
+                    content: ''
+                    display: none
+
+        .expanded
+            padding-bottom: 15px
+            .checkbox
+                margin-top: 15px
+                cursor: pointer
+                font-size: 13px
+                line-height: 16px
+                background: url("./images/checkbox-off.svg") center left no-repeat
+                padding-left: 27px
+                &.on
+                    background-image: url("./images/checkbox-on.svg")
+                span
+                    color: $color-text-light
+
+        .price-range
+            h4
+                font-size: 13px
+                line-height: 16px
+                color: $color-text-light
+            .range-slider
+                .slider
+                    height: 32px
+                    position: relative
+                    & > div
+                        margin-top: 12px
+                        height: 8px
+                        width: 100%
+                        background: #F4F4F4
+                        border-radius: 100px
+                        & > div
+                            position: absolute
+                            top: 0
+                            left: 50px
+                            right: 37px
+                            height: 8px
+                            background: $color-brand
+                            border-radius: 100px
+                            &:before, &:after
+                                content: ' '
+                                cursor: pointer
+                                width: 16px
+                                height: 16px
+                                display: block
+                                background: #FFFFFF
+                                border: 1px solid #D8DADC
+                                position: absolute
+                                border-radius: 200px
+                            &:before
+                                left: -3px
+                                top: -4px
+                            &:after
+                                right: -3px
+                                top: -4px
+
+                &-values
+                    display: flex
+                    justify-content: space-between
+                    span
+                        font-size: 12px
+                        line-height: 14px
+                        color: $color-blue
+
+    .variant
+        margin-bottom: 90px
+        .summary
+            margin-bottom: 17px
+            display: flex
+            flex-direction: row
+            justify-content: space-between
+            .photo
+                margin-right: 17px
+                &, & img
+                    max-width: 125px
+                    max-height: 80px
+            .title
+                flex-grow: 1
+                h2
+                    font-size: 18px
+                    line-height: 21px
+                    font-weight: 400
+                    margin-bottom: 6px
+                    .stars
+                        margin-left: 15px
+                        position: relative
+                        top: -1px
+                        i
+                            margin-right: 1px
+                .category
+                    margin-bottom: 13px
+                    font-size: 13px
+                    line-height: 16px
+                    color: $color-text-light
+                .features
+                    .icon
+                        margin-right: 12px
+                    .mini-label
+                        vertical-align: bottom
+            .prices
+                text-align: right
+                .from
+                    font-size: 11px
+                    line-height: 13px
+                    text-transform: uppercase
+                    color: $color-text-light
+                .value
+                    font-size: 18px
+                    line-height: 25px
+                    color: $color-green
+
+        .description
+            color: $color-text-light
+            font-size: 12px
+            line-height: 14px
+            margin-bottom: 15px
+            & .expand
+                cursor: pointer
+                color: $color-blue
+                text-decoration: underline
+        .table
+            font-size: 11px
+            line-height: 18px
+            th
+                font-weight: 500
+                color: $color-text-light
+                text-align: left
+            th, td
+                border-bottom: 1px solid #D8DADC
+                padding: 10px 25px 10px 0
+                vertical-align: top
+                &:last-child
+                    padding-right: 0
+            th:nth-child(1)
+                width: 185px
+            .actions
+                .icon
+                    margin-top: 6px
+                    margin-right: 8px
+                    &:last-child
+                        margin-right: 0
+            .price
+                font-size: 12px
+                line-height: 26px
+                color: $color-green
+                font-weight: 500
+            .services-info
+                color: $color-brand
+            .icon-info
+                margin: 0 2px
+            .buttons
+                min-width: 144px
+                text-align: right
+                .button.round
+                    margin-left: 7px
+
+    .table
+        margin-bottom: 40px
+
+    .show-more
+        text-align: center

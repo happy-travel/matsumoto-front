@@ -1,11 +1,10 @@
 import React from 'react';
 
 import Tiles from 'components/tiles';
-import Search from 'components/search';
+import Search from 'parts/search';
 
 const MainPage = () => (
     <React.Fragment>
-        <Search />
         <div class="tiles block">
             <section>
                 <h1><span>Country & Hotels</span></h1>

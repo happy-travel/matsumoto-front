@@ -19,20 +19,20 @@ const Tiles = class extends React.Component {
                             <FieldText
                                 label={'Destination, Hotel name, Location or Landmark'}
                                 placeholder={'Choose your Destination, Hotel name, Location or Landmark'}
-                                Icon={<span class="icon hotel" />}
+                                Icon={<span class="icon icon-hotel" />}
                                 Flag={false}
                                 clearable
                             />
                             <FieldText
-                                label={'Check In • Check Out'}
+                                label={'Check In – Check Out'}
                                 placeholder={'Choose date'}
-                                Icon={<span class="icon calendar"/>}
+                                Icon={<span class="icon icon-calendar"/>}
                                 addClass="size-medium"
                             />
                             <FieldText
                                 label={'Adults • Children • Rooms'}
                                 placeholder={'Choose options'}
-                                Icon={<span class="icon arrows-expand"/>}
+                                Icon={<span class="icon icon-arrows-expand"/>}
                                 addClass="size-medium"
                             />
                         </div>
@@ -55,9 +55,9 @@ const Tiles = class extends React.Component {
                                 <div class="label"/>
                                 <div class="inner">
                                     <Link to="/search">
-                                    <button class="button">
-                                        Search hotel
-                                    </button>
+                                        <button class="button">
+                                            Search hotel
+                                        </button>
                                     </Link>
                                 </div>
                             </div>
@@ -76,5 +76,6 @@ const Tiles = class extends React.Component {
         );
     }
 };
+// https://netstormingconnector-api.dev.happytravel.com/api/1.0/hotels/availability
 
 export default Tiles;
