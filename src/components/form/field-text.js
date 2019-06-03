@@ -15,9 +15,9 @@ const FieldText = class extends React.Component {
         return (
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
                 <label>
-                    <div class="label">
+                    { label && <div class="label">
                         <span>{label}</span>
-                    </div>
+                    </div> }
                     <div class="input">
                         <div>
                             { Flag }

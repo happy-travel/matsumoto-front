@@ -10,11 +10,14 @@ import Footer from './parts/footer';
 
 import Routes from './routes';
 
+import Search from 'parts/search';
+
 const App = () => (
     <React.Fragment>
         <I18nextProvider i18n={ internationalization }>
             <BrowserRouter>
                 <Header />
+                <Search />
                 <Routes />
                 <Footer />
             </BrowserRouter>
