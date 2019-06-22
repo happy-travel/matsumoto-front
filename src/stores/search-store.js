@@ -1,11 +1,16 @@
 import React from "react";
 import { autorun, observable, computed } from "mobx";
 
+var today = new Date(),
+    nextDay = new Date(),
+    month = day => { var val = day.getMonth() + 1; return val<10 ? '0'+ val : val };
+nextDay.setDate(nextDay.getDate() + 3);
+
 class SearchStore {
     @observable result = {};
     @observable request = {
-        "checkInDate": "2019-06-12T00:00:00.000Z",
-        "checkOutDate": "2019-06-15T00:00:00.000Z",
+        "checkInDate": "2019-" + month(today) + "-" + today.getDate() + "T00:00:00.000Z",
+        "checkOutDate": "2019-" + month(nextDay) + "-" + nextDay.getDate() + "T00:00:00.000Z",
         "roomDetails": [
             {
                 "adultsNumber": 1,

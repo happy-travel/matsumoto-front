@@ -102,7 +102,7 @@ render() {
                         <div class="variant" key={item.hotelDetails.id}>
                             <div class="summary">
                                 <div class="photo">
-                                    <img src={item.hotelDetails.pictures[0].source} alt="" />
+                                    <img src={item.hotelDetails.picture.source} alt="" />
                                 </div>
                                 <div class="title">
                                     <h2>
@@ -188,6 +188,6 @@ render() {
         </React.Fragment>
     );
 }
-};
+}
 
 export default Variants;

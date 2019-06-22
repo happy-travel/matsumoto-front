@@ -58,7 +58,7 @@ class Tiles extends React.Component {
                         result: 'bad'
                     });
                 }
-            )
+            );
     }
 
     render() {
@@ -156,6 +156,6 @@ class Tiles extends React.Component {
             </div>
         );
     }
-};
+}
 
 export default Tiles;
