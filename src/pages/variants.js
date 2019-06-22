@@ -126,8 +126,9 @@ render() {
                                 </div>
                             </div>
                             <div class="description">
-                                <span>Location: Located in {item.hotelDetails.location.city}, {item.hotelDetails.location.country} {item.hotelDetails.name}. This hotel is within the. Rooms: guestrooms featuring flat-screen televisions. Complimentary wireless Internet ac </span>
-                                <span class="expand">more...</span>
+                                <span>Location: Located in {item.hotelDetails.location.city}, {item.hotelDetails.location.country} {item.hotelDetails.name}.
+                                    {item.hotelDetails.generalTextualDescription && item.hotelDetails.generalTextualDescription.descriptions && item.hotelDetails.generalTextualDescription.descriptions.en}</span>
+                                <span style={{display: 'none'}} class="expand">more...</span>
                             </div>
                             <div class="table">
                                 <table>
@@ -146,7 +147,7 @@ render() {
                                             <span class="icon icon-info" />
                                         </td>
                                         <td>
-                                            {line.roomPlan}
+                                            {line.mealPlan}
                                         </td>
                                         <td>
                                             None
