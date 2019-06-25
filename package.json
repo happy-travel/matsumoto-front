@@ -14,7 +14,8 @@
     "react-i18next": "10.9.0",
     "react-daterange-picker": "2.0.1",
     "moment": "2.24.0",
-    "moment-range": "3.0.3"
+    "moment-range": "3.0.3",
+    "@sentry/browser": "5.4.3"
   },
   "devDependencies": {
     "dotenv": "6.2.0",
