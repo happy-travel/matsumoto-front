@@ -20,7 +20,7 @@ const stateDefinitions = {
 };
 
 @observer
-class DateCustom extends React.Component {
+class DateDropdown extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,7 +52,7 @@ class DateCustom extends React.Component {
         } = this.props;
 
         return (
-            <div class="date custom">
+            <div class="date dropdown">
                 <DateRangePicker
                 className={"calendar-style"}
                 firstOfWeek={1}
@@ -69,4 +69,4 @@ class DateCustom extends React.Component {
     }
 }
 
-export default DateCustom;
+export default DateDropdown;

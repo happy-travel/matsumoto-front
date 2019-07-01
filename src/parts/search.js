@@ -6,11 +6,11 @@ import Flag from 'components/flag';
 import {observer} from "mobx-react";
 
 import SearchStore from 'stores/search-store';
-import RegionStore from 'stores/region-store';
+import CommonStore from 'stores/common-store';
 
-import RegionCustom from 'components/form/custom/region';
-import DateCustom from 'components/form/custom/date';
-import PeopleCustom from 'components/form/custom/room-details';
+import RegionDropdown from 'components/form/dropdown/region';
+import DateDropdown from 'components/form/dropdown/date';
+import PeopleDropdown from 'components/form/dropdown/room-details';
 
 @observer
 class Tiles extends React.Component {
@@ -67,7 +67,7 @@ class Tiles extends React.Component {
 
     inputChanged(e, tempForceEmpty) {
         if (tempForceEmpty) {
-            RegionStore.setCities([]);
+            CommonStore.setCities([]);
             return;
         }
         fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/countries?languageCode=en&query=" + e.target.value,
@@ -80,10 +80,10 @@ class Tiles extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    RegionStore.setCities(result);
+                    CommonStore.setCities(result);
                 },
                 (error) => {
-                    RegionStore.setCities([]);
+                    CommonStore.setCities([]);
                 }
             );
     }
@@ -112,7 +112,7 @@ class Tiles extends React.Component {
                                 placeholder={'Choose date'}
                                 Icon={<span class="icon icon-calendar"/>}
                                 addClass="size-medium"
-                                Custom={<DateCustom />}
+                                Dropdown={<DateDropdown />}
                                 value={
                                     store.request.checkInDate.substr(0,10).replace('-', '/').replace('-', '/')
                                     + ' – ' +
@@ -125,7 +125,7 @@ class Tiles extends React.Component {
                                 placeholder={'Choose options'}
                                 Icon={<span class="icon icon-arrows-expand"/>}
                                 addClass="size-medium"
-                                Custom={<PeopleCustom />}
+                                Dropdown={<PeopleDropdown />}
                                 value={
                                     store.request.roomDetails[0].adultsNumber +
                                     ' Adult' + (store.request.roomDetails[0].adultsNumber > 1 ? "s" : '') + ' • ' +
@@ -145,7 +145,7 @@ class Tiles extends React.Component {
                                 placeholder={'Choose your residency'}
                                 clearable
                                 Flag={false && <Flag />}
-                                Custom={<RegionCustom connected={"field-residency"} />}
+                                Dropdown={<RegionDropdown connected={"field-residency"} />}
                                 onChange={this.inputChanged}
                                 addClass="size-large"
                             />
@@ -155,7 +155,7 @@ class Tiles extends React.Component {
                                 placeholder={'Choose your nationality'}
                                 clearable
                                 Flag={false && <Flag />}
-                                Custom={<RegionCustom connected={"field-nationality"} />}
+                                Dropdown={<RegionDropdown connected={"field-nationality"} />}
                                 onChange={this.inputChanged}
                                 addClass="size-large"
                             />

@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import SearchStore from 'stores/search-store';
 
 @observer
-class PeopleCustom extends React.Component {
+class PeopleDropdown extends React.Component {
 
     render() {
         var {
@@ -11,7 +11,7 @@ class PeopleCustom extends React.Component {
 
         const store = SearchStore;
         return (
-            <div class="people custom">
+            <div class="people dropdown">
                 <div class="row">
                     <div class="caption">
                         Adults
@@ -59,4 +59,4 @@ class PeopleCustom extends React.Component {
     }
 }
 
-export default PeopleCustom;
+export default PeopleDropdown;

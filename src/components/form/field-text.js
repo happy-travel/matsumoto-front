@@ -1,34 +1,40 @@
 import React from 'react';
 
-const FieldText = class extends React.Component {
+import CommonStore from 'stores/common-store';
+import {observer} from "mobx-react";
+
+@observer
+class FieldText extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            customVisible: false
+            currentValue: ''
         };
-        this.toggleCustom = this.toggleCustom.bind(this);
+        this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.clear = this.clear.bind(this);
         this.changing = this.changing.bind(this);
     }
 
-    toggleCustom() {
-        //todo: remove
-        if (this.props.onChange)
-            this.props.onChange(null, true);
-        //todo: /remove this
-
-        this.setState({
-            customVisible: !this.state.customVisible
-        })
+    toggleDropdown() {
+        var newValue = this.props.id;
+        if (CommonStore.openDropdown == newValue)
+            newValue = null;
+        CommonStore.setOpenDropdown(newValue);
     }
 
-    changing(e) {
-        //todo: remove
+    clear() {
+        window.document.getElementById(this.props.id).value = '';
+    }
+
+    changing(event) {
         this.setState({
-            customVisible: true
+            currentValue: event.target.value
         });
+
+        //todo suggestion
+
         if (this.props.onChange)
-            this.props.onChange(e);
-        //todo: /remove this
+            this.props.onChange(event);
     }
 
     render() {
@@ -40,13 +46,9 @@ const FieldText = class extends React.Component {
             clearable,
             addClass,
             id,
-            Custom,
+            Dropdown,
             value
         } = this.props;
-
-        var {
-            customVisible
-        } = this.state;
 
         return (
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
@@ -64,27 +66,27 @@ const FieldText = class extends React.Component {
                                 type="text"
                                 placeholder={ placeholder }
                                 value={ value }
-                                onFocus={ this.toggleCustom }
+                                onFocus={ this.toggleDropdown }
                                 onChange={ this.changing }
                             />
                             <div class="suggestion">
-                                <span>{' ' || 'Ru' }</span>{' ' || 'ssia' }
+                                <span>{ this.state.currentValue }</span>{ CommonStore.currentSuggestion }
                             </div>
                         </div>
                         <div class="icon-wrap">
                             { Icon }
                         </div>
                         <div>
-                            { clearable && <button class="clear" /> }
+                            { clearable && <button class="clear" onClick={ this.clear } /> }
                         </div>
                     </div>
                 </label>
-                <div class={customVisible ? '' : 'hide'}>
-                    { Custom }
+                <div class={CommonStore.openDropdown == id ? '' : 'hide'}>
+                    { Dropdown }
                 </div>
             </div>
         );
     }
-};
+}
 
 export default FieldText;

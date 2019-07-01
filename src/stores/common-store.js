@@ -1,10 +1,12 @@
 import React from "react";
 import { autorun, observable, computed } from "mobx";
 
-class RegionStore {
+class CommonStore {
     @observable regions = [];
     @observable cities = [];
     @observable initialized = false;
+    @observable openDropdown = null;
+    @observable currentSuggestion = '';
 
     constructor() {
     }
@@ -27,8 +29,16 @@ class RegionStore {
     setCities(value) {
         this.cities = value;
     }
+
+    setOpenDropdown(id) {
+        this.openDropdown = id || null;
+    }
+
+    setCurrentSuggestion(value) {
+        this.currentSuggestion = value || '';
+    }
 }
 
-export const regionStore = new RegionStore();
+export const commonStore = new CommonStore();
 
-export default regionStore;
+export default commonStore;

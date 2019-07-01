@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
 import App from './app';
 //*move
-import RegionStore from 'stores/region-store'
+import CommonStore from 'stores/common-store'
 //*/move
 
 Sentry.init({dsn: "https://21e4194b435946e0b2e20444d6948d25@sentry.dev.happytravel.com/4"});
@@ -23,11 +23,13 @@ fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/regions?languageCod
     .then(res => res.json())
     .then(
         (result) => {
-            RegionStore.setRegions(result);
-            RegionStore.setInitialized(true);
+            CommonStore.setRegions(result);
+            CommonStore.setInitialized(true);
         },
         (error) => {
             console.warn(error);
-            RegionStore.setInitialized(true);
+            CommonStore.setInitialized(true);
         }
     );
+
+window.safe = val => val;
