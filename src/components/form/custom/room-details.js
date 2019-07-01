@@ -57,6 +57,6 @@ class PeopleCustom extends React.Component {
             </div>
         );
     }
-};
+}
 
 export default PeopleCustom;

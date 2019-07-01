@@ -67,6 +67,6 @@ class DateCustom extends React.Component {
             </div>
         );
     }
-};
+}
 
 export default DateCustom;

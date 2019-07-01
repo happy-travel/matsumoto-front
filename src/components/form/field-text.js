@@ -7,12 +7,28 @@ const FieldText = class extends React.Component {
             customVisible: false
         };
         this.toggleCustom = this.toggleCustom.bind(this);
+        this.changing = this.changing.bind(this);
     }
 
     toggleCustom() {
+        //todo: remove
+        if (this.props.onChange)
+            this.props.onChange(null, true);
+        //todo: /remove this
+
         this.setState({
             customVisible: !this.state.customVisible
         })
+    }
+
+    changing(e) {
+        //todo: remove
+        this.setState({
+            customVisible: true
+        });
+        if (this.props.onChange)
+            this.props.onChange(e);
+        //todo: /remove this
     }
 
     render() {
@@ -49,6 +65,7 @@ const FieldText = class extends React.Component {
                                 placeholder={ placeholder }
                                 value={ value }
                                 onFocus={ this.toggleCustom }
+                                onChange={ this.changing }
                             />
                             <div class="suggestion">
                                 <span>{' ' || 'Ru' }</span>{' ' || 'ssia' }

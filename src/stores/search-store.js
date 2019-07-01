@@ -3,21 +3,24 @@ import { autorun, observable, computed } from "mobx";
 
 var today = new Date(),
     nextDay = new Date(),
-    month = day => { var val = day.getMonth() + 1; return val<10 ? '0'+ val : val };
+    leadZero = val => val < 10 ? '0'+ val : val,
+    month = day => leadZero(day.getMonth() + 1);
 nextDay.setDate(nextDay.getDate() + 3);
 
 class SearchStore {
     @observable result = {};
     @observable request = {
-        "checkInDate": "2019-" + month(today) + "-" + today.getDate() + "T00:00:00.000Z",
-        "checkOutDate": "2019-" + month(nextDay) + "-" + nextDay.getDate() + "T00:00:00.000Z",
+        "checkInDate": "2019-" + month(today) + "-" + leadZero(today.getDate()) + "T00:00:00.000Z",
+        "checkOutDate": "2019-" + month(nextDay) + "-" + leadZero(nextDay.getDate()) + "T00:00:00.000Z",
         "roomDetails": [
             {
                 "adultsNumber": 1,
                 "childrenNumber": 0,
                 "rooms": 1
             }
-        ]
+        ],
+        "nationality": "RU",
+
     };
     @observable loaded = false;
 
@@ -41,6 +44,10 @@ class SearchStore {
     }
     setLoaded(value) {
         this.loaded = value;
+    }
+
+    setRequestNationality(value) {
+        this.request.nationality = value;
     }
 
     setRequestAdults(plus) {

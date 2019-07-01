@@ -1,12 +1,16 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-import SearchStore from 'stores/search-store';
-import DateCustom from 'components/form/custom/date';
-import PeopleCustom from 'components/form/custom/room-details';
 import { FieldText } from 'components/form';
 import Flag from 'components/flag';
 import {observer} from "mobx-react";
+
+import SearchStore from 'stores/search-store';
+import RegionStore from 'stores/region-store';
+
+import RegionCustom from 'components/form/custom/region';
+import DateCustom from 'components/form/custom/date';
+import PeopleCustom from 'components/form/custom/room-details';
 
 @observer
 class Tiles extends React.Component {
@@ -57,6 +61,29 @@ class Tiles extends React.Component {
                         isLoaded: true,
                         result: 'bad'
                     });
+                }
+            );
+    }
+
+    inputChanged(e, tempForceEmpty) {
+        if (tempForceEmpty) {
+            RegionStore.setCities([]);
+            return;
+        }
+        fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/countries?languageCode=en&query=" + e.target.value,
+            {
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    RegionStore.setCities(result);
+                },
+                (error) => {
+                    RegionStore.setCities([]);
                 }
             );
     }
@@ -118,6 +145,8 @@ class Tiles extends React.Component {
                                 placeholder={'Choose your residency'}
                                 clearable
                                 Flag={false && <Flag />}
+                                Custom={<RegionCustom connected={"field-residency"} />}
+                                onChange={this.inputChanged}
                                 addClass="size-large"
                             />
                             <FieldText
@@ -126,6 +155,8 @@ class Tiles extends React.Component {
                                 placeholder={'Choose your nationality'}
                                 clearable
                                 Flag={false && <Flag />}
+                                Custom={<RegionCustom connected={"field-nationality"} />}
+                                onChange={this.inputChanged}
                                 addClass="size-large"
                             />
                             <div class="field">

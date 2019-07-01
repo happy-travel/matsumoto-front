@@ -74,7 +74,6 @@ render() {
                         { store.loaded && !store.hotelArray &&
                             <div>Nothing found</div> }
 
-
                         { store.loaded && <div className="head">
                             <div className="title">
                                 <h3>
@@ -137,7 +136,7 @@ render() {
                                         <th>Room Type</th>
                                         <th>Board Basis</th>
                                         <th>Included Services</th>
-                                        <th>Actions</th>
+                                        { false && <th>Actions</th> }
                                         <th>Total Price</th>
                                         <th />
                                     </tr>
@@ -155,13 +154,13 @@ render() {
                                                 <span className="icon icon-info orange"/> Within Deadline
                                             </div>
                                         </td>
-                                        <td class="actions">
+                                        { false && <td class="actions">
                                             <span class="icon icon-calendar-clock" />
                                             <span class="icon icon-warning" />
                                             <span class="icon icon-chat" />
                                             <span class="icon icon-money" />
                                             <span class="icon icon-card" />
-                                        </td>
+                                        </td> }
                                         <td class="price">
                                             {line.currencyCode} {line.price.total}
                                         </td>
