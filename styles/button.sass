@@ -13,8 +13,6 @@ button
 .button
     height: 46px
     line-height: 46px
-    background: $color-brand
-    background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
     font-size: 13px
     font-weight: 700
     letter-spacing: 1px
@@ -23,22 +21,32 @@ button
     border: 0
     border-radius: 4px
     cursor: pointer
+    transition: background 0.1s ease-out
 
-    &.green
-        background: #1cbe69
-        background: linear-gradient(90deg, #23d578, #1cbe69)
+    &
+        background: $color-brand
+        background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+        &:hover
+            background: #FF7A00
+            background: linear-gradient(90deg, #FF7A00 0%, #F9A51B 100%)
 
     &.blue
         background: #548EF5
-        background: linear-gradient(90deg, #548EF5, #548EF5)
+        &:hover
+            background: #2F77F5
+
+    &.gray
+        background: #D8DADC
+        &:hover
+            background: #C1C2C3
 
     &.pink
         background: #EB028A
         background: linear-gradient(90deg, #EB028A, #EB028A)
 
-    &.gray
-        background: #D8DADC
-        background: linear-gradient(0deg, #D8DADC, #D8DADC)
+    &.green
+        background: #1cbe69
+        background: linear-gradient(90deg, #23d578, #1cbe69)
 
     &.round
         border-radius: 300px !important
@@ -66,11 +74,17 @@ button
         font-weight: 500
 
 .button-expand
+    cursor: pointer
     color: $color-blue
     background: url("./images/dropdown-arrow-blue.svg") center right no-repeat
     padding-right: 17px
+    &:hover
+        color: #074BC5
 
 .button-clear
-    color: #A4AAB3
+    cursor: pointer
+    color: $color-text-light
     background: url("./images/cross-small.svg") center left no-repeat
     padding-left: 16px
+    &:hover
+        color: #858585
