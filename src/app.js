@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles';
 
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { I18nextProvider } from 'react-i18next';
 import internationalization from './internationalization';
 
@@ -9,24 +9,27 @@ import Header from './parts/header';
 import Footer from './parts/footer';
 import Alert  from './parts/alert';
 import Modal  from './parts/modal';
-
-import Routes from './routes';
-
 import Search from 'parts/search';
 
+import Routes, { routesWithHeaderAndFooter, routesWithSearch } from './routes';
+
 const App = () => (
-    <React.Fragment>
-        <I18nextProvider i18n={ internationalization }>
-            <BrowserRouter>
+    <I18nextProvider i18n={internationalization}>
+        <BrowserRouter>
+            <Route exact path={ routesWithHeaderAndFooter } render={() =>
                 <Header />
-                <Alert />
+            } />
+            <Alert />
+            <Route exact path={ routesWithSearch } render={() =>
                 <Search />
-                <Routes />
+            } />
+            <Routes />
+            <Route exact path={ routesWithHeaderAndFooter } render={() =>
                 <Footer />
-                <Modal />
-            </BrowserRouter>
-        </I18nextProvider>
-    </React.Fragment>
+            } />
+            <Modal />
+        </BrowserRouter>
+    </I18nextProvider>
 );
 
 export default App;

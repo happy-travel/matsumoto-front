@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
 import { ReactComponent as FlagEN } from "./images/EN.svg";
 
-const Header = () => {
+const Header = ({ search }) => {
     const { t, i18n } = useTranslation();
     return (
         <header>
@@ -29,7 +29,7 @@ const Header = () => {
                     <div class="currency">USD <span>(US Dollars)</span></div>
                     <div class="switch-arrow" />
                 </div>
-                <div class="switcher currency-switcher">
+                <Link to="/account" class="switcher currency-switcher">
                     <div class="avatar">
                         <NoAvatar />
                     </div>
@@ -38,7 +38,7 @@ const Header = () => {
                         <div class="company">Nike</div>
                     </div>
                     <div class="switch-arrow" />
-                </div>
+                </Link>
             </section>
         </header>
     );
