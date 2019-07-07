@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Tiles from 'components/tiles';
-import Search from 'parts/search';
 
 const MainPage = () => (
     <React.Fragment>

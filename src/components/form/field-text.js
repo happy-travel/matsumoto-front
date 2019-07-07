@@ -8,18 +8,30 @@ class FieldText extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentValue: ''
+            currentValue: '',
+            focus: false
         };
-        this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.onFocus = this.onFocus.bind(this);
+        this.onBlur = this.onBlur.bind(this);
         this.clear = this.clear.bind(this);
         this.changing = this.changing.bind(this);
     }
 
-    toggleDropdown() {
+    onFocus() {
         var newValue = this.props.id;
         if (CommonStore.openDropdown == newValue)
             newValue = null;
         CommonStore.setOpenDropdown(newValue);
+
+        this.setState({
+            focus: true
+        });
+    }
+
+    onBlur() {
+        this.setState({
+            focus: false
+        });
     }
 
     clear() {
@@ -56,7 +68,7 @@ class FieldText extends React.Component {
                     { label && <div class="label">
                         <span>{label}</span>
                     </div> }
-                    <div class="input">
+                    <div class={"input" + (this.state.focus ? ' focus' : '')}>
                         <div>
                             { Flag }
                         </div>
@@ -66,8 +78,9 @@ class FieldText extends React.Component {
                                 type="text"
                                 placeholder={ placeholder }
                                 value={ value }
-                                onFocus={ this.toggleDropdown }
+                                onFocus={ this.onFocus }
                                 onChange={ this.changing }
+                                onBlur={ this.onBlur }
                             />
                             <div class="suggestion">
                                 <span>{ this.state.currentValue }</span>{ CommonStore.currentSuggestion }

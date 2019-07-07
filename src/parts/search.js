@@ -1,9 +1,9 @@
 import React from "react";
+import { observer } from "mobx-react";
 
 import { Link } from "react-router-dom";
 import { FieldText } from 'components/form';
 import Flag from 'components/flag';
-import {observer} from "mobx-react";
 
 import SearchStore from 'stores/search-store';
 import CommonStore from 'stores/common-store';

@@ -1,6 +1,8 @@
 import React from "react";
 import { autorun, observable, computed } from "mobx";
 
+
+//todo: разбить на UIStore и common-store
 class CommonStore {
     @observable regions = [];
     @observable cities = [];

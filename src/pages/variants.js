@@ -1,12 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
-import { observer, Observer } from "mobx-react";
+import { observer } from "mobx-react";
 
 import { FieldText } from 'components/form';
 import SearchStore from 'stores/search-store';
-
-import Search from 'parts/search';
 
 @observer
 class Variants extends React.Component {
@@ -74,22 +72,22 @@ render() {
                         { store.loaded && !store.hotelArray &&
                             <div>Nothing found</div> }
 
-                        { store.loaded && <div className="head">
-                            <div className="title">
+                        { store.loaded && <div class="head">
+                            <div class="title">
                                 <h3>
                                     Results for: <b>{ window.field('field-city') }</b> <span>({store.hotelArray.length})</span>
                                 </h3>
-                                <div className="breadcrumbs">
+                                <div class="breadcrumbs">
                                     Find Accommodation > { window.field('field-city') }
                                 </div>
                             </div>
-                            <div className="sorter">
-                                <button className="button-expand">
+                            <div class="sorter">
+                                <button class="button-expand">
                                     Sort by
                                 </button>
                             </div>
-                            <div className="input-wrap">
-                                <div className="form">
+                            <div class="input-wrap">
+                                <div class="form">
                                     <FieldText
                                         placeholder={"Search hotel name ..."}
                                     />
@@ -151,7 +149,7 @@ render() {
                                         <td>
                                             None
                                             <div class="services-info">
-                                                <span className="icon icon-info orange"/> Within Deadline
+                                                <span class="icon icon-info orange"/> Within Deadline
                                             </div>
                                         </td>
                                         { false && <td class="actions">
@@ -173,6 +171,24 @@ render() {
                                             </button>
                                         </td>
                                     </tr>) }
+                                { false && <React.Fragment>
+                                    <tr class="alternative">
+                                        <th>Date</th>
+                                        <th />
+                                        <th>Availability</th>
+                                        <th>Price</th>
+                                        <th />
+                                    </tr>
+                                    <tr class="alternative">
+                                        <td>Fri 28 Jun 2019</td>
+                                        <td />
+                                        <td>
+                                            <span class="button green mini-label">Room Available</span>
+                                        </td>
+                                        <td class="price">USD 70.50</td>
+                                        <td />
+                                    </tr>
+                                </React.Fragment> }
                                     </tbody>
                                 </table>
                             </div>

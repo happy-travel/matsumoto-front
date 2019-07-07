@@ -54,7 +54,7 @@ class DateDropdown extends React.Component {
         return (
             <div class="date dropdown">
                 <DateRangePicker
-                className={"calendar-style"}
+                class={"calendar-style"}
                 firstOfWeek={1}
                 numberOfCalendars={2}
                 selectionType='range'

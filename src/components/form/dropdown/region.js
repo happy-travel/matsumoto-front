@@ -24,7 +24,7 @@ class ResidencyDropdown extends React.Component {
                     {store.regionList && store.regionList.map && store.regionList.map(item => (
                         <React.Fragment>
                             {store.cities && store.cities.some && store.cities.some(city => item.id == city.regionId) && <div class="region">
-                                {item.names.en} ({item.id})
+                                {item.names.en}
                             </div>}
                             {store.cities && store.cities.map && store.cities.map(city => (
                                 <React.Fragment>

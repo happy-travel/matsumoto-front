@@ -7,6 +7,8 @@ import internationalization from './internationalization';
 
 import Header from './parts/header';
 import Footer from './parts/footer';
+import Alert  from './parts/alert';
+import Modal  from './parts/modal';
 
 import Routes from './routes';
 
@@ -17,9 +19,11 @@ const App = () => (
         <I18nextProvider i18n={ internationalization }>
             <BrowserRouter>
                 <Header />
+                <Alert />
                 <Search />
                 <Routes />
                 <Footer />
+                <Modal />
             </BrowserRouter>
         </I18nextProvider>
     </React.Fragment>
