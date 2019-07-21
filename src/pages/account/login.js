@@ -8,7 +8,7 @@ class Home extends Component {
     render() {
         const { t, i18n } = this.props;
         return (
-            <div class="account">
+            <div class="account block">
                 <div class="picture">
                     <div class="supplier">
                         <span class="icon icon-supplier" />

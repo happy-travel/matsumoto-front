@@ -1,6 +1,27 @@
-import i18n from 'i18next';
+import CommonStore from 'stores/common-store';
 
-// Temporary hardcode
+const init = () => {
+    fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/regions?languageCode=en",
+        {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                CommonStore.setRegions(result);
+                CommonStore.setInitialized(true);
+            },
+            (error) => {
+                console.warn(error);
+                CommonStore.setInitialized(true);
+            }
+        );
+};
+
+
 
 window.getStarString = num => ({
     "1": "OneStar",
@@ -50,50 +71,4 @@ window.field = id => {
 
 
 
-
-
-
-
-
-
-
-
-// End of temporary hardcode
-
-
-
-
-
-i18n.init({
-        resources: {
-            en: {
-                translations: {
-                    "Home": "THE HOME",
-                }
-            },
-            it: {
-                translations: {
-                    "Home": "HOME THE",
-                }
-            }
-        },
-        fallbackLng: 'en',
-        debug: true,
-
-        // have a common namespace used around the full app
-        ns: ['translations'],
-        defaultNS: 'translations',
-
-        keySeparator: true,
-
-        interpolation: {
-            escapeValue: false,
-            formatSeparator: ','
-        },
-
-        react: {
-            wait: true
-        }
-    });
-
-export default i18n;
+export default init;

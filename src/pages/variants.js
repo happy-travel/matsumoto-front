@@ -5,6 +5,7 @@ import { observer } from "mobx-react";
 
 import { FieldText } from 'components/form';
 import SearchStore from 'stores/search-store';
+import Breadcrumbs from "../components/breadcrumbs";
 
 @observer
 class Variants extends React.Component {
@@ -16,12 +17,17 @@ render() {
     return (
         <React.Fragment>
             <div class="variants block">
-                <section class="dual">
+                <section class="double-sections">
                     <div class="left-section filters">
-                        <div class="item static">Map</div>
-                            <div class="expanded">
-                                <img src="/images/other/temporary-map.png" alt="" />
-                            </div>
+                        <div class="static item">
+                            <Link to="/accommodation/booking">
+                                Booking
+                            </Link>
+                        </div>
+                        <div class="static item">Map</div>
+                        <div class="expanded">
+                            <img src="/images/temporary/map.png" alt="" />
+                        </div>
                         <div class="item open">Price Range</div>
                             <div class="expanded price-range">
                                 <h4>Drag the slider to choose the minimum and maximum price</h4>
@@ -77,9 +83,13 @@ render() {
                                 <h3>
                                     Results for: <b>{ window.field('field-city') }</b> <span>({store.hotelArray.length})</span>
                                 </h3>
-                                <div class="breadcrumbs">
-                                    Find Accommodation > { window.field('field-city') }
-                                </div>
+                                <Breadcrumbs noBackButton items={[
+                                    {
+                                        text: "Find Accommodation"
+                                    }, {
+                                        text: window.field('field-city')
+                                    }
+                                ]}/>
                             </div>
                             <div class="sorter">
                                 <button class="button-expand">

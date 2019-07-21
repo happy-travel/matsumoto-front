@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import { withTranslation } from 'react-i18next';
+import {Link} from "react-router-dom";
 
 class Home extends Component {
 
@@ -12,10 +13,13 @@ class Home extends Component {
 
         return (
             <React.Fragment>
-                <button onClick={() => changeLanguage('it')}>it</button>
+                <button onClick={() => changeLanguage('ar')}>ar</button>
+                ---
                 <button onClick={() => changeLanguage('en')}>en</button>
-                <h2>{t('Home')}</h2>
-                <b>indowx</b>
+                <h2>{t('Accommodation')}</h2>
+                <Link to="/accommodation/booking">
+                    Booking
+                </Link>
             </React.Fragment>
         );
     }

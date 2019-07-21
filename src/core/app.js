@@ -1,14 +1,14 @@
 import React from 'react';
-import '../styles';
+import '../../styles';
 
 import { BrowserRouter, Route } from "react-router-dom";
 import { I18nextProvider } from 'react-i18next';
 import internationalization from './internationalization';
 
-import Header from './parts/header';
-import Footer from './parts/footer';
-import Alert  from './parts/alert';
-import Modal  from './parts/modal';
+import Header from 'parts/header';
+import Footer from 'parts/footer';
+import Alert  from 'parts/alert';
+import Modal  from 'parts/modal';
 import Search from 'parts/search';
 
 import Routes, { routesWithHeaderAndFooter, routesWithSearch } from './routes';

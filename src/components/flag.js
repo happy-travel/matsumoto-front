@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TileItem = class extends React.Component {
+const Flag = class extends React.Component {
 
     render() {
         var {
@@ -15,4 +15,4 @@ const TileItem = class extends React.Component {
     }
 };
 
-export default TileItem;
+export default Flag;

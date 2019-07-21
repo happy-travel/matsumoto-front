@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CommonStore from 'stores/common-store';
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 
 @observer
 class FieldText extends React.Component {

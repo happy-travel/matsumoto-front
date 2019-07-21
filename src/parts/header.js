@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
 import { ReactComponent as FlagEN } from "./images/EN.svg";
 
-const Header = ({ search }) => {
-    const { t, i18n } = useTranslation();
+const Header = () => {
+    const { t } = useTranslation();
     return (
         <header>
             <section>
@@ -14,9 +14,10 @@ const Header = ({ search }) => {
                     <Link to="/" class="logo" />
                 </div>
                 <nav>
-                    <li><Link class="selected" to="/">Accommodation</Link></li>
-                    <li><a href="#">Transfers</a></li>
-                    <li><a href="#">Tours</a></li>
+                    <li><Link class="selected" to="/">{t('Accommodation')}</Link></li>
+                    <li><a href="#">{t('Transfers')}</a></li>
+                    <li><a href="#">{t('Tours')}</a></li>
+                    <li><a href="#">{t('Visa')}</a></li>
                 </nav>
                 <div class="switcher language-switcher">
                     <div class="flag">
@@ -33,7 +34,7 @@ const Header = ({ search }) => {
                     <div class="avatar">
                         <NoAvatar />
                     </div>
-                    <div class="dual">
+                    <div class="double">
                         <div class="name">Serhii Movchan</div>
                         <div class="company">Nike</div>
                     </div>
