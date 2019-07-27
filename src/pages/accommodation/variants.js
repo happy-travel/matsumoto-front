@@ -5,13 +5,13 @@ import { observer } from "mobx-react";
 
 import { FieldText } from 'components/form';
 import SearchStore from 'stores/search-store';
-import Breadcrumbs from "../components/breadcrumbs";
+import Breadcrumbs from "components/breadcrumbs";
 
 @observer
 class Variants extends React.Component {
 
 render() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const store = SearchStore;
     return (

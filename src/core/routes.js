@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
 
-import main from 'pages/main';
-import variants from 'pages/variants';
-import booking from 'pages/booking';
-import third from 'pages/third';
+import accommodationTitle    from 'pages/accommodation/title';
+import accommodationVariants from 'pages/accommodation/variants';
+import accommodationBooking  from 'pages/accommodation/booking';
+
 import account from "pages/account/login";
 
 export const routesWithSearch = [
@@ -18,10 +18,9 @@ export const routesWithHeaderAndFooter = [
 
 const Routes = () => (
     <Switch>
-        <Route exact path="/" component={main} />
-        <Route path="/search" component={variants} />
-        <Route path="/accommodation/booking" component={booking} />
-        <Route path="/third" component={third} />
+        <Route exact path="/" component={accommodationTitle} />
+        <Route path="/search" component={accommodationVariants} />
+        <Route path="/accommodation/booking" component={accommodationBooking} />
 
         <Route path="/account" component={account} />
     </Switch>

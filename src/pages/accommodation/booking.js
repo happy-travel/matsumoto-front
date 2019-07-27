@@ -6,15 +6,12 @@ import { FieldText } from 'components/form';
 import Breadcrumbs from 'components/breadcrumbs';
 import ActionSteps from 'components/action-steps';
 import { Dual } from 'components/simple';
-import SearchStore from 'stores/search-store';
 
 @observer
 class Variants extends React.Component {
 
 render() {
-    const { t, i18n } = useTranslation();
-
-    const store = SearchStore;
+    const { t } = useTranslation();
     return (
         <React.Fragment>
             <div class="booking block">
@@ -87,6 +84,30 @@ render() {
                         <h2>
                             <span>Room 1:</span> Executive Studio, Lounge Access, 1 King, Sofa bed
                         </h2>
+
+                        FORM
+                        {t('Title')}
+                        {t('First Name')}
+                        {t('Last Name')}
+
+                        {t('Agent Reference')}
+                        {t('Extra Meal')}
+                        {t('Special Request')}
+
+                        {t('Your Requests')}
+                        TEXTAREA
+
+
+                        <div class="switch-control" />
+
+                        form/checkboxes 6+5
+
+
+                        Do You Wish to Add Additional Services?
+
+                        I have read and accepted the booking terms & conditions
+
+                        confirm booking BUTTON
 
                     </div>
                 </section>

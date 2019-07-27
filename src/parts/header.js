@@ -1,12 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
+import { localStorage } from "core/storage";
 
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
 import { ReactComponent as FlagEN } from "./images/EN.svg";
 
 const Header = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation(),
+
+    changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+        localStorage.set("locale", lng);
+        localStorage.set("direction", i18n.dir(lng), 'all');
+        window.setPageDirectionFromLS();
+    };
+
     return (
         <header>
             <section>
@@ -20,10 +29,10 @@ const Header = () => {
                     <li><a href="#">{t('Visa')}</a></li>
                 </nav>
                 <div class="switcher language-switcher">
-                    <div class="flag">
+                    <div class="flag" onClick={() => changeLanguage('ar')}>
                         <FlagEN />
                     </div>
-                    <div class="name">English</div>
+                    <div class="name" onClick={() => changeLanguage('en')}>{t('current_language_name')}</div>
                     <div class="switch-arrow" />
                 </div>
                 <div class="switcher currency-switcher">

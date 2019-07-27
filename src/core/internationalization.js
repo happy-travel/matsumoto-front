@@ -1,28 +1,33 @@
 import i18n from 'i18next';
-import english from '../translation/english';
-import arabic from '../translation/arabic';
+import { localStorage } from "core/storage";
+
+import english from 'translation/english';
+import arabic from 'translation/arabic';
+
+const default_locale = "en";
 
 i18n.init({
-        resources: {
-            en: english,
-            ar: arabic
-        },
-        fallbackLng: 'en',
-        debug: true,
+    lng: localStorage.get("locale") || default_locale,
+    resources: {
+        en: english,
+        ar: arabic
+    },
+    fallbackLng: default_locale,
+    debug: true,
 
-        ns: ['translations'],
-        defaultNS: 'translations',
+    ns: ['translations'],
+    defaultNS: 'translations',
 
-        keySeparator: true,
+    keySeparator: true,
 
-        interpolation: {
-            escapeValue: false,
-            formatSeparator: ','
-        },
+    interpolation: {
+        escapeValue: false,
+        formatSeparator: ','
+    },
 
-        react: {
-            wait: true
-        }
-    });
+    react: {
+        wait: true
+    }
+});
 
 export default i18n;

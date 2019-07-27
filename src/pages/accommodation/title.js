@@ -2,7 +2,7 @@ import React from 'react';
 
 import Tiles from 'components/tiles';
 
-const MainPage = () => (
+const AccommodationTitlePage = () => (
     <React.Fragment>
         <div class="tiles block">
             <section>
@@ -78,4 +78,4 @@ const MainPage = () => (
     </React.Fragment>
 );
 
-export default MainPage;
+export default AccommodationTitlePage;
