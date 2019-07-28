@@ -8,7 +8,7 @@ import SearchStore from 'stores/search-store';
 import Breadcrumbs from "components/breadcrumbs";
 
 @observer
-class Variants extends React.Component {
+class AccommodationVariantsPage extends React.Component {
 
 render() {
     const { t } = useTranslation();
@@ -216,4 +216,4 @@ render() {
 }
 }
 
-export default Variants;
+export default AccommodationVariantsPage;

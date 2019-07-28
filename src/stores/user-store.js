@@ -11,6 +11,6 @@ class UserStore {
     }
 }
 
-export const userStore = new UserStore();
+const userStore = new UserStore();
 
 export default userStore;

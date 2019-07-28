@@ -28,11 +28,11 @@ const Header = () => {
                     <li><a href="#">{t('Tours')}</a></li>
                     <li><a href="#">{t('Visa')}</a></li>
                 </nav>
-                <div class="switcher language-switcher">
-                    <div class="flag" onClick={() => changeLanguage('ar')}>
+                <div class="switcher language-switcher" onClick={() => changeLanguage(localStorage.get("locale") == 'ar' ? 'en' : 'ar')}>
+                    <div class="flag">
                         <FlagEN />
                     </div>
-                    <div class="name" onClick={() => changeLanguage('en')}>{t('current_language_name')}</div>
+                    <div class="name">{t('current_language_name')}</div>
                     <div class="switch-arrow" />
                 </div>
                 <div class="switcher currency-switcher">

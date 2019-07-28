@@ -19,6 +19,23 @@ const init = () => {
                 CommonStore.setInitialized(true);
             }
         );
+
+    fetch("https://edo-api.dev.happytravel.com/api/1.0/payments/currencies",
+        {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                CommonStore.setCurrencies(result);
+            },
+            (error) => {
+                console.warn(error);
+            }
+        );
 };
 
 

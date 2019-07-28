@@ -64,6 +64,6 @@ class SearchStore {
     }
 }
 
-export const searchStore = new SearchStore();
+const searchStore = new SearchStore();
 
 export default searchStore;

@@ -5,7 +5,8 @@ import { autorun, observable, computed } from "mobx";
 //todo: разбить на UIStore и common-store
 class CommonStore {
     @observable regions = [];
-    @observable cities = [];
+    @observable countries = [];
+    @observable currencies = [];
     @observable initialized = false;
     @observable openDropdown = null;
     @observable currentSuggestion = '';
@@ -28,8 +29,19 @@ class CommonStore {
         this.initialized = value;
     }
 
-    setCities(value) {
-        this.cities = value;
+    setCurrencies(value) {
+        this.currencies = value;
+    }
+
+
+    setCountries(value) {
+        //todo: repair this sort, it's temporary -- needs correct locale getting
+        value.sort((a,b) => {
+            if ( a.names.en < b.names.en ) return -1;
+            if ( a.names.en > b.names.en ) return 1;
+            return 0;
+        });
+        this.countries = value;
     }
 
     setOpenDropdown(id) {
@@ -41,6 +53,6 @@ class CommonStore {
     }
 }
 
-export const commonStore = new CommonStore();
+const commonStore = new CommonStore();
 
 export default commonStore;

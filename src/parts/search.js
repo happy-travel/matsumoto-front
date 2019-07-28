@@ -67,7 +67,7 @@ class Tiles extends React.Component {
 
     inputChanged(e, tempForceEmpty) {
         if (tempForceEmpty) {
-            CommonStore.setCities([]);
+            CommonStore.setCountries([]);
             return;
         }
         fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/countries?languageCode=en&query=" + e.target.value,
@@ -80,10 +80,10 @@ class Tiles extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    CommonStore.setCities(result);
+                    CommonStore.setCountries(result);
                 },
                 (error) => {
-                    CommonStore.setCities([]);
+                    CommonStore.setCountries([]);
                 }
             );
     }

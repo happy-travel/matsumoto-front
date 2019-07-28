@@ -8,7 +8,7 @@ import ActionSteps from 'components/action-steps';
 import { Dual } from 'components/simple';
 
 @observer
-class Variants extends React.Component {
+class AccommodationBookingPage extends React.Component {
 
 render() {
     const { t } = useTranslation();
@@ -117,4 +117,4 @@ render() {
 }
 }
 
-export default Variants;
+export default AccommodationBookingPage;
