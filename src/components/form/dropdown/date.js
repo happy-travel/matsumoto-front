@@ -48,9 +48,6 @@ class DateDropdown extends React.Component {
     }
 
     render() {
-        var {
-        } = this.props;
-
         return (
             <div class="date dropdown">
                 <DateRangePicker

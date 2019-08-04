@@ -6,7 +6,7 @@ import SearchStore from 'stores/search-store';
 @observer
 class ResidencyDropdown extends React.Component {
 
-    static setValue(connected, code, value) {
+    setValue(connected, code, value) {
         SearchStore.setRequestNationality(code);
         CommonStore.setCountries([]);
         window.document.getElementById(connected).value = value;
@@ -28,7 +28,7 @@ class ResidencyDropdown extends React.Component {
                             </div>}
                             {store.countries && store.countries.map && store.countries.map(city => (
                                 <React.Fragment>
-                                    {item.id == city.regionId && <div class="city" onClick={ ResidencyDropdown.setValue.bind(null, connected, city.code, city.names.en) }>
+                                    {item.id == city.regionId && <div class="city" onClick={ this.setValue.bind(null, connected, city.code, city.names.en) }>
                                         {city.names.en}
                                     </div>}
                                 </React.Fragment>

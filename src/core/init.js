@@ -56,7 +56,7 @@ window.getStarNumber = str => ({
     "FiveStars": 5
 }[str] || 5);
 
-window.cityArray = [["ABZ","ABERDEEN","GB"],
+/*window.cityArray = [["ABZ","ABERDEEN","GB"],
                     ["EATB","EASTBOURNE","GB"],
                     ["LGW","LONDON - GATWICK","GB"],
                     ["LJU","LJUBLJANA","SL"],
@@ -76,7 +76,7 @@ window.getCityCode = city => {
             return window.cityArray[i][0];
 
     return 'LON';
-};
+};*/
 
 window.field = id => {
     var elem = window.document.getElementById(id);

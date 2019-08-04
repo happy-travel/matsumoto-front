@@ -6,6 +6,7 @@ import { autorun, observable, computed } from "mobx";
 class CommonStore {
     @observable regions = [];
     @observable countries = [];
+    @observable destinations = [];
     @observable currencies = [];
     @observable initialized = false;
     @observable openDropdown = null;
@@ -33,7 +34,6 @@ class CommonStore {
         this.currencies = value;
     }
 
-
     setCountries(value) {
         //todo: repair this sort, it's temporary -- needs correct locale getting
         value.sort((a,b) => {
@@ -42,6 +42,10 @@ class CommonStore {
             return 0;
         });
         this.countries = value;
+    }
+
+    setDestinationSuggestions(value) {
+        this.destinations = value;
     }
 
     setOpenDropdown(id) {

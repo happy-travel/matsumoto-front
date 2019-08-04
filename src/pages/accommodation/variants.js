@@ -81,13 +81,13 @@ render() {
                         { store.loaded && <div class="head">
                             <div class="title">
                                 <h3>
-                                    Results for: <b>{ window.field('field-city') }</b> <span>({store.hotelArray.length})</span>
+                                    Results for: <b>{ window.field('field-destination') }</b> <span>({store.hotelArray.length})</span>
                                 </h3>
                                 <Breadcrumbs noBackButton items={[
                                     {
                                         text: "Find Accommodation"
                                     }, {
-                                        text: window.field('field-city')
+                                        text: window.field('field-destination')
                                     }
                                 ]}/>
                             </div>

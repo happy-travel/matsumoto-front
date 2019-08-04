@@ -20,7 +20,7 @@ class SearchStore {
             }
         ],
         "nationality": "RU",
-
+        "cityCodes": []
     };
     @observable loaded = false;
 
@@ -61,6 +61,10 @@ class SearchStore {
     setRequestChildren(plus) {
         var value = this.request.roomDetails[0].childrenNumber + plus;
         this.request.roomDetails[0].childrenNumber = Math.min(Math.max(value, 0), 30);
+    }
+
+    setRequestDestination(value) {
+        this.request.cityCodes = [value];
     }
 }
 

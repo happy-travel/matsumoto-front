@@ -11,9 +11,10 @@ import CommonStore from 'stores/common-store';
 import RegionDropdown from 'components/form/dropdown/region';
 import DateDropdown from 'components/form/dropdown/date';
 import PeopleDropdown from 'components/form/dropdown/room-details';
+import DestinationDropdown from "../components/form/dropdown/destination";
 
 @observer
-class Tiles extends React.Component {
+class AccommodationSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -32,12 +33,9 @@ class Tiles extends React.Component {
                 body: JSON.stringify({
                     "nationality": "RU",
                     "category": "Unknown",
-                    "filters": "BestPrice",
+                //    "filters": "BestPrice", todo: uncomment
                     "hotelIds": [],
                     "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
-                    "cityCodes": [
-                        window.getCityCode(window.field('field-city'))
-                    ],
                     ...SearchStore.request
                 }),
                 headers:{
@@ -65,7 +63,7 @@ class Tiles extends React.Component {
             );
     }
 
-    inputChanged(e, tempForceEmpty) {
+    residencyInputChanged(e, tempForceEmpty) {
         if (tempForceEmpty) {
             CommonStore.setCountries([]);
             return;
@@ -88,6 +86,36 @@ class Tiles extends React.Component {
             );
     }
 
+    destinationInputChanged(e, tempForceEmpty) {
+        if (tempForceEmpty) {
+            CommonStore.setCountries([]);
+            return;
+        }
+        var session = window.sessionStorage.getItem('google-session');
+        if (!session) {
+            const uuidv4 = require('uuid/v4');
+            session = uuidv4();
+            window.sessionStorage.setItem('google-session', session);
+        }
+
+        fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/predictions?languageCode=en&session=" + session + "&query=" + e.target.value,
+            {
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    CommonStore.setDestinationSuggestions(result);
+                },
+                (error) => {
+                    CommonStore.setDestinationSuggestions(null);
+                }
+            );
+    }
+
     render() {
         var {
         } = this.props;
@@ -99,11 +127,13 @@ class Tiles extends React.Component {
                     <div class="form">
                         <div class="row">
                             <FieldText
-                                id={"field-city"}
+                                id={"field-destination"}
                                 label={'Destination, Hotel name, Location or Landmark'}
                                 placeholder={'Choose your Destination, Hotel name, Location or Landmark'}
                                 Icon={<span class="icon icon-hotel" />}
                                 Flag={false}
+                                Dropdown={<DestinationDropdown connected={"field-destination"} />}
+                                onChange={this.destinationInputChanged}
                                 clearable
                             />
                             <FieldText
@@ -146,7 +176,7 @@ class Tiles extends React.Component {
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={<RegionDropdown connected={"field-residency"} />}
-                                onChange={this.inputChanged}
+                                onChange={this.residencyInputChanged}
                                 addClass="size-large"
                             />
                             <FieldText
@@ -156,7 +186,7 @@ class Tiles extends React.Component {
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={<RegionDropdown connected={"field-nationality"} />}
-                                onChange={this.inputChanged}
+                                onChange={this.residencyInputChanged}
                                 addClass="size-large"
                             />
                             <div class="field">
@@ -189,4 +219,4 @@ class Tiles extends React.Component {
     }
 }
 
-export default Tiles;
+export default AccommodationSearch;
