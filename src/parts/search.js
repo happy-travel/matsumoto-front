@@ -32,8 +32,7 @@ class AccommodationSearch extends React.Component {
                 method: 'POST',
                 body: JSON.stringify({
                     "nationality": "RU",
-                    "category": "Unknown",
-                //    "filters": "BestPrice", todo: uncomment
+                    "filters": "Default",
                     "hotelIds": [],
                     "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
                     ...SearchStore.request

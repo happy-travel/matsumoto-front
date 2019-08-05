@@ -14,7 +14,7 @@ class DestinationDropdown extends React.Component {
     }
 
     setValue(connected, item) {
-        SearchStore.setRequestDestination(item.id);
+        SearchStore.setRequestDestination(item);
         CommonStore.setDestinationSuggestions([]);
         window.document.getElementById(connected).value = item.value;
     }

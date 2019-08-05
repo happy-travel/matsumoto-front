@@ -48,6 +48,7 @@ class SearchStore {
 
     setRequestNationality(value) {
         this.request.nationality = value;
+        this.request.residency = value;
     }
 
     setRequestAdults(plus) {
@@ -64,7 +65,20 @@ class SearchStore {
     }
 
     setRequestDestination(value) {
-        this.request.cityCodes = [value];
+        this.request.cityCodes = [];
+        this.request.location = {
+            "coordinates": {
+                "latitude": 0,
+                "longitude": 0
+            },
+            "distance": 0,
+            "predictionResult": {
+                "id": value.id,
+                "sessionId": window.sessionStorage.getItem('google-session'),
+                "source": value.source,
+                "type": value.type
+            }
+        }
     }
 }
 
