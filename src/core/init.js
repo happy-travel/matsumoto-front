@@ -1,7 +1,7 @@
 import CommonStore from 'stores/common-store';
 
 const init = () => {
-    fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/regions?languageCode=en",
+    fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/regions?languageCode=en",
         {
             method: 'GET',
             headers:{
@@ -20,7 +20,7 @@ const init = () => {
             }
         );
 
-    fetch("https://edo-api.dev.happytravel.com/api/1.0/payments/currencies",
+    fetch("https://edo-api.dev.happytravel.com/en/api/1.0/payments/currencies",
         {
             method: 'GET',
             headers:{

@@ -27,7 +27,7 @@ class AccommodationSearch extends React.Component {
     submit() {
         SearchStore.setLoaded(false);
         SearchStore.setResult({});
-        fetch("https://netstormingconnector-api.dev.happytravel.com/api/1.0/hotels/availability",
+        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/availabilities",
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -67,7 +67,7 @@ class AccommodationSearch extends React.Component {
             CommonStore.setCountries([]);
             return;
         }
-        fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/countries?languageCode=en&query=" + e.target.value,
+        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/countries?languageCode=en&query=" + e.target.value,
             {
                 method: 'GET',
                 headers:{
@@ -97,7 +97,7 @@ class AccommodationSearch extends React.Component {
             window.sessionStorage.setItem('google-session', session);
         }
 
-        fetch("https://edo-api.dev.happytravel.com/api/1.0/locations/predictions?languageCode=en&session=" + session + "&query=" + e.target.value,
+        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/predictions?languageCode=en&sessionId=" + session + "&query=" + e.target.value,
             {
                 method: 'GET',
                 headers:{
