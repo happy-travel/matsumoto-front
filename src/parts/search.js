@@ -27,6 +27,7 @@ class AccommodationSearch extends React.Component {
     submit() {
         SearchStore.setLoaded(false);
         SearchStore.setResult({});
+        window.sessionStorage.removeItem('google-session');
         fetch("https://edo-api.dev.happytravel.com/en/api/1.0/availabilities",
             {
                 method: 'POST',
