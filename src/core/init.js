@@ -38,8 +38,6 @@ const init = () => {
         );
 };
 
-
-
 window.getStarString = num => ({
     "1": "OneStar",
     "2": "TwoStars",
@@ -56,28 +54,6 @@ window.getStarNumber = str => ({
     "FiveStars": 5
 }[str] || 5);
 
-/*window.cityArray = [["ABZ","ABERDEEN","GB"],
-                    ["EATB","EASTBOURNE","GB"],
-                    ["LGW","LONDON - GATWICK","GB"],
-                    ["LJU","LJUBLJANA","SL"],
-                    ["LON","LONDON","GB"],
-                    ["PORJ","PORTOROZ","SL"],
-                    ["READ","READING","GB"],
-                    ["RIX","RIGA","LV"],
-                    ["ROGS","ROGASKA SLATINA","SL"],
-                    ["SHEF","SHEFFIELD","GB"]];
-
-window.getCityCode = city => {
-    city = city.trim();
-    city = city.toUpperCase();
-
-    for (var i = 0; i < window.cityArray.length; i++)
-        if (city == window.cityArray[i][1])
-            return window.cityArray[i][0];
-
-    return 'LON';
-};*/
-
 window.field = id => {
     var elem = window.document.getElementById(id);
     if (elem && elem.value)
@@ -85,7 +61,15 @@ window.field = id => {
     return '';
 };
 
-
-
+window.addEventListener('mouseup', (event) => {
+    var target = event.target;
+	for (var i = 0; target && i < 30; i++){
+	    if (target && target.classList && (target.classList.contains('dropdown') ||
+                                           target.classList.contains('field'))) //todo: get safe
+	        return;
+	    target = target.parentNode;
+	}
+    CommonStore.setOpenDropdown(null);
+});
 
 export default init;

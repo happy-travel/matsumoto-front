@@ -4,12 +4,17 @@ import CommonStore from 'stores/common-store';
 import SearchStore from 'stores/search-store';
 
 @observer
-class ResidencyDropdown extends React.Component {
+class RegionDropdown extends React.Component {
 
     setValue(connected, code, value) {
-        SearchStore.setRequestNationality(code);
-        CommonStore.setCountries([]);
         window.document.getElementById(connected).value = value;
+
+        if ('field-residency' == connected)
+            SearchStore.setRequestResidency(code);
+        else
+            SearchStore.setRequestNationality(code);
+
+        CommonStore.setCountries([]);
     }
 
     render() {
@@ -18,7 +23,7 @@ class ResidencyDropdown extends React.Component {
         } = this.props;
 
         const store = CommonStore;
-        if (store.countries && store.countries.length)
+        if (store.countries && store.countries.length && window.document.getElementById(connected).value) //todo: change to separated lists for different inputs
             return (
                 <div class="cities dropdown">
                     {store.regionList && store.regionList.map && store.regionList.map(item => (
@@ -41,4 +46,4 @@ class ResidencyDropdown extends React.Component {
     }
 }
 
-export default ResidencyDropdown;
+export default RegionDropdown;

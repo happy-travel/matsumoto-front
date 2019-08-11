@@ -63,11 +63,7 @@ class AccommodationSearch extends React.Component {
             );
     }
 
-    residencyInputChanged(e, tempForceEmpty) {
-        if (tempForceEmpty) {
-            CommonStore.setCountries([]);
-            return;
-        }
+    regionInputChanged(e) {
         fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/countries?languageCode=en&query=" + e.target.value,
             {
                 method: 'GET',
@@ -176,7 +172,7 @@ class AccommodationSearch extends React.Component {
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={<RegionDropdown connected={"field-residency"} />}
-                                onChange={this.residencyInputChanged}
+                                onChange={this.regionInputChanged}
                                 addClass="size-large"
                             />
                             <FieldText
@@ -186,7 +182,7 @@ class AccommodationSearch extends React.Component {
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={<RegionDropdown connected={"field-nationality"} />}
-                                onChange={this.residencyInputChanged}
+                                onChange={this.regionInputChanged}
                                 addClass="size-large"
                             />
                             <div class="field">

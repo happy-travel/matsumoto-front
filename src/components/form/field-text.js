@@ -39,6 +39,7 @@ class FieldText extends React.Component {
     }
 
     changing(event) {
+        CommonStore.setOpenDropdown(this.props.id);
         this.setState({
             currentValue: event.target.value
         });

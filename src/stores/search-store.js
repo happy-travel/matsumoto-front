@@ -19,8 +19,8 @@ class SearchStore {
                 "rooms": 1
             }
         ],
-        "nationality": "RU",
-        "cityCodes": []
+        "nationality": "UK",
+        "residency": "UK" //todo: set default nationality and residency
     };
     @observable loaded = false;
 
@@ -47,7 +47,10 @@ class SearchStore {
     }
 
     setRequestNationality(value) {
-        this.request.nationality = value;
+        this.request.residency = value;
+    }
+
+    setRequestResidency(value) {
         this.request.residency = value;
     }
 
@@ -65,7 +68,6 @@ class SearchStore {
     }
 
     setRequestDestination(value) {
-        this.request.cityCodes = [];
         this.request.location = {
             "coordinates": {
                 "latitude": 0,
