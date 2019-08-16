@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from "mobx-react";
-import SearchStore from 'stores/search-store';
+import AccommodationStore from 'stores/accommodation-store';
 import CommonStore from 'stores/common-store';
 
 @observer
@@ -14,7 +14,7 @@ class DestinationDropdown extends React.Component {
     }
 
     setValue(connected, item) {
-        SearchStore.setRequestDestination(item);
+        AccommodationStore.setRequestDestination(item);
         CommonStore.setDestinationSuggestions([]);
         window.document.getElementById(connected).value = item.value;
     }

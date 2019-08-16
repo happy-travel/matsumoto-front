@@ -1,11 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
+import { session } from "core/storage";
 
 import { Link } from "react-router-dom";
 import { FieldText } from 'components/form';
 import Flag from 'components/flag';
 
-import SearchStore from 'stores/search-store';
+import AccommodationStore from 'stores/accommodation-store';
 import CommonStore from 'stores/common-store';
 
 import RegionDropdown from 'components/form/dropdown/region';
@@ -25,18 +26,17 @@ class AccommodationSearch extends React.Component {
     }
 
     submit() {
-        SearchStore.setLoaded(false);
-        SearchStore.setResult({});
-        window.sessionStorage.removeItem('google-session');
-        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/availabilities",
+        AccommodationStore.setLoaded(false);
+        AccommodationStore.setResult({});
+        session.remove('google-session');
+        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/availabilities/accommodations",
             {
                 method: 'POST',
                 body: JSON.stringify({
-                    "nationality": "RU",
                     "filters": "Default",
                     "hotelIds": [],
                     "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
-                    ...SearchStore.request
+                    ...AccommodationStore.request
                 }),
                 headers:{
                     'Content-Type': 'application/json'
@@ -45,8 +45,8 @@ class AccommodationSearch extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    SearchStore.setResult(result);
-                    SearchStore.setLoaded(true);
+                    AccommodationStore.setResult(result);
+                    AccommodationStore.setLoaded(true);
                     this.setState({
                         isLoaded: true,
                         result: 'good'
@@ -54,7 +54,7 @@ class AccommodationSearch extends React.Component {
                 },
                 (error) => {
                     console.warn(error);
-                    SearchStore.setLoaded(true);
+                    AccommodationStore.setLoaded(true);
                     this.setState({
                         isLoaded: true,
                         result: 'bad'
@@ -87,14 +87,13 @@ class AccommodationSearch extends React.Component {
             CommonStore.setCountries([]);
             return;
         }
-        var session = window.sessionStorage.getItem('google-session');
-        if (!session) {
-            const uuidv4 = require('uuid/v4');
-            session = uuidv4();
-            window.sessionStorage.setItem('google-session', session);
+        var sessionId = session.get('google-session');
+        if (!sessionId) {
+            sessionId = require('uuid/v4')();
+            session.set('google-session', sessionId);
         }
 
-        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/predictions?languageCode=en&sessionId=" + session + "&query=" + e.target.value,
+        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/predictions?languageCode=en&sessionId=" + sessionId + "&query=" + e.target.value,
             {
                 method: 'GET',
                 headers:{
@@ -113,10 +112,7 @@ class AccommodationSearch extends React.Component {
     }
 
     render() {
-        var {
-        } = this.props;
-
-        const store = SearchStore;
+        const store = AccommodationStore;
         return (
             <div class="search block">
                 <section>

@@ -1,7 +1,7 @@
 import React from 'react';
 import DateRangePicker from 'react-daterange-picker';
 import {observer} from "mobx-react";
-import SearchStore from 'stores/search-store';
+import AccommodationStore from 'stores/accommodation-store';
 
 const stateDefinitions = {
     available: {
@@ -32,7 +32,7 @@ class DateDropdown extends React.Component {
 
     handleSelect(range) {
 
-        const store = SearchStore;
+        const store = AccommodationStore;
         var start = new Date(range.start);
         var end = new Date(range.end);
 

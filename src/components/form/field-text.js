@@ -60,7 +60,8 @@ class FieldText extends React.Component {
             addClass,
             id,
             Dropdown,
-            value
+            value,
+            disabled
         } = this.props;
 
         return (
@@ -69,7 +70,7 @@ class FieldText extends React.Component {
                     { label && <div class="label">
                         <span>{label}</span>
                     </div> }
-                    <div class={"input" + (this.state.focus ? ' focus' : '')}>
+                    <div class={"input" + (this.state.focus ? ' focus' : '') + (disabled ? ' disabled' : '')}>
                         <div>
                             { Flag }
                         </div>
@@ -82,6 +83,7 @@ class FieldText extends React.Component {
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
+                                disabled={ !!disabled }
                             />
                             <div class="suggestion">
                                 <span>{ this.state.currentValue }</span>{ CommonStore.currentSuggestion }

@@ -8,10 +8,12 @@ body
         family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial Neue", sans-serif
         size: 14px
 
-.link
+.link, a.link, a[href].link
     color: $color-blue
     &:hover
         color: #074BC5
+    &.underlined
+        text-decoration: underline
 
 h2
     font-size: 18px
@@ -34,6 +36,9 @@ section
             min-width: 230px
             max-width: 230px
             margin-right: 45px
+        .half-section
+            min-width: 137px
+            max-width: 137px
         .right-section
             flex-grow: 1
 

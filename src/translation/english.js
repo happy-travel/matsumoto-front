@@ -1,3 +1,5 @@
+import React from "react";
+
 export default {
     translations: {
         "current_language_name": "English",
@@ -39,5 +41,14 @@ export default {
         "Room Cost": "Room Cost",
         "Total Cost": "Total Cost",
         "Reservation Total Cost": "Reservation Total Cost",
+
+        // Accommodation booking confirmation
+        "Booking Details": "Booking Details",
+        "Leading Passenger": "Leading Passenger",
+        "Booking Reference number": "Booking Reference number",
+        "Status": "Status",
+        "Booking Date": "Booking Date",
+
+        "Accept & reconfirm": "Accept & reconfirm"
     }
 };

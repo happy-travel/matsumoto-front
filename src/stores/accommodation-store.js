@@ -1,5 +1,6 @@
 import React from "react";
 import { autorun, observable, computed } from "mobx";
+import { session } from "core/storage";
 
 var today = new Date(),
     nextDay = new Date(),
@@ -7,7 +8,7 @@ var today = new Date(),
     month = day => leadZero(day.getMonth() + 1);
 nextDay.setDate(nextDay.getDate() + 3);
 
-class SearchStore {
+class AccommodationStore {
     @observable result = {};
     @observable request = {
         "checkInDate": "2019-" + month(today) + "-" + leadZero(today.getDate()) + "T00:00:00.000Z",
@@ -24,8 +25,13 @@ class SearchStore {
     };
     @observable loaded = false;
 
+    @observable selectedVariant = {};
+    @observable selectedHotel = {};
+
+    @observable bookingResult = {};
+
     constructor() {
-        autorun(() => console.log(this.result));
+        autorun(() => {});
     }
 
     @computed get hotelArray() {
@@ -76,14 +82,26 @@ class SearchStore {
             "distance": 0,
             "predictionResult": {
                 "id": value.id,
-                "sessionId": window.sessionStorage.getItem('google-session'),
+                "sessionId": session.get('google-session'),
                 "source": value.source,
                 "type": value.type
             }
         }
     }
+
+    setSelectedHotel(hotel) {
+        this.selectedHotel = hotel;
+    }
+
+    setSelectedVariant(agreement) {
+        this.selectedVariant = agreement;
+    }
+
+    setBookingResult(result) {
+        this.bookingResult = result;
+    }
 }
 
-const searchStore = new SearchStore();
+const accommodationStore = new AccommodationStore();
 
-export default searchStore;
+export default accommodationStore;

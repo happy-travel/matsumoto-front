@@ -37,6 +37,11 @@
         flex-direction: row
         font-size: 13px
 
+        &.disabled
+            background: #F5F9FA
+            input
+                color: $color-text
+
         &.focus
             border-color: $color-brand
         .inner
@@ -77,3 +82,9 @@
         .icon-wrap
             padding-left: 14px
             cursor: pointer
+
+span.required
+    &:after
+        content: ' *'
+        color: red
+

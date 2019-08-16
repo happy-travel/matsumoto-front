@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const Dual = ({ first, second, a, b }) => (
-    <div class="dual">
+export const Dual = ({ first, second, a, b, addClass }) => (
+    <div class={"dual" + (addClass ? " " + addClass : '')}>
         <div class="first">
             { first || a }
         </div>

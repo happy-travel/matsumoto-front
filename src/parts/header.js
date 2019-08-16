@@ -31,8 +31,8 @@ const Header = () => {
                         <NoAvatar />
                     </div>
                     <div class="double">
-                        <div class="name">Serhii Movchan</div>
-                        <div class="company">Nike</div>
+                        <div class="name">Account Name</div>
+                        <div class="company">Company</div>
                     </div>
                     <div class="switch-arrow" />
                 </Link>

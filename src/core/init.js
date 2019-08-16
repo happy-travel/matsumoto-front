@@ -61,6 +61,25 @@ window.field = id => {
     return '';
 };
 
+window.serialize = (form) => {
+	var result = {};
+	for (var i = 0; i < form.elements.length; i++) {
+		var field = form.elements[i];
+		if (!field.id || ['button', 'submit', 'reset'].indexOf(field.type) >= 0)
+		    continue;
+		if (field.type == 'select-multiple')
+			for (var j = 0; j < field.options.length; j++) {
+				if (!field.options[j].selected)
+				    continue;
+				result[field.name] = field.options[j].value;
+			}
+		else
+			result[field.name] = field.value;
+		// todo : field.type == 'file', 'checkbox', 'radio'
+	}
+	return result;
+};
+
 window.addEventListener('mouseup', (event) => {
     var target = event.target;
 	for (var i = 0; target && i < 30; i++){

@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from "mobx-react";
 import CommonStore from 'stores/common-store';
-import SearchStore from 'stores/search-store';
+import AccommodationStore from 'stores/accommodation-store';
 
 @observer
 class RegionDropdown extends React.Component {
@@ -10,9 +10,9 @@ class RegionDropdown extends React.Component {
         window.document.getElementById(connected).value = value;
 
         if ('field-residency' == connected)
-            SearchStore.setRequestResidency(code);
+            AccommodationStore.setRequestResidency(code);
         else
-            SearchStore.setRequestNationality(code);
+            AccommodationStore.setRequestNationality(code);
 
         CommonStore.setCountries([]);
     }

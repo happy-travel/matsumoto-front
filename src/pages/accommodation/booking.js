@@ -1,118 +1,311 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from "mobx-react";
+import moment from "moment";
 
-import { FieldText } from 'components/form';
+import {
+    FieldText,
+    FieldSwitch,
+    FieldCheckbox
+} from 'components/form';
 import Breadcrumbs from 'components/breadcrumbs';
 import ActionSteps from 'components/action-steps';
 import { Dual } from 'components/simple';
+import {Link, Redirect} from "react-router-dom";
+
+import AccommodationStore from 'stores/accommodation-store';
 
 @observer
 class AccommodationBookingPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            redirectToConfirmationPage: false
+        };
+        this.book = this.book.bind(this);
+    }
+
+    book() {
+        const store = AccommodationStore;
+
+        if (!store.selectedHotel.id || !store.selectedVariant.id)
+            return null; //todo: another answer
+
+        var hotel = store.selectedHotel,
+            variant = store.selectedVariant,
+            search = store.request;
+
+        window._pass_first_name = window.document.getElementById("field-booking-first-name-1").value;
+        window._pass_last_name = window.document.getElementById("field-booking-last-name-1").value;
+
+        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/bookings/accommodations", {
+            method: 'POST',
+            body: JSON.stringify({
+                "accommodationId": hotel.id,
+                "availabilityId": variant.id,
+                "checkInDate": search.checkInDate,
+                "checkOutDate": search.checkOutDate,
+                // todo: "itineraryNumber": "?",
+                "nationality": search.nationality,
+                "residency": search.residency,
+                "rejectIfUnavailable": true,
+                "paymentMethod": "Cash",
+                "tariffCode": variant.tariffCode,
+                // todo: features
+
+               /* "roomDetails": {
+                    "passengers": [
+                        {
+                            "title": "MR",
+                            "lastName": window._pass_last_name,
+                            "isLeader": true,
+                            "firstName": window._pass_first_name,
+                            "age": 30,
+                            "initials" : ""
+                        }
+                    ],
+                    "type": "NotSpecified",
+                    "isExtraBedNeeded": false,
+                    "isCotNeededNeeded": false
+                }*/
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    AccommodationStore.setBookingResult(result);
+                },
+                (error) => {
+                    AccommodationStore.setBookingResult({});
+                }
+            );
+
+        this.setState({
+            redirectToConfirmationPage: true
+        })
+    }
 
 render() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(),
+          store = AccommodationStore;
+
+    if (!store.selectedHotel.id || !store.selectedVariant.id)
+        return null; //todo: another answer
+
+    var hotel = store.selectedHotel,
+        variant = store.selectedVariant,
+        search = store.request;
+
+    if (this.state.redirectToConfirmationPage)
+        return <Redirect push to="/accommodation/confirmation" />;
+
     return (
-        <React.Fragment>
-            <div class="booking block">
-                <section class="double-sections">
-                    <div class="left-section filters">
-                        <div class="static item">{t('Booking Summary')}</div>
-                        <div class="expanded">
-                            <img src="/images/temporary/booking-panel.png" class="round" alt="" />
-                        </div>
-                        <div class="static item no-border">Hampton by Hilton Moscow Strogino</div>
-                        <div class="subtitle">
-                            Hotels in Moscow, Russia
-                        </div>
 
-                        <div class="static item">{t('Your Reservation')}</div>
-                        <Dual
-                            a={t('Arrival Date')}
-                            b={'Tue, 30 Apr 2019'}
-                        />
-                        <Dual
-                            a={t('Departure Date')}
-                            b={'Wed, 01 May 2019'}
-                        />
-                        <Dual
-                            a={t('Number of Rooms')}
-                            b={'1'}
-                        />
+<React.Fragment>
+    <div class="booking block">
+        <section class="double-sections">
+            <div class="left-section filters">
+                <div class="static item">{t('Booking Summary')}</div>
+                <div class="expanded">
+                    <img src={hotel.picture.source} alt={hotel.picture.caption} class="round" />
+                </div>
+                <div class="static item no-border">
+                    {hotel.name}
+                </div>
+                <div class="subtitle">
+                    {hotel.location.address}
+                    , {hotel.location.city}
+                    , {hotel.location.country}
+                </div>
 
-                        <div class="static item">{t('Room Information')}</div>
-                        <Dual
-                            a={t('Room Type')}
-                            b={'Executive Studio, Lounge Access, 1 King, Sofa bed'}
-                        />
-                        <Dual
-                            a={t('Board Basis')}
-                            b={'Room Only'}
-                        />
-                        <Dual
-                            a={t('Occupancy')}
-                            b={'2 Adults , 2 Children, Children Ages: 3, 14'}
-                        />
+                <div class="static item">{t('Your Reservation')}</div>
+                <Dual
+                    a={t('Arrival Date')}
+                    b={moment(variant.roomPrices[0].fromDate).format("ddd, DD MMMM YYYY")}                        />
+                <Dual
+                    a={t('Departure Date')}
+                    b={moment(variant.roomPrices[0].toDate).format("ddd, DD MMMM YYYY")}
+                    b={'Wed, 01 May 2019'}
+                />
+                <Dual
+                    a={t('Number of Rooms')}
+                    b={'1'}
+                />
 
-                        <div class="static item">{t('Room & Total Cost')}</div>
-                        <Dual
-                            a={t('Room Cost')}
-                            b={'USD 125.26'}
-                        />
-                        <Dual
-                            a={t('Total Cost')}
-                            b={'USD 125.26'}
-                        />
-                        <div class="total-cost">
-                            <div>{t('Reservation Total Cost')}</div>
-                            <div>USD 125.26</div>
-                        </div>
-                    </div>
-                    <div class="right-section">
-                        <Breadcrumbs items={[
-                            {
-                                text: "Search accommodation",
-                                link: "/search"
-                            }, {
-                                text: "Guest Details"
-                            }
-                        ]}/>
-                        <ActionSteps
-                            items={["Search accommodation", "Guest Details", "Booking confirmation"]}
-                            current={1}
-                        />
-                        <h2>
-                            <span>Room 1:</span> Executive Studio, Lounge Access, 1 King, Sofa bed
-                        </h2>
+                <div class="static item">{t('Room Information')}</div>
+                <Dual
+                    a={t('Room Type')}
+                    b={variant.roomPrices[0].type}
+                />
+                { false && [<Dual
+                    a={t('Board Basis')}
+                    b={'Room Only'}
+                />,
+                <Dual
+                    a={t('Occupancy')}
+                    b={'2 Adults , 2 Children, Children Ages: 3, 14'}
+                />] /* todo */ }
 
-                        FORM
-                        {t('Title')}
-                        {t('First Name')}
-                        {t('Last Name')}
-
-                        {t('Agent Reference')}
-                        {t('Extra Meal')}
-                        {t('Special Request')}
-
-                        {t('Your Requests')}
-                        TEXTAREA
-
-
-                        <div class="switch-control" />
-
-                        form/checkboxes 6+5
-
-
-                        Do You Wish to Add Additional Services?
-
-                        I have read and accepted the booking terms & conditions
-
-                        confirm booking BUTTON
-
-                    </div>
-                </section>
+                <div class="static item">{t('Room & Total Cost')}</div>
+                <Dual
+                    a={t('Room Cost')}
+                    b={`${variant.currencyCode} ${variant.price.total}`}
+                />
+                <Dual
+                    a={t('Total Cost')}
+                    b={`${variant.currencyCode} ${variant.price.total}`}
+                />
+                <div class="total-cost">
+                    <div>{t('Reservation Total Cost')}</div>
+                    <div>{`${variant.currencyCode} ${variant.price.total}`}</div>
+                </div>
             </div>
-        </React.Fragment>
+            <div class="right-section">
+                <Breadcrumbs items={[
+                    {
+                        text: "Search accommodation",
+                        link: "/search"
+                    }, {
+                        text: "Guest Details"
+                    }
+                ]}/>
+                <ActionSteps
+                    items={["Search accommodation", "Guest Details", "Booking confirmation"]}
+                    current={1}
+                />
+                <h2>
+                    <span>Room 1:</span> {variant.contractType}
+                </h2>
+
+                <div class="form">
+                    <div class="part">
+                        <table class="people"><tbody>
+                            <tr>
+                                <th><span class="required">{t('Title')}</span></th>
+                                <th><span class="required">{t('First Name')}</span></th>
+                                <th><span class="required">{t('Last Name')}</span></th>
+                            </tr>
+                            {(['1']).map(item => (<tr>
+                                <td>
+                                    <FieldText
+                                        id={"field-booking-title-" + item}
+                                        placeholder={'Please select one'}
+                                        value={"Mr."}
+                                        disabled
+                                    />
+                                </td>
+                                <td class="bigger">
+                                    <FieldText
+                                        id={"field-booking-first-name-" + item}
+                                        placeholder={'Please enter first name'}
+                                        clearable
+                                    />
+                                </td>
+                                <td class="bigger">
+                                    <FieldText
+                                        id={"field-booking-last-name-" + item}
+                                        placeholder={'Please enter last name'}
+                                        clearable
+                                    />
+                                </td>
+                            </tr>))}
+                        </tbody></table>
+                    </div>
+
+                    <div class="part">
+                        <div class="row">
+                            <div class="vertical-label">{t('Agent Reference')}</div>
+                            <FieldText
+                                id={"field-booking-agent-reference"}
+                                placeholder={'Please enter here'}
+                                clearable
+                            />
+                        </div>
+                        <div class="row">
+                            <div class="vertical-label">
+                                <div>{t('Extra Meal')} <span class="icon icon-info" /></div>
+                            </div>
+                            <FieldSwitch
+                                id={"field-booking-extra-meal"}
+                            />
+                        </div>
+                        <div class="row">
+                            <div class="vertical-label">
+                                <div>{t('Special Request')} <span class="icon icon-info" /></div>
+                            </div>
+                            <FieldSwitch
+                                id={"field-booking-special-request"}
+                                value={true}
+                            />
+                        </div>
+
+                        <FieldText
+                            id={"field-booking-agent-reference"}
+                            placeholder={'Please enter your message'}
+                            label={t('Your Requests')}
+                        /> {false && 'todo: textarea'}
+                    </div>
+
+                    <div class="part">
+                        <table class="checkboxes"><tbody>
+                            <tr>
+                                <td class="bigger"><FieldCheckbox label={"Request Interconnecting Rooms"} /></td>
+                                <td><FieldCheckbox label={"Request for an Early Check In"} /></td>
+                            </tr>
+                            <tr>
+                                <td class="bigger"><FieldCheckbox label={"Require a Smoking Room"} /></td>
+                                <td><FieldCheckbox label={"Request for a Late Check Out"} /></td>
+                            </tr>
+                            <tr>
+                                <td class="bigger"><FieldCheckbox label={"Require a Non Smoking Room"} /></td>
+                                <td><FieldCheckbox label={"Please note that Guest is a VIP"} /></td>
+                            </tr>
+                            <tr>
+                                <td class="bigger"><FieldCheckbox label={"Request Room on a Low Floor"} /></td>
+                                <td><FieldCheckbox label={"Please note that Guests are a Honeymoon Couple"} /></td>
+                            </tr>
+                            <tr>
+                                <td class="bigger"><FieldCheckbox label={"Request Room on a High Floor"} /></td>
+                                <td><FieldCheckbox label={"Request for a Baby Cot"} /></td>
+                            </tr>
+                            <tr>
+                                <td class="bigger"><FieldCheckbox label={"Request for Late Check-In"} /></td>
+                                <td />
+                            </tr>
+                        </tbody></table>
+                    </div>
+
+                    { false && <div class="part">
+                        <h2>
+                            Do You Wish to Add Additional Services?
+                        </h2>
+                    </div> }
+
+                    <div class="final">
+                        <div class="dual">
+                            <div class="first">
+                                <FieldCheckbox
+                                    label={<div>
+                                        I have read and accepted the booking <a href="#" class="underlined link">terms & conditions</a>
+                                    </div>}
+                                />
+                            </div>
+                            <div class="second">
+                                <button class="button" onClick={this.book}>Confirm booking</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </div>
+</React.Fragment>
+
     );
 }
 }

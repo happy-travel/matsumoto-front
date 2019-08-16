@@ -2,6 +2,7 @@ import React from 'react';
 import '../../styles';
 
 import { BrowserRouter, Route } from "react-router-dom";
+import ScrollToTop from './misc/scroll-to-top';
 import { I18nextProvider } from 'react-i18next';
 import internationalization from './internationalization';
 
@@ -16,6 +17,7 @@ import Routes, { routesWithHeaderAndFooter, routesWithSearch } from './routes';
 const App = () => (
     <I18nextProvider i18n={internationalization}>
         <BrowserRouter>
+            <ScrollToTop />
             <Route exact path={ routesWithHeaderAndFooter } render={() =>
                 <Header />
             } />

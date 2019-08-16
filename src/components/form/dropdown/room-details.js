@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from "mobx-react";
-import SearchStore from 'stores/search-store';
+import AccommodationStore from 'stores/accommodation-store';
 
 @observer
 class PeopleDropdown extends React.Component {
@@ -9,7 +9,7 @@ class PeopleDropdown extends React.Component {
         var {
         } = this.props;
 
-        const store = SearchStore;
+        const store = AccommodationStore;
         return (
             <div class="people dropdown">
                 <div class="row">
