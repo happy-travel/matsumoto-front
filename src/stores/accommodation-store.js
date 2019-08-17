@@ -107,6 +107,4 @@ class AccommodationStore {
     }
 }
 
-const accommodationStore = new AccommodationStore();
-
-export default accommodationStore;
+export default new AccommodationStore();

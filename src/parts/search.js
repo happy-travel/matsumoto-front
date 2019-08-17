@@ -1,17 +1,18 @@
 import React from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 import { API, session, dateFormat } from "core";
 
 import { Redirect } from "react-router-dom";
-import { FieldText } from 'components/form';
-import Flag from 'components/flag';
+import { FieldText } from "components/form";
+import Flag from "components/flag";
 
-import AccommodationStore from 'stores/accommodation-store';
-import CommonStore from 'stores/common-store';
+import AccommodationStore from "stores/accommodation-store";
+import CommonStore from "stores/common-store";
 
-import RegionDropdown from 'components/form/dropdown/region';
-import DateDropdown from 'components/form/dropdown/date';
-import PeopleDropdown from 'components/form/dropdown/room-details';
+import RegionDropdown from "components/form/dropdown/region";
+import DateDropdown from "components/form/dropdown/date";
+import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
 
 @observer
@@ -85,7 +86,8 @@ class AccommodationSearch extends React.Component {
     }
 
     render() {
-        const store = AccommodationStore;
+        var store = AccommodationStore,
+            { t } = useTranslation();
 
         return (
             <div class="search block">
@@ -95,8 +97,8 @@ class AccommodationSearch extends React.Component {
                         <div class="row">
                             <FieldText
                                 id={"field-destination"}
-                                label={'Destination, Hotel name, Location or Landmark'}
-                                placeholder={'Choose your Destination, Hotel name, Location or Landmark'}
+                                label={t("Destination, Hotel name, Location or Landmark")}
+                                placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                 Icon={<span class="icon icon-hotel" />}
                                 Flag={false}
                                 Dropdown={<DestinationDropdown connected={"field-destination"} />}
@@ -105,41 +107,38 @@ class AccommodationSearch extends React.Component {
                             />
                             <FieldText
                                 id={"field-dates"}
-                                label={'Check In – Check Out'}
-                                placeholder={'Choose date'}
+                                label={t("Check In - Check Out")}
+                                placeholder={t("Choose date")}
                                 Icon={<span class="icon icon-calendar"/>}
                                 addClass="size-medium"
                                 Dropdown={<DateDropdown />}
                                 value={
                                     dateFormat.b(store.request.checkInDate)
-                                    + ' – ' +
+                                    + " – " +
                                     dateFormat.b(store.request.checkOutDate)
                                 }
                             />
                             <FieldText
                                 id={"field-room"}
-                                label={'Adults • Children • Rooms'}
-                                placeholder={'Choose options'}
+                                label={t("Adults, Children, Rooms")}
+                                placeholder={t("Choose options")}
                                 Icon={<span class="icon icon-arrows-expand"/>}
                                 addClass="size-medium"
                                 Dropdown={<PeopleDropdown />}
                                 value={
-                                    store.request.roomDetails[0].adultsNumber +
-                                    ' Adult' + (store.request.roomDetails[0].adultsNumber > 1 ? "s" : '') + ' • ' +
-
-                                    store.request.roomDetails[0].childrenNumber +
-                                    ' Children • ' +
-
-                                    store.request.roomDetails[0].rooms +
-                                    ' Room' + (store.request.roomDetails[0].rooms > 1 ? "s" : '')
+                                    store.request.roomDetails[0].adultsNumber + " " + t("Adult", {count: store.request.roomDetails[0].adultsNumber})
+                                    + " • " +
+                                    store.request.roomDetails[0].childrenNumber + " " + t("Children", {count: store.request.roomDetails[0].childrenNumber})
+                                    + " • " +
+                                    store.request.roomDetails[0].rooms + " " + t("Room", {count: store.request.roomDetails[0].rooms})
                                 }
                             />
                         </div>
                         <div class="row">
                             <FieldText
                                 id={"field-residency"}
-                                label={'Residency'}
-                                placeholder={'Choose your residency'}
+                                label={t("Residency")}
+                                placeholder={t("Choose your residency")}
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={<RegionDropdown connected={"field-residency"} />}
@@ -148,8 +147,8 @@ class AccommodationSearch extends React.Component {
                             />
                             <FieldText
                                 id={"field-nationality"}
-                                label={'Nationality'}
-                                placeholder={'Choose your nationality'}
+                                label={t("Nationality")}
+                                placeholder={t("Choose your nationality")}
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={<RegionDropdown connected={"field-nationality"} />}
@@ -163,7 +162,7 @@ class AccommodationSearch extends React.Component {
                                         onClick={this.submit}
                                         class="button"
                                     >
-                                        Search hotel
+                                        {t("Search hotel")}
                                     </button>
                                 </div>
                             </div>
@@ -171,10 +170,10 @@ class AccommodationSearch extends React.Component {
                     </div>
                     <div class="additionals">
                         <button class="button-expand">
-                            Advanced Search
+                            {t("Advanced Search")}
                         </button>
                         <button class="button-clear">
-                            Clear
+                            {t("Clear")}
                         </button>
                     </div>
                 </section>

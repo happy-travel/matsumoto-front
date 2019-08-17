@@ -54,6 +54,4 @@ class CommonStore {
 
 }
 
-const commonStore = new CommonStore();
-
-export default commonStore;
+export default new CommonStore();

@@ -16,11 +16,31 @@ export default {
         "First Name": "First Name",
         "Last Name": "Last Name",
 
-        //
+        // Search form
+        "Destination, Hotel name, Location or Landmark": "Destination, Hotel name, Location or Landmark",
+        "Choose your Destination, Hotel name, Location or Landmark": "Choose your Destination, Hotel name, Location or Landmark",
+        "Check In - Check Out": "Check In – Check Out",
+        "Choose date": "Choose date",
+        "Adults, Children, Rooms": "Adults • Children • Rooms",
+        "Choose options": "Choose options",
+        "Residency": "Residency",
+        "Choose your residency": "Choose your residency",
+        "Nationality": "Nationality",
+        "Choose your nationality": "Choose your nationality",
+        "Search hotel": "Search hotel",
+        "Advanced Search": "Advanced Search",
+        "Clear": "Clear",
+        "Adult": "Adult",
+        "Adult_plural": "Adults",
+        "Children": "Children",
+        "Room": "Room",
+        "Room_plural": "Rooms",
+
+        // Steps names
         "Search accommodation": "Search accommodation",
         "Guest Details": "Guest Details",
 
-        // accommodation booking confirmation
+        // Accommodation booking confirmation
         "Booking confirmation": "Booking confirmation",
         "Agent Reference": "Agent Reference",
         "Extra Meal": "Extra Meal",
