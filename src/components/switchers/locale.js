@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from "mobx-react";
 import CommonStore from 'stores/common-store';
-import { localStorage } from "core/storage";
+import { localStorage } from "core";
 import { ReactComponent as FlagEN } from "parts/images/EN.svg";
 
 const DropdownId = 'LocaleSwitcherDropdown';

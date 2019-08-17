@@ -1,8 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from "mobx-react";
-import API from 'core/api';
-import moment from "moment";
+import { API, dateFormat } from "core";
 
 import {
     FieldText,
@@ -117,11 +116,11 @@ render() {
                 <div class="static item">{t('Your Reservation')}</div>
                 <Dual
                     a={t('Arrival Date')}
-                    b={moment(variant.roomPrices[0].fromDate).format("ddd, DD MMMM YYYY")}                        />
+                    b={dateFormat.a(variant.roomPrices[0].fromDate)}
+                />
                 <Dual
                     a={t('Departure Date')}
-                    b={moment(variant.roomPrices[0].toDate).format("ddd, DD MMMM YYYY")}
-                    b={'Wed, 01 May 2019'}
+                    b={dateFormat.a(variant.roomPrices[0].toDate)}
                 />
                 <Dual
                     a={t('Number of Rooms')}

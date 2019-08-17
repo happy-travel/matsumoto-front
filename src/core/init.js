@@ -1,5 +1,5 @@
 import CommonStore from 'stores/common-store';
-import API from 'core/api';
+import { API } from "core";
 
 const init = () => {
     API.get({

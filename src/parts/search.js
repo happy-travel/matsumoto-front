@@ -1,9 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
-import API from 'core/api';
-import { session } from "core/storage";
+import { API, session, dateFormat } from "core";
 
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { FieldText } from 'components/form';
 import Flag from 'components/flag';
 
@@ -20,8 +19,7 @@ class AccommodationSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoaded: false,
-            result: 'empty'
+            redirectToVariantsPage: false
         };
         this.submit = this.submit.bind(this);
     }
@@ -29,15 +27,10 @@ class AccommodationSearch extends React.Component {
     submit() {
         AccommodationStore.setLoaded(false);
         AccommodationStore.setResult({});
-        session.remove('google-session');
+        session.google.clear();
         API.post({
             url: API.ACCOMMODATION_SEARCH,
-            body: {
-                "filters": "Default",
-                "hotelIds": [],
-                "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
-                ...AccommodationStore.request
-            },
+            body: AccommodationStore.request,
             success: (result) => {
                 AccommodationStore.setResult(result);
             },
@@ -46,41 +39,37 @@ class AccommodationSearch extends React.Component {
             },
             after: () => {
                 AccommodationStore.setLoaded(true);
-                this.setState({
-                    isLoaded: true
-                });
             }
+        });
+        this.setState({
+            redirectToVariantsPage: true
         });
     }
 
     regionInputChanged(e) {
+        var query = e.target.value;
+        if (!query)
+            return CommonStore.setCountries([]);
+
         API.get({
             url: API.COUNTRIES_PREDICTION,
-            body: {
-                query: e.target.value
-            },
+            body: { query },
             after: (data) => {
                 CommonStore.setCountries(data || []);
             }
         });
     }
 
-    destinationInputChanged(e, tempForceEmpty) {
-        if (tempForceEmpty) {
-            CommonStore.setCountries([]);
-            return;
-        }
-        var sessionId = session.get('google-session');
-        if (!sessionId) {
-            sessionId = require('uuid/v4')();
-            session.set('google-session', sessionId);
-        }
+    destinationInputChanged(e) {
+        var query = e.target.value;
+        if (!query)
+            return CommonStore.setCountries([]);
 
         API.get({
             url: API.LOCATION_PREDICTION,
             body: {
-                query: e.target.value,
-                sessionId
+                query,
+                sessionId: session.google.create()
             },
             after: (data) => {
                 CommonStore.setDestinationSuggestions(data);
@@ -88,10 +77,19 @@ class AccommodationSearch extends React.Component {
         });
     }
 
+    componentDidUpdate() {
+        if (this.state.redirectToVariantsPage)
+            this.setState({
+                redirectToVariantsPage: false
+            });
+    }
+
     render() {
         const store = AccommodationStore;
+
         return (
             <div class="search block">
+                { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
                 <section>
                     <div class="form">
                         <div class="row">
@@ -113,9 +111,9 @@ class AccommodationSearch extends React.Component {
                                 addClass="size-medium"
                                 Dropdown={<DateDropdown />}
                                 value={
-                                    store.request.checkInDate.substr(0,10).replace('-', '/').replace('-', '/')
+                                    dateFormat.b(store.request.checkInDate)
                                     + ' – ' +
-                                    store.request.checkOutDate.substr(0,10).replace('-', '/').replace('-', '/')
+                                    dateFormat.b(store.request.checkOutDate)
                                 }
                             />
                             <FieldText
@@ -161,15 +159,12 @@ class AccommodationSearch extends React.Component {
                             <div class="field">
                                 <div class="label"/>
                                 <div class="inner">
-                                    <Link to="/search">
-                                        <button
-                                            onClick={
-                                                this.submit
-                                            }
-                                            class="button">
-                                            Search hotel
-                                        </button>
-                                    </Link>
+                                    <button
+                                        onClick={this.submit}
+                                        class="button"
+                                    >
+                                        Search hotel
+                                    </button>
                                 </div>
                             </div>
                         </div>

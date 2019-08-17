@@ -9,12 +9,16 @@ class FieldText extends React.Component {
         super(props);
         this.state = {
             currentValue: '',
-            focus: false
+            focus: false,
+            proxy: {
+                currentSuggestion: ''
+            }
         };
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
         this.clear = this.clear.bind(this);
         this.changing = this.changing.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     onFocus() {
@@ -32,6 +36,18 @@ class FieldText extends React.Component {
         this.setState({
             focus: false
         });
+    }
+
+    onKeyDown(e) {
+        //todo: suggestion list
+        if (13 == e.keyCode) // Enter
+            return; // Select first suggestion or selected menu item
+        if (39 == e.keyCode) // Arrow right
+            return; // Select first suggestion or selected menu item
+        if (38 == e.keyCode) // Arrow top
+            return; // Move up in suggestion list
+        if (40 == e.keyCode) // Arrow bottom
+            return; // Move down in suggestion list
     }
 
     clear() {
@@ -83,10 +99,11 @@ class FieldText extends React.Component {
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
+                                onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                             />
                             <div class="suggestion">
-                                <span>{ this.state.currentValue }</span>{ CommonStore.currentSuggestion }
+                                <span>{ this.state.currentValue }</span>{ this.state.proxy.currentSuggestion }
                             </div>
                         </div>
                         <div class="icon-wrap">

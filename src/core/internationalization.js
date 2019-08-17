@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import { localStorage } from "core/storage";
+import { localStorage } from "core";
 import settings from "settings";
 
 import english from 'translation/english';

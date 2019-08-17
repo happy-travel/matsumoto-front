@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
-import { localStorage } from "core/storage";
+import { localStorage } from "core";
 import LocaleSwitcher from "components/switchers/locale";
 
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";

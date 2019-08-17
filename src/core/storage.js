@@ -1,5 +1,7 @@
 import UserStore from 'stores/user-store';
 
+const googleSessionStorageKey = 'google-session';
+
 const userKey = (key, everyUser) => {
     var userId = UserStore.id;
 
@@ -58,5 +60,17 @@ export const session = {
             window.sessionStorage.removeItem(key);
         else
             window._session[key] = null;
+    },
+    google: {
+        create: () => {
+            var result = session.get(googleSessionStorageKey);
+            if (!result) {
+                result = require('uuid/v4')();
+                session.set(googleSessionStorageKey, result);
+            }
+            return result;
+        },
+        current: () => session.get(googleSessionStorageKey),
+        clear:   () => session.remove(googleSessionStorageKey)
     }
 };

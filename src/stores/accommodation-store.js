@@ -1,18 +1,16 @@
 import React from "react";
-import { autorun, observable, computed } from "mobx";
-import { session } from "core/storage";
-
-var today = new Date(),
-    nextDay = new Date(),
-    leadZero = val => val < 10 ? '0'+ val : val,
-    month = day => leadZero(day.getMonth() + 1);
-nextDay.setDate(nextDay.getDate() + 3);
+import { observable, computed } from "mobx";
+import moment from "moment";
+import { session } from "core";
+import autosave from "core/misc/autosave";
 
 class AccommodationStore {
     @observable result = {};
     @observable request = {
-        "checkInDate": "2019-" + month(today) + "-" + leadZero(today.getDate()) + "T00:00:00.000Z",
-        "checkOutDate": "2019-" + month(nextDay) + "-" + leadZero(nextDay.getDate()) + "T00:00:00.000Z",
+        "filters": "Default",
+        // todo: "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
+        "checkInDate": moment().utc().startOf('day'),
+        "checkOutDate": moment().utc().startOf('day').add(3, 'd'),
         "roomDetails": [
             {
                 "adultsNumber": 1,
@@ -20,6 +18,13 @@ class AccommodationStore {
                 "rooms": 1
             }
         ],
+        "location": {
+            "coordinates": {
+                "latitude": 0,
+                "longitude": 0
+            },
+            "distance": 0
+        },
         "nationality": "UK",
         "residency": "UK" //todo: set default nationality and residency
     };
@@ -31,7 +36,7 @@ class AccommodationStore {
     @observable bookingResult = {};
 
     constructor() {
-        autorun(() => {});
+        autosave(this, "_accommodation_store_cache");
     }
 
     @computed get hotelArray() {
@@ -41,8 +46,8 @@ class AccommodationStore {
     }
 
     setDateRange(values) {
-        this.request.checkInDate = values.start;
-        this.request.checkOutDate = values.end;
+        this.request.checkInDate = moment(values.start).utc().startOf('day');
+        this.request.checkOutDate = moment(values.end).utc().startOf('day');
     }
 
     setResult(value) {
@@ -62,15 +67,15 @@ class AccommodationStore {
 
     setRequestAdults(plus) {
         var value = this.request.roomDetails[0].adultsNumber + plus;
-        this.request.roomDetails[0].adultsNumber = Math.min(Math.max(value, 1), 30);
+        this.request.roomDetails[0].adultsNumber = Math.min(Math.max(value, 1), 9);
     }
     setRequestRooms(plus) {
         var value = this.request.roomDetails[0].rooms + plus;
-        this.request.roomDetails[0].rooms = Math.min(Math.max(value, 1), 30);
+        this.request.roomDetails[0].rooms = Math.min(Math.max(value, 1), 5); //todo: make special case for more people
     }
     setRequestChildren(plus) {
         var value = this.request.roomDetails[0].childrenNumber + plus;
-        this.request.roomDetails[0].childrenNumber = Math.min(Math.max(value, 0), 30);
+        this.request.roomDetails[0].childrenNumber = Math.min(Math.max(value, 0), 8); //todo: total 9 people max
     }
 
     setRequestDestination(value) {
@@ -82,7 +87,7 @@ class AccommodationStore {
             "distance": 0,
             "predictionResult": {
                 "id": value.id,
-                "sessionId": session.get('google-session'),
+                "sessionId": session.google.current(),
                 "source": value.source,
                 "type": value.type
             }

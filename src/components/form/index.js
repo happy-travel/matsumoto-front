@@ -1,7 +1,9 @@
-import _FieldText from './field-text';
-import _FieldSwitch from './field-switch';
-import _FieldCheckbox from './field-checkbox';
+import FieldText from './field-text';
+import FieldSwitch from './field-switch';
+import FieldCheckbox from './field-checkbox';
 
-export const FieldText = _FieldText;
-export const FieldSwitch = _FieldSwitch;
-export const FieldCheckbox = _FieldCheckbox;
+export {
+    FieldText,
+    FieldSwitch,
+    FieldCheckbox
+};

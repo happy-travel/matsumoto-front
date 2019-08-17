@@ -1,5 +1,6 @@
 import React from "react";
-import { autorun, observable, computed } from "mobx";
+import { observable, computed } from "mobx";
+import autosave from "core/misc/autosave";
 
 //todo: split to UIStore и common-store
 class CommonStore {
@@ -9,9 +10,9 @@ class CommonStore {
     @observable currencies = [];
     @observable initialized = false;
     @observable openDropdown = null;
-    @observable currentSuggestion = '';
 
     constructor() {
+        autosave(this, "_common_store_cache");
     }
 
     @computed get regionList() {
@@ -51,9 +52,6 @@ class CommonStore {
         this.openDropdown = id || null;
     }
 
-    setCurrentSuggestion(value) {
-        this.currentSuggestion = value || '';
-    }
 }
 
 const commonStore = new CommonStore();

@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
+import { dateFormat } from "core";
 
 import Breadcrumbs from 'components/breadcrumbs';
 import ActionSteps from 'components/action-steps';
@@ -56,11 +56,11 @@ render() {
                     <Dual
                         a={<Dual addClass="line"
                                 a={'checkInDate'}
-                                b={moment(result.checkInDate).format("ddd, DD MMMM YYYY")}
+                                b={dateFormat.a(result.checkInDate)}
                             />}
                         b={<Dual addClass="line"
                                 a={'checkOutDate'}
-                                b={moment(result.checkOutDate).format("ddd, DD MMMM YYYY")}
+                                b={dateFormat.a(result.checkOutDate)}
                             />}
                     />
                     <Dual addClass="line"

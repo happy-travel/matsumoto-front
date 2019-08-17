@@ -6,7 +6,7 @@ import AccommodationStore from 'stores/accommodation-store';
 @observer
 class RegionDropdown extends React.Component {
 
-    setValue(connected, code, value) {
+    setValue(connected, code, value, proxy) {
         window.document.getElementById(connected).value = value;
 
         if ('field-residency' == connected)
@@ -19,11 +19,12 @@ class RegionDropdown extends React.Component {
 
     render() {
         var {
-            connected
+            connected,
+            proxy
         } = this.props;
 
         const store = CommonStore;
-        if (store.countries && store.countries.length && window.document.getElementById(connected).value) //todo: change to separated lists for different inputs
+        if (store.countries && store.countries.length && window.document.getElementById(connected) && window.document.getElementById(connected).value) //todo: change to separated lists for different inputs
             return (
                 <div class="cities dropdown">
                     {store.regionList && store.regionList.map && store.regionList.map(item => (
@@ -33,7 +34,7 @@ class RegionDropdown extends React.Component {
                             </div>}
                             {store.countries && store.countries.map && store.countries.map(city => (
                                 <React.Fragment>
-                                    {item.id == city.regionId && <div class="city" onClick={ this.setValue.bind(null, connected, city.code, city.names.en) }>
+                                    {item.id == city.regionId && <div class="city" onClick={ this.setValue.bind(null, connected, city.code, city.names.en, proxy) }>
                                         {city.names.en}
                                     </div>}
                                 </React.Fragment>
