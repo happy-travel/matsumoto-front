@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
+import API from 'core/api';
 import { session } from "core/storage";
 
 import { Link } from "react-router-dom";
@@ -29,57 +30,39 @@ class AccommodationSearch extends React.Component {
         AccommodationStore.setLoaded(false);
         AccommodationStore.setResult({});
         session.remove('google-session');
-        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/availabilities/accommodations",
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                    "filters": "Default",
-                    "hotelIds": [],
-                    "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
-                    ...AccommodationStore.request
-                }),
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    AccommodationStore.setResult(result);
-                    AccommodationStore.setLoaded(true);
-                    this.setState({
-                        isLoaded: true,
-                        result: 'good'
-                    });
-                },
-                (error) => {
-                    console.warn(error);
-                    AccommodationStore.setLoaded(true);
-                    this.setState({
-                        isLoaded: true,
-                        result: 'bad'
-                    });
-                }
-            );
+        API.post({
+            url: API.ACCOMMODATION_SEARCH,
+            body: {
+                "filters": "Default",
+                "hotelIds": [],
+                "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
+                ...AccommodationStore.request
+            },
+            success: (result) => {
+                AccommodationStore.setResult(result);
+            },
+            error: (error) => {
+                // todo: handle
+            },
+            after: () => {
+                AccommodationStore.setLoaded(true);
+                this.setState({
+                    isLoaded: true
+                });
+            }
+        });
     }
 
     regionInputChanged(e) {
-        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/countries?languageCode=en&query=" + e.target.value,
-            {
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    CommonStore.setCountries(result);
-                },
-                (error) => {
-                    CommonStore.setCountries([]);
-                }
-            );
+        API.get({
+            url: API.COUNTRIES_PREDICTION,
+            body: {
+                query: e.target.value
+            },
+            after: (data) => {
+                CommonStore.setCountries(data || []);
+            }
+        });
     }
 
     destinationInputChanged(e, tempForceEmpty) {
@@ -93,22 +76,16 @@ class AccommodationSearch extends React.Component {
             session.set('google-session', sessionId);
         }
 
-        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/predictions?languageCode=en&sessionId=" + sessionId + "&query=" + e.target.value,
-            {
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    CommonStore.setDestinationSuggestions(result);
-                },
-                (error) => {
-                    CommonStore.setDestinationSuggestions(null);
-                }
-            );
+        API.get({
+            url: API.LOCATION_PREDICTION,
+            body: {
+                query: e.target.value,
+                sessionId
+            },
+            after: (data) => {
+                CommonStore.setDestinationSuggestions(data);
+            }
+        });
     }
 
     render() {

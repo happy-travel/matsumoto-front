@@ -1,41 +1,22 @@
 import CommonStore from 'stores/common-store';
+import API from 'core/api';
 
 const init = () => {
-    fetch("https://edo-api.dev.happytravel.com/en/api/1.0/locations/regions?languageCode=en",
-        {
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res => res.json())
-        .then(
-            (result) => {
-                CommonStore.setRegions(result);
-                CommonStore.setInitialized(true);
-            },
-            (error) => {
-                console.warn(error);
-                CommonStore.setInitialized(true);
-            }
-        );
-
-    fetch("https://edo-api.dev.happytravel.com/en/api/1.0/payments/currencies",
-        {
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res => res.json())
-        .then(
-            (result) => {
-                CommonStore.setCurrencies(result);
-            },
-            (error) => {
-                console.warn(error);
-            }
-        );
+    API.get({
+        url: API.BASE_REGIONS,
+        success: (result) => {
+            CommonStore.setRegions(result);
+        },
+        after: () => {
+            CommonStore.setInitialized(true);
+        }
+    });
+    API.get({
+        url: API.BASE_CURRENCIES,
+        success: (result) => {
+            CommonStore.setCurrencies(result);
+        }
+    });
 };
 
 window.getStarString = num => ({

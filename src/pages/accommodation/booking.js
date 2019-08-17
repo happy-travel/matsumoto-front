@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from "mobx-react";
+import API from 'core/api';
 import moment from "moment";
 
 import {
@@ -11,7 +12,8 @@ import {
 import Breadcrumbs from 'components/breadcrumbs';
 import ActionSteps from 'components/action-steps';
 import { Dual } from 'components/simple';
-import {Link, Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
+
 
 import AccommodationStore from 'stores/accommodation-store';
 
@@ -38,9 +40,9 @@ class AccommodationBookingPage extends React.Component {
         window._pass_first_name = window.document.getElementById("field-booking-first-name-1").value;
         window._pass_last_name = window.document.getElementById("field-booking-last-name-1").value;
 
-        fetch("https://edo-api.dev.happytravel.com/en/api/1.0/bookings/accommodations", {
-            method: 'POST',
-            body: JSON.stringify({
+        API.post({
+            url: API.ACCOMMODATION_BOOKING,
+            body: {
                 "accommodationId": hotel.id,
                 "availabilityId": variant.id,
                 "checkInDate": search.checkInDate,
@@ -68,20 +70,11 @@ class AccommodationBookingPage extends React.Component {
                     "isExtraBedNeeded": false,
                     "isCotNeededNeeded": false
                 }*/
-            }),
-            headers: {
-                'Content-Type': 'application/json'
+            },
+            after: (data) => {
+                AccommodationStore.setBookingResult(data || {});
             }
-        })
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    AccommodationStore.setBookingResult(result);
-                },
-                (error) => {
-                    AccommodationStore.setBookingResult({});
-                }
-            );
+        });
 
         this.setState({
             redirectToConfirmationPage: true
