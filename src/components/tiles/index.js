@@ -1,6 +1,6 @@
-import _TileRow from './tile-row';
-import _TileItem from './tile-row';
+import TileRow from './tile-row';
+import TileItem from './tile-row';
 
-export const TileItem = _TileItem;
+export { TileItem };
 
-export default _TileRow;
+export default TileRow;

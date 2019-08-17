@@ -158,14 +158,14 @@ render() {
             <div class="right-section">
                 <Breadcrumbs items={[
                     {
-                        text: "Search accommodation",
+                        text: t("Search accommodation"),
                         link: "/search"
                     }, {
-                        text: "Guest Details"
+                        text: t("Guest Details")
                     }
                 ]}/>
                 <ActionSteps
-                    items={["Search accommodation", "Guest Details", "Booking confirmation"]}
+                    items={[t("Search accommodation"), t("Guest Details"), t("Booking confirmation")]}
                     current={1}
                 />
                 <h2>

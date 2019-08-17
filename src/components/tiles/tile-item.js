@@ -16,7 +16,7 @@ const TileItem = class extends React.Component {
             <div class={'item' + (item.exclusive ? ' offer' : '')}>
                 <a class="body" href={item.url}>
                     <div class="info">
-                        <Flag id={ item.flag } />
+                        <Flag code={ item.flag } />
                         <div>
                             <div class="title">{item.city || item.title}</div>
                             { item.propertiesCount && <div class="count">{item.propertiesCount} properties</div> }

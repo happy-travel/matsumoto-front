@@ -10,14 +10,14 @@ const AccommodationTitlePage = () => (
                 <Tiles list={[
                     {
                         city: 'PARIS, FRANCE',
-                        flag: 'FR',
+                        flag: 'fr',
                         propertiesCount: '161',
                         minPrice: '29.98',
                         image: '/images/hotels/france.png'
                     },
                     {
                         city: 'LONDON, ENGLAND',
-                        flag: 'England',
+                        flag: 'gb',
                         propertiesCount: '334',
                         minPrice: '44.34',
                         image: '/images/hotels/london.png'
@@ -26,21 +26,21 @@ const AccommodationTitlePage = () => (
                 <Tiles list={[
                     {
                         city: 'ROME, ITALY',
-                        flag: 'IT',
+                        flag: 'it',
                         propertiesCount: '65',
                         minPrice: '34.11',
                         image: '/images/hotels/rome.png'
                     },
                     {
                         city: 'BARCELONA, SPAIN',
-                        flag: 'SP',
+                        flag: 'es',
                         propertiesCount: '223',
                         minPrice: '32.32',
                         image: '/images/hotels/barcelona.png'
                     },
                     {
                         city: 'DORTMUND, GERMANY',
-                        flag: 'FR',
+                        flag: 'fr',
                         propertiesCount: '11',
                         minPrice: '23.17',
                         image: '/images/hotels/dortmund.png'
@@ -50,25 +50,25 @@ const AccommodationTitlePage = () => (
                 <Tiles list={[
                     {
                         title: 'EMERALD PALACE KEMPINSKI DUBAI, DUBAI',
-                        flag: 'AOE',
+                        flag: 'ae',
                         exclusive: true,
                         image: '/images/hotels/emeraldplace.png'
                     },
                     {
                         title: 'HILTON BAKU, BAKU',
-                        flag: 'Baku',
+                        flag: 'az',
                         exclusive: true,
                         image: '/images/hotels/hilton.png'
                     },
                     {
                         title: 'KEMPINSKI HOTEL MALL OF THE EMIRATES, DUBAI',
-                        flag: 'AOE',
+                        flag: 'ae',
                         exclusive: true,
                         image: '/images/hotels/kempinski.png'
                     },
                     {
                         title: 'PULLMAN DUBAI CREEK CITY CENTRE HOTEL, DUBAI',
-                        flag: 'AOE',
+                        flag: 'ae',
                         exclusive: true,
                         image: '/images/hotels/pullman.png'
                     }

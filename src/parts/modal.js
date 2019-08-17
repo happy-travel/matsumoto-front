@@ -1,13 +1,12 @@
 import React from 'react';
 import { observer } from "mobx-react";
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter, Link } from "react-router-dom";
 
 @observer
 class Modal extends React.Component {
     render() {
         const { t, i18n } = useTranslation();
-        return <React.Fragment />;
+        return null;
 
         return (
             <div class="modal-wrapper">

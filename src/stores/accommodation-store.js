@@ -9,8 +9,8 @@ class AccommodationStore {
     @observable request = {
         "filters": "Default",
         // todo: "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
-        "checkInDate": moment().utc().startOf('day'),
-        "checkOutDate": moment().utc().startOf('day').add(3, 'd'),
+        "checkInDate": moment().utc().startOf("day"),
+        "checkOutDate": moment().utc().startOf("day").add(3, "d"),
         "roomDetails": [
             {
                 "adultsNumber": 1,
@@ -46,8 +46,8 @@ class AccommodationStore {
     }
 
     setDateRange(values) {
-        this.request.checkInDate = moment(values.start).utc().startOf('day');
-        this.request.checkOutDate = moment(values.end).utc().startOf('day');
+        this.request.checkInDate = moment(values.start).utc().startOf("day");
+        this.request.checkOutDate = moment(values.end).utc().startOf("day");
     }
 
     setResult(value) {
@@ -65,17 +65,23 @@ class AccommodationStore {
         this.request.residency = value;
     }
 
-    setRequestAdults(plus) {
-        var value = this.request.roomDetails[0].adultsNumber + plus;
-        this.request.roomDetails[0].adultsNumber = Math.min(Math.max(value, 1), 9);
-    }
-    setRequestRooms(plus) {
-        var value = this.request.roomDetails[0].rooms + plus;
-        this.request.roomDetails[0].rooms = Math.min(Math.max(value, 1), 5); //todo: make special case for more people
-    }
-    setRequestChildren(plus) {
-        var value = this.request.roomDetails[0].childrenNumber + plus;
-        this.request.roomDetails[0].childrenNumber = Math.min(Math.max(value, 0), 8); //todo: total 9 people max
+    setRequestRoomDetails(field, plus) {
+        var current = this.request.roomDetails[0],
+            maximumPeoplePerQuery = 9,
+            minimum = {
+                "adultsNumber": 1,
+                "childrenNumber": 0,
+                "rooms": 1
+            },
+            maximum = {
+                "adultsNumber":  maximumPeoplePerQuery - current.childrenNumber,
+                "childrenNumber": maximumPeoplePerQuery - current.adultsNumber,
+                "rooms": 5   // todo: make special case for more rooms
+            },
+
+            value = this.request.roomDetails[0][field] + plus;
+
+        this.request.roomDetails[0][field] = Math.min(Math.max(value, minimum[field]), maximum[field]);
     }
 
     setRequestDestination(value) {

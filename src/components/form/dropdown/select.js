@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import { observer } from "mobx-react";
-import CommonStore from 'stores/common-store';
+import CommonStore from "stores/common-store";
 
 @observer
 class SelectDropdown extends React.Component {

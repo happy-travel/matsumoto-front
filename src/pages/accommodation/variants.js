@@ -42,13 +42,13 @@ class AccommodationVariantsPage extends React.Component {
     <div class="variants block">
         <section class="double-sections">
             <div class="left-section filters">
-                <div class="static item">Map</div>
+                <div class="static item">{t("Map")}</div>
                 <div class="expanded">
                     <img src="/images/temporary/map.png" alt="" />
                 </div>
-                <div class="item open">Price Range</div>
+                <div class="item open">{t("Price Range")}</div>
                     <div class="expanded price-range">
-                        <h4>Drag the slider to choose the minimum and maximum price</h4>
+                        <h4>{t("Drag the slider to choose the minimum and maximum price")}</h4>
                         <div class="range-slider">
                             <div class="slider"><div><div /></div></div>
                             <div class="range-slider-values">
@@ -57,54 +57,54 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                         </div>
                     </div>
-                <div class="item">Property Type</div>
-                <div class="item open">Rating</div>
+                <div class="item">{t("Property Type")}</div>
+                <div class="item open">{t("Rating")}</div>
                     <div class="expanded">
                         <FieldCheckbox
-                            label={<div>Preferred <span>(1)</span></div>}
+                            label={<div>{t("Preferred")} <span>(1)</span></div>}
                         />
                         <FieldCheckbox
-                            label={<div>5 stars <span>(5)</span></div>}
+                            label={<div>{t("5 stars")} <span>(5)</span></div>}
                         />
                     </div>
-                <div class="item open">Board Basis</div>
+                <div class="item open">{t("Board Basis")}</div>
                     <div class="expanded">
                         <FieldCheckbox
-                            label={"Room Only"}
+                            label={t("Room Only")}
                         />
                         <FieldCheckbox
-                            label={"Breakfast"}
+                            label={t("Breakfast")}
                         />
                     </div>
-                <div class="item open">Rate Type</div>
+                <div class="item open">{t("Rate Type")}</div>
                     <div class="expanded">
                         <FieldCheckbox
-                            label={"Flexible"}
+                            label={t("Flexible")}
                             value={true}
                         />
                     </div>
-                <div class="item">Hotel Amenities</div>
-                <div class="item">Geo Location</div>
-                <div class="item">Leisure & Sport</div>
-                <div class="item">Business Features</div>
-                <div class="item">Hotel Chain</div>
+                <div class="item">{t("Hotel Amenities")}</div>
+                <div class="item">{t("Geo Location")}</div>
+                <div class="item">{t("Leisure & Sport")}</div>
+                <div class="item">{t("Business Features")}</div>
+                <div class="item">{t("Hotel Chain")}</div>
             </div>
             <div class="right-section">
 
                 { store && !store.loaded &&
-                    <div>Loading...</div> }
+                    <div>{t("Loading...")}</div> /* todo: animation */}
 
                 { store.loaded && !store.hotelArray &&
-                    <div>Nothing found</div> }
+                    <div>{t("Nothing found")}</div> }
 
                 { store.loaded && <div class="head">
                     <div class="title">
                         <h3>
-                            Results for: <b>{ window.field('field-destination') }</b> <span>({store.hotelArray.length})</span>
+                            {t("Results for")} <b>{ window.field('field-destination') }</b> <span>({store.hotelArray.length})</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
-                                text: "Find Accommodation"
+                                text: t("Find Accommodation")
                             }, {
                                 text: window.field('field-destination')
                             }
@@ -112,13 +112,13 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                     <div class="sorter">
                         <button class="button-expand">
-                            Sort by
+                            {t("Sort by")}
                         </button>
                     </div>
                     <div class="input-wrap">
                         <div class="form">
                             <FieldText
-                                placeholder={"Search hotel name ..."}
+                                placeholder={t("Search hotel name ...")}
                             />
                         </div>
                     </div>
@@ -138,33 +138,33 @@ class AccommodationVariantsPage extends React.Component {
                                 </span>
                             </h2>
                             <div class="category">
-                                Hotels in {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
+                                {t("Hotels in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
                             </div>
                             <div class="features">
                                 <span class="icon icon-info-big" />
                                 <span class="icon icon-map" />
-                                <span class="button pink mini-label">Preferred</span>
+                                <span class="button pink mini-label">{t("Preferred")}</span>
                             </div>
                         </div>
                         <div class="prices">
-                            <div class="from">From</div>
+                            <div class="from">{t("From")}</div>
                             <div class="value">{item.agreements[0].currencyCode} {item.agreements[0].price.total}</div>
                         </div>
                     </div>
                     <div class="description">
-                        <span>Location: Located in {item.accommodationDetails.location.city}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.
+                        <span>{t("Location")}: {t("Located in")}" {item.accommodationDetails.location.city}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.
                             {item.accommodationDetails.generalTextualDescription && item.accommodationDetails.generalTextualDescription.descriptions && item.accommodationDetails.generalTextualDescription.descriptions.en}</span>
-                        <span style={{display: 'none'}} class="expand">more...</span>
+                        <span style={{display: 'none'}} class="expand">{t("more...")}</span>
                     </div>
                     <div class="table">
                         <table>
                             <tbody>
                             <tr>
-                                <th>Room Type</th>
-                                <th>Board Basis</th>
-                                <th>Included Services</th>
-                                { false && <th>Actions</th> }
-                                <th>Total Price</th>
+                                <th>{t("Room Type")}</th>
+                                <th>{t("Board Basis")}</th>
+                                <th>{t("Included Services")}</th>
+                                { false && <th>{t("Actions")}</th> }
+                                <th>{t("Total Price")}</th>
                                 <th />
                             </tr>
                             { item.agreements.map(agreement => <tr>
@@ -176,9 +176,9 @@ class AccommodationVariantsPage extends React.Component {
                                     {agreement.mealPlan}
                                 </td>
                                 <td>
-                                    None
+                                    {t("None")}
                                     <div class="services-info">
-                                        <span class="icon icon-info orange"/> Within Deadline
+                                        <span class="icon icon-info orange"/> {t("Within deadline")}
                                     </div>
                                 </td>
                                 { false && <td class="actions">
@@ -193,7 +193,7 @@ class AccommodationVariantsPage extends React.Component {
                                 </td>
                                 <td class="buttons">
                                     <button class="button small" onClick={() => this.variantSelect(agreement, item.accommodationDetails)}>
-                                        Book now
+                                        {t("Book now")}
                                     </button>
                                     <button class="button small gray round">
                                         <span class="icon icon-arrow-expand" />
@@ -202,17 +202,17 @@ class AccommodationVariantsPage extends React.Component {
                             </tr>) }
                         { false && <React.Fragment>
                             <tr class="alternative">
-                                <th>Date</th>
+                                <th>{t("Date")}</th>
                                 <th />
-                                <th>Availability</th>
-                                <th>Price</th>
+                                <th>{t("Availability")}</th>
+                                <th>{t("Price")}</th>
                                 <th />
                             </tr>
                             <tr class="alternative">
                                 <td>Fri 28 Jun 2019</td>
                                 <td />
                                 <td>
-                                    <span class="button green mini-label">Room Available</span>
+                                    <span class="button green mini-label">{t("Room Available")}</span>
                                 </td>
                                 <td class="price">USD 70.50</td>
                                 <td />
@@ -223,7 +223,7 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                     <div class="show-more">
                         <button class="button blue small">
-                            Show all rooms
+                            {t("Show all rooms")}
                         </button>
                     </div>
                 </div>) }

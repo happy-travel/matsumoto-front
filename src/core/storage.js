@@ -1,9 +1,8 @@
-import UserStore from 'stores/user-store';
-
-const googleSessionStorageKey = 'google-session';
+const googleSessionStorageKey = 'google-session',
+      currentUserSessionKey = 'current-user-id';
 
 const userKey = (key, everyUser) => {
-    var userId = UserStore.id;
+    var userId = currentUserSessionKey; // todo: UserStore.id;
 
     if (!userId || everyUser)
         return key;
@@ -30,12 +29,14 @@ export const localStorage = {
 
 export const session = {
     isAvailable: () => {
-        var result = false;
+        var result = false,
+            key = "availability_check",
+            test_result = Math.trunc(10000 * Math.random());
         try {
-            window.sessionStorage.setItem("availability_check", "okay");
-            if ("okay" == window.sessionStorage.getItem("availability_check"))
+            window.sessionStorage.setItem(key, test_result);
+            if (test_result == window.sessionStorage.getItem(key))
                 result = true;
-            window.sessionStorage.removeItem("availability_check");
+            window.sessionStorage.removeItem(key);
         } catch (e) {
         }
         if (!result) {

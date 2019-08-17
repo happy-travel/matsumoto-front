@@ -1,24 +1,24 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import CommonStore from 'stores/common-store';
+import CommonStore from "stores/common-store";
 import { localStorage } from "core";
-import { ReactComponent as FlagEN } from "parts/images/EN.svg";
+import Flag from "components/flag";
 
-const DropdownId = 'LocaleSwitcherDropdown';
+const dropdownId = "LocaleSwitcherDropdown";
 
 @observer
 class ResidencyDropdown extends React.Component {
     toggleMenu() {
-        if (DropdownId == CommonStore.openDropdown)
+        if (dropdownId == CommonStore.openDropdown)
             return CommonStore.setOpenDropdown(null);
-        CommonStore.setOpenDropdown(DropdownId);
+        CommonStore.setOpenDropdown(dropdownId);
     }
 
     changeLanguage = (i18n, lng) => {
         i18n.changeLanguage(lng);
         localStorage.set("locale", lng);
-        localStorage.set("direction", i18n.dir(lng), 'all');
+        localStorage.set("direction", i18n.dir(lng), "all");
         window.setPageDirectionFromLS();
     };
 
@@ -28,19 +28,19 @@ class ResidencyDropdown extends React.Component {
         return (
             <React.Fragment>
                 <div class="switcher language-switcher" onClick={this.toggleMenu}>
-                    <div class="flag">
-                        <FlagEN />
+                    <div class="flag-holder">
+                        <Flag code={"gb"} />
                     </div>
-                    <div class="name">{t('current_language_name')}</div>
+                    <div class="name">{t("current_language_name")}</div>
                     <div class="switch-arrow" />
 
-                    {DropdownId == CommonStore.openDropdown && <div class="locale dropdown">
-                        <div class="item" onClick={this.changeLanguage.bind(null, i18n, 'ar')}>
-                            <FlagEN />
+                    {dropdownId == CommonStore.openDropdown && <div class="locale dropdown">
+                        <div class="item" onClick={this.changeLanguage.bind(null, i18n, "ar")}>
+                            <Flag code={"ar"} />
                             <span>القط</span>
                         </div>
-                        <div class="item" onClick={this.changeLanguage.bind(null, i18n, 'en')}>
-                            <FlagEN />
+                        <div class="item" onClick={this.changeLanguage.bind(null, i18n, "en")}>
+                            <Flag code={"gb"} />
                             <span>English</span>
                         </div>
                     </div>}
