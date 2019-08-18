@@ -58,7 +58,7 @@
             span
                 color: #ffffff
 
-        input[type="text"], input[type="password"]
+        input[type="text"], input[type="password"], textarea
             border: 0
             width: 100%
             font-size: 13px
@@ -69,6 +69,22 @@
             &::placeholder
                 color: $color-text-light
                 opacity: 1
+
+        &.textarea
+            height: auto
+            .inner
+                padding-top: 12px
+                padding-bottom: 6px
+                overflow: hidden
+                textarea
+                    width: 100% !important
+                    resize: none
+                    overflow: hidden
+                    min-height: 40px
+                    height: 60px
+                    max-height: 200px
+                    display: block
+                    line-height: 20px
 
         .flag
             margin-right: 9px
@@ -87,4 +103,3 @@ span.required
     &:after
         content: ' *'
         color: red
-

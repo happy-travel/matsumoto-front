@@ -87,9 +87,9 @@ class FieldText extends React.Component {
                         <span>{label}</span>
                     </div> }
                     <div class={"input" + (this.state.focus ? ' focus' : '') + (disabled ? ' disabled' : '')}>
-                        <div>
+                        { Flag && <div>
                             { Flag }
-                        </div>
+                        </div> }
                         <div class="inner">
                             <input
                                 id={id}
@@ -102,9 +102,9 @@ class FieldText extends React.Component {
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                             />
-                            <div class="suggestion">
+                            { this.state.proxy.currentSuggestion && <div class="suggestion">
                                 <span>{ this.state.currentValue }</span>{ this.state.proxy.currentSuggestion }
-                            </div>
+                            </div> }
                         </div>
                         <div class="icon-wrap">
                             { Icon }

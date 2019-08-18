@@ -5,6 +5,7 @@ import { API, dateFormat } from "core";
 
 import {
     FieldText,
+    FieldTextarea,
     FieldSwitch,
     FieldCheckbox
 } from 'components/form';
@@ -234,11 +235,11 @@ render() {
                             />
                         </div>
 
-                        <FieldText
+                        <FieldTextarea
                             id={"field-booking-agent-reference"}
                             placeholder={'Please enter your message'}
                             label={t('Your Requests')}
-                        /> {false && 'todo: textarea'}
+                        />
                     </div>
 
                     <div class="part">

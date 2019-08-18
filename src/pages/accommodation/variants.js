@@ -5,7 +5,8 @@ import { observer } from "mobx-react";
 
 import {
     FieldText,
-    FieldCheckbox
+    FieldCheckbox,
+    FieldRange
 } from 'components/form';
 import AccommodationStore from 'stores/accommodation-store';
 import Breadcrumbs from "components/breadcrumbs";
@@ -49,13 +50,7 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="item open">{t("Price Range")}</div>
                     <div class="expanded price-range">
                         <h4>{t("Drag the slider to choose the minimum and maximum price")}</h4>
-                        <div class="range-slider">
-                            <div class="slider"><div><div /></div></div>
-                            <div class="range-slider-values">
-                                <span>USD 272.90</span>
-                                <span>USD 1,056.90</span>
-                            </div>
-                        </div>
+                        <FieldRange />
                     </div>
                 <div class="item">{t("Property Type")}</div>
                 <div class="item open">{t("Rating")}</div>

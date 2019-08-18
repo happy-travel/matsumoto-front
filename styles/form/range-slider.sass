@@ -1,0 +1,42 @@
+.range-slider
+    .slider
+        height: 32px
+        position: relative
+        & > div
+            margin-top: 12px
+            height: 8px
+            width: 100%
+            background: #F4F4F4
+            border-radius: 100px
+            & > div
+                position: absolute
+                top: 0
+                left: 50px
+                right: 37px
+                height: 8px
+                background: $color-brand
+                border-radius: 100px
+                &:before, &:after
+                    content: ' '
+                    cursor: pointer
+                    width: 16px
+                    height: 16px
+                    display: block
+                    background: #FFFFFF
+                    border: 1px solid #D8DADC
+                    position: absolute
+                    border-radius: 200px
+                &:before
+                    left: -3px
+                    top: -4px
+                &:after
+                    right: -3px
+                    top: -4px
+
+    &-values
+        display: flex
+        justify-content: space-between
+        span
+            font-size: 12px
+            line-height: 14px
+            color: $color-blue
