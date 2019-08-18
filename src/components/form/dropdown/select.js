@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import CommonStore from "stores/common-store";
+import UI from "stores/ui-store";
 
 @observer
 class SelectDropdown extends React.Component {
@@ -19,7 +19,6 @@ class SelectDropdown extends React.Component {
         var {
             connected
         } = this.props;
-        const store = CommonStore;
 
         return (
             <div class="dropdown">

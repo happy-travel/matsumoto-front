@@ -1,25 +1,22 @@
-import CommonStore from 'stores/common-store';
+import UI from 'stores/ui-store';
 import { API } from "core";
 
 const init = () => {
     API.get({
         url: API.BASE_REGIONS,
-        success: (result) => {
-            CommonStore.setRegions(result);
-        },
-        after: () => {
-            CommonStore.setInitialized(true);
-        }
+        success: (result) =>
+            UI.setRegions(result),
+        after: () =>
+            UI.setInitialized(true)
     });
     API.get({
         url: API.BASE_CURRENCIES,
-        success: (result) => {
-            CommonStore.setCurrencies(result);
-        }
+        success: (result) =>
+            UI.setCurrencies(result)
     });
 };
 
-window.getStarString = num => ({
+window.getStarString = num => ({ //todo: rewrite this
     "1": "OneStar",
     "2": "TwoStars",
     "3": "ThreeStars",
@@ -42,34 +39,14 @@ window.field = id => {
     return '';
 };
 
-window.serialize = (form) => {
-	var result = {};
-	for (var i = 0; i < form.elements.length; i++) {
-		var field = form.elements[i];
-		if (!field.id || ['button', 'submit', 'reset'].indexOf(field.type) >= 0)
-		    continue;
-		if (field.type == 'select-multiple')
-			for (var j = 0; j < field.options.length; j++) {
-				if (!field.options[j].selected)
-				    continue;
-				result[field.name] = field.options[j].value;
-			}
-		else
-			result[field.name] = field.value;
-		// todo : field.type == 'file', 'checkbox', 'radio'
-	}
-	return result;
-};
-
 window.addEventListener('mouseup', (event) => {
     var target = event.target;
 	for (var i = 0; target && i < 30; i++){
-	    if (target && target.classList && (target.classList.contains('dropdown') ||
-                                           target.classList.contains('field'))) //todo: get safe
+	    if (target?.classList && (target.classList.contains('dropdown') || target.classList.contains('field')))
 	        return;
 	    target = target.parentNode;
 	}
-    CommonStore.setOpenDropdown(null);
+    UI.setOpenDropdown(null);
 });
 
 export default init;

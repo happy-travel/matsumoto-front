@@ -3,11 +3,11 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { dateFormat } from "core";
 
-import Breadcrumbs from 'components/breadcrumbs';
-import ActionSteps from 'components/action-steps';
-import { Dual } from 'components/simple';
+import Breadcrumbs from "components/breadcrumbs";
+import ActionSteps from "components/action-steps";
+import { Dual } from "components/simple";
 
-import AccommodationStore from 'stores/accommodation-store';
+import store from "stores/accommodation-store";
 
 @observer
 class AccommodationConfirmationPage extends React.Component {
@@ -15,7 +15,7 @@ class AccommodationConfirmationPage extends React.Component {
 render() {
     const { t } = useTranslation();
 
-    var result = AccommodationStore.bookingResult;
+    var result = store.booking.result;
 
     return (
     <React.Fragment>
@@ -36,7 +36,7 @@ render() {
                         current={2}
                     />
                     <h2>
-                        {t('Booking Details')}
+                        {t("Booking Details")}
                     </h2>
 
                     <div class="result-code">
@@ -45,39 +45,39 @@ render() {
                         </div>
                         <div class="dual">
                             <div class="first">
-                                {t('Booking Reference number')}: <strong>{result.referenceCode}</strong>
+                                {t("Booking Reference number")}: <strong>{result.referenceCode}</strong>
                             </div>
                             <div class="second">
-                                {t('Status')}: <strong>{result.status}</strong>
+                                {t("Status")}: <strong>{result.status}</strong>
                             </div>
                         </div>
                     </div>
 
                     <Dual
                         a={<Dual addClass="line"
-                                a={'checkInDate'}
+                                a={"checkInDate"}
                                 b={dateFormat.a(result.checkInDate)}
                             />}
                         b={<Dual addClass="line"
-                                a={'checkOutDate'}
+                                a={"checkOutDate"}
                                 b={dateFormat.a(result.checkOutDate)}
                             />}
                     />
                     <Dual addClass="line"
-                        a={'tariffCode'}
+                        a={"tariffCode"}
                         b={result.tariffCode}
                     />
 
                     <h2>
-                        {t('Leading Passenger')}
+                        {t("Leading Passenger")}
                     </h2>
                     <Dual
                         a={<Dual addClass="line"
-                                a={'First name'}
+                                a={"First name"}
                                 b={window._pass_first_name}
                             />}
                         b={<Dual addClass="line"
-                                a={'Last name'}
+                                a={"Last name"}
                                 b={window._pass_last_name}
                             />}
                     />
@@ -99,7 +99,7 @@ render() {
                             <span class="icon icon-action-writing" />
                         </a>
                         <button class="button green">
-                            {t('Accept & reconfirm')}
+                            {t("Accept & reconfirm")}
                         </button>
                     </div>
 

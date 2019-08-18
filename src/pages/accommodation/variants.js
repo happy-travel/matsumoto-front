@@ -8,7 +8,7 @@ import {
     FieldCheckbox,
     FieldRange
 } from 'components/form';
-import AccommodationStore from 'stores/accommodation-store';
+import store from 'stores/accommodation-store';
 import Breadcrumbs from "components/breadcrumbs";
 
 @observer
@@ -21,9 +21,7 @@ class AccommodationVariantsPage extends React.Component {
     }
 
     variantSelect(agreement, hotel) {
-        AccommodationStore.setSelectedVariant(agreement);
-        AccommodationStore.setSelectedHotel(hotel);
-
+        store.select(agreement, hotel);
         this.setState({
             redirectToBookingPage: true
         });
@@ -31,8 +29,6 @@ class AccommodationVariantsPage extends React.Component {
 
     render() {
         const { t } = useTranslation();
-
-        const store = AccommodationStore;
 
         if (this.state.redirectToBookingPage)
             return <Redirect push to="/accommodation/booking" />;
@@ -50,7 +46,10 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="item open">{t("Price Range")}</div>
                     <div class="expanded price-range">
                         <h4>{t("Drag the slider to choose the minimum and maximum price")}</h4>
-                        <FieldRange />
+                        <FieldRange
+                            min={null}
+                            max={null}
+                        />
                     </div>
                 <div class="item">{t("Property Type")}</div>
                 <div class="item open">{t("Rating")}</div>
@@ -86,16 +85,16 @@ class AccommodationVariantsPage extends React.Component {
             </div>
             <div class="right-section">
 
-                { store && !store.loaded &&
+                { store && !store.search.loaded &&
                     <div>{t("Loading...")}</div> /* todo: animation */}
 
-                { store.loaded && !store.hotelArray &&
+                { store.search.loaded && !store.hotelArray.length &&
                     <div>{t("Nothing found")}</div> }
 
-                { store.loaded && <div class="head">
+                { store.search.loaded && <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")} <b>{ window.field('field-destination') }</b> <span>({store.hotelArray.length})</span>
+                            {t("Results for")} <b>{ store.search.form?.["field-destination"] }</b> <span>({store.hotelArray.length})</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
@@ -119,7 +118,7 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                 </div> }
 
-                { store.hotelArray && store.hotelArray.map(item =>
+                { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
                     <div class="summary">
                         <div class="photo">

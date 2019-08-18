@@ -1,43 +1,43 @@
-import React from 'react';
+import React from "react";
 import {observer} from "mobx-react";
-import CommonStore from 'stores/common-store';
-import AccommodationStore from 'stores/accommodation-store';
+import UI from "stores/ui-store";
+import store from "stores/accommodation-store";
 
 @observer
 class RegionDropdown extends React.Component {
+    constructor(props) {
+        super(props);
+        this.setValue = this.setValue.bind(this);
+    }
 
-    setValue(connected, code, value, proxy) {
-        window.document.getElementById(connected).value = value;
+    setValue(city) {
+        var fields = {
+            "field-residency": "residency",
+            "field-nationality": "nationality"
+        }, {
+            connected,
+            formik
+        } = this.props;
 
-        if ('field-residency' == connected)
-            AccommodationStore.setRequestResidency(code);
-        else
-            AccommodationStore.setRequestNationality(code);
-
-        CommonStore.setCountries([]);
+        formik.setFieldValue(connected, city.names.en); //todo: correct culture select
+        store.setSearchRequestField(fields[connected], city.code);
+        UI.setCountries([]);
     }
 
     render() {
-        var {
-            connected,
-            proxy
-        } = this.props;
-
-        const store = CommonStore;
-        if (store.countries && store.countries.length && window.document.getElementById(connected) && window.document.getElementById(connected).value) //todo: change to separated lists for different inputs
+        if (UI.countries?.length) //todo: change to separated lists for different inputs
             return (
                 <div class="cities dropdown">
-                    {store.regionList && store.regionList.map && store.regionList.map(item => (
+                    {UI?.regionList?.map?.(item => (
                         <React.Fragment>
-                            {store.countries && store.countries.some && store.countries.some(city => item.id == city.regionId) && <div class="region">
+                            {UI.countries?.some?.(city => item.id == city.regionId) && <div class="region">
                                 {item.names.en}
                             </div>}
-                            {store.countries && store.countries.map && store.countries.map(city => (
-                                <React.Fragment>
-                                    {item.id == city.regionId && <div class="city" onClick={ this.setValue.bind(null, connected, city.code, city.names.en, proxy) }>
+                            {UI.countries?.map?.(city => (
+                                item.id == city.regionId ?
+                                    <div class="city" onClick={ () => this.setValue(city) }>
                                         {city.names.en}
-                                    </div>}
-                                </React.Fragment>
+                                    </div> : null
                             ))}
                         </React.Fragment>
                     ))}

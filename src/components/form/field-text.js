@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CommonStore from 'stores/common-store';
+import UI from 'stores/ui-store';
 import { observer } from "mobx-react";
 
 @observer
@@ -23,19 +23,21 @@ class FieldText extends React.Component {
 
     onFocus() {
         var newValue = this.props.id;
-        if (CommonStore.openDropdown == newValue)
+        if (UI.openDropdown == newValue)
             newValue = null;
-        CommonStore.setOpenDropdown(newValue);
+        UI.setOpenDropdown(newValue);
 
         this.setState({
             focus: true
         });
     }
 
-    onBlur() {
+    onBlur(event) {
         this.setState({
             focus: false
         });
+        if (this.props.formik)
+            this.props.formik.handleBlur(event);
     }
 
     onKeyDown(e) {
@@ -55,7 +57,7 @@ class FieldText extends React.Component {
     }
 
     changing(event) {
-        CommonStore.setOpenDropdown(this.props.id);
+        UI.setOpenDropdown(this.props.id);
         this.setState({
             currentValue: event.target.value
         });
@@ -64,6 +66,9 @@ class FieldText extends React.Component {
 
         if (this.props.onChange)
             this.props.onChange(event);
+
+        if (this.props.formik)
+            this.props.formik.handleChange(event);
     }
 
     render() {
@@ -77,7 +82,9 @@ class FieldText extends React.Component {
             id,
             Dropdown,
             value,
-            disabled
+            disabled,
+
+            formik
         } = this.props;
 
         return (
@@ -85,6 +92,7 @@ class FieldText extends React.Component {
                 <label>
                     { label && <div class="label">
                         <span>{label}</span>
+                        {formik && formik.errors && formik.errors[id] && <div id="feedback">{formik.errors.name}</div>}
                     </div> }
                     <div class={"input" + (this.state.focus ? ' focus' : '') + (disabled ? ' disabled' : '')}>
                         { Flag && <div>
@@ -92,13 +100,13 @@ class FieldText extends React.Component {
                         </div> }
                         <div class="inner">
                             <input
-                                id={id}
+                                name={id}
                                 type="text"
                                 placeholder={ placeholder }
-                                value={ value }
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
+                                value={ value || (formik && formik.values && formik.values[id]) || null }
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                             />
@@ -114,7 +122,7 @@ class FieldText extends React.Component {
                         </div>
                     </div>
                 </label>
-                <div class={CommonStore.openDropdown == id ? '' : 'hide'}>
+                <div class={UI.openDropdown == id ? '' : 'hide'}>
                     { Dropdown }
                 </div>
             </div>

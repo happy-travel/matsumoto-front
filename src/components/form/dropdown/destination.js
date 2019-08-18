@@ -1,35 +1,32 @@
 import React from 'react';
 import {observer} from "mobx-react";
-import AccommodationStore from 'stores/accommodation-store';
-import CommonStore from 'stores/common-store';
+import store from 'stores/accommodation-store';
+import UI from 'stores/ui-store';
 
 @observer
 class DestinationDropdown extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            value: {
-            }
-        };
+        this.setValue = this.setValue.bind(this);
     }
 
-    setValue(connected, item) {
-        AccommodationStore.setRequestDestination(item);
-        CommonStore.setDestinationSuggestions([]);
-        window.document.getElementById(connected).value = item.value;
+    setValue(item) {
+        var {
+            connected,
+            formik
+        } = this.props;
+
+        store.setRequestDestination(item);
+        UI.setDestinationSuggestions([]);
+        formik.setFieldValue(connected, item.value);
     }
 
     render() {
-        var {
-            connected
-        } = this.props;
-        const store = CommonStore;
-
         return (
             <div class="cities dropdown">
-                {store.destinations && store.destinations.map && store.destinations.map(item => (
+                {UI?.destinations?.map?.(item => (
                     <React.Fragment>
-                        <div class="city" onClick={ this.setValue.bind(null, connected, item) }>
+                        <div class="city" onClick={ () => this.setValue(item) }>
                             {item.value}
                         </div>
                     </React.Fragment>

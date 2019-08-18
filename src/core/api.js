@@ -30,15 +30,9 @@ _.methods_with_cache = [
     _.BASE_CURRENCIES
 ];
 
-_.methods_with_languageCode = [
-    _.BASE_REGIONS,
-    _.COUNTRIES_PREDICTION,
-    _.LOCATION_PREDICTION
-];
-
 _.request = ({
     url,
-    body,
+    body = {},
     method = "GET",
     response, // function(response)                - Fires first
     success,  // function(result)                  - Fires second on success
@@ -51,12 +45,6 @@ _.request = ({
             headers:{
                 'Content-Type': 'application/json'
             }
-        };
-
-    if (_.methods_with_languageCode)
-        body = {
-            ...body,
-            languageCode: "en" //todo : get language code
         };
 
     if ("POST" == method)

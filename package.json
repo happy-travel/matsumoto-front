@@ -12,6 +12,7 @@
     "mobx-react": "6.0.0-rc.4",
     "i18next": "15.1.0",
     "react-i18next": "10.9.0",
+    "formik": "1.5.8",
     "react-daterange-picker": "2.0.1",
     "moment": "2.24.0",
     "moment-range": "3.0.3",
@@ -28,6 +29,7 @@
     "babel-loader": "8.0.5",
     "babel-plugin-named-asset-import": "0.3.2",
     "babel-preset-react-app": "8.0.0",
+    "@babel/plugin-proposal-optional-chaining": "7.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "fs-extra": "7.0.1",
     "file-loader": "3.0.1",
@@ -130,6 +132,9 @@
         {
           "legacy": true
         }
+      ],
+      [
+        "@babel/plugin-proposal-optional-chaining"
       ],
       [
         "@babel/plugin-proposal-optional-catch-binding"

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import CommonStore from "stores/common-store";
+import UI from "stores/ui-store";
 import { localStorage } from "core";
 import Flag from "components/flag";
 
@@ -10,9 +10,9 @@ const dropdownId = "LocaleSwitcherDropdown";
 @observer
 class ResidencyDropdown extends React.Component {
     toggleMenu() {
-        if (dropdownId == CommonStore.openDropdown)
-            return CommonStore.setOpenDropdown(null);
-        CommonStore.setOpenDropdown(dropdownId);
+        if (dropdownId == UI.openDropdown)
+            return UI.setOpenDropdown(null);
+        UI.setOpenDropdown(dropdownId);
     }
 
     changeLanguage = (i18n, lng) => {
@@ -34,7 +34,7 @@ class ResidencyDropdown extends React.Component {
                     <div class="name">{t("current_language_name")}</div>
                     <div class="switch-arrow" />
 
-                    {dropdownId == CommonStore.openDropdown && <div class="locale dropdown">
+                    {dropdownId == UI.openDropdown && <div class="locale dropdown">
                         <div class="item" onClick={this.changeLanguage.bind(null, i18n, "ar")}>
                             <Flag code={"ar"} />
                             <span>القط</span>

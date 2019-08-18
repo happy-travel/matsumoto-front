@@ -44,8 +44,8 @@ class DateDropdown extends React.Component {
                     defaultState="available"
                     showLegend={false}
                     value={moment.range(
-                        moment(store.request.checkInDate).local().startOf('day'),
-                        moment(store.request.checkOutDate).local().endOf('day')
+                        moment(store.search.request.checkInDate).local().startOf('day'),
+                        moment(store.search.request.checkOutDate).local().endOf('day')
                     )}
                     onSelect={this.handleSelect}
                 />

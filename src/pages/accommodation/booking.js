@@ -14,8 +14,7 @@ import ActionSteps from 'components/action-steps';
 import { Dual } from 'components/simple';
 import { Redirect } from "react-router-dom";
 
-
-import AccommodationStore from 'stores/accommodation-store';
+import store from 'stores/accommodation-store';
 
 @observer
 class AccommodationBookingPage extends React.Component {
@@ -28,14 +27,12 @@ class AccommodationBookingPage extends React.Component {
     }
 
     book() {
-        const store = AccommodationStore;
-
-        if (!store.selectedHotel.id || !store.selectedVariant.id)
+        if (!store.selected.hotel.id || !store.selected.variant.id)
             return null; //todo: another answer
 
-        var hotel = store.selectedHotel,
-            variant = store.selectedVariant,
-            search = store.request;
+        var hotel = store.selected.hotel,
+            variant = store.selected.variant,
+            search = store.search.request;
 
         window._pass_first_name = window.document.getElementById("field-booking-first-name-1").value;
         window._pass_last_name = window.document.getElementById("field-booking-last-name-1").value;
@@ -72,7 +69,7 @@ class AccommodationBookingPage extends React.Component {
                 }*/
             },
             after: (data) => {
-                AccommodationStore.setBookingResult(data || {});
+                store.setBookingResult(data || {});
             }
         });
 
@@ -83,14 +80,13 @@ class AccommodationBookingPage extends React.Component {
 
 render() {
     const { t } = useTranslation(),
-          store = AccommodationStore;
+          store = store;
 
-    if (!store.selectedHotel.id || !store.selectedVariant.id)
+    if (!store.selected.hotel.id || !store.selected.variant.id)
         return null; //todo: another answer
 
-    var hotel = store.selectedHotel,
-        variant = store.selectedVariant,
-        search = store.request;
+    var hotel = store.selected.hotel,
+        variant = store.selected.variant;
 
     if (this.state.redirectToConfirmationPage)
         return <Redirect push to="/accommodation/confirmation" />;

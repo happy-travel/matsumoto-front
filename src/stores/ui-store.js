@@ -2,8 +2,7 @@ import React from "react";
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
 
-//todo: split to UIStore и common-store
-class CommonStore {
+class UIStore {
     @observable regions = [];
     @observable countries = [];
     @observable destinations = [];
@@ -54,4 +53,4 @@ class CommonStore {
 
 }
 
-export default new CommonStore();
+export default new UIStore();

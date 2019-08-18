@@ -16,7 +16,7 @@ const Row = ({ t, text, field, value }) => (
 class PeopleDropdown extends React.Component {
     render() {
         var { t } = useTranslation(),
-            roomDetails = AccommodationStore.request.roomDetails[0];
+            roomDetails = AccommodationStore.roomDetails;
 
         return (
             <div class="people dropdown">
