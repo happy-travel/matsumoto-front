@@ -27,7 +27,9 @@ class AccommodationSearch extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
-    submit() {
+    submit(values, { setSubmitting }) {
+        store.setSearchForm(values);
+        console.log(JSON.stringify(values, null, 2));
         store.setSearchIsLoaded(false);
         store.setSearchResult(null);
         session.google.clear();
@@ -96,7 +98,11 @@ class AccommodationSearch extends React.Component {
     { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
     <section>
         {/* todo: remove the following hack and make back parser for query */}
-        <div style={{display: "none"}}>{store.search.request.checkInDate}{store.roomDetails.adultsNumber}</div>
+        <div style={{display: "none"}}>
+            {''+store.search.request.checkInDate}
+            {store.roomDetails.adultsNumber}
+            {JSON.stringify(store.suggestion)}
+        </div>
         <Formik
             initialValues={{
 
@@ -105,12 +111,7 @@ class AccommodationSearch extends React.Component {
                 let errors = {};
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
-                console.log(JSON.stringify(values, null, 2));
-                store.setSearchForm(values);
-                this.submit();
-            }}
+            onSubmit={this.submit}
             render={formik => (
                 <form onSubmit={formik.handleSubmit}>
                     <div class="form">
@@ -121,9 +122,7 @@ class AccommodationSearch extends React.Component {
                                 placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                 Icon={<span class="icon icon-hotel" />}
                                 Flag={false}
-                                Dropdown={<DestinationDropdown formik={formik}
-                                    connected={"field-destination"}
-                                />}
+                                Dropdown={DestinationDropdown}
                                 onChange={this.destinationInputChanged}
                                 clearable
                             />
@@ -133,10 +132,10 @@ class AccommodationSearch extends React.Component {
                                 placeholder={t("Choose date")}
                                 Icon={<span class="icon icon-calendar"/>}
                                 addClass="size-medium"
-                                Dropdown={<DateDropdown />}
+                                Dropdown={DateDropdown}
                                 value={
                                     dateFormat.b(store.search.request.checkInDate)
-                                    + " – " +
+                                        + " – " +
                                     dateFormat.b(store.search.request.checkOutDate)
                                 }
                             />
@@ -146,12 +145,12 @@ class AccommodationSearch extends React.Component {
                                 placeholder={t("Choose options")}
                                 Icon={<span class="icon icon-arrows-expand"/>}
                                 addClass="size-medium"
-                                Dropdown={<PeopleDropdown formik={formik} />}
+                                Dropdown={PeopleDropdown}
                                 value={
                                     store.roomDetails.adultsNumber + " " + t("Adult", {count: store.roomDetails.adultsNumber})
-                                    + " • " +
+                                        + " • " +
                                     store.roomDetails.childrenNumber + " " + t("Children", {count: store.roomDetails.childrenNumber})
-                                    + " • " +
+                                        + " • " +
                                     store.roomDetails.rooms + " " + t("Room", {count: store.roomDetails.rooms})
                                 }
                             />
@@ -163,7 +162,7 @@ class AccommodationSearch extends React.Component {
                                 placeholder={t("Choose your residency")}
                                 clearable
                                 Flag={false && <Flag />}
-                                Dropdown={<RegionDropdown formik={formik} connected={"field-residency"} />}
+                                Dropdown={RegionDropdown}
                                 onChange={this.regionInputChanged}
                                 addClass="size-large"
                             />
@@ -173,7 +172,7 @@ class AccommodationSearch extends React.Component {
                                 placeholder={t("Choose your nationality")}
                                 clearable
                                 Flag={false && <Flag />}
-                                Dropdown={<RegionDropdown formik={formik} connected={"field-nationality"} />}
+                                Dropdown={RegionDropdown}
                                 onChange={this.regionInputChanged}
                                 addClass="size-large"
                             />
@@ -188,10 +187,10 @@ class AccommodationSearch extends React.Component {
                         </div>
                     </div>
                     <div class="additionals">
-                        <button class="button-expand">
+                        <button type="button" class="button-expand">
                             {t("Advanced Search")}
                         </button>
-                        <button class="button-clear">
+                        <button type="button" class="button-clear" onClick={formik.resetForm /* todo: reset */}>
                             {t("Clear")}
                         </button>
                     </div>

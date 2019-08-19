@@ -10,3 +10,10 @@ export const Dual = ({ first, second, a, b, addClass }) => (
         </div>
     </div>
 );
+
+export const Highlighted = ({str, highlight}) => (
+    highlight ?
+        <span dangerouslySetInnerHTML={
+            {__html: str?.replace?.(new RegExp(highlight, 'gi'), (s) => ("<b>"+ s +"</b>"))}
+    } /> : <span>{str}</span>
+);

@@ -1,6 +1,7 @@
 import React from "react";
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
+import { decorate } from "core";
 
 class UIStore {
     @observable regions = [];
@@ -9,17 +10,34 @@ class UIStore {
     @observable currencies = [];
     @observable initialized = false;
     @observable openDropdown = null;
+    @observable suggestions = {};
 
     constructor() {
-        autosave(this, "_common_store_cache");
+        autosave(this, "_ui_store_cache");
     }
 
     @computed get regionList() {
         if (this.initialized)
             return this.regions;
 
-        //return from cache
-        return {cache: true};
+        return null;
+    }
+
+    getSuggestion(field, value) {
+        if (this.suggestions[field] && this.suggestions[field].suggestion && value == this.suggestions[field].value)
+            return decorate.cutFirstPart(this.suggestions[field].suggestion, value);
+
+        return null;
+    }
+
+    setSuggestion(field, value, suggestion) {
+        if (value && suggestion) {
+            this.suggestions[field] = { value, suggestion };
+            return;
+        }
+
+        if (this.suggestions[field])
+            this.suggestions[field] = null;
     }
 
     setRegions(value) {

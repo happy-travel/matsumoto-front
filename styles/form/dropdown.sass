@@ -17,6 +17,9 @@
         transform: rotate(45deg)
         display: block
         position: absolute
+    .scroll
+        max-height: inherit
+        overflow-y: auto
     &.date
         padding: 14px 0
     &.people
@@ -49,7 +52,6 @@
         padding: 0
         width: 100%
         max-height: 350px
-        overflow-y: auto
         .region
             height: 24px
             line-height: 24px
@@ -63,7 +65,7 @@
             line-height: 21px
             padding: 8px 15px
             cursor: pointer
-            span
+            b
                 font-weight: 700
     &.locale
         min-width: 136px

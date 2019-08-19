@@ -42,9 +42,7 @@ class FieldText extends React.Component {
 
     onKeyDown(e) {
         //todo: suggestion list
-        if (13 == e.keyCode) // Enter
-            return; // Select first suggestion or selected menu item
-        if (39 == e.keyCode) // Arrow right
+        if (13 == e.keyCode || 39 == e.keyCode) // Enter or Right arrow
             return; // Select first suggestion or selected menu item
         if (38 == e.keyCode) // Arrow top
             return; // Move up in suggestion list
@@ -53,7 +51,8 @@ class FieldText extends React.Component {
     }
 
     clear() {
-        window.document.getElementById(this.props.id).value = '';
+        if (this.props.formik)
+            this.props.formik.setFieldValue(this.props.id, '\n');
     }
 
     changing(event) {
@@ -85,7 +84,11 @@ class FieldText extends React.Component {
             disabled,
 
             formik
-        } = this.props;
+        } = this.props,
+            suggestion = null;
+
+        if (formik)
+            suggestion = UI.getSuggestion(id, formik.values[id]);
 
         return (
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
@@ -110,21 +113,24 @@ class FieldText extends React.Component {
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                             />
-                            { this.state.proxy.currentSuggestion && <div class="suggestion">
-                                <span>{ this.state.currentValue }</span>{ this.state.proxy.currentSuggestion }
+                            { suggestion && <div class="suggestion">
+                                <span>{ formik.values[id] }</span>{ suggestion }
                             </div> }
                         </div>
                         <div class="icon-wrap">
                             { Icon }
                         </div>
                         <div>
-                            { clearable && <button class="clear" onClick={ this.clear } /> }
+                            { clearable && <button type="button" class="clear" onClick={ this.clear } /> }
                         </div>
                     </div>
                 </label>
-                <div class={UI.openDropdown == id ? '' : 'hide'}>
-                    { Dropdown }
-                </div>
+                { Dropdown ? <div class={UI.openDropdown == id ? '' : 'hide'}>
+                    <Dropdown formik={formik}
+                              connected={id}
+                              value={formik.values[id]}
+                    />
+                </div> : null }
             </div>
         );
     }
