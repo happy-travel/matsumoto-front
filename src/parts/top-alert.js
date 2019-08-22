@@ -1,13 +1,15 @@
-import React from 'react';
+import React from "react";
 import { observer } from "mobx-react";
-import { useTranslation } from 'react-i18next';
-import { BrowserRouter, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import UI from "stores/ui-store";
 
 @observer
-class Alert extends React.Component {
+class TopAlert extends React.Component {
     render() {
         const { t, i18n } = useTranslation();
-        return <React.Fragment />;
+        return null;
+
+        if (UI?.topAlertText) //todo get top alert from store
 
         return (
             <div class="header-alert">
@@ -23,4 +25,4 @@ class Alert extends React.Component {
     }
 }
 
-export default Alert;
+export default TopAlert;

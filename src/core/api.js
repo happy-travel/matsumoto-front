@@ -1,4 +1,5 @@
 import settings from "settings";
+import Authorize from "core/auth/authorize";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
@@ -39,12 +40,20 @@ _.request = ({
     error,    // function(error)                   - Fires second on error,
     after     // function(result, error, response) - Fires the last
 }) => {
+Authorize.getUser().then(user => {
+    if (!user || !user.access_token) {
+
+        Authorize.signinRedirect();
+        return;
+    }
+
     var finalUrl = url,
         request = {
             method: method,
-            headers:{
+            headers: new Headers({
+                'Authorization': `Bearer ${user.access_token}`,
                 'Content-Type': 'application/json'
-            }
+            })
         };
 
     if ("POST" == method)
@@ -80,6 +89,7 @@ _.request = ({
                     after(null, err, rawResponse);
             }
         );
+});
 };
 
 _.get = (params) => {
