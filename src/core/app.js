@@ -1,12 +1,14 @@
 import React from 'react';
 import '../../styles';
 
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ScrollToTop from './misc/scroll-to-top';
 import { I18nextProvider } from 'react-i18next';
 import internationalization from './internationalization';
+
 import AuthCallback from 'core/auth/callback';
-import AuthSilent from 'core/auth/silent';
+import AuthSilent   from 'core/auth/silent';
+import AuthDefault  from 'core/auth/default';
 
 import Header    from 'parts/header';
 import Footer    from 'parts/footer';
@@ -19,6 +21,12 @@ import Routes, { routesWithHeaderAndFooter, routesWithSearch } from './routes';
 const App = () => (
     <I18nextProvider i18n={internationalization}>
         <BrowserRouter>
+            <Switch>
+                <Route exact path="/auth/callback" component={ AuthCallback } />
+                <Route exact path="/auth/silent" component={ AuthSilent } />
+                <Route component={ AuthDefault } />
+            </Switch>
+
             <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
             <TopAlert />
             <Route exact path={ routesWithSearch } component={ Search } />
@@ -27,8 +35,6 @@ const App = () => (
             <Modal />
 
             <ScrollToTop />
-            <Route path="/auth/callback" component={ AuthCallback } />
-            <Route path="/auth/silent" component={ AuthSilent } />
         </BrowserRouter>
     </I18nextProvider>
 );

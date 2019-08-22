@@ -42,8 +42,7 @@ _.request = ({
 }) => {
 Authorize.getUser().then(user => {
     if (!user || !user.access_token) {
-
-        Authorize.signinRedirect();
+    //    Authorize.signinRedirect(); todo: error handle
         return;
     }
 

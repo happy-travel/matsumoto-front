@@ -11,6 +11,7 @@ class AuthCallbackComponent extends React.PureComponent {
     }
 
     onRedirectSuccess = (user) => {
+        console.log(user);
         this.props.history.push("/");
     };
 
