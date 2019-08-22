@@ -34,9 +34,6 @@ class AccommodationBookingPage extends React.Component {
             variant = store.selected.variant,
             search = store.search.request;
 
-        window._pass_first_name = window.document.getElementById("field-booking-first-name-1").value;
-        window._pass_last_name = window.document.getElementById("field-booking-last-name-1").value;
-
         API.post({
             url: API.ACCOMMODATION_BOOKING,
             body: {
@@ -52,13 +49,13 @@ class AccommodationBookingPage extends React.Component {
                 "tariffCode": variant.tariffCode,
                 // todo: features
 
-               /* "roomDetails": {
+               "roomDetails": {
                     "passengers": [
                         {
                             "title": "MR",
-                            "lastName": window._pass_last_name,
+                            "lastName": "tmplastname", //todo :_pass_last_name,
                             "isLeader": true,
-                            "firstName": window._pass_first_name,
+                            "firstName": "tmpfirstname", //todo :_pass_first_name,
                             "age": 30,
                             "initials" : ""
                         }
@@ -66,7 +63,7 @@ class AccommodationBookingPage extends React.Component {
                     "type": "NotSpecified",
                     "isExtraBedNeeded": false,
                     "isCotNeededNeeded": false
-                }*/
+                }
             },
             after: (data) => {
                 store.setBookingResult(data || {});
@@ -79,8 +76,7 @@ class AccommodationBookingPage extends React.Component {
     }
 
 render() {
-    const { t } = useTranslation(),
-          store = store;
+    const { t } = useTranslation();
 
     if (!store.selected.hotel.id || !store.selected.variant.id)
         return null; //todo: another answer

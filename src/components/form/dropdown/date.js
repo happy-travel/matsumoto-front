@@ -1,7 +1,7 @@
 import React from 'react';
 import DateRangePicker from 'react-daterange-picker';
 import {observer} from "mobx-react";
-import AccommodationStore from 'stores/accommodation-store';
+import store from 'stores/accommodation-store';
 import moment from "moment";
 
 const stateDefinitions = {
@@ -23,15 +23,13 @@ const stateDefinitions = {
 @observer
 class DateDropdown extends React.Component {
     handleSelect(range) {
-        AccommodationStore.setDateRange({
+        store.setDateRange({
             start: moment(range.start).add(1, 'd'),
             end: moment(range.end).add(1, 'd')
         });
     }
 
     render() {
-        var store = AccommodationStore;
-
         return (
             <div class="date dropdown">
                 <DateRangePicker
