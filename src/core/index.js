@@ -2,7 +2,7 @@ import API from "./api";
 import { session, localStorage } from "./storage";
 import App from "./app";
 import init from "./init";
-import { dateFormat, decorate } from "./basic";
+import { dateFormat, decorate, hotelStars } from "./basic";
 
 export {
     API,
@@ -11,5 +11,6 @@ export {
     App,
     init,
     dateFormat,
-    decorate
+    decorate,
+    hotelStars
 };

@@ -12,3 +12,5 @@ export const decorate = {
         return '';
     }
 };
+
+export const hotelStars = [, "OneStar", "TwoStars", "ThreeStars", "FourStars", "FiveStars"];

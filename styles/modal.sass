@@ -1,14 +1,35 @@
 .modal-wrapper
     width: 100%
     height: 100%
-    min-height: 100vh
-    position: absolute
+    position: fixed
     z-index: 1000
     top: 0
     left: 0
     display: flex
     flex-direction: column
     justify-content: center
+    align-items: center
+    overflow-y: scroll
+
+    .close-button
+        z-index: 100
+        position: absolute
+        right: 10px
+        top: 11px
+        padding: 15px
+        cursor: pointer
+        .icon
+            display: block
+    .hide-close-button
+        .close-button
+            display: none
+
+.modal-scroll
+    margin: auto
+    max-height: 100%
+    overflow: auto
+    padding: 20px 0 35px
+    width: 100%
 
 .overlay
     width: 100%
@@ -16,8 +37,9 @@
     position: absolute
     top: 0
     left: 0
-    background: #000000
-    opacity: .3
+    background: #dddddd
+    background: linear-gradient(143deg, #dddddd 22%, #ffffff55 32%, #dddddd 43%, #eeeeee 62%, #eeeeee55 84%)
+    opacity: .6
 
 .modal
     margin: 0 auto
@@ -25,11 +47,19 @@
     position: relative
     background: #ffffff
     border-radius: 4px
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5)
-    .title
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2)
+    h2
         line-height: 24px
-        padding: 18px 26px
         font-size: 18px
-        box-shadow: 0 1px 3px rgba(0, 0, 0, .2)
+        font-weight: 500
+    .title
+        padding: 18px 26px
+        border-bottom: 1px solid #D8DADC
     .content
         padding: 30px 25px 35px
+
+body.modal-open
+    overflow: hidden
+    .body-wrapper
+        filter: blur(2px)
+        overflow: hidden

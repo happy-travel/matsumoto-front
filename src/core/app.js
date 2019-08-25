@@ -21,17 +21,19 @@ import Routes, { routesWithHeaderAndFooter, routesWithSearch } from './routes';
 const App = () => (
     <I18nextProvider i18n={internationalization}>
         <BrowserRouter>
-            <Switch>
-                <Route exact path="/auth/callback" component={ AuthCallback } />
-                <Route exact path="/auth/silent" component={ AuthSilent } />
-                <Route component={ AuthDefault } />
-            </Switch>
+            <div class="body-wrapper">
+                <Switch>
+                    <Route exact path="/auth/callback" component={ AuthCallback } />
+                    <Route exact path="/auth/silent" component={ AuthSilent } />
+                    <Route component={ AuthDefault } />
+                </Switch>
 
-            <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
-            <TopAlert />
-            <Route exact path={ routesWithSearch } component={ Search } />
-            <Routes />
-            <Route exact path={ routesWithHeaderAndFooter } component={ Footer } />
+                <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
+                <TopAlert />
+                <Route exact path={ routesWithSearch } component={ Search } />
+                <Routes />
+                <Route exact path={ routesWithHeaderAndFooter } component={ Footer } />
+            </div>
             <Modal />
 
             <ScrollToTop />

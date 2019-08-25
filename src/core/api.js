@@ -4,17 +4,20 @@ import Authorize from "core/auth/authorize";
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
 
-
 API_METHODS = {
 
-    BASE_REGIONS: v1 + "/locations/regions",
-    BASE_CURRENCIES: v1 + "/payments/currencies",
+    BASE_REGIONS          : v1 + "/locations/regions",
+    BASE_CURRENCIES       : v1 + "/payments/currencies",
 
-    COUNTRIES_PREDICTION: v1 + "/locations/countries",
-    LOCATION_PREDICTION: v1 + "/locations/predictions",
+    COUNTRIES_PREDICTION  : v1 + "/locations/countries",
+    LOCATION_PREDICTION   : v1 + "/locations/predictions",
 
-    ACCOMMODATION_SEARCH: v1 + "/availabilities/accommodations",
-    ACCOMMODATION_BOOKING: v1 + "/bookings/accommodations"
+    USER                  : v1 + "/customers",
+
+    ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
+    ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
+    ACCOMMODATION_DETAILS : (accommodationId) =>
+                            v1 + "/accommodations/" + accommodationId
 
 };
 
@@ -57,10 +60,12 @@ Authorize.getUser().then(user => {
 
     if ("POST" == method)
         request.body = JSON.stringify(body);
-    else
-        finalUrl = url + "?" + Object.keys(body).map(function(key) {
+    else {
+        var getBody = Object.keys(body).map(function(key) {
             return [key, body[key]].map(encodeURIComponent).join("=");
         }).join("&");
+        finalUrl = url + (getBody ? "?" + getBody : "");
+    }
 
     // todo: cache
 

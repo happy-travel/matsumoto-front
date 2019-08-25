@@ -1,15 +1,19 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
+
+import { API } from "core";
+import store from 'stores/accommodation-store';
+import UI, { MODALS } from "stores/ui-store";
 
 import {
     FieldText,
     FieldCheckbox,
     FieldRange
-} from 'components/form';
-import store from 'stores/accommodation-store';
+} from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
+import { Stars } from "components/simple";
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -18,6 +22,19 @@ class AccommodationVariantsPage extends React.Component {
         this.state = {
             redirectToBookingPage: false
         };
+        this.showDetailsModal = this.showDetailsModal.bind(this);
+    }
+
+    showDetailsModal(id) {
+        UI.setModal(MODALS.ACCOMMODATION_DETAILS);
+        UI.setHotelDetails(null);
+        API.get({
+            url: API.ACCOMMODATION_DETAILS(id),
+            success: (result) =>
+                UI.setHotelDetails(result),
+            error: () =>
+                console.log("wrong id or server error on accommodation details getter")
+        });
     }
 
     variantSelect(agreement, hotel) {
@@ -100,7 +117,7 @@ class AccommodationVariantsPage extends React.Component {
                             {
                                 text: t("Find Accommodation")
                             }, {
-                                text: window.field('field-destination')
+                                text: 'DESTINATION' //todo  : window.field('field-destination')
                             }
                         ]}/>
                     </div>
@@ -127,15 +144,13 @@ class AccommodationVariantsPage extends React.Component {
                         <div class="title">
                             <h2>
                                 {item.accommodationDetails.name}
-                                <span class="stars">
-                                    { [...Array(window.getStarNumber(item.accommodationDetails.rating))].map(() => <i />) }
-                                </span>
+                                <Stars count={item.accommodationDetails.rating} />
                             </h2>
                             <div class="category">
                                 {t("Hotels in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
                             </div>
                             <div class="features">
-                                <span class="icon icon-info-big" />
+                                <span class="icon icon-info-big" onClick={() => this.showDetailsModal(item.accommodationDetails.id)} />
                                 <span class="icon icon-map" />
                                 <span class="button pink mini-label">{t("Preferred")}</span>
                             </div>

@@ -17,6 +17,7 @@
     "moment": "2.24.0",
     "moment-range": "3.0.3",
     "react-flag-icon-css": "1.0.25",
+    "react-image-gallery": "0.9.1",
     "@sentry/browser": "5.4.3",
     "uuid": "3.3.2",
     "oidc-client": "1.9.0"

@@ -3,6 +3,11 @@ import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
 import { decorate } from "core";
 
+/* Refactoring possibility: import babel-plugin-objective-enums and make enums */
+export const MODALS = {
+    ACCOMMODATION_DETAILS: "ACCOMMODATION_DETAILS"
+};
+
 class UIStore {
     @observable regions = [];
     @observable countries = [];
@@ -11,6 +16,8 @@ class UIStore {
     @observable initialized = false;
     @observable openDropdown = null;
     @observable suggestions = {};
+    @observable modal = null;
+    @observable hotelDetails = null;
 
     constructor() {
         autosave(this, "_ui_store_cache");
@@ -41,14 +48,14 @@ class UIStore {
     }
 
     setRegions(value) {
-        this.regions = value;
+        this.regions = value || [];
     }
     setInitialized(value) {
-        this.initialized = value;
+        this.initialized = value || false;
     }
 
     setCurrencies(value) {
-        this.currencies = value;
+        this.currencies = value || [];
     }
 
     setCountries(value) {
@@ -62,11 +69,20 @@ class UIStore {
     }
 
     setDestinationSuggestions(value) {
-        this.destinations = value;
+        this.destinations = value || [];
     }
 
     setOpenDropdown(id) {
         this.openDropdown = id || null;
+    }
+
+    setHotelDetails(value) {
+        this.hotelDetails = value || null;
+    }
+
+    setModal(id) {
+        this.modal = id || null;
+        document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
     }
 
 }

@@ -122,6 +122,12 @@ export default {
         "Status": "Status",
         "Booking Date": "Booking Date",
 
-        "Accept & reconfirm": "Accept & reconfirm"
+        "Accept & reconfirm": "Accept & reconfirm",
+
+        // Accommodation details modal
+        "Hotel Details": "Hotel Details",
+        "Additional Information": "Additional Information",
+        "Business Features & Amenities": "Business Features & Amenities",
+        "Transportation & Directions To The Hotel": "Transportation & Directions To The Hotel"
     }
 };
