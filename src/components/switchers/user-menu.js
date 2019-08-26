@@ -27,12 +27,12 @@ class UserMenuDropdown extends React.Component {
                         <NoAvatar />
                     </div>
                     <div class="double">
-                        <div class="name">Account Name</div>
-                        <div class="company">Company</div>
+                        <div class="name">{UI.user?.firstName || "Account"} {UI.user?.lastName}</div> {/* todo: non-registered layout */}
+                        <div class="company">{UI.user?.position}</div>
                     </div>
                     <div class="switch-arrow" />
                     {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
-                        <div class="item" onClick={Authorize.signoutRedirect}>
+                        <div class="item" onClick={() => Authorize.signoutRedirect()}>
                             {t("Log out")}
                         </div>
                     </div>}

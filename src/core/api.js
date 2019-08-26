@@ -13,6 +13,7 @@ API_METHODS = {
     LOCATION_PREDICTION   : v1 + "/locations/predictions",
 
     USER                  : v1 + "/customers",
+    USER_REGISTRATION     : v1 + "/customers/master/register",
 
     ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
     ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",

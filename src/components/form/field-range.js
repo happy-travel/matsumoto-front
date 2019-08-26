@@ -17,8 +17,8 @@ class FieldRangeSlider extends React.Component {
             <div class="range-slider">
                 <div class="slider"><div><div/></div></div>
                 <div class="range-slider-values">
-                    <span>USD 272.90</span>
-                    <span>USD 1,056.90</span>
+                    <span>USD 0.00</span>
+                    <span>USD 1,000.00</span>
                 </div>
             </div>
         );

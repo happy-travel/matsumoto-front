@@ -72,7 +72,7 @@ class AccommodationBookingPage extends React.Component {
 
         this.setState({
             redirectToConfirmationPage: true
-        })
+        });
     }
 
 render() {

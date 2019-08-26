@@ -5,9 +5,18 @@ import Authorize from "./auth/authorize";
 const init = () => {
     API.get({
         url: API.USER,
-        body: {},
         success: (result) => {
-            console.log("USER", result);
+            if ("Could not find customer" == result.detail) {
+                var nextURL = "https://dev.happytravel.com/signup/user";
+                if ("localhost" == window.location.hostname)
+                    nextURL = "http://localhost:4000/signup/user";
+
+                if (window.location.href.indexOf("/signup/") < 0)
+                    window.location.href = nextURL;
+                //todo: make normal redirect
+            }
+            if (result?.email)
+                UI.setUser(result);
         },
         error: () => {
             Authorize.signinRedirect();

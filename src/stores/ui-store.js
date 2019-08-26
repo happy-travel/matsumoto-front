@@ -15,12 +15,17 @@ class UIStore {
     @observable currencies = [];
     @observable initialized = false;
     @observable openDropdown = null;
-    @observable suggestions = {};
+    @observable suggestions = {
+        "field-destination": null,
+        "field-nationality": null,
+        "field-residency": null
+    };
     @observable modal = null;
     @observable hotelDetails = null;
+    @observable user = {};
 
     constructor() {
-        autosave(this, "_ui_store_cache");
+    //    autosave(this, "_ui_store_cache");
     }
 
     @computed get regionList() {
@@ -85,6 +90,9 @@ class UIStore {
         document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
     }
 
+    setUser(value) {
+        this.user = value;
+    }
 }
 
 export default new UIStore();

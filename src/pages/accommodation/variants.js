@@ -117,7 +117,7 @@ class AccommodationVariantsPage extends React.Component {
                             {
                                 text: t("Find Accommodation")
                             }, {
-                                text: 'DESTINATION' //todo  : window.field('field-destination')
+                                text: store.search.form?.["field-destination"] || ""
                             }
                         ]}/>
                     </div>
@@ -230,11 +230,11 @@ class AccommodationVariantsPage extends React.Component {
                             </tbody>
                         </table>
                     </div>
-                    <div class="show-more">
+                    { false && <div class="show-more">
                         <button class="button blue small">
                             {t("Show all rooms")}
                         </button>
-                    </div>
+                    </div> }
                 </div>) }
             </div>
         </section>

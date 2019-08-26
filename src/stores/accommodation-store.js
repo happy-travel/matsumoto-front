@@ -26,8 +26,8 @@ class AccommodationStore {
                 },
                 "distance": 0
             },
-            "nationality": "UK",
-            "residency": "UK" //todo: set default nationality and residency
+            "nationality": "",
+            "residency": "" //todo: set default nationality and residency
         },
         loaded: false,
         form: null,
@@ -46,7 +46,7 @@ class AccommodationStore {
     };
 
     constructor() {
-        autosave(this, "_accommodation_store_cache");
+    //    autosave(this, "_accommodation_store_cache");
     }
 
     @computed get hotelArray() {

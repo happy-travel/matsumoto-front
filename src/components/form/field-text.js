@@ -82,6 +82,7 @@ class FieldText extends React.Component {
             Dropdown,
             value,
             disabled,
+            required,
 
             formik
         } = this.props,
@@ -94,7 +95,7 @@ class FieldText extends React.Component {
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
                 <label>
                     { label && <div class="label">
-                        <span>{label}</span>
+                        <span class={required ? "required" : ""}>{label}</span>
                         {formik && formik.errors && formik.errors[id] && <div id="feedback">{formik.errors.name}</div>}
                     </div> }
                     <div class={"input" + (this.state.focus ? ' focus' : '') + (disabled ? ' disabled' : '')}>

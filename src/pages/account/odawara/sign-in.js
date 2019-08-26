@@ -4,8 +4,6 @@ import React, { Component }  from 'react';
 class SignIn extends Component {
     render() {
         if ("localhost" != window.location.hostname) return null;
-        // comment the following line, when you need the page
-        return <div style={{ padding: "20px" }}>Page is disabled. Edit sources to see the content.</div>;
 
         return (
 

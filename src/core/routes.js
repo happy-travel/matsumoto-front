@@ -6,8 +6,10 @@ import accommodationVariants      from 'pages/accommodation/variants';
 import accommodationBooking       from 'pages/accommodation/booking';
 import accommodationConfirmation  from 'pages/accommodation/confirmation';
 
-import devSignIn from "pages/account/sign-in";
-import devSignUp from "pages/account/sign-up";
+import accountRegistrationStep2   from "pages/account/registration-step-2";
+import accountRegistrationStep3   from "pages/account/registration-step-3";
+
+import devAuthPage from "pages/account/odawara/confirmation";
 
 export const routesWithSearch = [
     "/",
@@ -25,9 +27,10 @@ const Routes = () => (
         <Route path="/search"                     component={accommodationVariants} />
         <Route path="/accommodation/booking"      component={accommodationBooking} />
         <Route path="/accommodation/confirmation" component={accommodationConfirmation} />
+        <Route path="/signup/user"                component={accountRegistrationStep2} />
+        <Route path="/signup/company"             component={accountRegistrationStep3} />
 
-        <Route path="/dev/signin"                 component={devSignIn} />
-        <Route path="/dev/signup"                 component={devSignUp} />
+        <Route path="/dev/auth" component={devAuthPage} />
     </Switch>
 );
 

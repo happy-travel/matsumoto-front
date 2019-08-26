@@ -9,6 +9,10 @@ const fieldNameInStore = {
     "field-residency": "residency",
     "field-nationality": "nationality"
 };
+const anotherField = {
+    "field-residency": "field-nationality",
+    "field-nationality": "field-residency"
+};
 
 /* Refactoring possibility: remove region sorter from render() */
 @observer
@@ -28,6 +32,11 @@ class RegionDropdown extends React.Component {
         formik.setFieldValue(connected, city.names.en); //todo: correct culture select
         store.setSearchRequestField(fieldNameInStore[connected], city.code);
         UI.setCountries([]);
+
+        if (!store.search.request[fieldNameInStore[anotherField[connected]]]) {
+            store.setSearchRequestField(fieldNameInStore[anotherField[connected]], city.code);
+            formik.setFieldValue(anotherField[connected], city.names.en);
+        }
     }
 
     generateSuggestion = () => {
