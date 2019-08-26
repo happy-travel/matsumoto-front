@@ -49,7 +49,7 @@ class AccommodationDetailsModal extends React.Component {
                     </div>
 
                     <div class="text">
-                        Location: Located in Moscow (Strogino), Hampton by Hilton Moscow Strogino is convenient to Crocus Expo Center and All Weather Mountain Skiing Complex. This hotel is within the vicinity of Krylatskoye Ice Palace and Memorial Museum of German Anti Fascists. Rooms: 206 guestrooms featuring flat-screen televisions. Complimentary wireless Internet access keeps you connected, and satellite programming is available for your entertainment. Private bathrooms with showers feature complimentary toiletries and hair dryers. Conveniences include laptop-compatible safes and desks, and housekeeping is provided daily. Amenities: Featured amenities include a 24-hour business center, dry cleaning/laundry services, and a 24-hour front desk. This hotel also has 1608 square feet (149 square meters) of space consisting of conference space and meeting rooms. Free self-parking is available onsite.
+                        {hotel.textualDescriptions?.[0]?.descriptions?.en || hotel.textualDescriptions?.[1]?.descriptions?.en || ''}
                     </div>
 
                     <h2>Hotel Photos</h2>
