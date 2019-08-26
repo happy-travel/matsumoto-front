@@ -6,6 +6,7 @@ import { dateFormat } from "core";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual } from "components/simple";
+import { Link } from "react-router-dom";
 
 import store from "stores/accommodation-store";
 
@@ -15,7 +16,8 @@ class AccommodationConfirmationPage extends React.Component {
 render() {
     const { t } = useTranslation();
 
-    var result = store.booking.result;
+    var request = store.booking.request,
+        result  = store.booking.result;
 
     return (
     <React.Fragment>
@@ -55,18 +57,18 @@ render() {
 
                     <Dual
                         a={<Dual addClass="line"
-                                a={"checkInDate"}
+                                a={"Check In Date"}
                                 b={dateFormat.a(result.checkInDate)}
                             />}
                         b={<Dual addClass="line"
-                                a={"checkOutDate"}
+                                a={"Check Out Date"}
                                 b={dateFormat.a(result.checkOutDate)}
                             />}
                     />
-                    <Dual addClass="line"
+                    { false && <Dual addClass="line"
                         a={"tariffCode"}
                         b={result.tariffCode}
-                    />
+                    /> }
 
                     <h2>
                         {t("Leading Passenger")}
@@ -74,11 +76,11 @@ render() {
                     <Dual
                         a={<Dual addClass="line"
                                 a={"First name"}
-                                b={window._pass_first_name}
+                                b={request.roomDetails[0].passengers[0].firstName}
                             />}
                         b={<Dual addClass="line"
                                 a={"Last name"}
-                                b={window._pass_last_name}
+                                b={request.roomDetails[0].passengers[0].lastName}
                             />}
                     />
 
@@ -98,9 +100,11 @@ render() {
                         <a href="#">
                             <span class="icon icon-action-writing" />
                         </a>
-                        <button class="button green">
-                            {t("Accept & reconfirm")}
-                        </button>
+                        <Link to="/">
+                            <button class="button green">
+                                {t("Accept & reconfirm")}
+                            </button>
+                        </Link>
                     </div>
 
                 </div>

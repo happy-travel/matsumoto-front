@@ -101,6 +101,8 @@ class AccommodationSearch extends React.Component {
         <div style={{display: "none"}}>
             {''+store.search.request.checkInDate}
             {store.roomDetails.adultsNumber}
+            {store.roomDetails.childrenNumber}
+            {store.roomDetails.rooms}
             {JSON.stringify(store.suggestion)}
         </div>
         <Formik

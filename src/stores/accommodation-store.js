@@ -42,6 +42,7 @@ class AccommodationStore {
 
     @observable
     booking = {
+        request: null,
         result: null
     };
 
@@ -114,6 +115,10 @@ class AccommodationStore {
     select(agreement, hotel) {
         this.selected.hotel = hotel;
         this.selected.variant = agreement;
+    }
+
+    setBookingRequest(request) {
+        this.booking.request = request;
     }
 
     setBookingResult(result) {

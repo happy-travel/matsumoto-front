@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from "mobx-react";
 import { API, dateFormat } from "core";
+import { Formik } from "formik";
 
 import {
     FieldText,
@@ -23,10 +24,10 @@ class AccommodationBookingPage extends React.Component {
         this.state = {
             redirectToConfirmationPage: false
         };
-        this.book = this.book.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
-    book() {
+    submit(values) {
         if (!store.selected.hotel.id || !store.selected.variant.id)
             return null; //todo: another answer
 
@@ -34,37 +35,42 @@ class AccommodationBookingPage extends React.Component {
             variant = store.selected.variant,
             search = store.search.request;
 
+        //todo: refactoring
+        var adults = store.search.request.roomDetails[0].adultsNumber,
+            total = adults + store.search.request.roomDetails[0].childrenNumber,
+            passengers = [];
+
+        for (var i = 0; i < total; i++) {
+            passengers.push({
+                "title": "Mr",
+                "lastName": values["field-booking-passenger-last-name"][i],
+                "firstName": values["field-booking-passenger-first-name"][i],
+                "age": i < adults ? 33 : 12,
+                "initials":"",
+                "isLeader": i == 0
+            })
+        }
+
+        var request = {
+            "availabilityId": store.search.result.availabilityId,
+            "nationality": search.nationality,
+            "paymentMethod": "CreditCard",
+            "residency": search.residency,
+            "mainPassengerName": passengers[0].firstName + " " + passengers[0].lastName,
+            "agreementId": variant.id,
+            "roomDetails": [
+                {
+                    "type": variant.rooms[0].type, //todo: make it real
+                    "passengers": passengers
+                }
+            ],
+            "features": []
+        };
+        store.setBookingRequest(request);
+
         API.post({
             url: API.ACCOMMODATION_BOOKING,
-            body: {
-                "accommodationId": hotel.id,
-                "availabilityId": variant.id,
-                "checkInDate": search.checkInDate,
-                "checkOutDate": search.checkOutDate,
-                // todo: "itineraryNumber": "?",
-                "nationality": search.nationality,
-                "residency": search.residency,
-                "rejectIfUnavailable": true,
-                "paymentMethod": "Cash",
-                "tariffCode": variant.tariffCode,
-                // todo: features
-
-               "roomDetails": {
-                    "passengers": [
-                        {
-                            "title": "MR",
-                            "lastName": "tmplastname", //todo :_pass_last_name,
-                            "isLeader": true,
-                            "firstName": "tmpfirstname", //todo :_pass_first_name,
-                            "age": 30,
-                            "initials" : ""
-                        }
-                    ],
-                    "type": "NotSpecified",
-                    "isExtraBedNeeded": false,
-                    "isCotNeededNeeded": false
-                }
-            },
+            body: request,
             after: (data) => {
                 store.setBookingResult(data || {});
             }
@@ -75,19 +81,19 @@ class AccommodationBookingPage extends React.Component {
         });
     }
 
-render() {
-    const { t } = useTranslation();
+    render() {
+        const { t } = useTranslation();
 
-    if (!store.selected.hotel.id || !store.selected.variant.id)
-        return null; //todo: another answer
+        if (!store.selected?.hotel?.id || !store.selected?.variant?.id)
+            return null; //todo: another answer
 
-    var hotel = store.selected.hotel,
-        variant = store.selected.variant;
+        var hotel = store.selected.hotel,
+            variant = store.selected.variant;
 
-    if (this.state.redirectToConfirmationPage)
-        return <Redirect push to="/accommodation/confirmation" />;
+        if (this.state.redirectToConfirmationPage)
+            return <Redirect push to="/accommodation/confirmation" />;
 
-    return (
+        return (
 
 <React.Fragment>
     <div class="booking block">
@@ -165,127 +171,143 @@ render() {
                     <span>Room 1:</span> {variant.contractType}
                 </h2>
 
-                <div class="form">
-                    <div class="part">
-                        <table class="people"><tbody>
-                            <tr>
-                                <th><span class="required">{t('Title')}</span></th>
-                                <th><span class="required">{t('First Name')}</span></th>
-                                <th><span class="required">{t('Last Name')}</span></th>
-                            </tr>
-                            {(['1']).map(item => (<tr>
-                                <td>
-                                    <FieldText
-                                        id={"field-booking-title-" + item}
-                                        placeholder={'Please select one'}
-                                        value={"Mr."}
-                                        disabled
+                <Formik
+                    initialValues={{
+
+                    }}
+                    validate={values => {
+                        let errors = {};
+                        return errors;
+                    }}
+                    onSubmit={this.submit}
+                    render={formik => (
+                        <form onSubmit={formik.handleSubmit}>
+                            <div class="form">
+                                <div class="part">
+                                    <table class="people"><tbody>
+                                        <tr>
+                                            <th><span class="required">{t('Title')}</span></th>
+                                            <th><span class="required">{t('First Name')}</span></th>
+                                            <th><span class="required">{t('Last Name')}</span></th>
+                                        </tr>
+                                        {([
+                                            ...Array(store.search.request.roomDetails[0].adultsNumber),
+                                            ...Array(store.search.request.roomDetails[0].childrenNumber),
+                                        ]).map((item, index) => (<tr>
+                                            <td>
+                                                <FieldText formik={formik}
+                                                    id={"field-booking-passenger-title[" + index + "]"}
+                                                    placeholder={'Please select one'}
+                                                    value={index < store.search.request.roomDetails[0].adultsNumber ? "Mr." : "Child"}
+                                                    disabled={index >= store.search.request.roomDetails[0].adultsNumber}
+                                                />
+                                            </td>
+                                            <td class="bigger">
+                                                <FieldText formik={formik}
+                                                    id={"field-booking-passenger-first-name[" + index + "]"}
+                                                    placeholder={'Please enter first name'}
+                                                    clearable
+                                                />
+                                            </td>
+                                            <td class="bigger">
+                                                <FieldText formik={formik}
+                                                    id={"field-booking-passenger-last-name[" + index + "]"}
+                                                    placeholder={'Please enter last name'}
+                                                    clearable
+                                                />
+                                            </td>
+                                        </tr>))}
+                                    </tbody></table>
+                                </div>
+
+                                <div class="part">
+                                    <div class="row">
+                                        <div class="vertical-label">{t('Agent Reference')}</div>
+                                        <FieldText formik={formik}
+                                            id={"field-booking-agent-reference"}
+                                            placeholder={'Please enter here'}
+                                            clearable
+                                        />
+                                    </div>
+                                    <div class="row">
+                                        <div class="vertical-label">
+                                            <div>{t('Extra Meal')} <span class="icon icon-info" /></div>
+                                        </div>
+                                        <FieldSwitch
+                                            id={"field-booking-extra-meal"}
+                                        />
+                                    </div>
+                                    <div class="row">
+                                        <div class="vertical-label">
+                                            <div>{t('Special Request')} <span class="icon icon-info" /></div>
+                                        </div>
+                                        <FieldSwitch formik={formik}
+                                            id={"field-booking-special-request"}
+                                            value={true}
+                                        />
+                                    </div>
+
+                                    <FieldTextarea formik={formik}
+                                        id={"field-booking-agent-reference"}
+                                        placeholder={'Please enter your message'}
+                                        label={t('Your Requests')}
                                     />
-                                </td>
-                                <td class="bigger">
-                                    <FieldText
-                                        id={"field-booking-first-name-" + item}
-                                        placeholder={'Please enter first name'}
-                                        clearable
-                                    />
-                                </td>
-                                <td class="bigger">
-                                    <FieldText
-                                        id={"field-booking-last-name-" + item}
-                                        placeholder={'Please enter last name'}
-                                        clearable
-                                    />
-                                </td>
-                            </tr>))}
-                        </tbody></table>
-                    </div>
+                                </div>
 
-                    <div class="part">
-                        <div class="row">
-                            <div class="vertical-label">{t('Agent Reference')}</div>
-                            <FieldText
-                                id={"field-booking-agent-reference"}
-                                placeholder={'Please enter here'}
-                                clearable
-                            />
-                        </div>
-                        <div class="row">
-                            <div class="vertical-label">
-                                <div>{t('Extra Meal')} <span class="icon icon-info" /></div>
+                                <div class="part">
+                                    <table class="checkboxes"><tbody>
+                                        <tr>
+                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Interconnecting Rooms"} /></td>
+                                            <td><FieldCheckbox label={"Request for an Early Check In"} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Smoking Room"} /></td>
+                                            <td><FieldCheckbox label={"Request for a Late Check Out"} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Non Smoking Room"} /></td>
+                                            <td><FieldCheckbox label={"Please note that Guest is a VIP"} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a Low Floor"} /></td>
+                                            <td><FieldCheckbox label={"Please note that Guests are a Honeymoon Couple"} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a High Floor"} /></td>
+                                            <td><FieldCheckbox label={"Request for a Baby Cot"} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request for Late Check-In"} /></td>
+                                            <td />
+                                        </tr>
+                                    </tbody></table>
+                                </div>
+
+                                { false && <div class="part">
+                                    <h2>
+                                        Do You Wish to Add Additional Services?
+                                    </h2>
+                                </div> }
+
+                                <div class="final">
+                                    <div class="dual">
+                                        <div class="first">
+                                            <FieldCheckbox
+                                                label={<div>
+                                                    I have read and accepted the booking <a href="#" class="underlined link">terms & conditions</a>
+                                                </div>}
+                                            />
+                                        </div>
+                                        <div class="second">
+                                            <button type="submit" class="button">Confirm booking</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <FieldSwitch
-                                id={"field-booking-extra-meal"}
-                            />
-                        </div>
-                        <div class="row">
-                            <div class="vertical-label">
-                                <div>{t('Special Request')} <span class="icon icon-info" /></div>
-                            </div>
-                            <FieldSwitch
-                                id={"field-booking-special-request"}
-                                value={true}
-                            />
-                        </div>
-
-                        <FieldTextarea
-                            id={"field-booking-agent-reference"}
-                            placeholder={'Please enter your message'}
-                            label={t('Your Requests')}
-                        />
-                    </div>
-
-                    <div class="part">
-                        <table class="checkboxes"><tbody>
-                            <tr>
-                                <td class="bigger"><FieldCheckbox label={"Request Interconnecting Rooms"} /></td>
-                                <td><FieldCheckbox label={"Request for an Early Check In"} /></td>
-                            </tr>
-                            <tr>
-                                <td class="bigger"><FieldCheckbox label={"Require a Smoking Room"} /></td>
-                                <td><FieldCheckbox label={"Request for a Late Check Out"} /></td>
-                            </tr>
-                            <tr>
-                                <td class="bigger"><FieldCheckbox label={"Require a Non Smoking Room"} /></td>
-                                <td><FieldCheckbox label={"Please note that Guest is a VIP"} /></td>
-                            </tr>
-                            <tr>
-                                <td class="bigger"><FieldCheckbox label={"Request Room on a Low Floor"} /></td>
-                                <td><FieldCheckbox label={"Please note that Guests are a Honeymoon Couple"} /></td>
-                            </tr>
-                            <tr>
-                                <td class="bigger"><FieldCheckbox label={"Request Room on a High Floor"} /></td>
-                                <td><FieldCheckbox label={"Request for a Baby Cot"} /></td>
-                            </tr>
-                            <tr>
-                                <td class="bigger"><FieldCheckbox label={"Request for Late Check-In"} /></td>
-                                <td />
-                            </tr>
-                        </tbody></table>
-                    </div>
-
-                    { false && <div class="part">
-                        <h2>
-                            Do You Wish to Add Additional Services?
-                        </h2>
-                    </div> }
-
-                    <div class="final">
-                        <div class="dual">
-                            <div class="first">
-                                <FieldCheckbox
-                                    label={<div>
-                                        I have read and accepted the booking <a href="#" class="underlined link">terms & conditions</a>
-                                    </div>}
-                                />
-                            </div>
-                            <div class="second">
-                                <button class="button" onClick={this.book}>Confirm booking</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+                        </form>
+                    )}
+                />
             </div>
         </section>
     </div>
