@@ -5,23 +5,42 @@
     position: relative
     display: flex
     flex-direction: row
-    .picture
-        background: #74B1F5 url("/images/account/background.png") center bottom no-repeat
-        background-size: cover
-        flex-grow: 1
-        .supplier
-            margin: 50px
-            text-transform: uppercase
-            font-size: 18px
-            line-height: 21px
-            vertical-align: middle
-            cursor: pointer
-            display: inline-block
-            color: #ffffff
-            font-weight: 500
-            .icon
-                margin-right: 16px
+    &.sign-in-page
+        .picture
+            background: #74B1F5 url("/images/account/background.png") center bottom no-repeat
+            background-size: cover
+            flex-grow: 1
+            .supplier
+                margin: 50px
+                text-transform: uppercase
+                font-size: 18px
+                line-height: 21px
                 vertical-align: middle
+                cursor: pointer
+                display: inline-block
+                color: #ffffff
+                font-weight: 500
+                .icon
+                    margin-right: 16px
+                    vertical-align: middle
+    &.sign-up-page
+        background: #f5fafb
+        padding-bottom: 150px
+        .logo-wrapper
+            height: 85px
+        .middle-section
+            width: 825px
+            margin: 0 auto
+        .form
+            padding-top: 30px
+
+    .logo
+        width: 120px
+        height: 65px
+        display: block
+        background: url("/images/logo/logo-medium.png")
+        background-size: cover
+
     .menu
         background: #f5fafb
         width: 490px
@@ -30,11 +49,6 @@
         flex-direction: column
         padding-bottom: 45px
         .logo
-            width: 120px
-            height: 65px
-            display: block
-            background: url("/images/logo/logo-medium.png")
-            background-size: cover
             margin: 0 auto
         .form
             padding: 50px
@@ -49,3 +63,48 @@
                     font-weight: 500
         .place
             text-align: center
+
+    .error-field
+        color: $color-red
+        min-height: 36px
+        padding: 9px 0
+        line-height: 19px
+        ul
+            padding-left: 18px
+            li
+                list-style-type: disc
+                margin-bottom: 4px
+
+    .auth-input
+        input
+            border-radius: 4px
+            color: $color-text
+            background: #ffffff
+            border: 1px solid #D8DADC
+            height: 46px
+            line-height: 44px
+            padding: 0 15px
+            position: relative
+            display: flex
+            flex-direction: row
+            font-size: 13px
+            &:focus
+                border-color: $color-brand
+
+    h1
+        font-size: 40px
+        line-height: 48px
+        font-weight: 400
+        padding: 21px 0 17px
+
+    p
+        font-size: 15px
+        line-height: 20px
+        padding-bottom: 53px
+
+.action-steps-another-bg
+    .interval s,
+    .interval b,
+    .finished+.interval s,
+    .previous+.interval s
+        background: #f5fafb

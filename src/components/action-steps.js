@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ActionSteps = ({ items = [], current }) => (
-    <div class="action-steps">
+const ActionSteps = ({ items = [], current, addClass }) => (
+    <div class={"action-steps" + addClass ? (" " + addClass) : ''}>
         { items.map((item, index) => (
             <React.Fragment>
                 <div class={

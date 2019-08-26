@@ -8,7 +8,7 @@ import Flag from "components/flag";
 const dropdownId = "LocaleSwitcherDropdown";
 
 @observer
-class ResidencyDropdown extends React.Component {
+class LocaleSwitcherDropdown extends React.Component {
     toggleMenu() {
         if (dropdownId == UI.openDropdown)
             return UI.setOpenDropdown(null);
@@ -50,4 +50,4 @@ class ResidencyDropdown extends React.Component {
     }
 }
 
-export default ResidencyDropdown;
+export default LocaleSwitcherDropdown;

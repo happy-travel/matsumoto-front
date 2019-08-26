@@ -6,7 +6,8 @@ import accommodationVariants      from 'pages/accommodation/variants';
 import accommodationBooking       from 'pages/accommodation/booking';
 import accommodationConfirmation  from 'pages/accommodation/confirmation';
 
-import account from "pages/account/login";
+import devSignIn from "pages/account/sign-in";
+import devSignUp from "pages/account/sign-up";
 
 export const routesWithSearch = [
     "/",
@@ -25,7 +26,8 @@ const Routes = () => (
         <Route path="/accommodation/booking"      component={accommodationBooking} />
         <Route path="/accommodation/confirmation" component={accommodationConfirmation} />
 
-        <Route path="/account"                    component={account} />
+        <Route path="/dev/signin"                 component={devSignIn} />
+        <Route path="/dev/signup"                 component={devSignUp} />
     </Switch>
 );
 
