@@ -22,7 +22,13 @@ class UIStore {
     };
     @observable modal = null;
     @observable hotelDetails = null;
-    @observable user = {};
+    @observable user = {
+        "email": null,
+        "lastName": null,
+        "firstName": null,
+        "title": null,
+        "position": null
+    };
 
     constructor() {
     //    autosave(this, "_ui_store_cache");

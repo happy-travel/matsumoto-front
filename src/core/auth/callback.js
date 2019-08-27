@@ -1,6 +1,7 @@
 import React from "react";
 import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
+import { init } from "core";
 
 class AuthCallbackComponent extends React.PureComponent {
 
@@ -13,6 +14,7 @@ class AuthCallbackComponent extends React.PureComponent {
     onRedirectSuccess = (user) => {
         console.log(user);
         this.props.history.push("/");
+        init(); //todo: rewrite logic where init is after authorization code
     };
 
     onRedirectError = (error) => {

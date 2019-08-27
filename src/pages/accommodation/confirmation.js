@@ -19,6 +19,21 @@ render() {
     var request = store.booking.request,
         result  = store.booking.result;
 
+    if (!result || !request)
+        return (
+            <React.Fragment>
+                <div class="confirmation block">
+                    <section class="double-sections">
+                        <div class="half-section" />
+                        <div class="right-section">
+                            <div style={{ minHeight: "500px"}}>{t("Loading...")}</div>
+                        </div>
+                        <div class="half-section" />
+                    </section>
+                </div>
+            </React.Fragment>
+        ); /* todo: animation */
+
     return (
     <React.Fragment>
         <div class="confirmation block">
@@ -47,7 +62,7 @@ render() {
                         </div>
                         <div class="dual">
                             <div class="first">
-                                {t("Booking Reference number")}: <strong>{result.referenceCode}</strong>
+                                {t("Booking Reference number")}: <strong>{result?.referenceCode}</strong>
                             </div>
                             <div class="second">
                                 {t("Status")}: <strong>{result.status}</strong>
@@ -65,10 +80,18 @@ render() {
                                 b={dateFormat.a(result.checkOutDate)}
                             />}
                     />
-                    { false && <Dual addClass="line"
-                        a={"tariffCode"}
-                        b={result.tariffCode}
-                    /> }
+                    <Dual addClass="line"
+                        a={"Within deadline"}
+                        b={dateFormat.a(result.deadline)}
+                    />
+                    <Dual addClass="line"
+                        a={"Room type"}
+                        b={store.selected.variant.rooms[0].type}
+                    />
+                    <Dual addClass="line"
+                        a={t('Total Cost')}
+                        b={`${store.selected.variant.currencyCode} ${store.selected.variant.price.total}` /* todo: rebind result data */}
+                    />
 
                     <h2>
                         {t("Leading Passenger")}
@@ -83,6 +106,26 @@ render() {
                                 b={request.roomDetails[0].passengers[0].lastName}
                             />}
                     />
+
+                    { request.roomDetails[0].passengers.length > 1 && <React.Fragment>
+                        <h2>
+                            {t("Other Passengers")}
+                        </h2>
+                        {request.roomDetails[0].passengers.map((item,index) => (
+                            <React.Fragment>
+                                {index ? <Dual
+                                    a={<Dual addClass="line"
+                                            a={"First name"}
+                                            b={item.firstName}
+                                        />}
+                                    b={<Dual addClass="line"
+                                            a={"Last name"}
+                                            b={item.lastName}
+                                        />}
+                                /> : null}
+                            </React.Fragment>
+                        ))}
+                    </React.Fragment> }
 
                     <div class="actions">
                         <a href="#">

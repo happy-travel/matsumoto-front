@@ -162,7 +162,7 @@ export default {
         "Find Accommodation": "Find Accommodation",
 
         // Accommodation booking confirmation
-        "Booking confirmation": "Booking confirmation",
+        "Booking Confirmation": "Booking Confirmation",
         "Agent Reference": "Agent Reference",
         "Extra Meal": "Extra Meal",
         "Special Request": "Special Request",

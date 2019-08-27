@@ -100,6 +100,7 @@ class AccommodationSearch extends React.Component {
         {/* todo: remove the following hack and make back parser for query */}
         <div style={{display: "none"}}>
             {''+store.search.request.checkInDate}
+            {''+store.search.request.checkOutDate}
             {store.roomDetails.adultsNumber}
             {store.roomDetails.childrenNumber}
             {store.roomDetails.rooms}
