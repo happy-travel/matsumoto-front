@@ -20,7 +20,6 @@ class RegistrationStep2 extends React.Component {
 
     submit(values) {
         store.setUserForm(values);
-        console.log('21');
         if (!this.state.redirectToThirdStep)
             this.setState({
                 redirectToThirdStep: true

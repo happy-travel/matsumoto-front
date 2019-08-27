@@ -7,18 +7,18 @@ import UI from "stores/ui-store";
 class TopAlert extends React.Component {
     render() {
         const { t, i18n } = useTranslation();
-        return null;
 
-        if (UI?.topAlertText) //todo get top alert from store
+        if (!UI?.topAlertText)
+            return null;
 
         return (
             <div class="header-alert">
                 <section>
                     <span class="icon icon-warning-inverted"/>
-                    Text of an alert
-                    <button class="button transparent">
+                    {UI?.topAlertText}
+                    {/* <button class="button transparent">
                         Verify your account
-                    </button>
+                    </button> */}
                 </section>
             </div>
         );

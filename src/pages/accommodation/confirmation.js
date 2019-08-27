@@ -26,7 +26,22 @@ render() {
                     <section class="double-sections">
                         <div class="half-section" />
                         <div class="right-section">
-                            <div style={{ minHeight: "500px"}}>{t("Loading...")}</div>
+                            <Breadcrumbs items={[
+                                {
+                                    text: t("Search accommodation"),
+                                    link: "/search"
+                                }, {
+                                    text: t("Booking Confirmation")
+                                }
+                            ]}/>
+                            <ActionSteps
+                                items={[t("Search accommodation"), t("Guest Details"), t("Booking confirmation")]}
+                                current={2}
+                            />
+                            <h2>
+                                {t("Booking Details")}
+                            </h2>
+                            <div style={{ minHeight: "300px"}}>{t("Loading...")}</div>
                         </div>
                         <div class="half-section" />
                     </section>

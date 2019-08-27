@@ -6,13 +6,13 @@ class AuthStore {
     @observable registration = {
         "masterCustomer": {
             "title": "Mr",
-            "firstName": "Ivan",
-            "lastName": "Happy",
-            "position": "Travel",
+            "firstName": "Name",
+            "lastName": "Surname",
+            "position": "Position",
             "email": "email@email.com"
         },
         "company": {
-            "name": "HappyTravelTest",
+            "name": "Company",
             "address": "UAE",
             "countryCode": "UA",
             "city": "Moscow",

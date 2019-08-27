@@ -12,7 +12,6 @@ class AuthCallbackComponent extends React.PureComponent {
     }
 
     onRedirectSuccess = (user) => {
-        console.log(user);
         this.props.history.push("/");
         init(); //todo: rewrite logic where init is after authorization code
     };

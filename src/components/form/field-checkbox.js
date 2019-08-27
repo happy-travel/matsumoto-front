@@ -18,7 +18,8 @@ class FieldCheckbox extends React.Component {
     render() {
         var {
             id,
-            label
+            label,
+            formik
         } = this.props;
         var {
             value
@@ -27,7 +28,11 @@ class FieldCheckbox extends React.Component {
         return (
             <div onClick={this.changing} class={"checkbox" + (value ? ' on' : '')}>
                 {label}
-                <input type="hidden" id={id} value={value} />
+                <input
+                    type="hidden"
+                    id={id}
+                    value={ value || (formik && formik.values && formik.values[id]) || null }
+                />
             </div>
         );
     }

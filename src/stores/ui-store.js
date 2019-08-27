@@ -29,6 +29,7 @@ class UIStore {
         "title": null,
         "position": null
     };
+    @observable topAlertText = null;
 
     constructor() {
     //    autosave(this, "_ui_store_cache");
@@ -98,6 +99,10 @@ class UIStore {
 
     setUser(value) {
         this.user = value;
+    }
+
+    setTopAlertText(value) {
+        this.topAlertText = value || null;
     }
 }
 

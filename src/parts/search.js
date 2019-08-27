@@ -29,7 +29,6 @@ class AccommodationSearch extends React.Component {
 
     submit(values, { setSubmitting }) {
         store.setSearchForm(values);
-        console.log(JSON.stringify(values, null, 2));
         store.setSearchIsLoaded(false);
         store.setSearchResult(null);
         session.google.clear();

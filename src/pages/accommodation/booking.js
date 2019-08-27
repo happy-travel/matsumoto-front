@@ -114,11 +114,11 @@ class AccommodationBookingPage extends React.Component {
 
                 <div class="static item">{t('Your Reservation')}</div>
                 <Dual
-                    a={t('Arrival Date')}
+                    a={<span>Arrival<br/> Date</span>}
                     b={dateFormat.a(variant.roomPrices[0].fromDate)}
                 />
                 <Dual
-                    a={t('Departure Date')}
+                    a={<span>Departure<br/> Date</span>}
                     b={dateFormat.a(variant.roomPrices[0].toDate)}
                 />
                 <Dual
@@ -177,6 +177,8 @@ class AccommodationBookingPage extends React.Component {
                     }}
                     validate={values => {
                         let errors = {};
+                        if (!values)
+
                         return errors;
                     }}
                     onSubmit={this.submit}
