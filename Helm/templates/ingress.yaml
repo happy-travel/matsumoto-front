@@ -14,6 +14,7 @@ spec:
   - secretName: letsencrypt-{{ .Release.Namespace }}-{{ .Chart.Name }}
     hosts: 
     - {{ .Release.Namespace }}.{{ .Values.root_url }}
+    - {{ .Values.root_url }}
   rules:
   - host: {{ .Release.Namespace }}.{{ .Values.root_url }}
     http:
@@ -22,3 +23,10 @@ spec:
           serviceName: {{ .Chart.Name }}
           servicePort: 80
         path: /
+  - host: {{ .Values.root_url }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Chart.Name }}
+          servicePort: 80
+        path: /        
