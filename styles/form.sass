@@ -1,5 +1,9 @@
-@import 'form/common'
+@import "base/colors"
+
 @import 'form/field'
+@import 'form/dropdown'
+@import 'form/switch-control'
+@import 'form/range-slider'
 
 .form
     display: flex
@@ -9,3 +13,17 @@
         display: flex
         flex-direction: row
         width: 100%
+
+    .vertical-label
+        width: 150px
+        padding-right: 15px
+        display: flex
+        justify-content: center
+        flex-direction: column
+
+.checkbox
+    cursor: pointer
+    background: url("./images/checkbox-off.svg") center left no-repeat
+    padding-left: 27px
+    &.on
+        background-image: url("./images/checkbox-on.svg")

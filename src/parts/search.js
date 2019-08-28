@@ -1,81 +1,209 @@
 import React from "react";
+import { observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
+import { API, session, dateFormat } from "core";
 
-import { FieldText } from 'components/form';
+import { Redirect } from "react-router-dom";
+import { FieldText } from "components/form";
+import Flag from "components/flag";
 
-import Flag from 'components/flag';
-import {Link} from "react-router-dom";
+import store from "stores/accommodation-store";
+import UI from "stores/ui-store";
 
-const Tiles = class extends React.Component {
+import RegionDropdown from "components/form/dropdown/region";
+import DateDropdown from "components/form/dropdown/date";
+import PeopleDropdown from "components/form/dropdown/room-details";
+import DestinationDropdown from "../components/form/dropdown/destination";
+
+import { Formik } from 'formik';
+
+@observer
+class AccommodationSearch extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            redirectToVariantsPage: false
+        };
+        this.submit = this.submit.bind(this);
+    }
+
+    submit(values, { setSubmitting }) {
+        store.setSearchForm(values);
+        store.setSearchIsLoaded(false);
+        store.setSearchResult(null);
+        session.google.clear();
+        API.post({
+            url: API.ACCOMMODATION_SEARCH,
+            body: store.search.request,
+            success: (result) => {
+                store.setSearchResult(result);
+            },
+            error: (error) => {
+                // todo: handle
+            },
+            after: () => {
+                store.setSearchIsLoaded(true);
+            }
+        });
+        this.setState({
+            redirectToVariantsPage: true
+        });
+    }
+
+    regionInputChanged(e) {
+        var query = e.target.value;
+        if (!query)
+            return UI.setCountries([]);
+
+        API.get({
+            url: API.COUNTRIES_PREDICTION,
+            body: { query },
+            after: (data) => {
+                UI.setCountries(data || []);
+            }
+        });
+    }
+
+    destinationInputChanged(e) {
+        var query = e.target.value;
+        if (!query)
+            return UI.setCountries([]);
+
+        API.get({
+            url: API.LOCATION_PREDICTION,
+            body: {
+                query,
+                sessionId: session.google.create()
+            },
+            after: (data) => {
+                UI.setDestinationSuggestions(data);
+            }
+        });
+    }
+
+    componentDidUpdate() {
+        if (this.state.redirectToVariantsPage)
+            this.setState({
+                redirectToVariantsPage: false
+            });
+    }
 
     render() {
-        var {
-        } = this.props;
+        var { t } = useTranslation();
 
         return (
-            <div class="search block">
-                <section>
+
+<div class="search block">
+    { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
+    <section>
+        {/* todo: remove the following hack and make back parser for query */}
+        <div style={{display: "none"}}>
+            {''+store.search.request.checkInDate}
+            {''+store.search.request.checkOutDate}
+            {store.roomDetails.adultsNumber}
+            {store.roomDetails.childrenNumber}
+            {store.roomDetails.rooms}
+            {JSON.stringify(store.suggestion)}
+        </div>
+        <Formik
+            initialValues={{
+
+            }}
+            validate={values => {
+                let errors = {};
+                return errors;
+            }}
+            onSubmit={this.submit}
+            render={formik => (
+                <form onSubmit={formik.handleSubmit}>
                     <div class="form">
                         <div class="row">
-                            <FieldText
-                                label={'Destination, Hotel name, Location or Landmark'}
-                                placeholder={'Choose your Destination, Hotel name, Location or Landmark'}
+                            <FieldText formik={formik}
+                                id={"field-destination"}
+                                label={t("Destination, Hotel name, Location or Landmark")}
+                                placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                 Icon={<span class="icon icon-hotel" />}
                                 Flag={false}
+                                Dropdown={DestinationDropdown}
+                                onChange={this.destinationInputChanged}
                                 clearable
                             />
-                            <FieldText
-                                label={'Check In – Check Out'}
-                                placeholder={'Choose date'}
+                            <FieldText formik={formik}
+                                id={"field-dates"}
+                                label={t("Check In - Check Out")}
+                                placeholder={t("Choose date")}
                                 Icon={<span class="icon icon-calendar"/>}
                                 addClass="size-medium"
+                                Dropdown={DateDropdown}
+                                value={
+                                    dateFormat.b(store.search.request.checkInDate)
+                                        + " – " +
+                                    dateFormat.b(store.search.request.checkOutDate)
+                                }
                             />
-                            <FieldText
-                                label={'Adults • Children • Rooms'}
-                                placeholder={'Choose options'}
+                            <FieldText formik={formik}
+                                id={"field-room"}
+                                label={t("Adults, Children, Rooms")}
+                                placeholder={t("Choose options")}
                                 Icon={<span class="icon icon-arrows-expand"/>}
                                 addClass="size-medium"
+                                Dropdown={PeopleDropdown}
+                                value={
+                                    store.roomDetails.adultsNumber + " " + t("Adult", {count: store.roomDetails.adultsNumber})
+                                        + " • " +
+                                    store.roomDetails.childrenNumber + " " + t("Children", {count: store.roomDetails.childrenNumber})
+                                        + " • " +
+                                    store.roomDetails.rooms + " " + t("Room", {count: store.roomDetails.rooms})
+                                }
                             />
                         </div>
                         <div class="row">
-                            <FieldText
-                                label={'Residency'}
-                                placeholder={'Choose your residency'}
+                            <FieldText formik={formik}
+                                id={"field-residency"}
+                                label={t("Residency")}
+                                placeholder={t("Choose your residency")}
                                 clearable
-                                Flag={<Flag />}
+                                Flag={false && <Flag />}
+                                Dropdown={RegionDropdown}
+                                onChange={this.regionInputChanged}
                                 addClass="size-large"
                             />
-                            <FieldText
-                                label={'Nationality'}
-                                placeholder={'Choose your nationality'}
+                            <FieldText formik={formik}
+                                id={"field-nationality"}
+                                label={t("Nationality")}
+                                placeholder={t("Choose your nationality")}
                                 clearable
-                                Flag={<Flag />}
+                                Flag={false && <Flag />}
+                                Dropdown={RegionDropdown}
+                                onChange={this.regionInputChanged}
                                 addClass="size-large"
                             />
                             <div class="field">
                                 <div class="label"/>
                                 <div class="inner">
-                                    <Link to="/search">
-                                        <button class="button">
-                                            Search hotel
-                                        </button>
-                                    </Link>
+                                    <button type="submit" class="button">
+                                        {t("Search hotel")}
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="additionals">
-                        <button class="button-expand">
-                            Advanced Search
+                        <button type="button" class="button-expand">
+                            {t("Advanced Search")}
                         </button>
-                        <button class="button-clear">
-                            Clear
+                        <button type="button" class="button-clear" onClick={formik.resetForm /* todo: reset */}>
+                            {t("Clear")}
                         </button>
                     </div>
-                </section>
-            </div>
+                </form>
+            )}
+        />
+    </section>
+</div>
+
         );
     }
-};
-// https://netstormingconnector-api.dev.happytravel.com/api/1.0/hotels/availability
+}
 
-export default Tiles;
+export default AccommodationSearch;

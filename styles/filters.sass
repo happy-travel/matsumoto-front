@@ -1,0 +1,48 @@
+@import "base/colors"
+
+.filters
+    .item
+        min-height: 18px
+        box-sizing: content-box
+        line-height: 18px
+        padding: 15px 0 15px
+        margin-bottom: 9px
+        font-size: 15px
+        font-weight: 500
+        border-bottom: 1px solid #D8DADC
+        cursor: pointer
+        &:first-child
+            padding-top: 0
+        &:after
+            content: ' '
+            background: url("./images/dropdown-arrow.svg") no-repeat
+            width: 9px
+            height: 4px
+            display: block
+            float: right
+            margin-top: 6px
+        &.open
+            &:after
+                transform: rotate(180deg)
+        &.static
+            cursor: default
+            &:after
+                content: ''
+                display: none
+        &.no-border
+            border: 0
+
+    .expanded
+        padding-bottom: 15px
+        .checkbox
+            margin-top: 15px
+            font-size: 13px
+            line-height: 16px
+            span
+                color: $color-text-light
+
+    .price-range
+        h4
+            font-size: 13px
+            line-height: 16px
+            color: $color-text-light

@@ -1,0 +1,26 @@
+.switch-control
+    width: 51px
+    height: 31px
+    display: inline-block
+    position: relative
+    background: #D8DADC
+    border-radius: 50px
+    transition: background .15s ease
+    cursor: pointer
+
+    &.active
+        background: #FAA61D
+        &:after
+            transform: translateX(20px)
+
+    &:after
+        content: ' '
+        width: 27px
+        height: 27px
+        top: 2px
+        left: 2px
+        position: absolute
+        background: #FFFFFF
+        border-radius: 50px
+        box-shadow: 0 3px 1px rgba(0, 0, 0, 0.05)
+        transition: transform .3s ease-out

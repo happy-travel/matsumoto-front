@@ -1,0 +1,84 @@
+.dropdown
+    position: absolute
+    background: #FFFFFF
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15)
+    border-radius: 4px
+    padding: 28px 36px
+    z-index: 100
+    right: 0
+    margin-top: 10px
+    &:after
+        content: ' '
+        width: 14px
+        height: 14px
+        top: -5px
+        right: 30px
+        background: #FFFFFF
+        transform: rotate(45deg)
+        display: block
+        position: absolute
+    .scroll
+        max-height: inherit
+        overflow-y: auto
+    &.date
+        padding: 14px 0
+    &.people
+        .row
+            display: flex
+            flex-direction: row
+            line-height: 40px
+            margin-bottom: 15px
+            &:last-child
+                margin-bottom: 0
+            .caption
+                width: 158px
+            .btn
+                display: block
+                width: 40px
+                height: 40px
+                background: #FFFFFF
+                border: 1px solid $color-brand
+                border-radius: 4px
+                cursor: pointer
+                text-align: center
+                &:hover
+                    background: $color-brand
+                    color: #ffffff
+            .value
+                font-size: 14px
+                text-align: center
+                width: 53px
+    &.cities
+        padding: 0
+        width: 100%
+        max-height: 350px
+        .region
+            height: 24px
+            line-height: 24px
+            margin-top: 10px
+            padding: 0 15px
+            text-transform: uppercase
+            font-size: 11px
+            background: #F3F4F6
+            color: $color-text-light
+        .city
+            line-height: 21px
+            padding: 8px 15px
+            cursor: pointer
+            b
+                font-weight: 700
+    &.locale, &.currency, &.user-menu
+        min-width: 136px
+        padding: 6px 0 3px
+        bottom: -67px
+        right: -27px
+        .item
+            cursor: pointer
+            line-height: 17px
+            padding: 10px 0 10px 16px
+            font-size: 11px
+            .flag
+                margin-left: 12px
+                display: inline-block
+    &.user-menu
+        bottom: -32px

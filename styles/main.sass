@@ -8,15 +8,56 @@ body
         family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial Neue", sans-serif
         size: 14px
 
+.link, a.link, a[href].link
+    color: $color-blue
+    &:hover
+        color: #074BC5
+    &.underlined
+        text-decoration: underline
+
+h2
+    font-size: 18px
+    line-height: 21px
+    font-weight: 400
+    span
+        color: $color-text-light
+
+.round
+    border-radius: 4px
+
 section
     width: 1100px
     margin: 0 auto
-    &.dual
+    &.double-sections
         display: flex
+        flex-direction: row
         padding-top: 50px
         .left-section
             min-width: 230px
             max-width: 230px
             margin-right: 45px
+        .half-section
+            min-width: 137px
+            max-width: 137px
         .right-section
             flex-grow: 1
+
+.hide
+    display: none !important
+
+.dual
+    display: flex
+    width: 100%
+    flex-direction: row
+    justify-content: space-between
+    .second
+        text-align: right
+
+.flag
+    width: 15px
+    height: 10px
+    position: relative
+    display: inline-block
+    .flag-icon
+        width: 100%
+        height: 100%

@@ -1,44 +1,29 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
-
-import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
-import { ReactComponent as FlagEN } from "./images/EN.svg";
+import { localStorage } from "core";
+import LocaleSwitcher from "components/switchers/locale";
+import CurrencySwitcher from "components/switchers/currency";
+import UserMenu from "components/switchers/user-menu";
 
 const Header = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+
     return (
         <header>
             <section>
                 <div class="logo-wrapper">
-                    <a href="#" class="logo" />
+                    <Link to="/" class="logo" />
                 </div>
                 <nav>
-                    <li><a class="selected" href="#">Accommodation</a></li>
-                    <li><a href="#">Transfers</a></li>
-                    <li><a href="#">Tours</a></li>
+                    <li><Link class="selected" to="/">{t('Accommodation')}</Link></li>
+                    <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Transfers')}</a></li>
+                    <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Tours')}</a></li>
+                    <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Visa')}</a></li>
                 </nav>
-                <div class="switcher language-switcher">
-                    <div class="flag">
-                        <FlagEN />
-                    </div>
-                    <div class="name">English</div>
-                    <div class="switch-arrow" />
-                </div>
-                <div class="switcher currency-switcher">
-                    <div class="currency">USD <span>(US Dollars)</span></div>
-                    <div class="switch-arrow" />
-                </div>
-                <div class="switcher currency-switcher">
-                    <div class="avatar">
-                        <NoAvatar />
-                    </div>
-                    <div class="dual">
-                        <div class="name">Serhii Movchan</div>
-                        <div class="company">Nike</div>
-                    </div>
-                    <div class="switch-arrow" />
-                </div>
+                <LocaleSwitcher />
+                <CurrencySwitcher />
+                <UserMenu />
             </section>
         </header>
     );

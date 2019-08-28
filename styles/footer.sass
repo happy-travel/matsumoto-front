@@ -5,10 +5,15 @@ footer
     width: 100%
     min-width: 200px
     margin-top: 135px
+    a
+        color: #FFFFFF
+        &:hover
+            color: #A4AAB3
 
     .upper-part
         padding: 47px 0 32px
         color: #ffffff
+        border-bottom: 1px solid $color-text-light
 
         .company
             width: 110px
@@ -26,7 +31,7 @@ footer
                 display: flex
                 flex-direction: row
                 justify-content: space-evenly
-                a, a svg
+                a
                     width: 27px
                     height: 27px
 
@@ -50,6 +55,9 @@ footer
                 font-size: 12px
                 a
                     color: $color-text-light
+                    &:hover
+                        color: #FFFFFF
+
                 li
                     margin-right: 20px
 
@@ -70,4 +78,3 @@ footer
         line-height: 66px
         font-size: 12px
         text-align: center
-        border-top: 1px solid $color-text-light

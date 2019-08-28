@@ -1,12 +1,9 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { ReactComponent as FacebookIcon } from "./images/facebook.svg";
-import { ReactComponent as TwitterIcon } from "./images/twitter.svg";
-
 const Footer = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     return (
         <footer>
             <div class="upper-part">
@@ -17,43 +14,43 @@ const Footer = () => {
                         </div>
                         <div class="social">
                             <a href="#">
-                                <FacebookIcon />
+                                <span class="icon icon-snet-1-f" />
                             </a>
                             <a href="#">
-                                <TwitterIcon />
+                                <span class="icon icon-snet-2-t" />
                             </a>
                         </div>
                     </div>
                     <div class="links">
                         <menu class="primary">
-                            <li><a href="#">Accommodation</a></li>
-                            <li><a href="#">Transfers</a></li>
-                            <li><a href="#">Tours</a></li>
-                            <li><a href="#">Visa</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><Link to="/">{t("Accommodation")}</Link></li>
+                            <li><a href="#">{t("Transfers")}</a></li>
+                            <li><a href="#">{t("Tours")}</a></li>
+                            <li><a href="#">{t("Visa")}</a></li>
+                            <li><a href="#">{t("About")}</a></li>
+                            <li><a href="#">{t("FAQ")}</a></li>
                         </menu>
                         <menu class="secondary">
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Privacy Police</a></li>
+                            <li><a href="#">{t("Terms & Conditions")}</a></li>
+                            <li><a href="#">{t("Privacy Police")}</a></li>
                         </menu>
                     </div>
                     <div class="contact">
-                        <h3>Contact Us</h3>
-                        <div><span>Email:</span> info@happytravel.com</div>
-                        <div><span>Phone:</span> +971-4-2999080</div>
+                        <h3>{t("Contact Us")}</h3>
+                        <div><span>{t("Email")}</span> info@happytravel.com</div> { /* todo : links */}
+                        <div><span>{t("Phone")}</span> +971-4-2999080</div>
                         <div>
-                            <span>Address:</span> HAPPYTRAVELDOTCOM LLC,<br/>
-                            B102 Saraya Avenue Bldg,<br/>
-                            65th Street, Garhoud<br/>
-                            Dubai, United Arab Emirates
+                            <span>{t("Address")}</span> {t("footer_address_line_1")}<br/>
+                            {t("footer_address_line_2")}<br/>
+                            {t("footer_address_line_3")}<br/>
+                            {t("footer_address_line_4")}
                         </div>
                     </div>
                 </section>
             </div>
             <div class="copyright">
                 <section>
-                    Copyright © 2019 Happy Travel. All Rights Reserved.
+                    {t("_copyright")}
                 </section>
             </div>
         </footer>
