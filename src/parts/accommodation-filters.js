@@ -14,10 +14,12 @@ class AccommodationFiltersPart extends React.Component {
 
         return (
             <div class="left-section filters">
+                { /* todo:
                 <div class="static item">{t("Map")}</div>
                 <div class="expanded">
                     <img src="/images/temporary/map.png" alt=""/>
                 </div>
+                */ }
                 <Expandable
                     open
                     header={t("Price Range")}
@@ -78,41 +80,13 @@ class AccommodationFiltersPart extends React.Component {
                         </div>
                     }
                 />
-                <Expandable
-                    header={t("Hotel Amenities")}
-                    content={
-                        <div class="expanded">
-                        </div>
-                    }
-                />
-                <Expandable
-                    header={t("Geo Location")}
-                    content={
-                        <div class="expanded">
-                        </div>
-                    }
-                />
-                <Expandable
-                    header={t("Leisure & Sport")}
-                    content={
-                        <div class="expanded">
-                        </div>
-                    }
-                />
-                <Expandable
-                    header={t("Business Features")}
-                    content={
-                        <div class="expanded">
-                        </div>
-                    }
-                />
-                <Expandable
-                    header={t("Hotel Chain")}
-                    content={
-                        <div class="expanded">
-                        </div>
-                    }
-                />
+                { /* todo:
+                <Expandable header={t("Hotel Amenities")} />
+                <Expandable header={t("Geo Location")} />
+                <Expandable header={t("Leisure & Sport")} />
+                <Expandable header={t("Business Features")} />
+                <Expandable header={t("Hotel Chain")} />
+                */ }
             </div>
         );
     }

@@ -17,9 +17,11 @@ const Header = () => {
                 </div>
                 <nav>
                     <li><Link class="selected" to="/">{t('Accommodation')}</Link></li>
+                    { /*
                     <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Transfers')}</a></li>
                     <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Tours')}</a></li>
                     <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Visa')}</a></li>
+                    */ }
                 </nav>
                 <LocaleSwitcher />
                 <CurrencySwitcher />

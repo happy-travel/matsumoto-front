@@ -88,6 +88,7 @@ class AccommodationVariantsPage extends React.Component {
                             }
                         ]}/>
                     </div>
+                    { /* todo:
                     <div class="sorter">
                         <button class="button-expand">
                             {t("Sort by")}
@@ -100,6 +101,7 @@ class AccommodationVariantsPage extends React.Component {
                             />
                         </div>
                     </div>
+                    */ }
                 </div> }
 
                 { store.hotelArray.map((item, hotelIndex) =>
@@ -176,7 +178,7 @@ class AccommodationVariantsPage extends React.Component {
                                     </button> /* todo: finish this button */ }
                                 </td>
                             </tr>) }
-                        { /* <React.Fragment>
+                        { /* todo: <React.Fragment>
                             <tr class="alternative">
                                 <th>{t("Date")}</th>
                                 <th />

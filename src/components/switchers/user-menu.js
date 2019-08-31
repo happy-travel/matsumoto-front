@@ -22,7 +22,7 @@ class UserMenuDropdown extends React.Component {
 
         return (
             <React.Fragment>
-                <div class="switcher currency-switcher" onClick={this.toggleMenu}>
+                <div class="switcher user-switcher" onClick={this.toggleMenu}>
                     <div class="avatar">
                         <NoAvatar />
                     </div>

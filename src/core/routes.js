@@ -9,6 +9,7 @@ import accommodationConfirmation  from 'pages/accommodation/confirmation';
 import accountRegistrationStep2   from "pages/account/registration-step-2";
 import accountRegistrationStep3   from "pages/account/registration-step-3";
 
+import errorPage   from "pages/error";
 import devAuthPage from "pages/account/odawara/confirmation";
 
 export const routesWithSearch = [
@@ -31,6 +32,8 @@ const Routes = () => (
         <Route path="/signup/company"             component={accountRegistrationStep3} />
 
         <Route path="/dev/auth" component={devAuthPage} />
+
+        <Route component={errorPage} />
     </Switch>
 );
 

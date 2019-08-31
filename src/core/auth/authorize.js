@@ -12,7 +12,7 @@ const config = {
     silent_redirect_uri: host + "/auth/silent",
     client_id: "client",
     response_type: "code",
-    scope: "edo openid",
+    scope: "edo",
     automaticSilentRenew: true,
     loadUserInfo: true,
     filterProtocolClaims: true,

@@ -28,7 +28,7 @@ const TileItem = class extends React.Component {
                 </a>
                 <div class="bottom"/>
                 <img class="picture" src={item.image} alt={item.title} />
-                { removable && <div class="close" /> }
+                { /* todo: removable && <div class="close" /> */ }
                 { item.exclusive && <div class="exclusive">
                     Exclusive offer
                 </div> }
