@@ -119,7 +119,7 @@ class AccommodationSearch extends React.Component {
                     <div class="form">
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"field-destination"}
+                                id={"destination"}
                                 label={t("Destination, Hotel name, Location or Landmark")}
                                 placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                 Icon={<span class="icon icon-hotel" />}
@@ -129,7 +129,7 @@ class AccommodationSearch extends React.Component {
                                 clearable
                             />
                             <FieldText formik={formik}
-                                id={"field-dates"}
+                                id={"dates"}
                                 label={t("Check In - Check Out")}
                                 placeholder={t("Choose date")}
                                 Icon={<span class="icon icon-calendar"/>}
@@ -142,7 +142,7 @@ class AccommodationSearch extends React.Component {
                                 }
                             />
                             <FieldText formik={formik}
-                                id={"field-room"}
+                                id={"room"}
                                 label={t("Adults, Children, Rooms")}
                                 placeholder={t("Choose options")}
                                 Icon={<span class="icon icon-arrows-expand"/>}
@@ -159,7 +159,7 @@ class AccommodationSearch extends React.Component {
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"field-residency"}
+                                id={"residency"}
                                 label={t("Residency")}
                                 placeholder={t("Choose your residency")}
                                 clearable
@@ -169,7 +169,7 @@ class AccommodationSearch extends React.Component {
                                 addClass="size-large"
                             />
                             <FieldText formik={formik}
-                                id={"field-nationality"}
+                                id={"nationality"}
                                 label={t("Nationality")}
                                 placeholder={t("Choose your nationality")}
                                 clearable

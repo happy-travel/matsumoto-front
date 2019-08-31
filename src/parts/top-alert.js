@@ -1,21 +1,32 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { useTranslation } from "react-i18next";
 import UI from "stores/ui-store";
 
 @observer
 class TopAlert extends React.Component {
-    render() {
-        const { t, i18n } = useTranslation();
+    constructor(props) {
+        super(props);
+        this.hideAlert = this.hideAlert.bind(this);
+    }
 
+    hideAlert() {
+        UI.setTopAlertText(null);
+    }
+
+    render() {
         if (!UI?.topAlertText)
             return null;
 
         return (
-            <div class="header-alert">
+            <div class="top-alert">
                 <section>
                     <span class="icon icon-warning-inverted"/>
-                    {UI?.topAlertText}
+                    <div class="inner">
+                        {UI?.topAlertText}
+                    </div>
+                    <div class="close-button" onClick={this.hideAlert}>
+                        <span class="icon icon-close white" />
+                    </div>
                     {/* <button class="button transparent">
                         Verify your account
                     </button> */}

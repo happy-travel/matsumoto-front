@@ -1,12 +1,28 @@
-.header-alert
+.top-alert
     padding: 10px 0
     line-height: 18px
     background: #FF9D1A
     border-radius: 4px
     color: #ffffff
     position: relative
+    position: -webkit-sticky
+    position: sticky
+    top: 0
     z-index: 101
+    section
+        position: relative
     .button
         margin-left: 20px
     .icon
         margin-right: 20px
+        vertical-align: middle
+    .inner
+        display: inline-block
+        vertical-align: middle
+    .close-button
+        cursor: pointer
+        display: inline-block
+        vertical-align: middle
+        position: absolute
+        top: 0
+        right: 5px

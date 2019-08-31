@@ -16,9 +16,9 @@ class UIStore {
     @observable initialized = false;
     @observable openDropdown = null;
     @observable suggestions = {
-        "field-destination": null,
-        "field-nationality": null,
-        "field-residency": null
+        "destination": null,
+        "nationality": null,
+        "residency": null
     };
     @observable modal = null;
     @observable hotelDetails = null;
@@ -32,7 +32,7 @@ class UIStore {
     @observable topAlertText = null;
 
     constructor() {
-    //    autosave(this, "_ui_store_cache");
+        if ("localhost" == window.location.hostname) autosave(this, "_ui_store_cache");
     }
 
     @computed get regionList() {

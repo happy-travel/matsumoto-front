@@ -5,13 +5,9 @@ import store from "stores/accommodation-store";
 import { decorate } from "core";
 import { Highlighted } from "components/simple";
 
-const fieldNameInStore = {
-    "field-residency": "residency",
-    "field-nationality": "nationality"
-};
 const anotherField = {
-    "field-residency": "field-nationality",
-    "field-nationality": "field-residency"
+    "residency": "nationality",
+    "nationality": "residency"
 };
 
 /* Refactoring possibility: remove region sorter from render() */
@@ -30,11 +26,11 @@ class RegionDropdown extends React.Component {
         } = this.props;
 
         formik.setFieldValue(connected, city.names.en); //todo: correct culture select
-        store.setSearchRequestField(fieldNameInStore[connected], city.code);
+        store.setSearchRequestField(connected, city.code);
         UI.setCountries([]);
 
-        if (!store.search.request[fieldNameInStore[anotherField[connected]]]) {
-            store.setSearchRequestField(fieldNameInStore[anotherField[connected]], city.code);
+        if (!store.search.request[anotherField[connected]]) {
+            store.setSearchRequestField(anotherField[connected], city.code);
             formik.setFieldValue(anotherField[connected], city.names.en);
         }
     }
@@ -70,7 +66,7 @@ class RegionDropdown extends React.Component {
                             </div>}
                             {UI.countries?.map?.(city => (
                                 item.id == city.regionId ?
-                                    <div class="city" onClick={ () => this.setValue(city) }>
+                                    <div class="city line" onClick={ () => this.setValue(city) }>
                                         <Highlighted str={city.names.en} highlight={this.props.value} /> {/* todo: pick culture normally */}
                                     </div> : null
                             ))}

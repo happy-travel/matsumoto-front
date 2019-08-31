@@ -21,6 +21,15 @@
     &.size-large
         max-width: 367px
 
+    .error-holder
+        color: $color-red
+        margin: 5px 0 7px
+        font-size: 13px
+        line-height: 15px
+
+    &.select, &.select input
+        cursor: pointer
+
     $padding: 15px
     .input
         border-radius: 4px
@@ -41,7 +50,7 @@
                 color: $color-text
 
         &.error
-            border-color: #FF4B55
+            border-color: #FF4B55 !important
         &.focus
             border-color: $color-brand
         .inner

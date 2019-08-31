@@ -10,29 +10,21 @@ class FieldCheckbox extends React.Component {
     }
 
     changing() {
+        var { id, formik } = this.props,
+            newValue = !this.state.value;
+
         this.setState({
-            value: !this.state.value
+            value: newValue
         });
+
+        if (formik)
+            formik.setFieldValue(id, newValue);
     }
 
     render() {
-        var {
-            id,
-            label,
-            formik
-        } = this.props;
-        var {
-            value
-        } = this.state;
-
         return (
-            <div onClick={this.changing} class={"checkbox" + (value ? ' on' : '')}>
-                {label}
-                <input
-                    type="hidden"
-                    id={id}
-                    value={ value || (formik && formik.values && formik.values[id]) || null }
-                />
+            <div onClick={this.changing} class={"checkbox" + (this.state.value ? ' on' : '')}>
+                {this.props.label}
             </div>
         );
     }

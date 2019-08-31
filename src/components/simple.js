@@ -30,3 +30,21 @@ export const Stars = ({ count }) => {
         </span>
     );
 };
+
+export const Expandable = class extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { open: !!this.props.open };
+    }
+    render() {
+        return (
+            <React.Fragment>
+                <div class={"item" + (this.state.open ? " open" : "")}
+                     onClick={() => this.setState({ open : !this.state.open })}>
+                    {this.props.header}
+                </div>
+                { this.state.open ? this.props.content : null }
+            </React.Fragment>
+        );
+    }
+};

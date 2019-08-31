@@ -64,7 +64,6 @@
         .city
             line-height: 21px
             padding: 8px 15px
-            cursor: pointer
             b
                 font-weight: 700
     &.locale, &.currency, &.user-menu
@@ -73,7 +72,6 @@
         bottom: -67px
         right: -27px
         .item
-            cursor: pointer
             line-height: 17px
             padding: 10px 0 10px 16px
             font-size: 11px
@@ -82,3 +80,17 @@
                 display: inline-block
     &.user-menu
         bottom: -32px
+    &.select
+        padding: 0
+        width: 100%
+        max-height: 350px
+        .item
+            line-height: 21px
+            padding: 8px 15px
+
+    .line
+        cursor: pointer
+        position: relative
+        z-index: 1
+        &:hover
+            background: #F3F4F6

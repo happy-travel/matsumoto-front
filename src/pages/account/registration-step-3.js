@@ -6,8 +6,10 @@ import { Redirect } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Formik } from "formik";
-import { FieldText } from "components/form";
+import { FieldText, FieldTextarea } from "components/form";
+import { registrationCompanyValidator } from "components/form/validation";
 import store from "stores/auth-store";
+import Authorize from "core/auth/authorize";
 
 @observer
 class RegistrationStep3 extends React.Component {
@@ -68,17 +70,22 @@ class RegistrationStep3 extends React.Component {
             </h1>
             <p>
                 Create a free HappyTravel account and start booking today.<br/>
-                Already have an account? <a href="/" class="link">Log In Here.</a> {/* todo: logout */}
+                Already have an account? <span onClick={() => Authorize.signoutRedirect()} class="link">Log In Here.</span>
             </p>
 
-            <Formik
+        <Formik
             initialValues={{
-
+                "name": "",
+                "address": "",
+                "countryCode": "",
+                "city": "",
+                "phone": "",
+                "fax": "",
+                "preferredCurrency": "",
+                "preferredPaymentMethod": "",
+                "website": ""
             }}
-            validate={values => {
-                let errors = {};
-                return errors;
-            }}
+            validationSchema={registrationCompanyValidator}
             onSubmit={this.submit}
             render={formik => (
                 <form onSubmit={formik.handleSubmit}>
@@ -92,7 +99,7 @@ class RegistrationStep3 extends React.Component {
                             />
                         </div>
                         <div class="row">
-                            <FieldText formik={formik}
+                            <FieldTextarea formik={formik}
                                 id={"address"}
                                 label={t("Company Address")}
                                 placeholder={t("Company Address")}
@@ -108,7 +115,7 @@ class RegistrationStep3 extends React.Component {
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"countryCode"}
+                                id={"country"}
                                 label={t("Country")}
                                 placeholder={t("Country")}
                                 required
@@ -160,16 +167,16 @@ class RegistrationStep3 extends React.Component {
                                 placeholder={t("Website")}
                             />
                         </div>
-                        <div class="error-field">
-                            {/*todo*/}
-                        </div>
-                        <div class="row">
+                        <div class="row submit-holder">
                             <div class="field">
                                 <div class="inner">
-                                    <button type="submit" class="button">
-                                        {t("Continue registration")}
+                                    <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                        {t("Get started")}
                                     </button>
                                 </div>
+                            </div>
+                            <div class="field terms">
+                                By clicking this button, you agree with <a href="#" class="link">HappyTravel’s Terms of Use.</a>
                             </div>
                         </div>
                     </div>

@@ -35,7 +35,7 @@ render() {
                                 }
                             ]}/>
                             <ActionSteps
-                                items={[t("Search accommodation"), t("Guest Details"), t("Booking confirmation")]}
+                                items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
                                 current={2}
                             />
                             <h2>
@@ -64,7 +64,7 @@ render() {
                         }
                     ]}/>
                     <ActionSteps
-                        items={[t("Search accommodation"), t("Guest Details"), t("Booking confirmation")]}
+                        items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
                         current={2}
                     />
                     <h2>

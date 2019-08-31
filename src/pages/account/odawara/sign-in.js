@@ -3,7 +3,7 @@ import React, { Component }  from 'react';
 /* Note: this page is not used now. It exists only for dev proposes. Real layout placed in Odawara auth project */
 class SignIn extends Component {
     render() {
-        if ("localhost" != window.location.hostname) return null;
+        if (!("localhost" == window.location.hostname)) return null;
 
         return (
 
@@ -25,7 +25,7 @@ class SignIn extends Component {
                                 <span><label asp-for="Input.UserName"></label></span>
                             </div>
                             <div class="auth-input">
-                                <input placeholder="Username" asp-for="Input.UserName"/>
+                                <input placeholder="Enter username" asp-for="Input.UserName"/>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ class SignIn extends Component {
                                 <span><label asp-for="Input.Password"></label></span>
                             </div>
                             <div class="auth-input">
-                                <input placeholder="**********" asp-for="Input.Password"/>
+                                <input placeholder="Enter password" asp-for="Input.Password"/>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@ class SignIn extends Component {
                     <div class="row">
                         <div class="field">
                             <div class="inner">
-                                <button type="submit" class="button">Log in</button>
+                                <button type="submit" class="button">Log In</button>
                             </div>
                         </div>
                     </div>

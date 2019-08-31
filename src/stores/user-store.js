@@ -5,7 +5,7 @@ import autosave from "core/misc/autosave";
 class UserStore {
     @observable id = 0;
     constructor() {
-        autosave(this, "_user_store_cache");
+        if ("localhost" == window.location.hostname) autosave(this, "_user_store_cache");
     }
 
     setId(value) {

@@ -47,7 +47,7 @@ class AccommodationStore {
     };
 
     constructor() {
-    //    autosave(this, "_accommodation_store_cache");
+        if ("localhost" == window.location.hostname) autosave(this, "_accommodation_store_cache");
     }
 
     @computed get hotelArray() {

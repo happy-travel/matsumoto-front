@@ -5,8 +5,10 @@ import { Redirect } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Formik } from "formik";
-import { FieldText } from "components/form";
+import { FieldText, FieldSelect } from "components/form";
+import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
+import Authorize from "core/auth/authorize";
 
 @observer
 class RegistrationStep2 extends React.Component {
@@ -59,27 +61,32 @@ class RegistrationStep2 extends React.Component {
             </h1>
             <p>
                 Create a free HappyTravel account and start booking today.<br/>
-                Already have an account? <a href="/" class="link">Log In Here.</a> {/* todo: logout */}
+                Already have an account? <span onClick={() => Authorize.signoutRedirect()} class="link">Log In Here.</span>
             </p>
 
-            <Formik
+        <Formik
             initialValues={{
-
+                "title": "",
+                "firstName": "",
+                "lastName": "",
+                "position": "",
+                "email": ""
             }}
-            validate={values => {
-                let errors = {};
-                return errors;
-            }}
+            validationSchema={registrationUserValidator}
             onSubmit={values=>this.submit(values)}
             render={formik => (
                 <form onSubmit={formik.handleSubmit}>
                     <div class="form">
                         <div class="row">
-                            <FieldText formik={formik}
+                            <FieldSelect formik={formik}
                                 id={"title"}
                                 label={t("Salutation")}
-                                placeholder={t("Select One")}
                                 required
+                                placeholder={t("Select One")}
+                                options={[
+                                    { value: "Mr.", text: "Mr."},
+                                    { value: "Mrs.", text: "Mrs."}
+                                ]}
                             />
                         </div>
                         <div class="row">
@@ -109,18 +116,15 @@ class RegistrationStep2 extends React.Component {
                         <div class="row">
                             <FieldText formik={formik}
                                 id={"email"}
-                                label={t("E-mail Address")}
-                                placeholder={t("Enter your E-mail Address")}
+                                label={t("Email Address")}
+                                placeholder={t("Enter your email Address")}
                                 required
                             />
                         </div>
-                        <div class="error-field">
-                            {/*todo*/}
-                        </div>
-                        <div class="row">
+                        <div class="row submit-holder">
                             <div class="field">
                                 <div class="inner">
-                                    <button type="submit" class="button">
+                                    <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
                                         {t("Continue registration")}
                                     </button>
                                 </div>

@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import { App, init } from "core";
 import settings from "settings";
 
-if ("localhost" != window.location.hostname)
+if (!("localhost" == window.location.hostname))
     Sentry.init({ dsn: settings.sentryDSN });
 
 window.setPageDirectionFromLS = () => {

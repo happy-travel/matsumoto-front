@@ -9,10 +9,7 @@ class FieldText extends React.Component {
         super(props);
         this.state = {
             currentValue: '',
-            focus: false,
-            proxy: {
-                currentSuggestion: ''
-            }
+            focus: false
         };
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -22,10 +19,12 @@ class FieldText extends React.Component {
     }
 
     onFocus() {
-        var newValue = this.props.id;
-        if (UI.openDropdown == newValue)
-            newValue = null;
-        UI.setOpenDropdown(newValue);
+        if (this.props.Dropdown) {
+            var newOpenDropdown = this.props.id;
+            if (UI.openDropdown == newOpenDropdown)
+                newOpenDropdown = null;
+            UI.setOpenDropdown(newOpenDropdown);
+        }
 
         this.setState({
             focus: true
@@ -41,26 +40,28 @@ class FieldText extends React.Component {
     }
 
     onKeyDown(e) {
-        //todo: suggestion list
-        if (13 == e.keyCode || 39 == e.keyCode) // Enter or Right arrow
-            return; // Select first suggestion or selected menu item
-        if (38 == e.keyCode) // Arrow top
-            return; // Move up in suggestion list
-        if (40 == e.keyCode) // Arrow bottom
-            return; // Move down in suggestion list
+        if (this.props.Dropdown) {
+            if (13 == e.keyCode || 39 == e.keyCode) // Enter or Right arrow
+                return; // Select first suggestion or selected menu item
+            if (38 == e.keyCode) // Arrow top
+                return; // Move up in suggestion list
+            if (40 == e.keyCode) // Arrow bottom
+                return; // Move down in suggestion list
+        }
     }
 
     clear() {
-        if (this.props.formik)
+        if (this.props.formik) {
             this.props.formik.setFieldValue(this.props.id, '\n');
+            if (this.props.Dropdown)
+                UI.setOpenDropdown(null);
+        }
     }
 
     changing(event) {
-        UI.setOpenDropdown(this.props.id);
-        this.setState({
-            currentValue: event.target.value
-        });
-
+        if (this.props.Dropdown) {
+            UI.setOpenDropdown(this.props.id);
+        }
         //todo suggestion
 
         if (this.props.onChange)
@@ -83,6 +84,8 @@ class FieldText extends React.Component {
             value,
             disabled,
             required,
+            readonly,
+            options,
 
             formik
         } = this.props,
@@ -96,9 +99,8 @@ class FieldText extends React.Component {
                 <label>
                     { label && <div class="label">
                         <span class={required ? "required" : ""}>{label}</span>
-                        {formik && formik.errors && formik.errors[id] && <div id="feedback">{formik.errors.name}</div>}
                     </div> }
-                    <div class={"input" + (this.state.focus ? ' focus' : '') + (disabled ? ' disabled' : '')}>
+                    <div class={"input" + (this.state.focus ? ' focus' : '') + (disabled ? ' disabled' : '') + ((formik?.errors[id] && formik?.touched[id]) ? ' error' : '')}>
                         { Flag && <div>
                             { Flag }
                         </div> }
@@ -113,23 +115,29 @@ class FieldText extends React.Component {
                                 value={ value || (formik && formik.values && formik.values[id]) || null }
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
+                                autocomplete="off"
+                                {...(readonly ? {readonly: "readonly"} : {})}
                             />
                             { suggestion && <div class="suggestion">
                                 <span>{ formik.values[id] }</span>{ suggestion }
                             </div> }
                         </div>
-                        <div class="icon-wrap">
+                        { Icon && <div class="icon-wrap">
                             { Icon }
-                        </div>
-                        <div>
-                            { clearable && <button type="button" class="clear" onClick={ this.clear } /> }
-                        </div>
+                        </div> }
+                        { (clearable && formik.values[id]) ? <div>
+                            <button type="button" class="clear" onClick={ this.clear } />
+                        </div> : null }
                     </div>
+                    {(formik?.errors[id]?.length && formik?.touched[id] && (UI.openDropdown != id)) ?
+                        <div class="error-holder">{formik.errors[id]}</div>
+                    : null}
                 </label>
                 { Dropdown ? <div class={UI.openDropdown == id ? '' : 'hide'}>
                     <Dropdown formik={formik}
                               connected={id}
                               value={formik.values[id]}
+                              options={options}
                     />
                 </div> : null }
             </div>

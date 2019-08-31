@@ -3,14 +3,14 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 
-import { API } from "core";
+import { API, dateFormat } from "core";
 import store from 'stores/accommodation-store';
 import UI, { MODALS } from "stores/ui-store";
 
+import AccommodationFilters from "parts/accommodation-filters"
 import {
     FieldText,
-    FieldCheckbox,
-    FieldRange
+    FieldCheckbox
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import { Stars } from "components/simple";
@@ -20,9 +20,11 @@ class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToBookingPage: false
+            redirectToBookingPage: false,
+            expanded: {}
         };
         this.showDetailsModal = this.showDetailsModal.bind(this);
+        this.expand = this.expand.bind(this);
     }
 
     showDetailsModal(id) {
@@ -44,6 +46,15 @@ class AccommodationVariantsPage extends React.Component {
         });
     }
 
+    expand(index) {
+        this.setState({
+            expanded: {
+                ...this.state.expanded,
+                [index]: true
+            }
+        });
+    }
+
     render() {
         const { t } = useTranslation();
 
@@ -55,51 +66,7 @@ class AccommodationVariantsPage extends React.Component {
 <React.Fragment>
     <div class="variants block">
         <section class="double-sections">
-            <div class="left-section filters">
-                <div class="static item">{t("Map")}</div>
-                <div class="expanded">
-                    <img src="/images/temporary/map.png" alt="" />
-                </div>
-                <div class="item open">{t("Price Range")}</div>
-                    <div class="expanded price-range">
-                        <h4>{t("Drag the slider to choose the minimum and maximum price")}</h4>
-                        <FieldRange
-                            min={null}
-                            max={null}
-                        />
-                    </div>
-                <div class="item">{t("Property Type")}</div>
-                <div class="item open">{t("Rating")}</div>
-                    <div class="expanded">
-                        <FieldCheckbox
-                            label={<div>{t("Preferred")} <span>(1)</span></div>}
-                        />
-                        <FieldCheckbox
-                            label={<div>{t("5 stars")} <span>(5)</span></div>}
-                        />
-                    </div>
-                <div class="item open">{t("Board Basis")}</div>
-                    <div class="expanded">
-                        <FieldCheckbox
-                            label={t("Room Only")}
-                        />
-                        <FieldCheckbox
-                            label={t("Breakfast")}
-                        />
-                    </div>
-                <div class="item open">{t("Rate Type")}</div>
-                    <div class="expanded">
-                        <FieldCheckbox
-                            label={t("Flexible")}
-                            value={true}
-                        />
-                    </div>
-                <div class="item">{t("Hotel Amenities")}</div>
-                <div class="item">{t("Geo Location")}</div>
-                <div class="item">{t("Leisure & Sport")}</div>
-                <div class="item">{t("Business Features")}</div>
-                <div class="item">{t("Hotel Chain")}</div>
-            </div>
+            <AccommodationFilters />
             <div class="right-section">
 
                 { store && !store.search.loaded &&
@@ -111,13 +78,13 @@ class AccommodationVariantsPage extends React.Component {
                 { store.search.loaded && <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")} <b>{ store.search.form?.["field-destination"] }</b> <span>({store.hotelArray.length})</span>
+                            {t("Results for")} <b>{ store.search.form?.["destination"] }</b> <span>({store.hotelArray.length})</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
                                 text: t("Find Accommodation")
                             }, {
-                                text: store.search.form?.["field-destination"] || ""
+                                text: store.search.form?.["destination"] || ""
                             }
                         ]}/>
                     </div>
@@ -135,7 +102,7 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                 </div> }
 
-                { store.hotelArray.map(item =>
+                { store.hotelArray.map((item, hotelIndex) =>
                 <div class="variant" key={item.accommodationDetails.id}>
                     <div class="summary">
                         <div class="photo">
@@ -161,7 +128,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                     </div>
                     <div class="description">
-                        <span>{t("Location")}: {t("Located in")}" {item.accommodationDetails.location.city}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.
+                        <span>{t("Located in")} {item.accommodationDetails.location.city}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.{" "}
                             {item.accommodationDetails.generalTextualDescription && item.accommodationDetails.generalTextualDescription.descriptions && item.accommodationDetails.generalTextualDescription.descriptions.en}</span>
                         <span style={{display: 'none'}} class="expand">{t("more...")}</span>
                     </div>
@@ -176,10 +143,9 @@ class AccommodationVariantsPage extends React.Component {
                                 <th>{t("Total Price")}</th>
                                 <th />
                             </tr>
-                            { item.agreements.map(agreement => <tr>
+                            { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? 3 : undefined).map(agreement => <tr>
                                 <td>
-                                    {agreement.rooms[0].type}, {agreement.tariffCode}
-                                    <span class="icon icon-info" />
+                                    {agreement.rooms[0].type}
                                 </td>
                                 <td>
                                     {agreement.mealPlan}
@@ -188,6 +154,7 @@ class AccommodationVariantsPage extends React.Component {
                                     {t("None")}
                                     <div class="services-info">
                                         <span class="icon icon-info orange"/> {t("Within deadline")}
+                                        <br/>{dateFormat.a(item.deadline)}
                                     </div>
                                 </td>
                                 { false && <td class="actions">
@@ -204,12 +171,12 @@ class AccommodationVariantsPage extends React.Component {
                                     <button class="button small" onClick={() => this.variantSelect(agreement, item.accommodationDetails)}>
                                         {t("Book now")}
                                     </button>
-                                    <button class="button small gray round">
+                                    { false && <button class="button small gray round">
                                         <span class="icon icon-arrow-expand" />
-                                    </button>
+                                    </button> /* todo: finish this button */ }
                                 </td>
                             </tr>) }
-                        { false && <React.Fragment>
+                        { /* <React.Fragment>
                             <tr class="alternative">
                                 <th>{t("Date")}</th>
                                 <th />
@@ -226,12 +193,12 @@ class AccommodationVariantsPage extends React.Component {
                                 <td class="price">USD 70.50</td>
                                 <td />
                             </tr>
-                        </React.Fragment> }
+                        </React.Fragment> */ }
                             </tbody>
                         </table>
                     </div>
-                    { false && <div class="show-more">
-                        <button class="button blue small">
+                    { !this.state.expanded[hotelIndex] && <div class="show-more">
+                        <button class="button blue small" onClick={() => this.expand(hotelIndex)}>
                             {t("Show all rooms")}
                         </button>
                     </div> }

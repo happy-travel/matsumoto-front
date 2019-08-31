@@ -1,38 +1,12 @@
-import React from 'react';
-
+import React from "react";
+import FieldText from "./field-text"
 import { observer } from "mobx-react";
 
 @observer
-class FieldTextarea extends React.Component {
+class FieldTextarea extends FieldText {
     constructor(props) {
         super(props);
-        this.state = {
-            currentValue: '',
-            focus: false,
-            proxy: {
-                currentSuggestion: ''
-            }
-        };
-        this.onFocus = this.onFocus.bind(this);
-        this.onBlur = this.onBlur.bind(this);
-        this.clear = this.clear.bind(this);
-        this.changing = this.changing.bind(this);
-    }
-
-    onFocus() {
-        this.setState({
-            focus: true
-        });
-    }
-
-    onBlur() {
-        this.setState({
-            focus: false
-        });
-    }
-
-    changing() {
-
+        this.onKeyUp = this.onKeyUp.bind(this);
     }
 
     onKeyUp(event) {
@@ -40,45 +14,37 @@ class FieldTextarea extends React.Component {
         event.target.style.height = ( event.target.scrollHeight + 20 )+"px";
     }
 
-    clear() {
-        window.document.getElementById(this.props.id).value = '';
-    }
-
     render() {
         var {
             label,
             placeholder,
-            clearable,
             addClass,
             id,
-            value
+            formik,
+            required
         } = this.props;
 
         return (
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
                 <label>
                     { label && <div class="label">
-                        <span>{label}</span>
+                        <span class={required ? "required" : ""}>{label}</span>
                     </div> }
-                    <div class={"input textarea" + (this.state.focus ? ' focus' : '')}>
+                    <div class={"input textarea" + (this.state.focus ? ' focus' : '') + ((formik?.errors[id] && formik?.touched[id]) ? ' error' : '')}>
                         <div class="inner">
                             <textarea
                                 id={id}
                                 placeholder={ placeholder }
-                                value={ value }
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
                                 onKeyUp={ this.onKeyUp }
                             />
-                            {false && <div class="suggestion">
-                                <span>{ this.state.currentValue }</span>{ this.state.proxy.currentSuggestion }
-                            </div>}
                         </div>
-                        {false && <div>
-                            { clearable && <button class="clear" onClick={ this.clear } /> }
-                        </div>}
                     </div>
+                    {(formik?.errors[id]?.length && formik?.touched[id]) ?
+                        <div class="error-holder">{formik.errors[id]}</div>
+                    : null}
                 </label>
             </div>
         );

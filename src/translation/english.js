@@ -1,5 +1,3 @@
-import React from "react";
-
 export default {
     translations: {
         "current_language_name": "English",
@@ -26,7 +24,7 @@ export default {
 
         // Authorization pages
         "Are you supplier?": "Are you supplier?",
-        "Log in": "Log in",
+        "Log In": "Log In",
         "Registration": "Registration",
         "User name": "User name",
         "Password": "Password",
@@ -35,7 +33,8 @@ export default {
         "Log In Information": "Log In Information",
         "User Information": "User Information",
         "Company Information": "Company Information",
-        "Get started with a free account": "Get started with a free account",
+        "Get started": "Get started",
+        "Get started with a new account": "Get started with a new account",
         "Create a free HappyTravel account and start booking today.": "Create a free HappyTravel account and start booking today.",
         "Already have an account?": "Already have an account?",
         "Log In Here.": "Log In Here.",
@@ -78,7 +77,8 @@ export default {
         "Click Here": "Click Here",
         "Select One": "Select One",
         "Country": "Country",
-        "Enter your E-mail Address": "Enter your E-mail Address",
+        "Email Address": "Email Address",
+        "Enter your email Address": "Enter your email Address",
 
         // Search form
         "Destination, Hotel name, Location or Landmark": "Destination, Hotel name, Location or Landmark",

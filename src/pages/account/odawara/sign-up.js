@@ -3,7 +3,7 @@ import React, { Component }  from 'react';
 /* Note: this page is not used now. It exists only for dev proposes. Real layout placed in Odawara auth project */
 class SignUp extends Component {
     render() {
-        if ("localhost" != window.location.hostname) return null;
+        if (!("localhost" == window.location.hostname)) return null;
 
         return (
 

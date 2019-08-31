@@ -43,8 +43,8 @@ class AccommodationBookingPage extends React.Component {
         for (var i = 0; i < total; i++) {
             passengers.push({
                 "title": "Mr",
-                "lastName": values["field-booking-passenger-last-name"][i],
-                "firstName": values["field-booking-passenger-first-name"][i],
+                "lastName": values["passenger-last-name"][i],
+                "firstName": values["passenger-first-name"][i],
                 "age": i < adults ? 33 : 12,
                 "initials":"",
                 "isLeader": i == 0
@@ -164,7 +164,7 @@ class AccommodationBookingPage extends React.Component {
                     }
                 ]}/>
                 <ActionSteps
-                    items={[t("Search accommodation"), t("Guest Details"), t("Booking confirmation")]}
+                    items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
                     current={1}
                 />
                 <h2>
@@ -198,7 +198,7 @@ class AccommodationBookingPage extends React.Component {
                                         ]).map((item, index) => (<tr>
                                             <td>
                                                 <FieldText formik={formik}
-                                                    id={"field-booking-passenger-title[" + index + "]"}
+                                                    id={"passenger-title[" + index + "]"}
                                                     placeholder={'Please select one'}
                                                     value={index < store.search.request.roomDetails[0].adultsNumber ? "Mr." : "Child"}
                                                     disabled={index >= store.search.request.roomDetails[0].adultsNumber}
@@ -206,14 +206,14 @@ class AccommodationBookingPage extends React.Component {
                                             </td>
                                             <td class="bigger">
                                                 <FieldText formik={formik}
-                                                    id={"field-booking-passenger-first-name[" + index + "]"}
+                                                    id={"passenger-first-name[" + index + "]"}
                                                     placeholder={'Please enter first name'}
                                                     clearable
                                                 />
                                             </td>
                                             <td class="bigger">
                                                 <FieldText formik={formik}
-                                                    id={"field-booking-passenger-last-name[" + index + "]"}
+                                                    id={"passenger-last-name[" + index + "]"}
                                                     placeholder={'Please enter last name'}
                                                     clearable
                                                 />
@@ -226,7 +226,7 @@ class AccommodationBookingPage extends React.Component {
                                     <div class="row">
                                         <div class="vertical-label">{t('Agent Reference')}</div>
                                         <FieldText formik={formik}
-                                            id={"field-booking-agent-reference"}
+                                            id={"agent-reference"}
                                             placeholder={'Please enter here'}
                                             clearable
                                         />
@@ -235,8 +235,8 @@ class AccommodationBookingPage extends React.Component {
                                         <div class="vertical-label">
                                             <div>{t('Extra Meal')} <span class="icon icon-info" /></div>
                                         </div>
-                                        <FieldSwitch
-                                            id={"field-booking-extra-meal"}
+                                        <FieldSwitch formik={formik}
+                                            id={"extra-meal"}
                                         />
                                     </div>
                                     <div class="row">
@@ -244,16 +244,15 @@ class AccommodationBookingPage extends React.Component {
                                             <div>{t('Special Request')} <span class="icon icon-info" /></div>
                                         </div>
                                         <FieldSwitch formik={formik}
-                                            id={"field-booking-special-request"}
-                                            value={true}
+                                            id={"special-request"}
                                         />
                                     </div>
 
-                                    <FieldTextarea formik={formik}
-                                        id={"field-booking-agent-reference"}
+                                    { formik.values["special-request"] && <FieldTextarea formik={formik}
+                                        id={"agent-reference"}
                                         placeholder={'Please enter your message'}
                                         label={t('Your Requests')}
-                                    />
+                                    /> }
                                 </div>
 
                                 <div class="part">

@@ -13,6 +13,7 @@
     "i18next": "15.1.0",
     "react-i18next": "10.9.0",
     "formik": "1.5.8",
+    "yup": "0.27.0",
     "react-daterange-picker": "2.0.1",
     "moment": "2.24.0",
     "moment-range": "3.0.3",
