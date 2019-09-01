@@ -14,6 +14,7 @@ import RegionDropdown from "components/form/dropdown/region";
 import DateDropdown from "components/form/dropdown/date";
 import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
+import { accommodationSearchValidator } from "components/form/validation";
 
 import { Formik } from 'formik';
 
@@ -25,9 +26,11 @@ class AccommodationSearch extends React.Component {
             redirectToVariantsPage: false
         };
         this.submit = this.submit.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     submit(values, { setSubmitting }) {
+        //todo: setSubmitting, loading
         store.setSearchForm(values);
         store.setSearchIsLoaded(false);
         store.setSearchResult(null);
@@ -43,10 +46,10 @@ class AccommodationSearch extends React.Component {
             },
             after: () => {
                 store.setSearchIsLoaded(true);
+                this.setState({
+                    redirectToVariantsPage: true
+                });
             }
-        });
-        this.setState({
-            redirectToVariantsPage: true
         });
     }
 
@@ -81,6 +84,11 @@ class AccommodationSearch extends React.Component {
         });
     }
 
+    reset(formik) {
+        formik.resetForm();
+        store.resetSearchRequest();
+    }
+
     componentDidUpdate() {
         if (this.state.redirectToVariantsPage)
             this.setState({
@@ -107,12 +115,11 @@ class AccommodationSearch extends React.Component {
         </div>
         <Formik
             initialValues={{
-
+                destination: "",
+                residency: "",
+                nationality: ""
             }}
-            validate={values => {
-                let errors = {};
-                return errors;
-            }}
+            validationSchema={accommodationSearchValidator}
             onSubmit={this.submit}
             render={formik => (
                 <form onSubmit={formik.handleSubmit}>
@@ -192,7 +199,7 @@ class AccommodationSearch extends React.Component {
                         <button type="button" class="button-expand">
                             {t("Advanced Search")}
                         </button>
-                        <button type="button" class="button-clear" onClick={formik.resetForm /* todo: reset */}>
+                        <button type="button" class="button-clear" onClick={() => this.reset(formik)}>
                             {t("Clear")}
                         </button>
                     </div>

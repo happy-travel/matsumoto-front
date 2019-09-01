@@ -35,7 +35,7 @@ class AccommodationVariantsPage extends React.Component {
             success: (result) =>
                 UI.setHotelDetails(result),
             error: () =>
-                console.log("wrong id or server error on accommodation details getter")
+                console.log("wrong id or server error on accommodation details getter") /* todo: handle error */
         });
     }
 
@@ -120,7 +120,7 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                             <div class="features">
                                 <span class="icon icon-info-big" onClick={() => this.showDetailsModal(item.accommodationDetails.id)} />
-                                <span class="icon icon-map" />
+                                { /* todo: <span class="icon icon-map" /> */ }
                                 <span class="button pink mini-label">{t("Preferred")}</span>
                             </div>
                         </div>

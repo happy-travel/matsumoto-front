@@ -4,31 +4,34 @@ import moment from "moment";
 import { session } from "core";
 import autosave from "core/misc/autosave";
 
+const copy = obj => JSON.parse(JSON.stringify(obj));
+const defaultSearchForm = {
+        "filters": "Default",
+        // todo: "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
+        "checkInDate": moment().utc().startOf("day"),
+        "checkOutDate": moment().utc().startOf("day").add(3, "d"),
+        "roomDetails": [
+            {
+                "adultsNumber": 1,
+                "childrenNumber": 0,
+                "rooms": 1
+            }
+        ],
+        "location": {
+            "coordinates": {
+                "latitude": 0,
+                "longitude": 0
+            },
+            "distance": 0
+        },
+        "nationality": "",
+        "residency": "" //todo: set default nationality and residency
+    };
+
 class AccommodationStore {
     @observable
     search = {
-        request: {
-            "filters": "Default",
-            // todo: "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
-            "checkInDate": moment().utc().startOf("day"),
-            "checkOutDate": moment().utc().startOf("day").add(3, "d"),
-            "roomDetails": [
-                {
-                    "adultsNumber": 1,
-                    "childrenNumber": 0,
-                    "rooms": 1
-                }
-            ],
-            "location": {
-                "coordinates": {
-                    "latitude": 0,
-                    "longitude": 0
-                },
-                "distance": 0
-            },
-            "nationality": "",
-            "residency": "" //todo: set default nationality and residency
-        },
+        request: copy(defaultSearchForm),
         loaded: false,
         form: null,
         result: null
@@ -75,6 +78,10 @@ class AccommodationStore {
 
     setSearchRequestField(field, value) {
         this.search.request[field] = value;
+    }
+
+    resetSearchRequest() {
+        this.search.request = copy(defaultSearchForm);
     }
 
     setRequestRoomDetails(field, plus) {

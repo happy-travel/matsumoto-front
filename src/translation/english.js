@@ -1,3 +1,5 @@
+import React from "react";
+
 export default {
     translations: {
         "current_language_name": "English",
@@ -155,6 +157,10 @@ export default {
         "Price": "Price",
         "Room Available": "Room Available",
         "Show all rooms": "Show all rooms",
+
+        // Accommodation booking page
+        "I have read and accepted the booking": "I have read and accepted the booking",
+        "Confirm booking": "Confirm booking",
 
         // Steps names
         "Search accommodation": "Search accommodation",

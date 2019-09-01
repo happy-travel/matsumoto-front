@@ -8,7 +8,6 @@ class FieldText extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentValue: '',
             focus: false
         };
         this.onFocus = this.onFocus.bind(this);
@@ -105,6 +104,7 @@ class FieldText extends React.Component {
                             { Flag }
                         </div> }
                         <div class="inner">
+                            {console.log(formik.values[id])}
                             <input
                                 name={id}
                                 type="text"
@@ -112,7 +112,7 @@ class FieldText extends React.Component {
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
-                                value={ value || (formik && formik.values && formik.values[id]) || null }
+                                value={ value || (formik?.values ? formik.values[id] : '') || '' }
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                                 autocomplete="off"
@@ -129,7 +129,7 @@ class FieldText extends React.Component {
                             <button type="button" class="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>
-                    {(formik?.errors[id]?.length && formik?.touched[id] && (UI.openDropdown != id)) ?
+                    {((formik?.errors[id]?.length > 1) && formik?.touched[id] && (UI.openDropdown != id)) ?
                         <div class="error-holder">{formik.errors[id]}</div>
                     : null}
                 </label>
