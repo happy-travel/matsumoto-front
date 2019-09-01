@@ -20,7 +20,7 @@ const Breadcrumbs = ({ items = [], noBackButton }) => {
                     {' '}
                 </React.Fragment>
             )) }
-            { !noBackButton && <div class="back-button"><span class="small-arrow-left" /> {t('Back')}</div>}
+            { /* todo: !noBackButton && <div class="back-button"><span class="small-arrow-left" /> {t('Back')}</div> */}
         </div>
     );
 };

@@ -46,10 +46,10 @@ class AccommodationSearch extends React.Component {
             },
             after: () => {
                 store.setSearchIsLoaded(true);
-                this.setState({
-                    redirectToVariantsPage: true
-                });
             }
+        });
+        this.setState({
+            redirectToVariantsPage: true
         });
     }
 

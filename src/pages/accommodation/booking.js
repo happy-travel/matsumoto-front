@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { API, dateFormat } from "core";
-import { Formik } from "formik";
+import { Formik, FieldArray } from "formik";
 
 import {
     FieldText,
@@ -15,6 +15,7 @@ import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual } from "components/simple";
 import { Redirect } from "react-router-dom";
+import { accommodationBookingValidator } from "components/form/validation";
 
 import store from "stores/accommodation-store";
 
@@ -44,11 +45,11 @@ class AccommodationBookingPage extends React.Component {
         for (var i = 0; i < total; i++) {
             passengers.push({
                 "title": "Mr",
-                "lastName": values["passenger-last-name"][i],
-                "firstName": values["passenger-first-name"][i],
+                "firstName": values.passengers[i].firstName,
+                "lastName": values.passengers[i].lastName,
                 "age": i < adults ? 33 : 12,
                 "initials":"",
-                "isLeader": i == 0
+                ...( i == 0 ? {"isLeader": true} : {} )
             })
         }
 
@@ -174,14 +175,13 @@ class AccommodationBookingPage extends React.Component {
 
                 <Formik
                     initialValues={{
-
+                        passengers: [
+                            ...Array(store.search.request.roomDetails[0].adultsNumber),
+                            ...Array(store.search.request.roomDetails[0].childrenNumber),
+                        ],
+                        accepted: false
                     }}
-                    validate={values => {
-                        let errors = {};
-                        if (!values)
-
-                        return errors;
-                    }}
+                    validationSchema={accommodationBookingValidator}
                     onSubmit={this.submit}
                     render={formik => (
                         <form onSubmit={formik.handleSubmit}>
@@ -193,42 +193,47 @@ class AccommodationBookingPage extends React.Component {
                                             <th><span class="required">{t("First Name")}</span></th>
                                             <th><span class="required">{t("Last Name")}</span></th>
                                         </tr>
-                                        {([
-                                            ...Array(store.search.request.roomDetails[0].adultsNumber),
-                                            ...Array(store.search.request.roomDetails[0].childrenNumber),
-                                        ]).map((item, index) => (<tr>
-                                            <td>
-                                            { index < store.search.request.roomDetails[0].adultsNumber ?
-                                                <FieldSelect formik={formik}
-                                                             id={"passenger-title[" + index + "]"}
-                                                             placeholder={"Please select one"}
-                                                             options={[
-                                                                 {value: "Mr.", text: "Mr."},
-                                                                 {value: "Mrs.", text: "Mrs."}
-                                                             ]}
-                                                /> :
-                                                <FieldText formik={formik}
-                                                    id={"passenger-title[" + index + "]"}
-                                                    value={"Child"}
-                                                    disabled
-                                                />
-                                            }
-                                            </td>
-                                            <td class="bigger">
-                                                <FieldText formik={formik}
-                                                    id={"passenger-first-name[" + index + "]"}
-                                                    placeholder={"Please enter first name"}
-                                                    clearable
-                                                />
-                                            </td>
-                                            <td class="bigger">
-                                                <FieldText formik={formik}
-                                                    id={"passenger-last-name[" + index + "]"}
-                                                    placeholder={"Please enter last name"}
-                                                    clearable
-                                                />
-                                            </td>
-                                        </tr>))}
+
+                                        <FieldArray
+                                            name="friends"
+                                            render={() => (
+                                        <React.Fragment>
+                                            {formik.values.passengers.map((item, index) => (
+                                            <tr>
+                                                <td>
+                                                { index < store.search.request.roomDetails[0].adultsNumber ?
+                                                    <FieldSelect formik={formik}
+                                                        id={`passengers.${index}.title`}
+                                                        placeholder={"Please select one"}
+                                                        options={[
+                                                            { value: "Mr.", text: "Mr." },
+                                                            { value: "Mrs.", text: "Mrs." }
+                                                        ]}
+                                                    /> :
+                                                    <FieldText formik={formik}
+                                                        id={`passengers.${index}.title`}
+                                                        value={"Child"}
+                                                        disabled
+                                                    />
+                                                }
+                                                </td>
+                                                <td class="bigger">
+                                                    <FieldText formik={formik}
+                                                        id={`passengers.${index}.firstName`}
+                                                        placeholder={"Please enter first name"}
+                                                        clearable
+                                                    />
+                                                </td>
+                                                <td class="bigger">
+                                                    <FieldText formik={formik}
+                                                        id={`passengers.${index}.lastName`}
+                                                        placeholder={"Please enter last name"}
+                                                        clearable
+                                                    />
+                                                </td>
+                                            </tr>))}
+                                        </React.Fragment>
+                                        )} />
                                     </tbody></table>
                                 </div>
 
@@ -303,7 +308,7 @@ class AccommodationBookingPage extends React.Component {
                                 <div class="final">
                                     <div class="dual">
                                         <div class="first">
-                                            <FieldCheckbox
+                                            <FieldCheckbox formik={formik}
                                                 id={"accepted"}
                                                 label={<div>
                                                     {t("I have read and accepted the booking")} <a href="#" class="underlined link">{t("Terms & Conditions")}</a>

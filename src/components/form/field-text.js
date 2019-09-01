@@ -1,7 +1,11 @@
-import React from 'react';
-
-import UI from 'stores/ui-store';
+import React from "react";
+import UI from "stores/ui-store";
 import { observer } from "mobx-react";
+
+const getValue = (formik, id) => {
+    if (!formik) return '';
+    return id.split('.').reduce((o,i)=>o?.[i], formik.values);
+};
 
 @observer
 class FieldText extends React.Component {
@@ -91,7 +95,7 @@ class FieldText extends React.Component {
             suggestion = null;
 
         if (formik)
-            suggestion = UI.getSuggestion(id, formik.values[id]);
+            suggestion = UI.getSuggestion(id, getValue(formik, id));
 
         return (
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
@@ -104,7 +108,6 @@ class FieldText extends React.Component {
                             { Flag }
                         </div> }
                         <div class="inner">
-                            {console.log(formik.values[id])}
                             <input
                                 name={id}
                                 type="text"
@@ -112,20 +115,20 @@ class FieldText extends React.Component {
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
-                                value={ value || (formik?.values ? formik.values[id] : '') || '' }
+                                value={ value || (formik?.values ? getValue(formik, id) : '') || '' }
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                                 autocomplete="off"
                                 {...(readonly ? {readonly: "readonly"} : {})}
                             />
                             { suggestion && <div class="suggestion">
-                                <span>{ formik.values[id] }</span>{ suggestion }
+                                <span>{ getValue(formik, id) }</span>{ suggestion }
                             </div> }
                         </div>
                         { Icon && <div class="icon-wrap">
                             { Icon }
                         </div> }
-                        { (clearable && formik.values[id]) ? <div>
+                        { (clearable && getValue(formik, id)) ? <div>
                             <button type="button" class="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>
@@ -136,7 +139,7 @@ class FieldText extends React.Component {
                 { Dropdown ? <div class={UI.openDropdown == id ? '' : 'hide'}>
                     <Dropdown formik={formik}
                               connected={id}
-                              value={formik.values[id]}
+                              value={getValue(formik, id)}
                               options={options}
                     />
                 </div> : null }
