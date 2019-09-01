@@ -73,7 +73,7 @@ class RegistrationStep2 extends React.Component {
                 "email": ""
             }}
             validationSchema={registrationUserValidator}
-            onSubmit={values=>this.submit(values)}
+            onSubmit={this.submit}
             render={formik => (
                 <form onSubmit={formik.handleSubmit}>
                     <div class="form">

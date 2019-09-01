@@ -2,8 +2,6 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { FieldText, FieldSelect } from "components/form";
-import { registrationUserValidator } from "components/form/validation";
 
 @observer
 class ErrorPage extends React.Component {
@@ -19,7 +17,7 @@ class ErrorPage extends React.Component {
                     <div class="middle-section">
                         <div class="picture">
                             <div class="text">
-                         BACK TO LOGIN       <h1>404</h1>
+                                <h1>404</h1>
                                 <h2>{t("Page not found")}</h2>
                             </div>
                         </div>

@@ -33,6 +33,7 @@ const Routes = () => (
 
         <Route path="/dev/auth" component={devAuthPage} />
 
+        <Route path="/auth" component={null} />
         <Route component={errorPage} />
     </Switch>
 );
