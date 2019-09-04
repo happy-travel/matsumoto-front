@@ -22,6 +22,7 @@ class LocaleSwitcherDropdown extends React.Component {
         window.setPageDirectionFromLS();
     };
 
+    // todo: refactor
     render() {
         const { t, i18n } = useTranslation();
 
@@ -29,7 +30,10 @@ class LocaleSwitcherDropdown extends React.Component {
             <React.Fragment>
                 <div class="switcher language-switcher" onClick={this.toggleMenu}>
                     <div class="flag-holder">
-                        <Flag code={"gb"} />
+                        {t("current_language_name") == "English" ?
+                            <Flag code={"gb"} /> :
+                            <Flag code={"ar"} />
+                        }
                     </div>
                     <div class="name">{t("current_language_name")}</div>
                     <div class="switch-arrow" />
@@ -37,7 +41,7 @@ class LocaleSwitcherDropdown extends React.Component {
                     {dropdownId == UI.openDropdown && <div class="locale dropdown">
                         <div class="item" onClick={this.changeLanguage.bind(null, i18n, "ar")}>
                             <Flag code={"ar"} />
-                            <span>القط</span>
+                            <span>اللغة الحالية</span>
                         </div>
                         <div class="item" onClick={this.changeLanguage.bind(null, i18n, "en")}>
                             <Flag code={"gb"} />
