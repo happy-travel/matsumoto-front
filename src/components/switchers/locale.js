@@ -32,7 +32,7 @@ class LocaleSwitcherDropdown extends React.Component {
                     <div class="flag-holder">
                         {t("current_language_name") == "English" ?
                             <Flag code={"gb"} /> :
-                            <Flag code={"ar"} />
+                            <Flag code={"ae"} />
                         }
                     </div>
                     <div class="name">{t("current_language_name")}</div>
@@ -40,7 +40,7 @@ class LocaleSwitcherDropdown extends React.Component {
 
                     {dropdownId == UI.openDropdown && <div class="locale dropdown">
                         <div class="item" onClick={this.changeLanguage.bind(null, i18n, "ar")}>
-                            <Flag code={"ar"} />
+                            <Flag code={"ae"} />
                             <span>اللغة الحالية</span>
                         </div>
                         <div class="item" onClick={this.changeLanguage.bind(null, i18n, "en")}>
