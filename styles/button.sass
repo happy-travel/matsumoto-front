@@ -101,7 +101,8 @@ button
         float: right
         width: 17px
         height: 16px
-        background: url("./images/dropdown-arrow-blue.svg") center right no-repeat
+        background: url("./images/dropdown-arrow-blue.svg") no-repeat
+        background-position: right center
     &.reverse
         &:after
             transform: scaleY(-1)
@@ -111,7 +112,8 @@ button
 .button-clear
     cursor: pointer
     color: $color-text-light
-    background: url("./images/cross-small.svg") center left no-repeat
+    background: url("./images/cross-small.svg") no-repeat
+    background-position: left center
     padding-left: 16px
     &:hover
         color: #858585
