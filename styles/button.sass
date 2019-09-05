@@ -95,8 +95,16 @@ button
 .button-expand
     cursor: pointer
     color: $color-blue
-    background: url("./images/dropdown-arrow-blue.svg") center right no-repeat
-    padding-right: 17px
+    &:after
+        content: ' '
+        display: block
+        float: right
+        width: 17px
+        height: 16px
+        background: url("./images/dropdown-arrow-blue.svg") center right no-repeat
+    &.reverse
+        &:after
+            transform: scaleY(-1)
     &:hover
         color: #074BC5
 

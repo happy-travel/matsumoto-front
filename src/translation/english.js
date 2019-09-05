@@ -15,9 +15,9 @@ export default {
         "Terms & Conditions": "Terms & Conditions",
         "Privacy Police": "Privacy Police",
         "Contact Us": "Contact Us",
-        "Email": "Email:",
-        "Phone": "Phone:",
-        "Address": "Address:",
+        "Email": "Email",
+        "Phone": "Phone",
+        "Address": "Address",
         "footer_address_line_1": "HAPPYTRAVELDOTCOM LLC,",
         "footer_address_line_2": "B102 Saraya Avenue Bldg,",
         "footer_address_line_3": "65th Street, Garhoud",
@@ -119,6 +119,8 @@ export default {
         "Superior": "Superior",
         "Luxury": "Luxury",
         "Unrated": "Unrated",
+        "Please type an address": "Please type an address",
+
 
         // Accommodation search result page
         "Map": "Map",

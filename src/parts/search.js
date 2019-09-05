@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { API, session, dateFormat } from "core";
 
 import { Redirect } from "react-router-dom";
-import { FieldText } from "components/form";
+import { FieldText, FieldSelect } from "components/form";
 import Flag from "components/flag";
 
 import store from "stores/accommodation-store";
@@ -15,6 +15,7 @@ import DateDropdown from "components/form/dropdown/date";
 import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
 import { accommodationSearchValidator } from "components/form/validation";
+import { Stars } from "components/simple";
 
 import { Formik } from 'formik';
 
@@ -31,7 +32,7 @@ class AccommodationSearch extends React.Component {
 
     submit(values, { setSubmitting }) {
         //todo: setSubmitting, loading
-        store.setSearchForm(values);
+        store.setNewSearchForm(values, UI.advancedSearch);
         store.setSearchIsLoaded(false);
         store.setSearchResult(null);
         session.google.clear();
@@ -86,7 +87,7 @@ class AccommodationSearch extends React.Component {
 
     reset(formik) {
         formik.resetForm();
-        store.resetSearchRequest();
+        store.setNewSearchForm(null);
     }
 
     componentDidUpdate() {
@@ -111,13 +112,22 @@ class AccommodationSearch extends React.Component {
             {store.roomDetails.adultsNumber}
             {store.roomDetails.childrenNumber}
             {store.roomDetails.rooms}
+            {'' + UI.advancedSearch}
             {JSON.stringify(store.suggestion)}
         </div>
         <Formik
             initialValues={{
                 destination: "",
                 residency: "",
-                nationality: ""
+                nationality: "",
+
+                // Advanced search:
+                propertyType: "Any",
+                ratings: "Unknown",
+                availability: "all",
+                address: "",
+                radius: "",
+                order: "room"
             }}
             validationSchema={accommodationSearchValidator}
             onSubmit={this.submit}
@@ -126,7 +136,7 @@ class AccommodationSearch extends React.Component {
                     <div class="form">
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"destination"}
+                                id="destination"
                                 label={t("Destination, Hotel name, Location or Landmark")}
                                 placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                 Icon={<span class="icon icon-hotel" />}
@@ -136,7 +146,7 @@ class AccommodationSearch extends React.Component {
                                 clearable
                             />
                             <FieldText formik={formik}
-                                id={"dates"}
+                                id="dates"
                                 label={t("Check In - Check Out")}
                                 placeholder={t("Choose date")}
                                 Icon={<span class="icon icon-calendar"/>}
@@ -149,7 +159,7 @@ class AccommodationSearch extends React.Component {
                                 }
                             />
                             <FieldText formik={formik}
-                                id={"room"}
+                                id="room"
                                 label={t("Adults, Children, Rooms")}
                                 placeholder={t("Choose options")}
                                 Icon={<span class="icon icon-arrows-expand"/>}
@@ -164,9 +174,64 @@ class AccommodationSearch extends React.Component {
                                 }
                             />
                         </div>
+                        <div class={"row advanced" + ( UI.advancedSearch ? '' : " invisible" )}>
+                            <FieldSelect formik={formik}
+                                id="propertyType"
+                                label={t("Property Type")}
+                                placeholder={t("")}
+                                options={[
+                                    {value: "Any", text: t("All")},
+                                    {value: "Hotels", text: t("Hotel")},
+                                    {value: "Apartments", text: t("Serviced Apartment")}
+                                ]}
+                            />
+                            <FieldSelect formik={formik}
+                                id="ratings"
+                                label={t("Star Rating")}
+                                placeholder={t("")}
+                                options={[
+                                    {value: "Unknown",    text: t("All")},
+                                    {value: "OneStar",    text: <span>{t("Economy")}  <Stars count="1" /></span>},
+                                    {value: "TwoStars",   text: <span>{t("Budget")}   <Stars count="2" /></span>},
+                                    {value: "ThreeStars", text: <span>{t("Standard")} <Stars count="3" /></span>},
+                                    {value: "FourStars",  text: <span>{t("Superior")} <Stars count="4" /></span>},
+                                    {value: "FiveStars",  text: <span>{t("Luxury")}   <Stars count="5" /></span>},
+                                    {value: "NotRated",   text: "Unrated"}
+                                ]}
+                            />
+                            <FieldSelect formik={formik}
+                                id="availability"
+                                label={t("Availability")}
+                                placeholder={t("")}
+                                options={[
+                                    {value: "all", text: t("All")},
+                                    {value: "available", text: t("Available Hotels")}
+                                ]}
+                            />
+                            <FieldText formik={formik}
+                                id="address"
+                                label={t("Address")}
+                                placeholder={t("Please type an address")}
+                                clearable
+                                addClass="size-large"
+                            />
+                            <FieldText formik={formik}
+                                id="radius"
+                                label={t("Radius (Km)")}
+                                placeholder="1"
+                            />
+                            <FieldSelect formik={formik}
+                                id="order"
+                                label={t("Order Rates")}
+                                options={[
+                                    {value: "room", text: t("By Room")},
+                                    {value: "rate", text: t("By Rate")}
+                                ]}
+                            />
+                        </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"residency"}
+                                id="residency"
                                 label={t("Residency")}
                                 placeholder={t("Choose your residency")}
                                 clearable
@@ -176,7 +241,7 @@ class AccommodationSearch extends React.Component {
                                 addClass="size-large"
                             />
                             <FieldText formik={formik}
-                                id={"nationality"}
+                                id="nationality"
                                 label={t("Nationality")}
                                 placeholder={t("Choose your nationality")}
                                 clearable
@@ -196,9 +261,14 @@ class AccommodationSearch extends React.Component {
                         </div>
                     </div>
                     <div class="additionals">
-                        <button type="button" class="button-expand">
+                        {UI.advancedSearch ?
+                        <button type="button" class="button-expand reverse" onClick={() => UI.toggleAdvancedSearch()}>
+                            {t("Simple Search")}
+                        </button> :
+                        <button type="button" class="button-expand" onClick={() => UI.toggleAdvancedSearch()}>
                             {t("Advanced Search")}
                         </button>
+                        }
                         <button type="button" class="button-clear" onClick={() => this.reset(formik)}>
                             {t("Clear")}
                         </button>

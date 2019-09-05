@@ -30,6 +30,7 @@ class UIStore {
         "position": null
     };
     @observable topAlertText = null;
+    @observable advancedSearch = false;
 
     constructor() {
         if ("localhost" == window.location.hostname) autosave(this, "_ui_store_cache");
@@ -103,6 +104,13 @@ class UIStore {
 
     setTopAlertText(value) {
         this.topAlertText = value || null;
+    }
+
+    toggleAdvancedSearch(value) {
+        if (typeof value != "undefined")
+            this.advancedSearch = value;
+        else
+            this.advancedSearch = !this.advancedSearch;
     }
 }
 

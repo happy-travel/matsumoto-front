@@ -7,7 +7,6 @@ import autosave from "core/misc/autosave";
 const copy = obj => JSON.parse(JSON.stringify(obj));
 const defaultSearchForm = {
         "filters": "Default",
-        // todo: "ratings": "TwoStars,ThreeStars,FourStars,FiveStars",
         "checkInDate": moment().utc().startOf("day"),
         "checkOutDate": moment().utc().startOf("day").add(3, "d"),
         "roomDetails": [
@@ -25,7 +24,7 @@ const defaultSearchForm = {
             "distance": 0
         },
         "nationality": "",
-        "residency": "" //todo: set default nationality and residency
+        "residency": ""
     };
 
 class AccommodationStore {
@@ -72,16 +71,19 @@ class AccommodationStore {
     setSearchIsLoaded(value) {
         this.search.loaded = value;
     }
-    setSearchForm(value) {
-        this.search.form = value;
+    setNewSearchForm(form, isAdvancedSearch) {
+        this.search.form = form;
+        if (!form)
+            this.search.request = copy(defaultSearchForm);
+
+        if (isAdvancedSearch) {
+            this.search.request.ratings = form.ratings;
+            this.search.request.propertyType = form.propertyType;
+        }
     }
 
     setSearchRequestField(field, value) {
         this.search.request[field] = value;
-    }
-
-    resetSearchRequest() {
-        this.search.request = copy(defaultSearchForm);
     }
 
     setRequestRoomDetails(field, plus) {

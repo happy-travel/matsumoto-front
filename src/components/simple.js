@@ -21,7 +21,7 @@ export const Highlighted = ({ str, highlight }) => (
 
 export const Stars = ({ count }) => {
     var result = hotelStars.indexOf(count);
-    if (count >= 1) result = count;
+    if (parseInt(count) >= 1) result = parseInt(count);
     if (result < 1) return null;
 
     return (

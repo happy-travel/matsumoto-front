@@ -27,8 +27,15 @@
         font-size: 13px
         line-height: 15px
 
-    &.select, &.select input
-        cursor: pointer
+    &.select
+        & input
+            position: absolute !important
+        &, & label, & input
+            cursor: pointer
+
+    .value-object
+        width: 400%
+        overflow-y: hidden
 
     $padding: 15px
     .input
@@ -43,6 +50,7 @@
         display: flex
         flex-direction: row
         font-size: 13px
+        overflow-x: hidden
 
         &.disabled
             background: #F5F9FA

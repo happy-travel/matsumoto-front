@@ -4,11 +4,12 @@ import FieldText from "./field-text";
 import UI from "stores/ui-store";
 
 const getTextByValue = (formik, id, options) => {
-    if (!formik) return;
-    if (typeof formik.values[id] != "undefined")
+    if (formik && typeof formik.values[id] != "undefined")
         for (var i = 0; i < options.length; i++)
             if (options[i].value == formik.values[id])
-                return options[i].text;
+                return <React.Fragment>{options[i].text}</React.Fragment>;
+
+    return null;
 };
 
 @observer
@@ -50,7 +51,9 @@ class FieldSelect extends React.Component {
             formik,
             id,
             options
-        } = this.props;
+        } = this.props,
+
+            Value = getTextByValue(formik, id, options);
 
         return (
             <FieldText
@@ -58,7 +61,7 @@ class FieldSelect extends React.Component {
                 Icon={<span class="icon icon-arrow-expand"/>}
                 addClass="select"
                 Dropdown={SelectDropdown}
-                value={(getTextByValue(formik, id, options)) || null}
+                value={Value}
                 readonly
             />
         );

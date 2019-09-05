@@ -94,6 +94,10 @@ class FieldText extends React.Component {
         } = this.props,
             suggestion = null;
 
+        var ValueObject = null;
+        if (typeof value == "object")
+            ValueObject = <div class="value-object">{value}</div>;
+
         if (formik)
             suggestion = UI.getSuggestion(id, getValue(formik, id));
 
@@ -115,12 +119,13 @@ class FieldText extends React.Component {
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
-                                value={ value || (formik?.values ? getValue(formik, id) : '') || '' }
+                                value={ ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '') }
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                                 autocomplete="off"
                                 {...(readonly ? {readonly: "readonly"} : {})}
                             />
+                            { ValueObject }
                             { suggestion && <div class="suggestion">
                                 <span>{ getValue(formik, id) }</span>{ suggestion }
                             </div> }
