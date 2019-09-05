@@ -110,7 +110,7 @@ class AccommodationVariantsPage extends React.Component {
                         <div class="photo">
                             <img src={item.accommodationDetails.picture.source} alt="" />
                         </div>
-                        <div class="title">
+                        <div class="title" onClick={() => this.showDetailsModal(item.accommodationDetails.id)} >
                             <h2>
                                 {item.accommodationDetails.name}
                                 <Stars count={item.accommodationDetails.rating} />
@@ -119,9 +119,9 @@ class AccommodationVariantsPage extends React.Component {
                                 {t("Hotels in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
                             </div>
                             <div class="features">
-                                <span class="icon icon-info-big" onClick={() => this.showDetailsModal(item.accommodationDetails.id)} />
+                                <span class="icon icon-info-big"/>
                                 { /* todo: <span class="icon icon-map" /> */ }
-                                <span class="button pink mini-label">{t("Preferred")}</span>
+                                { /* todo: <span class="button pink mini-label">{t("Preferred")}</span> */ }
                             </div>
                         </div>
                         <div class="prices">
