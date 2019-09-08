@@ -1,4 +1,4 @@
-## Happy travel
+## HappyTravel.com
 
 Tasks:
 

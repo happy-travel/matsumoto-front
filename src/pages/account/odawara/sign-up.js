@@ -41,7 +41,7 @@ class SignUp extends Component {
                 Get started with a new account
             </h1>
             <p>
-                Create a free HappyTravel account and start booking today.<br/>
+                Create a free HappyTravel.com account and start booking today.<br/>
                 Already have an account? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="link">Log In Here.</a>
             </p>
             <form method="post">

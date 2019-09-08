@@ -69,7 +69,7 @@ class RegistrationStep3 extends React.Component {
                 Company Information
             </h1>
             <p>
-                Create a free HappyTravel account and start booking today.<br/>
+                Create a free HappyTravel.com account and start booking today.<br/>
                 Already have an account? <span onClick={() => Authorize.signoutRedirect()} class="link">Log In Here.</span>
             </p>
 

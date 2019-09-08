@@ -22,7 +22,7 @@ export default {
         "footer_address_line_2": "B102 Saraya Avenue Bldg,",
         "footer_address_line_3": "65th Street, Garhoud",
         "footer_address_line_4": "Dubai, United Arab Emirates",
-        "_copyright": "Copyright © 2019 Happy Travel. All Rights Reserved.",
+        "_copyright": "Copyright © 2019 HappyTravel.com. All Rights Reserved.",
 
         // Authorization pages
         "Are you supplier?": "Are you supplier?",
@@ -163,6 +163,10 @@ export default {
         // Accommodation booking page
         "I have read and accepted the booking": "I have read and accepted the booking",
         "Confirm booking": "Confirm booking",
+        "Please enter here": "Please enter here",
+        "Please enter first name": "Please enter first name",
+        "Please enter last name": "Please enter last name",
+        "Please select one": "Please select one",
 
         // Steps names
         "Search accommodation": "Search accommodation",
