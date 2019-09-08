@@ -4,7 +4,7 @@ import autosave from "core/misc/autosave";
 
 class AuthStore {
     @observable registration = {
-        "masterCustomer": {},
+        "customer": {},
         "company": {}
     };
 
@@ -13,7 +13,7 @@ class AuthStore {
     }
 
     setUserForm(form) {
-        this.registration.masterCustomer = form;
+        this.registration.customer = form;
     }
 
     setCompanyForm(form) {
