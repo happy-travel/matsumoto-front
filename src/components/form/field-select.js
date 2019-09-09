@@ -53,7 +53,7 @@ class FieldSelect extends React.Component {
             options
         } = this.props,
 
-            Value = getTextByValue(formik, id, options);
+            ValueObject = getTextByValue(formik, id, options);
 
         return (
             <FieldText
@@ -61,7 +61,7 @@ class FieldSelect extends React.Component {
                 Icon={<span class="icon icon-arrow-expand"/>}
                 addClass="select"
                 Dropdown={SelectDropdown}
-                value={Value}
+                ValueObject={ValueObject}
                 readonly
             />
         );

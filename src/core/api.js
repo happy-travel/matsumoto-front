@@ -80,7 +80,9 @@ Authorize.getUser().then(user => {
         })
         .then(
             (result) => {
-                if (success)
+                if (rawResponse && rawResponse.status != 200) {
+                    error(result);
+                } else if (success)
                     success(result);
                 if (after)
                     after(result, null, rawResponse);
@@ -88,8 +90,6 @@ Authorize.getUser().then(user => {
             (err) => {
                 if (error)
                     error(err);
-                console.error(err);
-                console.log(rawResponse);
                 if (after)
                     after(null, err, rawResponse);
             }

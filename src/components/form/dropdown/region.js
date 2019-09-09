@@ -4,6 +4,21 @@ import UI from "stores/ui-store";
 import store from "stores/accommodation-store";
 import { decorate } from "core";
 import { Highlighted } from "components/simple";
+import { API } from "core";
+
+export const regionInputChanged = event => {
+    var query = event.target.value;
+    if (!query)
+        return UI.setCountries([]);
+
+    API.get({
+        url: API.COUNTRIES_PREDICTION,
+        body: { query },
+        after: (data) => {
+            UI.setCountries(data || []);
+        }
+    });
+};
 
 const anotherField = {
     "residency": "nationality",
@@ -26,10 +41,13 @@ class RegionDropdown extends React.Component {
         } = this.props;
 
         formik.setFieldValue(connected, city.names.en); //todo: correct culture select
-        store.setSearchRequestField(connected, city.code);
+        if ("country" != connected) //todo: repair this workaround
+            store.setSearchRequestField(connected, city.code);
+        else
+            formik.setFieldValue("countryCode", city.code);
         UI.setCountries([]);
 
-        if (!store.search.request[anotherField[connected]]) {
+        if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
             store.setSearchRequestField(anotherField[connected], city.code);
             formik.setFieldValue(anotherField[connected], city.names.en);
         }

@@ -10,7 +10,7 @@ import Flag from "components/flag";
 import store from "stores/accommodation-store";
 import UI from "stores/ui-store";
 
-import RegionDropdown from "components/form/dropdown/region";
+import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import DateDropdown from "components/form/dropdown/date";
 import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
@@ -51,20 +51,6 @@ class AccommodationSearch extends React.Component {
         });
         this.setState({
             redirectToVariantsPage: true
-        });
-    }
-
-    regionInputChanged(e) {
-        var query = e.target.value;
-        if (!query)
-            return UI.setCountries([]);
-
-        API.get({
-            url: API.COUNTRIES_PREDICTION,
-            body: { query },
-            after: (data) => {
-                UI.setCountries(data || []);
-            }
         });
     }
 
@@ -237,7 +223,7 @@ class AccommodationSearch extends React.Component {
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={RegionDropdown}
-                                onChange={this.regionInputChanged}
+                                onChange={regionInputChanged}
                                 addClass="size-large"
                             />
                             <FieldText formik={formik}
@@ -247,7 +233,7 @@ class AccommodationSearch extends React.Component {
                                 clearable
                                 Flag={false && <Flag />}
                                 Dropdown={RegionDropdown}
-                                onChange={this.regionInputChanged}
+                                onChange={regionInputChanged}
                                 addClass="size-large"
                             />
                             <div class="field">

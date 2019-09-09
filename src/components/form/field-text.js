@@ -89,14 +89,18 @@ class FieldText extends React.Component {
             required,
             readonly,
             options,
+            ValueObject,
 
             formik
         } = this.props,
             suggestion = null;
 
-        var ValueObject = null;
-        if (typeof value == "object")
-            ValueObject = <div class="value-object">{value}</div>;
+        if (ValueObject !== undefined) {
+            if (ValueObject)
+                ValueObject = <div class="value-object">{ValueObject}</div>;
+            else
+                ValueObject = <div class="value-object placeholder">{placeholder}</div>;
+        }
 
         if (formik)
             suggestion = UI.getSuggestion(id, getValue(formik, id));
@@ -115,7 +119,7 @@ class FieldText extends React.Component {
                             <input
                                 name={id}
                                 type="text"
-                                placeholder={ placeholder }
+                                placeholder={ !ValueObject && placeholder }
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }

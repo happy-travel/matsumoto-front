@@ -6,10 +6,12 @@ import { Redirect } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Formik } from "formik";
-import { FieldText, FieldTextarea } from "components/form";
+import { FieldText, FieldTextarea, FieldSelect } from "components/form";
 import { registrationCompanyValidator } from "components/form/validation";
 import store from "stores/auth-store";
+import UI from "stores/ui-store";
 import Authorize from "core/auth/authorize";
+import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 
 @observer
 class RegistrationStep3 extends React.Component {
@@ -31,9 +33,13 @@ class RegistrationStep3 extends React.Component {
         API.post({
             url: API.USER_REGISTRATION,
             body: store.registration,
-            after: () => {
+            success: () => {
+                UI.setTopAlertText(null);
                 redirect();
-            } /* todo: handle errors */
+            },
+            error: (error) => {
+                UI.setTopAlertText(error?.title || error?.detail);
+            }
         });
     }
 
@@ -81,8 +87,8 @@ class RegistrationStep3 extends React.Component {
                 "city": "",
                 "phone": "",
                 "fax": "",
-                "preferredCurrency": "",
-                "preferredPaymentMethod": "",
+                "preferredCurrency": "", //todo: remove hardcode from the list
+                "preferredPaymentMethod": "", //todo: remove hardcode from the list
                 "website": ""
             }}
             validationSchema={registrationCompanyValidator}
@@ -92,7 +98,7 @@ class RegistrationStep3 extends React.Component {
                     <div class="form">
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"name"}
+                                id="name"
                                 label={t("Company Name")}
                                 placeholder={t("Company Name")}
                                 required
@@ -100,7 +106,7 @@ class RegistrationStep3 extends React.Component {
                         </div>
                         <div class="row">
                             <FieldTextarea formik={formik}
-                                id={"address"}
+                                id="address"
                                 label={t("Company Address")}
                                 placeholder={t("Company Address")}
                                 required
@@ -115,39 +121,50 @@ class RegistrationStep3 extends React.Component {
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"country"}
+                                id="country"
                                 label={t("Country")}
                                 placeholder={t("Country")}
+                                Dropdown={RegionDropdown}
+                                onChange={regionInputChanged}
                                 required
                             />
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"city"}
+                                id="city"
                                 label={t("City")}
                                 placeholder={t("City")}
                                 required
                             />
                         </div>
                         <div class="row">
-                            <FieldText formik={formik}
-                                id={"preferredPaymentMethod"}
+                            <FieldSelect formik={formik}
+                                id="preferredPaymentMethod"
                                 label={t("Preferred Payment Method")}
+                                required
                                 placeholder={t("Preferred Payment Method")}
-                                required
+                                options={[
+                                    { value: "BankTransfer", text: "Bank transfer"},
+                                    { value: "CreditCard", text: "Credit card"},
+                                    { value: "Cash", text: "Cash"}
+                                ]}
                             />
                         </div>
                         <div class="row">
-                            <FieldText formik={formik}
-                                id={"preferredCurrency"}
+                            <FieldSelect formik={formik}
+                                id="preferredCurrency"
                                 label={t("Preferred currency")}
-                                placeholder={t("Preferred currency")}
                                 required
+                                placeholder={t("Preferred currency")}
+                                options={[
+                                    { value: "USD", text: "US Dollars"},
+                                    { value: "EUR", text: "Euro"}
+                                ]}
                             />
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"phone"}
+                                id="phone"
                                 label={t("Telephone")}
                                 placeholder={t("Telephone")}
                                 required
@@ -155,14 +172,14 @@ class RegistrationStep3 extends React.Component {
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"fax"}
+                                id="fax"
                                 label={t("Fax")}
                                 placeholder={t("Fax")}
                             />
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id={"website"}
+                                id="website"
                                 label={t("Website")}
                                 placeholder={t("Website")}
                             />

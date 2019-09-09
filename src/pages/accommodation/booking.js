@@ -204,15 +204,15 @@ class AccommodationBookingPage extends React.Component {
                                                 { index < store.search.request.roomDetails[0].adultsNumber ?
                                                     <FieldSelect formik={formik}
                                                         id={`passengers.${index}.title`}
-                                                        placeholder={"Please select one"}
+                                                        placeholder={t("Please select one")}
                                                         options={[
-                                                            { value: "Mr.", text: "Mr." },
-                                                            { value: "Mrs.", text: "Mrs." }
+                                                            { value: "Mr.", text: t("Mr.") },
+                                                            { value: "Mrs.", text: t("Mrs.") }
                                                         ]}
                                                     /> :
                                                     <FieldText formik={formik}
                                                         id={`passengers.${index}.title`}
-                                                        value={"Child"}
+                                                        value={t("Child")}
                                                         disabled
                                                     />
                                                 }
@@ -220,14 +220,14 @@ class AccommodationBookingPage extends React.Component {
                                                 <td class="bigger">
                                                     <FieldText formik={formik}
                                                         id={`passengers.${index}.firstName`}
-                                                        placeholder={"Please enter first name"}
+                                                        placeholder={t("Please enter first name")}
                                                         clearable
                                                     />
                                                 </td>
                                                 <td class="bigger">
                                                     <FieldText formik={formik}
                                                         id={`passengers.${index}.lastName`}
-                                                        placeholder={"Please enter last name"}
+                                                        placeholder={t("Please enter last name")}
                                                         clearable
                                                     />
                                                 </td>
@@ -242,7 +242,7 @@ class AccommodationBookingPage extends React.Component {
                                         <div class="vertical-label">{t("Agent Reference")}</div>
                                         <FieldText formik={formik}
                                             id={"agent-reference"}
-                                            placeholder={"Please enter here"}
+                                            placeholder={t("Please enter here")}
                                             clearable
                                         />
                                     </div>
