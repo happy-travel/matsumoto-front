@@ -78,7 +78,7 @@ class AccommodationStore {
 
         if (isAdvancedSearch) {
             this.search.request.ratings = form.ratings;
-            this.search.request.propertyType = form.propertyType;
+            this.search.request.propertyTypes = form.propertyTypes;
         }
     }
 

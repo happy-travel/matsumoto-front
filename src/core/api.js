@@ -80,8 +80,9 @@ Authorize.getUser().then(user => {
         })
         .then(
             (result) => {
-                if (rawResponse && rawResponse.status != 200) {
-                    error(result);
+                if (rawResponse && rawResponse.status >= 300) {
+                    if (error)
+                        error(result);
                 } else if (success)
                     success(result);
                 if (after)

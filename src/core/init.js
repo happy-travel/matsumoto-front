@@ -6,7 +6,15 @@ const init = () => {
     API.get({
         url: API.USER,
         success: (result) => {
-            if ("Could not find customer" == result.detail) {
+            if (result?.email)
+                UI.setUser(result);
+        },
+        after: (a,b, response) => {
+            if (response.status == 401) {
+                Authorize.signinRedirect();
+                return;
+            }
+            if (response.status != 200) {
                 var nextURL = "https://dev.happytravel.com/signup/user";
                 if ("localhost" == window.location.hostname)
                     nextURL = "http://localhost:4000/signup/user";
@@ -15,11 +23,6 @@ const init = () => {
                     window.location.href = nextURL;
                 //todo: make normal redirect
             }
-            if (result?.email)
-                UI.setUser(result);
-        },
-        error: () => {
-            Authorize.signinRedirect();
         }
     });
     API.get({

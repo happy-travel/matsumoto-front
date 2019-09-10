@@ -108,7 +108,7 @@ class AccommodationSearch extends React.Component {
                 nationality: "",
 
                 // Advanced search:
-                propertyType: "Any",
+                propertyTypes: "Any",
                 ratings: "Unknown",
                 availability: "all",
                 address: "",
@@ -162,7 +162,7 @@ class AccommodationSearch extends React.Component {
                         </div>
                         <div class={"row advanced" + ( UI.advancedSearch ? '' : " invisible" )}>
                             <FieldSelect formik={formik}
-                                id="propertyType"
+                                id="propertyTypes"
                                 label={t("Property Type")}
                                 placeholder={t("")}
                                 options={[
