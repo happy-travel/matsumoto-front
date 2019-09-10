@@ -9,9 +9,6 @@ export default Yup.object().shape({
         .min(2, "Too short")
         .max(50, "Too long")
         .required("Required"),
-    email: Yup.string()
-        .email("Invalid email")
-        .required("Required"),
     title: Yup.string()
         .required("Required"),
     position: Yup.string()

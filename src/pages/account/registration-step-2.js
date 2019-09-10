@@ -69,8 +69,7 @@ class RegistrationStep2 extends React.Component {
                 "title": "",
                 "firstName": "",
                 "lastName": "",
-                "position": "",
-                "email": ""
+                "position": ""
             }}
             validationSchema={registrationUserValidator}
             onSubmit={this.submit}
@@ -110,14 +109,6 @@ class RegistrationStep2 extends React.Component {
                                 id={"position"}
                                 label={t("Position/Designation")}
                                 placeholder={t("Position/Designation")}
-                                required
-                            />
-                        </div>
-                        <div class="row">
-                            <FieldText formik={formik}
-                                id={"email"}
-                                label={t("Email Address")}
-                                placeholder={t("Enter your email Address")}
                                 required
                             />
                         </div>

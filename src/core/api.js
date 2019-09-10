@@ -70,23 +70,31 @@ Authorize.getUser().then(user => {
 
     // todo: cache
 
-    var rawResponse = null;
+    var rawResponse = null,
+        failed = false;
     fetch(finalUrl, request)
         .then(res => {
             rawResponse = res;
+            failed = !res || (res && res.status >= 300);
             if (response)
                 response(res);
             return res.json();
         })
         .then(
             (result) => {
-                if (rawResponse && rawResponse.status >= 300) {
+                if (failed) {
                     if (error)
                         error(result);
-                } else if (success)
-                    success(result);
+                } else {
+                    if (success)
+                        success(result);
+                }
                 if (after)
-                    after(result, null, rawResponse);
+                    after(
+                        failed ? null : result,
+                        failed ? result :  null,
+                        rawResponse
+                    );
             },
             (err) => {
                 if (error)

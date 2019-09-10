@@ -39,6 +39,8 @@ class RegistrationStep3 extends React.Component {
             },
             error: (error) => {
                 UI.setTopAlertText(error?.title || error?.detail);
+                if (error && !(error?.title || error?.detail))
+                    redirect(); // todo: handle it right
             }
         });
     }
