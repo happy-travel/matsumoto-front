@@ -45,7 +45,8 @@ const Footer = () => {
                             <span>{t("Address")}:</span> {t("footer_address_line_1")}<br/>
                             {t("footer_address_line_2")}<br/>
                             {t("footer_address_line_3")}<br/>
-                            {t("footer_address_line_4")}
+                            {t("footer_address_line_4")}<br/>
+                            {t("footer_address_line_5")}
                         </div>
                     </div>
                 </section>

@@ -14,10 +14,10 @@ translations: {
     "Email": "البريد الإلكتروني",
     "Phone": "الهاتف",
     "Address": "العنوان",
-    "footer_address_line_1": "HAPPYTRAVELDOTCOM LLC,",
-    "footer_address_line_2": "B102 Saraya Avenue Bldg,",
-    "footer_address_line_3": "65th Street, Garhoud",
-    "footer_address_line_4": "Dubai, United Arab Emirates",
+    "footer_address_line_1": "HappyTravelDotCom Travel and Tourism LLC,",
+    "footer_address_line_2": "B106, Saraya Avenue building,",
+    "footer_address_line_3": "Garhoud, Deira",
+    "footer_address_line_4": "P.O. Box 36366",
     "_copyright": "حقوق الملكية",
     "Are you supplier?": "هل أنت متعهد خدمات؟",
     "Log in": "تسجيل الدخول",
@@ -190,6 +190,7 @@ translations: {
     "3 stars": "3 نجوم",
     "2 stars": "نجمتين",
     "1 star": "نجمة واحدة",
-    "Not rated": "غير مصنف"
+    "Not rated": "غير مصنف",
+    "footer_address_line_5": "Dubai, United Arab Emirates"
 }
 };
