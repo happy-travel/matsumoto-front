@@ -195,7 +195,7 @@ class RegistrationStep3 extends React.Component {
                                 </div>
                             </div>
                             <div class="field terms">
-                                By clicking this button, you agree with <a href="#" class="link">HappyTravel’s Terms of Use.</a>
+                                By clicking this button, you agree with <a target="_blank" href="/terms.docx" class="link">HappyTravel’s Terms of Use.</a>
                             </div>
                         </div>
                     </div>

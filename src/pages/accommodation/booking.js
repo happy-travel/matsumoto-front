@@ -311,7 +311,7 @@ class AccommodationBookingPage extends React.Component {
                                             <FieldCheckbox formik={formik}
                                                 id={"accepted"}
                                                 label={<div>
-                                                    {t("I have read and accepted the booking")} <a href="#" class="underlined link">{t("Terms & Conditions")}</a>
+                                                    {t("I have read and accepted the booking")} <a target="_blank" href="/terms.docx" class="underlined link">{t("Terms & Conditions")}</a>
                                                 </div>}
                                             />
                                         </div>
