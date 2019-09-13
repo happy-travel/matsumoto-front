@@ -21,7 +21,6 @@ render() {
 
     if (!result || !request)
         return (
-            <React.Fragment>
                 <div class="confirmation block">
                     <section class="double-sections">
                         <div class="half-section" />
@@ -46,11 +45,9 @@ render() {
                         <div class="half-section" />
                     </section>
                 </div>
-            </React.Fragment>
         ); /* todo: animation */
 
     return (
-    <React.Fragment>
         <div class="confirmation block">
             <section class="double-sections">
                 <div class="half-section" />
@@ -169,7 +166,6 @@ render() {
                 <div class="half-section" />
             </section>
         </div>
-    </React.Fragment>
     );
 }
 }
