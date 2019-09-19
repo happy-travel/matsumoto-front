@@ -193,6 +193,7 @@ translations: {
     "2 stars": "2 stars",
     "1 star": "1 star",
     "Not rated": "Not Rated",
-    "footer_address_line_5": "Dubai, United Arab Emirates"
+    "footer_address_line_5": "Dubai, United Arab Emirates",
+    "About us": "About us"
 }
 };

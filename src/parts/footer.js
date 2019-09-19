@@ -36,6 +36,7 @@ const Footer = () => {
                             <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
                             <li><Link to="/privacy">{t("Privacy Police")}</Link></li>
                             <li><Link to="/contact">{t("Contact Us")}</Link></li>
+                            <li><Link to="/about">{t("About Us")}</Link></li>
                         </menu>
                     </div>
                     <div class="contact">
