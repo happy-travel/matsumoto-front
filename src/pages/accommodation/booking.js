@@ -14,7 +14,7 @@ import {
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual } from "components/simple";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store from "stores/accommodation-store";
@@ -44,7 +44,7 @@ class AccommodationBookingPage extends React.Component {
 
         for (var i = 0; i < total; i++) {
             passengers.push({
-                "title": "Mr",
+                "title": "Mr", // todo: get real
                 "firstName": values.passengers[i].firstName,
                 "lastName": values.passengers[i].lastName,
                 "age": i < adults ? 33 : 12,
@@ -311,7 +311,7 @@ class AccommodationBookingPage extends React.Component {
                                             <FieldCheckbox formik={formik}
                                                 id={"accepted"}
                                                 label={<div>
-                                                    {t("I have read and accepted the booking")} <a target="_blank" href="/terms.docx" class="underlined link">{t("Terms & Conditions")}</a>
+                                                    {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" class="underlined link">{t("Terms & Conditions")}</Link>
                                                 </div>}
                                             />
                                         </div>

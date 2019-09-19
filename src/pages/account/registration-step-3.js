@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { API } from "core";
 import { useTranslation } from "react-i18next";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Formik } from "formik";
@@ -195,7 +195,7 @@ class RegistrationStep3 extends React.Component {
                                 </div>
                             </div>
                             <div class="field terms">
-                                By clicking this button, you agree with <a target="_blank" href="/terms.docx" class="link">HappyTravel’s Terms of Use.</a>
+                                By clicking this button, you agree with <Link to="/terms" class="link">HappyTravel’s Terms of Use.</Link>
                             </div>
                         </div>
                     </div>

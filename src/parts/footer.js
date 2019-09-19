@@ -33,8 +33,8 @@ const Footer = () => {
                             */ }
                         </menu>
                         <menu class="secondary">
-                            <li><a target="_blank" href="/terms.docx">{t("Terms & Conditions")}</a></li>
-                            <li><a target="_blank" href="/terms.docx">{t("Privacy Police")}</a></li>
+                            <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
+                            <li><Link to="/privacy">{t("Privacy Police")}</Link></li>
                             <li><Link to="/contact">{t("Contact Us")}</Link></li>
                         </menu>
                     </div>

@@ -8,9 +8,8 @@ class ContactUsPage extends React.Component {
         var { t } = useTranslation();
 
         return (
-            <div class="confirmation block">
+            <div class="confirmation block document">
                 <section class="double-sections">
-                    <div class="half-section" />
                     <div class="right-section">
                         <section>
                             Our Customer Service team is available 24 hours a day, seven days a week.<br/>
@@ -35,7 +34,6 @@ class ContactUsPage extends React.Component {
                             Dubai, United Arab Emirates<br/>
                         </section>
                     </div>
-                    <div class="half-section" />
                 </section>
             </div>
         );

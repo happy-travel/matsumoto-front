@@ -6,6 +6,8 @@ import accommodationVariants      from 'pages/accommodation/variants';
 import accommodationBooking       from 'pages/accommodation/booking';
 import accommodationConfirmation  from 'pages/accommodation/confirmation';
 import contactUsPage              from 'pages/common/contact';
+import termsPage                  from 'pages/common/terms';
+import privacyPage                from 'pages/common/privacy';
 
 import accountRegistrationStep2   from "pages/account/registration-step-2";
 import accountRegistrationStep3   from "pages/account/registration-step-3";
@@ -21,7 +23,7 @@ export const routesWithHeaderAndFooter = [
     ...routesWithSearch,
     "/accommodation/booking",
     "/accommodation/confirmation",
-    "/contact"
+    "/contact", "/terms", "/privacy"
 ];
 
 const Routes = () => (
@@ -32,7 +34,10 @@ const Routes = () => (
         <Route path="/accommodation/confirmation" component={accommodationConfirmation} />
         <Route path="/signup/user"                component={accountRegistrationStep2} />
         <Route path="/signup/company"             component={accountRegistrationStep3} />
+
         <Route path="/contact"                    component={contactUsPage} />
+        <Route path="/terms"                      component={termsPage} />
+        <Route path="/privacy"                    component={privacyPage} />
 
         <Route path="/dev/auth" component={devAuthPage} />
 
