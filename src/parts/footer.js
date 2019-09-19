@@ -53,6 +53,11 @@ const Footer = () => {
                     </div>
                 </section>
             </div>
+            <div class="payments">
+                <section>
+                    <img src="/images/other/payments.png" />
+                </section>
+            </div>
             <div class="copyright">
                 <section>
                     {t("_copyright")}
