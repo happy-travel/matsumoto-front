@@ -38,6 +38,9 @@ const Footer = () => {
                             <li><Link to="/contact">{t("Contact Us")}</Link></li>
                             <li><Link to="/about">{t("About Us")}</Link></li>
                         </menu>
+                        <div class="payments">
+                            <img src="/images/other/payments.png" />
+                        </div>
                     </div>
                     <div class="contact">
                         <h3>{t("Contact Us")}</h3>
@@ -51,11 +54,6 @@ const Footer = () => {
                             {t("footer_address_line_5")}
                         </div>
                     </div>
-                </section>
-            </div>
-            <div class="payments">
-                <section>
-                    <img src="/images/other/payments.png" />
                 </section>
             </div>
             <div class="copyright">
