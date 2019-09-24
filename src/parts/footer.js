@@ -12,14 +12,14 @@ const Footer = () => {
                         <div class="logo-wrapper">
                             <a href="#" class="logo" />
                         </div>
-                        <div class="social">
+                        { /* <div class="social">
                             <a href="#">
                                 <span class="icon icon-snet-1-f" />
                             </a>
                             <a href="#">
                                 <span class="icon icon-snet-2-t" />
                             </a>
-                        </div>
+                        </div> */ }
                     </div>
                     <div class="links">
                         <menu class="primary">
