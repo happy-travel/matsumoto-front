@@ -52,7 +52,7 @@ class AccommodationDetailsModal extends React.Component {
                         {hotel.textualDescriptions?.[0]?.descriptions?.en || hotel.textualDescriptions?.[1]?.descriptions?.en || ''}
                     </div>
 
-                    <h2>Hotel Photos</h2>
+                    <h2>{t("Accommodation Photos")}</h2>
 
                     { hotel.pictures?.length && <div class="gallery">
                         <ImageGallery
