@@ -175,6 +175,7 @@ class AccommodationSearch extends React.Component {
                                 id="ratings"
                                 label={t("Star Rating")}
                                 placeholder={t("")}
+                                addClass="size-large"
                                 options={[
                                     {value: "Unknown",    text: t("All")},
                                     {value: "OneStar",    text: <span>{t("Economy")}  <Stars count="1" /></span>},
@@ -184,22 +185,6 @@ class AccommodationSearch extends React.Component {
                                     {value: "FiveStars",  text: <span>{t("Luxury")}   <Stars count="5" /></span>},
                                     {value: "NotRated",   text: "Unrated"}
                                 ]}
-                            />
-                            <FieldSelect formik={formik}
-                                id="availability"
-                                label={t("Availability")}
-                                placeholder={t("")}
-                                options={[
-                                    {value: "all", text: t("All")},
-                                    {value: "available", text: t("Available Hotels")}
-                                ]}
-                            />
-                            <FieldText formik={formik}
-                                id="address"
-                                label={t("Address")}
-                                placeholder={t("Please type an address")}
-                                clearable
-                                addClass="size-large"
                             />
                             <FieldText formik={formik}
                                 id="radius"
