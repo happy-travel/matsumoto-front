@@ -1,6 +1,7 @@
 import React from "react";
 import UI from "stores/ui-store";
 import { observer } from "mobx-react";
+import { localStorage } from "core";
 
 const getValue = (formik, id) => {
     if (!formik) return '';
@@ -95,6 +96,9 @@ class FieldText extends React.Component {
         } = this.props,
             suggestion = null;
 
+        /* todo: Remove this workaround when server rtl suggestions works correct */
+        var isSuggestionVisible = localStorage.get("direction", true) != "rtl";
+
         if (ValueObject !== undefined) {
             if (ValueObject)
                 ValueObject = <div class="value-object">{ValueObject}</div>;
@@ -130,7 +134,7 @@ class FieldText extends React.Component {
                                 {...(readonly ? {readonly: "readonly"} : {})}
                             />
                             { ValueObject }
-                            { suggestion && <div class="suggestion">
+                            { isSuggestionVisible && suggestion && <div class="suggestion">
                                 <span>{ getValue(formik, id) }</span>{ suggestion }
                             </div> }
                         </div>
