@@ -68,6 +68,7 @@ class AccommodationFiltersPart extends React.Component {
                         </div>
                     }
                 />
+                { /*
                 <Expandable
                     open
                     header={t("Rate Type")}
@@ -80,7 +81,6 @@ class AccommodationFiltersPart extends React.Component {
                         </div>
                     }
                 />
-                { /* todo:
                 <Expandable header={t("Hotel Amenities")} />
                 <Expandable header={t("Geo Location")} />
                 <Expandable header={t("Leisure & Sport")} />

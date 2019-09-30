@@ -9,7 +9,9 @@ const init = () => {
             if (result?.email)
                 UI.setUser(result);
         },
-        after: (a,b, response) => {
+        after: (a, b, response) => {
+            if (!response)
+                return;
             if (response.status == 401) {
                 Authorize.signinRedirect();
                 return;

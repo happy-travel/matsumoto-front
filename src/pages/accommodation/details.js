@@ -111,6 +111,7 @@ class AccommodationDetailsModal extends React.Component {
                         </tr>
                     </tbody></table>
 
+                    { /*
                     <div class="button-holder">
                         <button class="button">
                             <div class="image">
@@ -118,6 +119,7 @@ class AccommodationDetailsModal extends React.Component {
                             </div>
                         </button>
                     </div>
+                    */ }
                 </div>
             </div>
         );

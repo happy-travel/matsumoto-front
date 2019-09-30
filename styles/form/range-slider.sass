@@ -1,42 +1,87 @@
-.range-slider
-    .slider
-        height: 32px
-        position: relative
-        & > div
-            margin-top: 12px
-            height: 8px
-            width: 100%
-            background: #F4F4F4
-            border-radius: 100px
-            & > div
-                position: absolute
-                top: 0
-                left: 0
-                right: 37px
-                height: 8px
-                background: $color-brand
-                border-radius: 100px
-                &:before, &:after
-                    content: ' '
-                    cursor: pointer
-                    width: 16px
-                    height: 16px
-                    display: block
-                    background: #FFFFFF
-                    border: 1px solid #D8DADC
-                    position: absolute
-                    border-radius: 200px
-                &:before
-                    left: -3px
-                    top: -4px
-                &:after
-                    right: -3px
-                    top: -4px
+.input-range__slider
+    appearance: none
+    background: #FFFFFF
+    border: 1px solid #D8DADC
+    border-radius: 100%
+    cursor: pointer
+    display: block
+    height: 16px
+    margin-left: -0.5rem
+    margin-top: -0.65rem
+    outline: none
+    position: absolute
+    top: 50%
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out
+    width: 16px
 
-    &-values
-        display: flex
-        justify-content: space-between
-        span
-            font-size: 12px
-            line-height: 14px
-            color: $color-blue
+.input-range__slider:active
+    transform: scale(1.1)
+
+.input-range__slider:focus
+    box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2)
+
+.input-range--disabled .input-range__slider
+    background: #cccccc
+    border: 1px solid #cccccc
+    box-shadow: none
+    transform: none
+
+.input-range__slider-container
+    transition: left 0.3s ease-out
+
+.input-range__label
+    color: #aaaaaa
+    font-size: 0.8rem
+    transform: translateZ(0)
+    white-space: nowrap
+
+.input-range__label--min,
+.input-range__label--max
+    bottom: -1.4rem
+    position: absolute
+
+.input-range__label--min
+    left: 0
+
+.input-range__label--max
+    right: 0
+
+.input-range__label--value
+    position: absolute
+    top: -1.8rem
+
+    .input-range__label-container
+        display: none
+
+.input-range__label-container
+    font-size: 12px
+    line-height: 14px
+    color: $color-blue
+
+.input-range__track
+    background: #F4F4F4
+    border-radius: 8px
+    cursor: pointer
+    display: block
+    height: 8px
+    position: relative
+    transition: left 0.3s ease-out, width 0.3s ease-out
+
+.input-range--disabled .input-range__track
+    background: #eeeeee
+
+.input-range__track--background
+    left: 8px
+    margin-top: -4px
+    position: absolute
+    right: 8px
+    top: 50%
+
+.input-range__track--active
+    background: $color-brand
+
+.input-range
+    height: 33px
+    position: relative
+    width: 100%
+    margin-bottom: 15px
