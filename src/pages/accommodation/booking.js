@@ -238,7 +238,7 @@ class AccommodationBookingPage extends React.Component {
                                 </div>
 
                                 <div class="part">
-                                    <div class="row">
+                                    <div class="row no-margin">
                                         <div class="vertical-label">{t("Agent Reference")}</div>
                                         <FieldText formik={formik}
                                             id={"agent-reference"}
@@ -246,6 +246,7 @@ class AccommodationBookingPage extends React.Component {
                                             clearable
                                         />
                                     </div>
+                                    { /* todo
                                     <div class="row">
                                         <div class="vertical-label">
                                             <div>{t("Extra Meal")} <span class="icon icon-info" /></div>
@@ -262,6 +263,7 @@ class AccommodationBookingPage extends React.Component {
                                             id={"special-request"}
                                         />
                                     </div>
+                                    */ }
 
                                     { formik.values["special-request"] && <FieldTextarea formik={formik}
                                         id={"agent-reference"}
@@ -299,11 +301,13 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div>
 
-                                { false && <div class="part">
+                                { /*
+                                <div class="part">
                                     <h2>
                                         Do You Wish to Add Additional Services?
                                     </h2>
-                                </div> }
+                                </div>
+                                */ }
 
                                 <div class="final">
                                     <div class="dual">

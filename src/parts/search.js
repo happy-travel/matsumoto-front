@@ -164,7 +164,6 @@ class AccommodationSearch extends React.Component {
                             <FieldSelect formik={formik}
                                 id="propertyTypes"
                                 label={t("Property Type")}
-                                placeholder={t("")}
                                 options={[
                                     {value: "Any", text: t("All")},
                                     {value: "Hotels", text: t("Hotel")},
@@ -174,7 +173,6 @@ class AccommodationSearch extends React.Component {
                             <FieldSelect formik={formik}
                                 id="ratings"
                                 label={t("Star Rating")}
-                                placeholder={t("")}
                                 addClass="size-large"
                                 options={[
                                     {value: "Unknown",    text: t("All")},
