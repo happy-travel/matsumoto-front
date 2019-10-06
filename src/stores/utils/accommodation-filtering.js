@@ -56,6 +56,9 @@ export const applyFilters = (hotels, filters) => {
     if (!hotels)
         return null;
 
+    if (!filters)
+        return hotels;
+
     var result = hotels;
 
     if (atLeastOne(filters.ratings))
