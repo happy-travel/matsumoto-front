@@ -3,10 +3,28 @@ import { observer } from "mobx-react";
 import FieldText from "./field-text";
 import UI from "stores/ui-store";
 
+const getDeepValue = (obj, path) => {
+    if (!obj || !path)
+        return null;
+
+    if (path.indexOf(".") == -1)
+        return obj[path];
+
+    var i, length;
+    for (i=0, path=path.split("."), length=path.length; i < length; i++) {
+        if (!obj) return null;
+        obj = obj[path[i]];
+    }
+
+    return obj;
+};
+
 const getTextByValue = (formik, id, options) => {
-    if (formik && typeof formik.values[id] != "undefined")
+    var value = getDeepValue(formik.values, id);
+
+    if (formik && typeof value != "undefined")
         for (var i = 0; i < options.length; i++)
-            if (options[i].value == formik.values[id])
+            if (options[i].value == value)
                 return <React.Fragment>{options[i].text}</React.Fragment>;
 
     return null;

@@ -141,7 +141,7 @@ class AccommodationVariantsPage extends React.Component {
                             <tr>
                                 <th>{t("Room Type")}</th>
                                 <th>{t("Board Basis")}</th>
-                                <th>{t("Included Services")}</th>
+                                <th>{t("Deadline")}</th>
                                 { false && <th>{t("Actions")}</th> }
                                 <th>{t("Total Price")}</th>
                                 <th />
@@ -149,16 +149,17 @@ class AccommodationVariantsPage extends React.Component {
                             { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? 3 : undefined).map(agreement => <tr>
                                 <td>
                                     {agreement.rooms[0].type}
-                                    { moment().isAfter(agreement.deadlineDate) && <div class="services-info">
-                                        <span class="icon icon-info orange"/> {t("Within deadline")}
-                                        <br/>{dateFormat.a(agreement.deadlineDate)}
-                                    </div> }
                                 </td>
                                 <td>
                                     {agreement.mealPlan}
                                 </td>
                                 <td>
-                                    {t("None")}
+                                    { moment().isAfter(agreement.deadlineDate) ? <div class="services-info">
+                                        <span class="icon icon-info orange"/> {t("Within deadline")}
+                                        <br/>{dateFormat.a(agreement.deadlineDate)}
+                                    </div> :
+                                        dateFormat.a(agreement.deadlineDate)
+                                    }
                                 </td>
                                 { false && <td class="actions">
                                     <span class="icon icon-calendar-clock" />

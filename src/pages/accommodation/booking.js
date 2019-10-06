@@ -117,11 +117,11 @@ class AccommodationBookingPage extends React.Component {
                 <div class="static item">{t("Your Reservation")}</div>
                 <Dual
                     a={<span>Arrival<br/> Date</span>}
-                    b={dateFormat.a(variant.roomPrices[0].fromDate)}
+                    b={dateFormat.a(store.search.result.checkInDate)}
                 />
                 <Dual
                     a={<span>Departure<br/> Date</span>}
-                    b={dateFormat.a(variant.roomPrices[0].toDate)}
+                    b={dateFormat.a(store.search.result.checkOutDate)}
                 />
                 <Dual
                     a={t("Number of Rooms")}
@@ -131,7 +131,7 @@ class AccommodationBookingPage extends React.Component {
                 <div class="static item">{t("Room Information")}</div>
                 <Dual
                     a={t("Room Type")}
-                    b={variant.roomPrices[0].type}
+                    b={variant.rooms[0].type}
                 />
                 { false && [<Dual
                     a={t("Board Basis")}
