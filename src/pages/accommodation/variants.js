@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
+import moment from "moment";
 
 import { API, dateFormat } from "core";
 import store from 'stores/accommodation-store';
@@ -72,9 +73,6 @@ class AccommodationVariantsPage extends React.Component {
                 { store && !store.search.loaded &&
                     <div>{t("Loading...")}</div> /* todo: animation */}
 
-                { store.search.loaded && !store.hotelArray.length &&
-                    <div>{t("Nothing found")}</div> }
-
                 { store.search.loaded && <div class="head">
                     <div class="title">
                         <h3>
@@ -104,6 +102,9 @@ class AccommodationVariantsPage extends React.Component {
                     */ }
                 </div> }
 
+                { store.search.loaded && !store.hotelArray.length &&
+                    <div>{t("Nothing found")}</div> }
+
                 { store.hotelArray.map((item, hotelIndex) =>
                 <div class="variant" key={item.accommodationDetails.id}>
                     <div class="summary">
@@ -112,7 +113,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="title" onClick={() => this.showDetailsModal(item.accommodationDetails.id)} >
                             <h2>
-                                {item.accommodationDetails.name}
+                                <u>{item.accommodationDetails.name}</u>
                                 <Stars count={item.accommodationDetails.rating} />
                             </h2>
                             <div class="category">
@@ -148,16 +149,16 @@ class AccommodationVariantsPage extends React.Component {
                             { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? 3 : undefined).map(agreement => <tr>
                                 <td>
                                     {agreement.rooms[0].type}
+                                    { moment().isAfter(agreement.deadlineDate) && <div class="services-info">
+                                        <span class="icon icon-info orange"/> {t("Within deadline")}
+                                        <br/>{dateFormat.a(agreement.deadlineDate)}
+                                    </div> }
                                 </td>
                                 <td>
                                     {agreement.mealPlan}
                                 </td>
                                 <td>
                                     {t("None")}
-                                    <div class="services-info">
-                                        <span class="icon icon-info orange"/> {t("Within deadline")}
-                                        <br/>{dateFormat.a(item.deadline)}
-                                    </div>
                                 </td>
                                 { false && <td class="actions">
                                     <span class="icon icon-calendar-clock" />

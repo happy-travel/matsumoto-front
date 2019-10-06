@@ -195,6 +195,10 @@ translations: {
     "1 star": "1 star",
     "Not rated": "Not Rated",
     "footer_address_line_5": "Dubai, United Arab Emirates",
-    "About us": "About us"
+    "About Us": "About Us",
+    "Booking management": "Booking management",
+    "Your Booking": "Your Booking",
+    "Cost": "Cost",
+    "Cancel": "Cancel"
 }
 };

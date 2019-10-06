@@ -3,6 +3,7 @@ import { observable, computed } from "mobx";
 import moment from "moment";
 import { session } from "core";
 import autosave from "core/misc/autosave";
+import { createFilters, applyFilters } from "./utils/accommodation-filtering";
 
 const copy = obj => JSON.parse(JSON.stringify(obj));
 const defaultSearchForm = {
@@ -48,12 +49,21 @@ class AccommodationStore {
         result: null
     };
 
+    @observable
+    filters = null;
+
+    @observable
+    selectedFilters = null;
+
+    @observable
+    userBookingList = [];
+
     constructor() {
         if ("localhost" == window.location.hostname) autosave(this, "_accommodation_store_cache");
     }
 
     @computed get hotelArray() {
-        return this.search?.result?.results || [];
+        return applyFilters(this.search?.result?.results, this.selectedFilters) || [];
     }
 
     @computed get roomDetails() {
@@ -67,12 +77,18 @@ class AccommodationStore {
 
     setSearchResult(value) {
         this.search.result = value;
+        this.filters = createFilters(value);
+        this.selectedFilters = null;
+    }
+    setSelectedFilters(filters) {
+        this.selectedFilters = filters;
     }
     setSearchIsLoaded(value) {
         this.search.loaded = value;
     }
     setNewSearchForm(form, isAdvancedSearch) {
         this.search.form = form;
+        this.filters = null;
         if (!form)
             this.search.request = copy(defaultSearchForm);
 
@@ -119,6 +135,10 @@ class AccommodationStore {
                 "type": value.type
             }
         }
+    }
+
+    setUserBookingList(value) {
+        this.userBookingList = value || [];
     }
 
     select(agreement, hotel) {

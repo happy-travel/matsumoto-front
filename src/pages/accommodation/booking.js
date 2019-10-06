@@ -276,23 +276,23 @@ class AccommodationBookingPage extends React.Component {
                                     <table class="checkboxes"><tbody>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Request Interconnecting Rooms"} /></td>
-                                            <td><FieldCheckbox label={"Request for an Early Check In"} /></td>
+                                            <td><FieldCheckbox formik={formik} label={"Request for an Early Check In"} /></td>
                                         </tr>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Smoking Room"} /></td>
-                                            <td><FieldCheckbox label={"Request for a Late Check Out"} /></td>
+                                            <td><FieldCheckbox formik={formik} label={"Request for a Late Check Out"} /></td>
                                         </tr>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Non Smoking Room"} /></td>
-                                            <td><FieldCheckbox label={"Please note that Guest is a VIP"} /></td>
+                                            <td><FieldCheckbox formik={formik} label={"Please note that Guest is a VIP"} /></td>
                                         </tr>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a Low Floor"} /></td>
-                                            <td><FieldCheckbox label={"Please note that Guests are a Honeymoon Couple"} /></td>
+                                            <td><FieldCheckbox formik={formik} label={"Please note that Guests are a Honeymoon Couple"} /></td>
                                         </tr>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a High Floor"} /></td>
-                                            <td><FieldCheckbox label={"Request for a Baby Cot"} /></td>
+                                            <td><FieldCheckbox formik={formik} label={"Request for a Baby Cot"} /></td>
                                         </tr>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Request for Late Check-In"} /></td>

@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import UI from "stores/ui-store";
 import { localStorage } from "core";
 import Authorize from "core/auth/authorize";
+import { Link } from "react-router-dom";
 
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
 
@@ -32,6 +33,9 @@ class UserMenuDropdown extends React.Component {
                     </div>
                     <div class="switch-arrow" />
                     {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
+                        <Link to="/user/booking" class="item">
+                            {t("Booking management")}
+                        </Link>
                         <div class="item" onClick={() => Authorize.signoutRedirect()}>
                             {t("Log out")}
                         </div>

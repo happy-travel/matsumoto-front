@@ -7,87 +7,116 @@ import {
 } from "components/form";
 import { Expandable } from "components/simple";
 
+import store from "stores/accommodation-store";
+import { Formik } from "formik";
+import { hotelStars } from "core";
+
 @observer
 class AccommodationFiltersPart extends React.Component {
     render() {
         const { t } = useTranslation();
 
+        if (!store.filters)
+            return <div class="left-section filters" />;
+
         return (
-            <div class="left-section filters">
-                { /* todo:
-                <div class="static item">{t("Map")}</div>
-                <div class="expanded">
-                    <img src="/images/temporary/map.png" alt=""/>
-                </div>
-                */ }
-                <Expandable
-                    open
-                    header={t("Price Range")}
-                    content={
-                        <div class="expanded price-range">
-                            <h4>{t("Drag the slider to choose the minimum and maximum price")}</h4>
-                            <FieldRange
-                                min={null}
-                                max={null}
-                            />
-                        </div>
-                    }
-                />
-                <Expandable
-                    header={t("Property Type")}
-                    content={
-                        <div class="expanded">
-                        </div>
-                    }
-                />
-                <Expandable
-                    open
-                    header={t("Rating")}
-                    content={
-                        <div class="expanded">
-                            <FieldCheckbox
-                                label={<div>{t("Preferred")} <span>(1)</span></div>}
-                            />
-                            <FieldCheckbox
-                                label={<div>{t("5 stars")} <span>(5)</span></div>}
-                            />
-                        </div>
-                    }
-                />
-                <Expandable
-                    open
-                    header={t("Board Basis")}
-                    content={
-                        <div class="expanded">
-                            <FieldCheckbox
-                                label={t("Room Only")}
-                            />
-                            <FieldCheckbox
-                                label={t("Breakfast")}
-                            />
-                        </div>
-                    }
-                />
-                { /*
-                <Expandable
-                    open
-                    header={t("Rate Type")}
-                    content={
-                        <div class="expanded">
-                            <FieldCheckbox
-                                label={t("Flexible")}
-                                value={true}
-                            />
-                        </div>
-                    }
-                />
-                <Expandable header={t("Hotel Amenities")} />
-                <Expandable header={t("Geo Location")} />
-                <Expandable header={t("Leisure & Sport")} />
-                <Expandable header={t("Business Features")} />
-                <Expandable header={t("Hotel Chain")} />
-                */ }
+            <Formik
+                initialValues={{
+
+                }}
+                render={formik => {
+                    store.setSelectedFilters(formik.values);
+                    return (
+                        <form onSubmit={formik.handleSubmit}>
+                            <div class="left-section filters">
+                                { store.filters.price.min != store.filters.price.max &&
+                                  store.filters.price.max < Infinity && <Expandable
+                                    open
+                                    header={t("Price Range")}
+                                    content={
+                                        <div class="expanded price-range">
+                                            <h4>{t("Drag the slider to choose the minimum and maximum price")}</h4>
+                                            <FieldRange formik={formik}
+                                                min={store.filters.price.min}
+                                                max={store.filters.price.max}
+                                                currency={store.filters.price.currency}
+                                                id="price"
+                                            />
+                                        </div>
+                                    }
+                                /> }
+                                { store.filters.ratings.length && <Expandable
+                                    open
+                                    header={t("Rating")}
+                                    content={
+                                        <div class="expanded">
+                                            { hotelStars.map((item, i) => (
+                                                <React.Fragment>
+                                                    { store.filters.ratings.indexOf(item) > -1 && <FieldCheckbox formik={formik}
+                                                        label={<div>{t(i + " star" + (i > 1 ? "s" : ""))} {/*<span>(5)</span>*/}</div>}
+                                                        id={ "ratings." + item }
+                                                    /> }
+                                                </React.Fragment>
+                                            )) }
+                                        </div>
+                                    }
+                                /> }
+                                { store.filters.mealPlans.length && <Expandable
+                                    open
+                                    header={t("Board Basis")}
+                                    content={
+                                        <div class="expanded">
+                                            { store.filters.mealPlans.indexOf("RO") > -1 && <FieldCheckbox formik={formik}
+                                                label={t("Room Only")}
+                                                id="mealPlans.RO"
+                                            /> }
+                                            { store.filters.mealPlans.indexOf("RB") > -1 && <FieldCheckbox formik={formik}
+                                                label={t("Breakfast")}
+                                                id="mealPlans.RB"
+                                            /> }
+                                        </div>
+                                    }
+                                /> }
+{ /* todo:
+    <div class="static item">{t("Map")}</div>
+    <div class="expanded">
+        <img src="/images/temporary/map.png" alt=""/>
+    </div>
+*/ }
+{ /*
+    <Expandable
+        header={t("Property Type")}
+        content={
+            <div class="expanded">
             </div>
+        }
+    />
+*/ }
+{ /*
+    <Expandable
+        open
+        header={t("Rate Type")}
+        content={
+            <div class="expanded">
+                <FieldCheckbox
+                    label={t("Flexible")}
+                    value={true}
+                />
+            </div>
+        }
+    />
+    <Expandable header={t("Hotel Amenities")} />
+    <Expandable header={t("Geo Location")} />
+    <Expandable header={t("Leisure & Sport")} />
+    <Expandable header={t("Business Features")} />
+    <Expandable header={t("Hotel Chain")} />
+*/ }
+                            </div>
+                        </form>
+
+                    );
+            }} />
+
         );
     }
 }

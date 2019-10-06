@@ -69,17 +69,24 @@
     &.locale, &.currency, &.user-menu
         min-width: 136px
         padding: 6px 0 3px
-        bottom: -67px
+        top: 47px
         right: -27px
+        line-height: 0
         .item
             line-height: 17px
             padding: 10px 0 10px 16px
             font-size: 11px
+            display: block
+            z-index: 2
+            position: relative
+            &:hover
+                background: #F3F4F6
             .flag
                 margin-left: 12px
                 display: inline-block
     &.user-menu
-        bottom: -32px
+        .item
+            padding-right: 16px
     &.select
         padding: 0
         width: 100%
