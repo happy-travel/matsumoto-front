@@ -178,8 +178,7 @@ class AccommodationBookingPage extends React.Component {
                         passengers: [
                             ...Array(store.search.request.roomDetails[0].adultsNumber),
                             ...Array(store.search.request.roomDetails[0].childrenNumber),
-                        ],
-                        accepted: false
+                        ]
                     }}
                     validationSchema={accommodationBookingValidator}
                     onSubmit={this.submit}
@@ -301,24 +300,9 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div>
 
-                                { /*
-                                <div class="part">
-                                    <h2>
-                                        Do You Wish to Add Additional Services?
-                                    </h2>
-                                </div>
-                                */ }
-
                                 <div class="final">
                                     <div class="dual">
-                                        <div class="first">
-                                            <FieldCheckbox formik={formik}
-                                                id={"accepted"}
-                                                label={<div>
-                                                    {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" class="underlined link">{t("Terms & Conditions")}</Link>
-                                                </div>}
-                                            />
-                                        </div>
+                                        <div class="first" />
                                         <div class="second">
                                             <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
                                                 {t("Confirm booking")}

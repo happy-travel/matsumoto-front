@@ -9,6 +9,5 @@ export default Yup.object().shape({
         lastName: Yup.string()
             .required('Required'),
     }))
-        .required('Not enough passengers'),
-    accepted: Yup.boolean().oneOf([true], 'Please accept Terms and Conditions'),
+        .required('Not enough passengers')
 });
