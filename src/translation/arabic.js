@@ -145,6 +145,7 @@ translations: {
     "Guest Details": "تفاصيل الضيف",
     "Find Accommodation": "البحث عن أماكن إقامة",
     "Booking confirmation": "تأكيد الحجز",
+    "Booking Confirmation": "تأكيد الحجز",
     "Agent Reference": "مرجع الوكيل",
     "Extra Meal": "وجبة إضافية",
     "Special Request": "طلب خاص",
