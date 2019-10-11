@@ -4,20 +4,24 @@ import { useTranslation } from "react-i18next";
 import { API, dateFormat } from "core";
 
 import { Dual } from "components/simple";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import store from "stores/accommodation-store";
 
-
 @observer
 class BookingManagementPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            redirectToBookingConfirmationId: null
+        };
+    }
 
     componentDidMount() {
         API.get({
             url: API.ACCOMMODATION_BOOKING,
             after: (data) => {
-                store.setUserBookingList(data || {});
-                console.log(data);
+                store.setUserBookingList(data);
             }
         });
     }
@@ -25,6 +29,8 @@ class BookingManagementPage extends React.Component {
     render() {
         const { t } = useTranslation();
 
+        if (this.state.redirectToBookingConfirmationId !== null)
+            return <Redirect push to={"/accommodation/confirmation/" + this.state.redirectToBookingConfirmationId} />;
 
         return (
                 <div class="management block">
@@ -32,20 +38,17 @@ class BookingManagementPage extends React.Component {
                         <h2>
                             {t("Your Booking")}
                         </h2>
-                        <div style={{ minHeight: "300px"}}>
+                        <div>
                             {!store.userBookingList?.length ? <div>You don't have any reservations</div> :
                                 <table>
                                     {store.userBookingList.map(item => {
-                                        var bookingDetails, serviceDetails;
-                                        try {
-                                            bookingDetails = JSON.parse(item.bookingDetails);
-                                            serviceDetails = JSON.parse(item.serviceDetails);
-                                        } catch (e) {}
+                                        var bookingDetails = item.bookingDetails,
+                                            serviceDetails = item.serviceDetails;
 
                                         if (!bookingDetails || !serviceDetails)
                                             return null;
 
-                                        return (<tr>
+                                        return (<tr onClick={() => this.setState({ redirectToBookingConfirmationId: item.bookingId })}>
                                             <td>
                                                 <strong>{t("Accommodation")}</strong>
                                                 {bookingDetails.roomDetails[0].roomDetails.type}
@@ -55,7 +58,7 @@ class BookingManagementPage extends React.Component {
                                                 {bookingDetails.cityCode}
                                             </td>
                                             <td>
-                                                <strong>{t("Board basis")}</strong>
+                                                <strong>{t("Board Basis")}</strong>
                                                 {serviceDetails.agreement?.mealPlan}
                                             </td>
                                             <td>
@@ -84,7 +87,6 @@ class BookingManagementPage extends React.Component {
                                     })}
                                 </table>
                             }
-
                         </div>
                     </section>
                 </div>

@@ -92,7 +92,7 @@ class AccommodationSearch extends React.Component {
     { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
     <section>
         {/* todo: remove the following hack and make back parser for query */}
-        <div style={{display: "none"}}>
+        <div class="hide">
             {''+store.search.request.checkInDate}
             {''+store.search.request.checkOutDate}
             {store.roomDetails.adultsNumber}

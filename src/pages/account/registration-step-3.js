@@ -23,24 +23,20 @@ class RegistrationStep3 extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
-    submit(values, { setSubmitting }) {
+    submit(values) {
         store.setCompanyForm(values);
-
-        var redirect = this.setState.bind(this, {
-            redirectToIndexPage: true
-        });
 
         API.post({
             url: API.USER_REGISTRATION,
             body: store.registration,
             success: () => {
                 UI.setTopAlertText(null);
-                redirect();
+                this.setState({ redirectToIndexPage: true });
             },
             error: (error) => {
                 UI.setTopAlertText(error?.title || error?.detail);
                 if (error && !(error?.title || error?.detail))
-                    redirect(); // todo: handle it right
+                    this.setState({ redirectToIndexPage: true });
             }
         });
     }

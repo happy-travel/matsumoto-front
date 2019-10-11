@@ -6,6 +6,9 @@ import accommodationVariants      from 'pages/accommodation/variants';
 import accommodationBooking       from 'pages/accommodation/booking';
 import accommodationConfirmation  from 'pages/accommodation/confirmation';
 
+import paymentPage                from "pages/payment/payment";
+import paymentResult              from "pages/payment/result";
+
 import accountRegistrationStep2   from "pages/account/registration-step-2";
 import accountRegistrationStep3   from "pages/account/registration-step-3";
 import bookingManagement          from "pages/account/booking-management";
@@ -25,7 +28,8 @@ export const routesWithSearch = [
 export const routesWithHeaderAndFooter = [
     ...routesWithSearch,
     "/accommodation/booking",
-    "/accommodation/confirmation",
+    "/accommodation/confirmation*",
+    "/payment*",
     "/contact", "/terms", "/privacy", "/about",
     "/user/booking"
 ];
@@ -35,7 +39,14 @@ const Routes = () => (
         <Route exact path="/"                     component={accommodationTitle} />
         <Route path="/search"                     component={accommodationVariants} />
         <Route path="/accommodation/booking"      component={accommodationBooking} />
-        <Route path="/accommodation/confirmation" component={accommodationConfirmation} />
+        <Route path={
+            ["/accommodation/confirmation/:id",
+             "/accommodation/confirmation"]}      component={accommodationConfirmation} />
+
+        <Route path={
+            ["/payment/result/:ref",
+             "/payment/result"]}                  component={paymentResult} />
+        <Route path="/payment"                    component={paymentPage} />
 
         <Route path="/signup/user"                component={accountRegistrationStep2} />
         <Route path="/signup/company"             component={accountRegistrationStep3} />

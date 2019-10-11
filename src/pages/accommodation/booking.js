@@ -33,8 +33,7 @@ class AccommodationBookingPage extends React.Component {
         if (!store.selected.hotel.id || !store.selected.variant.id)
             return null; //todo: another answer
 
-        var hotel = store.selected.hotel,
-            variant = store.selected.variant,
+        var variant = store.selected.variant,
             search = store.search.request;
 
         //todo: refactoring
@@ -42,7 +41,7 @@ class AccommodationBookingPage extends React.Component {
             total = adults + store.search.request.roomDetails[0].childrenNumber,
             passengers = [];
 
-        for (var i = 0; i < total; i++) {
+        for (var i = 0; i < total; i++)
             passengers.push({
                 "title": "Mr", // todo: get real
                 "firstName": values.passengers[i].firstName,
@@ -50,8 +49,7 @@ class AccommodationBookingPage extends React.Component {
                 "age": i < adults ? 33 : 12,
                 "initials":"",
                 ...( i == 0 ? {"isLeader": true} : {} )
-            })
-        }
+            });
 
         var request = {
             "availabilityId": store.search.result.availabilityId,
@@ -73,9 +71,7 @@ class AccommodationBookingPage extends React.Component {
         API.post({
             url: API.ACCOMMODATION_BOOKING,
             body: request,
-            after: (data) => {
-                store.setBookingResult(data || {});
-            }
+            after: (result, data) => store.setBookingResult(result, data)
         });
 
         this.setState({

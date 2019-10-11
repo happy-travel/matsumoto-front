@@ -199,6 +199,27 @@ translations: {
     "Booking management": "Booking management",
     "Your Booking": "Your Booking",
     "Cost": "Cost",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Booking Confirmation": "Booking Confirmation",
+    "Other Passengers": "Other Passengers",
+    "Pay now by Card": "Pay now by Card",
+    "Payment": "Payment",
+    "Confirm": "Confirm",
+    "Pay": "Pay",
+    "Card number": "Card number",
+    "Remember card": "Remember card",
+    "Expiry date": "Expiry date",
+    "Card security code": "Card security code",
+    "Card holder name": "Card holder name",
+    "Deadline": "Deadline",
+    "Please enter here": "Please enter here",
+    "I have read and accepted the booking": "I have read and accepted the booking",
+    "Confirm booking": "Confirm booking",
+    "Please select one": "Please select one",
+    "Please enter first name": "Please enter first name",
+    "Please enter last name": "Please enter last name",
+    "Error": "Error",
+    "An error occured": "An error occured",
+    "Try again": "Try again"
 }
 };

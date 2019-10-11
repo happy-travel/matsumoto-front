@@ -12,12 +12,13 @@ export const Dual = ({ first, second, a, b, addClass }) => (
     </div>
 );
 
-export const Highlighted = ({ str, highlight }) => (
-    highlight ?
+export const Highlighted = ({ str, highlight }) => {
+    highlight = encodeURIComponent(highlight);
+    return highlight ?
         <span dangerouslySetInnerHTML={
             {__html: str?.replace?.(new RegExp(highlight, 'gi'), (s) => ("<b>"+ s +"</b>"))}
-    } /> : <span>{str}</span>
-);
+    } /> : <span>{str}</span>;
+};
 
 export const Stars = ({ count }) => {
     var result = hotelStars.indexOf(count);
@@ -48,3 +49,9 @@ export const Expandable = class extends React.Component {
         );
     }
 };
+
+export const Loader = () => (
+    <div class="loader"><div class="x">
+        <div class="a" /><div class="b" /><div />
+    </div></div>
+);

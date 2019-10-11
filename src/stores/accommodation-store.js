@@ -79,6 +79,8 @@ class AccommodationStore {
         this.search.result = value;
         this.filters = createFilters(value);
         this.selectedFilters = null;
+        this.booking.request = null;
+        this.booking.result = null;
     }
     setSelectedFilters(filters) {
         this.selectedFilters = filters;
@@ -138,7 +140,22 @@ class AccommodationStore {
     }
 
     setUserBookingList(value) {
-        this.userBookingList = value || [];
+        if (!value || !value.forEach)
+            value = [];
+
+        value.forEach(item => {
+            var bookingDetails = null,
+                serviceDetails = null;
+            try {
+                bookingDetails = JSON.parse(item.bookingDetails);
+                serviceDetails = JSON.parse(item.serviceDetails);
+            } catch (e) {}
+
+            item.bookingDetails = bookingDetails;
+            item.serviceDetails = serviceDetails;
+        });
+
+        this.userBookingList = value;
     }
 
     select(agreement, hotel) {
@@ -150,8 +167,18 @@ class AccommodationStore {
         this.booking.request = request;
     }
 
-    setBookingResult(result) {
-        this.booking.result = result;
+    setBookingResult(result, data) {
+        if (data?.status && data.status != 200)
+            this.booking.result = {
+                error: data.detail,
+                loaded: true
+            };
+        else {
+            this.booking.result = {
+                ...(result || {}),
+                loaded: true
+            }
+        }
     }
 }
 

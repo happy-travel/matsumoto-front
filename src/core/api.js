@@ -12,6 +12,12 @@ API_METHODS = {
     COUNTRIES_PREDICTION  : v1 + "/locations/countries",
     LOCATION_PREDICTION   : v1 + "/locations/predictions",
 
+    CARDS_COMMON          : v1 + "/cards",
+    CARDS_SETTINGS        : v1 + "/cards/settings",
+    CARDS_REQUEST         : v1 + "/cards/signatures/request",
+    CARDS_RESPONSE        : v1 + "/cards/signatures/response",
+    PAYMENTS_COMMON       : v1 + "/payments",
+
     USER                  : v1 + "/customers",
     USER_REGISTRATION     : v1 + "/customers/register/master",
 

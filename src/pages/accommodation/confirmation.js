@@ -1,57 +1,121 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat } from "core";
+import { dateFormat, API } from "core";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual } from "components/simple";
+import { Dual, Loader } from "components/simple";
 import { Link } from "react-router-dom";
 
 import store from "stores/accommodation-store";
 
 @observer
 class AccommodationConfirmationPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            bookingId: null
+        };
+        this.getValues = this.getValues.bind(this);
+    }
+
+    getValues() {
+        var result = store.booking.result || {};
+
+        if (this.state.bookingId !== null) {
+            var selected = null;
+
+            store.userBookingList.forEach(item => {
+                if (item.bookingId == this.state.bookingId)
+                    selected = item;
+            });
+
+            if (selected) {
+                result = selected.bookingDetails;
+                result.loaded = true;
+            }
+        }
+
+        return {
+            referenceCode: result.referenceCode,
+            status: result.status,
+            checkInDate: result.checkInDate,
+            checkOutDate: result.checkOutDate,
+            deadline: result.deadline,
+            roomType: result.roomDetails?.[0]?.roomDetails.type,
+            currency: store.selected?.variant?.currencyCode || "", //todo: wait for real data
+            price: result.roomDetails?.[0]?.price.price,
+            passengers: result.roomDetails?.[0]?.roomDetails.passengers,
+            loaded: result.loaded,
+            error: result.error
+        };
+    }
+
+    componentDidMount() {
+        if (this.props?.match?.params?.id !== undefined) {
+            this.setState({bookingId: this.props?.match?.params?.id});
+            API.get({
+                url: API.ACCOMMODATION_BOOKING,
+                after: (data) => store.setUserBookingList(data)
+            });
+        }
+    }
 
 render() {
-    const { t } = useTranslation();
+    const { t } = useTranslation(),
+          booking = this.getValues();
 
-    var request = store.booking.request,
-        result  = store.booking.result;
-
-    if (!result || !request)
+    if (!booking.loaded || booking.error)
         return (
-                <div class="confirmation block">
-                    <section class="double-sections">
-                        <div class="half-section" />
-                        <div class="right-section">
-                            <Breadcrumbs items={[
-                                {
-                                    text: t("Search accommodation"),
-                                    link: "/search"
-                                }, {
-                                    text: t("Booking Confirmation")
-                                }
-                            ]}/>
-                            <ActionSteps
-                                items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
-                                current={2}
-                            />
-                            <h2>
-                                {t("Booking Details")}
-                            </h2>
-                            <div style={{ minHeight: "300px"}}>{t("Loading...")}</div>
-                        </div>
-                        <div class="half-section" />
-                    </section>
-                </div>
-        ); /* todo: animation */
+            <div class="confirmation block">
+                <div class="hide">{""+store.booking.result?.referenceCode}</div>
+                <section class="double-sections">
+                    <div class="middle-section">
+                        <Breadcrumbs items={[
+                            {
+                                text: t("Search accommodation"),
+                                link: "/search"
+                            }, {
+                                text: t("Booking Confirmation")
+                            }
+                        ]}/>
+                        <ActionSteps
+                            items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
+                            current={2}
+                        />
+                        <h2>
+                            {t("Booking Details")}
+                        </h2>
+                        { !booking.error ? <Loader /> :
+                        <React.Fragment>
+                            <div class="result-code error">
+                                <div class="before">
+                                    <span class="icon icon-close white" />
+                                </div>
+                                <div class="text">
+                                    {t("An error occured")}: <strong>{booking.error}</strong>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <Link to="/">
+                                    <button class="button">
+                                        {t("Try again")}
+                                    </button>
+                                </Link>
+                            </div>
+                        </React.Fragment>
+                        }
+                    </div>
+                </section>
+            </div>
+        );
 
     return (
         <div class="confirmation block">
+            <div class="hide">{''+store.booking.result}</div>
             <section class="double-sections">
-                <div class="half-section" />
-                <div class="right-section">
+                <div class="middle-section">
                     <Breadcrumbs items={[
                         {
                             text: t("Search accommodation"),
@@ -74,10 +138,10 @@ render() {
                         </div>
                         <div class="dual">
                             <div class="first">
-                                {t("Booking Reference number")}: <strong>{result?.referenceCode}</strong>
+                                {t("Booking Reference number")}: <strong>{booking.referenceCode}</strong>
                             </div>
                             <div class="second">
-                                {t("Status")}: <strong>{result.status}</strong>
+                                {t("Status")}: <strong>{booking.status}</strong>
                             </div>
                         </div>
                     </div>
@@ -85,24 +149,24 @@ render() {
                     <Dual
                         a={<Dual addClass="line"
                                 a={"Check In Date"}
-                                b={dateFormat.a(result.checkInDate)}
+                                b={dateFormat.a(booking.checkInDate)}
                             />}
                         b={<Dual addClass="line"
                                 a={"Check Out Date"}
-                                b={dateFormat.a(result.checkOutDate)}
+                                b={dateFormat.a(booking.checkOutDate)}
                             />}
                     />
                     <Dual addClass="line"
                         a={"Within deadline"}
-                        b={dateFormat.a(result.deadline)}
+                        b={dateFormat.a(booking.deadline)}
                     />
                     <Dual addClass="line"
                         a={"Room type"}
-                        b={store.selected.variant.rooms[0].type}
+                        b={booking.roomType}
                     />
                     <Dual addClass="line"
                         a={t('Total Cost')}
-                        b={`${store.selected.variant.currencyCode} ${store.selected.variant.price.total}` /* todo: rebind result data */}
+                        b={`${booking.currency} ${booking.price}`}
                     />
 
                     <h2>
@@ -111,19 +175,19 @@ render() {
                     <Dual
                         a={<Dual addClass="line"
                                 a={"First name"}
-                                b={request.roomDetails[0].passengers[0].firstName}
+                                b={booking.passengers?.[0]?.firstName}
                             />}
                         b={<Dual addClass="line"
                                 a={"Last name"}
-                                b={request.roomDetails[0].passengers[0].lastName}
+                                b={booking.passengers?.[0]?.lastName}
                             />}
                     />
 
-                    { request.roomDetails[0].passengers.length > 1 && <React.Fragment>
+                    { booking.passengers?.length > 1 && <React.Fragment>
                         <h2>
                             {t("Other Passengers")}
                         </h2>
-                        {request.roomDetails[0].passengers.map((item,index) => (
+                        {booking.passengers.map((item,index) => (
                             <React.Fragment>
                                 {index ? <Dual
                                     a={<Dual addClass="line"
@@ -140,19 +204,32 @@ render() {
                     </React.Fragment> }
 
                     <div class="actions">
-                        <a href="#">
+                    { this.state.bookingId === null ?
+                        <Link to="/payment" class="left">
+                            <button class="button">
+                                {t("Pay now by Card")}
+                            </button>
+                        </Link>
+                    :
+                        <Link to="/user/booking" class="left">
+                            <button class="button">
+                                {t("Booking management")}
+                            </button>
+                        </Link>
+                    }
+                        <a href="javascript:void(0)">
                             <span class="icon icon-action-time-left" />
                         </a>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <span class="icon icon-action-pen" />
                         </a>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <span class="icon icon-action-cancel" />
                         </a>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <span class="icon icon-action-print" />
                         </a>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <span class="icon icon-action-writing" />
                         </a>
                         <Link to="/">
@@ -163,7 +240,6 @@ render() {
                     </div>
 
                 </div>
-                <div class="half-section" />
             </section>
         </div>
     );

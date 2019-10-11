@@ -8,20 +8,27 @@
         font-size: 20px
         line-height: 24px
         margin: 45px 0 37px
+        &.payment-title
+            margin-bottom: 15px
 
     .result-code
         margin: 30px 0
         border: 1px solid #D8DADC
         border-radius: 5px
         background: #ffffff
-        height: 60px
         position: relative
         padding-right: 22px
         line-height: 58px
         color: $color-text-light
+        min-height: 60px
+        height: auto
+        overflow: hidden
+        padding-left: 67px
         .dual
             width: auto
         .before
+            position: absolute
+            left: 0
             display: block
             float: left
             color: #FFFFFF
@@ -31,15 +38,28 @@
             margin-right: 18px
             text-align: center
             line-height: 65px
-
         strong
             font-size: 15px
             line-height: 18px
             color: #23D578
+        &.error
+            .text
+                overflow: hidden
+            .before
+                background: $color-red
+            strong
+                color: $color-red
+            .icon-close
+                width: 15px
+                height: 24px
 
     .actions
         margin-top: 40px
         text-align: right
+        .row
+            text-align: left
+            float: left
+            width: auto
         .icon
             width: 24px
             height: 24px
@@ -48,6 +68,10 @@
             margin-left: 40px
             padding-left: 45px
             padding-right: 45px
+        .left
+            float: left
+            button
+                margin-left: 0
 
     .dual
         .first
@@ -72,3 +96,7 @@
             div
                 padding: 15px
 
+    .payment-back
+        padding-left: 30px
+        padding-right: 30px
+        margin-top: 10px

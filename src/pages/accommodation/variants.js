@@ -14,7 +14,7 @@ import {
     FieldCheckbox
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
-import { Stars } from "components/simple";
+import { Stars, Loader } from "components/simple";
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -66,14 +66,13 @@ class AccommodationVariantsPage extends React.Component {
 
 <React.Fragment>
     <div class="variants block">
+        { (store && !store.search.loaded) ?
+        <Loader /> :
+
         <section class="double-sections">
             <AccommodationFilters />
             <div class="right-section">
-
-                { store && !store.search.loaded &&
-                    <div>{t("Loading...")}</div> /* todo: animation */}
-
-                { store.search.loaded && <div class="head">
+                <div class="head">
                     <div class="title">
                         <h3>
                             {t("Results for")}: <b>{ store.search.form?.["destination"] }</b> <span>({store.hotelArray.length})</span>
@@ -100,7 +99,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                     </div>
                     */ }
-                </div> }
+                </div>
 
                 { store.search.loaded && !store.hotelArray.length &&
                     <div>{t("Nothing found")}</div> }
@@ -133,7 +132,7 @@ class AccommodationVariantsPage extends React.Component {
                     <div class="description">
                         <span>{t("Located in")} {item.accommodationDetails.location.city}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.{" "}
                             {item.accommodationDetails.generalTextualDescription && item.accommodationDetails.generalTextualDescription.descriptions && item.accommodationDetails.generalTextualDescription.descriptions.en}</span>
-                        <span style={{display: 'none'}} class="expand">{t("more...")}</span>
+                        { /* <span class="expand">{t("more...")}</span> */ }
                     </div>
                     <div class="table">
                         <table>
@@ -208,7 +207,7 @@ class AccommodationVariantsPage extends React.Component {
                     </div> }
                 </div>) }
             </div>
-        </section>
+        </section> }
     </div>
 </React.Fragment>
 );
