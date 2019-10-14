@@ -7,7 +7,8 @@ class AuthDefaultComponent extends React.PureComponent {
     componentDidMount() {
         Authorize.getUser().then(user => {
             if (!user || !user.access_token) {
-                Authorize.signinRedirect();
+                if (window.location.href.indexOf("/signup/invite") < 0)
+                    Authorize.signinRedirect();
             }
         });
     }

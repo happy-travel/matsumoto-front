@@ -5,27 +5,60 @@ import { Redirect } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Formik } from "formik";
-import { FieldText, FieldSelect } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import Authorize from "core/auth/authorize";
+import FormUserData from "parts/form-user-data";
+import { API } from "core";
+import UI from "stores/ui-store";
 
 @observer
 class RegistrationStep2 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToThirdStep: false
+            redirectToThirdStep: false,
+            redirectToIndexPage: false,
+            initialValues: null
         };
         this.submit = this.submit.bind(this);
     }
 
     submit(values) {
         store.setUserForm(values);
-        if (!this.state.redirectToThirdStep)
+        if (this.state.invitationCode) {
+            API.post({
+                url: API.USER_REGISTRATION,
+                body: {
+                    registrationInfo: {
+                        ...values,
+                        email: store.invitationData?.registrationInfo.email
+                    },
+                    invitationCode: this.state.invitationCode
+                },
+                success: () => {
+                    UI.setTopAlertText(null);
+                    this.setState({ redirectToIndexPage: true });
+                    store.setInvitationCode(null);
+                    store.setInvitationData(null);
+                },
+                error: (error) => {
+                    UI.setTopAlertText(error?.title || error?.detail);
+                    if (error && !(error?.title || error?.detail))
+                        this.setState({ redirectToIndexPage: true });
+                }
+            });
+        } else if (!this.state.redirectToThirdStep)
             this.setState({
                 redirectToThirdStep: true
             });
+    }
+
+    componentDidMount() {
+        this.setState({
+            invitationCode: store.invitationCode,
+            initialValues: store.invitationData?.registrationInfo
+        });
     }
 
     render() {
@@ -33,6 +66,13 @@ class RegistrationStep2 extends React.Component {
     
         if (this.state.redirectToThirdStep)
             return <Redirect push to="/signup/company" />;
+
+        if (this.state.redirectToIndexPage)
+            return <Redirect push to="/" />;
+
+        var actionSteps = [t("Log In Information"), t("User Information")];
+        if (!this.state.invitationCode)
+            actionSteps.push(t("Company Information"));
 
         return (
 
@@ -48,11 +88,11 @@ class RegistrationStep2 extends React.Component {
                 }, {
                     text: t("Registration")
                 }, {
-                    text: t("Company Information")
+                    text: t("User Information")
                 }
             ]}/>
             <ActionSteps
-                items={[t("Log In Information"), t("User Information"), t("Company Information")]}
+                items={actionSteps}
                 current={1}
                 addClass="action-steps-another-bg"
             />
@@ -60,12 +100,11 @@ class RegistrationStep2 extends React.Component {
                 Main user information
             </h1>
             <p>
-                Create a free HappyTravel.com account and start booking today.<br/>
-                Already have an account? <span onClick={() => Authorize.signoutRedirect()} class="link">Log In Here.</span>
+                Create a free HappyTravel.com account and start booking today.
             </p>
 
         <Formik
-            initialValues={{
+            initialValues={store.invitationData?.registrationInfo || {
                 "title": "",
                 "firstName": "",
                 "lastName": "",
@@ -76,47 +115,12 @@ class RegistrationStep2 extends React.Component {
             render={formik => (
                 <form onSubmit={formik.handleSubmit}>
                     <div class="form">
-                        <div class="row">
-                            <FieldSelect formik={formik}
-                                id={"title"}
-                                label={t("Salutation")}
-                                required
-                                placeholder={t("Select One")}
-                                options={[
-                                    { value: "Mr.", text: "Mr."},
-                                    { value: "Mrs.", text: "Mrs."}
-                                ]}
-                            />
-                        </div>
-                        <div class="row">
-                            <FieldText formik={formik}
-                                id={"firstName"}
-                                label={t("First Name")}
-                                placeholder={t("First Name")}
-                                required
-                            />
-                        </div>
-                        <div class="row">
-                            <FieldText formik={formik}
-                                id={"lastName"}
-                                label={t("Last Name")}
-                                placeholder={t("Last Name")}
-                                required
-                            />
-                        </div>
-                        <div class="row">
-                            <FieldText formik={formik}
-                                id={"position"}
-                                label={t("Position/Designation")}
-                                placeholder={t("Position/Designation")}
-                                required
-                            />
-                        </div>
+                        <FormUserData formik={formik} t={t} />
                         <div class="row submit-holder">
                             <div class="field">
                                 <div class="inner">
-                                    <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
-                                        {t("Continue registration")}
+                                    <button type="submit" class="button">
+                                        {t("Finish registration")}
                                     </button>
                                 </div>
                             </div>

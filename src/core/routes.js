@@ -11,7 +11,10 @@ import paymentResult              from "pages/payment/result";
 
 import accountRegistrationStep2   from "pages/account/registration-step-2";
 import accountRegistrationStep3   from "pages/account/registration-step-3";
-import bookingManagement          from "pages/account/booking-management";
+import accountInvite              from "pages/account/accept-invite";
+
+import userBookingManagement      from "pages/user/booking-management";
+import userInvite                 from "pages/user/create-invite";
 
 import contactUsPage              from 'pages/common/contact';
 import termsPage                  from 'pages/common/terms';
@@ -31,7 +34,8 @@ export const routesWithHeaderAndFooter = [
     "/accommodation/confirmation*",
     "/payment*",
     "/contact", "/terms", "/privacy", "/about",
-    "/user/booking"
+    "/user/booking",
+    "/user/invite"
 ];
 
 const Routes = () => (
@@ -50,7 +54,10 @@ const Routes = () => (
 
         <Route path="/signup/user"                component={accountRegistrationStep2} />
         <Route path="/signup/company"             component={accountRegistrationStep3} />
-        <Route path="/user/booking"               component={bookingManagement} />
+        <Route path="/signup/invite/:code"        component={accountInvite} />
+
+        <Route path="/user/booking"               component={userBookingManagement} />
+        <Route path="/user/invite"                component={userInvite} />
 
         <Route path="/contact"                    component={contactUsPage} />
         <Route path="/terms"                      component={termsPage} />

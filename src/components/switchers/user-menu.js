@@ -29,13 +29,16 @@ class UserMenuDropdown extends React.Component {
                     </div>
                     <div class="double">
                         <div class="name">{UI.user?.firstName || "Account"} {UI.user?.lastName}</div> {/* todo: non-registered layout */}
-                        <div class="company">{UI.user?.position}</div>
+                        <div class="company">{UI.user?.companies?.[0].name}</div>
                     </div>
                     <div class="switch-arrow" />
                     {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
                         <Link to="/user/booking" class="item">
                             {t("Booking management")}
                         </Link>
+                        { UI.user?.companies?.[0].isMaster && <Link to="/user/invite" class="item">
+                            {t("Send invitation")}
+                        </Link> }
                         <div class="item" onClick={() => Authorize.signoutRedirect()}>
                             {t("Log out")}
                         </div>

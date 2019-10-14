@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export default Yup.object().shape({
+const validator = {
     firstName: Yup.string()
         .min(2, "Too short")
         .max(50, "Too long")
@@ -12,5 +12,14 @@ export default Yup.object().shape({
     title: Yup.string()
         .required("Required"),
     position: Yup.string()
+        .required("Required"),
+};
+
+export default Yup.object().shape(validator);
+
+export const registrationUserValidatorWithEmail = Yup.object().shape({
+    ...validator,
+    email: Yup.string()
+        .email("Invalid email")
         .required("Required"),
 });

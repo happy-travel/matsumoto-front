@@ -19,11 +19,14 @@ API_METHODS = {
     PAYMENTS_COMMON       : v1 + "/payments",
 
     USER                  : v1 + "/customers",
-    USER_REGISTRATION     : v1 + "/customers/register/master",
+    USER_REGISTRATION     : v1 + "/customers/register",
+    USER_REGISTRATION_M   : v1 + "/customers/register/master",
+    USER_INVITE           : invitationCode =>
+                            v1 + "/customers/invitations" + (invitationCode ? "/" + invitationCode : ""),
 
     ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
     ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
-    ACCOMMODATION_DETAILS : (accommodationId) =>
+    ACCOMMODATION_DETAILS : accommodationId =>
                             v1 + "/accommodations/" + accommodationId
 
 };
@@ -84,7 +87,9 @@ Authorize.getUser().then(user => {
             failed = !res || (res && res.status >= 300);
             if (response)
                 response(res);
-            return res.json();
+            return res.text().then(text => {
+                return text ? JSON.parse(text) : {}
+            });
         })
         .then(
             (result) => {

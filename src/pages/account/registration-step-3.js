@@ -27,10 +27,12 @@ class RegistrationStep3 extends React.Component {
         store.setCompanyForm(values);
 
         API.post({
-            url: API.USER_REGISTRATION,
+            url: API.USER_REGISTRATION_M,
             body: store.registration,
             success: () => {
                 UI.setTopAlertText(null);
+                store.setUserForm({});
+                store.setCompanyForm({});
                 this.setState({ redirectToIndexPage: true });
             },
             error: (error) => {
