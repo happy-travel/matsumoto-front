@@ -7,7 +7,6 @@ import ActionSteps from "components/action-steps";
 import { Formik } from "formik";
 import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
-import Authorize from "core/auth/authorize";
 import FormUserData from "parts/form-user-data";
 import { API } from "core";
 import UI from "stores/ui-store";
@@ -19,7 +18,12 @@ class RegistrationStep2 extends React.Component {
         this.state = {
             redirectToThirdStep: false,
             redirectToIndexPage: false,
-            initialValues: null
+            initialValues: {
+                "title": "",
+                "firstName": "",
+                "lastName": "",
+                "position": ""
+            }
         };
         this.submit = this.submit.bind(this);
     }
@@ -56,9 +60,19 @@ class RegistrationStep2 extends React.Component {
 
     componentDidMount() {
         this.setState({
-            invitationCode: store.invitationCode,
-            initialValues: store.invitationData?.registrationInfo
+            invitationCode: store.invitationCode
         });
+
+        if (store.invitationCode)
+            API.get({
+                url: API.USER_INVITE(store.invitationCode),
+                success: data => {
+                    store.setInvitationData(data);
+                    this.setState({
+                        initialValues: data?.registrationInfo
+                    });
+                }
+            });
     }
 
     render() {
@@ -104,12 +118,8 @@ class RegistrationStep2 extends React.Component {
             </p>
 
         <Formik
-            initialValues={store.invitationData?.registrationInfo || {
-                "title": "",
-                "firstName": "",
-                "lastName": "",
-                "position": ""
-            }}
+            initialValues={this.state.initialValues}
+            enableReinitialize={true}
             validationSchema={registrationUserValidator}
             onSubmit={this.submit}
             render={formik => (

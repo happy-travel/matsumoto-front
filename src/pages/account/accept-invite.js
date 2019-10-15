@@ -16,15 +16,7 @@ class AccountInvite extends React.Component {
     componentDidMount() {
         var invitationCode = this.props.match.params.code;
         store.setInvitationCode(invitationCode);
-        if (invitationCode) {
-            API.get({
-                url: API.USER_INVITE(invitationCode),
-                success: data => {
-                    store.setInvitationData(data);
-                    this.setState({ invitationCode });
-                }
-            });
-        }
+        this.setState({ invitationCode });
     }
 
     render() {
