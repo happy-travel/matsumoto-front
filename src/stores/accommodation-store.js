@@ -118,9 +118,12 @@ class AccommodationStore {
                 "rooms": 5   // todo: make special case for more rooms
             },
 
-            value = this.search.request.roomDetails[0][field] + plus;
+            value = this.search.request.roomDetails[0][field] + plus,
+            finalNewValue = Math.min(Math.max(value, minimum[field]), maximum[field]);
 
-        this.search.request.roomDetails[0][field] = Math.min(Math.max(value, minimum[field]), maximum[field]);
+        this.search.request.roomDetails[0][field] = finalNewValue;
+        if (field == "childrenNumber")
+            this.search.request.roomDetails[0].childrenAges = new Array(finalNewValue).fill(12);
     }
 
     setRequestDestination(value) {
