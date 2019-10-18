@@ -1,10 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
-import InputRange from 'react-input-range';
-
-const labels = (label, values, currency) => {
-    return currency + " " + (values[label] || 0).toFixed(2);
-};
+import InputRange from "react-input-range";
+import { price } from "core";
 
 @observer
 class FieldRangeSlider extends React.Component {
@@ -37,11 +34,7 @@ class FieldRangeSlider extends React.Component {
                 minValue={min}
                 step={0.01}
                 allowSameValues={true}
-                formatLabel={(v, label) => labels(
-                    label,
-                    this.state.value,
-                    currency
-                )}
+                formatLabel={(v, label) => price(currency, this.state.value[label])}
                 value={this.state.value}
                 onChange={this.changing}
             />

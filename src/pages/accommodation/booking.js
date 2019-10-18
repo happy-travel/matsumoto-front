@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { API, dateFormat } from "core";
+import { API, dateFormat, price } from "core";
 import { Formik, FieldArray } from "formik";
 
 import {
@@ -146,15 +146,15 @@ class AccommodationBookingPage extends React.Component {
                 <div class="static item">{t("Room & Total Cost")}</div>
                 <Dual
                     a={t("Room Cost")}
-                    b={`${variant.currencyCode} ${variant.price.total}`}
+                    b={price(variant.currencyCode, variant.price.total)}
                 />
                 <Dual
                     a={t("Total Cost")}
-                    b={`${variant.currencyCode} ${variant.price.total}`}
+                    b={price(variant.currencyCode, variant.price.total)}
                 />
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
-                    <div>{`${variant.currencyCode} ${variant.price.total}`}</div>
+                    <div>{price(variant.currencyCode, variant.price.total)}</div>
                 </div>
             </div>
             <div class="right-section">
@@ -303,13 +303,15 @@ class AccommodationBookingPage extends React.Component {
 
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
-                                    <p>You need to pay: <span class="value">{store.selected.variant.currencyCode + " " + store.selected.variant.price.total}</span></p>
+                                    <p>{t("You need to pay")}:
+                                        <span class="value">{price(store.selected.variant.currencyCode, store.selected.variant.price.total)}</span>
+                                    </p>
                                     <div class="list">
                                         <div class="item">
-                                            My Site Balance <span>({store.selected.variant.currencyCode} 0.00)</span>
+                                            {t("My Site Balance")} <span>{price(store.selected.variant.currencyCode, 0)}</span>
                                         </div>
                                         <div class="item selected">
-                                            Credit/Debit Card
+                                            {t("Credit/Debit Card")}
                                             <img src="/images/other/payments.svg" />
                                         </div>
                                     </div>

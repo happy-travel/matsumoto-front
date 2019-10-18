@@ -222,6 +222,9 @@ translations: {
     "An error occured": "An error occured",
     "Try again": "Try again",
     "Please Select Payment Method": "Please Select Payment Method",
-    "Please Enter Your Card Details": "Please Enter Your Card Details"
+    "Please Enter Your Card Details": "Please Enter Your Card Details",
+    "You need to pay": "You need to pay",
+    "My Site Balance": "My Site Balance",
+    "Credit/Debit Card": "Credit/Debit Card"
 }
 };

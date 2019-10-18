@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import moment from "moment";
 
-import { API, dateFormat } from "core";
+import { API, dateFormat, price } from "core";
 import store from 'stores/accommodation-store';
 import UI, { MODALS } from "stores/ui-store";
 
@@ -126,7 +126,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{item.agreements[0].currencyCode} {item.agreements[0].price.total}</div>
+                            <div class="value">{price(item.agreements[0].currencyCode, item.agreements[0].price.total)}</div>
                         </div>
                     </div>
                     <div class="description">
@@ -168,7 +168,7 @@ class AccommodationVariantsPage extends React.Component {
                                     <span class="icon icon-card" />
                                 </td> }
                                 <td class="price">
-                                    {agreement.currencyCode} {agreement.price.total}
+                                    {price(agreement.currencyCode, agreement.price.total)}
                                 </td>
                                 <td class="buttons">
                                     <button class="button small" onClick={() => this.variantSelect(agreement, item.accommodationDetails)}>

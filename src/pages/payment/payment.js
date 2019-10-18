@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, API } from "core";
+import { dateFormat, price, API } from "core";
 import { Formik } from "formik";
 import {
     FieldText,
@@ -151,7 +151,7 @@ render() {
                         </div>
                         <button class="button">
                             <span class="icon icon-white-lock" />
-                            { t("Pay") + " " + store.selected.variant.currencyCode + " " + store.selected.variant.price.total }
+                            { t("Pay") + price(store.selected.variant.currencyCode, store.selected.variant.price.total) }
                         </button>
                     </div>
                 </form>

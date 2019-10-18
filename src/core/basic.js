@@ -16,4 +16,6 @@ export const decorate = {
     }
 };
 
+export const price = (currency, value) => " " + currency + " " + (value).toFixed(2) + " ";
+
 export const hotelStars = [, "OneStar", "TwoStars", "ThreeStars", "FourStars", "FiveStars"];

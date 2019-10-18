@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, API } from "core";
+import { dateFormat, price, API } from "core";
 
 import { Dual } from "components/simple";
 
@@ -151,7 +151,7 @@ render() {
                                 {t("Booking Reference number")}: <strong>{booking.referenceCode}</strong>
                             </div>
                             <div class="second">
-                                {t("Price")}: <strong>{booking.roomDetails?.[0]?.price.price}</strong>
+                                {t("Price")}: <strong>{price("", booking.roomDetails?.[0]?.price.price)}</strong>
                             </div>
                         </div>
                     </div>
