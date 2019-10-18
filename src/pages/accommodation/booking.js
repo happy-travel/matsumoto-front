@@ -13,11 +13,12 @@ import {
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual } from "components/simple";
+import { Dual, Loader } from "components/simple";
 import { Redirect, Link } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store from "stores/accommodation-store";
+import PaymentPage from "pages/payment/payment";
 
 @observer
 class AccommodationBookingPage extends React.Component {
@@ -29,7 +30,7 @@ class AccommodationBookingPage extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
-    submit(values) {
+    submit(values, { setSubmitting }) {
         if (!store.selected.hotel.id || !store.selected.variant.id)
             return null; //todo: another answer
 
@@ -71,12 +72,16 @@ class AccommodationBookingPage extends React.Component {
         API.post({
             url: API.ACCOMMODATION_BOOKING,
             body: request,
-            after: (result, data) => store.setBookingResult(result, data)
+            after: (result, data) => {
+                store.setBookingResult(result, data);
+                setSubmitting(false);
+            }
         });
 
-        this.setState({
-            redirectToConfirmationPage: true
-        });
+        // todo: payment via user account wallet:
+    //    this.setState({
+    //        redirectToConfirmationPage: true
+    //    });
     }
 
     render() {
@@ -296,16 +301,32 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div>
 
-                                <div class="final">
-                                    <div class="dual">
-                                        <div class="first" />
-                                        <div class="second">
-                                            <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
-                                                {t("Confirm booking")}
-                                            </button>
+                                <div class="payment method">
+                                    <h2>{t("Please Select Payment Method")}</h2>
+                                    <p>You need to pay: <span class="value">{store.selected.variant.currencyCode + " " + store.selected.variant.price.total}</span></p>
+                                    <div class="list">
+                                        <div class="item">
+                                            My Site Balance <span>({store.selected.variant.currencyCode} 0.00)</span>
+                                        </div>
+                                        <div class="item selected">
+                                            Credit/Debit Card
+                                            <img src="/images/other/payments.svg" />
                                         </div>
                                     </div>
                                 </div>
+
+                                { !store.booking.result.referenceCode && !formik.isSubmitting &&
+                                    <div class="final">
+                                        <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                            {t("Confirm booking")}
+                                        </button>
+                                    </div> }
+
+                                { formik.isSubmitting && !store.booking.result.referenceCode &&
+                                    <Loader /> }
+
+                                { store.booking.result.referenceCode &&
+                                    <PaymentPage /> }
 
                             </div>
                         </form>

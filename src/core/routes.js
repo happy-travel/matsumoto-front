@@ -6,7 +6,6 @@ import accommodationVariants      from 'pages/accommodation/variants';
 import accommodationBooking       from 'pages/accommodation/booking';
 import accommodationConfirmation  from 'pages/accommodation/confirmation';
 
-import paymentPage                from "pages/payment/payment";
 import paymentResult              from "pages/payment/result";
 
 import accountRegistrationStep2   from "pages/account/registration-step-2";
@@ -50,7 +49,6 @@ const Routes = () => (
         <Route path={
             ["/payment/result/:ref",
              "/payment/result"]}                  component={paymentResult} />
-        <Route path="/payment"                    component={paymentPage} />
 
         <Route path="/signup/user"                component={accountRegistrationStep2} />
         <Route path="/signup/company"             component={accountRegistrationStep3} />

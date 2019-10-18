@@ -45,8 +45,10 @@ class AccommodationStore {
 
     @observable
     booking = {
-        request: null,
-        result: null
+        request: {},
+        result: {
+            referenceCode: null
+        }
     };
 
     @observable
@@ -80,7 +82,7 @@ class AccommodationStore {
         this.filters = createFilters(value);
         this.selectedFilters = null;
         this.booking.request = null;
-        this.booking.result = null;
+        this.booking.result = {};
     }
     setSelectedFilters(filters) {
         this.selectedFilters = filters;

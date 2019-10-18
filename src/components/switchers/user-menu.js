@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
 
-const dropdownId = "UserMenuDropdown";
+const dropdownId = "UserMenuDropdown",
+      calcTitleFor = (value) => (value?.length > 14 ? { title: value } : {});
 
 @observer
 class UserMenuDropdown extends React.Component {
@@ -28,8 +29,8 @@ class UserMenuDropdown extends React.Component {
                         <NoAvatar />
                     </div>
                     <div class="double">
-                        <div class="name">{UI.user?.firstName || "Account"} {UI.user?.lastName}</div> {/* todo: non-registered layout */}
-                        <div class="company">{UI.user?.companies?.[0].name}</div>
+                        <div class="name" {...calcTitleFor(UI.user?.firstName + UI.user?.lastName)}>{UI.user?.firstName || "Account"} {UI.user?.lastName}</div> {/* todo: non-registered layout */}
+                        <div class="company" {...calcTitleFor(UI.user?.companies?.[0].name)}>{UI.user?.companies?.[0].name}</div>
                     </div>
                     <div class="switch-arrow" />
                     {dropdownId == UI.openDropdown && <div class="user-menu dropdown">

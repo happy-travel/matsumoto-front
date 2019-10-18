@@ -5,7 +5,7 @@ import { dateFormat, API } from "core";
 import { Formik } from "formik";
 import {
     FieldText,
-    FieldSwitch
+    FieldCheckbox
 } from "components/form";
 import { Dual } from "components/simple";
 import store from "stores/accommodation-store";
@@ -29,7 +29,6 @@ const postVirtualForm = (path, values) => {
 
 @observer
 class PaymentPage extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -45,6 +44,7 @@ class PaymentPage extends React.Component {
     }
 
     componentDidMount() {
+        console.log("payment mounted");
         API.get({
             url: API.CARDS_SETTINGS,
             after: data => {
@@ -88,125 +88,75 @@ class PaymentPage extends React.Component {
 render() {
     const { t } = useTranslation();
 
-    var result  = store.booking.result;
-
     return (
-        <div class="confirmation block">
-            <section class="double-sections">
-                <div class="middle-section">
-                    <h2 class="payment-title">
-                        {t("Payment")}
-                    </h2>
+        <div class="middle-section confirmation payment block">
+            <h2 class="payment-title">
+                {t("Please Enter Your Card Details")}
+            </h2>
 
-                    <Formik
-                        initialValues={{
-                            card_number: "",
-                            expiry_date: "",
-                            card_security_code: "",
-                            card_holder_name: "",
-                            remember_me: false
-                        }}
-                        validationSchema={creditCardValidator}
-                        onSubmit={this.submit}
-                        render={formik => (
-                        <form onSubmit={formik.handleSubmit}>
-                            <div class="form">
-                                <div class="row">
-                                    <FieldText formik={formik}
-                                        id="card_number"
-                                        label={t("Card number")}
-                                        placeholder={t("Card number")}
-                                        required
-                                        clearable
-                                    />
-                                </div>
-                                <div class="row">
-                                    <FieldText formik={formik}
-                                        id="expiry_date"
-                                        label={t("Expiry date")}
-                                        placeholder={t("Expiry date")}
-                                        addClass="size-half"
-                                        required
-                                        clearable
-                                    />
-                                    <FieldText formik={formik}
-                                        id="card_security_code"
-                                        label={t("Card security code")}
-                                        placeholder={t("Card security code")}
-                                        addClass="size-half"
-                                        required
-                                        clearable
-                                    />
-                                </div>
-                                <div class="row">
-                                    <FieldText formik={formik}
-                                        id="card_holder_name"
-                                        label={t("Card holder name")}
-                                        placeholder={t("Card holder name")}
-                                        required
-                                        clearable
-                                    />
-                                </div>
-                                <div class="actions">
-                                    <div class="row">
-                                        <div class="vertical-label">
-                                            <div>{t("Remember card")}</div>
-                                        </div>
-                                        <FieldSwitch formik={formik}
-                                            id={"remember_me"}
-                                        />
-                                    </div>
-                                    <button class="button green">
-                                        {t("Confirm")}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        )}
-                    />
-
-                    <h2>
-                        {t("Booking Details")}
-                    </h2>
-
-                    <div class="result-code">
-                        <div class="before">
-                            <span class="icon icon-white-check" />
+            <Formik
+                initialValues={{
+                    card_number: "",
+                    expiry_date: "",
+                    card_security_code: "",
+                    card_holder_name: "",
+                    remember_me: false
+                }}
+                validationSchema={creditCardValidator}
+                onSubmit={this.submit}
+                render={formik => (
+                <form onSubmit={formik.handleSubmit}>
+                    <div class="form">
+                        <div class="row">
+                            <FieldText formik={formik}
+                                id="card_holder_name"
+                                label={t("Card Holder Name")}
+                                placeholder={t("Card Holder Name")}
+                                required
+                                clearable
+                            />
                         </div>
-                        <div class="dual">
-                            <div class="first">
-                                {t("Booking Reference number")}: <strong>{result?.referenceCode}</strong>
-                            </div>
-                            <div class="second">
-                                {t("Status")}: <strong>{result.status}</strong>
-                            </div>
+                        <div class="row">
+                            <FieldText formik={formik}
+                                id="card_number"
+                                label={t("Card Number")}
+                                placeholder={t("Card Number")}
+                                required
+                                clearable
+                            />
                         </div>
+                        <div class="row">
+                            <FieldText formik={formik}
+                                id="expiry_date"
+                                label={t("Expiration Date")}
+                                placeholder={t("Expiration Date")}
+                                addClass="size-half"
+                                required
+                                clearable
+                            />
+                            <FieldText formik={formik}
+                                id="card_security_code"
+                                label={t("CCV")}
+                                placeholder={t("CCV")}
+                                addClass="size-half"
+                                required
+                                clearable
+                            />
+                        </div>
+                        <div class="row">
+                            <FieldCheckbox formik={formik}
+                                label={"Save my card for faster checkout"}
+                                id={"remember_me"}
+                            />
+                        </div>
+                        <button class="button">
+                            <span class="icon icon-white-lock" />
+                            { t("Pay") + " " + store.selected.variant.currencyCode + " " + store.selected.variant.price.total }
+                        </button>
                     </div>
-
-                    <Dual
-                        a={<Dual addClass="line"
-                                a={"Check In Date"}
-                                b={dateFormat.a(result.checkInDate)}
-                            />}
-                        b={<Dual addClass="line"
-                                a={"Check Out Date"}
-                                b={dateFormat.a(result.checkOutDate)}
-                            />}
-                    />
-                    <Dual addClass="line"
-                        a={"Within deadline"}
-                        b={dateFormat.a(result.deadline)}
-                    />
-                    <Dual addClass="line"
-                        a={"Room type"}
-                        b={store.selected.variant.rooms[0].type}
-                    />
-                    <Dual addClass="line"
-                        a={t('Total Cost')}
-                        b={`${store.selected.variant.currencyCode} ${store.selected.variant.price.total}` /* todo: rebind result data */}
-                    />
-                </div>
-            </section>
+                </form>
+                )}
+            />
         </div>
     );
 }

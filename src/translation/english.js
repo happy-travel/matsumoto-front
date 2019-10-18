@@ -206,11 +206,11 @@ translations: {
     "Payment": "Payment",
     "Confirm": "Confirm",
     "Pay": "Pay",
-    "Card number": "Card number",
-    "Remember card": "Remember card",
-    "Expiry date": "Expiry date",
-    "Card security code": "Card security code",
-    "Card holder name": "Card holder name",
+    "Card Number": "Card Number",
+    "Save my card for faster checkout": "Save my card for faster checkout",
+    "Expiration Date": "Expiration Date",
+    "CCV": "CCV",
+    "Card Holder Name": "Card Holder Name",
     "Deadline": "Deadline",
     "Please enter here": "Please enter here",
     "I have read and accepted the booking": "I have read and accepted the booking",
@@ -220,6 +220,8 @@ translations: {
     "Please enter last name": "Please enter last name",
     "Error": "Error",
     "An error occured": "An error occured",
-    "Try again": "Try again"
+    "Try again": "Try again",
+    "Please Select Payment Method": "Please Select Payment Method",
+    "Please Enter Your Card Details": "Please Enter Your Card Details"
 }
 };
