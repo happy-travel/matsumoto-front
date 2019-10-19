@@ -5,6 +5,8 @@ let host = "https://dev.happytravel.com";
 if ("localhost" == window.location.hostname)
     host = "http://localhost:4000";
 
+window.auth_host = host;
+
 const config = {
     authority: "https://identity.dev.happytravel.com/",
     post_logout_redirect_uri: host,

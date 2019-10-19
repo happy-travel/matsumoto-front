@@ -13,7 +13,8 @@ const init = () => {
             if (!response)
                 return;
             if (response.status == 401) {
-                Authorize.signinRedirect();
+                if (window.location.href.indexOf("/signup/") < 0)
+                    Authorize.signinRedirect();
                 return;
             }
             if (response.status != 200) {

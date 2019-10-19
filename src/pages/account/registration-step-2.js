@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import FormUserData from "parts/form-user-data";
-import { API } from "core";
+import { API, getParams } from "core";
 import UI from "stores/ui-store";
 
 @observer
@@ -36,15 +36,13 @@ class RegistrationStep2 extends React.Component {
                 body: {
                     registrationInfo: {
                         ...values,
-                        email: store.invitationData?.registrationInfo.email
+                        email: this.state.initialValues.email
                     },
                     invitationCode: this.state.invitationCode
                 },
                 success: () => {
                     UI.setTopAlertText(null);
                     this.setState({ redirectToIndexPage: true });
-                    store.setInvitationCode(null);
-                    store.setInvitationData(null);
                 },
                 error: (error) => {
                     UI.setTopAlertText(error?.title || error?.detail);
@@ -59,16 +57,15 @@ class RegistrationStep2 extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({
-            invitationCode: store.invitationCode
-        });
+        var invitationCode = getParams().invitationCode;
+        if (invitationCode.substr(-2) != "==") invitationCode+="=="; //todo: remove this, it's temporary
 
-        if (store.invitationCode)
+        if (invitationCode)
             API.get({
-                url: API.USER_INVITE(store.invitationCode),
+                url: API.USER_INVITE(invitationCode),
                 success: data => {
-                    store.setInvitationData(data);
                     this.setState({
+                        invitationCode: invitationCode,
                         initialValues: data?.registrationInfo
                     });
                 }
@@ -130,7 +127,7 @@ class RegistrationStep2 extends React.Component {
                             <div class="field">
                                 <div class="inner">
                                     <button type="submit" class="button">
-                                        {t("Finish registration")}
+                                        {t("Finish Registration")}
                                     </button>
                                 </div>
                             </div>

@@ -7,8 +7,6 @@ class AuthStore {
         "customer": {},
         "company": {}
     };
-    @observable invitationCode = null;
-    @observable invitationData = null;
 
     constructor() {
         autosave(this, "_auth_store_cache");
@@ -22,13 +20,6 @@ class AuthStore {
         this.registration.company = form;
         if (this.registration.company.phone)
             this.registration.company.phone = this.registration.company.phone.replace(/\D/g,''); //todo: make decorators
-    }
-
-    setInvitationCode(value) {
-        this.invitationCode = value || null;
-    }
-    setInvitationData(value) {
-        this.invitationData = value || null;
     }
 }
 

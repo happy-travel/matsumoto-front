@@ -1,8 +1,14 @@
 import React from 'react';
-
 import Tiles from 'components/tiles';
+import { Redirect } from "react-router-dom";
+import { getParams } from "core";
 
-const AccommodationTitlePage = () => (
+const AccommodationTitlePage = () => {
+    //todo: when accommodation is not more the main partition of the site, move this redirect to index page
+    if (getParams().invCode)
+        return <Redirect to={"/signup/user?invitationCode=" + getParams().invCode} />;
+
+return (
     <React.Fragment>
         <div class="tiles block">
             <section>
@@ -77,5 +83,6 @@ const AccommodationTitlePage = () => (
         </div>
     </React.Fragment>
 );
+};
 
 export default AccommodationTitlePage;

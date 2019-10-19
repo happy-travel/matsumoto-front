@@ -22,7 +22,7 @@ translations: {
     "footer_address_line_4": "P.O. Box 36366",
     "_copyright": "Copyright © 2019 HappyTravelDotCom Travel and Tourism LLC. All Rights Reserved.",
     "Are you supplier?": "Are you a supplier?",
-    "Log in": "Log in",
+    "Log In": "Log In",
     "Registration": "Registration",
     "User name": "User name",
     "Password": "Password",
@@ -225,6 +225,7 @@ translations: {
     "Please Enter Your Card Details": "Please Enter Your Card Details",
     "You need to pay": "You need to pay",
     "My Site Balance": "My Site Balance",
-    "Credit/Debit Card": "Credit/Debit Card"
+    "Credit/Debit Card": "Credit/Debit Card",
+    "Finish Registration": "Finish Registration"
 }
 };
