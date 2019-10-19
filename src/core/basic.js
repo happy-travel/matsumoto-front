@@ -25,7 +25,7 @@ export const getParams = () => {
         paramSplit = window.location.search.substr(1)?.split("&");
     for ( var i = 0; i < paramSplit?.length; i++ ) {
         var valueSplit = paramSplit[i].split("=");
-        params[valueSplit[0]] = valueSplit?.[1];
+        params[decodeURIComponent(valueSplit[0])] = decodeURIComponent(valueSplit?.[1]);
     }
     return params;
 };
