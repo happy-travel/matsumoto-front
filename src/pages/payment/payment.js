@@ -88,7 +88,9 @@ render() {
     const { t } = useTranslation();
 
     return (
-        <div class="middle-section confirmation payment block">
+<div class="confirmation block payment">
+    <section class="double-sections">
+        <div class="middle-section">
             <h2 class="payment-title">
                 {t("Please Enter Your Card Details")}
             </h2>
@@ -157,6 +159,8 @@ render() {
                 )}
             />
         </div>
+    </section>
+</div>
     );
 }
 }

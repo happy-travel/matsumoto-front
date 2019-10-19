@@ -14,11 +14,10 @@ import {
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual, Loader } from "components/simple";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store from "stores/accommodation-store";
-import PaymentPage from "pages/payment/payment";
 
 @observer
 class AccommodationBookingPage extends React.Component {
@@ -328,7 +327,7 @@ class AccommodationBookingPage extends React.Component {
                                     <Loader /> }
 
                                 { store.booking.result.referenceCode &&
-                                    <PaymentPage /> }
+                                    <Redirect to="/payment/form" /> }
 
                             </div>
                         </form>

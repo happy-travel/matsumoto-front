@@ -152,9 +152,9 @@ render() {
                     <React.Fragment>
                         <h2>{t("Payment result")}</h2>
 
-                        <div class={"result-code" + (params_error ? " error" : "")}>
+                        { params_error && <div class={"result-code error"}>
                             <div class="before">
-                                { params_error ? <span class="icon icon-close white" /> : <span class="icon icon-white-check" /> }
+                                <span class="icon icon-close white" />
                             </div>
                             <div class="dual">
                                 <div class="first">
@@ -164,7 +164,7 @@ render() {
                                     Response code: <strong>{params?.response_code}</strong>
                                 </div>
                             </div>
-                        </div>
+                        </div> }
 
                         <div class={"result-code" + (result.error ? " error" : "")}>
                             { (result.status || result.error) && <div class="before">

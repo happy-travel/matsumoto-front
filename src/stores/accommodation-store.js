@@ -86,6 +86,7 @@ class AccommodationStore {
         this.selectedFilters = null;
         this.booking.request = null;
         this.booking.result = {};
+        this.paymentResult = {};
     }
     setSelectedFilters(filters) {
         this.selectedFilters = filters;
