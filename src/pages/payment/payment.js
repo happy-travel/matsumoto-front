@@ -27,6 +27,13 @@ const postVirtualForm = (path, values) => {
     form.submit();
 };
 
+const formatExpiryDate = (value) => {
+    value = value.replace(/\D/g,'');
+    if (3 == value.length || 5 == value.length)
+        value = "0" + value; //adding month leading zero that is possible and valid
+    return value.substr(-2) + value.substr(0,2); //changing dd and MM order as it wishes payment API
+};
+
 @observer
 class PaymentPage extends React.Component {
     constructor(props) {
@@ -75,7 +82,7 @@ class PaymentPage extends React.Component {
         values = {
             ...values,
             card_number: values.card_number.replace(/\D/g,''),
-            expiry_date: values.expiry_date.replace(/\D/g,'')
+            expiry_date: formatExpiryDate(values.expiry_date)
         };
         postVirtualForm(this.state.RequestUrl, {
             ...this.state.service,
@@ -130,7 +137,7 @@ render() {
                             <FieldText formik={formik}
                                 id="expiry_date"
                                 label={t("Expiration Date")}
-                                placeholder={t("Expiration Date")}
+                                placeholder={"MM/YY"}
                                 addClass="size-half"
                                 required
                                 clearable

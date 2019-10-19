@@ -8,10 +8,12 @@ export default Yup.object().shape({
             'Credit Card number is not valid',
              value => valid.number(value).isValid),
     expiry_date: Yup.string()
-        /* todo: .test('is-card-date',
+        .required("*")
+        .matches(/^([0-9]{1,2})\/([0-9]{2})([0-9]{2})?$/,
+            'Please enter an expiration date in MM/YY format')
+        .test('is-card-date',
             'Credit Card expiry date is not valid',
-             value => valid.expirationDate(value).isValid) */
-        .required("*"),
+             value => valid.expirationDate(value).isValid),
     card_security_code: Yup.string()
         .required("*")
         .test('is-card-cvv',

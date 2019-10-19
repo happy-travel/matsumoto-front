@@ -150,8 +150,6 @@ render() {
 
                     { (!this.state.fromHistory && result) &&
                     <React.Fragment>
-                        <h2>{t("Payment result")}</h2>
-
                         { params_error && <div class={"result-code error"}>
                             <div class="before">
                                 <span class="icon icon-close white" />
