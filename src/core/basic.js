@@ -16,6 +16,16 @@ export const decorate = {
     }
 };
 
-export const price = (currency, value) => " " + currency + " " + (value).toFixed(2) + " ";
+export const price = (currency, value) => " " + (currency || "") + " " + (value || 0).toFixed(2) + " ";
 
 export const hotelStars = [, "OneStar", "TwoStars", "ThreeStars", "FourStars", "FiveStars"];
+
+export const getParams = () => {
+    var params = {},
+        paramSplit = window.location.search.substr(1)?.split("&");
+    for ( var i = 0; i < paramSplit?.length; i++ ) {
+        var valueSplit = paramSplit[i].split("=");
+        params[valueSplit[0]] = valueSplit?.[1];
+    }
+    return params;
+};

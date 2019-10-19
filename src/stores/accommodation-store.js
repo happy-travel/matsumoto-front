@@ -60,6 +60,9 @@ class AccommodationStore {
     @observable
     userBookingList = [];
 
+    @observable
+    paymentResult = {};
+
     constructor() {
         if ("localhost" == window.location.hostname) autosave(this, "_accommodation_store_cache");
     }
@@ -185,6 +188,12 @@ class AccommodationStore {
             }
         }
     }
+
+    setPaymentResult(result) {
+        this.paymentResult = result;
+        this.paymentResult.params_error = (result.params?.response_message != "Success");
+    }
+
 }
 
 export default new AccommodationStore();

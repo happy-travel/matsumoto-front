@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, API } from "core";
+import { dateFormat, price, API } from "core";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -27,7 +27,7 @@ class AccommodationConfirmationPage extends React.Component {
             var selected = null;
 
             store.userBookingList.forEach(item => {
-                if (item.bookingId == this.state.bookingId)
+                if (item.bookingId == this.state.bookingId || item.referenceCode == this.state.bookingId) //todo: refactoring
                     selected = item;
             });
 
@@ -53,8 +53,19 @@ class AccommodationConfirmationPage extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props?.match?.params?.id !== undefined) {
-            this.setState({bookingId: this.props?.match?.params?.id});
+        var bookingId = this.props?.match?.params?.id,
+            fromHistory = true;
+
+        if (bookingId === undefined && store.paymentResult?.params?.settlement_reference) {
+            bookingId = store.paymentResult?.params?.settlement_reference;
+            fromHistory = false;
+        }
+
+        if ( bookingId !== undefined) {
+            this.setState({
+                bookingId: this.props?.match?.params?.id,
+                fromHistory
+            });
             API.get({
                 url: API.ACCOMMODATION_BOOKING,
                 after: (data) => store.setUserBookingList(data)
@@ -111,6 +122,14 @@ render() {
             </div>
         );
 
+    if (store.paymentResult?.result)
+        var {
+            params,
+            result,
+            saved,
+            params_error
+        } = (store.paymentResult || {});
+
     return (
         <div class="confirmation block">
             <div class="hide">{''+store.booking.result}</div>
@@ -128,6 +147,41 @@ render() {
                         items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
                         current={2}
                     />
+
+                    { (!this.state.fromHistory && result) &&
+                    <React.Fragment>
+                        <h2>{t("Payment result")}</h2>
+
+                        <div class={"result-code" + (params_error ? " error" : "")}>
+                            <div class="before">
+                                { params_error ? <span class="icon icon-close white" /> : <span class="icon icon-white-check" /> }
+                            </div>
+                            <div class="dual">
+                                <div class="first">
+                                    Card acceptance message: <strong>{params?.response_message}</strong>
+                                </div>
+                                <div class="second">
+                                    Response code: <strong>{params?.response_code}</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class={"result-code" + (result.error ? " error" : "")}>
+                            { (result.status || result.error) && <div class="before">
+                                { result.error ? <span class="icon icon-close white" /> : <span class="icon icon-white-check" /> }
+                            </div> }
+                            <div class="dual">
+                                <div class="first">
+                                    Payment result: <strong>{result.status || result.error}</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        { saved && <div class="result-code">
+                            Your card was saved for your future purchases.
+                        </div> }
+                    </React.Fragment> }
+
                     <h2>
                         {t("Booking Details")}
                     </h2>
@@ -166,16 +220,16 @@ render() {
                     />
                     <Dual addClass="line"
                         a={t('Total Cost')}
-                        b={`${booking.currency} ${booking.price}`}
+                        b={price(booking.currency, booking.price)}
                     />
 
                     <h2>
                         {t("Leading Passenger")}
-                    </h2>
+                    </h2>  { /* todo: initials fix */ }
                     <Dual
                         a={<Dual addClass="line"
                                 a={"First name"}
-                                b={booking.passengers?.[0]?.firstName}
+                                b={booking.passengers?.[0]?.firstName || booking.passengers?.[0]?.initials}
                             />}
                         b={<Dual addClass="line"
                                 a={"Last name"}
@@ -204,19 +258,6 @@ render() {
                     </React.Fragment> }
 
                     <div class="actions">
-                    { this.state.bookingId === null ?
-                        <Link to="/payment" class="left">
-                            <button class="button">
-                                {t("Pay now by Card")}
-                            </button>
-                        </Link>
-                    :
-                        <Link to="/user/booking" class="left">
-                            <button class="button">
-                                {t("Booking management")}
-                            </button>
-                        </Link>
-                    }
                         <a href="javascript:void(0)">
                             <span class="icon icon-action-time-left" />
                         </a>

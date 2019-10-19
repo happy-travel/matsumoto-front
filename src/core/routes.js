@@ -7,6 +7,7 @@ import accommodationBooking       from 'pages/accommodation/booking';
 import accommodationConfirmation  from 'pages/accommodation/confirmation';
 
 import paymentResult              from "pages/payment/result";
+import payment3DSCallback         from "pages/payment/callback";
 
 import accountRegistrationStep2   from "pages/account/registration-step-2";
 import accountRegistrationStep3   from "pages/account/registration-step-3";
@@ -31,7 +32,6 @@ export const routesWithHeaderAndFooter = [
     ...routesWithSearch,
     "/accommodation/booking",
     "/accommodation/confirmation*",
-    "/payment*",
     "/contact", "/terms", "/privacy", "/about",
     "/user/booking",
     "/user/invite"
@@ -49,6 +49,7 @@ const Routes = () => (
         <Route path={
             ["/payment/result/:ref",
              "/payment/result"]}                  component={paymentResult} />
+        <Route path="/payments/callback"          component={payment3DSCallback} />
 
         <Route path="/signup/user"                component={accountRegistrationStep2} />
         <Route path="/signup/company"             component={accountRegistrationStep3} />

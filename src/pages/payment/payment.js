@@ -44,7 +44,6 @@ class PaymentPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log("payment mounted");
         API.get({
             url: API.CARDS_SETTINGS,
             after: data => {
