@@ -276,7 +276,7 @@ class AccommodationBookingPage extends React.Component {
                                     /> }
                                 </div>
 
-                                <div class="part">
+                                { /* <div class="part">
                                     <table class="checkboxes"><tbody>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Request Interconnecting Rooms"} /></td>
@@ -303,7 +303,7 @@ class AccommodationBookingPage extends React.Component {
                                             <td />
                                         </tr>
                                     </tbody></table>
-                                </div>
+                                </div> */ }
 
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
