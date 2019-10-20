@@ -29,6 +29,11 @@ class AccommodationBookingPage extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
+    componentDidMount() {
+        store.setBookingRequest(null);
+        store.setBookingResult(null);
+    }
+
     submit(values, { setSubmitting }) {
         if (!store.selected.hotel.id || !store.selected.variant.id)
             return null; //todo: another answer

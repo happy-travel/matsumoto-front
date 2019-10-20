@@ -170,6 +170,8 @@ class AccommodationStore {
     select(agreement, hotel) {
         this.selected.hotel = hotel;
         this.selected.variant = agreement;
+        this.booking.request = null;
+        this.booking.result = {};
     }
 
     setBookingRequest(request) {
@@ -177,6 +179,10 @@ class AccommodationStore {
     }
 
     setBookingResult(result, data) {
+        if (null === result) {
+            this.booking.result = {};
+            return;
+        }
         if (data?.status && data.status != 200)
             this.booking.result = {
                 error: data.detail,
