@@ -58,8 +58,6 @@ class RegistrationStep2 extends React.Component {
 
     componentDidMount() {
         var invitationCode = getParams().invitationCode;
-        if (invitationCode.substr(-2) != "==") invitationCode+="=="; //todo: remove this, it's temporary
-
         if (invitationCode)
             API.get({
                 url: API.USER_INVITE(invitationCode),
