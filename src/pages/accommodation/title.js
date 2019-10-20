@@ -5,7 +5,7 @@ import { getParams } from "core";
 
 const AccommodationTitlePage = () => {
     //todo: when accommodation is not more the main partition of the site, move this redirect to index page
-    if (getParams().invCode)
+    if (getParams().invCode && !getParams().scope)
         return <Redirect to={"/signup/user?invitationCode=" + getParams().invCode} />;
 
 return (
