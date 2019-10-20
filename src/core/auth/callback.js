@@ -2,6 +2,7 @@ import React from "react";
 import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
 import { init } from "core";
+import { getParams } from "core";
 
 class AuthCallbackComponent extends React.PureComponent {
 

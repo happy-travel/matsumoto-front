@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import FormUserData from "parts/form-user-data";
-import { API, getParams } from "core";
+import { API  } from "core";
 import UI from "stores/ui-store";
 
 @observer
@@ -57,7 +57,7 @@ class RegistrationStep2 extends React.Component {
     }
 
     componentDidMount() {
-        var invitationCode = getParams().invitationCode;
+        var invitationCode = window.sessionStorage.getItem("_auth__invCode");
         if (invitationCode)
             API.get({
                 url: API.USER_INVITE(invitationCode),

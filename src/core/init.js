@@ -1,8 +1,19 @@
 import UI from "stores/ui-store";
 import { API } from "core";
 import Authorize from "./auth/authorize";
+import React from "react";
+import { getParams } from "core";
 
 const init = () => {
+
+    if (window.location.pathname.length < 2 && // index page
+        getParams().code) { // and auth
+        if (getParams().invCode)
+            window.sessionStorage.setItem("_auth__invCode", getParams().invCode);
+        else
+            window.sessionStorage.removeItem("_auth__invCode");
+    }
+
     API.get({
         url: API.USER,
         success: (result) => {
