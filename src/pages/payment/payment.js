@@ -10,6 +10,7 @@ import {
 import { Dual } from "components/simple";
 import store from "stores/accommodation-store";
 import { creditCardValidator } from "components/form/validation";
+import Breadcrumbs from "components/breadcrumbs";
 
 const postVirtualForm = (path, values) => {
     var form = document.createElement("form");
@@ -100,6 +101,17 @@ render() {
 <div class="confirmation block payment">
     <section class="double-sections">
         <div class="middle-section">
+            <Breadcrumbs items={[
+                {
+                    text: t("Search accommodation"),
+                    link: "/search"
+                }, {
+                    text: t("Your Booking")
+                }, {
+                    text: t("Payment")
+                }
+            ]}/>
+
             <h2 class="payment-title">
                 {t("Please Enter Your Card Details")}
             </h2>
