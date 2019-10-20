@@ -61,7 +61,7 @@ class PaymentResultPage extends React.Component {
                 API.post({
                     url: API.PAYMENTS_COMMON,
                     body: {
-                        amount: Math.trunc(booking.roomDetails[0].price.price),
+                        amount: booking.roomDetails[0].price.price,
                         currency: booking.currencyCode,
                         referenceCode: bookingReference,
                         token: params.token_name

@@ -27,11 +27,12 @@ const postVirtualForm = (path, values) => {
     form.submit();
 };
 
-const formatExpiryDate = (value) => {
-    value = value.replace(/\D/g,'');
-    if (3 == value.length || 5 == value.length)
-        value = "0" + value; //adding month leading zero that is possible and valid
-    return value.substr(-2) + value.substr(0,2); //changing dd and MM order as it wishes payment API
+const formatExpiryDate = (values) => {
+    var MM = values.expiry_month.replace(/\D/g,''),
+        YY = values.expiry_year.replace(/\D/g,'');
+    if (1 == MM.length) MM = "0" + MM;
+    if (4 == YY.length) YY = YY.slice(-2);
+    return YY + MM;
 };
 
 @observer
@@ -79,15 +80,16 @@ class PaymentPage extends React.Component {
     }
 
     submit(values) {
-        values = {
-            ...values,
+        var request = {
+            card_holder_name: values.card_holder_name,
+            card_security_code: values.card_security_code,
             card_number: values.card_number.replace(/\D/g,''),
-            expiry_date: formatExpiryDate(values.expiry_date)
+            expiry_date: formatExpiryDate(values),
+            remember_me: values.remember_me ? "YES" : "NO"
         };
         postVirtualForm(this.state.RequestUrl, {
             ...this.state.service,
-            ...values,
-            remember_me: values.remember_me ? "YES" : "NO"
+            ...request
         });
     }
 
@@ -105,7 +107,8 @@ render() {
             <Formik
                 initialValues={{
                     card_number: "",
-                    expiry_date: "",
+                    expiry_month: "",
+                    expiry_year: "",
                     card_security_code: "",
                     card_holder_name: "",
                     remember_me: false
@@ -135,12 +138,17 @@ render() {
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
-                                id="expiry_date"
+                                id="expiry_month"
                                 label={t("Expiration Date")}
-                                placeholder={"MM/YY"}
-                                addClass="size-half"
+                                placeholder={"MM"}
+                                addClass="size-fourth label-long after-slash"
                                 required
-                                clearable
+                            />
+                            <FieldText formik={formik}
+                                id="expiry_year"
+                                label={<div/>}
+                                placeholder={"YY"}
+                                addClass="size-fourth"
                             />
                             <FieldText formik={formik}
                                 id="card_security_code"
