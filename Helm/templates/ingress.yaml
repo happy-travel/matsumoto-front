@@ -2,18 +2,25 @@
 {{- $svcPort := .Values.service.port -}}
 {{- $crtName := .Values.service.secretName -}}
 {{- $svcName := .Values.service.name -}}
-
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: {{ .Chart.Name }}
   labels:
     app: {{ .Chart.Name }}
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "contour"
     kubernetes.io/tls-acme: "true"
     certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
-    ingress.kubernetes.io/force-ssl-redirect: "true"    
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    contour.heptio.com/retry-on: "5xx"
+    contour.heptio.com/num-retries: "5"
+    contour.heptio.com/request-timeout: "15s"
+    contour.heptio.com/per-try-timeout: "3000"
 spec:
 {{- if .Values.ingress.tls }}
   tls:

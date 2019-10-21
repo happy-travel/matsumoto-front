@@ -20,5 +20,13 @@ spec:
           image: {{ .Values.registry }}/matsumoto-front:{{ .Release.Namespace }}-{{ .Chart.Version }}
           ports:
             - containerPort: {{ $appPort }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ $appPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ $appPort }}
       imagePullSecrets:
       - name: travel-key-registry
