@@ -13,14 +13,11 @@ metadata:
   labels:
     app: {{ .Chart.Name }}
   annotations:
-    kubernetes.io/ingress.class: "contour"
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
     kubernetes.io/tls-acme: "true"
     certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
     ingress.kubernetes.io/force-ssl-redirect: "true"
-    contour.heptio.com/retry-on: "5xx"
-    contour.heptio.com/num-retries: "5"
-    contour.heptio.com/request-timeout: "15s"
-    contour.heptio.com/per-try-timeout: "3000"
 spec:
 {{- if .Values.ingress.tls }}
   tls:
