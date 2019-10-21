@@ -22,7 +22,8 @@ class AccommodationVariantsPage extends React.Component {
         super(props);
         this.state = {
             redirectToBookingPage: false,
-            expanded: {}
+            expanded: {},
+            loading: false
         };
         this.showDetailsModal = this.showDetailsModal.bind(this);
         this.expand = this.expand.bind(this);
@@ -43,7 +44,30 @@ class AccommodationVariantsPage extends React.Component {
     variantSelect(agreement, hotel) {
         store.select(agreement, hotel);
         this.setState({
-            redirectToBookingPage: true
+            loading: true
+        });
+        API.get({
+            url: API.AVAILABILITY_DETAILS(store.search.result.availabilityId, agreement.id),
+            success: (result) => {
+                if (result?.accommodationId != hotel.id) { // todo: better error definition and error handling
+                    UI.setTopAlertText("Sorry, this room is not available now");
+                    return;
+                }
+                store.select(result.agreement, hotel); // here first accommodation model is fuller, so I use it
+                this.setState({
+                    redirectToBookingPage: true
+                });
+            },
+            error: (error) => {
+                UI.setTopAlertText("Sorry, this room is not available now, try again later");
+                if (error)
+                    console.log("error: " + error);
+            },
+            after: () => {
+                this.setState({
+                    loading: false
+                });
+            }
         });
     }
 
@@ -103,6 +127,8 @@ class AccommodationVariantsPage extends React.Component {
 
                 { store.search.loaded && !store.hotelArray.length &&
                     <div>{t("Nothing found")}</div> }
+
+                { this.state.loading && <Loader page /> }
 
                 { store.hotelArray.map((item, hotelIndex) =>
                 <div class="variant" key={item.accommodationDetails.id}>

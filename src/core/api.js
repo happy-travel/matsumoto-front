@@ -28,7 +28,9 @@ API_METHODS = {
     ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
     ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
     ACCOMMODATION_DETAILS : accommodationId =>
-                            v1 + "/accommodations/" + accommodationId
+                            v1 + "/accommodations/" + accommodationId,
+    AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
+                            v1 + `/availabilities/${availabilityId}/${agreementId}`
 
 };
 
