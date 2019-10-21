@@ -1,3 +1,8 @@
+{{- if .Values.ingress.enabled -}}
+{{- $svcPort := .Values.service.port -}}
+{{- $crtName := .Values.service.secretName -}}
+{{- $svcName := .Values.service.name -}}
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -10,23 +15,26 @@ metadata:
     certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
     ingress.kubernetes.io/force-ssl-redirect: "true"    
 spec:
+{{- if .Values.ingress.tls }}
   tls:
-  - secretName: letsencrypt-{{ .Release.Namespace }}-{{ .Chart.Name }}
-    hosts: 
-    - {{ .Release.Namespace }}.{{ .Values.root_url }}
-    - {{ .Values.root_url }}
+  {{- range .Values.ingress.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ $crtName }}
+  {{- end }}
+{{- end }}
   rules:
-  - host: {{ .Release.Namespace }}.{{ .Values.root_url }}
-    http:
-      paths:
-      - backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
-        path: /
-  - host: {{ .Values.root_url }}
-    http:
-      paths:
-      - backend:
-          serviceName: {{ .Chart.Name }}
-          servicePort: 80
-        path: /        
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $svcName }}
+              servicePort: {{ $svcPort }}
+        {{- end }}
+  {{- end }}
+{{- end }}

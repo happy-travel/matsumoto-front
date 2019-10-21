@@ -1,2 +1,8 @@
 root_url: happytravel.com
 registry: registry.dev.happytravel.com
+service:
+  name: matsumoto-front
+  port: 80
+  secretName: letsencrypt-production-matsumoto-front
+container:
+  port: 80

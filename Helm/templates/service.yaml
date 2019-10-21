@@ -1,3 +1,5 @@
+{{- $svcPort := .Values.service.port -}}
+{{- $appPort := .Values.container.port -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,8 +8,8 @@ metadata:
     app: {{ .Chart.Name }}
 spec:
   ports:
-    - port: 80
-      targetPort: 80
+    - port: {{ $svcPort }}
+      targetPort: {{ $appPort }}
       protocol: TCP
   selector:
     app: {{ .Chart.Name }}
