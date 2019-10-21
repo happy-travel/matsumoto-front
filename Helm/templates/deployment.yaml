@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: {{ .Values.registry }}/matsumoto-front:{{ .Release.Namespace }}-3
+          image: {{ .Values.registry }}/matsumoto-front:{{ .Release.Namespace }}-{{ .Chart.Version }}
           ports:
             - containerPort: {{ $appPort }}
           livenessProbe:
