@@ -12,8 +12,10 @@ export default ({
                 required
                 placeholder={t("Select One")}
                 options={[
-                    { value: "Mr.", text: "Mr."},
-                    { value: "Mrs.", text: "Mrs."}
+                    { value: "Mr.", text: t("Mr.")},
+                    { value: "Ms.", text: t("Ms.")},
+                    { value: "Miss.", text: t("Miss.")},
+                    { value: "Mrs.", text: t("Mrs.")}
                 ]}
             />
         </div>

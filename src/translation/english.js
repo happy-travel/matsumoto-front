@@ -152,6 +152,8 @@ translations: {
     "Special Request": "Special Request",
     "Your Requests": "Your Requests",
     "Mr.": "Mr.",
+    "Ms.": "Ms.",
+    "Miss.": "Miss.",
     "Mrs.": "Mrs.",
     "Child": "Child",
     "Booking Summary": "Booking Summary",

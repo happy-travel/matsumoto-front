@@ -210,8 +210,10 @@ class AccommodationBookingPage extends React.Component {
                                                         id={`passengers.${index}.title`}
                                                         placeholder={t("Please select one")}
                                                         options={[
-                                                            { value: "Mr.", text: t("Mr.") },
-                                                            { value: "Mrs.", text: t("Mrs.") }
+                                                            { value: "Mr.", text: t("Mr.")},
+                                                            { value: "Ms.", text: t("Ms.")},
+                                                            { value: "Miss.", text: t("Miss.")},
+                                                            { value: "Mrs.", text: t("Mrs.")}
                                                         ]}
                                                     /> :
                                                     <FieldText formik={formik}
