@@ -63,6 +63,7 @@ class AccommodationBookingPage extends React.Component {
             "residency": search.residency,
             "mainPassengerName": passengers[0].firstName + " " + passengers[0].lastName,
             "agreementId": variant.id,
+            "agentReference": values.agentReference,
             "roomDetails": [
                 {
                     "type": variant.rooms[0].type, //todo: make it real
@@ -244,6 +245,7 @@ class AccommodationBookingPage extends React.Component {
                                 </div>
 
                                 <div class="part">
+                                    { /* todo
                                     <div class="row no-margin">
                                         <div class="vertical-label">{t("Agent Reference")}</div>
                                         <FieldText formik={formik}
@@ -252,7 +254,6 @@ class AccommodationBookingPage extends React.Component {
                                             clearable
                                         />
                                     </div>
-                                    { /* todo
                                     <div class="row">
                                         <div class="vertical-label">
                                             <div>{t("Extra Meal")} <span class="icon icon-info" /></div>
@@ -271,11 +272,11 @@ class AccommodationBookingPage extends React.Component {
                                     </div>
                                     */ }
 
-                                    { formik.values["special-request"] && <FieldTextarea formik={formik}
-                                        id={"agent-reference"}
+                                    <FieldTextarea formik={formik}
+                                        id="agentReference"
                                         placeholder={"Please enter your message"}
-                                        label={t("Your Requests")}
-                                    /> }
+                                        label={t("Special Request")}
+                                    />
                                 </div>
 
                                 { /* <div class="part">
