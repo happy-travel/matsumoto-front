@@ -29,7 +29,7 @@ class PaymentResultPage extends React.Component {
 
         if ("YES" == params.remember_me)
             API.post({
-                url: API.CARDS_RESPONSE,
+                url: API.CARDS_COMMON,
                 body: {
                     number: params.card_number,
                     expirationDate: params.expiry_date,
