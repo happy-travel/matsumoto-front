@@ -82,6 +82,7 @@ class FieldText extends React.Component {
             Icon,
             Flag,
             clearable,
+            password,
             addClass,
             id,
             Dropdown,
@@ -122,7 +123,7 @@ class FieldText extends React.Component {
                         <div class="inner">
                             <input
                                 name={id}
-                                type="text"
+                                type={ password ? "password" : "text" }
                                 placeholder={ !ValueObject && placeholder }
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }

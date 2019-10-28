@@ -164,6 +164,7 @@ render() {
                             />
                             <FieldText formik={formik}
                                 id="card_security_code"
+                                password
                                 label={t("CCV")}
                                 placeholder={t("CCV")}
                                 addClass="size-half"
