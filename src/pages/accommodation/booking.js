@@ -244,8 +244,8 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div>
 
+                                { /* todo
                                 <div class="part">
-                                    { /* todo
                                     <div class="row no-margin">
                                         <div class="vertical-label">{t("Agent Reference")}</div>
                                         <FieldText formik={formik}
@@ -270,7 +270,6 @@ class AccommodationBookingPage extends React.Component {
                                             id={"special-request"}
                                         />
                                     </div>
-                                    */ }
 
                                     <FieldTextarea formik={formik}
                                         id="agentReference"
@@ -279,7 +278,7 @@ class AccommodationBookingPage extends React.Component {
                                     />
                                 </div>
 
-                                { /* <div class="part">
+                                <div class="part">
                                     <table class="checkboxes"><tbody>
                                         <tr>
                                             <td class="bigger"><FieldCheckbox formik={formik} label={"Request Interconnecting Rooms"} /></td>
@@ -319,8 +318,8 @@ class AccommodationBookingPage extends React.Component {
                                         </div>
                                         <div class="item selected">
                                             {t("Credit/Debit Card")}
-                                            <img src="/images/other/mc.png" />
                                             <img src="/images/other/visa.png" />
+                                            <img src="/images/other/mc.png" />
                                         </div>
                                     </div>
                                 </div>

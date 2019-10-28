@@ -39,8 +39,10 @@ const Footer = () => {
                             <li><Link to="/about">{t("About Us")}</Link></li>
                         </menu>
                         <div class="payments">
-                            <img src="/images/other/mc.png" />
                             <img src="/images/other/visa.png" />
+                            <img src="/images/other/mc-on-dark.png" class="transparent" />
+                            <img src="/images/other/visa-sec.png" />
+                            <img src="/images/other/mc-sec-on-dark.png" class="transparent" />
                         </div>
                     </div>
                     <div class="contact">
