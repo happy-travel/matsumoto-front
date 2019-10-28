@@ -319,7 +319,8 @@ class AccommodationBookingPage extends React.Component {
                                         </div>
                                         <div class="item selected">
                                             {t("Credit/Debit Card")}
-                                            <img src="/images/other/payments.svg" />
+                                            <img src="/images/other/mc.png" />
+                                            <img src="/images/other/visa.png" />
                                         </div>
                                     </div>
                                 </div>
