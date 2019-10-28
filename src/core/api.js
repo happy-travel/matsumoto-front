@@ -1,5 +1,6 @@
 import settings from "settings";
 import Authorize from "core/auth/authorize";
+import UI from "stores/ui-store";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
@@ -97,6 +98,8 @@ Authorize.getUser().then(user => {
         .then(
             (result) => {
                 if (failed) {
+                    if (result && result.status >= 400 && result.detail)
+                        UI.setTopAlertText(result.detail);
                     if (error)
                         error(result);
                 } else {
