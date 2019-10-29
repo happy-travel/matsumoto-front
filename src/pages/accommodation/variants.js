@@ -46,6 +46,53 @@ class AccommodationVariantsPage extends React.Component {
         this.setState({
             loading: true
         });
+
+        API.post({
+            url: API.ACCOMMODATION_SEARCH,
+            body: {
+                ...store.search.request,
+                searchInfo: {
+                    availabilityId: store.search.result.availabilityId,
+                    hotelId: hotel.id,
+                    price: agreement.price.total,
+                    tariffCode: agreement.tariffCode
+                }
+            },
+            success: (result) => {
+                if (result.results?.[0].accommodationDetails.id != hotel.id) {
+                    UI.setTopAlertText("Sorry, this room is not available now");
+                    return;
+                }
+                for (var i = 0; i < result.results[0].agreements.length; i++)
+                    if (
+                        result.results[0].agreements[i].tariffCode == agreement.tariffCode &&
+                        result.results[0].agreements[i].contractType == agreement.contractType &&
+                        result.results[0].agreements[i].mealPlan == agreement.mealPlan &&
+                        result.results[0].agreements[i].rooms[0].type == agreement.rooms[0].type
+                    ) {
+                        store.select(result.results[0].agreements[i], result.results[0].accommodationDetails);
+                        this.setState({
+                            redirectToBookingPage: true
+                        });
+                        return;
+                    }
+
+                UI.setTopAlertText("Sorry, this room is not available now #2");
+            },
+            error: (error) => {
+                UI.setTopAlertText("Sorry, this room is not available now, try again later");
+                if (error)
+                    console.log("error: " + error);
+            },
+            after: () => {
+                this.setState({
+                    loading: false
+                });
+            }
+        });
+
+        return; /*
+
         API.get({
             url: API.AVAILABILITY_DETAILS(store.search.result.availabilityId, agreement.id),
             success: (result) => {
@@ -69,6 +116,7 @@ class AccommodationVariantsPage extends React.Component {
                 });
             }
         });
+        */
     }
 
     expand(index) {
