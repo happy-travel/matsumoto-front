@@ -47,6 +47,7 @@ class AccommodationVariantsPage extends React.Component {
             loading: true
         });
 
+        /*
         API.post({
             url: API.ACCOMMODATION_SEARCH,
             body: {
@@ -91,7 +92,7 @@ class AccommodationVariantsPage extends React.Component {
             }
         });
 
-        return; /*
+        return; */
 
         API.get({
             url: API.AVAILABILITY_DETAILS(store.search.result.availabilityId, agreement.id),
@@ -116,7 +117,7 @@ class AccommodationVariantsPage extends React.Component {
                 });
             }
         });
-        */
+
     }
 
     expand(index) {
