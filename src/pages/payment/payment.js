@@ -172,7 +172,7 @@ render() {
                                 clearable
                             />
                         </div>
-                        <div class="row">
+                        <div class="row hide">
                             <FieldCheckbox formik={formik}
                                 label={"Save my card for faster checkout"}
                                 id={"remember_me"}
