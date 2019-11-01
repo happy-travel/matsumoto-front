@@ -222,7 +222,7 @@ class AccommodationVariantsPage extends React.Component {
                             </tr>
                             { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? 3 : undefined).map(agreement => <tr>
                                 <td>
-                                    {agreement.rooms[0].type}
+                                    {agreement.rooms.map(room => room.type).join(", ")}
                                 </td>
                                 <td>
                                     {agreement.mealPlan}

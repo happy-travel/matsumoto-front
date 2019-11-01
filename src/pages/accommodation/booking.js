@@ -59,7 +59,7 @@ class AccommodationBookingPage extends React.Component {
                 });
 
             roomDetails.push({
-                type: variant.rooms[r].type,
+                type: variant.rooms[r]?.type,
                 passengers
             })
         }
@@ -141,7 +141,7 @@ class AccommodationBookingPage extends React.Component {
                 {[...Array(store.search.rooms)].map((x,i)=>(
                 <Dual
                     a={t("Room Type") + " " + (store.search.rooms > 1 ? (i+1) : '')}
-                    b={variant.rooms[i].type}
+                    b={variant.rooms[i]?.type}
                 />
                 ))}
                 { false && [<Dual
@@ -200,7 +200,7 @@ class AccommodationBookingPage extends React.Component {
                                 formik.values.room.map((item, r) => (
                                 <React.Fragment>
                                 <h2>
-                                    <span>Room {r+1}:</span> {variant.rooms[r].type}
+                                    <span>Room {r+1}:</span> {variant.rooms[r]?.type}
                                 </h2>
                                 <div class="part">
                                     <table class="people"><tbody>
