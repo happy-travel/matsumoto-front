@@ -18,6 +18,7 @@ import { Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store from "stores/accommodation-store";
+import UI from "stores/ui-store";
 
 @observer
 class AccommodationBookingPage extends React.Component {
@@ -83,7 +84,8 @@ class AccommodationBookingPage extends React.Component {
             after: (result, data) => {
                 store.setBookingResult(result, data);
                 setSubmitting(false);
-            }
+            },
+            error: (error) => UI.setTopAlertText(error?.title || error?.detail || error?.message)
         });
 
         // todo: payment via user account wallet:
@@ -216,23 +218,16 @@ class AccommodationBookingPage extends React.Component {
                                             {formik.values.room[r].passengers.map((item, index) => (
                                             <tr>
                                                 <td>
-                                                { index < store.search.request.roomDetails[r].adultsNumber ?
                                                     <FieldSelect formik={formik}
                                                         id={`room.${r}.passengers.${index}.title`}
-                                                        placeholder={t("Please select one")}
+                                                        placeholder={index < store.search.request.roomDetails[r].adultsNumber ? t("Please select one") : t("Child")}
                                                         options={[
                                                             { value: "Mr", text: t("Mr.")},
                                                             { value: "Ms", text: t("Ms.")},
                                                             { value: "Miss", text: t("Miss.")},
                                                             { value: "Mrs", text: t("Mrs.")}
                                                         ]}
-                                                    /> :
-                                                    <FieldText formik={formik}
-                                                        id={`room.${r}.passengers.${index}.title`}
-                                                        value={t("Child")}
-                                                        disabled
                                                     />
-                                                }
                                                 </td>
                                                 <td class="bigger">
                                                     <FieldText formik={formik}
