@@ -68,6 +68,9 @@ class FieldText extends React.Component {
         }
         //todo suggestion
 
+        if (this.props.numeric) //todo: temporary. rewrite to this.props.mask
+            event.target.value = event.target.value.replace(/[^0-9.]/g, "");
+
         if (this.props.onChange)
             this.props.onChange(event);
 
@@ -92,6 +95,7 @@ class FieldText extends React.Component {
             readonly,
             options,
             ValueObject,
+            maxLength,
 
             formik
         } = this.props,
@@ -131,6 +135,7 @@ class FieldText extends React.Component {
                                 value={ ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '') }
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
+                                maxLength={ maxLength }
                                 autocomplete="off"
                                 {...(readonly ? {readonly: "readonly"} : {})}
                             />

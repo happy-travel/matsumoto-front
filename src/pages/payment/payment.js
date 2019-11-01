@@ -149,7 +149,6 @@ render() {
                                 id="card_holder_name"
                                 label={t("Card Holder Name")}
                                 placeholder={t("Card Holder Name")}
-                                required
                                 clearable
                             />
                         </div>
@@ -160,6 +159,7 @@ render() {
                                 placeholder={t("Card Number")}
                                 required
                                 clearable
+                                maxLength={40}
                             />
                         </div>
                         <div class="row">
@@ -169,12 +169,16 @@ render() {
                                 placeholder={"MM"}
                                 addClass="size-fourth label-long after-slash"
                                 required
+                                numeric
+                                maxLength={2}
                             />
                             <FieldText formik={formik}
                                 id="expiry_year"
                                 label={<div/>}
                                 placeholder={"YY"}
                                 addClass="size-fourth"
+                                numeric
+                                maxLength={4}
                             />
                             <FieldText formik={formik}
                                 id="card_security_code"
@@ -184,6 +188,8 @@ render() {
                                 addClass="size-half"
                                 required
                                 clearable
+                                numeric
+                                maxLength={3}
                             />
                         </div>
                         <div class="row hide">
