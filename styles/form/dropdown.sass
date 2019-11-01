@@ -23,6 +23,10 @@
     &.date
         padding: 14px 0
     &.people
+        h3
+            font-size: 16px
+            line-height: 19px
+            padding: 35px 0 20px
         .row
             display: flex
             flex-direction: row
@@ -37,13 +41,15 @@
                 width: 40px
                 height: 40px
                 background: #FFFFFF
-                border: 1px solid $color-brand
+                border: 1px solid $color-usual-gray
                 border-radius: 4px
-                cursor: pointer
                 text-align: center
-                &:hover
-                    background: $color-brand
-                    color: #ffffff
+                &.enabled
+                    cursor: pointer
+                    border-color: $color-brand
+                    &:hover
+                        background: $color-brand
+                        color: #ffffff
             .value
                 font-size: 14px
                 text-align: center

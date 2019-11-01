@@ -13,8 +13,7 @@ const defaultSearchForm = {
         "roomDetails": [
             {
                 "adultsNumber": 1,
-                "childrenNumber": 0,
-                "rooms": 1
+                "childrenNumber": 0
             }
         ],
         "location": {
@@ -32,6 +31,7 @@ class AccommodationStore {
     @observable
     search = {
         request: copy(defaultSearchForm),
+        rooms: 1,
         loaded: false,
         form: null,
         result: null
@@ -71,8 +71,8 @@ class AccommodationStore {
         return applyFilters(this.search?.result?.results, this.selectedFilters) || [];
     }
 
-    @computed get roomDetails() {
-        return this.search?.request?.roomDetails?.[0] || null;
+    getRoomDetails(roomNumber) {
+        return this.search?.request?.roomDetails?.[roomNumber] || null;
     }
 
     setDateRange(values) {
@@ -110,8 +110,11 @@ class AccommodationStore {
         this.search.request[field] = value;
     }
 
-    setRequestRoomDetails(field, plus) {
-        var current = this.search.request.roomDetails[0],
+    setRequestRoomDetails(roomNumber, field, plus, test) {
+        var current = {
+                ...this.search.request.roomDetails[roomNumber],
+                rooms: this.search.rooms
+            },
             maximumPeoplePerQuery = 9,
             minimum = {
                 "adultsNumber": 1,
@@ -123,13 +126,29 @@ class AccommodationStore {
                 "childrenNumber": maximumPeoplePerQuery - current.adultsNumber,
                 "rooms": 5   // todo: make special case for more rooms
             },
-
-            value = this.search.request.roomDetails[0][field] + plus,
+            value = current[field] + plus,
             finalNewValue = Math.min(Math.max(value, minimum[field]), maximum[field]);
 
-        this.search.request.roomDetails[0][field] = finalNewValue;
-        if (field == "childrenNumber")
-            this.search.request.roomDetails[0].childrenAges = new Array(finalNewValue).fill(12);
+        if (test)
+            return (finalNewValue != current[field]);
+
+        if (!plus)
+            return false;
+
+        if ("rooms" == field) {
+            this.search.rooms = finalNewValue;
+            if (this.search.request.roomDetails.length < finalNewValue)
+                this.search.request.roomDetails.push({
+                    "adultsNumber": 1,
+                    "childrenNumber": 0
+                });
+            if (this.search.request.roomDetails.length > finalNewValue)
+                this.search.request.roomDetails.pop();
+        } else
+            this.search.request.roomDetails[roomNumber][field] = finalNewValue;
+
+        if ("childrenNumber" == field)
+            this.search.request.roomDetails[roomNumber].childrenAges = new Array(finalNewValue).fill(12);
     }
 
     setRequestDestination(value) {

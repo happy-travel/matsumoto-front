@@ -37,18 +37,25 @@ class AccommodationConfirmationPage extends React.Component {
             }
         }
 
+        var rooms = [];
+        for (var i = 0; i < result.roomDetails?.length; i++) {
+            rooms.push({
+                roomType: result.roomDetails[i]?.roomDetails.type,
+                currency: store.selected?.variant?.currencyCode || "", //todo: wait for real data
+                price: result.roomDetails[i]?.price.price,
+                passengers: result.roomDetails[i]?.roomDetails.passengers,
+            })
+        }
+
         return {
             referenceCode: result.referenceCode,
             status: result.status,
             checkInDate: result.checkInDate,
             checkOutDate: result.checkOutDate,
             deadline: result.deadline,
-            roomType: result.roomDetails?.[0]?.roomDetails.type,
-            currency: store.selected?.variant?.currencyCode || "", //todo: wait for real data
-            price: result.roomDetails?.[0]?.price.price,
-            passengers: result.roomDetails?.[0]?.roomDetails.passengers,
             loaded: result.loaded,
-            error: result.error
+            error: result.error,
+            rooms
         };
     }
 
@@ -212,48 +219,60 @@ render() {
                         a={"Within deadline"}
                         b={dateFormat.a(booking.deadline)}
                     />
-                    <Dual addClass="line"
-                        a={"Room type"}
-                        b={booking.roomType}
-                    />
-                    <Dual addClass="line"
-                        a={t('Total Cost')}
-                        b={price(booking.currency, booking.price)}
-                    />
 
-                    <h2>
-                        {t("Leading Passenger")}
-                    </h2>  { /* todo: initials fix */ }
-                    <Dual
-                        a={<Dual addClass="line"
-                                a={"First name"}
-                                b={booking.passengers?.[0]?.firstName || booking.passengers?.[0]?.initials}
-                            />}
-                        b={<Dual addClass="line"
-                                a={"Last name"}
-                                b={booking.passengers?.[0]?.lastName}
-                            />}
-                    />
+                    { booking.rooms.map((room, index) => (
+                        <React.Fragment>
+                            {booking.rooms.length > 1 &&
+                            <h2>
+                                {t('Room') + " " + (index+1)}
+                            </h2>}
 
-                    { booking.passengers?.length > 1 && <React.Fragment>
-                        <h2>
-                            {t("Other Passengers")}
-                        </h2>
-                        {booking.passengers.map((item,index) => (
-                            <React.Fragment>
-                                {index ? <Dual
-                                    a={<Dual addClass="line"
-                                            a={"First name"}
-                                            b={item.firstName}
-                                        />}
-                                    b={<Dual addClass="line"
-                                            a={"Last name"}
-                                            b={item.lastName}
-                                        />}
-                                /> : null}
-                            </React.Fragment>
-                        ))}
-                    </React.Fragment> }
+
+                            <Dual addClass="line"
+                                  a={t('Room type')}
+                                  b={room.roomType}
+                            />
+                            <Dual addClass="line"
+                                a={t('Total Cost')}
+                                b={price(room.currency, room.price)}
+                            />
+
+                            <h2>
+                                {t("Leading Passenger")}
+                            </h2>  { /* todo: initials fix */ }
+                            <Dual
+                                a={<Dual addClass="line"
+                                        a={"First name"}
+                                        b={room.passengers[0].firstName || room.passengers[0].initials}
+                                    />}
+                                b={<Dual addClass="line"
+                                        a={"Last name"}
+                                        b={room.passengers[0].lastName}
+                                    />}
+                            />
+
+                            { room.passengers?.length > 1 && <React.Fragment>
+                                <h2>
+                                    {t("Other Passengers")}
+                                </h2>
+                                {room.passengers.map((item,index) => (
+                                    <React.Fragment>
+                                        {index ? <Dual
+                                            a={<Dual addClass="line"
+                                                    a={"First name"}
+                                                    b={item.firstName || item.initials}
+                                                />}
+                                            b={<Dual addClass="line"
+                                                    a={"Last name"}
+                                                    b={item.lastName}
+                                                />}
+                                        /> : null}
+                                    </React.Fragment>
+                                ))}
+                            </React.Fragment> }
+
+                        </React.Fragment>
+                    ))}
 
                     <div class="actions">
                         <a href="javascript:void(0)">

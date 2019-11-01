@@ -41,35 +41,38 @@ class AccommodationBookingPage extends React.Component {
         var variant = store.selected.variant,
             search = store.search.request;
 
-        //todo: refactoring
-        var adults = store.search.request.roomDetails[0].adultsNumber,
-            total = adults + store.search.request.roomDetails[0].childrenNumber,
-            passengers = [];
+        var roomDetails = [];
 
-        for (var i = 0; i < total; i++)
-            passengers.push({
-                "title": "Mr", // todo: get real
-                "firstName": values.passengers[i].firstName,
-                "lastName": values.passengers[i].lastName,
-                "age": i < adults ? 33 : 12,
-                "initials":"",
-                ...( i == 0 ? {"isLeader": true} : {} )
-            });
+        for (var r = 0; r < store.search.rooms; r++) {
+            var adults = store.search.request.roomDetails[r].adultsNumber,
+                total = adults + store.search.request.roomDetails[r].childrenNumber,
+                passengers = [];
+
+            for (var i = 0; i < total; i++)
+                passengers.push({
+                    "title": values.room[r].passengers[i].title,
+                    "firstName": values.room[r].passengers[i].firstName,
+                    "lastName": values.room[r].passengers[i].lastName,
+                    "age": i < adults ? 33 : 12,
+                    "initials":"",
+                    ...( i == 0 ? {"isLeader": true} : {} )
+                });
+
+            roomDetails.push({
+                type: variant.rooms[r].type,
+                passengers
+            })
+        }
 
         var request = {
             "availabilityId": store.search.result.availabilityId,
             "nationality": search.nationality,
             "paymentMethod": "CreditCard",
             "residency": search.residency,
-            "mainPassengerName": passengers[0].firstName + " " + passengers[0].lastName,
+            "mainPassengerName": roomDetails[0].passengers[0].firstName + " " + roomDetails[0].passengers[0].lastName,
             "agreementId": variant.id,
             "agentReference": values.agentReference,
-            "roomDetails": [
-                {
-                    "type": variant.rooms[0].type, //todo: make it real
-                    "passengers": passengers
-                }
-            ],
+            "roomDetails": roomDetails,
             "features": []
         };
         store.setBookingRequest(request);
@@ -135,10 +138,12 @@ class AccommodationBookingPage extends React.Component {
                 />
 
                 <div class="static item">{t("Room Information")}</div>
+                {[...Array(store.search.rooms)].map((x,i)=>(
                 <Dual
-                    a={t("Room Type")}
-                    b={variant.rooms[0].type}
+                    a={t("Room Type") + " " + (store.search.rooms > 1 ? (i+1) : '')}
+                    b={variant.rooms[i].type}
                 />
+                ))}
                 { false && [<Dual
                     a={t("Board Basis")}
                     b={"Room Only"}
@@ -175,22 +180,28 @@ class AccommodationBookingPage extends React.Component {
                     items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
                     current={1}
                 />
-                <h2>
-                    <span>Room 1:</span> {variant.contractType}
-                </h2>
 
                 <Formik
                     initialValues={{
-                        passengers: [
-                            ...Array(store.search.request.roomDetails[0].adultsNumber),
-                            ...Array(store.search.request.roomDetails[0].childrenNumber),
-                        ]
+                        room: [...Array(store.search.rooms)].map((x,r) => ({
+                            passengers: [
+                                ...Array(store.search.request.roomDetails[r].adultsNumber),
+                                ...Array(store.search.request.roomDetails[r].childrenNumber),
+                            ]
+                        }))
                     }}
                     validationSchema={accommodationBookingValidator}
                     onSubmit={this.submit}
                     render={formik => (
                         <form onSubmit={formik.handleSubmit}>
                             <div class="form">
+                                <FieldArray
+                                    render={() => (
+                                formik.values.room.map((item, r) => (
+                                <React.Fragment>
+                                <h2>
+                                    <span>Room {r+1}:</span> {variant.rooms[r].type}
+                                </h2>
                                 <div class="part">
                                     <table class="people"><tbody>
                                         <tr>
@@ -200,25 +211,24 @@ class AccommodationBookingPage extends React.Component {
                                         </tr>
 
                                         <FieldArray
-                                            name="friends"
                                             render={() => (
                                         <React.Fragment>
-                                            {formik.values.passengers.map((item, index) => (
+                                            {formik.values.room[r].passengers.map((item, index) => (
                                             <tr>
                                                 <td>
-                                                { index < store.search.request.roomDetails[0].adultsNumber ?
+                                                { index < store.search.request.roomDetails[r].adultsNumber ?
                                                     <FieldSelect formik={formik}
-                                                        id={`passengers.${index}.title`}
+                                                        id={`room.${r}.passengers.${index}.title`}
                                                         placeholder={t("Please select one")}
                                                         options={[
-                                                            { value: "Mr.", text: t("Mr.")},
-                                                            { value: "Ms.", text: t("Ms.")},
-                                                            { value: "Miss.", text: t("Miss.")},
-                                                            { value: "Mrs.", text: t("Mrs.")}
+                                                            { value: "Mr", text: t("Mr.")},
+                                                            { value: "Ms", text: t("Ms.")},
+                                                            { value: "Miss", text: t("Miss.")},
+                                                            { value: "Mrs", text: t("Mrs.")}
                                                         ]}
                                                     /> :
                                                     <FieldText formik={formik}
-                                                        id={`passengers.${index}.title`}
+                                                        id={`room.${r}.passengers.${index}.title`}
                                                         value={t("Child")}
                                                         disabled
                                                     />
@@ -226,14 +236,14 @@ class AccommodationBookingPage extends React.Component {
                                                 </td>
                                                 <td class="bigger">
                                                     <FieldText formik={formik}
-                                                        id={`passengers.${index}.firstName`}
+                                                        id={`room.${r}.passengers.${index}.firstName`}
                                                         placeholder={t("Please enter first name")}
                                                         clearable
                                                     />
                                                 </td>
                                                 <td class="bigger">
                                                     <FieldText formik={formik}
-                                                        id={`passengers.${index}.lastName`}
+                                                        id={`room.${r}.passengers.${index}.lastName`}
                                                         placeholder={t("Please enter last name")}
                                                         clearable
                                                     />
@@ -243,6 +253,7 @@ class AccommodationBookingPage extends React.Component {
                                         )} />
                                     </tbody></table>
                                 </div>
+                                </React.Fragment>)))} />
 
                                 { /* todo
                                 <div class="part">

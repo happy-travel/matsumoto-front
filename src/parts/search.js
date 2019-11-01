@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, session, dateFormat } from "core";
+import { API, session, dateFormat, plural } from "core";
 
 import { Redirect } from "react-router-dom";
 import { FieldText, FieldSelect } from "components/form";
@@ -18,6 +18,13 @@ import { accommodationSearchValidator } from "components/form/validation";
 import { Stars } from "components/simple";
 
 import { Formik } from 'formik';
+
+const sum = field => {
+    var result = 0;
+    for (var i = 0; i < store.search.rooms; i++)
+        result += store.getRoomDetails(i)[field];
+    return result;
+};
 
 @observer
 class AccommodationSearch extends React.Component {
@@ -95,9 +102,7 @@ class AccommodationSearch extends React.Component {
         <div class="hide">
             {''+store.search.request.checkInDate}
             {''+store.search.request.checkOutDate}
-            {store.roomDetails.adultsNumber}
-            {store.roomDetails.childrenNumber}
-            {store.roomDetails.rooms}
+            {[...Array(store.search.rooms)].map((x,i)=>JSON.stringify(store.getRoomDetails(i)))}
             {'' + UI.advancedSearch}
             {JSON.stringify(store.suggestion)}
         </div>
@@ -152,13 +157,11 @@ class AccommodationSearch extends React.Component {
                                 addClass="size-medium"
                                 Dropdown={PeopleDropdown}
                                 value={
-                                    store.roomDetails.adultsNumber + " " + t("Adult", {count: store.roomDetails.adultsNumber})
-                                        + " • " +
-                                    store.roomDetails.childrenNumber + " " + t("Children", {count: store.roomDetails.childrenNumber})
-                                        + " • " +
-                                    store.roomDetails.rooms + " " + t("Room", {count: store.roomDetails.rooms})
+                                    [plural(t, sum("adultsNumber"), "Adult"),
+                                     plural(t, sum("childrenNumber"), "Children"),
+                                     plural(t, store.search.rooms, "Room")].join(" • ")
                                 }
-                            />
+                            /> {/* todo: values */}
                         </div>
                         <div class={"row advanced" + ( UI.advancedSearch ? '' : " invisible" )}>
                             <FieldSelect formik={formik}
