@@ -19,14 +19,6 @@ class PaymentResultPage extends React.Component {
             params = getParams(),
             paymentResult = { params };
 
-        API.post({
-            url: API.CARDS_RESPONSE,
-            body: params,
-            after: data => {
-                paymentResult.service = { signature: data };
-            }
-        });
-
         if ("YES" == params.remember_me)
             API.post({
                 url: API.CARDS_COMMON,
@@ -64,7 +56,10 @@ class PaymentResultPage extends React.Component {
                         amount: booking.roomDetails[0].price.price,
                         currency: booking.currencyCode,
                         referenceCode: bookingReference,
-                        token: params.token_name
+                        token: {
+                            code: params.token_name,
+                            type: "OneTime"
+                        }
                     },
                     after: (data, error) => {
                         if ("Secure3d" == data?.status) {
