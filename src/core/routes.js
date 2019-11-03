@@ -9,7 +9,8 @@ import accommodationConfirmation  from 'pages/accommodation/confirmation';
 import paymentPage                from "pages/payment/payment";
 import paymentResult              from "pages/payment/result";
 import payment3DSCallback         from "pages/payment/callback";
-import paymentDirectLink          from "pages/payment/link";
+import paymentDirectLink          from "pages/payment/external/direct-link-page";
+import paymentDirectLinkConfirm   from "pages/payment/external/direct-link-confirmation";
 
 import accountRegistrationStep2   from "pages/account/registration-step-2";
 import accountRegistrationStep3   from "pages/account/registration-step-3";
@@ -39,6 +40,11 @@ export const routesWithHeaderAndFooter = [
     "/user/booking",
     "/user/invite"
 ];
+export const routesWithFooter = [
+    ...routesWithHeaderAndFooter,
+    "/pay/*",
+    "/payment/confirmation"
+];
 
 const Routes = () => (
     <Switch>
@@ -54,7 +60,9 @@ const Routes = () => (
             ["/payment/result/:ref",
              "/payment/result"]}                  component={paymentResult} />
         <Route path="/payments/callback"          component={payment3DSCallback} />
+
         <Route path="/pay/:code"                  component={paymentDirectLink} />
+        <Route path="/payment/confirmation"       component={paymentDirectLinkConfirm} />
 
         <Route path="/signup/user"                component={accountRegistrationStep2} />
         <Route path="/signup/company"             component={accountRegistrationStep3} />

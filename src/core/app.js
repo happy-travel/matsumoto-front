@@ -16,7 +16,7 @@ import TopAlert  from 'parts/top-alert';
 import Modal     from 'parts/modal';
 import Search    from 'parts/search';
 
-import Routes, { routesWithHeaderAndFooter, routesWithSearch } from './routes';
+import Routes, { routesWithHeaderAndFooter, routesWithSearch, routesWithFooter } from './routes';
 
 const App = () => (
     <I18nextProvider i18n={internationalization}>
@@ -32,7 +32,7 @@ const App = () => (
                 <TopAlert />
                 <Route exact path={ routesWithSearch } component={ Search } />
                 <Routes />
-                <Route exact path={ routesWithHeaderAndFooter } component={ Footer } />
+                <Route exact path={ routesWithFooter } component={ Footer } />
             </div>
             <Modal />
 

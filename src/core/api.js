@@ -30,7 +30,15 @@ API_METHODS = {
     ACCOMMODATION_DETAILS : accommodationId =>
                             v1 + "/accommodations/" + accommodationId,
     AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
-                            v1 + `/availabilities/${availabilityId}/${agreementId}`
+                            v1 + `/availabilities/${availabilityId}/${agreementId}`,
+
+    DIRECT_LINK_PAY : {
+        SETTINGS     :         v1 + "/external/payment-links/tokenization-settings",
+        GET_INFO     : code => v1 + "/external/payment-links/" + code,
+        SIGN         : code => v1 + "/external/payment-links/" + code + "/sign",
+        PAY          : code => v1 + "/external/payment-links/" + code + "/pay",
+        PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
+    }
 
 };
 
@@ -48,7 +56,7 @@ _.methods_with_cache = [
 ];
 
 _.request = ({
-    url,
+    url, external_url,
     body = {},
     method = "GET",
     response, // function(response)                - Fires first
@@ -57,16 +65,18 @@ _.request = ({
     after     // function(result, error, response) - Fires the last
 }) => {
 Authorize.getUser().then(user => {
-    if (!user || !user.access_token) {
+    if (!external_url && (!user || !user.access_token)) {
     //    Authorize.signinRedirect(); todo: error handle
         return;
     }
 
-    var finalUrl = url,
+    var finalUrl = url || external_url,
         request = {
             method: method,
             headers: new Headers({
-                'Authorization': `Bearer ${user.access_token}`,
+                ...(external_url ? {} : {
+                    'Authorization': `Bearer ${user.access_token}`
+                }),
                 'Content-Type': 'application/json'
             })
         };
@@ -77,7 +87,7 @@ Authorize.getUser().then(user => {
         var getBody = Object.keys(body).map(function(key) {
             return [key, body[key]].map(encodeURIComponent).join("=");
         }).join("&");
-        finalUrl = url + (getBody ? "?" + getBody : "");
+        finalUrl += (getBody ? "?" + getBody : "");
     }
 
     // todo: cache

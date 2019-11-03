@@ -4,6 +4,8 @@ import Authorize from "./auth/authorize";
 import React from "react";
 import { getParams } from "core";
 
+const isRedirectNeeded = () => window.location.href.indexOf("/signup/") == -1 && window.location.href.indexOf("/pay") == -1;
+
 const init = () => {
 
     if (window.location.pathname.length < 2 && // index page
@@ -24,7 +26,7 @@ const init = () => {
             if (!response)
                 return;
             if (response.status == 401) {
-                if (window.location.href.indexOf("/signup/") < 0)
+                if (isRedirectNeeded())
                     Authorize.signinRedirect();
                 return;
             }
@@ -33,7 +35,7 @@ const init = () => {
                 if ("localhost" == window.location.hostname)
                     nextURL = "http://localhost:4000/signup/user";
 
-                if (window.location.href.indexOf("/signup/") < 0)
+                if (isRedirectNeeded())
                     window.location.href = nextURL;
                 //todo: make normal redirect
             }

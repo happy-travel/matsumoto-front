@@ -7,7 +7,7 @@ import {
     FieldText,
     FieldCheckbox
 } from "components/form";
-import { Dual } from "components/simple";
+import { Dual, Header } from "components/simple";
 import store from "stores/accommodation-store";
 import { creditCardValidator } from "components/form/validation";
 import Breadcrumbs from "components/breadcrumbs";
@@ -42,11 +42,14 @@ class PaymentPage extends React.Component {
         super(props);
         this.state = {
             RequestUrl: null,
+            currency: store.selected?.variant?.currencyCode,
+            amount: store.selected?.variant?.price?.total,
+            comment: null,
             service: {
                 service_command     : "TOKENIZATION",
                 merchant_reference  : require('uuid/v4')(),
                 language            : "en", //the only alternative : "ar"
-                return_url          : window.location.origin + "/payment/result/" + store.booking.result.referenceCode
+                return_url          : window.location.origin + "/payment/result/" + store.booking?.result?.referenceCode
             }
         };
         this.submit = this.submit.bind(this);
@@ -79,18 +82,20 @@ class PaymentPage extends React.Component {
             }
         });
 
-        /*snare*/
-            window.io_bbout_element_id = "device_fingerprint";
-            window.io_install_stm = false;
-            window.io_exclude_stm = 0;
-            window.io_install_flash = false;
-            window.io_enable_rip = true;
+        this.snare();
+    }
 
-            var script = document.createElement("script");
-            script.src = "https://mpsnare.iesnare.com/snare.js";
-            script.async = true;
-            document.body.appendChild(script);
-        /*end of snare*/
+    snare() {
+        window.io_bbout_element_id = "device_fingerprint";
+        window.io_install_stm = false;
+        window.io_exclude_stm = 0;
+        window.io_install_flash = false;
+        window.io_enable_rip = true;
+
+        var script = document.createElement("script");
+        script.src = "https://mpsnare.iesnare.com/snare.js";
+        script.async = true;
+        document.body.appendChild(script);
     }
 
     submit(values) {
@@ -104,7 +109,7 @@ class PaymentPage extends React.Component {
         postVirtualForm(this.state.RequestUrl, {
             ...this.state.service,
             ...request,
-            device_fingerprint: document.getElementById("device_fingerprint").value
+            device_fingerprint: this.state.direct ? "" : document.getElementById("device_fingerprint").value
         });
     }
 
@@ -112,9 +117,13 @@ render() {
     const { t } = useTranslation();
 
     return (
+        <React.Fragment>
+            { this.state.direct && <Header /> }
+
 <div class="confirmation block payment">
     <section class="double-sections">
         <div class="middle-section">
+            { !this.state.direct &&
             <Breadcrumbs items={[
                 {
                     text: t("Search accommodation"),
@@ -125,6 +134,10 @@ render() {
                     text: t("Payment")
                 }
             ]}/>
+            }
+            { this.state.comment && <p>
+                { this.state.comment }
+            </p> }
 
             <h2 class="payment-title">
                 {t("Please Enter Your Card Details")}
@@ -200,7 +213,7 @@ render() {
                         </div>
                         <button class="button">
                             <span class="icon icon-white-lock" />
-                            { t("Pay") + price(store.selected.variant.currencyCode, store.selected.variant.price.total) }
+                            { t("Pay") + price(this.state.currency, this.state.amount) }
                         </button>
                     </div>
                 </form>
@@ -210,6 +223,8 @@ render() {
     </section>
     <input type="hidden" id="device_fingerprint" name="device_fingerprint" />
 </div>
+
+        </React.Fragment>
     );
 }
 }

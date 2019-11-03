@@ -1,5 +1,6 @@
 import React from "react";
 import { hotelStars } from "core";
+import { Link } from "react-router-dom";
 
 export const Dual = ({ first, second, a, b, addClass }) => (
     <div class={"dual" + (addClass ? " " + addClass : '')}>
@@ -54,4 +55,14 @@ export const Loader = ({ page }) => (
     <div class={"loader" + (page ? " full-page" : "")}><div class="x">
         <div class="a" /><div class="b" /><div />
     </div></div>
+);
+
+export const Header = () => (
+    <header>
+        <section>
+            <div class="logo-wrapper">
+                <Link to="/" class="logo" />
+            </div>
+        </section>
+    </header>
 );

@@ -1,30 +1,27 @@
 import React from "react";
-import { observer } from "mobx-react";
-import { dateFormat, price, getParams, API } from "core";
+import PaymentResultPage from "./result";
+import { dateFormat, price, getParams, API, session } from "core";
 
 import { Dual } from "components/simple";
 
 import store from "stores/accommodation-store";
-import { Redirect } from "react-router-dom";
 import { Loader } from "components/simple";
 
-@observer
-class Payment3DSecureCallbackPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            redirectToConfirmationPage: false
-        };
-    }
-
+class Payment3DSecureCallbackPage extends PaymentResultPage {
     componentDidMount() {
         var params = getParams(),
             paymentResult = {
                 params,
                 saved: params.remember_me == "YES"
-            };
+            },
+            directLinkCode = session.get(params.merchant_reference);
+
+        if (directLinkCode)
+            this.setState({ directLinkCode });
+
         API.post({
-            url: API.PAYMENTS_CALLBACK,
+            url: directLinkCode ? null : API.PAYMENTS_CALLBACK,
+            external_url: directLinkCode ? API.DIRECT_LINK_PAY.PAY_CALLBACK(directLinkCode) : null,
             body: getParams(),
             after: (data, error) => {
                 paymentResult.result = {
@@ -37,13 +34,6 @@ class Payment3DSecureCallbackPage extends React.Component {
                 });
             }
         });
-    }
-
-    render() {
-        if (this.state.redirectToConfirmationPage)
-            return <Redirect push to="/accommodation/confirmation" />;
-
-        return <Loader />;
     }
 }
 

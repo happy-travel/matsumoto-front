@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { getParams, API } from "core";
+import { getParams, API, session } from "core";
 import store from "stores/accommodation-store";
 import { Redirect } from "react-router-dom";
 import { Loader } from "components/simple";
@@ -10,6 +10,7 @@ class PaymentResultPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            directLinkCode: null,
             redirectToConfirmationPage: false
         };
     }
@@ -17,7 +18,32 @@ class PaymentResultPage extends React.Component {
     componentDidMount() {
         var bookingReference = this.props.match.params.ref,
             params = getParams(),
-            paymentResult = { params };
+            paymentResult = { params },
+            directLinkCode = session.get(bookingReference);
+
+        if (directLinkCode) {
+            this.setState({ directLinkCode });
+            API.post({
+                external_url: API.DIRECT_LINK_PAY.PAY(directLinkCode),
+                body: params.token_name,
+                after: (data, error) => {
+                    if ("Secure3d" == data?.status) {
+                        window.location.href = data.secure3d;
+                        return;
+                    }
+                    paymentResult.result = {
+                        status: data?.status,
+                        error: error?.detail || error?.title
+                    };
+                    store.setPaymentResult(paymentResult);
+                    this.setState({
+                        redirectToConfirmationPage: true
+                    });
+                }
+            });
+
+            return;
+        }
 
         if ("YES" == params.remember_me)
             API.post({
@@ -82,6 +108,9 @@ class PaymentResultPage extends React.Component {
     }
 
     render() {
+        if (this.state.directLinkCode && this.state.redirectToConfirmationPage)
+            return <Redirect push to="/payment/confirmation" />;
+
         if (this.state.redirectToConfirmationPage)
             return <Redirect push to="/accommodation/confirmation" />;
 
