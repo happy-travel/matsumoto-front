@@ -77,6 +77,11 @@ return (
                 />
 
                 <Dual addClass="line"
+                    a={t('Amount')}
+                    b={ price(booking.currency, booking.amount) }
+                />
+
+                <Dual addClass="line"
                     a={t('Order status')}
                     b={booking.paymentStatus}
                 />

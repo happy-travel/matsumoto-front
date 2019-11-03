@@ -30,8 +30,11 @@ class PaymentDirectLinkPage extends PaymentPage {
                     },
                     RequestUrl: data.tokenizationUrl
                 });
-                API.get({
+                API.post({
                     external_url: API.DIRECT_LINK_PAY.SIGN(orderCode),
+                    body: {
+                        merchant_reference: this.state.service.merchant_reference
+                    },
                     after: data => {
                         this.setState({
                             service: {
@@ -53,7 +56,6 @@ class PaymentDirectLinkPage extends PaymentPage {
                     comment: result.comment,
                     service: {
                         ...this.state.service,
-                        merchant_reference: result.referenceCode,
                         return_url: "https://dev.happytravel.com/payment/result/" + result.referenceCode
                     }
                 });
