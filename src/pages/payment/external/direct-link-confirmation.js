@@ -7,6 +7,8 @@ import { Dual, Header } from "components/simple";
 
 import store from "stores/accommodation-store";
 
+const messageFormatter = str => str.split("+").join(" ");
+
 @observer
 class DirectLinkConfirmationPage extends React.Component {
     constructor(props) {
@@ -50,7 +52,7 @@ return (
                     </div>
                     <div class="dual">
                         <div class="first">
-                            Card acceptance message: <strong>{params?.response_message}</strong>
+                            Payment message: <strong>{messageFormatter(params?.response_message)}</strong>
                         </div>
                         <div class="second">
                             Response code: <strong>{params?.response_code}</strong>
@@ -69,23 +71,15 @@ return (
                     </div>
                 </div>
 
-                <h2>
-                    {t("Booking Details")}
-                </h2>
+                <Dual addClass="line"
+                    a={t('Order reference number')}
+                    b={booking.referenceCode}
+                />
 
-                <div class="result-code">
-                    <div class="before">
-                        <span class="icon icon-white-check" />
-                    </div>
-                    <div class="dual">
-                        <div class="first">
-                            {t("Booking Reference number")}: <strong>{booking.referenceCode}</strong>
-                        </div>
-                        <div class="second">
-                            {t("Status")}: <strong>{booking.paymentStatus}</strong>
-                        </div>
-                    </div>
-                </div>
+                <Dual addClass="line"
+                    a={t('Order status')}
+                    b={booking.paymentStatus}
+                />
 
                 <Dual addClass="line"
                     a={t('Additional Information')}
