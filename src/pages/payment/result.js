@@ -44,6 +44,7 @@ class PaymentResultPage extends React.Component {
                     if (item.bookingDetails.referenceCode == bookingReference) {
                         booking = item.bookingDetails;
                         booking.currencyCode = item.serviceDetails.agreement.currencyCode;
+                        booking.price = item.serviceDetails.agreement.price;
                     }
                 });
 
@@ -53,7 +54,7 @@ class PaymentResultPage extends React.Component {
                 API.post({
                     url: API.PAYMENTS_COMMON,
                     body: {
-                        amount: booking.roomDetails[0].price.price,
+                        amount: booking.price.total,
                         currency: booking.currencyCode,
                         referenceCode: bookingReference,
                         token: {
