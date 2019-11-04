@@ -53,9 +53,29 @@ class PaymentPage extends React.Component {
             }
         };
         this.submit = this.submit.bind(this);
+        this.sign = this.sign.bind(this);
+    }
+
+    sign(after) {
+        API.post({
+            url: API.CARDS_REQUEST,
+            body: this.state.service,
+            after: data => {
+                this.setState({
+                    service: {
+                        ...this.state.service,
+                        signature: data
+                    }
+                });
+                if (after)
+                    after();
+            }
+        });
     }
 
     componentDidMount() {
+        this.snare();
+
         API.get({
             url: API.CARDS_SETTINGS,
             after: data => {
@@ -64,25 +84,13 @@ class PaymentPage extends React.Component {
                         ...this.state.service,
                         access_code         : data.accessCode,
                         merchant_identifier : data.merchantIdentifier,
+                        device_fingerprint: this.state.direct ? "" : document.getElementById("device_fingerprint").value
                     },
                     RequestUrl: data.tokenizationUrl
                 });
-                API.post({
-                    url: API.CARDS_REQUEST,
-                    body: this.state.service,
-                    after: data => {
-                        this.setState({
-                            service: {
-                                ...this.state.service,
-                                signature: data
-                            }
-                        })
-                    }
-                });
+                this.sign();
             }
         });
-
-        this.snare();
     }
 
     snare() {
@@ -106,11 +114,27 @@ class PaymentPage extends React.Component {
             expiry_date: formatExpiryDate(values),
             remember_me: values.remember_me ? "YES" : "NO"
         };
-        postVirtualForm(this.state.RequestUrl, {
-            ...this.state.service,
-            ...request,
-            device_fingerprint: this.state.direct ? "" : document.getElementById("device_fingerprint").value
-        });
+        var currentFingerprint = document.getElementById("device_fingerprint").value;
+
+        if (this.state.device_fingerprint == currentFingerprint)
+            postVirtualForm(this.state.RequestUrl, {
+                ...this.state.service,
+                ...request
+            });
+        else {
+            this.setState({
+                service: {
+                    ...this.state.service,
+                    device_fingerprint: currentFingerprint
+                }
+            });
+            this.sign(() => {
+                postVirtualForm(this.state.RequestUrl, {
+                    ...this.state.service,
+                    ...request
+                });
+            });
+        }
     }
 
 render() {
