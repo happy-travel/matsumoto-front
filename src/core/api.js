@@ -15,7 +15,7 @@ API_METHODS = {
 
     CARDS_COMMON          : v1 + "/cards",
     CARDS_SETTINGS        : v1 + "/cards/settings",
-    CARDS_REQUEST         : v1 + "/cards/signatures",
+    CARDS_SIGN            : v1 + "/cards/signatures",
     PAYMENTS_COMMON       : v1 + "/payments",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 

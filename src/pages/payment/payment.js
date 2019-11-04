@@ -53,24 +53,6 @@ class PaymentPage extends React.Component {
             }
         };
         this.submit = this.submit.bind(this);
-        this.sign = this.sign.bind(this);
-    }
-
-    sign(after) {
-        API.post({
-            url: API.CARDS_REQUEST,
-            body: this.state.service,
-            after: data => {
-                this.setState({
-                    service: {
-                        ...this.state.service,
-                        signature: data
-                    }
-                });
-                if (after)
-                    after();
-            }
-        });
     }
 
     componentDidMount() {
@@ -114,27 +96,30 @@ class PaymentPage extends React.Component {
             expiry_date: formatExpiryDate(values),
             remember_me: values.remember_me ? "YES" : "NO"
         };
-        var currentFingerprint = document.getElementById("device_fingerprint").value;
 
-        if (this.state.device_fingerprint == currentFingerprint)
-            postVirtualForm(this.state.RequestUrl, {
+        this.setState({
+            service: {
                 ...this.state.service,
-                ...request
-            });
-        else {
-            this.setState({
-                service: {
-                    ...this.state.service,
-                    device_fingerprint: currentFingerprint
-                }
-            });
-            this.sign(() => {
+                device_fingerprint: document.getElementById("device_fingerprint").value
+            }
+        });
+
+        API.post({
+            url: API.CARDS_SIGN,
+            body: this.state.service,
+            after: data => {
+                this.setState({
+                    service: {
+                        ...this.state.service,
+                        signature: data
+                    }
+                });
                 postVirtualForm(this.state.RequestUrl, {
                     ...this.state.service,
                     ...request
                 });
-            });
-        }
+            }
+        });
     }
 
 render() {
