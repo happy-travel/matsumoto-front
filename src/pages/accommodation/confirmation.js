@@ -21,7 +21,7 @@ class AccommodationConfirmationPage extends React.Component {
     }
 
     getValues() {
-        var result = store.booking.result || {};
+        var result = store.booking.result;
 
         if (this.state.bookingId !== null) {
             var selected = null;
@@ -83,51 +83,6 @@ class AccommodationConfirmationPage extends React.Component {
 render() {
     const { t } = useTranslation(),
           booking = this.getValues();
-
-    if (!booking.loaded || booking.error)
-        return (
-            <div class="confirmation block">
-                <div class="hide">{""+store.booking.result?.referenceCode}</div>
-                <section class="double-sections">
-                    <div class="middle-section">
-                        <Breadcrumbs items={[
-                            {
-                                text: t("Search accommodation"),
-                                link: "/search"
-                            }, {
-                                text: t("Booking Confirmation")
-                            }
-                        ]}/>
-                        <ActionSteps
-                            items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
-                            current={2}
-                        />
-                        <h2>
-                            {t("Booking Details")}
-                        </h2>
-                        { !booking.error ? <Loader /> :
-                        <React.Fragment>
-                            <div class="result-code error">
-                                <div class="before">
-                                    <span class="icon icon-close white" />
-                                </div>
-                                <div class="text">
-                                    {t("An error occured")}: <strong>{booking.error}</strong>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <Link to="/">
-                                    <button class="button">
-                                        {t("Try again")}
-                                    </button>
-                                </Link>
-                            </div>
-                        </React.Fragment>
-                        }
-                    </div>
-                </section>
-            </div>
-        );
 
     if (store.paymentResult?.result)
         var {
