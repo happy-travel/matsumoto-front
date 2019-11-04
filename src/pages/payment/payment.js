@@ -56,8 +56,6 @@ class PaymentPage extends React.Component {
     }
 
     componentDidMount() {
-        this.snare();
-
         API.get({
             url: API.CARDS_SETTINGS,
             after: data => {
@@ -65,14 +63,13 @@ class PaymentPage extends React.Component {
                     service: {
                         ...this.state.service,
                         access_code         : data.accessCode,
-                        merchant_identifier : data.merchantIdentifier,
-                        device_fingerprint: this.state.direct ? "" : document.getElementById("device_fingerprint").value
+                        merchant_identifier : data.merchantIdentifier
                     },
                     RequestUrl: data.tokenizationUrl
                 });
-                this.sign();
             }
         });
+        this.snare();
     }
 
     snare() {
@@ -97,10 +94,11 @@ class PaymentPage extends React.Component {
             remember_me: values.remember_me ? "YES" : "NO"
         };
 
+        var fingerprint = this.state.direct ? "" : (document.getElementById("device_fingerprint")?.value || "");
         this.setState({
             service: {
                 ...this.state.service,
-                device_fingerprint: document.getElementById("device_fingerprint").value
+                ...(fingerprint ? { device_fingerprint: fingerprint } : {})
             }
         });
 
@@ -108,15 +106,10 @@ class PaymentPage extends React.Component {
             url: API.CARDS_SIGN,
             body: this.state.service,
             after: data => {
-                this.setState({
-                    service: {
-                        ...this.state.service,
-                        signature: data
-                    }
-                });
                 postVirtualForm(this.state.RequestUrl, {
                     ...this.state.service,
-                    ...request
+                    ...request,
+                    signature: data
                 });
             }
         });
