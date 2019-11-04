@@ -142,6 +142,7 @@ render() {
                         </div> }
                     </React.Fragment> }
 
+                    { booking.referenceCode && <React.Fragment>
                     <h2>
                         {t("Booking Details")}
                     </h2>
@@ -251,6 +252,7 @@ render() {
                             </button>
                         </Link>
                     </div>
+                    </React.Fragment> }
 
                 </div>
             </section>
