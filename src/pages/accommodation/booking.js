@@ -157,10 +157,10 @@ class AccommodationBookingPage extends React.Component {
 
                 <div class="static item">{t("Room & Total Cost")}</div>
                 {[...Array(store.search.rooms)].map((x,i)=>(
-                variant.rooms[i].roomPrices?.[0].gross ?
+                (variant.rooms[i].roomPrices?.[0].nett !== undefined && "Room" == variant.rooms[i].roomPrices?.[0].type) ?
                 <Dual
                     a={t("Room Cost") + " " + (store.search.rooms > 1 ? (i+1) : '')}
-                    b={price(variant.currencyCode, variant.rooms[i].roomPrices?.[0].gross)}
+                    b={price(variant.currencyCode, variant.rooms[i].roomPrices[0].nett)}
                 /> : null
                 ))}
                 <Dual
