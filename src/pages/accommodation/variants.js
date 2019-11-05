@@ -217,12 +217,12 @@ class AccommodationVariantsPage extends React.Component {
                                 <th>{t("Board Basis")}</th>
                                 <th>{t("Deadline")}</th>
                                 { false && <th>{t("Actions")}</th> }
-                                <th>{t("Total Price")}</th>
+                                <th>{t("Room Price")}</th>
                                 <th />
                             </tr>
                             { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? 3 : undefined).map(agreement => <tr>
                                 <td>
-                                    {agreement.rooms.map(room => room.type).join(", ")}
+                                    {agreement.rooms.map(room => <div>{room.type}</div>)}
                                 </td>
                                 <td>
                                     {agreement.mealPlan}
@@ -243,7 +243,9 @@ class AccommodationVariantsPage extends React.Component {
                                     <span class="icon icon-card" />
                                 </td> }
                                 <td class="price">
-                                    {price(agreement.currencyCode, agreement.price.total)}
+                                    {agreement.rooms.map(room => <div>
+                                        {price(agreement.currencyCode, room.roomPrices[0].nett)}
+                                    </div>)}
                                 </td>
                                 <td class="buttons">
                                     <button class="button small" onClick={() => this.variantSelect(agreement, item.accommodationDetails)}>
