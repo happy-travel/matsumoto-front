@@ -1,4 +1,5 @@
 import React from "react";
+import settings from "settings";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { dateFormat, price, API } from "core";
@@ -49,7 +50,7 @@ class PaymentPage extends React.Component {
                 service_command     : "TOKENIZATION",
                 merchant_reference  : require('uuid/v4')(),
                 language            : "en", //the only alternative : "ar"
-                return_url          : window.location.origin + "/payment/result/" + store.booking?.result?.referenceCode
+                return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.result?.referenceCode
             }
         };
         this.submit = this.submit.bind(this);

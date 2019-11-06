@@ -1,4 +1,5 @@
 import React from "react";
+import settings from "settings";
 import PaymentPage from "../payment";
 
 import { session } from "core";
@@ -56,7 +57,7 @@ class PaymentDirectLinkPage extends PaymentPage {
                     comment: result.comment,
                     service: {
                         ...this.state.service,
-                        return_url: "https://dev.happytravel.com/payment/result/" + result.referenceCode
+                        return_url: settings.payment_callback_host + "/payment/result/" + result.referenceCode
                     }
                 });
             }

@@ -31,12 +31,8 @@ const init = () => {
                 return;
             }
             if (response.status != 200) {
-                var nextURL = "https://dev.happytravel.com/signup/user";
-                if ("localhost" == window.location.hostname)
-                    nextURL = "http://localhost:4000/signup/user";
-
                 if (isRedirectNeeded())
-                    window.location.href = nextURL;
+                    window.location.href = window.location.origin + "/signup/user";
                 //todo: make normal redirect
             }
         }
