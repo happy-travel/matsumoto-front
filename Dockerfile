@@ -20,6 +20,7 @@ FROM opentracing/nginx-opentracing:0.9.0
 
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/jaeger-config.json /etc/jaeger-config.json
 
 # HEALTHCHECK --interval=1m --timeout=3s CMD curl --fail http://127.0.0.1/health || exit 1
 EXPOSE 80
