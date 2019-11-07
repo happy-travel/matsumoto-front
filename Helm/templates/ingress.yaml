@@ -19,6 +19,7 @@ metadata:
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.allow-http: "false"
 spec:
 {{- if .Values.ingress.tls }}
   tls:
