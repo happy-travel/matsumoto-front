@@ -1,11 +1,11 @@
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: "contour"
-    contour.heptio.com/retry-on: "5xx"
-    contour.heptio.com/num-retries: "5"
-    contour.heptio.com/request-timeout: "15s"
-    contour.heptio.com/per-try-timeout: "3000"
+    projectcontour.io/ingress.class: "contour"
+    projectcontour.io/retry-on: "5xx"
+    projectcontour.io/num-retries: "3"
+    projectcontour.io/per-try-timeout: "15s"
+    projectcontour.io/response-timeout: "15s"
   hosts:
     - host: happytravel.com
       paths: [/]
