@@ -88,7 +88,6 @@ render() {
         var {
             params,
             result,
-            saved,
             params_error
         } = (store.paymentResult || {});
 
@@ -137,7 +136,7 @@ render() {
                             </div>
                         </div>
 
-                        { saved && <div class="result-code">
+                        { ("YES" == params.remember_me) && <div class="result-code">
                             Your card was saved for your future purchases.
                         </div> }
                     </React.Fragment> }

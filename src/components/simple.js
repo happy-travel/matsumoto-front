@@ -51,8 +51,8 @@ export const Expandable = class extends React.Component {
     }
 };
 
-export const Loader = ({ page }) => (
-    <div class={"loader" + (page ? " full-page" : "")}><div class="x">
+export const Loader = ({ page, white }) => (
+    <div class={"loader" + (page ? " full-page" : "") + (white ? " white" : "")}><div class="x">
         <div class="a" /><div class="b" /><div />
     </div></div>
 );

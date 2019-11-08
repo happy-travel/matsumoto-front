@@ -13,12 +13,29 @@ class PaymentResultPage extends React.Component {
             directLinkCode: null,
             redirectToConfirmationPage: false
         };
+        this.callback = this.callback.bind(this);
+    }
+
+    callback(data, error, after3ds) {
+        if (!after3ds && ("Secure3d" == data?.status)) {
+            window.location.href = data.secure3d;
+            return;
+        }
+        store.setPaymentResult({
+            params: getParams(),
+            result: {
+                status: data?.status,
+                error: error?.detail || error?.title
+            }
+        });
+        this.setState({
+            redirectToConfirmationPage: true
+        });
     }
 
     componentDidMount() {
         var bookingReference = this.props.match.params.ref,
             params = getParams(),
-            paymentResult = { params },
             directLinkCode = session.get(bookingReference);
 
         if (directLinkCode) {
@@ -26,20 +43,7 @@ class PaymentResultPage extends React.Component {
             API.post({
                 external_url: API.DIRECT_LINK_PAY.PAY(directLinkCode),
                 body: params.token_name,
-                after: (data, error) => {
-                    if ("Secure3d" == data?.status) {
-                        window.location.href = data.secure3d;
-                        return;
-                    }
-                    paymentResult.result = {
-                        status: data?.status,
-                        error: error?.detail || error?.title
-                    };
-                    store.setPaymentResult(paymentResult);
-                    this.setState({
-                        redirectToConfirmationPage: true
-                    });
-                }
+                after: (data, error) => this.callback(data, error)
             });
 
             return;
@@ -57,7 +61,7 @@ class PaymentResultPage extends React.Component {
                     ownerType: "Customer"
                 },
                 after: () => {
-                    paymentResult.saved = true;
+                    // todo: Saved successfully user callback
                 }
             });
 
@@ -88,20 +92,7 @@ class PaymentResultPage extends React.Component {
                             type: "OneTime"
                         }
                     },
-                    after: (data, error) => {
-                        if ("Secure3d" == data?.status) {
-                            window.location.href = data.secure3d;
-                            return;
-                        }
-                        paymentResult.result = {
-                            status: data?.status,
-                            error: error?.detail
-                        };
-                        store.setPaymentResult(paymentResult);
-                        this.setState({
-                            redirectToConfirmationPage: true
-                        });
-                    }
+                    after: (data, error) => this.callback(data, error)
                 });
             }
         });
@@ -114,7 +105,7 @@ class PaymentResultPage extends React.Component {
         if (this.state.redirectToConfirmationPage)
             return <Redirect push to="/accommodation/confirmation" />;
 
-        return <Loader />;
+        return <Loader white page />;
     }
 }
 

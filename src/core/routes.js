@@ -8,7 +8,7 @@ import accommodationConfirmation  from 'pages/accommodation/confirmation';
 
 import paymentPage                from "pages/payment/payment";
 import paymentResult              from "pages/payment/result";
-import payment3DSCallback         from "pages/payment/callback";
+import payment3DSCallback         from "pages/payment/callback3ds";
 import paymentDirectLink          from "pages/payment/external/direct-link-page";
 import paymentDirectLinkConfirm   from "pages/payment/external/direct-link-confirmation";
 
