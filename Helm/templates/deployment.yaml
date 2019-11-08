@@ -22,11 +22,11 @@ spec:
             - containerPort: {{ $appPort }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: {{ $appPort }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: {{ $appPort }}
       imagePullSecrets:
       - name: travel-key-registry
