@@ -106,7 +106,7 @@ class AccommodationStore {
             this.search.request.ratings = form.ratings;
             this.search.request.propertyTypes = form.propertyTypes;
             if (form.radius)
-                this.search.request.location.distance = form.radius;
+                this.search.request.location.distance = parseInt(form.radius) *1000;
         }
     }
 
