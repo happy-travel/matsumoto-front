@@ -191,6 +191,7 @@ class AccommodationSearch extends React.Component {
                                 id="radius"
                                 label={t("Radius (Km)")}
                                 placeholder="1"
+                                numeric
                             />
                             <FieldSelect formik={formik}
                                 id="order"
