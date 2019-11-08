@@ -16,7 +16,7 @@ export const decorate = {
     }
 };
 
-export const plural = (t, value, word) => value + " " + t(word, {count: value});
+export const plural = (t, value, word) => value + " " + t(word, {count: parseInt(value)});
 
 export const price = (currency, value) => " " + (currency || "") + " " + (value || 0).toFixed(2) + " ";
 

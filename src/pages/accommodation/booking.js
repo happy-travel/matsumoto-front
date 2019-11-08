@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { API, dateFormat, price } from "core";
+import { API, dateFormat, price, plural } from "core";
 import { Formik, FieldArray } from "formik";
 
 import {
@@ -54,7 +54,7 @@ class AccommodationBookingPage extends React.Component {
                     "title": values.room[r].passengers[i].title,
                     "firstName": values.room[r].passengers[i].firstName,
                     "lastName": values.room[r].passengers[i].lastName,
-                    "age": i < adults ? 33 : 12,
+                    "age": i < adults ? 33 : store.search.request.roomDetails[r].childrenAges[i-adults],
                     "initials":"",
                     ...( i == 0 ? {"isLeader": true} : {} )
                 });
@@ -202,7 +202,10 @@ class AccommodationBookingPage extends React.Component {
                             <div class="form">
                                 <FieldArray
                                     render={() => (
-                                formik.values.room.map((item, r) => (
+                                formik.values.room.map((item, r) => {
+                                    var adults = store.search.request.roomDetails[r].adultsNumber,
+                                        childrenAges = store.search.request.roomDetails[r].childrenAges;
+                                return (
                                 <React.Fragment>
                                 <h2>
                                     <span>Room {r+1}:</span> {variant.rooms[r]?.type}
@@ -223,7 +226,9 @@ class AccommodationBookingPage extends React.Component {
                                                 <td>
                                                     <FieldSelect formik={formik}
                                                         id={`room.${r}.passengers.${index}.title`}
-                                                        placeholder={index < store.search.request.roomDetails[r].adultsNumber ? t("Please select one") : t("Child")}
+                                                        placeholder={index < adults ?
+                                                            t("Please select one") :
+                                                            t("Child") + ", " + plural(t, childrenAges[index - adults], "year")}
                                                         options={[
                                                             { value: "Mr", text: t("Mr.")},
                                                             { value: "Ms", text: t("Ms.")},
@@ -251,7 +256,7 @@ class AccommodationBookingPage extends React.Component {
                                         )} />
                                     </tbody></table>
                                 </div>
-                                </React.Fragment>)))} />
+                                </React.Fragment>)}))} />
 
                                 { /* todo
                                 <div class="part">

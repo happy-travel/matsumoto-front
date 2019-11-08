@@ -228,6 +228,9 @@ translations: {
     "You need to pay": "You need to pay",
     "My Site Balance": "My Site Balance",
     "Credit/Debit Card": "Credit/Debit Card",
-    "Finish Registration": "Finish Registration"
+    "Finish Registration": "Finish Registration",
+    "Please enter children ages": "Please enter children ages",
+    "year": "year",
+    "year_plural": "years"
 }
 };

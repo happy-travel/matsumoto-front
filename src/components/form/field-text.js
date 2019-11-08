@@ -1,9 +1,10 @@
 import React from "react";
 import UI from "stores/ui-store";
 import { observer } from "mobx-react";
-import { localStorage } from "core";
+import { localStorage, decorate } from "core";
 
 const getValue = (formik, id) => {
+    if (typeof id != "string") id = ""+id;
     if (!formik) return '';
     return id.split('.').reduce((o,i)=>o?.[i], formik.values);
 };
@@ -39,6 +40,10 @@ class FieldText extends React.Component {
         this.setState({
             focus: false
         });
+
+        if (this.props.onBlur)
+            this.props.onBlur(event);
+
         if (this.props.formik)
             this.props.formik.handleBlur(event);
     }
@@ -96,10 +101,14 @@ class FieldText extends React.Component {
             options,
             ValueObject,
             maxLength,
+            numeric,
+            suggestion,
 
             formik
-        } = this.props,
-            suggestion = null;
+        } = this.props;
+
+        if (suggestion)
+            suggestion = decorate.cutFirstPart(suggestion, getValue(formik, id));
 
         /* todo: Remove this workaround when server rtl suggestions works correct */
         var isSuggestionVisible = localStorage.get("direction", true) != "rtl";
@@ -111,7 +120,7 @@ class FieldText extends React.Component {
                 ValueObject = <div class="value-object placeholder">{placeholder}</div>;
         }
 
-        if (formik)
+        if (formik && !suggestion)
             suggestion = UI.getSuggestion(id, getValue(formik, id));
 
         return (
@@ -140,8 +149,8 @@ class FieldText extends React.Component {
                                 {...(readonly ? {readonly: "readonly"} : {})}
                             />
                             { ValueObject }
-                            { isSuggestionVisible && suggestion && <div class="suggestion">
-                                <span>{ getValue(formik, id) }</span>{ suggestion }
+                            { isSuggestionVisible && suggestion && <div class={"suggestion" + (numeric ? " solid" : "")}>
+                                <span>{ getValue(formik, id) || value }</span>{ suggestion }
                             </div> }
                         </div>
                         { Icon && <div class="icon-wrap">

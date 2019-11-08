@@ -6,6 +6,8 @@ import autosave from "core/misc/autosave";
 import { createFilters, applyFilters } from "./utils/accommodation-filtering";
 
 const copy = obj => JSON.parse(JSON.stringify(obj));
+
+export const defaultChildrenAge = 12;
 const defaultSearchForm = {
         "filters": "Default",
         "checkInDate": moment().utc().startOf("day"),
@@ -147,8 +149,16 @@ class AccommodationStore {
         } else
             this.search.request.roomDetails[roomNumber][field] = finalNewValue;
 
-        if ("childrenNumber" == field)
-            this.search.request.roomDetails[roomNumber].childrenAges = new Array(finalNewValue).fill(12);
+        if ("childrenNumber" == field) {
+            if (!this.search.request.roomDetails[roomNumber].childrenAges)
+                this.search.request.roomDetails[roomNumber].childrenAges = new Array(finalNewValue).fill(defaultChildrenAge);
+            else
+                this.search.request.roomDetails[roomNumber].childrenAges = this.search.request.roomDetails[roomNumber].childrenAges.slice(0, finalNewValue);
+        }
+    }
+
+    setRequestRoomChildrenAges(roomNumber, value) {
+        this.search.request.roomDetails[roomNumber].childrenAges = value.map( val => (parseInt(val) || defaultChildrenAge) );
     }
 
     setRequestDestination(value) {
