@@ -75,7 +75,7 @@ class AccommodationBookingPage extends React.Component {
         }
 
         var request = {
-            "availabilityId": store.search.result.availabilityId,
+            "availabilityId": store.selected.availabilityId,
             "nationality": search.nationality,
             "paymentMethod": "CreditCard",
             "residency": search.residency,

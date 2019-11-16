@@ -101,7 +101,7 @@ class AccommodationVariantsPage extends React.Component {
                     UI.setTopAlertText("Sorry, this room is not available now");
                     return;
                 }
-                store.select(result.agreement, hotel); // here first accommodation model is fuller, so I use it
+                store.select(result.agreement, hotel, result); // here first "hotel" model is fuller, so I use it
                 this.setState({
                     redirectToBookingPage: true
                 });
