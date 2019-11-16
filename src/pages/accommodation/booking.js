@@ -25,7 +25,8 @@ class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToConfirmationPage: false
+            redirectToConfirmationPage: false,
+            accountPaymentPossibility: false
         };
         this.submit = this.submit.bind(this);
     }
@@ -33,6 +34,14 @@ class AccommodationBookingPage extends React.Component {
     componentDidMount() {
         store.setBookingRequest(null);
         store.setBookingResult(null);
+
+        API.get({
+            url: API.ACCOUNT_AVAILABLE,
+            success: result =>
+                this.setState({
+                    accountPaymentPossibility: result
+                })
+        });
     }
 
     submit(values, { setSubmitting }) {
@@ -54,7 +63,7 @@ class AccommodationBookingPage extends React.Component {
                     "title": values.room[r].passengers[i].title,
                     "firstName": values.room[r].passengers[i].firstName,
                     "lastName": values.room[r].passengers[i].lastName,
-                    "age": i < adults ? 33 : store.search.request.roomDetails[r].childrenAges[i-adults],
+                    "age": 33, //todo: temporary adults workaround. correct: i < adults ? 33 : store.search.request.roomDetails[r].childrenAges[i-adults],
                     "initials":"",
                     ...( i == 0 ? {"isLeader": true} : {} )
                 });
@@ -327,10 +336,13 @@ class AccommodationBookingPage extends React.Component {
                                         <span class="value">{price(store.selected.variant.currencyCode, store.selected.variant.price.total)}</span>
                                     </p>
                                     <div class="list">
-                                        <div class="item">
-                                            {t("My Site Balance")} <span>{price(store.selected.variant.currencyCode, 0)}</span>
+                                        <div class={"item " + (this.state.accountPaymentPossibility ? "" : " disabled")}>
+                                            <span class="icon icon-radio" />
+                                            {t("My Site Balance")}
+                                            <span>{price(store.selected.variant.currencyCode, 0)}</span>
                                         </div>
                                         <div class="item selected">
+                                            <span class="icon icon-radio on" />
                                             {t("Credit/Debit Card")}
                                             <img src="/images/other/visa.png" />
                                             <img src="/images/other/mc.png" />

@@ -19,6 +19,8 @@ API_METHODS = {
     PAYMENTS_COMMON       : v1 + "/payments",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
+    ACCOUNT_AVAILABLE     : v1 + "/payments/accounts/available",
+
     USER                  : v1 + "/customers",
     USER_REGISTRATION     : v1 + "/customers/register",
     USER_REGISTRATION_M   : v1 + "/customers/register/master",
