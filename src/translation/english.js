@@ -231,6 +231,11 @@ translations: {
     "Finish Registration": "Finish Registration",
     "Please enter children ages": "Please enter children ages",
     "year": "year",
-    "year_plural": "years"
+    "year_plural": "years",
+    "More than": "More than",
+    "properties": "properties",
+    "Exclusive offer": "Exclusive offer",
+    "Country & Hotels": "Country & Hotels",
+    "Exclusive offers": "Exclusive offers"
 }
 };

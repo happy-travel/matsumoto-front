@@ -10,7 +10,7 @@ const Footer = () => {
                 <section>
                     <div class="company">
                         <div class="logo-wrapper">
-                            <a href="#" class="logo" />
+                            <a href="/" class="logo" />
                         </div>
                         { /* <div class="social">
                             <a href="#">
