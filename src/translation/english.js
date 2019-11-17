@@ -236,6 +236,7 @@ translations: {
     "properties": "properties",
     "Exclusive offer": "Exclusive offer",
     "Country & Hotels": "Country & Hotels",
-    "Exclusive offers": "Exclusive offers"
+    "Exclusive offers": "Exclusive offers",
+    "Remark": "Remark"
 }
 };

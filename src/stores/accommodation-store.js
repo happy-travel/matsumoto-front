@@ -43,6 +43,7 @@ class AccommodationStore {
     selected = {
         variant: null,
         hotel: null,
+        confirmation: null,
         availabilityId: null
     };
 
@@ -202,6 +203,7 @@ class AccommodationStore {
     select(agreement, hotel, confirmation) {
         this.selected.hotel = hotel;
         this.selected.variant = agreement;
+        this.selected.confirmation = confirmation;
         this.booking.request = null;
         this.booking.result = {};
         this.selected.availabilityId = confirmation?.deadlineDetails?.availabilityId || this.search.result.availabilityId;

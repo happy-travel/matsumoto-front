@@ -110,7 +110,8 @@ class AccommodationBookingPage extends React.Component {
             return null; //todo: another answer
 
         var hotel = store.selected.hotel,
-            variant = store.selected.variant;
+            variant = store.selected.variant,
+            confirmation = store.selected.confirmation;
 
         if (this.state.redirectToConfirmationPage)
             return <Redirect push to="/accommodation/confirmation" />;
@@ -134,35 +135,58 @@ class AccommodationBookingPage extends React.Component {
                     , {hotel.location.country}
                 </div>
 
-                <div class="static item">{t("Your Reservation")}</div>
+                <div class="static item" style={{ marginBottom: 0 }}>
+                    {t("Your Reservation")}
+                </div>
+                <div class="static item no-border">
+                    {variant.contractType}
+                </div>
                 <Dual
-                    a={<span>Arrival<br/> Date</span>}
+                    a={t("Arrival Date")}
                     b={dateFormat.a(store.search.result.checkInDate)}
+                    addClass="column"
                 />
                 <Dual
-                    a={<span>Departure<br/> Date</span>}
+                    a={t("Departure Date")}
                     b={dateFormat.a(store.search.result.checkOutDate)}
+                    addClass="column"
                 />
                 <Dual
                     a={t("Number of Rooms")}
-                    b={"1"}
+                    b={variant.rooms.length}
+                />
+                <Dual
+                    a={t("Board Basis")}
+                    b={variant.boardBasisCode == "RO" ? t("Room Only") : variant.mealPlan}
+                />
+                <Dual
+                    a={t("Within deadline")}
+                    b={dateFormat.a(confirmation.deadlineDetails.date)}
+                    addClass="column"
                 />
 
-                <div class="static item">{t("Room Information")}</div>
-                {[...Array(store.search.rooms)].map((x,i)=>(
-                <Dual
-                    a={t("Room Type") + " " + (store.search.rooms > 1 ? (i+1) : '')}
-                    b={variant.rooms[i]?.type}
-                />
+                {confirmation.deadlineDetails.remarkCodes.map( item => (
+                <React.Fragment>
+                    { variant.remarks[item] && <Dual
+                        a={t("Remark")}
+                        b={confirmation.remarks[item]}
+                    /> }
+                </React.Fragment>
                 ))}
-                { false && [<Dual
-                    a={t("Board Basis")}
-                    b={"Room Only"}
-                />,
-                <Dual
-                    a={t("Occupancy")}
-                    b={"2 Adults , 2 Children, Children Ages: 3, 14"}
-                />] /* todo */ }
+
+                {[...Array(store.search.rooms)].map((x,i)=>(
+                <React.Fragment>
+                    <div class="static item">{t("Room Information") + " " + (store.search.rooms > 1 ? (i+1) : '')}</div>
+                    <Dual
+                        a={t("Room Type")}
+                        b={variant.rooms[i]?.type}
+                    />
+                    { /* <Dual
+                        a={t("Occupancy")}
+                        b={plural(t, rooms[i].adultsNumber, "Adult") + ", " + rooms[i].childrenNumber + " " + t("Children")}
+                    /> */ }
+                </React.Fragment>
+                ))}
 
                 <div class="static item">{t("Room & Total Cost")}</div>
                 {[...Array(store.search.rooms)].map((x,i)=>(
@@ -237,7 +261,8 @@ class AccommodationBookingPage extends React.Component {
                                                         id={`room.${r}.passengers.${index}.title`}
                                                         placeholder={index < adults ?
                                                             t("Please select one") :
-                                                            t("Child") + ", " + plural(t, childrenAges[index - adults], "year")}
+                                                            t("Child") // + ", " + plural(t, childrenAges[index - adults], "year")
+                                                        }
                                                         options={[
                                                             { value: "Mr", text: t("Mr.")},
                                                             { value: "Ms", text: t("Ms.")},
