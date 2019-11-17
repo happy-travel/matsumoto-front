@@ -77,7 +77,8 @@ class UserBookingManagementPage extends React.Component {
                                             {bookingDetails.roomDetails[0].price.price}
                                         </td>
                                         <td>
-                                            <strong>{t("Cancel")}</strong>
+                                            <strong>{t("Cancellation Deadline")}</strong>
+                                            {serviceDetails.deadlineDetails?.date ? dateFormat.c(serviceDetails.deadlineDetails.date) : "None"}
                                         </td>
                                         <td>
                                             <strong>{t("Status")}</strong>
