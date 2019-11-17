@@ -52,10 +52,10 @@ return (
                     </div>
                     <div class="dual">
                         <div class="first">
-                            Payment message: <strong>{messageFormatter(params?.response_message)}</strong>
+                            {t("Payment message")}: <strong>{messageFormatter(params?.response_message)}</strong>
                         </div>
                         <div class="second">
-                            Response code: <strong>{params?.response_code}</strong>
+                            {t("Response code")}: <strong>{params?.response_code}</strong>
                         </div>
                     </div>
                 </div> }
@@ -66,7 +66,7 @@ return (
                     </div> }
                     <div class="dual">
                         <div class="first">
-                            Payment result: <strong>{result.status || result.error}</strong>
+                            {t("Payment result")}: <strong>{result.status || result.error}</strong>
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ class AccommodationDetailsModal extends React.Component {
                 </div>}
                 <div class="title">
                     <h2>
-                        {t("Hotel Details")}
+                        {t("Accommodation Details")}
                     </h2>
                 </div>
                 <div class="content">
@@ -78,7 +78,7 @@ class AccommodationDetailsModal extends React.Component {
                                 </ul>
                             </td>
                             <td>
-                                <h2>{t("Hotel Amenities")}</h2>
+                                <h2>{t("Accommodation Amenities")}</h2>
                                 <ul>
                                     <li>Bar</li>
                                     <li>Laundry Service</li>
@@ -89,7 +89,7 @@ class AccommodationDetailsModal extends React.Component {
                                 </ul>
                             </td>
                             <td>
-                                <h2>{t("Hotel Amenities")}</h2>
+                                <h2>{t("Accommodation Amenities")}</h2>
                                 <ul>
                                     <li>Leisure & Sport Amenities</li>
                                 </ul>

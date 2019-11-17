@@ -117,10 +117,10 @@ render() {
                             </div>
                             <div class="dual">
                                 <div class="first">
-                                    Card acceptance message: <strong>{params?.response_message}</strong>
+                                    {t("Card acceptance message")}: <strong>{params?.response_message}</strong>
                                 </div>
                                 <div class="second">
-                                    Response code: <strong>{params?.response_code}</strong>
+                                    {t("Response code")}: <strong>{params?.response_code}</strong>
                                 </div>
                             </div>
                         </div> }
@@ -131,13 +131,13 @@ render() {
                             </div> }
                             <div class="dual">
                                 <div class="first">
-                                    Payment result: <strong>{result.status || result.error}</strong>
+                                    {t("Payment result")}: <strong>{result.status || result.error}</strong>
                                 </div>
                             </div>
                         </div>
 
                         { ("YES" == params.remember_me) && <div class="result-code">
-                            Your card was saved for your future purchases.
+                            {t("Your card was saved for your future purchases.")}
                         </div> }
                     </React.Fragment> }
 
@@ -230,7 +230,7 @@ render() {
                     ))}
 
                     <div class="actions">
-                        <a href="javascript:void(0)">
+                        { /* <a href="javascript:void(0)">
                             <span class="icon icon-action-time-left" />
                         </a>
                         <a href="javascript:void(0)">
@@ -244,10 +244,10 @@ render() {
                         </a>
                         <a href="javascript:void(0)">
                             <span class="icon icon-action-writing" />
-                        </a>
+                        </a> */ }
                         <Link to="/">
                             <button class="button green">
-                                {t("Accept & reconfirm")}
+                                {t("Back to the search")}
                             </button>
                         </Link>
                     </div>

@@ -40,7 +40,7 @@ class UserBookingManagementPage extends React.Component {
                     </h2>
                     <div>
                         {!store.userBookingList?.length ?
-                            <div>You don't have any reservations</div> :
+                            <div>{t("You don`t have any reservations")}</div> :
                             <table>
                                 {store.userBookingList.map(item => {
                                     var bookingDetails = item.bookingDetails,
@@ -51,7 +51,7 @@ class UserBookingManagementPage extends React.Component {
 
                                     return (<tr onClick={() => this.setState({ redirectToBookingConfirmationId: item.bookingId })}>
                                         <td>
-                                            <strong>{t("Accommodation")}</strong>
+                                            <strong>{t("Accommodations")}</strong>
                                             {bookingDetails.roomDetails[0].roomDetails.type}
                                         </td>
                                         <td>
@@ -78,7 +78,7 @@ class UserBookingManagementPage extends React.Component {
                                         </td>
                                         <td>
                                             <strong>{t("Cancellation Deadline")}</strong>
-                                            {serviceDetails.deadlineDetails?.date ? dateFormat.c(serviceDetails.deadlineDetails.date) : "None"}
+                                            {serviceDetails.deadlineDetails?.date ? dateFormat.c(serviceDetails.deadlineDetails.date) : t("None")}
                                         </td>
                                         <td>
                                             <strong>{t("Status")}</strong>

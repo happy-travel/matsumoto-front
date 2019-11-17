@@ -236,7 +236,7 @@ class AccommodationSearch extends React.Component {
                                 <div class="label"/>
                                 <div class="inner">
                                     <button type="submit" class="button">
-                                        {t("Search hotel")}
+                                        {t("Search accommodation")}
                                     </button>
                                 </div>
                             </div>

@@ -167,7 +167,7 @@ class AccommodationVariantsPage extends React.Component {
                     <div class="input-wrap">
                         <div class="form">
                             <FieldText
-                                placeholder={t("Search hotel name ...")}
+                                placeholder={t("Search by a hotel name...")}
                             />
                         </div>
                     </div>
@@ -191,7 +191,7 @@ class AccommodationVariantsPage extends React.Component {
                                 <Stars count={item.accommodationDetails.rating} />
                             </h2>
                             <div class="category">
-                                {t("Hotels in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
+                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
                             </div>
                             <div class="features">
                                 <span class="icon icon-info-big"/>
