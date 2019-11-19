@@ -16,6 +16,8 @@ import {
 import Breadcrumbs from "components/breadcrumbs";
 import { Stars, Loader } from "components/simple";
 
+const AGREEMENT_COUNTER_NOT_EXPANDED = 3;
+
 @observer
 class AccommodationVariantsPage extends React.Component {
     constructor(props) {
@@ -191,7 +193,8 @@ class AccommodationVariantsPage extends React.Component {
                                 <Stars count={item.accommodationDetails.rating} />
                             </h2>
                             <div class="category">
-                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
+                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}<br/>
+                                {item.accommodationDetails.location.address}
                             </div>
                             <div class="features">
                                 <span class="icon icon-info-big"/>
@@ -220,12 +223,14 @@ class AccommodationVariantsPage extends React.Component {
                                 <th>{t("Room Price")}</th>
                                 <th />
                             </tr>
-                            { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? 3 : undefined).map(agreement => <tr>
+                            { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? AGREEMENT_COUNTER_NOT_EXPANDED : undefined).map(agreement => <tr>
                                 <td>
-                                    {agreement.rooms.map(room => <div>{room.type}</div>)}
+                                    {agreement.rooms.map(room =>
+                                        <div>{agreement.contractType}, {room.type}</div>
+                                    )}
                                 </td>
                                 <td>
-                                    {agreement.mealPlan}
+                                    {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room only") : agreement.mealPlan}
                                 </td>
                                 <td>
                                     { moment().isAfter(agreement.deadlineDate) ? <div class="services-info">
@@ -277,7 +282,8 @@ class AccommodationVariantsPage extends React.Component {
                             </tbody>
                         </table>
                     </div>
-                    { !this.state.expanded[hotelIndex] && <div class="show-more">
+                    { !this.state.expanded[hotelIndex] && (item.agreements.length > AGREEMENT_COUNTER_NOT_EXPANDED) &&
+                    <div class="show-more">
                         <button class="button blue small" onClick={() => this.expand(hotelIndex)}>
                             {t("Show all rooms")}
                         </button>
