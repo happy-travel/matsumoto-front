@@ -23,11 +23,11 @@ class AccommodationConfirmationPage extends React.Component {
     getValues() {
         var result = store.booking.result;
 
-        if (this.state.bookingId !== null) {
+        if (this.state.bookingId) {
             var selected = null;
 
             store.userBookingList.forEach(item => {
-                if (item.bookingId == this.state.bookingId || item.referenceCode == this.state.bookingId) //todo: refactoring
+                if (item.bookingId == this.state.bookingId || item.bookingDetails.referenceCode == this.state.bookingId) //todo: refactoring
                     selected = item;
             });
 
@@ -70,7 +70,7 @@ class AccommodationConfirmationPage extends React.Component {
 
         if ( bookingId !== undefined) {
             this.setState({
-                bookingId: this.props?.match?.params?.id,
+                bookingId,
                 fromHistory
             });
             API.get({
