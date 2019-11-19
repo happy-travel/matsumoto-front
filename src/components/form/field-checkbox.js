@@ -4,7 +4,7 @@ class FieldCheckbox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: !!this.props.value
+            value: !!this.props.formik?.values[this.props.id]
         };
         this.changing = this.changing.bind(this);
     }

@@ -14,7 +14,7 @@ import {
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual, Loader } from "components/simple";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store from "stores/accommodation-store";
@@ -165,14 +165,14 @@ class AccommodationBookingPage extends React.Component {
                     addClass="column"
                 />
 
-                {confirmation.deadlineDetails.remarkCodes.map( item => (
+                { /* confirmation.deadlineDetails.remarkCodes.map( item => (
                 <React.Fragment>
                     { variant.remarks[item] && <Dual
                         a={t("Remark")}
                         b={confirmation.remarks[item]}
                     /> }
                 </React.Fragment>
-                ))}
+                )) */ }
 
                 {[...Array(store.search.rooms)].map((x,i)=>(
                 <React.Fragment>
@@ -226,7 +226,8 @@ class AccommodationBookingPage extends React.Component {
                                 ...Array(store.search.request.roomDetails[r].adultsNumber),
                                 ...Array(store.search.request.roomDetails[r].childrenNumber),
                             ]
-                        }))
+                        })),
+                        accepted: true
                     }}
                     validationSchema={accommodationBookingValidator}
                     onSubmit={this.submit}
@@ -355,6 +356,13 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div> */ }
 
+                                { !!Object.keys(confirmation.remarks || {}).length && <div class="part" style={{marginTop: 0}}>
+                                    <h3>{t("Additional Information")}</h3>
+                                    {Object.keys(confirmation.remarks || {}).map(key => (
+                                        <p style={{margin: "12px 0 6px"}}>{confirmation.remarks[key]}</p>
+                                    ))}
+                                </div> }
+
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
                                     <p>{t("You need to pay")}:
@@ -377,9 +385,21 @@ class AccommodationBookingPage extends React.Component {
 
                                 { !store.booking.result.referenceCode && !formik.isSubmitting &&
                                     <div class="final">
-                                        <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
-                                            {t("Confirm booking")}
-                                        </button>
+                                        <div class="dual">
+                                            <div class="first">
+                                                <FieldCheckbox formik={formik}
+                                                    id={"accepted"}
+                                                    label={<div>
+                                                        {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" class="underlined link">{t("Terms & Conditions")}</Link>
+                                                    </div>}
+                                                />
+                                            </div>
+                                            <div class="second">
+                                                <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                                    {t("Confirm booking")}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div> }
 
                                 { formik.isSubmitting && !store.booking.result.referenceCode &&

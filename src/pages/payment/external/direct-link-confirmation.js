@@ -19,10 +19,13 @@ class DirectLinkConfirmationPage extends React.Component {
     }
 
     componentDidMount() {
+        var code = session.get(store.paymentResult.params.merchant_reference);
+        if (!code)
+            this.setState({ booking: { error: "error" } });
         API.get({
-            external_url: API.DIRECT_LINK_PAY.GET_INFO(session.get(store.paymentResult.params.merchant_reference)),
+            external_url: API.DIRECT_LINK_PAY.GET_INFO(code),
             after: result => {
-                this.setState({ booking: result || {} });
+                this.setState({ booking: result || { error: "error" } });
             }
         });
     }
