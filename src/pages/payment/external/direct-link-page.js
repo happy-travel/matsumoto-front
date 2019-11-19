@@ -19,7 +19,7 @@ class PaymentDirectLinkPage extends PaymentPage {
 
     componentDidMount() {
         var orderCode = this.props.match.params.code;
-        this.setState({ orderCode });
+        this.setState({ order_code: orderCode });
         API.get({
             external_url: API.DIRECT_LINK_PAY.SETTINGS,
             after: data => {
@@ -29,21 +29,7 @@ class PaymentDirectLinkPage extends PaymentPage {
                         access_code         : data.accessCode,
                         merchant_identifier : data.merchantIdentifier,
                     },
-                    RequestUrl: data.tokenizationUrl
-                });
-                API.post({
-                    external_url: API.DIRECT_LINK_PAY.SIGN(orderCode),
-                    body: {
-                        merchant_reference: this.state.service.merchant_reference
-                    },
-                    after: data => {
-                        this.setState({
-                            service: {
-                                ...this.state.service,
-                                signature: data
-                            }
-                        })
-                    }
+                    request_url: data.tokenizationUrl
                 });
             }
         });
@@ -62,6 +48,7 @@ class PaymentDirectLinkPage extends PaymentPage {
                 });
             }
         });
+        this.snare();
     }
 
 }

@@ -42,7 +42,7 @@ class PaymentPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            RequestUrl: null,
+            request_url: null,
             currency: store.selected?.variant?.currencyCode,
             amount: store.selected?.variant?.price?.total,
             comment: null,
@@ -54,7 +54,6 @@ class PaymentPage extends React.Component {
             }
         };
         this.submit = this.submit.bind(this);
-        this.postForm = this.postForm.bind(this);
     }
 
     componentDidMount() {
@@ -67,7 +66,7 @@ class PaymentPage extends React.Component {
                         access_code         : data.accessCode,
                         merchant_identifier : data.merchantIdentifier
                     },
-                    RequestUrl: data.tokenizationUrl
+                    request_url: data.tokenizationUrl
                 });
             }
         });
@@ -104,30 +103,17 @@ class PaymentPage extends React.Component {
             }
         });
 
-        if (this.state.service.signature) {
-            this.postForm(request);
-            return;
-        }
-
         API.post({
-            url: API.CARDS_SIGN,
+            url: this.state.direct ? null : API.CARDS_SIGN,
+            external_url: this.state.direct ? API.DIRECT_LINK_PAY.SIGN(this.state.order_code) : null,
             body: this.state.service,
             after: data => {
-                this.setState({
-                    service: {
-                        ...this.state.service,
-                        signature: data
-                    }
+                postVirtualForm(this.state.request_url, {
+                    ...this.state.service,
+                    ...request,
+                    signature: data
                 });
-                this.postForm(request);
             }
-        });
-    }
-
-    postForm(request) {
-        postVirtualForm(this.state.RequestUrl, {
-            ...this.state.service,
-            ...request
         });
     }
 
