@@ -54,6 +54,7 @@ class PaymentPage extends React.Component {
             }
         };
         this.submit = this.submit.bind(this);
+        this.postForm = this.postForm.bind(this);
     }
 
     componentDidMount() {
@@ -103,16 +104,30 @@ class PaymentPage extends React.Component {
             }
         });
 
+        if (this.state.service.signature) {
+            this.postForm(request);
+            return;
+        }
+
         API.post({
             url: API.CARDS_SIGN,
             body: this.state.service,
             after: data => {
-                postVirtualForm(this.state.RequestUrl, {
-                    ...this.state.service,
-                    ...request,
-                    signature: data
+                this.setState({
+                    service: {
+                        ...this.state.service,
+                        signature: data
+                    }
                 });
+                this.postForm(request);
             }
+        });
+    }
+
+    postForm(request) {
+        postVirtualForm(this.state.RequestUrl, {
+            ...this.state.service,
+            ...request
         });
     }
 
