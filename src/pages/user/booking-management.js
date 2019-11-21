@@ -60,7 +60,8 @@ class UserBookingManagementPage extends React.Component {
                                         </td>
                                         <td>
                                             <strong>{t("Board Basis")}</strong>
-                                            {serviceDetails.agreement?.mealPlan}
+                                            {serviceDetails.agreement?.boardBasisCode}:{" "}
+                                            {serviceDetails.agreement?.boardBasisCode == "RO" ? t("Room Only") : serviceDetails.agreement?.mealPlan}
                                         </td>
                                         <td>
                                             <strong>{t("Check In")}</strong>

@@ -157,7 +157,7 @@ class AccommodationBookingPage extends React.Component {
                 />
                 <Dual
                     a={t("Board Basis")}
-                    b={variant.boardBasisCode == "RO" ? t("Room Only") : variant.mealPlan}
+                    b={variant.boardBasisCode + ": " + ("RO" == variant.boardBasisCode ? t("Room Only") : variant.mealPlan)}
                 />
                 <Dual
                     a={t("Within deadline")}
