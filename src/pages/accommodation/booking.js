@@ -165,14 +165,14 @@ class AccommodationBookingPage extends React.Component {
                     addClass="column"
                 />
 
-                { /* confirmation.deadlineDetails.remarkCodes.map( item => (
+                { confirmation.deadlineDetails.remarkCodes.map( item => (
                 <React.Fragment>
                     { variant.remarks[item] && <Dual
                         a={t("Remark")}
-                        b={confirmation.remarks[item]}
+                        b={variant.remarks[item]}
                     /> }
                 </React.Fragment>
-                )) */ }
+                )) }
 
                 {[...Array(store.search.rooms)].map((x,i)=>(
                 <React.Fragment>
@@ -356,23 +356,23 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div> */ }
 
-                                { !!Object.keys(confirmation.remarks || {}).length && <div class="part" style={{marginTop: 0}}>
-                                    <h3>{t("Additional Information")}</h3>
-                                    {Object.keys(confirmation.remarks || {}).map(key => (
-                                        <p style={{margin: "12px 0 6px"}}>{confirmation.remarks[key]}</p>
+                                { !!Object.keys(variant.remarks || {}).length && <div class="part" style={{marginTop: 0}}>
+                                    <h3 style={{marginBottom: "24px"}}>{t("Additional Information")}</h3>
+                                    {Object.keys(variant.remarks || {}).map(key => (
+                                        <p style={{margin: "12px 0 6px"}}>{variant.remarks[key]}</p>
                                     ))}
                                 </div> }
 
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
                                     <p>{t("You need to pay")}:
-                                        <span class="value">{price(store.selected.variant.currencyCode, store.selected.variant.price.total)}</span>
+                                        <span class="value">{price(variant.currencyCode, variant.price.total)}</span>
                                     </p>
                                     <div class="list">
                                         <div class={"item " + (this.state.accountPaymentPossibility ? "" : " disabled")}>
                                             <span class="icon icon-radio" />
                                             {t("My Site Balance")}
-                                            <span>{price(store.selected.variant.currencyCode, 0)}</span>
+                                            <span>{price(variant.currencyCode, 0)}</span>
                                         </div>
                                         <div class="item selected">
                                             <span class="icon icon-radio on" />
