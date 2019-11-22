@@ -33,11 +33,11 @@ class AccommodationVariantsPage extends React.Component {
 
     showDetailsModal(id) {
         UI.setModal(MODALS.ACCOMMODATION_DETAILS);
-        UI.setHotelDetails(null);
+        UI.setModalData(null);
         API.get({
             url: API.ACCOMMODATION_DETAILS(id),
             success: (result) =>
-                UI.setHotelDetails(result),
+                UI.setModalData(result),
             error: () =>
                 console.log("wrong id or server error on accommodation details getter") /* todo: handle error */
         });

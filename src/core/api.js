@@ -27,10 +27,14 @@ API_METHODS = {
     USER_INVITE           : invitationCode =>
                             v1 + "/customers/invitations" + (invitationCode ? "/" + invitationCode : ""),
 
-    ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
     ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
+    BOOKING_CANCEL        : bookingId =>
+                            v1 + `/bookings/accommodations/${bookingId}/cancel`,
+
     ACCOMMODATION_DETAILS : accommodationId =>
                             v1 + "/accommodations/" + accommodationId,
+
+    ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
     AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
                             v1 + `/availabilities/${availabilityId}/${agreementId}`,
 

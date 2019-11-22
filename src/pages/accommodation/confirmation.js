@@ -2,11 +2,13 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { dateFormat, price, API } from "core";
+import UI, { MODALS } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual, Loader } from "components/simple";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 import store from "stores/accommodation-store";
 
@@ -18,6 +20,7 @@ class AccommodationConfirmationPage extends React.Component {
             bookingId: null
         };
         this.getValues = this.getValues.bind(this);
+        this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
     }
 
     getValues() {
@@ -26,10 +29,11 @@ class AccommodationConfirmationPage extends React.Component {
         if (this.state.bookingId) {
             var selected = null;
 
-            store.userBookingList.forEach(item => {
-                if (item.bookingId == this.state.bookingId || item.bookingDetails.referenceCode == this.state.bookingId) //todo: refactoring
-                    selected = item;
-            });
+            if (store.userBookingList)
+                store.userBookingList.forEach(item => {
+                    if (item.bookingId == this.state.bookingId || item.bookingDetails.referenceCode == this.state.bookingId) //todo: refactoring
+                        selected = item;
+                });
 
             if (selected) {
                 result = selected.bookingDetails;
@@ -57,6 +61,16 @@ class AccommodationConfirmationPage extends React.Component {
             error: result.error,
             rooms
         };
+    }
+
+    showCancellationConfirmation() {
+        var booking = this.getValues();
+        UI.setModalData({
+            bookingId: this.state.bookingId,
+            deadline: booking.deadline,
+            referenceCode: booking.referenceCode
+        });
+        UI.setModal(MODALS.CANCELLATION_CONFIRMATION);
     }
 
     componentDidMount() {
@@ -152,10 +166,10 @@ render() {
                         </div>
                         <div class="dual">
                             <div class="first">
-                                {t("Booking Reference number")}: <strong>{booking.referenceCode}</strong>
+                                {t("Booking Reference number")}: <strong class="green">{booking.referenceCode}</strong>
                             </div>
                             <div class="second">
-                                {t("Status")}: <strong>{booking.status}</strong>
+                                {t("Status")}: <strong class={booking.status}>{booking.status}</strong>
                             </div>
                         </div>
                     </div>
@@ -181,7 +195,6 @@ render() {
                             <h2>
                                 {t('Room') + " " + (index+1)}
                             </h2>}
-
 
                             <Dual addClass="line"
                                   a={t('Room type')}
@@ -237,17 +250,22 @@ render() {
                             <span class="icon icon-action-pen" />
                         </a>
                         <a href="javascript:void(0)">
-                            <span class="icon icon-action-cancel" />
-                        </a>
-                        <a href="javascript:void(0)">
                             <span class="icon icon-action-print" />
                         </a>
                         <a href="javascript:void(0)">
                             <span class="icon icon-action-writing" />
                         </a> */ }
-                        <Link to="/">
+
+                        { this.state.fromHistory &&
+                          moment().isBefore(booking.checkInDate) &&
+                          "Cancelled" != booking.status &&
+                        <button class="button pink" onClick={this.showCancellationConfirmation}>
+                            {t("Cancel booking")}
+                        </button> }
+
+                        <Link to="/user/booking">
                             <button class="button green">
-                                {t("Back to the search")}
+                                {t("Booking management")}
                             </button>
                         </Link>
                     </div>

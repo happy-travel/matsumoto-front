@@ -354,12 +354,12 @@ class AccommodationBookingPage extends React.Component {
                                 <div class="part" style={{marginTop: 0}}>
                                     <h3 style={{marginBottom: "24px"}}>{t("Additional Information")}</h3>
                                     <p style={{margin: "12px 0 6px"}}>
-                                        {t("Within deadline")}: {dateFormat.a(confirmation.deadlineDetails.date)}
+                                        {t("Cancellation Deadline")}: {dateFormat.a(confirmation.deadlineDetails.date)}
                                     </p>
 
                                     <p style={{margin: "12px 0 6px"}}>
                                         {(confirmation.deadlineDetails.policies || []).map(item => (<React.Fragment>
-                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancelation costs you")} {item.percentage}% {t("of total amount")}.
+                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.
                                         </React.Fragment>))}
                                     </p>
 

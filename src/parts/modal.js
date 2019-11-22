@@ -3,9 +3,11 @@ import { observer } from "mobx-react";
 import UI, { MODALS } from "stores/ui-store";
 
 import AccommodationDetailsModal from "pages/accommodation/details";
+import CancellationConfirmationModal from "parts/cancellation";
 
 const modalComponent = {
-    [MODALS.ACCOMMODATION_DETAILS]: AccommodationDetailsModal
+    [MODALS.ACCOMMODATION_DETAILS]: AccommodationDetailsModal,
+    [MODALS.CANCELLATION_CONFIRMATION]: CancellationConfirmationModal
 };
 
 const closeModal = () => UI.setModal(null);

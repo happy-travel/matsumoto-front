@@ -9,7 +9,7 @@ import ImageGallery from 'react-image-gallery';
 class AccommodationDetailsModal extends React.Component {
     render() {
         var { t } = useTranslation(),
-            hotel = UI.hotelDetails,
+            hotel = UI.modalData,
             { closeModal } = this.props;
 
         if (!hotel || !hotel.id)

@@ -27,6 +27,7 @@
             display: none
 
 .modal-scroll
+    text-align: center
     margin: auto
     max-height: 100%
     overflow: auto
@@ -44,6 +45,7 @@
     opacity: .6
 
 .modal
+    text-align: left
     margin: 0 auto
     width: 600px
     position: relative
@@ -68,3 +70,21 @@ body.modal-open
     .body-wrapper
         filter: blur(2px)
         overflow: hidden
+
+.modal.confirm
+    padding: 40px
+    max-width: 480px
+    width: auto
+    display: inline-block
+    .danger
+        color: $color-red
+    h2
+        margin-bottom: 24px
+    p
+        margin-bottom: 12px
+    button
+        padding-left: 40px
+        padding-right: 40px
+        margin-right: 20px
+    .bottom
+        margin-top: 40px
