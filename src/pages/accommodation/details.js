@@ -73,25 +73,25 @@ class AccommodationDetailsModal extends React.Component {
                             <td>
                                 <h2>{t("Additional Information")}</h2>
                                 <ul>
-                                    <li>Number of floors: 1</li>
-                                    <li>Number of rooms: 1</li>
+                                    <li>{t("Number of floors")}: 1</li>
+                                    <li>{t("Number of rooms: 1")}</li>
                                 </ul>
                             </td>
                             <td>
                                 <h2>{t("Accommodation Amenities")}</h2>
                                 <ul>
-                                    <li>Bar</li>
-                                    <li>Laundry Service</li>
-                                    <li>Car Parking - Onsite Free</li>
-                                    <li>Elevators</li>
-                                    <li>Multilingual Staff</li>
-                                    <li>Safety Deposit Box</li>
+                                    <li>{t("Bar")}</li>
+                                    <li>{t("Laundry Service")}</li>
+                                    <li>{t("Car Parking - Onsite Free")}</li>
+                                    <li>{t("Elevators")}</li>
+                                    <li>{t("Multilingual Staff")}</li>
+                                    <li>{t("Safety Deposit Box")}</li>
                                 </ul>
                             </td>
                             <td>
                                 <h2>{t("Accommodation Amenities")}</h2>
                                 <ul>
-                                    <li>Leisure & Sport Amenities</li>
+                                    <li>{t("Leisure & Sport Amenities")}</li>
                                 </ul>
                             </td>
                         </tr>
@@ -99,13 +99,13 @@ class AccommodationDetailsModal extends React.Component {
                             <td>
                                 <h2>{t("Business Features & Amenities")}</h2>
                                 <ul>
-                                    <li>Conference Rooms</li>
-                                    <li>Meeting Rooms</li>
+                                    <li>{t("Conference Rooms")}</li>
+                                    <li>{t("Meeting Rooms")}</li>
                                 </ul>
                             </td>
                             <td>
                                 <h2>{t("Transportation & Directions To The Hotel")}</h2>
-                                <div>No Information</div>
+                                <div>{t("No Information")}</div>
                             </td>
                             <td />
                         </tr>
@@ -115,7 +115,7 @@ class AccommodationDetailsModal extends React.Component {
                     <div class="button-holder">
                         <button class="button">
                             <div class="image">
-                                Create PDF
+                                {t("Create PDF")}
                             </div>
                         </button>
                     </div>

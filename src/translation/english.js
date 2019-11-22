@@ -241,8 +241,21 @@ translations: {
     "Payment result": "Payment result",
     "Card acceptance message": "Card acceptance message",
     "Your card was saved for your future purchases.": "Your card was saved for your future purchases.",
-    "Back to the search": "Back to the search",
-    "cancelation costs you": "cancelation costs you",
-    "of total amount": "of total amount"
+    "cancellation costs you": "cancellation costs you",
+    "of total amount": "of total amount",
+    "Cancel booking": "Cancel booking",
+    "Number of floors": "Number of floors",
+    "Number of rooms": "Number of rooms",
+    "Bar": "Bar",
+    "Laundry Service": "Laundry Service",
+    "Car Parking - Onsite Free": "Car Parking - Onsite Free",
+    "Elevators": "Elevators",
+    "Multilingual Staff": "Multilingual Staff",
+    "Safety Deposit Box": "Safety Deposit Box",
+    "Leisure & Sport Amenities": "Leisure & Sport Amenities",
+    "Conference Rooms": "Conference Rooms",
+    "Meeting Rooms": "Meeting Rooms",
+    "No Information": "No Information",
+    "Create PDF": "Create PDF"
 }
 };
