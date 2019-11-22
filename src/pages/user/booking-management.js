@@ -76,7 +76,7 @@ class UserBookingManagementPage extends React.Component {
                                             <strong>{t("Cost")}</strong>
                                             {serviceDetails.agreement?.currencyCode}
                                             {' '}
-                                            {bookingDetails.roomDetails[0].price.price}
+                                            {serviceDetails.agreement?.price.total}
                                         </td>
                                         <td>
                                             <strong>{t("Cancellation Deadline")}</strong>
