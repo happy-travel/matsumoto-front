@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, dateFormat } from "core";
 
-import { Dual } from "components/simple";
+import { Dual, Loader } from "components/simple";
 import { Redirect } from "react-router-dom";
 
 import store from "stores/accommodation-store";
@@ -39,7 +39,8 @@ class UserBookingManagementPage extends React.Component {
                         {t("Your Booking")}
                     </h2>
                     <div>
-                        {!store.userBookingList?.length ?
+                        {store.userBookingList === null ? <Loader /> :
+                        (!store.userBookingList.length ?
                             <div>{t("You don`t have any reservations")}</div> :
                             <table>
                                 {store.userBookingList.map(item => {
@@ -89,7 +90,7 @@ class UserBookingManagementPage extends React.Component {
                                     </tr>);
                                 })}
                             </table>
-                        }
+                        )}
                     </div>
                 </section>
             </div>

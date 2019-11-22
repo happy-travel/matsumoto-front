@@ -62,7 +62,7 @@ class AccommodationStore {
     selectedFilters = null;
 
     @observable
-    userBookingList = [];
+    userBookingList = null;
 
     @observable
     paymentResult = {};
