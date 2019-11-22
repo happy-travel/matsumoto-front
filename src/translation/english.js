@@ -241,6 +241,8 @@ translations: {
     "Payment result": "Payment result",
     "Card acceptance message": "Card acceptance message",
     "Your card was saved for your future purchases.": "Your card was saved for your future purchases.",
-    "Back to the search": "Back to the search"
+    "Back to the search": "Back to the search",
+    "cancelation costs you": "cancelation costs you",
+    "of total amount": "of total amount"
 }
 };

@@ -159,11 +159,6 @@ class AccommodationBookingPage extends React.Component {
                     a={t("Board Basis")}
                     b={variant.boardBasisCode + ": " + ("RO" == variant.boardBasisCode ? t("Room Only") : variant.mealPlan)}
                 />
-                <Dual
-                    a={t("Within deadline")}
-                    b={dateFormat.a(confirmation.deadlineDetails.date)}
-                    addClass="column"
-                />
 
                 { confirmation.deadlineDetails.remarkCodes.map( item => (
                 <React.Fragment>
@@ -356,12 +351,22 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div> */ }
 
-                                { !!Object.keys(variant.remarks || {}).length && <div class="part" style={{marginTop: 0}}>
+                                <div class="part" style={{marginTop: 0}}>
                                     <h3 style={{marginBottom: "24px"}}>{t("Additional Information")}</h3>
+                                    <p style={{margin: "12px 0 6px"}}>
+                                        {t("Within deadline")}: {dateFormat.a(confirmation.deadlineDetails.date)}
+                                    </p>
+
+                                    <p style={{margin: "12px 0 6px"}}>
+                                        {(confirmation.deadlineDetails.policies || []).map(item => (<React.Fragment>
+                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancelation costs you")} {item.percentage}% {t("of total amount")}.
+                                        </React.Fragment>))}
+                                    </p>
+
                                     {Object.keys(variant.remarks || {}).map(key => (
                                         <p style={{margin: "12px 0 6px"}}>{variant.remarks[key]}</p>
                                     ))}
-                                </div> }
+                                </div>
 
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
