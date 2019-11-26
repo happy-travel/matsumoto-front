@@ -18,7 +18,6 @@
     "react-daterange-picker": "2.0.1",
     "moment": "2.24.0",
     "moment-range": "3.0.3",
-    "react-flag-icon-css": "1.0.25",
     "react-image-gallery": "0.9.1",
     "react-input-range": "1.3.0",
     "@sentry/browser": "5.4.3",
