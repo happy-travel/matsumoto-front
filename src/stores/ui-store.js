@@ -73,10 +73,9 @@ class UIStore {
     }
 
     setCountries(value) {
-        //todo: repair this sort, it's temporary -- needs correct locale getting
         value.sort((a,b) => {
-            if ( a.names.en < b.names.en ) return -1;
-            if ( a.names.en > b.names.en ) return 1;
+            if ( a.name < b.name ) return -1;
+            if ( a.name > b.name ) return 1;
             return 0;
         });
         this.countries = value;

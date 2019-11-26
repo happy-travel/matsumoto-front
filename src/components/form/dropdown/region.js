@@ -40,7 +40,7 @@ class RegionDropdown extends React.Component {
             formik
         } = this.props;
 
-        formik.setFieldValue(connected, city.names.en); //todo: correct culture select
+        formik.setFieldValue(connected, city.name);
         if ("country" != connected) //todo: repair this workaround
             store.setSearchRequestField(connected, city.code);
         else
@@ -49,7 +49,7 @@ class RegionDropdown extends React.Component {
 
         if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
             store.setSearchRequestField(anotherField[connected], city.code);
-            formik.setFieldValue(anotherField[connected], city.names.en);
+            formik.setFieldValue(anotherField[connected], city.name);
         }
     }
 
@@ -60,8 +60,8 @@ class RegionDropdown extends React.Component {
         var countries = [...UI.countries]; //todo: sort for regions
 
         for (var i = 0; i < countries.length; i++) {
-            if (decorate.cutFirstPart(countries[i].names.en, this.props.value))
-                return countries[i].names.en;
+            if (decorate.cutFirstPart(countries[i].name, this.props.value))
+                return countries[i].name;
         }
     };
 
@@ -80,12 +80,12 @@ class RegionDropdown extends React.Component {
                     {UI.regionList?.map?.(item => (
                         <React.Fragment>
                             {UI.countries?.some?.(city => item.id == city.regionId) && <div class="region">
-                                {item.names.en} {/* todo: pick culture normally */}
+                                {item.name}
                             </div>}
                             {UI.countries?.map?.(city => (
                                 item.id == city.regionId ?
                                     <div class="city line" onClick={ () => this.setValue(city) }>
-                                        <Highlighted str={city.names.en} highlight={this.props.value} /> {/* todo: pick culture normally */}
+                                        <Highlighted str={city.name} highlight={this.props.value} /> {/* todo: pick culture normally */}
                                     </div> : null
                             ))}
                         </React.Fragment>
