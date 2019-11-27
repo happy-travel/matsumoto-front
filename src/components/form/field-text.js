@@ -77,7 +77,7 @@ class FieldText extends React.Component {
             event.target.value = event.target.value.replace(/[^0-9.]/g, "");
 
         if (this.props.onChange)
-            this.props.onChange(event);
+            this.props.onChange(event, this.props);
 
         if (this.props.formik)
             this.props.formik.handleChange(event);

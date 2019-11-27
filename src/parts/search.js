@@ -217,7 +217,7 @@ class AccommodationSearch extends React.Component {
                                 label={t("Residency")}
                                 placeholder={t("Choose your residency")}
                                 clearable
-                                Flag={false && <Flag />}
+                                Flag={<Flag code={store.search.request.residency} />}
                                 Dropdown={RegionDropdown}
                                 onChange={regionInputChanged}
                                 addClass="size-large"
@@ -227,7 +227,7 @@ class AccommodationSearch extends React.Component {
                                 label={t("Nationality")}
                                 placeholder={t("Choose your nationality")}
                                 clearable
-                                Flag={false && <Flag />}
+                                Flag={<Flag code={store.search.request.nationality} />}
                                 Dropdown={RegionDropdown}
                                 onChange={regionInputChanged}
                                 addClass="size-large"

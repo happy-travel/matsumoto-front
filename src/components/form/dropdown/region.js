@@ -5,8 +5,11 @@ import store from "stores/accommodation-store";
 import { decorate } from "core";
 import { Highlighted } from "components/simple";
 import { API } from "core";
+import Flag from "components/flag";
 
-export const regionInputChanged = event => {
+export const regionInputChanged = (event, props) => {
+    store.setSearchRequestField(props.id, '');
+
     var query = event.target.value;
     if (!query)
         return UI.setCountries([]);
@@ -34,22 +37,22 @@ class RegionDropdown extends React.Component {
         this.generateSuggestion = this.generateSuggestion.bind(this);
     }
 
-    setValue(city) {
+    setValue(country) {
         var {
             connected,
             formik
         } = this.props;
 
-        formik.setFieldValue(connected, city.name);
+        formik.setFieldValue(connected, country.name);
         if ("country" != connected) //todo: repair this workaround
-            store.setSearchRequestField(connected, city.code);
+            store.setSearchRequestField(connected, country.code);
         else
-            formik.setFieldValue("countryCode", city.code);
+            formik.setFieldValue("countryCode", country.code);
         UI.setCountries([]);
 
         if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
-            store.setSearchRequestField(anotherField[connected], city.code);
-            formik.setFieldValue(anotherField[connected], city.name);
+            store.setSearchRequestField(anotherField[connected], country.code);
+            formik.setFieldValue(anotherField[connected], country.name);
         }
     }
 
@@ -79,13 +82,14 @@ class RegionDropdown extends React.Component {
                 <div class="scroll">
                     {UI.regionList?.map?.(item => (
                         <React.Fragment>
-                            {UI.countries?.some?.(city => item.id == city.regionId) && <div class="region">
+                            {UI.countries?.some?.(country => item.id == country.regionId) && <div class="region">
                                 {item.name}
                             </div>}
-                            {UI.countries?.map?.(city => (
-                                item.id == city.regionId ?
-                                    <div class="city line" onClick={ () => this.setValue(city) }>
-                                        <Highlighted str={city.name} highlight={this.props.value} /> {/* todo: pick culture normally */}
+                            {UI.countries?.map?.(country => (
+                                item.id == country.regionId ?
+                                    <div class="country line" onClick={ () => this.setValue(country) }>
+                                        <Flag code={country.code} />
+                                        <Highlighted str={country.name} highlight={this.props.value} /> {/* todo: pick culture normally */}
                                     </div> : null
                             ))}
                         </React.Fragment>

@@ -1,9 +1,9 @@
 import React from "react";
 
 const Flag = ({ code }) => (
-    <span class="flag">
+    code ? <span class="flag">
         <span class={"fp " + code.toLowerCase()} />
-    </span>
+    </span> : null
 );
 
 export default Flag;
