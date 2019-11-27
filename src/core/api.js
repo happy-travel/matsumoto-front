@@ -61,6 +61,10 @@ _.methods_with_cache = [
     _.BASE_CURRENCIES
 ];
 
+_.methods_dont_show_error = [
+    _.USER
+];
+
 _.request = ({
     url, external_url,
     body = {},
@@ -113,8 +117,10 @@ Authorize.getUser().then(user => {
         .then(
             (result) => {
                 if (failed) {
-                    if (result && result.status >= 400 && result.detail)
-                        UI.setTopAlertText(result.detail);
+                    if (_.methods_dont_show_error.indexOf(url) < 0) {
+                        if (result && result.status >= 400 && result.detail)
+                            UI.setTopAlertText(result.detail);
+                    }
                     if (error)
                         error(result);
                 } else {

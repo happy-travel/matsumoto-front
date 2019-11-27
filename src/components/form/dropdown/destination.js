@@ -49,7 +49,7 @@ class DestinationDropdown extends React.Component {
             <div class="scroll">
                 {UI?.destinations?.map?.(item => (
                     <React.Fragment>
-                        <div class="city line" onClick={ () => this.setValue(item) }>
+                        <div class="country line" onClick={ () => this.setValue(item) }>
                             <Highlighted str={item.value} highlight={this.props.value} />
                         </div>
                     </React.Fragment>
