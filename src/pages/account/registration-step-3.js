@@ -87,8 +87,8 @@ class RegistrationStep3 extends React.Component {
                 "city": "",
                 "phone": "",
                 "fax": "",
-                "preferredCurrency": "", //todo: remove hardcode from the list
-                "preferredPaymentMethod": "", //todo: remove hardcode from the list
+                "preferredCurrency": "USD",
+                "preferredPaymentMethod": "",
                 "website": ""
             }}
             validationSchema={registrationCompanyValidator}
@@ -145,8 +145,7 @@ class RegistrationStep3 extends React.Component {
                                 placeholder={t("Preferred Payment Method")}
                                 options={[
                                     { value: "BankTransfer", text: "Bank transfer"},
-                                    { value: "CreditCard", text: "Credit card"},
-                                    { value: "Cash", text: "Cash"}
+                                    { value: "CreditCard", text: "Credit card"}
                                 ]}
                             />
                         </div>
@@ -157,8 +156,7 @@ class RegistrationStep3 extends React.Component {
                                 required
                                 placeholder={t("Preferred currency")}
                                 options={[
-                                    { value: "USD", text: "US Dollars"},
-                                    { value: "EUR", text: "Euro"}
+                                    { value: "USD", text: "US Dollars"}
                                 ]}
                             />
                         </div>
