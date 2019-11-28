@@ -88,7 +88,7 @@ class AccommodationConfirmationPage extends React.Component {
                 fromHistory
             });
             API.get({
-                url: API.ACCOMMODATION_BOOKING,
+                url: API.A_BOOKING_LIST,
                 after: (data) => store.setUserBookingList(data)
             });
         }

@@ -66,7 +66,7 @@ class PaymentResultPage extends React.Component {
             });
 
         API.get({
-            url: API.ACCOMMODATION_BOOKING,
+            url: API.A_BOOKING_LIST,
             after: (data) => {
                 store.setUserBookingList(data);
                 var booking = null;

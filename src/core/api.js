@@ -28,6 +28,7 @@ API_METHODS = {
                             v1 + "/customers/invitations" + (invitationCode ? "/" + invitationCode : ""),
 
     ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
+    A_BOOKING_LIST        : v1 + "/bookings/accommodations/customer",
     BOOKING_CANCEL        : bookingId =>
                             v1 + `/bookings/accommodations/${bookingId}/cancel`,
 
