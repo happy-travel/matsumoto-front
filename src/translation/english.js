@@ -260,6 +260,12 @@ translations: {
     "Create PDF": "Create PDF",
     "You are about to cancel your booking": "You are about to cancel your booking",
     "has passed. A cancellation fee will be charged according to accommodation's cancellation policy.": "has passed. A cancellation fee will be charged according to accommodation's cancellation policy.",
-    "Are you sure want to cancel booking?": "Are you sure want to cancel booking?"
+    "Are you sure want to cancel booking?": "Are you sure want to cancel booking?",
+    "Choose Room": "Choose Room",
+    "Recommended variant for": "Recommended variant for",
+    "Night": "Night",
+    "Night_plural": "Nights",
+    "FREE Cancellation - Without Prepayment": "FREE Cancellation - Without Prepayment",
+    "Breakfast Included": "Breakfast Included"
 }
 };

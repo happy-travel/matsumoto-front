@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import moment from "moment";
 
-import { API, dateFormat, price } from "core";
+import { API, dateFormat, price, plural } from "core";
 import store from 'stores/accommodation-store';
 import UI, { MODALS } from "stores/ui-store";
 
@@ -16,19 +16,15 @@ import {
 import Breadcrumbs from "components/breadcrumbs";
 import { Stars, Loader } from "components/simple";
 
-const AGREEMENT_COUNTER_NOT_EXPANDED = 3;
-
 @observer
 class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             redirectToBookingPage: false,
-            expanded: {},
             loading: false
         };
         this.showDetailsModal = this.showDetailsModal.bind(this);
-        this.expand = this.expand.bind(this);
     }
 
     showDetailsModal(id) {
@@ -122,15 +118,6 @@ class AccommodationVariantsPage extends React.Component {
 
     }
 
-    expand(index) {
-        this.setState({
-            expanded: {
-                ...this.state.expanded,
-                [index]: true
-            }
-        });
-    }
-
     render() {
         const { t } = useTranslation();
 
@@ -213,81 +200,50 @@ class AccommodationVariantsPage extends React.Component {
                         { /* <span class="expand">{t("more...")}</span> */ }
                     </div>
                     <div class="table">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th>{t("Room Type")}</th>
-                                <th>{t("Board Basis")}</th>
-                                <th>{t("Deadline")}</th>
-                                { false && <th>{t("Actions")}</th> }
-                                <th>{t("Room Price")}</th>
-                                <th />
-                            </tr>
-                            { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? AGREEMENT_COUNTER_NOT_EXPANDED : undefined).map(agreement => <tr>
-                                <td>
-                                    {agreement.rooms.map(room =>
-                                        <div>{agreement.contractType}, {room.type}</div>
-                                    )}
-                                </td>
-                                <td>
-                                    {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room only") : agreement.mealPlan}
-                                </td>
-                                <td>
-                                    { moment().isAfter(agreement.deadlineDate) ? <div class="services-info">
-                                        <span class="icon icon-info orange"/> {t("Within deadline")}
-                                        <br/>{dateFormat.a(agreement.deadlineDate)}
+                        <div class="title">
+                            {t("Recommended variant for")}{" "}
+                            {plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
+                        </div>
+                        <div class="space">
+                            <div class="count">
+                                {plural(t, store.search.result.numberOfNights, "Night")},
+                                {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
+                            </div>
+                            <div class="price">
+                                {price(item.agreements[0].currencyCode, item.agreements[0].price.total)}
+                            </div>
+                            <button class="button small" onClick={() => this.variantSelect(item.agreements[0], item.accommodationDetails)}>
+                                {t("Choose Room")}
+                            </button>
+                        </div>
+                        { item.agreements.slice(0, 2).map(agreement => <div class="row">
+                            <div class="icons">
+                                <span class="icon icon-man" />
+                                {(agreement.rooms.length == 1 && agreement.rooms[0].type == "Single") ? null : <span class="icon icon-man" />}
+                            </div>
+                            <div class="main">
+                                <h3>
+                                    {agreement.rooms.map(room => ("1 x " + room.type)).join(", ")}
+                                </h3>
+                                <div>
+                                    { agreement.deadlineDate ?
+                                    <div class={"info" + (moment().isAfter(agreement.deadlineDate) ? " warning" : "")}>
+                                        {t("Within deadline")} – {dateFormat.a(agreement.deadlineDate)}
                                     </div> :
-                                        dateFormat.a(agreement.deadlineDate)
+                                    <div class="info green">
+                                        {t("FREE Cancellation - Without Prepayment")}
+                                    </div>
                                     }
-                                </td>
-                                { false && <td class="actions">
-                                    <span class="icon icon-calendar-clock" />
-                                    <span class="icon icon-warning" />
-                                    <span class="icon icon-chat" />
-                                    <span class="icon icon-money" />
-                                    <span class="icon icon-card" />
-                                </td> }
-                                <td class="price">
-                                    {agreement.rooms.map(room => <div>
-                                        {price(agreement.currencyCode, room.roomPrices[0].nett)}
-                                    </div>)}
-                                </td>
-                                <td class="buttons">
-                                    <button class="button small" onClick={() => this.variantSelect(agreement, item.accommodationDetails)}>
-                                        {t("Book now")}
-                                    </button>
-                                    { false && <button class="button small gray round">
-                                        <span class="icon icon-arrow-expand" />
-                                    </button> /* todo: finish this button */ }
-                                </td>
-                            </tr>) }
-                        { /* todo: <React.Fragment>
-                            <tr class="alternative">
-                                <th>{t("Date")}</th>
-                                <th />
-                                <th>{t("Availability")}</th>
-                                <th>{t("Price")}</th>
-                                <th />
-                            </tr>
-                            <tr class="alternative">
-                                <td>Fri 28 Jun 2019</td>
-                                <td />
-                                <td>
-                                    <span class="button green mini-label">{t("Room Available")}</span>
-                                </td>
-                                <td class="price">USD 70.50</td>
-                                <td />
-                            </tr>
-                        </React.Fragment> */ }
-                            </tbody>
-                        </table>
+                                </div>
+                                <div class="info green">
+                                    {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room only") : (t("Breakfast Included") + " " + agreement.mealPlan) }
+                                </div>
+                                <div class="paragraph">
+                                    {agreement.contractType}
+                                </div>
+                            </div>
+                        </div>) }
                     </div>
-                    { !this.state.expanded[hotelIndex] && (item.agreements.length > AGREEMENT_COUNTER_NOT_EXPANDED) &&
-                    <div class="show-more">
-                        <button class="button blue small" onClick={() => this.expand(hotelIndex)}>
-                            {t("Show all rooms")}
-                        </button>
-                    </div> }
                 </div>) }
             </div>
         </section> }
