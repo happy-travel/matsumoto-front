@@ -17,7 +17,7 @@ class AccommodationConfirmationPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            bookingId: null
+            fromGetter: false
         };
         this.getValues = this.getValues.bind(this);
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
@@ -26,7 +26,7 @@ class AccommodationConfirmationPage extends React.Component {
     getValues() {
         var result = store.booking.result;
 
-        if (this.state.bookingId) {
+        if (this.state.fromGetter) {
             var selected = store.booking.selected;
             if (selected) {
                 result = selected.bookingDetails || {};
@@ -52,6 +52,7 @@ class AccommodationConfirmationPage extends React.Component {
             deadline: result.deadline,
             loaded: result.loaded,
             error: result.error,
+            id: result.bookingId,
             rooms
         };
     }
@@ -59,7 +60,7 @@ class AccommodationConfirmationPage extends React.Component {
     showCancellationConfirmation() {
         var booking = this.getValues();
         UI.setModalData({
-            bookingId: this.state.bookingId,
+            bookingId: booking.id,
             deadline: booking.deadline,
             referenceCode: booking.referenceCode
         });
@@ -68,20 +69,21 @@ class AccommodationConfirmationPage extends React.Component {
 
     componentDidMount() {
         var bookingId = this.props?.match?.params?.id,
+            referenceCode = null,
             fromHistory = true;
 
         if (bookingId === undefined && store.paymentResult?.params?.settlement_reference) {
-            bookingId = store.paymentResult?.params?.settlement_reference;
+            referenceCode = store.paymentResult?.params?.settlement_reference;
             fromHistory = false;
         }
 
-        if ( bookingId !== undefined) {
+        if ( bookingId || referenceCode) {
             this.setState({
-                bookingId,
+                fromGetter: true,
                 fromHistory
             });
             API.get({
-                url: API.BOOKING_GET_BY_ID(bookingId),
+                url: referenceCode ? API.BOOKING_GET_BY_CODE(referenceCode) : API.BOOKING_GET_BY_ID(bookingId),
                 after: data => store.setSelectedBooking(data)
             });
         }
