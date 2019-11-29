@@ -27,16 +27,9 @@ class AccommodationConfirmationPage extends React.Component {
         var result = store.booking.result;
 
         if (this.state.bookingId) {
-            var selected = null;
-
-            if (store.userBookingList)
-                store.userBookingList.forEach(item => {
-                    if (item.bookingId == this.state.bookingId || item.bookingDetails.referenceCode == this.state.bookingId) //todo: refactoring
-                        selected = item;
-                });
-
+            var selected = store.booking.selected;
             if (selected) {
-                result = selected.bookingDetails;
+                result = selected.bookingDetails || {};
                 result.loaded = true;
             }
         }
@@ -88,8 +81,8 @@ class AccommodationConfirmationPage extends React.Component {
                 fromHistory
             });
             API.get({
-                url: API.A_BOOKING_LIST,
-                after: (data) => store.setUserBookingList(data)
+                url: API.BOOKING_GET_BY_ID(bookingId),
+                after: data => store.setSelectedBooking(data)
             });
         }
     }
@@ -107,7 +100,7 @@ render() {
 
     return (
         <div class="confirmation block">
-            <div class="hide">{''+store.booking.result}</div>
+            <div class="hide">{''+store.booking}</div>
             <section class="double-sections">
                 <div class="middle-section">
                     <Breadcrumbs items={[

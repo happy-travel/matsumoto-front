@@ -66,20 +66,14 @@ class PaymentResultPage extends React.Component {
             });
 
         API.get({
-            url: API.A_BOOKING_LIST,
+            url: API.BOOKING_GET_BY_CODE(bookingReference),
             after: (data) => {
-                store.setUserBookingList(data);
-                var booking = null;
-                store.userBookingList.forEach(item => {
-                    if (item.bookingDetails.referenceCode == bookingReference) {
-                        booking = item.bookingDetails;
-                        booking.currencyCode = item.serviceDetails.agreement.currencyCode;
-                        booking.price = item.serviceDetails.agreement.price;
-                    }
-                });
-
+                var booking = data?.bookingDetails;
                 if (!booking)
                     return;
+
+                booking.currencyCode = data.serviceDetails.agreement.currencyCode;
+                booking.price = data.serviceDetails.agreement.price;
 
                 API.post({
                     url: API.PAYMENTS_COMMON,

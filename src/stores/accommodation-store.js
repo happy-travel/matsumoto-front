@@ -52,7 +52,8 @@ class AccommodationStore {
         request: {},
         result: {
             referenceCode: null
-        }
+        },
+        selected: {}
     };
 
     @observable
@@ -182,22 +183,11 @@ class AccommodationStore {
     }
 
     setUserBookingList(value) {
-        if (!value || !value.forEach)
-            value = [];
-
-        value.forEach(item => {
-            var bookingDetails = null,
-                serviceDetails = null;
-            try {
-                bookingDetails = JSON.parse(item.bookingDetails);
-                serviceDetails = JSON.parse(item.serviceDetails);
-            } catch (e) {}
-
-            item.bookingDetails = bookingDetails;
-            item.serviceDetails = serviceDetails;
-        });
-
         this.userBookingList = value;
+    }
+
+    setSelectedBooking(value) {
+        this.booking.selected = value;
     }
 
     select(agreement, hotel, confirmation) {
