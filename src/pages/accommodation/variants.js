@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import moment from "moment";
+import { groupAndCount } from "components/simple";
 
 import { API, dateFormat, price, plural } from "core";
 import store from 'stores/accommodation-store';
 import UI, { MODALS } from "stores/ui-store";
 
-import AccommodationFilters from "parts/accommodation-filters"
+import AccommodationFilters from "parts/accommodation-filters";
 import {
     FieldText,
     FieldCheckbox
@@ -21,7 +22,7 @@ class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToBookingPage: false,
+            redirectToAgreementsPage: false,
             loading: false
         };
         this.showDetailsModal = this.showDetailsModal.bind(this);
@@ -32,97 +33,25 @@ class AccommodationVariantsPage extends React.Component {
         UI.setModalData(null);
         API.get({
             url: API.ACCOMMODATION_DETAILS(id),
-            success: (result) =>
-                UI.setModalData(result),
-            error: () =>
-                console.log("wrong id or server error on accommodation details getter") /* todo: handle error */
+            success: result => UI.setModalData(result)
         });
     }
 
-    variantSelect(agreement, hotel) {
-        store.select(agreement, hotel);
+    accommodationSelect(accommodation) {
         this.setState({
             loading: true
         });
-
-        /*
-        API.post({
-            url: API.ACCOMMODATION_SEARCH,
-            body: {
-                ...store.search.request,
-                searchInfo: {
-                    availabilityId: store.search.result.availabilityId,
-                    hotelId: hotel.id,
-                    price: agreement.price.total,
-                    tariffCode: agreement.tariffCode
-                }
-            },
-            success: (result) => {
-                if (result.results?.[0].accommodationDetails.id != hotel.id) {
-                    UI.setTopAlertText("Sorry, this room is not available now");
-                    return;
-                }
-                for (var i = 0; i < result.results[0].agreements.length; i++)
-                    if (
-                        result.results[0].agreements[i].tariffCode == agreement.tariffCode &&
-                        result.results[0].agreements[i].contractType == agreement.contractType &&
-                        result.results[0].agreements[i].mealPlan == agreement.mealPlan &&
-                        result.results[0].agreements[i].rooms[0].type == agreement.rooms[0].type
-                    ) {
-                        store.select(result.results[0].agreements[i], result.results[0].accommodationDetails);
-                        this.setState({
-                            redirectToBookingPage: true
-                        });
-                        return;
-                    }
-
-                UI.setTopAlertText("Sorry, this room is not available now #2");
-            },
-            error: (error) => {
-                UI.setTopAlertText("Sorry, this room is not available now, try again later");
-                if (error)
-                    console.log("error: " + error);
-            },
-            after: () => {
-                this.setState({
-                    loading: false
-                });
-            }
+        store.selectAccommodation(accommodation);
+        this.setState({
+            redirectToAgreementsPage: true
         });
-
-        return; */
-
-        API.get({
-            url: API.AVAILABILITY_DETAILS(store.search.result.availabilityId, agreement.id),
-            success: (result) => {
-                if (result?.accommodationId != hotel.id) { // todo: better error definition and error handling
-                    UI.setTopAlertText("Sorry, this room is not available now");
-                    return;
-                }
-                store.select(result.agreement, hotel, result); // here first "hotel" model is fuller, so I use it
-                this.setState({
-                    redirectToBookingPage: true
-                });
-            },
-            error: (error) => {
-                UI.setTopAlertText("Sorry, this room is not available now, try again later");
-                if (error)
-                    console.log("error: " + error);
-            },
-            after: () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        });
-
     }
 
     render() {
         const { t } = useTranslation();
 
-        if (this.state.redirectToBookingPage)
-            return <Redirect push to="/accommodation/booking" />;
+        if (this.state.redirectToAgreementsPage)
+            return <Redirect push to="/accommodation/agreements" />;
 
         return (
 
@@ -168,7 +97,7 @@ class AccommodationVariantsPage extends React.Component {
 
                 { this.state.loading && <Loader page /> }
 
-                { store.hotelArray.map((item, hotelIndex) =>
+                { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
                     <div class="summary">
                         <div class="photo">
@@ -191,7 +120,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements[0].currencyCode, item.agreements[0].price.total)}</div>
+                            <div class="value">{price(item.agreements[0].price.currencyCode, item.agreements[0].price.netTotal)}</div>
                         </div>
                     </div>
                     <div class="description">
@@ -204,15 +133,15 @@ class AccommodationVariantsPage extends React.Component {
                             {t("Recommended variant for")}{" "}
                             {plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                         </div>
-                        <div class="space">
+                        <div class="billet">
                             <div class="count">
                                 {plural(t, store.search.result.numberOfNights, "Night")},
                                 {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                             </div>
                             <div class="price">
-                                {price(item.agreements[0].currencyCode, item.agreements[0].price.total)}
+                                {price(item.agreements[0].price.currencyCode, item.agreements[0].price.netTotal)}
                             </div>
-                            <button class="button small" onClick={() => this.variantSelect(item.agreements[0], item.accommodationDetails)}>
+                            <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
                             </button>
                         </div>
@@ -223,7 +152,7 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                             <div class="main">
                                 <h3>
-                                    {agreement.rooms.map(room => ("1 x " + room.type)).join(", ")}
+                                    {groupAndCount(agreement.rooms)}
                                 </h3>
                                 <div>
                                     { agreement.deadlineDate ?

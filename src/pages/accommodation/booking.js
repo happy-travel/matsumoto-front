@@ -110,6 +110,7 @@ class AccommodationBookingPage extends React.Component {
             return null; //todo: another answer
 
         var hotel = store.selected.hotel,
+            hotel2 = store.selected.accommodation,
             variant = store.selected.variant,
             confirmation = store.selected.confirmation;
 
@@ -124,7 +125,7 @@ class AccommodationBookingPage extends React.Component {
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
                 <div class="expanded">
-                    <img src={hotel.picture.source} alt={hotel.picture.caption} class="round" />
+                    <img src={hotel2.accommodationDetails.picture.source} alt={hotel2.accommodationDetails.picture.caption} class="round" />
                 </div>
                 <div class="static item no-border">
                     {hotel.name}
@@ -185,19 +186,19 @@ class AccommodationBookingPage extends React.Component {
 
                 <div class="static item">{t("Room & Total Cost")}</div>
                 {[...Array(store.search.rooms)].map((x,i)=>(
-                (variant.rooms[i].roomPrices?.[0].nett !== undefined && "Room" == variant.rooms[i].roomPrices?.[0].type) ?
+                (variant.rooms[i].roomPrices?.[0].netTotal !== undefined && "Room" == variant.rooms[i].roomPrices?.[0].type) ?
                 <Dual
                     a={t("Room Cost") + " " + (store.search.rooms > 1 ? (i+1) : '')}
-                    b={price(variant.currencyCode, variant.rooms[i].roomPrices[0].nett)}
+                    b={price(variant.rooms[i].roomPrices[0].currencyCode, variant.rooms[i].roomPrices[0].netTotal)}
                 /> : null
                 ))}
                 <Dual
                     a={t("Total Cost")}
-                    b={price(variant.currencyCode, variant.price.total)}
+                    b={price(variant.price.currencyCode, variant.price.netTotal)}
                 />
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
-                    <div>{price(variant.currencyCode, variant.price.total)}</div>
+                    <div>{price(variant.price.currencyCode, variant.price.netTotal)}</div>
                 </div>
             </div>
             <div class="right-section">
@@ -371,7 +372,7 @@ class AccommodationBookingPage extends React.Component {
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
                                     <p>{t("You need to pay")}:
-                                        <span class="value">{price(variant.currencyCode, variant.price.total)}</span>
+                                        <span class="value">{price(variant.price.currencyCode, variant.price.netTotal)}</span>
                                     </p>
                                     <div class="list">
                                         <div class={"item " + (this.state.accountPaymentPossibility ? "" : " disabled")}>

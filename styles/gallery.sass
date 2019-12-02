@@ -1,5 +1,17 @@
 @import "base/colors"
-@import "~react-image-gallery/styles/scss/image-gallery-no-icon.scss"
+@import "../src/components/external/react-responsive-carousel/styles/carousel.min.css"
 
-.image-gallery-thumbnail.active
-    border-color: $color-brand
+.carousel
+    .thumb.selected, .thumb:hover
+        border-color: $color-brand
+        cursor: pointer
+    .thumbs-wrapper
+        margin: 10px 0 20px
+    .thumb
+        min-height: 50px
+        max-height: 60px
+    .control-arrow
+        width: 110px
+.slider
+    .slide
+        height: 550px

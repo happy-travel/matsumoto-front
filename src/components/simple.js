@@ -66,3 +66,19 @@ export const Header = () => (
         </section>
     </header>
 );
+
+export const groupAndCount = arr => {
+    const count = {},
+          result = [];
+    for (let i = 0; i < arr.length; i++) {
+        if(count.hasOwnProperty(arr[i].type))
+            count[arr[i].type]++;
+        else
+            count[arr[i].type] = 1;
+    }
+
+    for (let item in count)
+        result.push(count[item] + " x " + item);
+
+    return result.join(", ");
+};

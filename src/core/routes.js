@@ -1,10 +1,11 @@
-import React from 'react';
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import accommodationTitle         from 'pages/accommodation/title';
-import accommodationVariants      from 'pages/accommodation/variants';
-import accommodationBooking       from 'pages/accommodation/booking';
-import accommodationConfirmation  from 'pages/accommodation/confirmation';
+import accommodationTitle         from "pages/accommodation/title";
+import accommodationVariants      from "pages/accommodation/variants";
+import accommodationBooking       from "pages/accommodation/booking";
+import accommodationConfirmation  from "pages/accommodation/confirmation";
+import accommodationAgreements    from "pages/accommodation/agreements";
 
 import paymentPage                from "pages/payment/payment";
 import paymentResult              from "pages/payment/result";
@@ -19,17 +20,18 @@ import accountInvite              from "pages/account/accept-invite";
 import userBookingManagement      from "pages/user/booking-management";
 import userInvite                 from "pages/user/create-invite";
 
-import contactUsPage              from 'pages/common/contact';
-import termsPage                  from 'pages/common/terms';
-import privacyPage                from 'pages/common/privacy';
-import aboutUsPage                from 'pages/common/about';
+import contactUsPage              from "pages/common/contact";
+import termsPage                  from "pages/common/terms";
+import privacyPage                from "pages/common/privacy";
+import aboutUsPage                from "pages/common/about";
 
 import errorPage   from "pages/common/error";
 import devAuthPage from "pages/account/odawara/confirmation";
 
 export const routesWithSearch = [
     "/",
-    "/search"
+    "/search",
+    "/accommodation/agreements"
 ];
 export const routesWithHeaderAndFooter = [
     ...routesWithSearch,
@@ -51,6 +53,7 @@ const Routes = () => (
         <Route exact path="/"                     component={accommodationTitle} />
         <Route path="/search"                     component={accommodationVariants} />
         <Route path="/accommodation/booking"      component={accommodationBooking} />
+        <Route path="/accommodation/agreements"   component={accommodationAgreements} />
         <Route path={
             ["/accommodation/confirmation/:id",
              "/accommodation/confirmation"]}      component={accommodationConfirmation} />

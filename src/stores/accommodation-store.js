@@ -42,7 +42,8 @@ class AccommodationStore {
     @observable
     selected = {
         variant: null,
-        hotel: null,
+        hotel: null, //refactor
+        accommodation: null,
         confirmation: null,
         availabilityId: null
     };
@@ -190,8 +191,16 @@ class AccommodationStore {
         this.booking.selected = value;
     }
 
-    select(agreement, hotel, confirmation) {
-        this.selected.hotel = hotel;
+    selectAccommodation(accommodation) { //todo: refactoring for this and the next methods
+        this.selected.hotel = accommodation.accommodationDetails;
+        this.selected.accommodation = accommodation;
+    }
+
+    selectHotel(value) {
+        this.selected.hotel = value;
+    }
+
+    selectAgreement(agreement, confirmation) {
         this.selected.variant = agreement;
         this.selected.confirmation = confirmation;
         this.booking.request = null;

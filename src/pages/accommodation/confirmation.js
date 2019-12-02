@@ -38,8 +38,8 @@ class AccommodationConfirmationPage extends React.Component {
         for (var i = 0; i < result.roomDetails?.length; i++) {
             rooms.push({
                 roomType: result.roomDetails[i]?.roomDetails.type,
-                currency: store.selected?.variant?.currencyCode || "", //todo: wait for real data
-                price: result.roomDetails[i]?.price.price,
+                // todo: temporary hidden : currency: '',
+                // todo: temporary hidden : price: 0,
                 passengers: result.roomDetails[i]?.roomDetails.passengers,
             })
         }
@@ -195,10 +195,10 @@ render() {
                                   a={t('Room type')}
                                   b={room.roomType}
                             />
-                            <Dual addClass="line"
+                            { /* todo: temporary hidden: <Dual addClass="line"
                                 a={t('Total Cost')}
                                 b={price(room.currency, room.price)}
-                            />
+                            /> */ }
 
                             <h2>
                                 {t("Leading Passenger")}

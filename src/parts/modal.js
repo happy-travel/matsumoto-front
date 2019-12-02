@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from "mobx-react";
 import UI, { MODALS } from "stores/ui-store";
 
-import AccommodationDetailsModal from "pages/accommodation/details";
+import AccommodationDetailsModal from "pages/accommodation/details-modal";
 import CancellationConfirmationModal from "parts/cancellation";
 
 const modalComponent = {

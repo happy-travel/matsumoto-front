@@ -43,8 +43,8 @@ class PaymentPage extends React.Component {
         super(props);
         this.state = {
             request_url: null,
-            currency: store.selected?.variant?.currencyCode,
-            amount: store.selected?.variant?.price?.total,
+            currency: store.selected.variant.price.currencyCode,
+            amount: store.selected.variant.price.netTotal,
             comment: null,
             service: {
                 service_command     : "TOKENIZATION",

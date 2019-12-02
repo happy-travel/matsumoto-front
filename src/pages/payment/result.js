@@ -72,14 +72,11 @@ class PaymentResultPage extends React.Component {
                 if (!booking)
                     return;
 
-                booking.currencyCode = data.serviceDetails.agreement.currencyCode;
-                booking.price = data.serviceDetails.agreement.price;
-
                 API.post({
                     url: API.PAYMENTS_COMMON,
                     body: {
-                        amount: booking.price.total,
-                        currency: booking.currencyCode,
+                        amount: data.serviceDetails.agreement.price.netTotal,
+                        currency: data.serviceDetails.agreement.price.currencyCode,
                         referenceCode: bookingReference,
                         token: {
                             code: params.token_name,
