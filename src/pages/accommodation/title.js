@@ -1,11 +1,17 @@
 import React from 'react';
 import Tiles from 'components/tiles';
+import { observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
-const AccommodationTitlePage = () => (
+@observer
+class AccommodationTitlePage extends React.Component {
+render () {
+    var { t } = useTranslation();
+    return (
     <React.Fragment>
         <div class="tiles block">
             <section>
-                <h1><span>Country & Hotels</span></h1>
+                <h1><span>{t("Country & Hotels")}</span></h1>
                 <Tiles list={[
                     {
                         city: 'PARIS, FRANCE',
@@ -45,7 +51,7 @@ const AccommodationTitlePage = () => (
                         image: '/images/hotels/dortmund.png'
                     }
                 ]} />
-                <h1><span>Exclusive offers</span></h1>
+                <h1><span>{t("Exclusive offers")}</span></h1>
                 <Tiles list={[
                     {
                         title: 'EMERALD PALACE KEMPINSKI DUBAI, DUBAI',
@@ -76,5 +82,7 @@ const AccommodationTitlePage = () => (
         </div>
     </React.Fragment>
 );
+}
+}
 
 export default AccommodationTitlePage;

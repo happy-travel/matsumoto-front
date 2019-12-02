@@ -51,8 +51,8 @@ export const Expandable = class extends React.Component {
     }
 };
 
-export const Loader = ({ page }) => (
-    <div class={"loader" + (page ? " full-page" : "")}><div class="x">
+export const Loader = ({ page, white }) => (
+    <div class={"loader" + (page ? " full-page" : "") + (white ? " white" : "")}><div class="x">
         <div class="a" /><div class="b" /><div />
     </div></div>
 );
@@ -66,3 +66,19 @@ export const Header = () => (
         </section>
     </header>
 );
+
+export const groupAndCount = arr => {
+    const count = {},
+          result = [];
+    for (let i = 0; i < arr.length; i++) {
+        if(count.hasOwnProperty(arr[i].type))
+            count[arr[i].type]++;
+        else
+            count[arr[i].type] = 1;
+    }
+
+    for (let item in count)
+        result.push(count[item] + " x " + item);
+
+    return result.join(", ");
+};

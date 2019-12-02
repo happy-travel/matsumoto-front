@@ -43,9 +43,18 @@ class AccommodationSearch extends React.Component {
         store.setSearchIsLoaded(false);
         store.setSearchResult(null);
         session.google.clear();
+
+        // todo: temporary adults workaround
+        var body = JSON.parse(JSON.stringify(store.search.request));
+        for (var i = 0; i < body.roomDetails.length; i++) {
+            body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
+            body.roomDetails[i].childrenNumber = 0;
+            body.roomDetails[i].childrenAges = [];
+        }
+
         API.post({
             url: API.ACCOMMODATION_SEARCH,
-            body: store.search.request,
+            body: body,
             success: (result) => {
                 store.setSearchResult(result);
             },
@@ -191,6 +200,7 @@ class AccommodationSearch extends React.Component {
                                 id="radius"
                                 label={t("Radius (Km)")}
                                 placeholder="1"
+                                numeric
                             />
                             <FieldSelect formik={formik}
                                 id="order"
@@ -207,7 +217,7 @@ class AccommodationSearch extends React.Component {
                                 label={t("Residency")}
                                 placeholder={t("Choose your residency")}
                                 clearable
-                                Flag={false && <Flag />}
+                                Flag={<Flag code={store.search.request.residency} />}
                                 Dropdown={RegionDropdown}
                                 onChange={regionInputChanged}
                                 addClass="size-large"
@@ -217,7 +227,7 @@ class AccommodationSearch extends React.Component {
                                 label={t("Nationality")}
                                 placeholder={t("Choose your nationality")}
                                 clearable
-                                Flag={false && <Flag />}
+                                Flag={<Flag code={store.search.request.nationality} />}
                                 Dropdown={RegionDropdown}
                                 onChange={regionInputChanged}
                                 addClass="size-large"
@@ -226,7 +236,7 @@ class AccommodationSearch extends React.Component {
                                 <div class="label"/>
                                 <div class="inner">
                                     <button type="submit" class="button">
-                                        {t("Search hotel")}
+                                        {t("Search accommodation")}
                                     </button>
                                 </div>
                             </div>

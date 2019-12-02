@@ -1,40 +1,41 @@
 import React from 'react';
 
 import Flag from 'components/flag';
+import { observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
-const TileItem = class extends React.Component {
-
+@observer
+class TileItem extends React.Component {
     render() {
         var {
             item,
             removable = true
-        } = this.props;
-
-        item.url = item.url || '#';
+        } = this.props,
+        { t } = useTranslation();
 
         return (
             <div class={'item' + (item.exclusive ? ' offer' : '')}>
-                <a class="body" href={item.url}>
+                <div class="body">
                     <div class="info">
                         <Flag code={ item.flag } />
                         <div>
                             <div class="title">{item.city || item.title}</div>
-                            { item.propertiesCount && <div class="count">{item.propertiesCount} properties</div> }
+                            { item.propertiesCount && <div class="count">{t("More than")} {item.propertiesCount} {t("properties")}</div> }
                         </div>
                     </div>
                     { item.minPrice && <div class="price">
-                        <span>From</span> USD {item.minPrice}
+                        <span>{t("From")}</span> USD {item.minPrice}
                     </div> }
-                </a>
+                </div>
                 <div class="bottom"/>
                 <img class="picture" src={item.image} alt={item.title} />
                 { /* todo: removable && <div class="close" /> */ }
                 { item.exclusive && <div class="exclusive">
-                    Exclusive offer
+                    {t("Exclusive offer")}
                 </div> }
             </div>
         );
     }
-};
+}
 
 export default TileItem;

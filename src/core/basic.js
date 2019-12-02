@@ -3,7 +3,8 @@ import moment from "moment";
 export const dateFormat = {
     a: date => !date ? '' : moment(date).format("ddd, DD MMMM YYYY"),
     b: date => !date ? '' : moment(date).format("DD/MM/YYYY"),
-    c: date => !date ? '' : moment(date).format("DD.MM.YYYY")
+    c: date => !date ? '' : moment(date).format("DD.MM.YYYY"),
+    d: date => !date ? '' : moment(date).format("ddd, DD MMM, YYYY")
 };
 
 export const decorate = {
@@ -16,7 +17,7 @@ export const decorate = {
     }
 };
 
-export const plural = (t, value, word) => value + " " + t(word, {count: value});
+export const plural = (t, value, word) => value + " " + t(word, {count: parseInt(value)});
 
 export const price = (currency, value) => " " + (currency || "") + " " + (value || 0).toFixed(2) + " ";
 

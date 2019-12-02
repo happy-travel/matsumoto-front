@@ -2,11 +2,13 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { dateFormat, price, API } from "core";
+import UI, { MODALS } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual, Loader } from "components/simple";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 import store from "stores/accommodation-store";
 
@@ -15,24 +17,19 @@ class AccommodationConfirmationPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            bookingId: null
+            fromGetter: false
         };
         this.getValues = this.getValues.bind(this);
+        this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
     }
 
     getValues() {
         var result = store.booking.result;
 
-        if (this.state.bookingId !== null) {
-            var selected = null;
-
-            store.userBookingList.forEach(item => {
-                if (item.bookingId == this.state.bookingId || item.referenceCode == this.state.bookingId) //todo: refactoring
-                    selected = item;
-            });
-
+        if (this.state.fromGetter) {
+            var selected = store.booking.selected;
             if (selected) {
-                result = selected.bookingDetails;
+                result = selected.bookingDetails || {};
                 result.loaded = true;
             }
         }
@@ -41,8 +38,8 @@ class AccommodationConfirmationPage extends React.Component {
         for (var i = 0; i < result.roomDetails?.length; i++) {
             rooms.push({
                 roomType: result.roomDetails[i]?.roomDetails.type,
-                currency: store.selected?.variant?.currencyCode || "", //todo: wait for real data
-                price: result.roomDetails[i]?.price.price,
+                // todo: temporary hidden : currency: '',
+                // todo: temporary hidden : price: 0,
                 passengers: result.roomDetails[i]?.roomDetails.passengers,
             })
         }
@@ -55,27 +52,39 @@ class AccommodationConfirmationPage extends React.Component {
             deadline: result.deadline,
             loaded: result.loaded,
             error: result.error,
+            id: result.bookingId,
             rooms
         };
     }
 
+    showCancellationConfirmation() {
+        var booking = this.getValues();
+        UI.setModalData({
+            bookingId: booking.id,
+            deadline: booking.deadline,
+            referenceCode: booking.referenceCode
+        });
+        UI.setModal(MODALS.CANCELLATION_CONFIRMATION);
+    }
+
     componentDidMount() {
         var bookingId = this.props?.match?.params?.id,
+            referenceCode = null,
             fromHistory = true;
 
         if (bookingId === undefined && store.paymentResult?.params?.settlement_reference) {
-            bookingId = store.paymentResult?.params?.settlement_reference;
+            referenceCode = store.paymentResult?.params?.settlement_reference;
             fromHistory = false;
         }
 
-        if ( bookingId !== undefined) {
+        if ( bookingId || referenceCode) {
             this.setState({
-                bookingId: this.props?.match?.params?.id,
+                fromGetter: true,
                 fromHistory
             });
             API.get({
-                url: API.ACCOMMODATION_BOOKING,
-                after: (data) => store.setUserBookingList(data)
+                url: referenceCode ? API.BOOKING_GET_BY_CODE(referenceCode) : API.BOOKING_GET_BY_ID(bookingId),
+                after: data => store.setSelectedBooking(data)
             });
         }
     }
@@ -88,13 +97,12 @@ render() {
         var {
             params,
             result,
-            saved,
             params_error
         } = (store.paymentResult || {});
 
     return (
         <div class="confirmation block">
-            <div class="hide">{''+store.booking.result}</div>
+            <div class="hide">{''+store.booking}</div>
             <section class="double-sections">
                 <div class="middle-section">
                     <Breadcrumbs items={[
@@ -118,10 +126,10 @@ render() {
                             </div>
                             <div class="dual">
                                 <div class="first">
-                                    Card acceptance message: <strong>{params?.response_message}</strong>
+                                    {t("Card acceptance message")}: <strong>{params?.response_message}</strong>
                                 </div>
                                 <div class="second">
-                                    Response code: <strong>{params?.response_code}</strong>
+                                    {t("Response code")}: <strong>{params?.response_code}</strong>
                                 </div>
                             </div>
                         </div> }
@@ -132,13 +140,13 @@ render() {
                             </div> }
                             <div class="dual">
                                 <div class="first">
-                                    Payment result: <strong>{result.status || result.error}</strong>
+                                    {t("Payment result")}: <strong>{result.status || result.error}</strong>
                                 </div>
                             </div>
                         </div>
 
-                        { saved && <div class="result-code">
-                            Your card was saved for your future purchases.
+                        { ("YES" == params.remember_me) && <div class="result-code">
+                            {t("Your card was saved for your future purchases.")}
                         </div> }
                     </React.Fragment> }
 
@@ -153,10 +161,10 @@ render() {
                         </div>
                         <div class="dual">
                             <div class="first">
-                                {t("Booking Reference number")}: <strong>{booking.referenceCode}</strong>
+                                {t("Booking Reference number")}: <strong class="green">{booking.referenceCode}</strong>
                             </div>
                             <div class="second">
-                                {t("Status")}: <strong>{booking.status}</strong>
+                                {t("Status")}: <strong class={booking.status}>{booking.status}</strong>
                             </div>
                         </div>
                     </div>
@@ -183,15 +191,14 @@ render() {
                                 {t('Room') + " " + (index+1)}
                             </h2>}
 
-
                             <Dual addClass="line"
                                   a={t('Room type')}
                                   b={room.roomType}
                             />
-                            <Dual addClass="line"
+                            { /* todo: temporary hidden: <Dual addClass="line"
                                 a={t('Total Cost')}
                                 b={price(room.currency, room.price)}
-                            />
+                            /> */ }
 
                             <h2>
                                 {t("Leading Passenger")}
@@ -231,24 +238,29 @@ render() {
                     ))}
 
                     <div class="actions">
-                        <a href="javascript:void(0)">
+                        { /* <a href="javascript:void(0)">
                             <span class="icon icon-action-time-left" />
                         </a>
                         <a href="javascript:void(0)">
                             <span class="icon icon-action-pen" />
                         </a>
                         <a href="javascript:void(0)">
-                            <span class="icon icon-action-cancel" />
-                        </a>
-                        <a href="javascript:void(0)">
                             <span class="icon icon-action-print" />
                         </a>
                         <a href="javascript:void(0)">
                             <span class="icon icon-action-writing" />
-                        </a>
-                        <Link to="/">
+                        </a> */ }
+
+                        { this.state.fromHistory &&
+                          moment().isBefore(booking.checkInDate) &&
+                          "Cancelled" != booking.status &&
+                        <button class="button pink" onClick={this.showCancellationConfirmation}>
+                            {t("Cancel booking")}
+                        </button> }
+
+                        <Link to="/user/booking">
                             <button class="button green">
-                                {t("Accept & reconfirm")}
+                                {t("Booking management")}
                             </button>
                         </Link>
                     </div>

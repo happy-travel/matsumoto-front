@@ -23,15 +23,25 @@
     &.date
         padding: 14px 0
     &.people
+        width: 360px
         h3
             font-size: 16px
             line-height: 19px
             padding: 35px 0 20px
+        h4
+            padding: 5px 0
         .row
             display: flex
             flex-direction: row
             line-height: 40px
             margin-bottom: 15px
+            &.children
+                flex-wrap: wrap
+                width: 310px
+                .field
+                    width: 135px
+                    flex-grow: 0
+                    margin-top: 10px
             &:last-child
                 margin-bottom: 0
             .caption
@@ -67,9 +77,11 @@
             font-size: 11px
             background: #F3F4F6
             color: $color-text-light
-        .city
+        .country
             line-height: 21px
             padding: 8px 15px
+            .flag
+                margin-right: 10px
             b
                 font-weight: 700
     &.locale, &.currency, &.user-menu

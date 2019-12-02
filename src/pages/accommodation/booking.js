@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { API, dateFormat, price } from "core";
+import { API, dateFormat, price, plural } from "core";
 import { Formik, FieldArray } from "formik";
 
 import {
@@ -14,7 +14,7 @@ import {
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { Dual, Loader } from "components/simple";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store from "stores/accommodation-store";
@@ -25,7 +25,8 @@ class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToConfirmationPage: false
+            redirectToConfirmationPage: false,
+            accountPaymentPossibility: false
         };
         this.submit = this.submit.bind(this);
     }
@@ -33,6 +34,14 @@ class AccommodationBookingPage extends React.Component {
     componentDidMount() {
         store.setBookingRequest(null);
         store.setBookingResult(null);
+
+        API.get({
+            url: API.ACCOUNT_AVAILABLE,
+            success: result =>
+                this.setState({
+                    accountPaymentPossibility: result
+                })
+        });
     }
 
     submit(values, { setSubmitting }) {
@@ -54,7 +63,7 @@ class AccommodationBookingPage extends React.Component {
                     "title": values.room[r].passengers[i].title,
                     "firstName": values.room[r].passengers[i].firstName,
                     "lastName": values.room[r].passengers[i].lastName,
-                    "age": i < adults ? 33 : 12,
+                    "age": 33, //todo: temporary adults workaround. correct: i < adults ? 33 : store.search.request.roomDetails[r].childrenAges[i-adults],
                     "initials":"",
                     ...( i == 0 ? {"isLeader": true} : {} )
                 });
@@ -66,7 +75,7 @@ class AccommodationBookingPage extends React.Component {
         }
 
         var request = {
-            "availabilityId": store.search.result.availabilityId,
+            "availabilityId": store.selected.availabilityId,
             "nationality": search.nationality,
             "paymentMethod": "CreditCard",
             "residency": search.residency,
@@ -101,7 +110,9 @@ class AccommodationBookingPage extends React.Component {
             return null; //todo: another answer
 
         var hotel = store.selected.hotel,
-            variant = store.selected.variant;
+            hotel2 = store.selected.accommodation,
+            variant = store.selected.variant,
+            confirmation = store.selected.confirmation;
 
         if (this.state.redirectToConfirmationPage)
             return <Redirect push to="/accommodation/confirmation" />;
@@ -114,7 +125,7 @@ class AccommodationBookingPage extends React.Component {
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
                 <div class="expanded">
-                    <img src={hotel.picture.source} alt={hotel.picture.caption} class="round" />
+                    <img src={hotel2.accommodationDetails.picture.source} alt={hotel2.accommodationDetails.picture.caption} class="round" />
                 </div>
                 <div class="static item no-border">
                     {hotel.name}
@@ -125,51 +136,69 @@ class AccommodationBookingPage extends React.Component {
                     , {hotel.location.country}
                 </div>
 
-                <div class="static item">{t("Your Reservation")}</div>
+                <div class="static item" style={{ marginBottom: 0 }}>
+                    {t("Your Reservation")}
+                </div>
+                <div class="static item no-border">
+                    {variant.contractType}
+                </div>
                 <Dual
-                    a={<span>Arrival<br/> Date</span>}
+                    a={t("Arrival Date")}
                     b={dateFormat.a(store.search.result.checkInDate)}
+                    addClass="column"
                 />
                 <Dual
-                    a={<span>Departure<br/> Date</span>}
+                    a={t("Departure Date")}
                     b={dateFormat.a(store.search.result.checkOutDate)}
+                    addClass="column"
                 />
                 <Dual
                     a={t("Number of Rooms")}
-                    b={"1"}
+                    b={variant.rooms.length}
+                />
+                <Dual
+                    a={t("Board Basis")}
+                    b={variant.boardBasisCode + ": " + ("RO" == variant.boardBasisCode ? t("Room Only") : variant.mealPlan)}
                 />
 
-                <div class="static item">{t("Room Information")}</div>
+                { confirmation.deadlineDetails.remarkCodes.map( item => (
+                <React.Fragment>
+                    { variant.remarks[item] && <Dual
+                        a={t("Remark")}
+                        b={variant.remarks[item]}
+                    /> }
+                </React.Fragment>
+                )) }
+
                 {[...Array(store.search.rooms)].map((x,i)=>(
-                <Dual
-                    a={t("Room Type") + " " + (store.search.rooms > 1 ? (i+1) : '')}
-                    b={variant.rooms[i]?.type}
-                />
+                <React.Fragment>
+                    <div class="static item">{t("Room Information") + " " + (store.search.rooms > 1 ? (i+1) : '')}</div>
+                    <Dual
+                        a={t("Room Type")}
+                        b={variant.rooms[i]?.type}
+                    />
+                    { /* <Dual
+                        a={t("Occupancy")}
+                        b={plural(t, rooms[i].adultsNumber, "Adult") + ", " + rooms[i].childrenNumber + " " + t("Children")}
+                    /> */ }
+                </React.Fragment>
                 ))}
-                { false && [<Dual
-                    a={t("Board Basis")}
-                    b={"Room Only"}
-                />,
-                <Dual
-                    a={t("Occupancy")}
-                    b={"2 Adults , 2 Children, Children Ages: 3, 14"}
-                />] /* todo */ }
 
                 <div class="static item">{t("Room & Total Cost")}</div>
                 {[...Array(store.search.rooms)].map((x,i)=>(
-                (variant.rooms[i].roomPrices?.[0].nett !== undefined && "Room" == variant.rooms[i].roomPrices?.[0].type) ?
+                (variant.rooms[i].roomPrices?.[0].netTotal !== undefined && "Room" == variant.rooms[i].roomPrices?.[0].type) ?
                 <Dual
                     a={t("Room Cost") + " " + (store.search.rooms > 1 ? (i+1) : '')}
-                    b={price(variant.currencyCode, variant.rooms[i].roomPrices[0].nett)}
+                    b={price(variant.rooms[i].roomPrices[0].currencyCode, variant.rooms[i].roomPrices[0].netTotal)}
                 /> : null
                 ))}
                 <Dual
                     a={t("Total Cost")}
-                    b={price(variant.currencyCode, variant.price.total)}
+                    b={price(variant.price.currencyCode, variant.price.netTotal)}
                 />
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
-                    <div>{price(variant.currencyCode, variant.price.total)}</div>
+                    <div>{price(variant.price.currencyCode, variant.price.netTotal)}</div>
                 </div>
             </div>
             <div class="right-section">
@@ -193,7 +222,8 @@ class AccommodationBookingPage extends React.Component {
                                 ...Array(store.search.request.roomDetails[r].adultsNumber),
                                 ...Array(store.search.request.roomDetails[r].childrenNumber),
                             ]
-                        }))
+                        })),
+                        accepted: true
                     }}
                     validationSchema={accommodationBookingValidator}
                     onSubmit={this.submit}
@@ -202,7 +232,10 @@ class AccommodationBookingPage extends React.Component {
                             <div class="form">
                                 <FieldArray
                                     render={() => (
-                                formik.values.room.map((item, r) => (
+                                formik.values.room.map((item, r) => {
+                                    var adults = store.search.request.roomDetails[r].adultsNumber,
+                                        childrenAges = store.search.request.roomDetails[r].childrenAges;
+                                return (
                                 <React.Fragment>
                                 <h2>
                                     <span>Room {r+1}:</span> {variant.rooms[r]?.type}
@@ -223,7 +256,10 @@ class AccommodationBookingPage extends React.Component {
                                                 <td>
                                                     <FieldSelect formik={formik}
                                                         id={`room.${r}.passengers.${index}.title`}
-                                                        placeholder={index < store.search.request.roomDetails[r].adultsNumber ? t("Please select one") : t("Child")}
+                                                        placeholder={index < adults ?
+                                                            t("Please select one") :
+                                                            t("Child") // + ", " + plural(t, childrenAges[index - adults], "year")
+                                                        }
                                                         options={[
                                                             { value: "Mr", text: t("Mr.")},
                                                             { value: "Ms", text: t("Ms.")},
@@ -251,7 +287,7 @@ class AccommodationBookingPage extends React.Component {
                                         )} />
                                     </tbody></table>
                                 </div>
-                                </React.Fragment>)))} />
+                                </React.Fragment>)}))} />
 
                                 { /* todo
                                 <div class="part">
@@ -316,16 +352,36 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div> */ }
 
+                                <div class="part" style={{marginTop: 0}}>
+                                    <h3 style={{marginBottom: "24px"}}>{t("Additional Information")}</h3>
+                                    <p style={{margin: "12px 0 6px"}}>
+                                        {t("Cancellation Deadline")}: {dateFormat.a(confirmation.deadlineDetails.date)}
+                                    </p>
+
+                                    <p style={{margin: "12px 0 6px"}}>
+                                        {(confirmation.deadlineDetails.policies || []).map(item => (<React.Fragment>
+                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.
+                                        </React.Fragment>))}
+                                    </p>
+
+                                    {Object.keys(variant.remarks || {}).map(key => (
+                                        <p style={{margin: "12px 0 6px"}}>{variant.remarks[key]}</p>
+                                    ))}
+                                </div>
+
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
                                     <p>{t("You need to pay")}:
-                                        <span class="value">{price(store.selected.variant.currencyCode, store.selected.variant.price.total)}</span>
+                                        <span class="value">{price(variant.price.currencyCode, variant.price.netTotal)}</span>
                                     </p>
                                     <div class="list">
-                                        <div class="item">
-                                            {t("My Site Balance")} <span>{price(store.selected.variant.currencyCode, 0)}</span>
+                                        <div class={"item " + (this.state.accountPaymentPossibility ? "" : " disabled")}>
+                                            <span class="icon icon-radio" />
+                                            {t("My Site Balance")}
+                                            <span>{price(variant.currencyCode, 0)}</span>
                                         </div>
                                         <div class="item selected">
+                                            <span class="icon icon-radio on" />
                                             {t("Credit/Debit Card")}
                                             <img src="/images/other/visa.png" />
                                             <img src="/images/other/mc.png" />
@@ -335,9 +391,21 @@ class AccommodationBookingPage extends React.Component {
 
                                 { !store.booking.result.referenceCode && !formik.isSubmitting &&
                                     <div class="final">
-                                        <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
-                                            {t("Confirm booking")}
-                                        </button>
+                                        <div class="dual">
+                                            <div class="first">
+                                                <FieldCheckbox formik={formik}
+                                                    id={"accepted"}
+                                                    label={<div>
+                                                        {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" class="underlined link">{t("Terms & Conditions")}</Link>
+                                                    </div>}
+                                                />
+                                            </div>
+                                            <div class="second">
+                                                <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                                    {t("Confirm booking")}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div> }
 
                                 { formik.isSubmitting && !store.booking.result.referenceCode &&

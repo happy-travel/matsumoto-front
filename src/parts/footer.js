@@ -10,7 +10,7 @@ const Footer = () => {
                 <section>
                     <div class="company">
                         <div class="logo-wrapper">
-                            <a href="#" class="logo" />
+                            <a href="/" class="logo" />
                         </div>
                         { /* <div class="social">
                             <a href="#">
@@ -23,18 +23,18 @@ const Footer = () => {
                     </div>
                     <div class="links">
                         <menu class="primary">
-                            <li><Link to="/">{t("Accommodation")}</Link></li>
+                            <li><Link to="/">{t("Accommodations")}</Link></li>
                             { /* todo:
                             <li><a href="#">{t("Transfers")}</a></li>
                             <li><a href="#">{t("Tours")}</a></li>
-                            <li><a href="#">{t("Visa")}</a></li>
+                            <li><a href="#">{t("Visas")}</a></li>
                             <li><a href="#">{t("About")}</a></li>
                             <li><a href="#">{t("FAQ")}</a></li>
                             */ }
                         </menu>
                         <menu class="secondary">
                             <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
-                            <li><Link to="/privacy">{t("Privacy Police")}</Link></li>
+                            <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
                             <li><Link to="/contact">{t("Contact Us")}</Link></li>
                             <li><Link to="/about">{t("About Us")}</Link></li>
                         </menu>

@@ -106,10 +106,10 @@ class RegistrationStep2 extends React.Component {
                 addClass="action-steps-another-bg"
             />
             <h1>
-                Main user information
+                User information
             </h1>
             <p>
-                Create a free HappyTravel.com account and start booking today.
+                Create a new HappyTravel.com account and start booking.
             </p>
 
         <Formik

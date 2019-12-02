@@ -1,4 +1,5 @@
 import React from "react";
+import settings from "settings";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { dateFormat, price, API } from "core";
@@ -41,15 +42,15 @@ class PaymentPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            RequestUrl: null,
-            currency: store.selected?.variant?.currencyCode,
-            amount: store.selected?.variant?.price?.total,
+            request_url: null,
+            currency: store.selected.variant.price.currencyCode,
+            amount: store.selected.variant.price.netTotal,
             comment: null,
             service: {
                 service_command     : "TOKENIZATION",
                 merchant_reference  : require('uuid/v4')(),
                 language            : "en", //the only alternative : "ar"
-                return_url          : window.location.origin + "/payment/result/" + store.booking?.result?.referenceCode
+                return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.result?.referenceCode
             }
         };
         this.submit = this.submit.bind(this);
@@ -65,7 +66,7 @@ class PaymentPage extends React.Component {
                         access_code         : data.accessCode,
                         merchant_identifier : data.merchantIdentifier
                     },
-                    RequestUrl: data.tokenizationUrl
+                    request_url: data.tokenizationUrl
                 });
             }
         });
@@ -103,10 +104,11 @@ class PaymentPage extends React.Component {
         });
 
         API.post({
-            url: API.CARDS_SIGN,
+            url: this.state.direct ? null : API.CARDS_SIGN,
+            external_url: this.state.direct ? API.DIRECT_LINK_PAY.SIGN(this.state.order_code) : null,
             body: this.state.service,
             after: data => {
-                postVirtualForm(this.state.RequestUrl, {
+                postVirtualForm(this.state.request_url, {
                     ...this.state.service,
                     ...request,
                     signature: data

@@ -59,7 +59,9 @@ const REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
-    .filter(key => REACT_APP.test(key))
+    .filter(key => (
+        REACT_APP.test(key) || ["EDO_URL", "IDENTITY_URL", "SENTRY_DSN"].indexOf(key) >= 0
+    ))
     .reduce(
       (env, key) => {
         env[key] = process.env[key];

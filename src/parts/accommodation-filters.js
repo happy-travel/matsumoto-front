@@ -105,11 +105,11 @@ class AccommodationFiltersPart extends React.Component {
             </div>
         }
     />
-    <Expandable header={t("Hotel Amenities")} />
+    <Expandable header={t("Accommodation Amenities")} />
     <Expandable header={t("Geo Location")} />
     <Expandable header={t("Leisure & Sport")} />
     <Expandable header={t("Business Features")} />
-    <Expandable header={t("Hotel Chain")} />
+    <Expandable header={t("Accommodation Chain")} />
 */ }
                             </div>
                         </form>

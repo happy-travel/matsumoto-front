@@ -5,7 +5,7 @@ import { App, init } from "core";
 import settings from "settings";
 
 if (!("localhost" == window.location.hostname))
-    Sentry.init({ dsn: settings.sentryDSN });
+    Sentry.init({ dsn: settings.sentry_dsn });
 
 window.setPageDirectionFromLS = () => {
     var dir = window.localStorage.getItem('direction');

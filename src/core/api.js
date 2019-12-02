@@ -19,16 +19,27 @@ API_METHODS = {
     PAYMENTS_COMMON       : v1 + "/payments",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
+    ACCOUNT_AVAILABLE     : v1 + "/payments/accounts/available",
+
     USER                  : v1 + "/customers",
     USER_REGISTRATION     : v1 + "/customers/register",
     USER_REGISTRATION_M   : v1 + "/customers/register/master",
     USER_INVITE           : invitationCode =>
                             v1 + "/customers/invitations" + (invitationCode ? "/" + invitationCode : ""),
 
-    ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
     ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
+    BOOKING_LIST          : v1 + "/bookings/accommodations/customer",
+    BOOKING_CANCEL        : bookingId =>
+                            v1 + `/bookings/accommodations/${bookingId}/cancel`,
+    BOOKING_GET_BY_ID     : bookingId =>
+                            v1 + `/bookings/accommodations/${bookingId}/id`,
+    BOOKING_GET_BY_CODE   : referenceCode =>
+                            v1 + `/bookings/accommodations/${referenceCode}/refcode`,
+
     ACCOMMODATION_DETAILS : accommodationId =>
                             v1 + "/accommodations/" + accommodationId,
+
+    ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
     AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
                             v1 + `/availabilities/${availabilityId}/${agreementId}`,
 
@@ -53,6 +64,10 @@ let _ = API_METHODS;
 _.methods_with_cache = [
     _.BASE_REGIONS,
     _.BASE_CURRENCIES
+];
+
+_.methods_dont_show_error = [
+    _.USER
 ];
 
 _.request = ({
@@ -107,8 +122,10 @@ Authorize.getUser().then(user => {
         .then(
             (result) => {
                 if (failed) {
-                    if (result && result.status >= 400 && result.detail)
-                        UI.setTopAlertText(result.detail);
+                    if (_.methods_dont_show_error.indexOf(url) < 0) {
+                        if (result && result.status >= 400 && result.detail)
+                            UI.setTopAlertText(result.detail);
+                    }
                     if (error)
                         error(result);
                 } else {

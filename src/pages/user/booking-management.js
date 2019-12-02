@@ -1,9 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, dateFormat } from "core";
+import { API, dateFormat, price } from "core";
 
-import { Dual } from "components/simple";
+import { Dual, Loader } from "components/simple";
 import { Redirect } from "react-router-dom";
 
 import store from "stores/accommodation-store";
@@ -19,10 +19,8 @@ class UserBookingManagementPage extends React.Component {
 
     componentDidMount() {
         API.get({
-            url: API.ACCOMMODATION_BOOKING,
-            after: (data) => {
-                store.setUserBookingList(data);
-            }
+            url: API.BOOKING_LIST,
+            after: data => store.setUserBookingList(data)
         });
     }
 
@@ -39,55 +37,49 @@ class UserBookingManagementPage extends React.Component {
                         {t("Your Booking")}
                     </h2>
                     <div>
-                        {!store.userBookingList?.length ?
-                            <div>You don't have any reservations</div> :
+                        {store.userBookingList === null ? <Loader /> :
+                        (!store.userBookingList.length ?
+                            <div>{t("You don`t have any reservations")}</div> :
                             <table>
-                                {store.userBookingList.map(item => {
-                                    var bookingDetails = item.bookingDetails,
-                                        serviceDetails = item.serviceDetails;
-
-                                    if (!bookingDetails || !serviceDetails)
-                                        return null;
-
-                                    return (<tr onClick={() => this.setState({ redirectToBookingConfirmationId: item.bookingId })}>
+                                {store.userBookingList.map(item => item && (
+                                    <tr onClick={() => this.setState({ redirectToBookingConfirmationId: item.id })}>
                                         <td>
-                                            <strong>{t("Accommodation")}</strong>
-                                            {bookingDetails.roomDetails[0].roomDetails.type}
+                                            <strong>{t("Accommodations")}</strong>
+                                            {item.accommodationName}
                                         </td>
                                         <td>
                                             <strong>{t("Location")}</strong>
-                                            {bookingDetails.cityCode}
+                                            {item.countryName}, {item.localityName}
                                         </td>
                                         <td>
                                             <strong>{t("Board Basis")}</strong>
-                                            {serviceDetails.agreement?.mealPlan}
+                                            {item.boardBasisCode}:{" "}
+                                            {item.boardBasisCode == "RO" ? t("Room Only") : (item.mealPlan || "")}
                                         </td>
                                         <td>
                                             <strong>{t("Check In")}</strong>
-                                            {dateFormat.c(bookingDetails.checkInDate)}
+                                            {dateFormat.c(item.checkInDate)}
                                         </td>
                                         <td>
                                             <strong>{t("Check Out")}</strong>
-                                            {dateFormat.c(bookingDetails.checkOutDate)}
+                                            {dateFormat.c(item.checkOutDate)}
                                         </td>
                                         <td>
                                             <strong>{t("Cost")}</strong>
-                                            {serviceDetails.agreement?.currencyCode}
-                                            {' '}
-                                            {bookingDetails.roomDetails[0].price.price}
+                                            {price(item.currencyCode, item.price.total)}
                                         </td>
                                         <td>
-                                            <strong>{t("Cancel")}</strong>
+                                            <strong>{t("Cancellation Deadline")}</strong>
+                                            {(item.deadlineDetails.date) ? dateFormat.c(item.deadlineDetails.date) : t("None")}
                                         </td>
                                         <td>
                                             <strong>{t("Status")}</strong>
-                                            {bookingDetails.status}
+                                            {item.status}
                                         </td>
-                                        <br/>
-                                    </tr>);
-                                })}
+                                    </tr>
+                                ))}
                             </table>
-                        }
+                        )}
                     </div>
                 </section>
             </div>

@@ -19,10 +19,13 @@ class DirectLinkConfirmationPage extends React.Component {
     }
 
     componentDidMount() {
+        var code = session.get(store.paymentResult.params.merchant_reference);
+        if (!code)
+            this.setState({ booking: { error: "error" } });
         API.get({
-            external_url: API.DIRECT_LINK_PAY.GET_INFO(session.get(store.paymentResult.params.merchant_reference)),
+            external_url: API.DIRECT_LINK_PAY.GET_INFO(code),
             after: result => {
-                this.setState({ booking: result || {} });
+                this.setState({ booking: result || { error: "error" } });
             }
         });
     }
@@ -52,10 +55,10 @@ return (
                     </div>
                     <div class="dual">
                         <div class="first">
-                            Payment message: <strong>{messageFormatter(params?.response_message)}</strong>
+                            {t("Payment message")}: <strong>{messageFormatter(params?.response_message)}</strong>
                         </div>
                         <div class="second">
-                            Response code: <strong>{params?.response_code}</strong>
+                            {t("Response code")}: <strong>{params?.response_code}</strong>
                         </div>
                     </div>
                 </div> }
@@ -66,7 +69,7 @@ return (
                     </div> }
                     <div class="dual">
                         <div class="first">
-                            Payment result: <strong>{result.status || result.error}</strong>
+                            {t("Payment result")}: <strong>{result.status || result.error}</strong>
                         </div>
                     </div>
                 </div>

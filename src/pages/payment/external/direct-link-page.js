@@ -1,4 +1,5 @@
 import React from "react";
+import settings from "settings";
 import PaymentPage from "../payment";
 
 import { session } from "core";
@@ -18,7 +19,7 @@ class PaymentDirectLinkPage extends PaymentPage {
 
     componentDidMount() {
         var orderCode = this.props.match.params.code;
-        this.setState({ orderCode });
+        this.setState({ order_code: orderCode });
         API.get({
             external_url: API.DIRECT_LINK_PAY.SETTINGS,
             after: data => {
@@ -28,21 +29,7 @@ class PaymentDirectLinkPage extends PaymentPage {
                         access_code         : data.accessCode,
                         merchant_identifier : data.merchantIdentifier,
                     },
-                    RequestUrl: data.tokenizationUrl
-                });
-                API.post({
-                    external_url: API.DIRECT_LINK_PAY.SIGN(orderCode),
-                    body: {
-                        merchant_reference: this.state.service.merchant_reference
-                    },
-                    after: data => {
-                        this.setState({
-                            service: {
-                                ...this.state.service,
-                                signature: data
-                            }
-                        })
-                    }
+                    request_url: data.tokenizationUrl
                 });
             }
         });
@@ -56,11 +43,12 @@ class PaymentDirectLinkPage extends PaymentPage {
                     comment: result.comment,
                     service: {
                         ...this.state.service,
-                        return_url: "https://dev.happytravel.com/payment/result/" + result.referenceCode
+                        return_url: settings.payment_callback_host + "/payment/result/" + result.referenceCode
                     }
                 });
             }
         });
+        this.snare();
     }
 
 }

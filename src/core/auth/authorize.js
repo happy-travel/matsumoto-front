@@ -1,14 +1,12 @@
+import settings from "settings";
 import { UserManager } from "oidc-client";
 
-let host = "https://dev.happytravel.com";
-
-if ("localhost" == window.location.hostname)
-    host = "http://localhost:4000";
+let host = settings.auth_callback_host;
 
 window.auth_host = host;
 
 const config = {
-    authority: "https://identity.dev.happytravel.com/",
+    authority: settings.identity_url,
     post_logout_redirect_uri: host,
     redirect_uri: host + "/auth/callback",
     silent_redirect_uri: host + "/auth/silent",

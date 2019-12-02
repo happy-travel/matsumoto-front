@@ -11,5 +11,6 @@ export default Yup.object().shape({
                 .required('Required'),
         }))
         .required('Not enough passengers')
-    }))
+    })),
+    accepted: Yup.boolean().oneOf([true], 'Please accept Terms and Conditions')
 });

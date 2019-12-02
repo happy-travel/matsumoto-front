@@ -6,6 +6,8 @@ import autosave from "core/misc/autosave";
 import { createFilters, applyFilters } from "./utils/accommodation-filtering";
 
 const copy = obj => JSON.parse(JSON.stringify(obj));
+
+export const defaultChildrenAge = 12;
 const defaultSearchForm = {
         "filters": "Default",
         "checkInDate": moment().utc().startOf("day"),
@@ -40,7 +42,10 @@ class AccommodationStore {
     @observable
     selected = {
         variant: null,
-        hotel: null
+        hotel: null, //refactor
+        accommodation: null,
+        confirmation: null,
+        availabilityId: null
     };
 
     @observable
@@ -48,7 +53,8 @@ class AccommodationStore {
         request: {},
         result: {
             referenceCode: null
-        }
+        },
+        selected: {}
     };
 
     @observable
@@ -58,7 +64,7 @@ class AccommodationStore {
     selectedFilters = null;
 
     @observable
-    userBookingList = [];
+    userBookingList = null;
 
     @observable
     paymentResult = {};
@@ -103,6 +109,8 @@ class AccommodationStore {
         if (isAdvancedSearch) {
             this.search.request.ratings = form.ratings;
             this.search.request.propertyTypes = form.propertyTypes;
+            if (form.radius)
+                this.search.request.location.distance = parseInt(form.radius) *1000;
         }
     }
 
@@ -147,8 +155,16 @@ class AccommodationStore {
         } else
             this.search.request.roomDetails[roomNumber][field] = finalNewValue;
 
-        if ("childrenNumber" == field)
-            this.search.request.roomDetails[roomNumber].childrenAges = new Array(finalNewValue).fill(12);
+        if ("childrenNumber" == field) {
+            if (!this.search.request.roomDetails[roomNumber].childrenAges)
+                this.search.request.roomDetails[roomNumber].childrenAges = new Array(finalNewValue).fill(defaultChildrenAge);
+            else
+                this.search.request.roomDetails[roomNumber].childrenAges = this.search.request.roomDetails[roomNumber].childrenAges.slice(0, finalNewValue);
+        }
+    }
+
+    setRequestRoomChildrenAges(roomNumber, value) {
+        this.search.request.roomDetails[roomNumber].childrenAges = value.map( val => (parseInt(val) || defaultChildrenAge) );
     }
 
     setRequestDestination(value) {
@@ -168,29 +184,28 @@ class AccommodationStore {
     }
 
     setUserBookingList(value) {
-        if (!value || !value.forEach)
-            value = [];
-
-        value.forEach(item => {
-            var bookingDetails = null,
-                serviceDetails = null;
-            try {
-                bookingDetails = JSON.parse(item.bookingDetails);
-                serviceDetails = JSON.parse(item.serviceDetails);
-            } catch (e) {}
-
-            item.bookingDetails = bookingDetails;
-            item.serviceDetails = serviceDetails;
-        });
-
         this.userBookingList = value;
     }
 
-    select(agreement, hotel) {
-        this.selected.hotel = hotel;
+    setSelectedBooking(value) {
+        this.booking.selected = value;
+    }
+
+    selectAccommodation(accommodation) { //todo: refactoring for this and the next methods
+        this.selected.hotel = accommodation.accommodationDetails;
+        this.selected.accommodation = accommodation;
+    }
+
+    selectHotel(value) {
+        this.selected.hotel = value;
+    }
+
+    selectAgreement(agreement, confirmation) {
         this.selected.variant = agreement;
+        this.selected.confirmation = confirmation;
         this.booking.request = null;
         this.booking.result = {};
+        this.selected.availabilityId = confirmation?.deadlineDetails?.availabilityId || this.search.result.availabilityId;
     }
 
     setBookingRequest(request) {

@@ -37,7 +37,7 @@ class DateDropdown extends React.Component {
                     firstOfWeek={1}
                     numberOfCalendars={2}
                     selectionType='range'
-                    minimumDate={new Date('2012-01-01T00:00:00.000Z')}
+                    minimumDate={new Date()}
                     stateDefinitions={stateDefinitions}
                     defaultState="available"
                     showLegend={false}

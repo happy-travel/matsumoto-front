@@ -5,7 +5,8 @@ import { decorate } from "core";
 
 /* Refactoring possibility: import babel-plugin-objective-enums and make enums */
 export const MODALS = {
-    ACCOMMODATION_DETAILS: "ACCOMMODATION_DETAILS"
+    ACCOMMODATION_DETAILS: "ACCOMMODATION_DETAILS",
+    CANCELLATION_CONFIRMATION: "CANCELLATION_CONFIRMATION"
 };
 
 class UIStore {
@@ -21,7 +22,7 @@ class UIStore {
         "residency": null
     };
     @observable modal = null;
-    @observable hotelDetails = null;
+    @observable modalData = null;
     @observable user = {
         "email": null,
         "lastName": null,
@@ -72,10 +73,9 @@ class UIStore {
     }
 
     setCountries(value) {
-        //todo: repair this sort, it's temporary -- needs correct locale getting
         value.sort((a,b) => {
-            if ( a.names.en < b.names.en ) return -1;
-            if ( a.names.en > b.names.en ) return 1;
+            if ( a.name < b.name ) return -1;
+            if ( a.name > b.name ) return 1;
             return 0;
         });
         this.countries = value;
@@ -89,8 +89,8 @@ class UIStore {
         this.openDropdown = id || null;
     }
 
-    setHotelDetails(value) {
-        this.hotelDetails = value || null;
+    setModalData(value) {
+        this.modalData = value || null;
     }
 
     setModal(id) {

@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import moment from "moment";
+import { groupAndCount } from "components/simple";
 
-import { API, dateFormat, price } from "core";
+import { API, dateFormat, price, plural } from "core";
 import store from 'stores/accommodation-store';
 import UI, { MODALS } from "stores/ui-store";
 
-import AccommodationFilters from "parts/accommodation-filters"
+import AccommodationFilters from "parts/accommodation-filters";
 import {
     FieldText,
     FieldCheckbox
@@ -21,119 +22,36 @@ class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToBookingPage: false,
-            expanded: {},
+            redirectToAgreementsPage: false,
             loading: false
         };
         this.showDetailsModal = this.showDetailsModal.bind(this);
-        this.expand = this.expand.bind(this);
     }
 
     showDetailsModal(id) {
         UI.setModal(MODALS.ACCOMMODATION_DETAILS);
-        UI.setHotelDetails(null);
+        UI.setModalData(null);
         API.get({
             url: API.ACCOMMODATION_DETAILS(id),
-            success: (result) =>
-                UI.setHotelDetails(result),
-            error: () =>
-                console.log("wrong id or server error on accommodation details getter") /* todo: handle error */
+            success: result => UI.setModalData(result)
         });
     }
 
-    variantSelect(agreement, hotel) {
-        store.select(agreement, hotel);
+    accommodationSelect(accommodation) {
         this.setState({
             loading: true
         });
-
-        /*
-        API.post({
-            url: API.ACCOMMODATION_SEARCH,
-            body: {
-                ...store.search.request,
-                searchInfo: {
-                    availabilityId: store.search.result.availabilityId,
-                    hotelId: hotel.id,
-                    price: agreement.price.total,
-                    tariffCode: agreement.tariffCode
-                }
-            },
-            success: (result) => {
-                if (result.results?.[0].accommodationDetails.id != hotel.id) {
-                    UI.setTopAlertText("Sorry, this room is not available now");
-                    return;
-                }
-                for (var i = 0; i < result.results[0].agreements.length; i++)
-                    if (
-                        result.results[0].agreements[i].tariffCode == agreement.tariffCode &&
-                        result.results[0].agreements[i].contractType == agreement.contractType &&
-                        result.results[0].agreements[i].mealPlan == agreement.mealPlan &&
-                        result.results[0].agreements[i].rooms[0].type == agreement.rooms[0].type
-                    ) {
-                        store.select(result.results[0].agreements[i], result.results[0].accommodationDetails);
-                        this.setState({
-                            redirectToBookingPage: true
-                        });
-                        return;
-                    }
-
-                UI.setTopAlertText("Sorry, this room is not available now #2");
-            },
-            error: (error) => {
-                UI.setTopAlertText("Sorry, this room is not available now, try again later");
-                if (error)
-                    console.log("error: " + error);
-            },
-            after: () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        });
-
-        return; */
-
-        API.get({
-            url: API.AVAILABILITY_DETAILS(store.search.result.availabilityId, agreement.id),
-            success: (result) => {
-                if (result?.accommodationId != hotel.id) { // todo: better error definition and error handling
-                    UI.setTopAlertText("Sorry, this room is not available now");
-                    return;
-                }
-                store.select(result.agreement, hotel); // here first accommodation model is fuller, so I use it
-                this.setState({
-                    redirectToBookingPage: true
-                });
-            },
-            error: (error) => {
-                UI.setTopAlertText("Sorry, this room is not available now, try again later");
-                if (error)
-                    console.log("error: " + error);
-            },
-            after: () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        });
-
-    }
-
-    expand(index) {
+        store.selectAccommodation(accommodation);
         this.setState({
-            expanded: {
-                ...this.state.expanded,
-                [index]: true
-            }
+            redirectToAgreementsPage: true
         });
     }
 
     render() {
         const { t } = useTranslation();
 
-        if (this.state.redirectToBookingPage)
-            return <Redirect push to="/accommodation/booking" />;
+        if (this.state.redirectToAgreementsPage)
+            return <Redirect push to="/accommodation/agreements" />;
 
         return (
 
@@ -167,7 +85,7 @@ class AccommodationVariantsPage extends React.Component {
                     <div class="input-wrap">
                         <div class="form">
                             <FieldText
-                                placeholder={t("Search hotel name ...")}
+                                placeholder={t("Search by a hotel name...")}
                             />
                         </div>
                     </div>
@@ -179,7 +97,7 @@ class AccommodationVariantsPage extends React.Component {
 
                 { this.state.loading && <Loader page /> }
 
-                { store.hotelArray.map((item, hotelIndex) =>
+                { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
                     <div class="summary">
                         <div class="photo">
@@ -191,7 +109,8 @@ class AccommodationVariantsPage extends React.Component {
                                 <Stars count={item.accommodationDetails.rating} />
                             </h2>
                             <div class="category">
-                                {t("Hotels in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}
+                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}<br/>
+                                {item.accommodationDetails.location.address}
                             </div>
                             <div class="features">
                                 <span class="icon icon-info-big"/>
@@ -201,7 +120,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements[0].currencyCode, item.agreements[0].price.total)}</div>
+                            <div class="value">{price(item.agreements[0].price.currencyCode, item.agreements[0].price.netTotal)}</div>
                         </div>
                     </div>
                     <div class="description">
@@ -210,78 +129,50 @@ class AccommodationVariantsPage extends React.Component {
                         { /* <span class="expand">{t("more...")}</span> */ }
                     </div>
                     <div class="table">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th>{t("Room Type")}</th>
-                                <th>{t("Board Basis")}</th>
-                                <th>{t("Deadline")}</th>
-                                { false && <th>{t("Actions")}</th> }
-                                <th>{t("Room Price")}</th>
-                                <th />
-                            </tr>
-                            { item.agreements.slice(0, !this.state.expanded[hotelIndex] ? 3 : undefined).map(agreement => <tr>
-                                <td>
-                                    {agreement.rooms.map(room => <div>{room.type}</div>)}
-                                </td>
-                                <td>
-                                    {agreement.mealPlan}
-                                </td>
-                                <td>
-                                    { moment().isAfter(agreement.deadlineDate) ? <div class="services-info">
-                                        <span class="icon icon-info orange"/> {t("Within deadline")}
-                                        <br/>{dateFormat.a(agreement.deadlineDate)}
+                        <div class="title">
+                            {t("Recommended variant for")}{" "}
+                            {plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
+                        </div>
+                        <div class="billet">
+                            <div class="count">
+                                {plural(t, store.search.result.numberOfNights, "Night")},
+                                {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
+                            </div>
+                            <div class="price">
+                                {price(item.agreements[0].price.currencyCode, item.agreements[0].price.netTotal)}
+                            </div>
+                            <button class="button small" onClick={() => this.accommodationSelect(item)}>
+                                {t("Choose Room")}
+                            </button>
+                        </div>
+                        { item.agreements.slice(0, 2).map(agreement => <div class="row">
+                            <div class="icons">
+                                <span class="icon icon-man" />
+                                {(agreement.rooms.length == 1 && agreement.rooms[0].type == "Single") ? null : <span class="icon icon-man" />}
+                            </div>
+                            <div class="main">
+                                <h3>
+                                    {groupAndCount(agreement.rooms)}
+                                </h3>
+                                <div>
+                                    { agreement.deadlineDate ?
+                                    <div class={"info" + (moment().isAfter(agreement.deadlineDate) ? " warning" : "")}>
+                                        {t("Within deadline")} – {dateFormat.a(agreement.deadlineDate)}
                                     </div> :
-                                        dateFormat.a(agreement.deadlineDate)
+                                    <div class="info green">
+                                        {t("FREE Cancellation - Without Prepayment")}
+                                    </div>
                                     }
-                                </td>
-                                { false && <td class="actions">
-                                    <span class="icon icon-calendar-clock" />
-                                    <span class="icon icon-warning" />
-                                    <span class="icon icon-chat" />
-                                    <span class="icon icon-money" />
-                                    <span class="icon icon-card" />
-                                </td> }
-                                <td class="price">
-                                    {agreement.rooms.map(room => <div>
-                                        {price(agreement.currencyCode, room.roomPrices[0].nett)}
-                                    </div>)}
-                                </td>
-                                <td class="buttons">
-                                    <button class="button small" onClick={() => this.variantSelect(agreement, item.accommodationDetails)}>
-                                        {t("Book now")}
-                                    </button>
-                                    { false && <button class="button small gray round">
-                                        <span class="icon icon-arrow-expand" />
-                                    </button> /* todo: finish this button */ }
-                                </td>
-                            </tr>) }
-                        { /* todo: <React.Fragment>
-                            <tr class="alternative">
-                                <th>{t("Date")}</th>
-                                <th />
-                                <th>{t("Availability")}</th>
-                                <th>{t("Price")}</th>
-                                <th />
-                            </tr>
-                            <tr class="alternative">
-                                <td>Fri 28 Jun 2019</td>
-                                <td />
-                                <td>
-                                    <span class="button green mini-label">{t("Room Available")}</span>
-                                </td>
-                                <td class="price">USD 70.50</td>
-                                <td />
-                            </tr>
-                        </React.Fragment> */ }
-                            </tbody>
-                        </table>
+                                </div>
+                                <div class="info green">
+                                    {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room only") : (t("Breakfast Included") + " " + agreement.mealPlan) }
+                                </div>
+                                <div class="paragraph">
+                                    {agreement.contractType}
+                                </div>
+                            </div>
+                        </div>) }
                     </div>
-                    { !this.state.expanded[hotelIndex] && <div class="show-more">
-                        <button class="button blue small" onClick={() => this.expand(hotelIndex)}>
-                            {t("Show all rooms")}
-                        </button>
-                    </div> }
                 </div>) }
             </div>
         </section> }
