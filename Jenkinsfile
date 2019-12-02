@@ -1,31 +1,37 @@
+#!groovy
 pipeline {
-    agent { label 'master' }
-
-
-    environment {
-        URL_REGISTRY = 'registry.dev.happytravel.com'
-        APP_NAME = 'matsumoto-front'
-        IMAGE_NAME = 'matsumoto-front:dev'
-        NAMESPACE = 'dev'
+    agent {
+        label 'master' 
     }
-
+    
+    environment {
+        APP_NAME="matsumoto-front"
+        NAMESPACE="dev"
+        GIT_URL="git@bitbucket.org:happytravel/${APP_NAME}.git"
+        GIT_CRED_ID='bitbucket'
+        GIT_BRANCH="master"
+        URL_REGISTRY="registry.dev.happytravel.com"
+        IMAGE_NAME="${APP_NAME}:${NAMESPACE}"
+        IDENTITY_URL = 'https://identity.dev.happytravel.com/'
+        EDO_URL = 'https://edo-api.dev.happytravel.com/'
+        SENTRY_DSN = 'https://21e4194b435946e0b2e20444d6948d25@sentry.dev.happytravel.com/4'         
+    }
+    
     stages {
-        stage('Checkout happytravel repository') {
+        stage("Checkout") {
             steps {
-                dir('docker/matsumoto-front') {
-                    git branch: 'master', credentialsId: 'bitbucket', url: 'git@bitbucket.org:happytravel/matsumoto-front.git'
-                }
+                git branch: "${GIT_BRANCH}", credentialsId: "${GIT_CRED_ID}", url: "${GIT_URL}"
             }
         }
-        stage('Force login at docker registry') {
+        stage("Force login at docker registry") {
             steps {
                 sh 'docker login https://$URL_REGISTRY -u username -p password'
             }
         }
         stage('Build docker image') {
             steps {
-                dir('docker/matsumoto-front') {
-                    sh 'docker build -t $URL_REGISTRY/$IMAGE_NAME-$BUILD_NUMBER . --no-cache'
+                withCredentials([string(credentialsId: 'VAULT_TOKEN', variable: 'VAULT_TOKEN')]) {
+                    sh 'docker build -t $URL_REGISTRY/$IMAGE_NAME-$BUILD_NUMBER --build-arg "IDENTITY_URL=$IDENTITY_URL" --build-arg "EDO_URL=$EDO_URL" --build-arg "SENTRY_DSN=$SENTRY_DSN" . --no-cache'
                 }
             }
         }
@@ -38,33 +44,89 @@ pipeline {
         }
         stage('Deploy to k8s') {
             steps {
-                dir('docker/matsumoto-front/Helm') {
+                dir('Helm') {
                     withCredentials([file(credentialsId: 'k8s', variable: 'k8s_cred')]) {
                         sh './setRevision.sh $BUILD_NUMBER'
-                        sh 'helm --kubeconfig /$k8s_cred upgrade --install $NAMESPACE-$APP_NAME --wait --namespace $NAMESPACE ./'
+                        sh 'helm --kubeconfig /$k8s_cred upgrade --install $NAMESPACE-$APP_NAME -f values_dev.yaml --wait --namespace $NAMESPACE ./'
                     }
                 }
             }
-        }        
+        }  
+
     }
+
     post {
         always {
-            echo 'One way or another, I have finished'
-            deleteDir() /* clean up our workspace */
+            echo "I AM ALWAYS first"
+            notifyBuild("${currentBuild.currentResult}")
+        }
+        aborted {
+            echo "BUILD ABORTED"
         }
         success {
-            echo 'I succeeeded!'
-            discordSend description: 'Job:'+' '+env.JOB_NAME+', build number: '+env.BUILD_NUMBER, footer: 'SUCCESSFUL', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME+' env: '+env.NAMESPACE, webhookURL: 'https://discordapp.com/api/webhooks/585188681892233239/eFnBXVIb-03zxCqOncAkCXvbnke02dWsDx2acpFDp1Lhe7JUyW5jGahAIH2VaiqzAbUQ'
+            echo "BUILD SUCCESS"
+            echo "Keep Current Build If branch is master"
         }
         unstable {
-            echo 'I am unstable :/'
+            echo "BUILD UNSTABLE"
         }
         failure {
-            echo 'I failed :('
-            discordSend description: 'Job:'+' '+env.JOB_NAME+', build number: '+env.BUILD_NUMBER, footer: 'FAILED', link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME+' env: '+env.NAMESPACE, webhookURL: 'https://discordapp.com/api/webhooks/585188681892233239/eFnBXVIb-03zxCqOncAkCXvbnke02dWsDx2acpFDp1Lhe7JUyW5jGahAIH2VaiqzAbUQ'
-        }
-        changed {
-            echo 'Things were different before...'
+            echo "BUILD FAILURE"
         }
     }
+}
+def getCurrentBranch () {
+    return sh (
+            script: 'git rev-parse --abbrev-ref HEAD',
+            returnStdout: true
+    ).trim()
+}
+def getShortCommitHash() {
+    return sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+}
+def getChangeAuthorName() {
+    return sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
+}
+def getChangeAuthorEmail() {
+    return sh(returnStdout: true, script: "git show -s --pretty=%ae").trim()
+}
+def getChangeSet() {
+    return sh(returnStdout: true, script: 'git diff-tree --no-commit-id --name-status -r HEAD').trim()
+}
+
+def getChangeLog() {
+    return sh(returnStdout: true, script: "git log -3 --date=short --pretty=format:'%ad %aN <%ae> %n%x09* %s%n'").trim()
+}
+
+def notifyBuild(String buildStatus = 'STARTED') {
+    buildStatus = buildStatus ?: 'SUCCESS'
+
+    def branchName = getCurrentBranch()
+    def shortCommitHash = getShortCommitHash()
+    def changeAuthorName = getChangeAuthorName()
+    def changeAuthorEmail = getChangeAuthorEmail()
+    def changeSet = getChangeSet()
+    def changeLog = getChangeLog()
+
+    // Default values
+    def subject = "${buildStatus}: '${env.JOB_NAME} [${env.BUILD_NUMBER}]'" + branchName + ", " + shortCommitHash
+    def summary = "__**Build Number:**__ ${env.BUILD_NUMBER} " +
+        "\n __**Build URL:**__ ${env.BUILD_URL} " +
+        "\n __**Commit:**__ " + branchName + " " + shortCommitHash + 
+        "\n __**Author:**__ " + changeAuthorName + " (" + changeAuthorEmail + ")" + 
+        "\n __**Change Set:**__ " + " \n "+ changeSet + 
+        "\n \n __**ChangeLog:**__ " + " \n " + changeLog
+        
+    // Send message
+    discordSend webhookURL: 'https://discordapp.com/api/webhooks/585188681892233239/eFnBXVIb-03zxCqOncAkCXvbnke02dWsDx2acpFDp1Lhe7JUyW5jGahAIH2VaiqzAbUQ',
+    description: summary,
+    result: currentBuild.currentResult,
+    footer: currentBuild.currentResult,
+    link: env.BUILD_URL,
+    title: 'Started: '+JOB_NAME+' env: '+env.NAMESPACE,
+    thumbnail: 'https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2019/Jun/06/3563382950-5-matsumoto-front-logo_avatar.png'
+    
+    if (buildStatus == 'FAILURE') {
+        emailext attachLog: true, body: summary, compressLog: true, recipientProviders: [brokenTestsSuspects(), brokenBuildSuspects(), culprits()], subject: subject, to: changeAuthorEmail
+    }    
 }
