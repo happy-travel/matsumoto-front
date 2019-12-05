@@ -4,7 +4,9 @@ import Authorize from "./auth/authorize";
 import React from "react";
 import { getParams } from "core";
 
-const isRedirectNeeded = () => window.location.href.indexOf("/signup/") == -1 && window.location.href.indexOf("/pay") == -1;
+const noRedirectPages = ["/contact", "/terms", "/privacy", "/about", "/signup/", "/pay"];
+
+export const isRedirectNeeded = () => noRedirectPages.every(item => window.location.href.indexOf(item) == -1);
 
 const init = () => {
 

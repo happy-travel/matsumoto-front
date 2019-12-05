@@ -29,7 +29,7 @@ class UserMenuDropdown extends React.Component {
                         <NoAvatar />
                     </div>
                     <div class="double">
-                        <div class="name" {...calcTitleFor(UI.user?.firstName + UI.user?.lastName)}>{UI.user?.firstName || "Account"} {UI.user?.lastName}</div> {/* todo: non-registered layout */}
+                        <div class="name" {...calcTitleFor(UI.user?.firstName + UI.user?.lastName)}>{UI.user?.firstName} {UI.user?.lastName}</div>
                         <div class="company" {...calcTitleFor(UI.user?.companies?.[0].name)}>{UI.user?.companies?.[0].name}</div>
                     </div>
                     <div class="switch-arrow" />

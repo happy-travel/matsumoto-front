@@ -1,14 +1,14 @@
 import React from "react";
 import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
+import { isRedirectNeeded } from "core/init";
 
 /* Refactoring possibility: rewrite auth to vanilla, remove react components */
 class AuthDefaultComponent extends React.PureComponent {
     componentDidMount() {
         Authorize.getUser().then(user => {
             if (!user || !user.access_token) {
-                if (window.location.href.indexOf("/signup/invite") == -1 &&
-                    window.location.href.indexOf("/pay") == -1)
+                if (isRedirectNeeded())
                     Authorize.signinRedirect();
             }
         });

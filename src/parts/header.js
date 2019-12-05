@@ -5,6 +5,7 @@ import { localStorage } from "core";
 import LocaleSwitcher from "components/switchers/locale";
 import CurrencySwitcher from "components/switchers/currency";
 import UserMenu from "components/switchers/user-menu";
+import UI from "stores/ui-store";
 
 const Header = () => {
     const { t } = useTranslation();
@@ -24,8 +25,8 @@ const Header = () => {
                     */ }
                 </nav>
                 <LocaleSwitcher />
-                <CurrencySwitcher />
-                <UserMenu />
+                { UI.user?.firstName && <CurrencySwitcher /> }
+                { UI.user?.firstName && <UserMenu /> }
             </section>
         </header>
     );
