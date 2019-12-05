@@ -28,7 +28,8 @@ class UIStore {
         "lastName": null,
         "firstName": null,
         "title": null,
-        "position": null
+        "position": null,
+        "isEmpty": null
     };
     @observable topAlertText = null;
     @observable advancedSearch = false;

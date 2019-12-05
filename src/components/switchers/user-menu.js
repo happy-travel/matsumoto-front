@@ -23,29 +23,27 @@ class UserMenuDropdown extends React.Component {
         const { t } = useTranslation();
 
         return (
-            <React.Fragment>
-                <div class="switcher user-switcher" onClick={this.toggleMenu}>
-                    <div class="avatar">
-                        <NoAvatar />
-                    </div>
-                    <div class="double">
-                        <div class="name" {...calcTitleFor(UI.user?.firstName + UI.user?.lastName)}>{UI.user?.firstName} {UI.user?.lastName}</div>
-                        <div class="company" {...calcTitleFor(UI.user?.companies?.[0].name)}>{UI.user?.companies?.[0].name}</div>
-                    </div>
-                    <div class="switch-arrow" />
-                    {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
-                        <Link to="/user/booking" class="item">
-                            {t("Booking management")}
-                        </Link>
-                        { UI.user?.companies?.[0].isMaster && <Link to="/user/invite" class="item">
-                            {t("Send invitation")}
-                        </Link> }
-                        <div class="item" onClick={() => Authorize.signoutRedirect()}>
-                            {t("Log out")}
-                        </div>
-                    </div>}
+            <div class="switcher user-switcher" onClick={this.toggleMenu}>
+                <div class="avatar">
+                    <NoAvatar />
                 </div>
-            </React.Fragment>
+                <div class="double">
+                    <div class="name" {...calcTitleFor(UI.user?.firstName + UI.user?.lastName)}>{UI.user?.firstName} {UI.user?.lastName}</div>
+                    <div class="company" {...calcTitleFor(UI.user?.companies?.[0].name)}>{UI.user?.companies?.[0].name}</div>
+                </div>
+                <div class="switch-arrow" />
+                {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
+                    <Link to="/user/booking" class="item">
+                        {t("Booking management")}
+                    </Link>
+                    { UI.user?.companies?.[0].isMaster && <Link to="/user/invite" class="item">
+                        {t("Send invitation")}
+                    </Link> }
+                    <div class="item" onClick={() => Authorize.signoutRedirect()}>
+                        {t("Log out")}
+                    </div>
+                </div>}
+            </div>
         );
     }
 }

@@ -25,8 +25,8 @@ const Header = () => {
                     */ }
                 </nav>
                 <LocaleSwitcher />
-                { UI.user?.firstName && <CurrencySwitcher /> }
-                { UI.user?.firstName && <UserMenu /> }
+                { !UI.user.isEmpty && <CurrencySwitcher /> }
+                { !UI.user.isEmpty && <UserMenu /> }
             </section>
         </header>
     );
