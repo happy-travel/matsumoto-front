@@ -29,7 +29,7 @@ class AccommodationFiltersPart extends React.Component {
                     return (
                         <form onSubmit={formik.handleSubmit}>
                             <div class="left-section filters">
-                                { store.filters.price.min != store.filters.price.max &&
+                                { (store.filters.price.max - store.filters.price.min > 1) &&
                                   store.filters.price.max < Infinity && <Expandable
                                     open
                                     header={t("Price Range")}
