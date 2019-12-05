@@ -11,7 +11,7 @@ export const createFilters = (response) => {
             price: {
                 min: Infinity,
                 max: 0,
-                currency: "USD" //todo : default currency binding
+                currency: ""
             },
             mealPlans: new Set(),
             ratings: new Set()
@@ -36,14 +36,16 @@ export const createFilters = (response) => {
 
         for (var j=0; j < hotel.agreements.length; j++) {
             var item = hotel.agreements[j];
-            filters.price.min = Math.min(filters.price.min, item.price.total);
-            filters.price.max = Math.max(filters.price.max, item.price.total);
-            filters.price.currency = item.currencyCode;
+            filters.price.min = Math.min(filters.price.min, item.price.netTotal);
+            filters.price.max = Math.max(filters.price.max, item.price.netTotal);
+            filters.price.currency = item.price.currencyCode;
 
             filters.mealPlans.add(item.boardBasisCode);
         }
     }
 
+    filters.price.min = Math.trunc(filters.price.min);
+    filters.price.max = Math.ceil(filters.price.max);
     filters.mealPlans = [...filters.mealPlans];
     filters.ratings = [...filters.ratings];
 
@@ -68,8 +70,8 @@ export const applyFilters = (hotels, filters) => {
         for (var i = 0; i < result.length; i++)
             for (var j=0; j < result[i].agreements.length; j++) {
                 result[i].agreements = result[i].agreements.filter(item => (
-                    item.price.total >= filters.price.min &&
-                    item.price.total <= filters.price.max
+                    item.price.netTotal >= filters.price.min &&
+                    item.price.netTotal <= filters.price.max
                 ));
             }
 

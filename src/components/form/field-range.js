@@ -32,7 +32,7 @@ class FieldRangeSlider extends React.Component {
             <InputRange
                 maxValue={max}
                 minValue={min}
-                step={0.01}
+                step={1}
                 allowSameValues={true}
                 formatLabel={(v, label) => price(currency, this.state.value[label])}
                 value={this.state.value}
