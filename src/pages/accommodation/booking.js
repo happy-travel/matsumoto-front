@@ -132,7 +132,7 @@ class AccommodationBookingPage extends React.Component {
                 </div>
                 <div class="subtitle">
                     {hotel.location.address}
-                    , {hotel.location.city}
+                    , {hotel.location.locality}
                     , {hotel.location.country}
                 </div>
 

@@ -68,7 +68,7 @@ class AccommodationCommonDetailsPart extends React.Component {
                         </div> }
                         <div class="line">
                             <span class="icon icon-small-pin" />
-                            {hotel.location.address} {hotel.location.city} {hotel.location.country}
+                            {hotel.location.address}, {hotel.location.locality}, {hotel.location.country}
                         </div>
                         {hotel.contacts?.phone && <div class="line">
                             <span class="icon icon-small-phone" />

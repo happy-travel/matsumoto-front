@@ -109,7 +109,7 @@ class AccommodationVariantsPage extends React.Component {
                                 <Stars count={item.accommodationDetails.rating} />
                             </h2>
                             <div class="category">
-                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.city}<br/>
+                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.locality}<br/>
                                 {item.accommodationDetails.location.address}
                             </div>
                             <div class="features">
@@ -124,7 +124,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                     </div>
                     <div class="description">
-                        <span>{t("Located in")} {item.accommodationDetails.location.city}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.{" "}
+                        <span>{t("Located in")} {item.accommodationDetails.location.locality}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.{" "}
                             {item.accommodationDetails.generalTextualDescription && item.accommodationDetails.generalTextualDescription.descriptions && item.accommodationDetails.generalTextualDescription.descriptions.en}</span>
                         { /* <span class="expand">{t("more...")}</span> */ }
                     </div>
