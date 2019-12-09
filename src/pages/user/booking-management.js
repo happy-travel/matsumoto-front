@@ -8,6 +8,11 @@ import { Redirect } from "react-router-dom";
 
 import store from "stores/accommodation-store";
 
+const getClassByStatus = status => ({
+    "Confirmed": "green",
+    "Cancelled": "gray"
+}[status] || "");
+
 @observer
 class UserBookingManagementPage extends React.Component {
     constructor(props) {
@@ -42,7 +47,10 @@ class UserBookingManagementPage extends React.Component {
                             <div>{t("You don`t have any reservations")}</div> :
                             <table>
                                 {store.userBookingList.map(item => item && (
-                                    <tr onClick={() => this.setState({ redirectToBookingConfirmationId: item.id })}>
+                                    <tr
+                                        onClick={() => this.setState({ redirectToBookingConfirmationId: item.id })}
+                                        class={getClassByStatus(item.status) == "gray" ? "gray" : ""}
+                                    >
                                         <td>
                                             <strong>{t("Accommodations")}</strong>
                                             {item.accommodationName}
@@ -74,7 +82,9 @@ class UserBookingManagementPage extends React.Component {
                                         </td>
                                         <td>
                                             <strong>{t("Status")}</strong>
-                                            {item.status}
+                                            <span class={getClassByStatus(item.status)}>
+                                                {item.status}
+                                            </span>
                                         </td>
                                     </tr>
                                 ))}

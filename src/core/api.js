@@ -32,9 +32,9 @@ API_METHODS = {
     BOOKING_CANCEL        : bookingId =>
                             v1 + `/bookings/accommodations/${bookingId}/cancel`,
     BOOKING_GET_BY_ID     : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}/id`,
+                            v1 + `/bookings/accommodations/${bookingId}`,
     BOOKING_GET_BY_CODE   : referenceCode =>
-                            v1 + `/bookings/accommodations/${referenceCode}/refcode`,
+                            v1 + `/bookings/accommodations/refcode/${referenceCode}`,
 
     ACCOMMODATION_DETAILS : accommodationId =>
                             v1 + "/accommodations/" + accommodationId,
