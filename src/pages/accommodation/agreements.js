@@ -31,10 +31,6 @@ class AccommodationAgreementsPage extends React.Component {
     }
 
     componentDidMount() {
-        API.get({
-            url: API.ACCOMMODATION_DETAILS(store.selected.hotel.id),
-            success: result => store.selectHotel(result)
-        });
         window.scrollTo(0, 400);
     }
 
@@ -49,14 +45,13 @@ class AccommodationAgreementsPage extends React.Component {
     }
 
     agreementSelect(agreement) {
-        store.selectAgreement(agreement);
         this.setState({
             loading: true
         });
         API.get({
             url: API.AVAILABILITY_DETAILS(store.search.result.availabilityId, agreement.id),
             success: (result) => {
-                if (result?.accommodationId != store.selected.hotel.id) { // todo: better error definition and error handling
+                if (result?.accommodationId != store.selected.accommodation.accommodationDetails.id) { // todo: better error definition and error handling
                     UI.setTopAlertText("Sorry, this room is not available now");
                     return;
                 }
@@ -111,14 +106,14 @@ class AccommodationAgreementsPage extends React.Component {
                         }, {
                             text: store.search.form?.["destination"] || ""
                         }, {
-                            text: store.selected.hotel.name
+                            text: item.accommodationDetails.name
                         }
                     ]}/>
                 </div>
                 { this.state.loading && <Loader page /> }
 
                 <AccommodationCommonDetails
-                    accommodation={store.selected.hotel}
+                    accommodation={item.accommodationDetails}
                     fromPage
                 />
 

@@ -40,6 +40,8 @@ API_METHODS = {
                             v1 + "/accommodations/" + accommodationId,
 
     ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
+    AVAIL_ACCOMM_DETAILS  : accommodationId =>
+                            v1 + "/availabilities/accommodations/" + accommodationId,
     AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
                             v1 + `/availabilities/${availabilityId}/${agreementId}`,
 

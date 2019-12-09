@@ -45,7 +45,7 @@ class AccommodationBookingPage extends React.Component {
     }
 
     submit(values, { setSubmitting }) {
-        if (!store.selected.hotel.id || !store.selected.variant.id)
+        if (!store.selected.accommodation.accommodationDetails.id || !store.selected.variant.id)
             return null; //todo: another answer
 
         var variant = store.selected.variant,
@@ -106,11 +106,10 @@ class AccommodationBookingPage extends React.Component {
     render() {
         const { t } = useTranslation();
 
-        if (!store.selected?.hotel?.id || !store.selected?.variant?.id)
+        if (!store.selected?.accommodation?.accommodationDetails?.id || !store.selected?.variant?.id)
             return null; //todo: another answer
 
-        var hotel = store.selected.hotel,
-            hotel2 = store.selected.accommodation,
+        var hotel = store.selected.accommodation.accommodationDetails,
             variant = store.selected.variant,
             confirmation = store.selected.confirmation;
 
@@ -125,7 +124,7 @@ class AccommodationBookingPage extends React.Component {
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
                 <div class="expanded">
-                    <img src={hotel2.accommodationDetails.picture.source} alt={hotel2.accommodationDetails.picture.caption} class="round" />
+                    <img src={hotel.pictures[0].source} alt={hotel.pictures[0].caption} class="round" />
                 </div>
                 <div class="static item no-border">
                     {hotel.name}

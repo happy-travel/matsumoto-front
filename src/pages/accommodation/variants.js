@@ -41,9 +41,22 @@ class AccommodationVariantsPage extends React.Component {
         this.setState({
             loading: true
         });
-        store.selectAccommodation(accommodation);
-        this.setState({
-            redirectToAgreementsPage: true
+        API.post({
+            url: API.AVAIL_ACCOMM_DETAILS(accommodation.accommodationDetails.id),
+            body: {
+                availabilityId: store.search.result.availabilityId
+            },
+            success: result => {
+                store.selectAccommodation(result);
+                this.setState({
+                    redirectToAgreementsPage: true
+                });
+            },
+            after: () => {
+                this.setState({
+                    loading: false
+                });
+            }
         });
     }
 
