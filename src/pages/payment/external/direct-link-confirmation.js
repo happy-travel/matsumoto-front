@@ -81,7 +81,7 @@ return (
 
                 <Dual addClass="line"
                     a={t('Amount')}
-                    b={ price(booking.currency, booking.amount) }
+                    b={ price(booking.currency, booking.amount || 0) }
                 />
 
                 <Dual addClass="line"

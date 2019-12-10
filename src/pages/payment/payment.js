@@ -217,7 +217,7 @@ render() {
                         </div>
                         <button class="button">
                             <span class="icon icon-white-lock" />
-                            { t("Pay") + price(this.state.currency, this.state.amount) }
+                            { t("Pay") + price(this.state.currency, this.state.amount || 0) }
                         </button>
                     </div>
                 </form>
