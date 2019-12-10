@@ -50,9 +50,7 @@ class AccommodationStore {
     @observable
     booking = {
         request: {},
-        result: {
-            referenceCode: null
-        },
+        result: null,
         selected: {}
     };
 
@@ -186,10 +184,6 @@ class AccommodationStore {
         this.userBookingList = value;
     }
 
-    setSelectedBooking(value) {
-        this.booking.selected = value;
-    }
-
     selectAccommodation(accommodation) {
         this.selected.accommodation = accommodation;
     }
@@ -198,7 +192,7 @@ class AccommodationStore {
         this.selected.variant = agreement;
         this.selected.confirmation = confirmation;
         this.booking.request = null;
-        this.booking.result = {};
+        this.booking.result = null;
         this.selected.availabilityId = confirmation?.deadlineDetails?.availabilityId || this.search.result.availabilityId;
     }
 
@@ -207,21 +201,10 @@ class AccommodationStore {
     }
 
     setBookingResult(result, data) {
-        if (null === result) {
-            this.booking.result = {};
-            return;
-        }
-        if (data?.status && data.status != 200)
-            this.booking.result = {
-                error: data.detail,
-                loaded: true
-            };
-        else {
-            this.booking.result = {
-                ...(result || {}),
-                loaded: true
-            }
-        }
+        this.booking.result =
+            ( null !== result && data?.status != 200 )
+                ? { error: data?.detail }
+                : result;
     }
 
     setPaymentResult(result) {

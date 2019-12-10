@@ -133,7 +133,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements[0].price.currencyCode, item.agreements[0].price.netTotal)}</div>
+                            <div class="value">{price(item.agreements[0].price)}</div>
                         </div>
                     </div>
                     <div class="description">
@@ -152,7 +152,7 @@ class AccommodationVariantsPage extends React.Component {
                                 {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                             </div>
                             <div class="price">
-                                {price(item.agreements[0].price.currencyCode, item.agreements[0].price.netTotal)}
+                                {price(item.agreements[0].price)}
                             </div>
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}

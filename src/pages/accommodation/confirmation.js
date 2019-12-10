@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, price, API } from "core";
+import { dateFormat, price, API, plural } from "core";
 import UI, { MODALS } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
@@ -12,6 +12,13 @@ import moment from "moment";
 
 import store from "stores/accommodation-store";
 
+const Passenger = ({ passenger }) => (
+    <Dual addClass="line"
+        a={"Passenger Name"}
+        b={passenger.title + ". " + passenger.firstName + " " + passenger.lastName}
+    />
+);
+
 @observer
 class AccommodationConfirmationPage extends React.Component {
     constructor(props) {
@@ -19,55 +26,20 @@ class AccommodationConfirmationPage extends React.Component {
         this.state = {
             fromGetter: false
         };
-        this.getValues = this.getValues.bind(this);
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
     }
 
-    getValues() {
-        var result = store.booking.result;
-
-        if (this.state.fromGetter) {
-            var selected = store.booking.selected;
-            if (selected) {
-                result = selected.bookingDetails || {};
-                result.loaded = true;
-            }
-        }
-
-        var rooms = [];
-        for (var i = 0; i < result.roomDetails?.length; i++) {
-            rooms.push({
-                roomType: result.roomDetails[i]?.roomDetails.type,
-                // todo: temporary hidden : currency: '',
-                // todo: temporary hidden : price: 0,
-                passengers: result.roomDetails[i]?.roomDetails.passengers,
-            })
-        }
-
-        return {
-            referenceCode: result.referenceCode,
-            status: result.status,
-            checkInDate: result.checkInDate,
-            checkOutDate: result.checkOutDate,
-            deadline: result.deadline,
-            loaded: result.loaded,
-            error: result.error,
-            id: result.bookingId,
-            rooms
-        };
-    }
-
     showCancellationConfirmation() {
-        var booking = this.getValues();
         UI.setModalData({
-            bookingId: booking.id,
-            deadline: booking.deadline,
-            referenceCode: booking.referenceCode
+            bookingId: store.booking.result.bookingId,
+            ...store.booking.result.bookingDetails
         });
         UI.setModal(MODALS.CANCELLATION_CONFIRMATION);
     }
 
     componentDidMount() {
+        store.setBookingResult(null);
+
         var bookingId = this.props?.match?.params?.id,
             referenceCode = null,
             fromHistory = true;
@@ -77,21 +49,22 @@ class AccommodationConfirmationPage extends React.Component {
             fromHistory = false;
         }
 
-        if ( bookingId || referenceCode) {
+        if ( bookingId || referenceCode ) {
             this.setState({
                 fromGetter: true,
                 fromHistory
             });
             API.get({
                 url: referenceCode ? API.BOOKING_GET_BY_CODE(referenceCode) : API.BOOKING_GET_BY_ID(bookingId),
-                after: data => store.setSelectedBooking(data)
+                after: (result, err, data) => store.setBookingResult(result, data)
             });
         }
     }
 
 render() {
-    const { t } = useTranslation(),
-          booking = this.getValues();
+    var { t } = useTranslation(),
+        booking = store.booking.result?.bookingDetails || {},
+        accommodation = store.booking.result?.serviceDetails || {};
 
     if (store.paymentResult?.result)
         var {
@@ -150,7 +123,7 @@ render() {
                         </div> }
                     </React.Fragment> }
 
-                    { booking.referenceCode && <React.Fragment>
+                    { !booking.referenceCode ? <Loader /> : <React.Fragment>
                     <h2>
                         {t("Booking Details")}
                     </h2>
@@ -169,6 +142,26 @@ render() {
                         </div>
                     </div>
 
+                    <Dual addClass="line"
+                        a={t("Booked Service")}
+                        b={accommodation.accommodationName}
+                    />
+
+                    <Dual addClass="line"
+                        a={t("Additional")}
+                        b={accommodation.agreement.contractType}
+                    />
+
+                    <Dual addClass="line"
+                        a={t("Total Cost")}
+                        b={price(accommodation.agreement.price)}
+                    />
+
+                    <Dual addClass="line"
+                        a={t("Service Location")}
+                        b={accommodation.countryName + ", " + accommodation.cityName}
+                    />
+
                     <Dual
                         a={<Dual addClass="line"
                                 a={"Check In Date"}
@@ -179,63 +172,74 @@ render() {
                                 b={dateFormat.a(booking.checkOutDate)}
                             />}
                     />
+
                     <Dual addClass="line"
-                        a={"Within deadline"}
-                        b={dateFormat.a(booking.deadline)}
+                        a={t("Board basis")}
+                        b={<React.Fragment>
+                            {accommodation.agreement.boardBasisCode}:{" "}
+                            {accommodation.agreement.boardBasisCode == "RO" ? t("Room Only") : (accommodation.agreement.mealPlan || "")}
+                        </React.Fragment>}
                     />
 
-                    { booking.rooms.map((room, index) => (
+
+                    <h2>
+                        {t("Leading Passenger")}
+                    </h2>
+                    <Passenger passenger={booking.roomDetails[0].roomDetails.passengers[0]} />
+
+                    { (booking.roomDetails.length > 1 || booking.roomDetails[0].roomDetails.passengers.length > 1) && <React.Fragment>
+                        <h2>
+                            {t("Other Passengers")}
+                        </h2>
+
+                        { booking.roomDetails.map((room, index1) => (
+                            room.roomDetails.passengers.map(( item, index2 ) => (
+                                (index1 || index2) ? <Passenger passenger={ item } /> : null
+                            ))
+                        ))}
+
+                    </React.Fragment> }
+
+                    { booking.roomDetails.map((room, index) => (
                         <React.Fragment>
-                            {booking.rooms.length > 1 &&
                             <h2>
-                                {t('Room') + " " + (index+1)}
-                            </h2>}
+                                {t("Room")} {booking.roomDetails.length > 1 && (" " + (index+1))}
+                            </h2>
 
                             <Dual addClass="line"
-                                  a={t('Room type')}
-                                  b={room.roomType}
+                                a={t("Room type")}
+                                b={room.roomDetails.type}
                             />
-                            { /* todo: temporary hidden: <Dual addClass="line"
-                                a={t('Total Cost')}
-                                b={price(room.currency, room.price)}
-                            /> */ }
-
-                            <h2>
-                                {t("Leading Passenger")}
-                            </h2>  { /* todo: initials fix */ }
-                            <Dual
-                                a={<Dual addClass="line"
-                                        a={"First name"}
-                                        b={room.passengers[0].firstName || room.passengers[0].initials}
-                                    />}
-                                b={<Dual addClass="line"
-                                        a={"Last name"}
-                                        b={room.passengers[0].lastName}
-                                    />}
+                            <Dual addClass="line"
+                                a={t("Room Cost")}
+                                b={price(accommodation.agreement.rooms[index].roomPrices[0])}
+                            />
+                            <Dual addClass="line"
+                                a={t("Accommodates")}
+                                b={plural(t, accommodation.agreement.rooms[index].adultsNumber, "Adult")}
                             />
 
-                            { room.passengers?.length > 1 && <React.Fragment>
-                                <h2>
-                                    {t("Other Passengers")}
-                                </h2>
-                                {room.passengers.map((item,index) => (
+                            { room.roomDetails.passengers?.length > 1 && <React.Fragment>
+                                {room.roomDetails.passengers.map((item,index) => (
                                     <React.Fragment>
-                                        {index ? <Dual
-                                            a={<Dual addClass="line"
-                                                    a={"First name"}
-                                                    b={item.firstName || item.initials}
-                                                />}
-                                            b={<Dual addClass="line"
-                                                    a={"Last name"}
-                                                    b={item.lastName}
-                                                />}
-                                        /> : null}
+                                        {index ? <Passenger passenger={ item } /> : null}
                                     </React.Fragment>
                                 ))}
                             </React.Fragment> }
 
                         </React.Fragment>
                     ))}
+
+                    { Object.keys(accommodation.agreement.remarks).length &&
+                        <React.Fragment>
+                            <h2 style={{ marginBottom: "17px" }}>
+                                {t("Remark")}
+                            </h2>
+                            {Object.keys(accommodation.agreement.remarks).map(key => (
+                                <p class="remark">{accommodation.agreement.remarks[key]}</p>
+                            ))}
+                        </React.Fragment>
+                     }
 
                     <div class="actions">
                         { /* <a href="javascript:void(0)">

@@ -166,11 +166,11 @@ class AccommodationAgreementsPage extends React.Component {
                                         {(agreement.rooms.length == 1 && agreement.rooms[0].type == "Single") ? null : <span class="icon icon-man" />}
                                     </td>
                                     <td class="price">
-                                        {price(agreement.price.currencyCode, agreement.price.netTotal)}
+                                        {price(agreement.price)}
                                     </td>
                                     <td class="pros">
                                         <div class="one green">
-                                            {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room only") : (t("Breakfast Included") + ", " + agreement.mealPlan) }
+                                            {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room Only") : (t("Breakfast Included") + ", " + agreement.mealPlan) }
                                         </div>
                                         <div class="one">
                                             { agreement.deadlineDate ?
