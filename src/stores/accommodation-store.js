@@ -11,10 +11,10 @@ export const defaultChildrenAge = 12;
 const defaultSearchForm = {
         "filters": "Default",
         "checkInDate": moment().utc().startOf("day"),
-        "checkOutDate": moment().utc().startOf("day").add(3, "d"),
+        "checkOutDate": moment().utc().startOf("day").add(1, "d"),
         "roomDetails": [
             {
-                "adultsNumber": 1,
+                "adultsNumber": 2,
                 "childrenNumber": 0
             }
         ],
