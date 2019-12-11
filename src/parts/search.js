@@ -213,21 +213,21 @@ class AccommodationSearch extends React.Component {
                         </div>
                         <div class="row">
                             <FieldText formik={formik}
+                                       id="nationality"
+                                       label={t("Nationality")}
+                                       placeholder={t("Choose your nationality")}
+                                       clearable
+                                       Flag={<Flag code={store.search.request.nationality} />}
+                                       Dropdown={RegionDropdown}
+                                       onChange={regionInputChanged}
+                                       addClass="size-large"
+                            />
+                            <FieldText formik={formik}
                                 id="residency"
                                 label={t("Residency")}
                                 placeholder={t("Choose your residency")}
                                 clearable
                                 Flag={<Flag code={store.search.request.residency} />}
-                                Dropdown={RegionDropdown}
-                                onChange={regionInputChanged}
-                                addClass="size-large"
-                            />
-                            <FieldText formik={formik}
-                                id="nationality"
-                                label={t("Nationality")}
-                                placeholder={t("Choose your nationality")}
-                                clearable
-                                Flag={<Flag code={store.search.request.nationality} />}
                                 Dropdown={RegionDropdown}
                                 onChange={regionInputChanged}
                                 addClass="size-large"
