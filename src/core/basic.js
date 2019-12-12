@@ -37,3 +37,31 @@ export const getParams = () => {
     }
     return params;
 };
+
+const easeInOutQuad = function (t, b, c, d) {
+    //t = current time
+    //b = start value
+    //c = change in value
+    //d = duration
+    t /= d/2;
+    if (t < 1) return c/2*t*t + b;
+    t--;
+    return -c/2 * (t*(t-2) - 1) + b;
+};
+
+export const scrollTo = (element, to, duration = 600) => {
+    const start = element.scrollTop;
+    const change = to - start;
+    let currentTime = 0;
+    const increment = 20;
+
+    const animateScroll = () => {
+        currentTime += increment;
+        element.scrollTop = easeInOutQuad(currentTime, start, change, duration);
+        if(currentTime < duration) {
+            setTimeout(animateScroll, increment);
+        }
+    };
+    animateScroll();
+};
+

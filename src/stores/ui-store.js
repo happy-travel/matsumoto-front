@@ -16,6 +16,7 @@ class UIStore {
     @observable currencies = [];
     @observable initialized = false;
     @observable openDropdown = null;
+    @observable focusedDropdownIndex = null;
     @observable suggestions = {
         "destination": null,
         "nationality": null,
@@ -74,12 +75,26 @@ class UIStore {
     }
 
     setCountries(value) {
-        value.sort((a,b) => {
-            if ( a.name < b.name ) return -1;
-            if ( a.name > b.name ) return 1;
-            return 0;
+        const newGroupedCountries = value.reduce(function (r, a) {
+            r[a.regionId] = r[a.regionId] || [];
+            r[a.regionId].push(a);
+            return r;
+        }, Object.create(null));
+        let countries = [];
+        this.regionList.forEach(region => {
+            if (newGroupedCountries[region.id]) {
+                countries = countries.concat(newGroupedCountries[region.id].sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                }));
+            }
         });
-        this.countries = value;
+        this.countries = countries;
     }
 
     setDestinationSuggestions(value) {
@@ -88,6 +103,11 @@ class UIStore {
 
     setOpenDropdown(id) {
         this.openDropdown = id || null;
+        this.focusedDropdownIndex = null;
+    }
+
+    setFocusedDropdownIndex(index) {
+        this.focusedDropdownIndex = index;
     }
 
     setModalData(value) {

@@ -23,37 +23,11 @@ export const regionInputChanged = (event, props) => {
     });
 };
 
-const anotherField = {
-    "residency": "nationality",
-    "nationality": "residency"
-};
-
-/* Refactoring possibility: remove region sorter from render() */
 @observer
 class RegionDropdown extends React.Component {
     constructor(props) {
         super(props);
-        this.setValue = this.setValue.bind(this);
         this.generateSuggestion = this.generateSuggestion.bind(this);
-    }
-
-    setValue(country) {
-        var {
-            connected,
-            formik
-        } = this.props;
-
-        formik.setFieldValue(connected, country.name);
-        if ("country" != connected) //todo: repair this workaround
-            store.setSearchRequestField(connected, country.code);
-        else
-            formik.setFieldValue("countryCode", country.code);
-        UI.setCountries([]);
-
-        if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
-            store.setSearchRequestField(anotherField[connected], country.code);
-            formik.setFieldValue(anotherField[connected], country.name);
-        }
     }
 
     generateSuggestion = () => {
@@ -77,23 +51,32 @@ class RegionDropdown extends React.Component {
         if (!UI.countries?.length)
             return null; //todo: change to separated lists for different inputs
 
+        const {connected, formik} = this.props;
         return (
             <div class="cities dropdown">
                 <div class="scroll">
-                    {UI.regionList?.map?.(item => (
-                        <React.Fragment>
-                            {UI.countries?.some?.(country => item.id == country.regionId) && <div class="region">
-                                {item.name}
-                            </div>}
-                            {UI.countries?.map?.(country => (
-                                item.id == country.regionId ?
-                                    <div class="country line" onClick={ () => this.setValue(country) }>
-                                        <Flag code={country.code} />
-                                        <Highlighted str={country.name} highlight={this.props.value} /> {/* todo: pick culture normally */}
-                                    </div> : null
-                            ))}
-                        </React.Fragment>
-                    ))}
+                    {UI.countries.map((country, index) => {
+                        let region = null;
+                        if (index === 0 || UI.countries[index].regionId !== UI.countries[index - 1].regionId) {
+                            const regionId = +UI.countries[index].regionId;
+                            const currentRegion = UI.regionList.find(regionItem => regionItem.id === regionId);
+                            region = <div
+                              key={currentRegion?.name}
+                              class="region">{currentRegion?.name?.toUpperCase()}</div>;
+                        }
+                        return <div>
+                            {region}
+                            <div
+                              id={`js-value-${index}`}
+                              key={`${country.name}-${country.id}`}
+                              onClick={ () => this.props.setValue(country, formik, connected) }
+                              class={`country line${UI.focusedDropdownIndex === index ? ' country__focused' : ''}`}
+                            >
+                                <Flag code={country.code} />
+                                <Highlighted str={country.name} highlight={this.props.value} /> {/* todo: pick culture normally */}
+                            </div>
+                        </div>
+                    })}
                 </div>
             </div>
         );
