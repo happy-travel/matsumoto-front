@@ -99,6 +99,25 @@ class AccommodationSearch extends React.Component {
             });
     }
 
+    setCountryValue(country, formik, connected) {
+        const anotherField = {
+            "residency": "nationality",
+            "nationality": "residency"
+        };
+
+        formik.setFieldValue(connected, country.name);
+        if ("country" != connected) //todo: repair this workaround
+            store.setSearchRequestField(connected, country.code);
+        else
+            formik.setFieldValue("countryCode", country.code);
+        UI.setCountries([]);
+
+        if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
+            store.setSearchRequestField(anotherField[connected], country.code);
+            formik.setFieldValue(anotherField[connected], country.name);
+        }
+    }
+
     render() {
         var { t } = useTranslation();
 
@@ -113,6 +132,7 @@ class AccommodationSearch extends React.Component {
             {''+store.search.request.checkOutDate}
             {[...Array(store.search.rooms)].map((x,i)=>JSON.stringify(store.getRoomDetails(i)))}
             {'' + UI.advancedSearch}
+            {'' + UI.countries}
             {JSON.stringify(store.suggestion)}
         </div>
         <Formik
@@ -220,6 +240,8 @@ class AccommodationSearch extends React.Component {
                                        Flag={<Flag code={store.search.request.nationality} />}
                                        Dropdown={RegionDropdown}
                                        onChange={regionInputChanged}
+                                       options={UI.countries}
+                                       setValue={this.setCountryValue}
                                        addClass="size-large"
                             />
                             <FieldText formik={formik}
@@ -229,6 +251,8 @@ class AccommodationSearch extends React.Component {
                                 clearable
                                 Flag={<Flag code={store.search.request.residency} />}
                                 Dropdown={RegionDropdown}
+                                options={UI.countries}
+                                setValue={this.setCountryValue}
                                 onChange={regionInputChanged}
                                 addClass="size-large"
                             />
