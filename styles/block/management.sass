@@ -2,9 +2,9 @@
     h2
         font-size: 20px
         line-height: 24px
-        margin: 45px 0 37px
+        margin: 45px 0 7px
 
-    section
+    .content
         min-height: 370px
 
     table
@@ -37,7 +37,48 @@
             display: block
             font-weight: 400
             margin-bottom: 12px
+
     .green
         color: $color-green
     .gray
         color: $color-text-light
+
+    .head-nav
+        box-shadow: none
+        margin-left: -8px
+        border-bottom: 1px solid $color-usual-gray
+        .item
+            padding-left: 40px
+            padding-right: 40px
+            color: $color-text-light
+            text-transform: uppercase
+            &.selected
+                color: $color-brand
+
+    .sorters
+        margin: 36px 0 47px
+        display: flex
+        flex-direction: row
+        font-size: 14px
+        line-height: 34px
+        .title
+            font-size: 16px
+            width: 80px
+        .item
+            cursor: pointer
+            padding: 0 34px 0 11px
+            margin-right: 10px
+            border: 1px solid $color-usual-gray
+            box-sizing: border-box
+            border-radius: 4px
+            &.selected1
+                background: url("./icons/order-round.png") center right no-repeat
+                background-size: 20px
+                background-position: right 10px center
+                border-color: $color-brand
+            &.selected-1
+                background: url("./icons/order-round-down.png") center right no-repeat
+                background-size: 20px
+                background-position: right 10px center
+                border-color: $color-brand
+

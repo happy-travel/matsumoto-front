@@ -1,6 +1,6 @@
 @import 'base/colors'
 
-header
+header, .head-nav
     background: #ffffff
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05)
     position: relative
@@ -16,12 +16,14 @@ header
         display: flex
         flex-direction: row
         flex-grow: 2
-        a
+        a, .item
             padding: 0 10px
             margin: 0 10px
             display: block
             position: relative
+            cursor: pointer
             &.selected
+                cursor: default
                 &:after
                     content: ' '
                     height: 4px

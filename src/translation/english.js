@@ -300,7 +300,8 @@ translations: {
     "Elevators": "Elevators",
     "Multilingual Staff": "Multilingual Staff",
     "Safety Deposit Box": "Safety Deposit Box",
-    "Leisure & Sport Amenities": "Leisure & Sport Amenities"
-
+    "Leisure & Sport Amenities": "Leisure & Sport Amenities",
+    "Future": "Future",
+    "Complete": "Complete"
 }
 };
