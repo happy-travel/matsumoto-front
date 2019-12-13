@@ -6,7 +6,13 @@ import { decorate } from "core";
 /* Refactoring possibility: import babel-plugin-objective-enums and make enums */
 export const MODALS = {
     ACCOMMODATION_DETAILS: "ACCOMMODATION_DETAILS",
-    CANCELLATION_CONFIRMATION: "CANCELLATION_CONFIRMATION"
+    CANCELLATION_CONFIRMATION: "CANCELLATION_CONFIRMATION",
+    SEND_INVOICE: "SEND_INVOICE"
+};
+
+export const INVOICE_TYPES = {
+    VOUCHER: "VOUCHER",
+    INVOICE: "INVOICE"
 };
 
 class UIStore {

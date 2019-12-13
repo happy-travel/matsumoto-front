@@ -302,6 +302,11 @@ translations: {
     "Safety Deposit Box": "Safety Deposit Box",
     "Leisure & Sport Amenities": "Leisure & Sport Amenities",
     "Future": "Future",
-    "Complete": "Complete"
+    "Complete": "Complete",
+    "Send Voucher": "Send Voucher",
+    "Send Invoice": "Send Invoice",
+    "Enter email to receive information about booking": "Enter email to receive information about booking",
+    "Booking voucher has been sent": "Booking voucher has been sent",
+    "Booking invoice has been sent": "Booking invoice has been sent"
 }
 };
