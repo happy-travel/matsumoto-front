@@ -49,13 +49,13 @@ class FieldText extends React.Component {
     }
 
     onKeyDown(e) {
-        if (this.props.Dropdown) {
+        if (this.props.Dropdown && this.props.options) {
             switch (e.keyCode) {
                 case 13:
                 case 39: // Enter or Right arrow
                     // Select first suggestion or selected menu item
                     const value = this.props.options[UI.focusedDropdownIndex];
-                    if (value) {
+                    if (value && this.props.setValue) {
                         this.props.setValue(value, this.props.formik, this.props.id);
                     }
                     break;
@@ -63,8 +63,10 @@ class FieldText extends React.Component {
                     // Move up in suggestion list
                     if (UI.focusedDropdownIndex > 0) {
                         UI.setFocusedDropdownIndex(UI.focusedDropdownIndex - 1);
-                        const focusedElement = document.getElementById(`js-value-${UI.focusedDropdownIndex - 1}`);
-                        scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop + focusedElement?.offsetHeight, 250);
+                        const focusedElement = document.getElementById(`js-value-${UI.focusedDropdownIndex}`);
+                        scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
+                    } else {
+                        scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
                     }
                     break;
                 case 40: // Arrow bottom
@@ -72,8 +74,8 @@ class FieldText extends React.Component {
                     if (UI.focusedDropdownIndex === null || this.props.options.length > UI.focusedDropdownIndex + 1) {
                         UI.setFocusedDropdownIndex(UI.focusedDropdownIndex !== null ? UI.focusedDropdownIndex + 1 : 0);
                         if (UI.focusedDropdownIndex < this.props.options.length - 2) { // disable scroll to last element
-                            const focusedElement = document.getElementById(`js-value-${UI.focusedDropdownIndex + 1}`);
-                            scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop - focusedElement?.offsetHeight, 250);
+                            const focusedElement = document.getElementById(`js-value-${UI.focusedDropdownIndex}`);
+                            scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
                         }
                     }
                     break;
