@@ -173,6 +173,9 @@ class AccommodationSearch extends React.Component {
                                                    setValue={this.setDestinationValue}
                                                    onChange={this.destinationInputChanged}
                                                    clearable
+                                                   onBlur={() => {
+                                                       if (!store.search.request.location?.predictionResult) formik.setFieldValue('destination', '');
+                                                   }}
                                         />
                                         <FieldText formik={formik}
                                                    id="dates"
@@ -252,6 +255,9 @@ class AccommodationSearch extends React.Component {
                                                    options={UI.countries}
                                                    setValue={this.setCountryValue}
                                                    addClass="size-large"
+                                                   onBlur={() => {
+                                                       if (!store.search.request.nationality) formik.setFieldValue('nationality', '');
+                                                   }}
                                         />
                                         <FieldText formik={formik}
                                                    id="residency"
@@ -264,6 +270,9 @@ class AccommodationSearch extends React.Component {
                                                    setValue={this.setCountryValue}
                                                    onChange={regionInputChanged}
                                                    addClass="size-large"
+                                                   onBlur={() => {
+                                                       if (!store.search.request.residency) formik.setFieldValue('residency', '');
+                                                   }}
                                         />
                                         <div class="field">
                                             <div class="label"/>

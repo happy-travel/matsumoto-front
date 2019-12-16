@@ -87,7 +87,7 @@ class UIStore {
             return r;
         }, Object.create(null));
         let countries = [];
-        this.regionList.forEach(region => {
+        this.regionList?.forEach(region => {
             if (newGroupedCountries[region.id]) {
                 countries = countries.concat(newGroupedCountries[region.id].sort((a, b) => {
                     if (a.name > b.name) {
