@@ -57,9 +57,9 @@ class RegionDropdown extends React.Component {
                 <div class="scroll">
                     {UI.countries.map((country, index) => {
                         let region = null;
-                        if (index === 0 || UI.countries[index].regionId !== UI.countries[index - 1].regionId) {
-                            const regionId = +UI.countries[index].regionId;
-                            const currentRegion = UI.regionList.find(regionItem => regionItem.id === regionId);
+                        if (index === 0 || UI.countries[index]?.regionId !== UI.countries[index - 1]?.regionId) {
+                            const regionId = +UI.countries[index]?.regionId;
+                            const currentRegion = UI.regionList?.find(regionItem => regionItem.id === regionId);
                             region = <div
                               key={currentRegion?.name}
                               class="region">{currentRegion?.name?.toUpperCase()}</div>;
