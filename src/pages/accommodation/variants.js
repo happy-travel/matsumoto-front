@@ -133,7 +133,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements[0].price)}</div>
+                            <div class="value">{price(item.agreements[0].price.currencyCode, Math.min(...item.agreements.map(x => x.price.netTotal)))}</div>
                         </div>
                     </div>
                     <div class="description">
