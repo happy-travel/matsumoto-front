@@ -144,12 +144,12 @@ class AccommodationBookingPage extends React.Component {
                 </div>
                 <Dual
                     a={t("Arrival Date")}
-                    b={dateFormat.a(booking.checkInDate)}
+                    b={dateFormat.a(confirmation.checkInDate)}
                     addClass="column"
                 />
                 <Dual
                     a={t("Departure Date")}
-                    b={dateFormat.a(booking.checkOutDate)}
+                    b={dateFormat.a(confirmation.checkOutDate)}
                     addClass="column"
                 />
                 <Dual
