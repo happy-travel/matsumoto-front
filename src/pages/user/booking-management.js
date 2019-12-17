@@ -60,8 +60,13 @@ class UserBookingManagementPage extends React.Component {
         result = result.filter(() => true);
 
         if (this.state.filter_time)
-            result = result.filter(item =>
-                (("Future" == this.state.filter_time) != moment(item.checkInDate).isAfter(new Date())));
+            result = result.filter(item => {
+                var isFuture = moment(item.checkInDate).isAfter(new Date());
+                if ("Future" == this.state.filter_time)
+                    return isFuture;
+                else
+                    return !isFuture;
+            });
 
         if (sort)
             result.sort((a,b) => {
