@@ -12,6 +12,7 @@ import store from "stores/auth-store";
 import UI from "stores/ui-store";
 import Authorize from "core/auth/authorize";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
+import {isRedirectNeeded} from "../../core/init";
 
 @observer
 class RegistrationStep3 extends React.Component {
@@ -30,7 +31,14 @@ class RegistrationStep3 extends React.Component {
             url: API.USER_REGISTRATION_M,
             body: store.registration,
             success: () => {
-                UI.setTopAlertText(null);
+                API.get({
+                    url: API.USER,
+                    success: (result) => {
+                        UI.setTopAlertText(null);
+                        if (result?.email)
+                            UI.setUser(result);
+                    }
+                });
                 store.setUserForm({});
                 store.setCompanyForm({});
                 this.setState({ redirectToIndexPage: true });
