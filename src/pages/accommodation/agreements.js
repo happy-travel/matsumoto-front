@@ -184,7 +184,7 @@ class AccommodationAgreementsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        <button class="button small" onClick={() => this.agreementSelect(item.agreements[0], item.accommodationDetails)}>
+                                        <button class="button small" onClick={() => this.agreementSelect(agreement, item.accommodationDetails)}>
                                             {t("Book it")}
                                         </button>
                                     </td>
