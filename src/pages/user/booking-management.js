@@ -7,19 +7,110 @@ import { Dual, Loader } from "components/simple";
 import { Redirect } from "react-router-dom";
 
 import store from "stores/accommodation-store";
+import moment from "moment";
 
 const getClassByStatus = status => ({
     "Confirmed": "green",
     "Cancelled": "gray"
 }[status] || "");
 
+const Filter = ({ text, value, that }) => (
+    <li><div
+        class={"item" + (value == that.state.filter_time ? " selected" : "")}
+        onClick={() => that.setState({ filter_time: value })}
+    >{text}</div></li>
+);
+
+const Sorter = ({ text, value, that }) => (
+    <div
+        class={"item" + (value == that.state.sort_by ? " selected"+that.state.sort_order : "")}
+        onClick={() => {
+            if (value == that.state.sort_by)
+                that.setState({ sort_order: -that.state.sort_order });
+            else
+                that.setState({
+                    sort_by: value,
+                    sort_order: 1
+                });
+        }}
+    >{text}</div>
+);
+
 @observer
 class UserBookingManagementPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToBookingConfirmationId: null
+            redirectToBookingConfirmationId: null,
+            filter_time: null,
+            sort_by: null,
+            sort_order: 1
         };
+        this.getList = this.getList.bind(this);
+    }
+
+    getList() {
+        var result = store.userBookingList,
+            sort = this.state.sort_by,
+            order = this.state.sort_order;
+
+        if (!result || !result.length)
+            return [];
+
+        result = result.filter(() => true);
+
+        if (this.state.filter_time)
+            result = result.filter(item => {
+                var isFuture = moment(item.checkInDate).isAfter(new Date());
+                if ("Future" == this.state.filter_time)
+                    return isFuture;
+                else
+                    return !isFuture;
+            });
+
+        if (sort)
+            result.sort((a,b) => {
+                var x, y;
+
+                if ("Accommodations" == sort) {
+                    x = a.accommodationName;
+                    y = b.accommodationName;
+                }
+
+                if ("Location" == sort) {
+                    x = a.countryName + a.localityName;
+                    y = b.countryName + b.localityName;
+                }
+
+                if ("Board Basis" == sort) {
+                    x = a.boardBasis;
+                    y = b.boardBasis;
+                }
+
+                if ("Check In" == sort) {
+                    x = 0; y = 0;
+                    if (moment(a.checkInDate).isAfter(b.checkInDate)) { x = 1; y = 0; }
+                    if (moment(b.checkInDate).isAfter(a.checkInDate)) { x = 0; y = 1; }
+                }
+
+                if ("Cost" == sort) {
+                    x = a.price.netTotal;
+                    y = b.price.netTotal;
+                }
+
+                if ("Status" == sort) {
+                    x = a.status;
+                    y = b.status;
+                }
+
+                if (x?.toLowerCase) x = x.toLowerCase();
+                if (y?.toLowerCase) y = y.toLowerCase();
+                if (x < y) return order;
+                if (x > y) return -order;
+                return 0;
+            });
+
+        return result;
     }
 
     componentDidMount() {
@@ -30,7 +121,8 @@ class UserBookingManagementPage extends React.Component {
     }
 
     render() {
-        const { t } = useTranslation();
+        var { t } = useTranslation(),
+            list = this.getList();
 
         if (this.state.redirectToBookingConfirmationId !== null)
             return <Redirect push to={"/accommodation/confirmation/" + this.state.redirectToBookingConfirmationId} />;
@@ -41,12 +133,32 @@ class UserBookingManagementPage extends React.Component {
                     <h2>
                         {t("Your Booking")}
                     </h2>
+                </section>
+                <div class="head-nav">
+                    <section>
+                        <nav>
+                            <Filter text={t("All")} value={null} that={this} />
+                            <Filter text={t("Future")} value="Future" that={this} />
+                            <Filter text={t("Complete")} value="Complete" that={this} />
+                        </nav>
+                    </section>
+                </div>
+                <section class="content">
+                    <div class="sorters">
+                        <div class="title">Sort by</div>
+                        <Sorter text={t("Accommodations")} value={"Accommodations"} that={this} />
+                        <Sorter text={t("Location")} value={"Location"} that={this} />
+                        <Sorter text={t("Board Basis")} value={"Board Basis"} that={this} />
+                        <Sorter text={t("Check In")} value={"Check In"} that={this} />
+                        <Sorter text={t("Cost")} value={"Cost"} that={this} />
+                        <Sorter text={t("Status")} value={"Status"} that={this} />
+                    </div>
                     <div>
-                        {store.userBookingList === null ? <Loader /> :
-                        (!store.userBookingList.length ?
+                        {list === null ? <Loader /> :
+                        (!list.length ?
                             <div>{t("You don`t have any reservations")}</div> :
                             <table>
-                                {store.userBookingList.map(item => item && (
+                                {list.map(item => item && (
                                     <tr
                                         onClick={() => this.setState({ redirectToBookingConfirmationId: item.id })}
                                         class={getClassByStatus(item.status) == "gray" ? "gray" : ""}

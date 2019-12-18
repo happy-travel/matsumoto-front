@@ -4,10 +4,12 @@ import UI, { MODALS } from "stores/ui-store";
 
 import AccommodationDetailsModal from "pages/accommodation/details-modal";
 import CancellationConfirmationModal from "parts/cancellation";
+import SendInvoiceModal from "parts/send-invoice";
 
 const modalComponent = {
     [MODALS.ACCOMMODATION_DETAILS]: AccommodationDetailsModal,
-    [MODALS.CANCELLATION_CONFIRMATION]: CancellationConfirmationModal
+    [MODALS.CANCELLATION_CONFIRMATION]: CancellationConfirmationModal,
+    [MODALS.SEND_INVOICE]: SendInvoiceModal
 };
 
 const closeModal = () => UI.setModal(null);

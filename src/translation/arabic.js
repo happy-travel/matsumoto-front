@@ -109,7 +109,7 @@ translations: {
     "Leisure & Sport": "الترفيه & الرياضة",
     "Business Features": "الخدمات المتاحة لرجال الأعمال",
     "Loading...": "تحميل...",
-    "Nothing found": "لم يتم العثور على شيء",
+    "Nothing found": "Found nothing? You could reach our Operations team directly, and we pick an accommodation for you.",
     "Results for": "نتائج البحث عن",
     "Sort by": "التصنيف حسب",
     "From": "من ",

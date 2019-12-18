@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { dateFormat, price, API, plural } from "core";
-import UI, { MODALS } from "stores/ui-store";
+import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -35,6 +35,15 @@ class AccommodationConfirmationPage extends React.Component {
             ...store.booking.result.bookingDetails
         });
         UI.setModal(MODALS.CANCELLATION_CONFIRMATION);
+    }
+
+    showSendInvoiceModal(type) {
+        UI.setModalData({
+            type,
+            bookingId: store.booking.result.bookingId,
+            ...store.booking.result.bookingDetails
+        });
+        UI.setModal(MODALS.SEND_INVOICE);
     }
 
     componentDidMount() {
@@ -181,7 +190,6 @@ render() {
                         </React.Fragment>}
                     />
 
-
                     <h2>
                         {t("Leading Passenger")}
                     </h2>
@@ -254,6 +262,15 @@ render() {
                         <a href="javascript:void(0)">
                             <span class="icon icon-action-writing" />
                         </a> */ }
+
+                        <div class="left">
+                            <button class="button small" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
+                                {t("Send Voucher")}
+                            </button>
+                            <button class="button small" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)}>
+                                {t("Send Invoice")}
+                            </button>
+                        </div>
 
                         { this.state.fromHistory &&
                           moment().isBefore(booking.checkInDate) &&

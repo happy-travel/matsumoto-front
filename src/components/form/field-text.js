@@ -1,7 +1,7 @@
 import React from "react";
 import UI from "stores/ui-store";
 import { observer } from "mobx-react";
-import { localStorage, decorate } from "core";
+import { localStorage, decorate, scrollTo } from "core";
 
 const getValue = (formik, id) => {
     if (typeof id != "string") id = ""+id;
@@ -49,13 +49,39 @@ class FieldText extends React.Component {
     }
 
     onKeyDown(e) {
-        if (this.props.Dropdown) {
-            if (13 == e.keyCode || 39 == e.keyCode) // Enter or Right arrow
-                return; // Select first suggestion or selected menu item
-            if (38 == e.keyCode) // Arrow top
-                return; // Move up in suggestion list
-            if (40 == e.keyCode) // Arrow bottom
-                return; // Move down in suggestion list
+        if (this.props.Dropdown && this.props.options) {
+            switch (e.keyCode) {
+                case 13:
+                case 39: // Enter or Right arrow
+                    // Select first suggestion or selected menu item
+                    const value = this.props.options[UI.focusedDropdownIndex];
+                    if (value && this.props.setValue) {
+                        this.props.setValue(value, this.props.formik, this.props.id);
+                    }
+                    break;
+                case 38: // Arrow top
+                    // Move up in suggestion list
+                    if (UI.focusedDropdownIndex > 0) {
+                        UI.setFocusedDropdownIndex(UI.focusedDropdownIndex - 1);
+                        const focusedElement = document.getElementById(`js-value-${UI.focusedDropdownIndex}`);
+                        scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
+                    } else {
+                        scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
+                    }
+                    break;
+                case 40: // Arrow bottom
+                    // Move down in suggestion list
+                    if (UI.focusedDropdownIndex === null || this.props.options.length > UI.focusedDropdownIndex + 1) {
+                        UI.setFocusedDropdownIndex(UI.focusedDropdownIndex !== null ? UI.focusedDropdownIndex + 1 : 0);
+                        if (UI.focusedDropdownIndex < this.props.options.length - 2) { // disable scroll to last element
+                            const focusedElement = document.getElementById(`js-value-${UI.focusedDropdownIndex}`);
+                            scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
+                        }
+                    }
+                    break;
+                default:
+                    return;
+            }
         }
     }
 
@@ -103,8 +129,8 @@ class FieldText extends React.Component {
             maxLength,
             numeric,
             suggestion,
-
-            formik
+            formik,
+            setValue,
         } = this.props;
 
         if (suggestion)
@@ -167,6 +193,7 @@ class FieldText extends React.Component {
                 { Dropdown ? <div class={UI.openDropdown == id ? '' : 'hide'}>
                     <Dropdown formik={formik}
                               connected={id}
+                              setValue={setValue}
                               value={getValue(formik, id)}
                               options={options}
                     />

@@ -122,7 +122,6 @@ translations: {
     "Business Features": "Business Features",
     "Accommodation Chain": "Accommodation Chain",
     "Loading...": "Loading...",
-    "Nothing found": "Nothing found",
     "Results for": "Results for",
     "Sort by": "Sort by",
     "Search by a hotel name...": "Search by a hotel name...",
@@ -300,7 +299,13 @@ translations: {
     "Elevators": "Elevators",
     "Multilingual Staff": "Multilingual Staff",
     "Safety Deposit Box": "Safety Deposit Box",
-    "Leisure & Sport Amenities": "Leisure & Sport Amenities"
-
+    "Leisure & Sport Amenities": "Leisure & Sport Amenities",
+    "Future": "Future",
+    "Complete": "Complete",
+    "Send Voucher": "Send Voucher",
+    "Send Invoice": "Send Invoice",
+    "Enter email to receive information about booking": "Enter email to receive information about booking",
+    "Booking voucher has been sent": "Booking voucher has been sent",
+    "Booking invoice has been sent": "Booking invoice has been sent"
 }
 };

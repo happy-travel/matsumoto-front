@@ -21,6 +21,10 @@ class AuthStore {
         if (this.registration.company.phone)
             this.registration.company.phone = this.registration.company.phone.replace(/\D/g,''); //todo: make decorators
     }
+
+    setCountryValue(country) {
+        this.registration.company.countryCode = country.code;
+    }
 }
 
 export default new AuthStore();

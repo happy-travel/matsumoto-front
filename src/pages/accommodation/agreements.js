@@ -49,7 +49,7 @@ class AccommodationAgreementsPage extends React.Component {
             loading: true
         });
         API.get({
-            url: API.AVAILABILITY_DETAILS(store.search.result.availabilityId, agreement.id),
+            url: API.AVAILABILITY_DETAILS(store.selected.accommodation.availabilityId, agreement.id),
             success: (result) => {
                 if (result?.accommodationId != store.selected.accommodation.accommodationDetails.id) { // todo: better error definition and error handling
                     UI.setTopAlertText("Sorry, this room is not available now");
@@ -184,7 +184,7 @@ class AccommodationAgreementsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        <button class="button small" onClick={() => this.agreementSelect(item.agreements[0], item.accommodationDetails)}>
+                                        <button class="button small" onClick={() => this.agreementSelect(agreement, item.accommodationDetails)}>
                                             {t("Book it")}
                                         </button>
                                     </td>

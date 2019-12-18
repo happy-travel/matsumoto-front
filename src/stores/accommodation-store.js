@@ -29,12 +29,20 @@ const defaultSearchForm = {
         "residency": ""
     };
 
+const maximumPeoplePerQuery = 9;
+const maximumRoomsPerQuery = 5;
+const minimumValuesForSearch = {
+    "adultsNumber": 1,
+    "childrenNumber": 0,
+    "rooms": 1
+};
+
 class AccommodationStore {
     @observable
     search = {
         request: copy(defaultSearchForm),
         rooms: 1,
-        loaded: false,
+        loading: false,
         form: null,
         result: null
     };
@@ -56,6 +64,9 @@ class AccommodationStore {
 
     @observable
     filters = null;
+
+    @observable
+    isValidFilterQuery = false;
 
     @observable
     selectedFilters = null;
@@ -94,8 +105,8 @@ class AccommodationStore {
     setSelectedFilters(filters) {
         this.selectedFilters = filters;
     }
-    setSearchIsLoaded(value) {
-        this.search.loaded = value;
+    setSearchIsLoading(value) {
+        this.search.loading = value;
     }
     setNewSearchForm(form, isAdvancedSearch) {
         this.search.form = form;
@@ -116,23 +127,12 @@ class AccommodationStore {
     }
 
     setRequestRoomDetails(roomNumber, field, plus, test) {
-        var current = {
-                ...this.search.request.roomDetails[roomNumber],
-                rooms: this.search.rooms
-            },
-            maximumPeoplePerQuery = 9,
-            minimum = {
-                "adultsNumber": 1,
-                "childrenNumber": 0,
-                "rooms": 1
-            },
-            maximum = {
-                "adultsNumber":  maximumPeoplePerQuery - current.childrenNumber,
-                "childrenNumber": maximumPeoplePerQuery - current.adultsNumber,
-                "rooms": 5   // todo: make special case for more rooms
-            },
-            value = current[field] + plus,
-            finalNewValue = Math.min(Math.max(value, minimum[field]), maximum[field]);
+        const current = {
+            ...this.search.request.roomDetails[roomNumber],
+            rooms: this.search.rooms
+        };
+        const value = current[field] + plus;
+        const finalNewValue = Math.max(value, minimumValuesForSearch[field]);
 
         if (test)
             return (finalNewValue != current[field]);
@@ -178,6 +178,16 @@ class AccommodationStore {
                 "type": value.type
             }
         }
+    }
+
+    validateFilterQuery() {
+        const countPeoples = this.search.request?.roomDetails?.reduce((acc, currentValue) => acc + currentValue.adultsNumber + currentValue.childrenNumber, 0);
+        return this.search.request?.roomDetails?.length <= maximumRoomsPerQuery
+            && countPeoples <= maximumPeoplePerQuery;
+    }
+
+    setIsInvalidFilterQuery(isValidFilterQuery) {
+        this.isValidFilterQuery = isValidFilterQuery;
     }
 
     setUserBookingList(value) {
