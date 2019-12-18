@@ -122,7 +122,6 @@ translations: {
     "Business Features": "Business Features",
     "Accommodation Chain": "Accommodation Chain",
     "Loading...": "Loading...",
-    "Nothing found": "Nothing found",
     "Results for": "Results for",
     "Sort by": "Sort by",
     "Search by a hotel name...": "Search by a hotel name...",

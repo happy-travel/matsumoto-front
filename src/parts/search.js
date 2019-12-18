@@ -39,32 +39,36 @@ class AccommodationSearch extends React.Component {
 
     submit(values, { setSubmitting }) {
         //todo: setSubmitting, loading
+        const isValidFilterQuery = store.validateFilterQuery();
         store.setNewSearchForm(values, UI.advancedSearch);
-        store.setSearchIsLoaded(false);
         store.setSearchResult(null);
         session.google.clear();
+        store.setIsInvalidFilterQuery(isValidFilterQuery);
+        if (isValidFilterQuery) {
+            store.setSearchIsLoading(true);
 
-        // todo: temporary adults workaround
-        var body = JSON.parse(JSON.stringify(store.search.request));
-        for (var i = 0; i < body.roomDetails.length; i++) {
-            body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
-            body.roomDetails[i].childrenNumber = 0;
-            body.roomDetails[i].childrenAges = [];
-        }
-
-        API.post({
-            url: API.ACCOMMODATION_SEARCH,
-            body: body,
-            success: (result) => {
-                store.setSearchResult(result);
-            },
-            error: (error) => {
-                // todo: handle
-            },
-            after: () => {
-                store.setSearchIsLoaded(true);
+            // todo: temporary adults workaround
+            var body = JSON.parse(JSON.stringify(store.search.request));
+            for (var i = 0; i < body.roomDetails.length; i++) {
+                body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
+                body.roomDetails[i].childrenNumber = 0;
+                body.roomDetails[i].childrenAges = [];
             }
-        });
+
+            API.post({
+                url: API.ACCOMMODATION_SEARCH,
+                body: body,
+                success: (result) => {
+                    store.setSearchResult(result);
+                },
+                error: (error) => {
+                    // todo: handle
+                },
+                after: () => {
+                    store.setSearchIsLoading(false);
+                }
+            });
+        }
         this.setState({
             redirectToVariantsPage: true
         });

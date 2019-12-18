@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Trans } from 'react-i18next';
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import moment from "moment";
@@ -70,7 +71,7 @@ class AccommodationVariantsPage extends React.Component {
 
 <React.Fragment>
     <div class="variants block">
-        { (store && !store.search.loaded) ?
+        { store?.search?.loading ?
         <Loader /> :
 
         <section class="double-sections">
@@ -105,8 +106,12 @@ class AccommodationVariantsPage extends React.Component {
                     */ }
                 </div>
 
-                { store.search.loaded && !store.hotelArray.length &&
-                    <div>{t("Nothing found")}</div> }
+                { (!store.hotelArray.length || !store.isValidFilterQuery) &&
+                    <div>
+                        {t("Found nothing? You could reach our Operations team directly, and we pick an accommodation for you.")}
+                        <br/>
+                        <a href="mailto:info@happytravel.com">email: info@happytravel.com</a>
+                    </div> }
 
                 { this.state.loading && <Loader page /> }
 
