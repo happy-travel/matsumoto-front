@@ -108,7 +108,7 @@ class AccommodationVariantsPage extends React.Component {
 
                 { (!store.hotelArray.length || !store.isValidFilterQuery) &&
                     <div>
-                        {t("Nothing found")}
+                        {t("Found nothing? You could reach our Operations team directly, and we pick an accommodation for you.")}
                         <br/>
                         <a href="mailto:info@happytravel.com">email: info@happytravel.com</a>
                     </div> }
