@@ -238,7 +238,7 @@ render() {
                         </React.Fragment>
                     ))}
 
-                    { Object.keys(accommodation.agreement.remarks).length &&
+                    { !!Object.keys(accommodation.agreement.remarks).length &&
                         <React.Fragment>
                             <h2 style={{ marginBottom: "17px" }}>
                                 {t("Remark")}
