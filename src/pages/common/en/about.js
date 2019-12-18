@@ -8,7 +8,7 @@ export default function () {
             <section class="double-sections">
                 <div class="right-section">
                     <section>
-                        <h1>{t('About Us')}</h1>
+                        <h1>About Us</h1>
                         <p><b>HappyTravelDotCom</b> is a new travel wholesaler based in Dubai servicing businesses such as travel agents and tour operators across the world.</p>
 
                         <p>With our global database of contacts, we can offer a premium service with over 2000 properties, covering a range of international territories. You’ll find properties in different destinations such as Paris, Maldives, London and Dubai, all designed to offer an exquisite ground service from the moment you step off the plane.</p>

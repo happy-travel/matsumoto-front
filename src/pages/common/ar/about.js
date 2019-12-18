@@ -8,7 +8,7 @@ export default function () {
             <section class="double-sections">
                 <div class="right-section">
                     <section>
-                        <h1>{t('About Us')}</h1>
+                        <h1>معلومات عنا</h1>
                         <p> يسعد شركة<b>HappyTravelDotCom </b>لخدمات السفر أن تعلن عن تقديم خدماتها بالجملة من مقرها الرئيسي في دبي لكلٍ من وكلاء </p>
 
                         <p>السفر ومنظمي الرحلات السياحية حول العالم بأفضل الأسعار.</p>
