@@ -313,6 +313,7 @@ translations: {
     "Invite a user to your company": "Invite a user to your company",
     "Your invitation sent.": "Your invitation sent.",
     "Send one more invite": "Send one more invite",
-    "Invite someone to create a free HappyTravel.com account and start booking today.": "Invite someone to create a free HappyTravel.com account and start booking today."
+    "Invite someone to create a free HappyTravel.com account and start booking today.": "Invite someone to create a free HappyTravel.com account and start booking today.",
+    "Accommodation": "Accommodation"
 }
 };
