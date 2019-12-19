@@ -54,6 +54,7 @@ class FieldText extends React.Component {
                 case 13:
                 case 39: // Enter or Right arrow
                     // Select first suggestion or selected menu item
+                    e.preventDefault();
                     const value = this.props.options[UI.focusedDropdownIndex];
                     if (value && this.props.setValue) {
                         this.props.setValue(value, this.props.formik, this.props.id);

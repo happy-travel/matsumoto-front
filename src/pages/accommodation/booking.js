@@ -82,7 +82,8 @@ class AccommodationBookingPage extends React.Component {
             "agreementId": variant.id,
             "agentReference": values.agentReference,
             "roomDetails": roomDetails,
-            "features": []
+            "features": [],
+            "itineraryNumber": values.itineraryNumber,
         };
         store.setBookingRequest(request);
 
@@ -223,7 +224,8 @@ class AccommodationBookingPage extends React.Component {
                                 ...Array(store.search.request.roomDetails[r].childrenNumber),
                             ]
                         })),
-                        accepted: true
+                        accepted: true,
+                        itineraryNumber: '',
                     }}
                     validationSchema={accommodationBookingValidator}
                     onSubmit={this.submit}
@@ -288,6 +290,16 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div>
                                 </React.Fragment>)}))} />
+
+                                <div class="part" style={{marginTop: "6px"}}>
+                                    <FieldText formik={formik}
+                                               label={t("Itinerary number")}
+                                               id={"itineraryNumber"}
+                                               placeholder={t("Please enter itinerary number")}
+                                               clearable
+                                               addClass={"size-medium"}
+                                    />
+                                </div>
 
                                 { /* todo
                                 <div class="part">
