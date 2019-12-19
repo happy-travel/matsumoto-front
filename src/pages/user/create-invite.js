@@ -55,20 +55,20 @@ class UserInvitePage extends React.Component {
     <section class="double-sections">
         <div class="middle-section">
             <h2 class="payment-title">
-                Invite a user to your company
+                {t("Invite a user to your company")}
             </h2>
             { this.state.success === null &&
                 <Loader />
             }
             { this.state.success && <p>
-                Your invitation sent.<br/>
+                {t("Your invitation sent.")}<br/>
                 <br/>
                 <button class="button payment-back" onClick={this.reset}>
-                    Send one more invite
+                    {t("Send one more invite")}
                 </button>
             </p> }
             { false === this.state.success && <p>
-                Invite someone to create a free HappyTravel.com account and start booking today.<br/>
+                {t("Invite someone to create a free HappyTravel.com account and start booking today.")}<br/>
                 <br/>
             </p> }
 
