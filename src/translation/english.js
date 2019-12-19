@@ -306,6 +306,7 @@ translations: {
     "Send Invoice": "Send Invoice",
     "Enter email to receive information about booking": "Enter email to receive information about booking",
     "Booking voucher has been sent": "Booking voucher has been sent",
-    "Booking invoice has been sent": "Booking invoice has been sent"
+    "Booking invoice has been sent": "Booking invoice has been sent",
+    "Search...": "Search..."
 }
 };

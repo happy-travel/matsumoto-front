@@ -8,6 +8,8 @@ import { Redirect } from "react-router-dom";
 
 import store from "stores/accommodation-store";
 import moment from "moment";
+import { FieldText } from "components/form";
+import { Formik } from "formik";
 
 const getClassByStatus = status => ({
     "Confirmed": "green",
@@ -44,15 +46,18 @@ class UserBookingManagementPage extends React.Component {
             redirectToBookingConfirmationId: null,
             filter_time: null,
             sort_by: null,
-            sort_order: 1
+            sort_order: 1,
+            search_query: ""
         };
         this.getList = this.getList.bind(this);
+        this.searchChange = this.searchChange.bind(this);
     }
 
     getList() {
         var result = store.userBookingList,
             sort = this.state.sort_by,
-            order = this.state.sort_order;
+            order = this.state.sort_order,
+            search = this.state.search_query;
 
         if (!result || !result.length)
             return [];
@@ -110,7 +115,33 @@ class UserBookingManagementPage extends React.Component {
                 return 0;
             });
 
+        if (search)
+            result = result.filter(i => {
+                var found = values => {
+                    for (var i = 0; i < values.length; i++)
+                        if ((values[i] || "").toLowerCase().indexOf(search.toLowerCase()) >= 0)
+                            return true;
+                    return false;
+                };
+                return found([
+                    i.referenceCode,
+                    i.accommodationName,
+                    i.countryName,
+                    i.localityName,
+                    i.boardBasis,
+                    i.status,
+                    i.mealPlan,
+                    i.contractType
+                ])
+            });
+
         return result;
+    }
+
+    searchChange(e) {
+        this.setState({
+            search_query: e.target.value
+        });
     }
 
     componentDidMount() {
@@ -141,6 +172,22 @@ class UserBookingManagementPage extends React.Component {
                             <Filter text={t("Future")} value="Future" that={this} />
                             <Filter text={t("Complete")} value="Complete" that={this} />
                         </nav>
+                        <div class="input-wrap">
+                            <div class="form">
+                                <Formik
+                                    onSubmit={() => {}}
+                                    render={formik => (
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <FieldText formik={formik}
+                                                       id="search"
+                                                       placeholder={t("Search...")}
+                                                       onChange={this.searchChange}
+                                            />
+                                        </form>
+                                    )}
+                                />
+                            </div>
+                        </div>
                     </section>
                 </div>
                 <section class="content">
