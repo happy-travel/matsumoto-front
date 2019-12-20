@@ -1,0 +1,37 @@
+.calendar-style
+    .DateRangePicker__MonthDates
+        border-width: 0
+    .DateRangePicker__Date--weekend
+        background: transparent
+    .DateRangePicker__WeekdayHeading
+        border-width: 0
+    .DateRangePicker__MonthHeader
+        font-size: 16px
+    &__arrows
+        color: #A4AAB3
+        font-size: 22px
+        position: absolute
+        z-index: 10
+        &:disabled
+            color: #d4dae3
+    &__arrow__previous
+        left: 25px
+    &__arrow__next
+        right: 25px
+    .DateRangePicker__WeekdayHeading abbr[title]
+        color: #A4AAB3
+    .DateRangePicker__Date
+        border-width: 0
+    //.DateRangePicker__Date--is-selected
+    //    border-right: #F9A51A
+    .DateRangePicker__CalendarSelection
+        border-color: #F9A51A
+        bottom: 2px
+        top: 2px
+        &--start
+            border-bottom-left-radius: 12px
+            border-top-left-radius: 12px
+        &--end
+            border-top-right-radius: 12px
+            border-bottom-right-radius: 12px
+

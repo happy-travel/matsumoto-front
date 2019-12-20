@@ -20,6 +20,17 @@ const stateDefinitions = {
     }
 };
 
+const PaginationArrowComponent = (props) => {
+    const {direction, onTrigger, disabled} = props;
+    return <button
+        class={`calendar-style__arrows calendar-style__arrow__${direction}`}
+        onClick={(e) => {e.preventDefault(); onTrigger(e)}}
+        disabled={disabled}
+    >
+        {direction === 'previous' ? <span>&#8249;</span> : <span>&#8250;</span>}
+    </button>;
+};
+
 @observer
 class DateDropdown extends React.Component {
     handleSelect(range) {
@@ -33,7 +44,7 @@ class DateDropdown extends React.Component {
         return (
             <div class="date dropdown">
                 <DateRangePicker
-                    class={"calendar-style"}
+                    className={"calendar-style"}
                     firstOfWeek={1}
                     numberOfCalendars={2}
                     selectionType='range'
@@ -46,6 +57,7 @@ class DateDropdown extends React.Component {
                         moment(store.search.request.checkOutDate).local().endOf('day')
                     )}
                     onSelect={this.handleSelect}
+                    paginationArrowComponent={PaginationArrowComponent}
                 />
             </div>
         );
