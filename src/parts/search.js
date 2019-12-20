@@ -18,6 +18,7 @@ import { accommodationSearchValidator } from "components/form/validation";
 import { Stars } from "components/simple";
 
 import { Formik } from 'formik';
+import moment from "moment";
 
 const sum = field => {
     var result = 0;
@@ -193,6 +194,16 @@ class AccommodationSearch extends React.Component {
                                                        + " – " +
                                                        dateFormat.b(store.search.request.checkOutDate)
                                                    }
+                                                   setValue={range => {
+                                                       store.setDateRange({
+                                                           start: moment(range.start).add(1, 'd'),
+                                                           end: moment(range.end).add(1, 'd')
+                                                       });
+                                                   }}
+                                                   options={moment.range(
+                                                       moment(store.search.request.checkInDate).local().startOf('day'),
+                                                       moment(store.search.request.checkOutDate).local().endOf('day')
+                                                   )}
                                         />
                                         <FieldText formik={formik}
                                                    id="room"
@@ -202,11 +213,11 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={PeopleDropdown}
                                                    value={
-                                                       [plural(t, sum("adultsNumber"), "Adult"),
+                                                          [plural(t, sum("adultsNumber"), "Adult"),
                                                            plural(t, sum("childrenNumber"), "Children"),
                                                            plural(t, store.search.rooms, "Room")].join(" • ")
                                                    }
-                                        /> {/* todo: values */}
+                                        />
                                     </div>
                                     <div class={"row advanced" + ( UI.advancedSearch ? '' : " invisible" )}>
                                         <FieldSelect formik={formik}

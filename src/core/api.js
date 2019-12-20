@@ -49,6 +49,9 @@ API_METHODS = {
     AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
                             v1 + `/availabilities/${availabilityId}/${agreementId}`,
 
+    BILLING_HISTORY       : companyId =>
+                            v1 + `/payments/history/${companyId}/customer`,
+
     DIRECT_LINK_PAY : {
         SETTINGS     :         v1 + "/external/payment-links/tokenization-settings",
         GET_INFO     : code => v1 + "/external/payment-links/" + code,

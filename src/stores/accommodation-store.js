@@ -75,6 +75,9 @@ class AccommodationStore {
     userBookingList = null;
 
     @observable
+    userPaymentsList = null;
+
+    @observable
     paymentResult = {};
 
     constructor() {
@@ -192,6 +195,10 @@ class AccommodationStore {
 
     setUserBookingList(value) {
         this.userBookingList = value;
+    }
+
+    setUserPaymentsList(value) {
+        this.userPaymentsList = value;
     }
 
     selectAccommodation(accommodation) {

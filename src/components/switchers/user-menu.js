@@ -36,6 +36,9 @@ class UserMenuDropdown extends React.Component {
                     <Link to="/user/booking" class="item">
                         {t("Booking management")}
                     </Link>
+                    <Link to="/user/payment-history" class="item">
+                        {t("Account statement")}
+                    </Link>
                     { UI.user?.companies?.[0].isMaster && <Link to="/user/invite" class="item">
                         {t("Send invitation")}
                     </Link> }

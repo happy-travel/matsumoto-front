@@ -7,7 +7,7 @@
     .content
         min-height: 370px
 
-    table
+    .table
         width: 100%
         font-size: 13px
         line-height: 16px
@@ -84,3 +84,38 @@
 
     .input-wrap
         padding-top: 10px
+
+    &.payments
+        .table
+            tr
+                cursor: default
+                &:nth-child(odd)
+                    border: 0
+                    td
+                        padding-bottom: 15px
+                &:nth-child(even)
+                    border: 0
+                    border-bottom: 1px solid $color-usual-gray
+                    td
+                        padding-top: 15px
+                &:hover
+                    td
+                        background: white
+                td
+                    vertical-align: top
+                    padding: 35px 30px 35px 0
+                    &:first-child
+                        padding-left: 40px
+                        max-width: 282px
+                        font-size: 15px
+                        line-height: 18px
+                    &:last-child
+                        padding-right: 40px
+
+        .head-nav
+            margin-top: -50px
+            background: transparent
+            section
+                justify-content: flex-end
+            .field
+                width: 250px

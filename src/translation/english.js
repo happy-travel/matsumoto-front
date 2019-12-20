@@ -236,6 +236,7 @@ translations: {
     "Exclusive offers": "Exclusive offers",
     "Remark": "Remark",
     "You don`t have any reservations": "You don`t have any reservations",
+    "You don`t have any payment history for this dates": "You don`t have any payment history for this dates",
     "Payment message": "Payment message",
     "Response code": "Response code",
     "Payment result": "Payment result",
@@ -314,6 +315,11 @@ translations: {
     "Your invitation sent.": "Your invitation sent.",
     "Send one more invite": "Send one more invite",
     "Invite someone to create a free HappyTravel.com account and start booking today.": "Invite someone to create a free HappyTravel.com account and start booking today.",
-    "Accommodation": "Accommodation"
+    "Accommodation": "Accommodation",
+    "Account statement": "Account statement",
+    "No reservations found": "No reservations found",
+    "Created": "Created",
+    "Amount": "Amount",
+    "Reason": "Reason"
 }
 };
