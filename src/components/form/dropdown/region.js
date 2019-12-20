@@ -9,6 +9,8 @@ import Flag from "components/flag";
 
 export const regionInputChanged = (event, props) => {
     store.setSearchRequestField(props.id, '');
+    if (props.formik)
+        props.formik.setFieldValue(`${props.id}Selected`, false);
 
     var query = event.target.value;
     if (!query)
