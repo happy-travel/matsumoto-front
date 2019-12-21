@@ -132,6 +132,7 @@ class FieldText extends React.Component {
             suggestion,
             formik,
             setValue,
+            additionalFieldForValidation,
         } = this.props;
 
         if (suggestion)
@@ -156,7 +157,11 @@ class FieldText extends React.Component {
                     { label && <div class="label">
                         <span class={required ? "required" : ""}>{label}</span>
                     </div> }
-                    <div class={"input" + (this.state.focus ? ' focus' : '') + (disabled ? ' disabled' : '') + ((formik?.errors[id] && formik?.touched[id]) ? ' error' : '')}>
+                    <div class={"input"
+                        + (this.state.focus ? ' focus' : '')
+                        + (disabled ? ' disabled' : '')
+                        + ((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] && formik?.touched[id]) ? ' error' : '')}
+                    >
                         { Flag && <div>
                             { Flag }
                         </div> }
