@@ -124,6 +124,7 @@ class AccommodationSearch extends React.Component {
         if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
             store.setSearchRequestField(anotherField[connected], country.code);
             formik.setFieldValue(anotherField[connected], country.name);
+            formik.setFieldValue(`${anotherField[connected]}Selected`, true);
         }
     }
 
