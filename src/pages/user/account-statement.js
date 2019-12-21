@@ -95,7 +95,7 @@ class AccountStatementPage extends React.Component {
                     <div>
                         {list === null ? <Loader /> :
                         (!list.length ?
-                            <div>{t("You don`t have any payment history for this dates")}</div> :
+                            <div style={{marginTop: "30px"}}>{t("You don`t have any payment history for this dates")}</div> :
                             <table class="table">
                                 {list.map(item => item && (
                                     <React.Fragment>
@@ -107,12 +107,12 @@ class AccountStatementPage extends React.Component {
                                         </tr>
                                         <tr>
                                             <td>
-                                                <strong>{t("Created")}</strong>
-                                                {dateFormat.c(item.created)}
-                                            </td>
-                                            <td>
                                                 <strong>{t("Amount")}</strong>
                                                 {price(item.currency, item.amount)}
+                                            </td>
+                                            <td>
+                                                <strong>{t("Created")}</strong>
+                                                {dateFormat.c(item.created)}
                                             </td>
                                             <td>
                                                 <strong>{t("Reference Code")}</strong>
