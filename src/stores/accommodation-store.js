@@ -49,9 +49,9 @@ class AccommodationStore {
 
     @observable
     selected = {
-        variant: null,
+        agreement: null,
         accommodation: null,
-        confirmation: null,
+        deadlineDetails: null,
         availabilityId: null
     };
 
@@ -205,12 +205,15 @@ class AccommodationStore {
         this.selected.accommodation = accommodation;
     }
 
-    selectAgreement(agreement, confirmation) {
-        this.selected.variant = agreement;
-        this.selected.confirmation = confirmation;
+    selectAgreement(accommodation, deadlineDetails) {
+        this.selected = {
+            accommodation : accommodation,
+            agreement : accommodation.agreements[0],
+            availabilityId : accommodation.availabilityId,
+            deadlineDetails : deadlineDetails
+        };
         this.booking.request = null;
         this.booking.result = null;
-        this.selected.availabilityId = confirmation?.deadlineDetails?.availabilityId || this.search.result.availabilityId;
     }
 
     setBookingRequest(request) {

@@ -45,10 +45,10 @@ class AccommodationBookingPage extends React.Component {
     }
 
     submit(values, { setSubmitting }) {
-        if (!store.selected.accommodation.accommodationDetails.id || !store.selected.variant.id)
+        if (!store.selected?.accommodation?.accommodationDetails?.id)
             return null; //todo: another answer
 
-        var variant = store.selected.variant,
+        var variant = store.selected.agreement,
             search = store.search.request;
 
         var roomDetails = [];
@@ -108,12 +108,16 @@ class AccommodationBookingPage extends React.Component {
 
         var booking = store.booking.result || {};
 
-        if (!store.selected?.accommodation?.accommodationDetails?.id || !store.selected?.variant?.id)
+        if (!store.selected?.accommodation?.accommodationDetails?.id)
             return null; //todo: another answer
 
         var hotel = store.selected.accommodation.accommodationDetails,
-            variant = store.selected.variant,
-            confirmation = store.selected.confirmation;
+            baseInfo = store.selected.accommodation,
+            variant = store.selected.agreement,
+            deadlineDetails = store.selected.deadlineDetails;
+
+        if (!variant || !deadlineDetails)
+            return null;
 
         if (this.state.redirectToConfirmationPage)
             return <Redirect push to="/accommodation/confirmation" />;
@@ -145,12 +149,12 @@ class AccommodationBookingPage extends React.Component {
                 </div>
                 <Dual
                     a={t("Arrival Date")}
-                    b={dateFormat.a(confirmation.checkInDate)}
+                    b={dateFormat.a(baseInfo.checkInDate)}
                     addClass="column"
                 />
                 <Dual
                     a={t("Departure Date")}
-                    b={dateFormat.a(confirmation.checkOutDate)}
+                    b={dateFormat.a(baseInfo.checkOutDate)}
                     addClass="column"
                 />
                 <Dual
@@ -162,7 +166,7 @@ class AccommodationBookingPage extends React.Component {
                     b={variant.boardBasisCode + ": " + ("RO" == variant.boardBasisCode ? t("Room Only") : variant.mealPlan)}
                 />
 
-                { /* confirmation.deadlineDetails.remarkCodes.map( item => (
+                { /* deadlineDetails.remarkCodes.map( item => (
                 <React.Fragment>
                     { variant.remarks[item] && <Dual
                         a={t("Remark")}
@@ -367,11 +371,11 @@ class AccommodationBookingPage extends React.Component {
                                 <div class="part" style={{marginTop: "6px"}}>
                                     <h3 style={{marginBottom: "24px"}}>{t("Additional Information")}</h3>
                                     <p class="remark">
-                                        {t("Cancellation Deadline")}: {dateFormat.a(confirmation.deadlineDetails.date)}
+                                        {t("Cancellation Deadline")}: {dateFormat.a(deadlineDetails.date)}
                                     </p>
 
                                     <p class="remark">
-                                        {(confirmation.deadlineDetails.policies || []).map(item => (<React.Fragment>
+                                        {(deadlineDetails.policies || []).map(item => (<React.Fragment>
                                             {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.
                                         </React.Fragment>))}
                                     </p>
