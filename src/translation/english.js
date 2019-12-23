@@ -321,6 +321,7 @@ translations: {
     "Created": "Created",
     "Amount": "Amount",
     "Reason": "Reason",
-    "Please enter itinerary number": "Please enter itinerary number"
+    "Please enter itinerary number": "Please enter itinerary number",
+    "I have read and accepted the booking": "I have read and accepted the booking"
 }
 };

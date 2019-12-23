@@ -27,7 +27,7 @@
             .item
                 margin-right: 22px
                 height: 109px
-                border: 1px solid $color-usual-gray
+                border: 1px solid $color-text-light
                 border-radius: 4px
                 padding: 42px 30px
                 line-height: 24px
@@ -35,15 +35,24 @@
                 flex-grow: 1
                 flex-basis: 0
                 color: $color-text-light
+                cursor: pointer
                 &:last-child
                     margin-right: 0
                     margin-left: 22px
                 span
                     color: $color-text-light
+                &:hover
+                    color: $color-text
+                    border-color: $color-text
+                .disabled
+                    cursor: default
+                    border: 1px solid $color-usual-gray
+                    &:hover
+                        color: $color-usual-gray
+                        border-color: $color-text-light
                 &.selected
                     color: $color-text
                     border-color: $color-brand
-                    cursor: pointer
                 img
                     height: 32px
                     margin-top: -32px

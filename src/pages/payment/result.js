@@ -73,7 +73,7 @@ class PaymentResultPage extends React.Component {
                     return;
 
                 API.post({
-                    url: API.PAYMENTS_COMMON,
+                    url: API.PAYMENTS_CARD_COMMON,
                     body: {
                         amount: data.serviceDetails.agreement.price.netTotal,
                         currency: data.serviceDetails.agreement.price.currencyCode,

@@ -17,7 +17,7 @@ import { Dual, Loader } from "components/simple";
 import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
-import store from "stores/accommodation-store";
+import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import UI from "stores/ui-store";
 
 @observer
@@ -76,7 +76,7 @@ class AccommodationBookingPage extends React.Component {
         var request = {
             "availabilityId": store.selected.availabilityId,
             "nationality": search.nationality,
-            "paymentMethod": "CreditCard",
+            "paymentMethod": store.paymentMethod,
             "residency": search.residency,
             "mainPassengerName": roomDetails[0].passengers[0].firstName + " " + roomDetails[0].passengers[0].lastName,
             "agreementId": variant.id,
@@ -92,15 +92,35 @@ class AccommodationBookingPage extends React.Component {
             body: request,
             after: (result, err, data) => {
                 store.setBookingResult(result, data);
-                setSubmitting(false);
+                if (store.paymentMethod == PAYMENT_METHODS.CARD)
+                    setSubmitting(false);
+                if (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) {
+                    API.post({
+                        url: API.PAYMENTS_ACC_COMMON,
+                        body: {
+                            referenceCode: result.referenceCode
+                        },
+                        after: (data, error) => {
+                            store.setPaymentResult({
+                                params: {
+                                    response_message: "Success",
+                                    referenceCode: result.referenceCode
+                                },
+                                result: {
+                                    status: data?.status,
+                                    error: error?.detail || error?.title
+                                }
+                            });
+                            setSubmitting(false);
+                            this.setState({
+                                redirectToConfirmationPage: true
+                            });
+                        }
+                    });
+                }
             },
             error: (error) => UI.setTopAlertText(error?.title || error?.detail || error?.message)
         });
-
-        // todo: payment via user account wallet:
-    //    this.setState({
-    //        redirectToConfirmationPage: true
-    //    });
     }
 
     render() {
@@ -126,6 +146,7 @@ class AccommodationBookingPage extends React.Component {
 
 <React.Fragment>
     <div class="booking block">
+        <div class="hide">{store.paymentMethod}</div>
         <section class="double-sections">
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
@@ -295,14 +316,16 @@ class AccommodationBookingPage extends React.Component {
                                 </div>
                                 </React.Fragment>)}))} />
 
-                                <div class="part" style={{marginTop: "6px"}}>
-                                    <FieldText formik={formik}
-                                               label={t("Itinerary number")}
-                                               id={"itineraryNumber"}
-                                               placeholder={t("Please enter itinerary number")}
-                                               clearable
-                                               addClass={"size-medium"}
-                                    />
+                                <div class="part" style={{ paddingBottom: "5px", marginTop: "-4px" }}>
+                                    <div class="row no-margin">
+                                        <div class="vertical-label">{t("Itinerary number")}</div>
+                                        <FieldText formik={formik}
+                                                   id={"itineraryNumber"}
+                                                   placeholder={t("Please enter itinerary number")}
+                                                   clearable
+                                                   addClass={"size-medium"}
+                                        />
+                                    </div>
                                 </div>
 
                                 { /* todo
@@ -391,13 +414,25 @@ class AccommodationBookingPage extends React.Component {
                                         <span class="value">{price(variant.price)}</span>
                                     </p>
                                     <div class="list">
-                                        <div class={"item " + (this.state.accountPaymentPossibility ? "" : " disabled")}>
+                                        <div
+                                            class={"item"
+                                                    + (this.state.accountPaymentPossibility ? "" : " disabled")
+                                                    + (PAYMENT_METHODS.ACCOUNT == store.paymentMethod ? " selected" : "")
+                                            }
+                                            onClick={this.state.accountPaymentPossibility
+                                                ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
+                                                : () => {}}
+                                        >
                                             <span class="icon icon-radio" />
                                             {t("My Site Balance")}
-                                            <span>{price(variant.currencyCode, 0)}</span>
                                         </div>
-                                        <div class="item selected">
-                                            <span class="icon icon-radio on" />
+                                        <div
+                                            class={"item"
+                                                    + (PAYMENT_METHODS.CARD == store.paymentMethod ? " selected" : "")
+                                            }
+                                            onClick={() => store.setPaymentMethod(PAYMENT_METHODS.CARD)}
+                                        >
+                                            <span class="icon icon-radio" />
                                             {t("Credit/Debit Card")}
                                             <img src="/images/other/visa.png" />
                                             <img src="/images/other/mc.png" />
@@ -405,29 +440,28 @@ class AccommodationBookingPage extends React.Component {
                                     </div>
                                 </div>
 
-                                { !booking.referenceCode && !formik.isSubmitting &&
-                                    <div class="final">
-                                        <div class="dual">
-                                            <div class="first">
-                                                <FieldCheckbox formik={formik}
-                                                    id={"accepted"}
-                                                    label={<div>
-                                                        {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" class="underlined link">{t("Terms & Conditions")}</Link>
-                                                    </div>}
-                                                />
-                                            </div>
-                                            <div class="second">
-                                                <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
-                                                    {t("Confirm booking")}
-                                                </button>
-                                            </div>
+                                <div class="final">
+                                    <div class="dual">
+                                        <div class="first">
+                                            <FieldCheckbox formik={formik}
+                                                id={"accepted"}
+                                                label={<div>
+                                                    {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" class="underlined link">{t("Terms & Conditions")}</Link>
+                                                </div>}
+                                            />
                                         </div>
-                                    </div> }
+                                        <div class="second">
+                                            <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                                {t("Confirm booking")}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 { formik.isSubmitting && !booking.referenceCode &&
-                                    <Loader /> }
+                                    <Loader page /> }
 
-                                { booking.referenceCode &&
+                                { booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
                                     <Redirect to="/payment/form" /> }
 
                             </div>

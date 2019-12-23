@@ -14,9 +14,7 @@ class CancellationConfirmationModal extends React.Component {
     }
 
     bookingCancel() {
-        var { bookingId } = UI.modalData,
-            { closeModal } = this.props;
-        closeModal();
+        var { bookingId } = UI.modalData;
         API.post({
             url: API.BOOKING_CANCEL(bookingId),
             success: () => {

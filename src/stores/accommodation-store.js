@@ -5,6 +5,11 @@ import { session } from "core";
 import autosave from "core/misc/autosave";
 import { createFilters, applyFilters } from "./utils/accommodation-filtering";
 
+export const PAYMENT_METHODS = {
+    CARD: "CreditCard",
+    ACCOUNT: "BankTransfer"
+};
+
 const copy = obj => JSON.parse(JSON.stringify(obj));
 
 export const defaultChildrenAge = 12;
@@ -79,6 +84,9 @@ class AccommodationStore {
 
     @observable
     paymentResult = {};
+
+    @observable
+    paymentMethod = PAYMENT_METHODS.CARD;
 
     constructor() {
         if ("localhost" == window.location.hostname) autosave(this, "_accommodation_store_cache");
@@ -230,6 +238,10 @@ class AccommodationStore {
     setPaymentResult(result) {
         this.paymentResult = result;
         this.paymentResult.params_error = (result.params?.response_message != "Success");
+    }
+
+    setPaymentMethod(value) {
+        this.paymentMethod = value;
     }
 
 }
