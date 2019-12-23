@@ -320,6 +320,7 @@ translations: {
     "No reservations found": "No reservations found",
     "Created": "Created",
     "Amount": "Amount",
-    "Reason": "Reason"
+    "Reason": "Reason",
+    "Please enter itinerary number": "Please enter itinerary number"
 }
 };
