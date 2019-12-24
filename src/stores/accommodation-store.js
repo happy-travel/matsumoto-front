@@ -5,6 +5,11 @@ import { session } from "core";
 import autosave from "core/misc/autosave";
 import { createFilters, applyFilters } from "./utils/accommodation-filtering";
 
+export const PAYMENT_METHODS = {
+    CARD: "CreditCard",
+    ACCOUNT: "BankTransfer"
+};
+
 const copy = obj => JSON.parse(JSON.stringify(obj));
 
 export const defaultChildrenAge = 12;
@@ -49,9 +54,9 @@ class AccommodationStore {
 
     @observable
     selected = {
-        variant: null,
+        agreement: null,
         accommodation: null,
-        confirmation: null,
+        deadlineDetails: null,
         availabilityId: null
     };
 
@@ -75,7 +80,13 @@ class AccommodationStore {
     userBookingList = null;
 
     @observable
+    userPaymentsList = null;
+
+    @observable
     paymentResult = {};
+
+    @observable
+    paymentMethod = PAYMENT_METHODS.CARD;
 
     constructor() {
         if ("localhost" == window.location.hostname) autosave(this, "_accommodation_store_cache");
@@ -194,16 +205,23 @@ class AccommodationStore {
         this.userBookingList = value;
     }
 
+    setUserPaymentsList(value) {
+        this.userPaymentsList = value;
+    }
+
     selectAccommodation(accommodation) {
         this.selected.accommodation = accommodation;
     }
 
-    selectAgreement(agreement, confirmation) {
-        this.selected.variant = agreement;
-        this.selected.confirmation = confirmation;
+    selectAgreement(accommodation, deadlineDetails) {
+        this.selected = {
+            accommodation : accommodation,
+            agreement : accommodation.agreements[0],
+            availabilityId : accommodation.availabilityId,
+            deadlineDetails : deadlineDetails
+        };
         this.booking.request = null;
         this.booking.result = null;
-        this.selected.availabilityId = confirmation?.deadlineDetails?.availabilityId || this.search.result.availabilityId;
     }
 
     setBookingRequest(request) {
@@ -220,6 +238,10 @@ class AccommodationStore {
     setPaymentResult(result) {
         this.paymentResult = result;
         this.paymentResult.params_error = (result.params?.response_message != "Success");
+    }
+
+    setPaymentMethod(value) {
+        this.paymentMethod = value;
     }
 
 }

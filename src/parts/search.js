@@ -18,6 +18,7 @@ import { accommodationSearchValidator } from "components/form/validation";
 import { Stars } from "components/simple";
 
 import { Formik } from 'formik';
+import moment from "moment";
 
 const sum = field => {
     var result = 0;
@@ -74,10 +75,12 @@ class AccommodationSearch extends React.Component {
         });
     }
 
-    destinationInputChanged(e) {
+    destinationInputChanged(e, props) {
         var query = e.target.value;
         if (!query)
             return UI.setCountries([]);
+        if (props.formik)
+            props.formik.setFieldValue('destinationSelected', false);
 
         API.get({
             url: API.LOCATION_PREDICTION,
@@ -116,9 +119,12 @@ class AccommodationSearch extends React.Component {
             formik.setFieldValue("countryCode", country.code);
         UI.setCountries([]);
 
+        formik.setFieldValue(`${connected}Selected`, true); // set for pass validation
+
         if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
             store.setSearchRequestField(anotherField[connected], country.code);
             formik.setFieldValue(anotherField[connected], country.name);
+            formik.setFieldValue(`${anotherField[connected]}Selected`, true);
         }
     }
 
@@ -126,6 +132,7 @@ class AccommodationSearch extends React.Component {
         store.setRequestDestination(item);
         UI.setDestinationSuggestions([]);
         formik.setFieldValue(connected, item.value);
+        formik.setFieldValue('destinationSelected', true); // set for pass validation
     }
 
     render() {
@@ -149,8 +156,11 @@ class AccommodationSearch extends React.Component {
                     <Formik
                         initialValues={{
                             destination: "",
+                            destinationSelected: false,
                             residency: "",
+                            residencySelected: false,
                             nationality: "",
+                            nationalitySelected: false,
 
                             // Advanced search:
                             propertyTypes: "Any",
@@ -168,6 +178,7 @@ class AccommodationSearch extends React.Component {
                                     <div class="row">
                                         <FieldText formik={formik}
                                                    id="destination"
+                                                   additionalFieldForValidation="destinationSelected"
                                                    label={t("Destination, Hotel name, Location or Landmark")}
                                                    placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                                    Icon={<span class="icon icon-hotel" />}
@@ -177,9 +188,6 @@ class AccommodationSearch extends React.Component {
                                                    setValue={this.setDestinationValue}
                                                    onChange={this.destinationInputChanged}
                                                    clearable
-                                                   onBlur={() => {
-                                                       if (!store.search.request.location?.predictionResult) formik.setFieldValue('destination', '');
-                                                   }}
                                         />
                                         <FieldText formik={formik}
                                                    id="dates"
@@ -193,6 +201,16 @@ class AccommodationSearch extends React.Component {
                                                        + " – " +
                                                        dateFormat.b(store.search.request.checkOutDate)
                                                    }
+                                                   setValue={range => {
+                                                       store.setDateRange({
+                                                           start: moment(range.start).add(1, 'd'),
+                                                           end: moment(range.end).add(1, 'd')
+                                                       });
+                                                   }}
+                                                   options={moment.range(
+                                                       moment(store.search.request.checkInDate).local().startOf('day'),
+                                                       moment(store.search.request.checkOutDate).local().endOf('day')
+                                                   )}
                                         />
                                         <FieldText formik={formik}
                                                    id="room"
@@ -202,11 +220,11 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={PeopleDropdown}
                                                    value={
-                                                       [plural(t, sum("adultsNumber"), "Adult"),
+                                                          [plural(t, sum("adultsNumber"), "Adult"),
                                                            plural(t, sum("childrenNumber"), "Children"),
                                                            plural(t, store.search.rooms, "Room")].join(" • ")
                                                    }
-                                        /> {/* todo: values */}
+                                        />
                                     </div>
                                     <div class={"row advanced" + ( UI.advancedSearch ? '' : " invisible" )}>
                                         <FieldSelect formik={formik}
@@ -250,6 +268,7 @@ class AccommodationSearch extends React.Component {
                                     <div class="row">
                                         <FieldText formik={formik}
                                                    id="nationality"
+                                                   additionalFieldForValidation="nationalitySelected"
                                                    label={t("Nationality")}
                                                    placeholder={t("Choose your nationality")}
                                                    clearable
@@ -259,12 +278,10 @@ class AccommodationSearch extends React.Component {
                                                    options={UI.countries}
                                                    setValue={this.setCountryValue}
                                                    addClass="size-large"
-                                                   onBlur={() => {
-                                                       if (!store.search.request.nationality) formik.setFieldValue('nationality', '');
-                                                   }}
                                         />
                                         <FieldText formik={formik}
                                                    id="residency"
+                                                   additionalFieldForValidation="residencySelected"
                                                    label={t("Residency")}
                                                    placeholder={t("Choose your residency")}
                                                    clearable
@@ -274,9 +291,6 @@ class AccommodationSearch extends React.Component {
                                                    setValue={this.setCountryValue}
                                                    onChange={regionInputChanged}
                                                    addClass="size-large"
-                                                   onBlur={() => {
-                                                       if (!store.search.request.residency) formik.setFieldValue('residency', '');
-                                                   }}
                                         />
                                         <div class="field">
                                             <div class="label"/>

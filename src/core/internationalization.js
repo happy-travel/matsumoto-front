@@ -17,7 +17,7 @@ i18n.init({
     ns: ["translations"],
     defaultNS: "translations",
 
-    keySeparator: '.',
+    keySeparator: true,
 
     interpolation: {
         escapeValue: false,

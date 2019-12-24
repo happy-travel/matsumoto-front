@@ -51,10 +51,11 @@ class AccommodationConfirmationPage extends React.Component {
 
         var bookingId = this.props?.match?.params?.id,
             referenceCode = null,
-            fromHistory = true;
+            fromHistory = true,
+            tryOfRef = store.paymentResult?.params?.settlement_reference || store.paymentResult?.params?.referenceCode;
 
-        if (bookingId === undefined && store.paymentResult?.params?.settlement_reference) {
-            referenceCode = store.paymentResult?.params?.settlement_reference;
+        if (bookingId === undefined && tryOfRef) {
+            referenceCode = tryOfRef;
             fromHistory = false;
         }
 
@@ -132,7 +133,9 @@ render() {
                         </div> }
                     </React.Fragment> }
 
-                    { !booking.referenceCode ? <Loader /> : <React.Fragment>
+                    { !booking.referenceCode
+                        ? ( result.error ? null : <Loader /> )
+                        : <React.Fragment>
                     <h2>
                         {t("Booking Details")}
                     </h2>

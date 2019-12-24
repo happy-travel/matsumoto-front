@@ -1,8 +1,6 @@
 import React from 'react';
 import DateRangePicker from 'react-daterange-picker';
 import {observer} from "mobx-react";
-import store from 'stores/accommodation-store';
-import moment from "moment";
 
 const stateDefinitions = {
     available: {
@@ -33,14 +31,12 @@ const PaginationArrowComponent = (props) => {
 
 @observer
 class DateDropdown extends React.Component {
-    handleSelect(range) {
-        store.setDateRange({
-            start: moment(range.start).add(1, 'd'),
-            end: moment(range.end).add(1, 'd')
-        });
-    }
-
     render() {
+        const {
+            setValue,
+            connected,
+            options
+        } = this.props;
         return (
             <div class="date dropdown">
                 <DateRangePicker
@@ -48,16 +44,13 @@ class DateDropdown extends React.Component {
                     firstOfWeek={1}
                     numberOfCalendars={2}
                     selectionType='range'
-                    minimumDate={new Date()}
+                    minimumDate={"dates" == connected ? new Date() : null}
                     stateDefinitions={stateDefinitions}
                     defaultState="available"
                     showLegend={false}
-                    value={moment.range(
-                        moment(store.search.request.checkInDate).local().startOf('day'),
-                        moment(store.search.request.checkOutDate).local().endOf('day')
-                    )}
-                    onSelect={this.handleSelect}
                     paginationArrowComponent={PaginationArrowComponent}
+                    value={options}
+                    onSelect={setValue}
                 />
             </div>
         );

@@ -48,17 +48,13 @@ class AccommodationAgreementsPage extends React.Component {
         this.setState({
             loading: true
         });
-        API.get({
+        API.post({
             url: API.AVAILABILITY_DETAILS(store.selected.accommodation.availabilityId, agreement.id),
             success: (result) => {
-                if (result?.accommodationId != store.selected.accommodation.accommodationDetails.id) { // todo: better error definition and error handling
-                    UI.setTopAlertText("Sorry, this room is not available now");
-                    return;
-                }
-                store.selectAgreement(result.agreement, result);
                 this.setState({
                     redirectToBookingPage: true
                 });
+                store.selectAgreement(result.singleAccommodationAvailabilityDetails, result.deadlineDetails);
             },
             error: (error) => {
                 UI.setTopAlertText("Sorry, this room is not available now, try again later");
@@ -82,6 +78,9 @@ class AccommodationAgreementsPage extends React.Component {
 
         if (this.state.redirectToVariantsPage)
             return <Redirect push to="/search" />;
+
+        if (!item.accommodationDetails)
+            return null;
 
         return (
 

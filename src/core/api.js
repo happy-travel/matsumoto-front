@@ -16,7 +16,8 @@ API_METHODS = {
     CARDS_COMMON          : v1 + "/cards",
     CARDS_SETTINGS        : v1 + "/cards/settings",
     CARDS_SIGN            : v1 + "/cards/signatures",
-    PAYMENTS_COMMON       : v1 + "/payments",
+    PAYMENTS_CARD_COMMON  : v1 + "/payments/card",
+    PAYMENTS_ACC_COMMON   : v1 + "/payments/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
     ACCOUNT_AVAILABLE     : v1 + "/payments/accounts/available",
@@ -48,6 +49,9 @@ API_METHODS = {
                             v1 + "/availabilities/accommodations/" + accommodationId,
     AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
                             v1 + `/availabilities/${availabilityId}/${agreementId}`,
+
+    BILLING_HISTORY       : companyId =>
+                            v1 + `/payments/history/${companyId}/customer`,
 
     DIRECT_LINK_PAY : {
         SETTINGS     :         v1 + "/external/payment-links/tokenization-settings",

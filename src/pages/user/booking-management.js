@@ -203,8 +203,10 @@ class UserBookingManagementPage extends React.Component {
                     <div>
                         {list === null ? <Loader /> :
                         (!list.length ?
-                            <div>{t("You don`t have any reservations")}</div> :
-                            <table>
+                                (store.userBookingList
+                                    ? <div>{t("No reservations found")}</div>
+                                    : <div>{t("You don`t have any reservations")}</div>) :
+                            <table class="table">
                                 {list.map(item => item && (
                                     <tr
                                         onClick={() => this.setState({ redirectToBookingConfirmationId: item.id })}
