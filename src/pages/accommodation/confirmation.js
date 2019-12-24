@@ -134,7 +134,7 @@ render() {
                     </React.Fragment> }
 
                     { !booking.referenceCode
-                        ? ( result.error ? null : <Loader /> )
+                        ? ( result?.error ? null : <Loader /> )
                         : <React.Fragment>
                     <h2>
                         {t("Booking Details")}
