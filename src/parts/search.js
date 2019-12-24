@@ -278,6 +278,7 @@ class AccommodationSearch extends React.Component {
                                                    options={UI.countries}
                                                    setValue={this.setCountryValue}
                                                    addClass="size-large"
+                                                   onClear={() => store.setSearchRequestField("nationality", '')}
                                         />
                                         <FieldText formik={formik}
                                                    id="residency"
@@ -291,6 +292,7 @@ class AccommodationSearch extends React.Component {
                                                    setValue={this.setCountryValue}
                                                    onChange={regionInputChanged}
                                                    addClass="size-large"
+                                                   onClear={() => store.setSearchRequestField("residency", '')}
                                         />
                                         <div class="field">
                                             <div class="label"/>

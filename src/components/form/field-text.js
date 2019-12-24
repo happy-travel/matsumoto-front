@@ -89,6 +89,8 @@ class FieldText extends React.Component {
     clear() {
         if (this.props.formik) {
             this.props.formik.setFieldValue(this.props.id, '\n');
+            if (this.props.onClear)
+                this.props.onClear();
             if (this.props.Dropdown)
                 UI.setOpenDropdown(null);
         }
