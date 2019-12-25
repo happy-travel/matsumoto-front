@@ -9,6 +9,8 @@ const noRedirectPages = ["/contact", "/terms", "/privacy", "/about", "/signup/",
 export const isRedirectNeeded = () => noRedirectPages.every(item => window.location.href.indexOf(item) == -1);
 
 const init = () => {
+    if (window.location.href.indexOf("/auth/") > 0)
+        return;
 
     if (window.location.pathname.length < 2 && // index page
         getParams().code) { // and auth

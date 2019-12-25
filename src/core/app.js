@@ -25,14 +25,15 @@ const App = () => (
                 <Switch>
                     <Route exact path="/auth/callback" component={ AuthCallback } />
                     <Route exact path="/auth/silent" component={ AuthSilent } />
-                    <Route component={ AuthDefault } />
+                    <Route>
+                        <Route component={ AuthDefault } />
+                        <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
+                        <TopAlert />
+                        <Route exact path={ routesWithSearch } component={ Search } />
+                        <Routes />
+                        <Route exact path={ routesWithFooter } component={ Footer } />
+                    </Route>
                 </Switch>
-
-                <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
-                <TopAlert />
-                <Route exact path={ routesWithSearch } component={ Search } />
-                <Routes />
-                <Route exact path={ routesWithFooter } component={ Footer } />
             </div>
             <Modal />
 

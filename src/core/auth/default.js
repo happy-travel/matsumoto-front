@@ -6,12 +6,11 @@ import { isRedirectNeeded } from "core/init";
 /* Refactoring possibility: rewrite auth to vanilla, remove react components */
 class AuthDefaultComponent extends React.PureComponent {
     componentDidMount() {
-        Authorize.getUser().then(user => {
-            if (!user || !user.access_token) {
-                if (isRedirectNeeded())
+        if (isRedirectNeeded())
+            Authorize.getUser().then(user => {
+                if (!user || !user.access_token)
                     Authorize.signinRedirect();
-            }
-        });
+            });
     }
 
     render() {

@@ -10,13 +10,6 @@ class AuthSilentCallbackComponent extends React.PureComponent {
         });
     }
 
-    onRedirectSuccess = (user) => {
-    };
-
-    onRedirectError = (error) => {
-
-    };
-
     render() {
         return null; // (<div>Redirecting...</div>);
     }

@@ -91,7 +91,7 @@ _.request = ({
 }) => {
 Authorize.getUser().then(user => {
     if (!external_url && (!user || !user.access_token)) {
-    //    Authorize.signinRedirect(); todo: error handle
+        Authorize.getUser().then(() => Authorize.signinRedirect());
         return;
     }
 
