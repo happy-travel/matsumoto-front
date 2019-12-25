@@ -21,9 +21,11 @@ import { Formik } from 'formik';
 import moment from "moment";
 
 const sum = field => {
-    var result = 0;
-    for (var i = 0; i < store.search.rooms; i++)
-        result += store.getRoomDetails(i)[field];
+    let result = 0;
+    for (let i = 0; i < store.search.rooms; i += 1)
+        if (store.getRoomDetails(i)) {
+            result += store.getRoomDetails(i)[field];
+        }
     return result;
 };
 
