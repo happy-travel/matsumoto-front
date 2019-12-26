@@ -1,14 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import {
-    FieldCheckbox,
-    FieldRange
-} from "components/form";
-import { Expandable } from "components/simple";
-import { Carousel } from "components/external/react-responsive-carousel";
-import { hotelStars } from "core";
 import { Stars } from "components/simple";
+import Gallery from "components/gallery";
 
 const Amenities = ({ hotel, fromPage, fromModal, t }) => {
 
@@ -81,19 +75,15 @@ class AccommodationCommonDetailsPart extends React.Component {
 
                 <h2>{t("Accommodation Photos")}</h2>
 
-                { hotel.pictures?.length && <div class="gallery">
-                    <Carousel
-                        showStatus={false}
-                        transitionTime={200}
-                    >
-                        {hotel.pictures.map(item => (
-                            <div>
-                                <img src={item.source} />
-                                <p className="legend hide">{item.caption}</p>
-                            </div>
-                        ))}
-                    </Carousel>
-                </div> }
+                { hotel.pictures?.length && <Gallery data={hotel.pictures}>
+                    {hotel.pictures.map(item => (
+                        <div className="gallery__item">
+                            <img src={item.source}/>
+                            <p className="legend hide">{item.caption}</p>
+                            <button></button>
+                        </div>
+                    ))}
+                </Gallery> }
 
                 { fromPage && <Text hotel={hotel} /> }
 
