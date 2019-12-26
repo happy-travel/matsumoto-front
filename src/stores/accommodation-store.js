@@ -14,7 +14,6 @@ const copy = obj => JSON.parse(JSON.stringify(obj));
 
 export const defaultChildrenAge = 12;
 const defaultSearchForm = {
-    request: {
         "filters": "Default",
         "checkInDate": moment().utc().startOf("day"),
         "checkOutDate": moment().utc().startOf("day").add(1, "d"),
@@ -33,12 +32,7 @@ const defaultSearchForm = {
         },
         "nationality": "",
         "residency": ""
-    },
-    rooms: 1,
-    loading: false,
-    form: null,
-    result: null
-};
+    };
 
 const maximumPeoplePerQuery = 9;
 const maximumRoomsPerQuery = 5;
@@ -50,7 +44,13 @@ const minimumValuesForSearch = {
 
 class AccommodationStore {
     @observable
-    search = copy(defaultSearchForm);
+    search = {
+        request: copy(defaultSearchForm),
+        rooms: 1,
+        loading: false,
+        form: null,
+        result: null
+    };
 
     @observable
     selected = {
@@ -122,9 +122,8 @@ class AccommodationStore {
     setNewSearchForm(form, isAdvancedSearch) {
         this.search.form = form;
         this.filters = null;
-        if (!form) {
-            this.search = copy(defaultSearchForm);
-        }
+        if (!form)
+            this.search.request = copy(defaultSearchForm);
 
         if (isAdvancedSearch) {
             this.search.request.ratings = form.ratings;
