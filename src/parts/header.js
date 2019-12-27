@@ -5,7 +5,7 @@ import { localStorage } from "core";
 import LocaleSwitcher from "components/switchers/locale";
 import CurrencySwitcher from "components/switchers/currency";
 import UserMenu from "components/switchers/user-menu";
-import UI from "stores/ui-store";
+import authStore from "stores/auth-store";
 
 const Header = () => {
     const { t } = useTranslation();
@@ -25,8 +25,8 @@ const Header = () => {
                     */ }
                 </nav>
                 <LocaleSwitcher />
-                { !UI.user.isEmpty && <CurrencySwitcher /> }
-                { !UI.user.isEmpty && <UserMenu /> }
+                { !!authStore.userCache?.access_token && <CurrencySwitcher /> }
+                { !!authStore.userCache?.access_token && <UserMenu /> }
             </section>
         </header>
     );

@@ -30,7 +30,6 @@ const init = () => {
             if (!response)
                 return;
             if (response.status == 401) {
-                UI.setUser({ isEmpty: true });
                 if (isRedirectNeeded())
                     Authorize.signinRedirect();
                 return;

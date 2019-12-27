@@ -31,7 +31,14 @@ class AuthStore {
 
     setUserCache(newUserCache) {
         var rerenderNeeded = this.userCache?.access_token != newUserCache?.access_token;
-        this.userCache = newUserCache;
+
+        if (newUserCache?.access_token)
+            this.userCache = {
+                access_token: newUserCache?.access_token
+            };
+        else
+            this.userCache = null;
+
         if (rerenderNeeded)
             RenderTheApp();
     }

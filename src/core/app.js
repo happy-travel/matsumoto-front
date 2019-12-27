@@ -28,8 +28,6 @@ import { isRedirectNeeded } from "core/init";
 
 const App = () => {
     var canShowContent = !isRedirectNeeded() || authStore.userCache?.access_token;
-    console.log("TRIGGERED");
-
     return (
     <I18nextProvider i18n={internationalization}>
         <BrowserRouter>
