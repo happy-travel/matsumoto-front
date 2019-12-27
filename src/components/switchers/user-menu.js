@@ -5,15 +5,21 @@ import UI from "stores/ui-store";
 import { localStorage } from "core";
 import Authorize from "core/auth/authorize";
 import { Link } from "react-router-dom";
-import authStore from "stores/auth-store";
-
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
+import { Loader } from "components/simple";
 
 const dropdownId = "UserMenuDropdown",
       calcTitleFor = (value) => (value?.length > 14 ? { title: value } : {});
 
 @observer
 class UserMenuDropdown extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false
+        };
+    }
+
     toggleMenu() {
         if (dropdownId == UI.openDropdown)
             return UI.setOpenDropdown(null);
@@ -44,11 +50,12 @@ class UserMenuDropdown extends React.Component {
                         {t("Send invitation")}
                     </Link> }
                     <div class="item" onClick={() =>
-                        Authorize.signoutRedirect().then(() => authStore.setUserCache(null))
+                        Authorize.signoutRedirect().then(this.setState({ loading: true }))
                     }>
                         {t("Log out")}
                     </div>
                 </div>}
+                { this.state.loading && <Loader page /> }
             </div>
         );
     }
