@@ -316,18 +316,6 @@ class AccommodationBookingPage extends React.Component {
                                 </div>
                                 </React.Fragment>)}))} />
 
-                                <div class="part" style={{ paddingBottom: "5px", marginTop: "-4px" }}>
-                                    <div class="row no-margin">
-                                        <div class="vertical-label">{t("Itinerary number")}</div>
-                                        <FieldText formik={formik}
-                                                   id={"itineraryNumber"}
-                                                   placeholder={t("Please enter itinerary number")}
-                                                   clearable
-                                                   addClass={"size-medium"}
-                                        />
-                                    </div>
-                                </div>
-
                                 { /* todo
                                 <div class="part">
                                     <div class="row no-margin">
@@ -406,6 +394,18 @@ class AccommodationBookingPage extends React.Component {
                                     {Object.keys(variant.remarks || {}).map(key => (
                                         <p class="remark">{variant.remarks[key]}</p>
                                     ))}
+                                </div>
+
+                                <div class="part" style={{ paddingBottom: "5px", marginTop: "-4px" }}>
+                                    <div class="row no-margin">
+                                        <div class="vertical-label">{t("Itinerary number")}</div>
+                                        <FieldText formik={formik}
+                                                   id={"itineraryNumber"}
+                                                   placeholder={t("Please enter itinerary number")}
+                                                   clearable
+                                                   addClass={"size-medium"}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div class="payment method">
