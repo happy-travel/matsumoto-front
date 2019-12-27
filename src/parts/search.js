@@ -22,8 +22,11 @@ import moment from "moment";
 
 const sum = field => {
     var result = 0;
-    for (var i = 0; i < store.search.rooms; i++)
-        result += store.getRoomDetails(i)[field];
+    for (var i = 0; i < store.search.rooms; i++) {
+        if (store.getRoomDetails(i)) {
+            result += store.getRoomDetails(i)[field];
+        }
+    }
     return result;
 };
 
