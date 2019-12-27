@@ -1,4 +1,5 @@
 import UI from "stores/ui-store";
+import authStore from "stores/auth-store";
 import { API } from "core";
 import Authorize from "./auth/authorize";
 import React from "react";
@@ -38,7 +39,8 @@ const init = () => {
                 if (isRedirectNeeded())
                     window.location.href = window.location.origin + "/signup/user";
                 //todo: make normal redirect
-            }
+            } else
+                authStore.setCachedUserRegistered(true);
         }
     });
     API.get({

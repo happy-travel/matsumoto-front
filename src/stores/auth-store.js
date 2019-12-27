@@ -10,6 +10,7 @@ class AuthStore {
     };
 
     @observable userCache = null;
+    @observable cachedUserRegistered = false;
 
     constructor() {
         autosave(this, "_auth_store_cache");
@@ -31,16 +32,20 @@ class AuthStore {
 
     setUserCache(newUserCache) {
         var rerenderNeeded = this.userCache?.access_token != newUserCache?.access_token;
-
         if (newUserCache?.access_token)
             this.userCache = {
                 access_token: newUserCache?.access_token
             };
-        else
+        else {
             this.userCache = null;
-
+            this.cachedUserRegistered = false;
+        }
         if (rerenderNeeded)
             RenderTheApp();
+    }
+
+    setCachedUserRegistered(value) {
+        this.cachedUserRegistered = value;
     }
 }
 
