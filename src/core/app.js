@@ -16,9 +16,21 @@ import TopAlert  from 'parts/top-alert';
 import Modal     from 'parts/modal';
 import Search    from 'parts/search';
 
-import Routes, { routesWithHeaderAndFooter, routesWithSearch, routesWithFooter } from './routes';
+import Routes, {
+    routesWithHeaderAndFooter,
+    routesWithSearch,
+    routesWithFooter
+} from './routes';
 
-const App = () => (
+import authStore from 'stores/auth-store';
+import { Loader } from "components/simple";
+import { isRedirectNeeded } from "core/init";
+
+const App = () => {
+    var canShowContent = !isRedirectNeeded() || authStore.userCache?.access_token;
+    console.log("TRIGGERED");
+
+    return (
     <I18nextProvider i18n={internationalization}>
         <BrowserRouter>
             <div class="body-wrapper">
@@ -27,11 +39,13 @@ const App = () => (
                     <Route exact path="/auth/silent" component={ AuthSilent } />
                     <Route>
                         <Route component={ AuthDefault } />
-                        <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
-                        <TopAlert />
-                        <Route exact path={ routesWithSearch } component={ Search } />
-                        <Routes />
-                        <Route exact path={ routesWithFooter } component={ Footer } />
+                        { canShowContent ? <React.Fragment>
+                            <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
+                            <TopAlert />
+                            <Route exact path={ routesWithSearch } component={ Search } />
+                            <Routes />
+                            <Route exact path={ routesWithFooter } component={ Footer } />
+                        </React.Fragment> : <Loader page /> }
                     </Route>
                 </Switch>
             </div>
@@ -40,6 +54,6 @@ const App = () => (
             <ScrollToTop />
         </BrowserRouter>
     </I18nextProvider>
-);
+)};
 
 export default App;

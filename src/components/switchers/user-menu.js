@@ -5,6 +5,7 @@ import UI from "stores/ui-store";
 import { localStorage } from "core";
 import Authorize from "core/auth/authorize";
 import { Link } from "react-router-dom";
+import authStore from "stores/auth-store";
 
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
 
@@ -42,7 +43,9 @@ class UserMenuDropdown extends React.Component {
                     { UI.user?.companies?.[0].isMaster && <Link to="/user/invite" class="item">
                         {t("Send invitation")}
                     </Link> }
-                    <div class="item" onClick={() => Authorize.signoutRedirect()}>
+                    <div class="item" onClick={() =>
+                        Authorize.signoutRedirect().then(() => authStore.setUserCache(null))
+                    }>
                         {t("Log out")}
                     </div>
                 </div>}

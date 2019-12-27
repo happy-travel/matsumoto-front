@@ -14,6 +14,7 @@ window.setPageDirectionFromLS = () => {
 };
 window.setPageDirectionFromLS();
 
-ReactDOM.render(<App />, document.getElementById('app'));
+export const RenderTheApp = () => ReactDOM.render(<App />, document.getElementById('app'));
+RenderTheApp();
 
 init();

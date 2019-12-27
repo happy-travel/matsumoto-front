@@ -3,6 +3,8 @@ import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
 import { init } from "core";
 import { getParams } from "core";
+import { Loader } from "components/simple";
+import store from "stores/auth-store";
 
 class AuthCallbackComponent extends React.PureComponent {
 
@@ -14,6 +16,7 @@ class AuthCallbackComponent extends React.PureComponent {
     }
 
     onRedirectSuccess = (user) => {
+        store.setUserCache(user);
         this.props.history.push("/");
         init(); //todo: rewrite logic where init is after authorization code
     };
@@ -23,7 +26,7 @@ class AuthCallbackComponent extends React.PureComponent {
     };
 
     render() {
-        return null; // (<div>Redirecting...</div>);
+        return <Loader page />;
     }
 }
 

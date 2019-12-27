@@ -1,6 +1,8 @@
 import settings from "settings";
 import Authorize from "core/auth/authorize";
 import UI from "stores/ui-store";
+import authStore from "stores/auth-store";
+import { isRedirectNeeded } from "./init";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
@@ -90,8 +92,10 @@ _.request = ({
     after     // function(result, error, response) - Fires the last
 }) => {
 Authorize.getUser().then(user => {
-    if (!external_url && (!user || !user.access_token)) {
-        Authorize.getUser().then(() => Authorize.signinRedirect());
+    authStore.setUserCache(user);
+    if (!external_url && (!user?.access_token)) {
+        if (isRedirectNeeded())
+            Authorize.signinRedirect();
         return;
     }
 

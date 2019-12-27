@@ -12,7 +12,6 @@ import store from "stores/auth-store";
 import UI from "stores/ui-store";
 import Authorize from "core/auth/authorize";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
-import {isRedirectNeeded} from "../../core/init";
 
 @observer
 class RegistrationStep3 extends React.Component {
