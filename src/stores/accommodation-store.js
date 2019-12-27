@@ -41,12 +41,13 @@ const minimumValuesForSearch = {
     "childrenNumber": 0,
     "rooms": 1
 };
+const defaultSearchRooms = 1;
 
 class AccommodationStore {
     @observable
     search = {
         request: copy(defaultSearchForm),
-        rooms: 1,
+        rooms: defaultSearchRooms,
         loading: false,
         form: null,
         result: null
@@ -122,8 +123,10 @@ class AccommodationStore {
     setNewSearchForm(form, isAdvancedSearch) {
         this.search.form = form;
         this.filters = null;
-        if (!form)
+        if (!form) {
             this.search.request = copy(defaultSearchForm);
+            this.search.rooms = defaultSearchRooms;
+        }
 
         if (isAdvancedSearch) {
             this.search.request.ratings = form.ratings;
