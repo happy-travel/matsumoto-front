@@ -150,7 +150,7 @@ translations: {
     "Your Requests": "Your Requests",
     "Mr.": "Mr.",
     "Ms.": "Ms.",
-    "Miss.": "Miss.",
+    "Miss": "Miss",
     "Mrs.": "Mrs.",
     "Child": "Child",
     "Booking Summary": "Booking Summary",

@@ -290,7 +290,7 @@ class AccommodationBookingPage extends React.Component {
                                                         options={[
                                                             { value: "Mr", text: t("Mr.")},
                                                             { value: "Ms", text: t("Ms.")},
-                                                            { value: "Miss", text: t("Miss.")},
+                                                            { value: "Miss", text: t("Miss")},
                                                             { value: "Mrs", text: t("Mrs.")}
                                                         ]}
                                                     />

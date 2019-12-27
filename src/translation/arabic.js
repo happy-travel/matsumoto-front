@@ -220,7 +220,7 @@ translations: {
     "Search by a hotel name...": "البحث عن طريق اسم الفندق ...",
     "Accommodation in": "الإقامة في",
     "Ms.": "الآنسة",
-    "Miss.": "الآنسة",
+    "Miss": "الآنسة",
     "Accommodation Details": "تفاصيل السكن",
     "Not Rated": "غير مصنف",
     "Finish Registration": "إنهاء التسجيل",
