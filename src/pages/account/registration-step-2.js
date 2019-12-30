@@ -41,7 +41,6 @@ class RegistrationStep2 extends React.Component {
                     invitationCode: this.state.invitationCode
                 },
                 success: () => {
-                    UI.setTopAlertText(null);
                     this.setState({ redirectToIndexPage: true });
                 },
                 error: (error) => {

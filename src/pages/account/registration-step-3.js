@@ -33,7 +33,6 @@ class RegistrationStep3 extends React.Component {
                 API.get({
                     url: API.USER,
                     success: (result) => {
-                        UI.setTopAlertText(null);
                         if (result?.email)
                             UI.setUser(result);
                     }

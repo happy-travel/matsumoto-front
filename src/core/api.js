@@ -147,6 +147,7 @@ Authorize.getUser().then(user => {
                     if (error)
                         error(result);
                 } else {
+                    UI.setTopAlertText(null);
                     if (success)
                         success(result);
                 }
