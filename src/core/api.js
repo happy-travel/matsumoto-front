@@ -139,6 +139,10 @@ Authorize.getUser().then(user => {
                     if (_.methods_dont_show_error.indexOf(url) < 0) {
                         if (result && result.status >= 400 && result.detail)
                             UI.setTopAlertText(result.detail);
+                        if (result && result.status == 401 && isRedirectNeeded()) {
+                            Authorize.signinRedirect();
+                            return;
+                        }
                     }
                     if (error)
                         error(result);
