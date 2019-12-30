@@ -47,7 +47,7 @@ const Footer = () => {
                     </div>
                     <div class="contact">
                         <h3>{t("Contact Us")}</h3>
-                        <div><span>{t("Email")}:</span> info@happytravel.com</div> { /* todo : links */}
+                        <div><span>{t("Email")}:</span> <a href="mailto:info@happytravel.com">info@happytravel.com</a></div>
                         <div><span>{t("Phone")}:</span> +971-4-2999080</div>
                         <div>
                             <span>{t("Address")}:</span> {t("footer_address_line_1")}<br/>
