@@ -122,6 +122,8 @@ translations: {
     "Business Features": "Business Features",
     "Accommodation Chain": "Accommodation Chain",
     "Loading...": "Loading...",
+    "Found nothing?": "Found nothing?",
+    "You could reach our Operations team directly, and we pick an accommodation for you.": "You could reach our Operations team directly, and we pick an accommodation for you.",
     "Results for": "Results for",
     "Sort by": "Sort by",
     "Search by a hotel name...": "Search by a hotel name...",
