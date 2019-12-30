@@ -135,15 +135,13 @@ Authorize.getUser().then(user => {
         })
         .then(
             (result) => {
+                if (rawResponse.status == 401 && isRedirectNeeded()) {
+                    Authorize.signinRedirect();
+                    return;
+                }
                 if (failed) {
-                    if (_.methods_dont_show_error.indexOf(url) < 0) {
-                        if (result && result.status >= 400 && result.detail)
-                            UI.setTopAlertText(result.detail);
-                        if (result && result.status == 401 && isRedirectNeeded()) {
-                            Authorize.signinRedirect();
-                            return;
-                        }
-                    }
+                    if (_.methods_dont_show_error.indexOf(url) < 0 && result && result.status >= 400 && result.detail)
+                        UI.setTopAlertText(result.detail);
                     if (error)
                         error(result);
                 } else {
