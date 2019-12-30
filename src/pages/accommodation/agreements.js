@@ -172,7 +172,7 @@ class AccommodationAgreementsPage extends React.Component {
                                             {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room Only") : (t("Breakfast Included") + ", " + agreement.mealPlan) }
                                         </div>
                                         <div class="one">
-                                            { agreement.deadlineDate ?
+                                            { !moment().isBefore(agreement.deadlineDate) ?
                                             <div class={"info" + (moment().isAfter(agreement.deadlineDate) ? " warning" : " green")}>
                                                 {t("Within deadline")} – {dateFormat.a(agreement.deadlineDate)}
                                             </div> :

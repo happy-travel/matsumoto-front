@@ -68,18 +68,16 @@ export const applyFilters = (hotels, filters) => {
 
     if (atLeastOne(filters.price) && filters.price.min > 0 && filters.price.max < Infinity)
         for (var i = 0; i < result.length; i++)
-            for (var j=0; j < result[i].agreements.length; j++) {
+            if (result[i].agreements?.length)
                 result[i].agreements = result[i].agreements.filter(item => (
                     item.price.netTotal >= filters.price.min &&
                     item.price.netTotal <= filters.price.max
                 ));
-            }
 
     if (atLeastOne(filters.mealPlans))
         for (i = 0; i < result.length; i++)
-            for (j=0; j < result[i].agreements.length; j++) {
+            if (result[i].agreements?.length)
                 result[i].agreements = result[i].agreements.filter(item => filters.mealPlans[item.boardBasisCode]);
-            }
 
     result = result.filter(hotel => hotel.agreements.length);
 

@@ -109,12 +109,21 @@ class AccommodationStore {
     setSearchResult(value) {
         this.search.result = value;
 
-        if (this.search.result?.results?.length)
+        if (this.search.result?.results?.length) {
             this.search.result.results.forEach(item => {
                 item.fromPrice = Math.min(...item.agreements.map(x => x.price.netTotal));
             });
 
-        this.filters = createFilters(value);
+            if ("Deadline passed variants temporary hidden") {
+                this.search.result.results.forEach(item => {
+                    if (item.agreements?.length)
+                        item.agreements = item.agreements.filter(item => moment().isBefore(item.deadlineDate));
+                });
+                this.search.result.results = this.search.result.results.filter(item => item.agreements?.length);
+            }
+        }
+
+        this.filters = createFilters(this.search.result);
         this.selectedFilters = null;
         this.booking.request = null;
         this.booking.result = {};
