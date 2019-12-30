@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Trans } from 'react-i18next';
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import moment from "moment";
@@ -138,7 +137,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements[0].price.currencyCode, Math.min(...item.agreements.map(x => x.price.netTotal)))}</div>
+                            <div class="value">{price(item.agreements[0].price.currencyCode, item.fromPrice)}</div>
                         </div>
                     </div>
                     <div class="description">

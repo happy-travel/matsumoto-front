@@ -108,6 +108,12 @@ class AccommodationStore {
 
     setSearchResult(value) {
         this.search.result = value;
+
+        if (this.search.result?.results?.length)
+            this.search.result.results.forEach(item => {
+                item.fromPrice = Math.min(...item.agreements.map(x => x.price.netTotal));
+            });
+
         this.filters = createFilters(value);
         this.selectedFilters = null;
         this.booking.request = null;
