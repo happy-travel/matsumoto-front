@@ -153,6 +153,8 @@ class FieldText extends React.Component {
         if (formik && !suggestion)
             suggestion = UI.getSuggestion(id, getValue(formik, id));
 
+        var finalValue = ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '');
+
         return (
             <div class={"field" + (addClass ? ' ' + addClass : '')}>
                 <label>
@@ -164,7 +166,7 @@ class FieldText extends React.Component {
                         + (disabled ? ' disabled' : '')
                         + ((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] && formik?.touched[id]) ? ' error' : '')}
                     >
-                        { Flag && <div>
+                        { !!Flag && !!finalValue && <div>
                             { Flag }
                         </div> }
                         <div class="inner">
@@ -175,7 +177,7 @@ class FieldText extends React.Component {
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
-                                value={ ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '') }
+                                value={ finalValue }
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                                 maxLength={ maxLength }
