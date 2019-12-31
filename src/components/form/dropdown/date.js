@@ -1,6 +1,8 @@
-import React from 'react';
-import DateRangePicker from 'react-daterange-picker';
+import React from "react";
+import DateRangePicker from "react-daterange-picker";
 import {observer} from "mobx-react";
+
+import UI from "stores/ui-store";
 
 const stateDefinitions = {
     available: {
@@ -50,7 +52,7 @@ class DateDropdown extends React.Component {
                     showLegend={false}
                     paginationArrowComponent={PaginationArrowComponent}
                     value={options}
-                    onSelect={setValue}
+                    onSelect={(...args) => {setValue(...args); UI.setOpenDropdown(null);}}
                 />
             </div>
         );
