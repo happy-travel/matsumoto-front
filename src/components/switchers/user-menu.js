@@ -46,7 +46,7 @@ class UserMenuDropdown extends React.Component {
                     <Link to="/user/payment-history" class="item">
                         {t("Account statement")}
                     </Link>
-                    { UI.user?.companies?.[0].isMaster && <Link to="/user/invite" class="item">
+                    { (UI.user?.companies?.[0].inCompanyPermissions?.indexOf("CustomerInvitation") != -1) && <Link to="/user/invite" class="item">
                         {t("Send invitation")}
                     </Link> }
                     <div class="item" onClick={() =>
