@@ -75,7 +75,7 @@ class AccommodationCommonDetailsPart extends React.Component {
 
                 <h2>{t("Accommodation Photos")}</h2>
 
-                { hotel.pictures?.length && <Gallery data={hotel.pictures}>
+                { hotel.pictures?.length && <Gallery>
                     {hotel.pictures.map(item => (
                         <div className="gallery__item">
                             <img src={item.source}/>
