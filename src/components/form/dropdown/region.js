@@ -64,7 +64,7 @@ class RegionDropdown extends React.Component {
                             const currentRegion = UI.regionList?.find(regionItem => regionItem.id === regionId);
                             region = <div
                               key={currentRegion?.name}
-                              class="region">{currentRegion?.name?.toUpperCase()}</div>;
+                              class="subtitle">{currentRegion?.name?.toUpperCase()}</div>;
                         }
                         return <div>
                             {region}

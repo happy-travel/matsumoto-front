@@ -48,13 +48,20 @@ class DestinationDropdown extends React.Component {
         return (
         <div class="cities dropdown">
             <div class="scroll">
-                {UI?.destinations?.map?.((item, index) => (
-                    <React.Fragment>
-                        <div class={`country line${UI.focusedDropdownIndex === index ? ' country__focused' : ''}`} onClick={ () => this.props.setValue(item, formik, connected) }>
-                            <Highlighted str={item.value} highlight={this.props.value} />
-                        </div>
-                    </React.Fragment>
-                ))}
+                {UI?.destinations?.map?.((item, index) => {
+                    let destinationType = null;
+                    if (index === 0 || item.type !== UI.destinations[index - 1]?.type) {
+                        destinationType = <div className="subtitle">{item.type}</div>
+                    }
+                    return (
+                        <React.Fragment>
+                            {destinationType}
+                            <div className={`country line${UI.focusedDropdownIndex === index ? ' country__focused' : ''}`} onClick={ () => this.props.setValue(item, formik, connected) }>
+                                <Highlighted str={item.value} highlight={this.props.value} />
+                            </div>
+                        </React.Fragment>
+                    )
+                })}
             </div>
         </div>
         );
