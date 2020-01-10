@@ -229,6 +229,11 @@ class AccommodationStore {
 
     selectAccommodation(accommodation) {
         this.selected.accommodation = accommodation;
+
+        if ("Deadline passed variants temporary hidden") {
+            if (this.selected.accommodation.agreements?.length)
+                this.selected.accommodation.agreements = this.selected.accommodation.agreements.filter(item => moment().isBefore(item.deadlineDate));
+        }
     }
 
     selectAgreement(accommodation, deadlineDetails) {

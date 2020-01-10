@@ -23,7 +23,7 @@ const Footer = () => {
                     </div>
                     <div class="links">
                         <menu class="primary">
-                            <li><Link to="/">{t("Accommodations")}</Link></li>
+                            <li><Link to="/">{t("Accommodation")}</Link></li>
                             { /* todo:
                             <li><a href="#">{t("Transfers")}</a></li>
                             <li><a href="#">{t("Tours")}</a></li>

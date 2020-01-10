@@ -179,8 +179,8 @@ class AccommodationVariantsPage extends React.Component {
                                     {groupAndCount(agreement.rooms)}
                                 </h3>
                                 <div>
-                                    { !moment().isBefore(agreement.deadlineDate) ?
-                                    <div class={"info" + (moment().isAfter(agreement.deadlineDate) ? " warning" : "")}>
+                                    { agreement.deadlineDate ?
+                                    <div class={"info" + (!moment().isBefore(agreement.deadlineDate) ? " warning" : "")}>
                                         {t("Within deadline")} – {dateFormat.a(agreement.deadlineDate)}
                                     </div> :
                                     <div class="info green">
