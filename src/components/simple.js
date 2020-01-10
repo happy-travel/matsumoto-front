@@ -1,6 +1,7 @@
 import React from "react";
-import { hotelStars } from "core";
+import { hotelStars, dateFormat } from "core";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 export const Dual = ({ first, second, a, b, addClass }) => (
     <div class={"dual" + (addClass ? " " + addClass : '')}>
@@ -65,6 +66,20 @@ export const Header = () => (
             </div>
         </section>
     </header>
+);
+
+export const Deadline = ({ date, t }) => (
+    date ? (
+        moment().isBefore(date) ? <div class="info green">
+            {t("Deadline")} - {dateFormat.a(date)}
+        </div> :
+        <div class="info warning">
+            {t("Within deadline")} – {dateFormat.a(date)}
+        </div>
+    ) :
+    <div class="info green">
+        {t("FREE Cancellation - Without Prepayment")}
+    </div>
 );
 
 export const groupAndCount = arr => {

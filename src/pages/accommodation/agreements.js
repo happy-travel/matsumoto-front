@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import moment from "moment";
 import { groupAndCount } from "components/simple";
 
 import { API, dateFormat, price, plural } from "core";
@@ -15,7 +14,7 @@ import {
     FieldCheckbox
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
-import { Stars, Loader } from "components/simple";
+import { Stars, Loader, Deadline } from "components/simple";
 
 @observer
 class AccommodationAgreementsPage extends React.Component {
@@ -172,14 +171,9 @@ class AccommodationAgreementsPage extends React.Component {
                                             {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room Only") : (t("Breakfast Included") + ", " + agreement.mealPlan) }
                                         </div>
                                         <div class="one">
-                                            { agreement.deadlineDate ?
-                                            <div class={"info" + (!moment().isBefore(agreement.deadlineDate) ? " warning" : "")}>
-                                                {t("Within deadline")} – {dateFormat.a(agreement.deadlineDate)}
-                                            </div> :
-                                            <div class="info green">
-                                                {t("FREE Cancellation - Without Prepayment")}
-                                            </div>
-                                            }
+                                            <Deadline t={t}
+                                                date={agreement.deadlineDate}
+                                            />
                                         </div>
                                     </td>
                                     <td class="holder">

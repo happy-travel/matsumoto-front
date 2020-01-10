@@ -2,10 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import moment from "moment";
 import { groupAndCount } from "components/simple";
 
-import { API, dateFormat, price, plural } from "core";
+import { API, price, plural } from "core";
 import store from 'stores/accommodation-store';
 import UI, { MODALS } from "stores/ui-store";
 
@@ -15,7 +14,7 @@ import {
     FieldCheckbox
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
-import { Stars, Loader } from "components/simple";
+import { Stars, Loader, Deadline } from "components/simple";
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -179,14 +178,9 @@ class AccommodationVariantsPage extends React.Component {
                                     {groupAndCount(agreement.rooms)}
                                 </h3>
                                 <div>
-                                    { agreement.deadlineDate ?
-                                    <div class={"info" + (!moment().isBefore(agreement.deadlineDate) ? " warning" : "")}>
-                                        {t("Within deadline")} – {dateFormat.a(agreement.deadlineDate)}
-                                    </div> :
-                                    <div class="info green">
-                                        {t("FREE Cancellation - Without Prepayment")}
-                                    </div>
-                                    }
+                                    <Deadline t={t}
+                                        date={agreement.deadlineDate}
+                                    />
                                 </div>
                                 <div class="info green">
                                     {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room only") : (t("Breakfast Included") + " " + agreement.mealPlan) }
