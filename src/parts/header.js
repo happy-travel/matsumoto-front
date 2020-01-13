@@ -17,7 +17,7 @@ const Header = () => {
                     <Link to="/" class="logo" />
                 </div>
                 <nav>
-                    { !!authStore.userCache?.access_token && <li><Link class="selected" to="/">{t('Accommodation')}</Link></li> }
+                    { !!authStore.userCache?.access_token && <li><Link class="selected" to="/">{t("Accommodations")}</Link></li> }
                     { /*
                     <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Transfers')}</a></li>
                     <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Tours')}</a></li>
