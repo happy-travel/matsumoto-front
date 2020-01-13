@@ -52,6 +52,7 @@ class RegistrationStep3 extends React.Component {
     setCountryValue(country, formik, connected) {
         formik.setFieldValue(connected, country.name);
         formik.setFieldValue("countryCode", country.code);
+        formik.setFieldValue('countrySelected', true); // set for pass validation
         store.setCountryValue(country);
         UI.setCountries([]);
     }
@@ -105,7 +106,8 @@ class RegistrationStep3 extends React.Component {
                                 "fax": "",
                                 "preferredCurrency": "USD",
                                 "preferredPaymentMethod": "",
-                                "website": ""
+                                "website": "",
+                                countrySelected: false,
                             }}
                             validationSchema={registrationCompanyValidator}
                             onSubmit={this.submit}
@@ -138,6 +140,7 @@ class RegistrationStep3 extends React.Component {
                                         <div class="row">
                                             <FieldText formik={formik}
                                                        id="country"
+                                                       additionalFieldForValidation="countrySelected"
                                                        label={t("Country")}
                                                        placeholder={t("Country")}
                                                        Dropdown={RegionDropdown}
@@ -145,9 +148,6 @@ class RegistrationStep3 extends React.Component {
                                                        options={UI.countries}
                                                        setValue={this.setCountryValue}
                                                        required
-                                                       onBlur={() => {
-                                                           if (!store.registration.company.countryCode) formik.setFieldValue('country', '');
-                                                       }}
                                             />
                                         </div>
                                         <div class="row">

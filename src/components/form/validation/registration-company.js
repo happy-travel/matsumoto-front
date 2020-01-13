@@ -23,4 +23,5 @@ export default Yup.object().shape({
         .required("Required"),
     fax: Yup.string(),
     website: Yup.string(),
+    countrySelected: Yup.bool().oneOf([true]),
 });
