@@ -103,15 +103,13 @@ class UIStore {
     }
 
     setDestinationSuggestions(value = []) {
-        this.destinations = value.sort((a, b) => {
-            if (a.type < b.type) {
-                return -1;
-            }
-            if (a.type > b.type){
-                return 1;
-            }
-            return 0;
-        });
+        const typesWeights = {
+            'landmark': 1,
+            'destination': 2,
+            'accommodation': 3,
+            'location': 4,
+        };
+        this.destinations = value.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
     }
 
     setOpenDropdown(id) {
