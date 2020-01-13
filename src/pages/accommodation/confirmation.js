@@ -276,17 +276,16 @@ render() {
                         </div>
 
                         { this.state.fromHistory &&
-                          moment().isBefore(booking.checkInDate) &&
                           "Cancelled" != booking.status &&
-                        <button class="button pink" onClick={this.showCancellationConfirmation}>
+                        <button class={"button" + ( moment().isBefore(booking.checkInDate) ? " pink" : " gray")} onClick={this.showCancellationConfirmation}>
                             {t("Cancel booking")}
                         </button> }
 
-                        <Link to="/user/booking">
+                        { /* <Link to="/user/booking">
                             <button class="button green">
                                 {t("Booking management")}
                             </button>
-                        </Link>
+                        </Link> */ }
                     </div>
                     </React.Fragment> }
 

@@ -34,6 +34,17 @@ class CancellationConfirmationModal extends React.Component {
                     <span class="icon icon-close" />
                 </div>}
 
+        { !moment().isBefore(data.checkInDate) ?
+            <React.Fragment>
+
+                <h2>{t("Cancellation Deadline")}</h2>
+                <p>
+                    {t("Cancellation is not possible furthermore, out of deadline")}.
+                </p>
+
+            </React.Fragment>
+        :
+            <React.Fragment>
                 <h2>{t("Are you sure want to cancel booking?")}</h2>
                 <p>
                     {t("You are about to cancel your booking")} {data.referenceCode}.
@@ -52,6 +63,8 @@ class CancellationConfirmationModal extends React.Component {
                         {t("Decline")}
                     </button>
                 </div>
+            </React.Fragment>
+        }
             </div>
         );
     }

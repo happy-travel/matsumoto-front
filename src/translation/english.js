@@ -324,6 +324,7 @@ translations: {
     "Amount": "Amount",
     "Reason": "Reason",
     "Please enter itinerary number": "Please enter itinerary number",
-    "I have read and accepted the booking": "I have read and accepted the booking"
+    "I have read and accepted the booking": "I have read and accepted the booking",
+    "Cancellation is not possible furthermore, out of deadline": "Cancellation is not possible furthermore, out of deadline"
 }
 };
