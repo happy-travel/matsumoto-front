@@ -29,15 +29,25 @@
         padding: 5px
         border-radius: 4px
         background: #fff
-    .thumbs
-        overflow-x: scroll
-        padding-bottom: 12px
-        &::-webkit-scrollbar
-            height: 6px
-        &::-webkit-scrollbar-thumb
-            background: #FAAB19
-            border-radius: 100px
-        &::-webkit-scrollbar-track
-            background: #F4F4F4
-        .control-arrow
-            display: none
+    .control-arrow
+        width: 30px
+    button.control-next
+        right: -27px !important
+        &:before
+            border-left: 8px solid rgba(0, 0, 0, 0.7) !important
+    button.control-prev
+        left: -27px !important
+        &:before
+            border-right: 8px solid rgba(0, 0, 0, 0.7) !important
+    //.thumbs
+    //    overflow-x: scroll
+    //    padding-bottom: 12px
+    //    &::-webkit-scrollbar
+    //        height: 6px
+    //    &::-webkit-scrollbar-thumb
+    //        background: #FAAB19
+    //        border-radius: 100px
+    //    &::-webkit-scrollbar-track
+    //        background: #F4F4F4
+    //    .control-arrow
+    //        display: none
