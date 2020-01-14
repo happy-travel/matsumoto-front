@@ -43,7 +43,7 @@ class PaymentPage extends React.Component {
         super(props);
         this.state = {
             request_url: null,
-            currency: store.selected?.agreement?.price.currencyCode,
+            currency: store.selected?.agreement?.price.currency,
             amount: store.selected?.agreement?.price.netTotal,
             comment: null,
             service: {

@@ -140,7 +140,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements[0].price.currencyCode, item.fromPrice)}</div>
+                            <div class="value">{price(item.agreements[0].price.currency, item.fromPrice)}</div>
                         </div>
                     </div>
                     <div class="description">

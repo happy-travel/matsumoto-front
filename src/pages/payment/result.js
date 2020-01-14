@@ -76,7 +76,7 @@ class PaymentResultPage extends React.Component {
                     url: API.PAYMENTS_CARD_COMMON,
                     body: {
                         amount: data.serviceDetails.agreement.price.netTotal,
-                        currency: data.serviceDetails.agreement.price.currencyCode,
+                        currency: data.serviceDetails.agreement.price.currency,
                         referenceCode: bookingReference,
                         token: {
                             code: params.token_name,

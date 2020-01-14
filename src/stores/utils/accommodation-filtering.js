@@ -38,7 +38,7 @@ export const createFilters = (response) => {
             var item = hotel.agreements[j];
             filters.price.min = Math.min(filters.price.min, item.price.netTotal);
             filters.price.max = Math.max(filters.price.max, item.price.netTotal);
-            filters.price.currency = item.price.currencyCode;
+            filters.price.currency = item.price.currency;
 
             filters.mealPlans.add(item.boardBasisCode);
         }
