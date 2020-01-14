@@ -60,7 +60,7 @@ class AccommodationSearch extends React.Component {
             }
 
             API.post({
-                url: API.ACCOMMODATION_SEARCH,
+                url: API.A_SEARCH_STEP_ONE,
                 body: body,
                 success: (result) => {
                     store.setSearchResult(result);

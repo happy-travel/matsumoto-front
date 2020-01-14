@@ -41,10 +41,7 @@ class AccommodationVariantsPage extends React.Component {
             loading: true
         });
         API.post({
-            url: API.AVAIL_ACCOMM_DETAILS(accommodation.accommodationDetails.id),
-            body: {
-                availabilityId: store.search.result.availabilityId
-            },
+            url: API.A_SEARCH_STEP_TWO(store.search.result.availabilityId, accommodation.accommodationDetails.id),
             success: result => {
                 store.selectAccommodation(result);
                 this.setState({
@@ -183,7 +180,7 @@ class AccommodationVariantsPage extends React.Component {
                                     />
                                 </div>
                                 <div class="info green">
-                                    {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room only") : (t("Breakfast Included") + " " + agreement.mealPlan) }
+                                    {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room Only") : (t("Breakfast Included") + " " + agreement.mealPlan) }
                                 </div>
                                 <div class="paragraph">
                                     {agreement.contractType}

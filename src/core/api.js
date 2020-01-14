@@ -46,11 +46,11 @@ API_METHODS = {
     ACCOMMODATION_DETAILS : accommodationId =>
                             v1 + "/accommodations/" + accommodationId,
 
-    ACCOMMODATION_SEARCH  : v1 + "/availabilities/accommodations",
-    AVAIL_ACCOMM_DETAILS  : accommodationId =>
-                            v1 + "/availabilities/accommodations/" + accommodationId,
-    AVAILABILITY_DETAILS  : (availabilityId, agreementId) =>
-                            v1 + `/availabilities/${availabilityId}/${agreementId}`,
+    A_SEARCH_STEP_ONE     : v1 + "/availabilities/accommodations",
+    A_SEARCH_STEP_TWO     : (availabilityId, accommodationId) =>
+                            v1 + `/accommodations/${accommodationId}/availabilities/${availabilityId}`,
+    A_SEARCH_STEP_THREE   : (availabilityId, agreementId) =>
+                            v1 + `/accommodations/availabilities/${availabilityId}/agreements/${agreementId}`,
 
     BILLING_HISTORY       : companyId =>
                             v1 + `/payments/history/${companyId}/customer`,

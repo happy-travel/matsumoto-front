@@ -236,12 +236,12 @@ class AccommodationStore {
         }
     }
 
-    selectAgreement(accommodation, deadlineDetails) {
+    selectAgreement(result) {
         this.selected = {
-            accommodation : accommodation,
-            agreement : accommodation.agreements[0],
-            availabilityId : accommodation.availabilityId,
-            deadlineDetails : deadlineDetails
+            accommodation : result,
+            agreement : result.agreement,
+            availabilityId : result.availabilityId,
+            deadlineDetails : result.deadlineDetails
         };
         this.booking.request = null;
         this.booking.result = null;

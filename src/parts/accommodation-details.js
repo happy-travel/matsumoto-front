@@ -94,7 +94,7 @@ class AccommodationCommonDetailsPart extends React.Component {
                                 <h2>{t("Additional Information")}</h2>
                                 <ul>
                                     <li>{t("Number of floors")}: 1</li>
-                                    <li>{t("Number of rooms: 1")}</li>
+                                    <li>{t("Number of rooms")}: 1</li>
                                 </ul>
                             </td>
                             <Amenities t={t} hotel={hotel} fromModal />

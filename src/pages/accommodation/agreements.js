@@ -48,12 +48,12 @@ class AccommodationAgreementsPage extends React.Component {
             loading: true
         });
         API.post({
-            url: API.AVAILABILITY_DETAILS(store.selected.accommodation.availabilityId, agreement.id),
+            url: API.A_SEARCH_STEP_THREE(store.selected.accommodation.availabilityId, agreement.id),
             success: (result) => {
                 this.setState({
                     redirectToBookingPage: true
                 });
-                store.selectAgreement(result.singleAccommodationAvailabilityDetails, result.deadlineDetails);
+                store.selectAgreement(result);
             },
             error: (error) => {
                 UI.setTopAlertText("Sorry, this room is not available now, try again later");
