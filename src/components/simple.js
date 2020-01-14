@@ -71,7 +71,7 @@ export const Header = () => (
 export const Deadline = ({ date, t }) => (
     date ? (
         moment().isBefore(date) ? <div class="info green">
-            {t("Deadline")} - {dateFormat.a(date)}
+            {t("Deadline")} – {dateFormat.a(date)}
         </div> :
         <div class="info warning">
             {t("Within deadline")} – {dateFormat.a(date)}
