@@ -53,7 +53,7 @@ API_METHODS = {
                             v1 + `/accommodations/availabilities/${availabilityId}/agreements/${agreementId}`,
 
     BILLING_HISTORY       : companyId =>
-                            v1 + `/payments/history/${companyId}/customer`,
+                            v1 + `/payments/history/${companyId}`,
 
     DIRECT_LINK_PAY : {
         SETTINGS     :         v1 + "/external/payment-links/tokenization-settings",
