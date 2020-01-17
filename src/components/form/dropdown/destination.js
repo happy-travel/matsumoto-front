@@ -31,7 +31,7 @@ class DestinationDropdown extends React.Component {
 
         for (var i = 0; i < UI.destinations.length; i++) {
             if (decorate.cutFirstPart(UI.destinations[i].value, this.props.value))
-                return UI.destinations[i].value;
+                return UI.destinations[i];
         }
     };
 

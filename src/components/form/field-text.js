@@ -59,6 +59,9 @@ class FieldText extends React.Component {
                     if (value && this.props.setValue) {
                         this.props.setValue(value, this.props.formik, this.props.id);
                     }
+                    if (!value && this.props.setAutoComplete) {
+                        this.props.setAutoComplete(this.props.formik);
+                    }
                     break;
                 case 38: // Arrow top
                     // Move up in suggestion list
