@@ -40,7 +40,7 @@ class RegionDropdown extends React.Component {
 
         for (var i = 0; i < countries.length; i++) {
             if (decorate.cutFirstPart(countries[i].name, this.props.value))
-                return countries[i].name;
+                return {...countries[i], value: countries[i].name};
         }
     };
 

@@ -131,11 +131,21 @@ class AccommodationSearch extends React.Component {
         }
     }
 
-    setDestinationValue(item, formik, connected) {
+    setDestinationValue(item, formik) {
         store.setRequestDestination(item);
         UI.setDestinationSuggestions([]);
-        formik.setFieldValue(connected, item.value);
+        formik.setFieldValue('destination', item.value);
         formik.setFieldValue('destinationSelected', true); // set for pass validation
+    }
+
+    setDestinationAutoComplete(formik) {
+        const item = UI.suggestions.destination?.suggestionExtendInfo;
+        if (item) {
+            store.setRequestDestination(item);
+            UI.setDestinationSuggestions([]);
+            formik.setFieldValue('destination', item.value);
+            formik.setFieldValue('destinationSelected', true);
+        }
     }
 
     render() {
@@ -190,6 +200,8 @@ class AccommodationSearch extends React.Component {
                                                    options={UI.destinations}
                                                    setValue={this.setDestinationValue}
                                                    onChange={this.destinationInputChanged}
+                                                   setAutoComplete={this.setDestinationAutoComplete}
+                                                   onBlur={() => this.setDestinationAutoComplete(formik)}
                                                    clearable
                                         />
                                         <FieldText formik={formik}
