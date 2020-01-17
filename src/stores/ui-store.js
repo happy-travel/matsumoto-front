@@ -60,7 +60,7 @@ class UIStore {
 
     setSuggestion(field, value, suggestion) {
         if (value && suggestion) {
-            this.suggestions[field] = { value, suggestion };
+            this.suggestions[field] = { value, suggestion: suggestion.value, suggestionExtendInfo: suggestion };
             return;
         }
 
