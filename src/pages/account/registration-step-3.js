@@ -39,6 +39,7 @@ class RegistrationStep3 extends React.Component {
                 });
                 store.setUserForm({});
                 store.setCompanyForm({});
+                store.setCachedUserRegistered(true);
                 this.setState({ redirectToIndexPage: true });
             },
             error: (error) => {
