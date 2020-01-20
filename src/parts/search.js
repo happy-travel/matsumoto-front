@@ -134,6 +134,7 @@ class AccommodationSearch extends React.Component {
     setDestinationValue(item, formik) {
         store.setRequestDestination(item);
         UI.setDestinationSuggestions([]);
+        UI.setSuggestion('destination');
         formik.setFieldValue('destination', item.value);
         formik.setFieldValue('destinationSelected', true); // set for pass validation
     }
@@ -202,6 +203,7 @@ class AccommodationSearch extends React.Component {
                                                    onChange={this.destinationInputChanged}
                                                    setAutoComplete={this.setDestinationAutoComplete}
                                                    onBlur={() => this.setDestinationAutoComplete(formik)}
+                                                   onClear={() => formik.setFieldValue('destinationSelected', false)}
                                                    clearable
                                         />
                                         <FieldText formik={formik}
