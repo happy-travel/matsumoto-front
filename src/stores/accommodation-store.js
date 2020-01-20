@@ -113,14 +113,6 @@ class AccommodationStore {
             this.search.result.results.forEach(item => {
                 item.fromPrice = Math.min(...item.agreements.map(x => x.price.netTotal));
             });
-
-            if ("Deadline passed variants temporary hidden") {
-                this.search.result.results.forEach(item => {
-                    if (item.agreements?.length)
-                        item.agreements = item.agreements.filter(item => moment().isBefore(item.deadlineDate));
-                });
-                this.search.result.results = this.search.result.results.filter(item => item.agreements?.length);
-            }
         }
 
         this.filters = createFilters(this.search.result);
@@ -229,11 +221,6 @@ class AccommodationStore {
 
     selectAccommodation(accommodation) {
         this.selected.accommodation = accommodation;
-
-        if ("Deadline passed variants temporary hidden") {
-            if (this.selected.accommodation.agreements?.length)
-                this.selected.accommodation.agreements = this.selected.accommodation.agreements.filter(item => moment().isBefore(item.deadlineDate));
-        }
     }
 
     selectAgreement(result) {

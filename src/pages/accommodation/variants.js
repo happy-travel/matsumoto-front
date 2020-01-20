@@ -15,6 +15,7 @@ import {
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import { Stars, Loader, Deadline } from "components/simple";
+import moment from "moment";
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -140,7 +141,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements[0].price.currency, item.fromPrice)}</div>
+                            <div class="value">{price(item.agreements?.[0]?.price.currency, item.fromPrice)}</div>
                         </div>
                     </div>
                     <div class="description">
@@ -159,11 +160,16 @@ class AccommodationVariantsPage extends React.Component {
                                 {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                             </div>
                             <div class="price">
-                                {price(item.agreements[0].price)}
+                                {price(item.agreements?.[0]?.price)}
                             </div>
+                            { moment().isBefore(item.deadlineDate) ?
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
+                            </button> :
+                            <button class="button small disabled">
+                                {t("Choose Room")}
                             </button>
+                            }
                         </div>
                         { item.agreements.slice(0, 2).map(agreement => <div class="row">
                             <div class="icons">
