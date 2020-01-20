@@ -96,6 +96,9 @@ class FieldText extends React.Component {
                 this.props.onClear();
             if (this.props.Dropdown)
                 UI.setOpenDropdown(null);
+            if (this.props.additionalFieldForValidation) {
+                this.props.formik.setFieldValue(this.props.additionalFieldForValidation, false);
+            }
         }
     }
 

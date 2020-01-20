@@ -200,7 +200,6 @@ class AccommodationSearch extends React.Component {
                                                    onChange={this.destinationInputChanged}
                                                    setAutoComplete={this.setDestinationAutoComplete}
                                                    onBlur={() => this.setDestinationAutoComplete(formik)}
-                                                   onClear={() => formik.setFieldValue('destinationSelected', false)}
                                                    clearable
                                         />
                                         <FieldText formik={formik}
