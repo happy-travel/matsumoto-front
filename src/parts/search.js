@@ -142,10 +142,7 @@ class AccommodationSearch extends React.Component {
     setDestinationAutoComplete(formik) {
         const item = UI.suggestions.destination?.suggestionExtendInfo;
         if (item) {
-            store.setRequestDestination(item);
-            UI.setDestinationSuggestions([]);
-            formik.setFieldValue('destination', item.value);
-            formik.setFieldValue('destinationSelected', true);
+            this.setDestinationValue(item, formik);
         }
     }
 
