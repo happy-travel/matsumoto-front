@@ -162,7 +162,7 @@ class AccommodationVariantsPage extends React.Component {
                             <div class="price">
                                 {price(item.agreements?.[0]?.price)}
                             </div>
-                            { moment().isBefore(item.deadlineDate) ?
+                            { item.agreements.some(agreement => moment().isBefore(agreement.deadlineDate)) ?
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
                             </button> :

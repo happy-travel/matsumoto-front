@@ -15,6 +15,7 @@ import {
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import { Stars, Loader, Deadline } from "components/simple";
+import moment from "moment";
 
 @observer
 class AccommodationAgreementsPage extends React.Component {
@@ -177,9 +178,13 @@ class AccommodationAgreementsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
+                                        { moment().isBefore(agreement.deadlineDate) ?
                                         <button class="button small" onClick={() => this.agreementSelect(agreement, item.accommodationDetails)}>
                                             {t("Book it")}
-                                        </button>
+                                        </button> :
+                                        <button class="button small disabled">
+                                            {t("Book it")}
+                                        </button> }
                                     </td>
                                 </tr>
                             )}
