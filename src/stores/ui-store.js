@@ -69,7 +69,15 @@ class UIStore {
     }
 
     setRegions(value) {
-        this.regions = value || [];
+        this.regions = value && Array.isArray(value) ? value.sort((currentRegion, nextRegion) => {
+            if (currentRegion.id === 142 || currentRegion.name === "Asia") {
+                return -1;
+            }
+            if (nextRegion.id === 142 || nextRegion.name === "Asia") {
+                return 1;
+            }
+            return 0;
+        }) : [];
     }
     setInitialized(value) {
         this.initialized = value || false;
