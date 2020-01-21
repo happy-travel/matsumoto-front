@@ -53,9 +53,9 @@ class AccommodationBookingPage extends React.Component {
 
         var roomDetails = [];
 
-        for (var r = 0; r < store.search.rooms; r++) {
-            var adults = store.search.request.roomDetails[r].adultsNumber,
-                total = adults + store.search.request.roomDetails[r].childrenNumber,
+        for (var r = 0; r < variant?.rooms?.length; r++) {
+            var adults = variant?.rooms[r]?.adultsNumber,
+                total = adults + variant?.rooms[r]?.childrenNumber,
                 passengers = [];
 
             for (var i = 0; i < total; i++)
@@ -196,9 +196,9 @@ class AccommodationBookingPage extends React.Component {
                 </React.Fragment>
                 )) */ }
 
-                {[...Array(store.search.rooms)].map((x,i)=>(
+                {variant?.rooms?.map((x,i)=>(
                 <React.Fragment>
-                    <div class="static item">{t("Room Information") + " " + (store.search.rooms > 1 ? (i+1) : '')}</div>
+                    <div class="static item">{t("Room Information") + " " + (variant?.rooms?.length > 1 ? (i+1) : '')}</div>
                     <Dual
                         a={t("Room Type")}
                         b={variant.rooms[i]?.type}
@@ -211,10 +211,10 @@ class AccommodationBookingPage extends React.Component {
                 ))}
 
                 <div class="static item">{t("Room & Total Cost")}</div>
-                {[...Array(store.search.rooms)].map((x,i)=>(
-                (variant.rooms[i].roomPrices?.[0].netTotal !== undefined && "Room" == variant.rooms[i].roomPrices?.[0].type) ?
+                {variant?.rooms?.map((x,i)=>(
+                (variant?.rooms[i]?.roomPrices?.[0].netTotal !== undefined && "Room" == variant?.rooms[i]?.roomPrices?.[0].type) ?
                 <Dual
-                    a={t("Room Cost") + " " + (store.search.rooms > 1 ? (i+1) : '')}
+                    a={t("Room Cost") + " " + (variant?.rooms?.length > 1 ? (i+1) : '')}
                     b={price(variant.rooms[i].roomPrices[0])}
                 /> : null
                 ))}
@@ -243,10 +243,10 @@ class AccommodationBookingPage extends React.Component {
 
                 <Formik
                     initialValues={{
-                        room: [...Array(store.search.rooms)].map((x,r) => ({
+                        room: variant?.rooms?.map((x,r) => ({
                             passengers: [
-                                ...Array(store.search.request.roomDetails[r].adultsNumber),
-                                ...Array(store.search.request.roomDetails[r].childrenNumber),
+                                ...Array(variant?.rooms[r]?.adultsNumber),
+                                ...Array(variant?.rooms[r]?.childrenNumber),
                             ]
                         })),
                         accepted: true,
@@ -260,8 +260,8 @@ class AccommodationBookingPage extends React.Component {
                                 <FieldArray
                                     render={() => (
                                 formik.values.room.map((item, r) => {
-                                    var adults = store.search.request.roomDetails[r].adultsNumber,
-                                        childrenAges = store.search.request.roomDetails[r].childrenAges;
+                                    var adults = variant?.rooms[r]?.adultsNumber,
+                                        childrenAges = variant?.rooms[r]?.childrenAges;
                                 return (
                                 <React.Fragment>
                                 <h2>
