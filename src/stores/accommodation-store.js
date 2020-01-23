@@ -226,9 +226,9 @@ class AccommodationStore {
     selectAgreement(result) {
         this.selected = {
             accommodation : result,
-            agreement : result.agreement,
-            availabilityId : result.availabilityId,
-            deadlineDetails : result.deadlineDetails
+            agreement : result?.agreement,
+            availabilityId : result?.availabilityId,
+            deadlineDetails : result?.deadlineDetails
         };
         this.booking.request = null;
         this.booking.result = null;

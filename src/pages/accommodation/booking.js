@@ -44,6 +44,10 @@ class AccommodationBookingPage extends React.Component {
         });
     }
 
+    componentWillUnmount() {
+        store.selectAgreement(null);
+    }
+
     submit(values, { setSubmitting }) {
         if (!store.selected?.accommodation?.accommodationDetails?.id)
             return null; //todo: another answer
