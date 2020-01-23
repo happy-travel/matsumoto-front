@@ -162,7 +162,8 @@ class AccommodationVariantsPage extends React.Component {
                             <div class="price">
                                 {price(item.agreements?.[0]?.price)}
                             </div>
-                            { item.agreements.some(agreement => moment().isBefore(agreement.deadlineDate)) ?
+                            { (item.agreements.some(agreement => moment().isBefore(agreement.deadlineDate))
+                            && item.agreements.some(agreement => agreement.isDynamic !== true)) ?
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
                             </button> :
@@ -181,6 +182,11 @@ class AccommodationVariantsPage extends React.Component {
                                     {groupAndCount(agreement.rooms)}
                                 </h3>
                                 <div>
+                                    {agreement.isDynamic === true &&
+                                        <strong>
+                                            {t("Dynamic offer")}
+                                        </strong>
+                                    }
                                     <Deadline t={t}
                                         date={agreement.deadlineDate}
                                     />

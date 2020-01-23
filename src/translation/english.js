@@ -327,6 +327,7 @@ translations: {
     "I have read and accepted the booking": "I have read and accepted the booking",
     "Cancellation is not possible furthermore, out of deadline": "Cancellation is not possible furthermore, out of deadline",
     "City": "City",
-    "Get started": "Get started"
+    "Get started": "Get started",
+    "Dynamic offer": "Dynamic offer"
 }
 };

@@ -168,6 +168,13 @@ class AccommodationAgreementsPage extends React.Component {
                                         {price(agreement.price)}
                                     </td>
                                     <td class="pros">
+                                        {agreement.isDynamic === true &&
+                                            <div class="one">
+                                                <strong>
+                                                    {t("Dynamic offer")}
+                                                </strong>
+                                            </div>
+                                        }
                                         <div class="one green">
                                             {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room Only") : (t("Breakfast Included") + ", " + agreement.mealPlan) }
                                         </div>
@@ -178,7 +185,7 @@ class AccommodationAgreementsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        { moment().isBefore(agreement.deadlineDate) ?
+                                        { (moment().isBefore(agreement.deadlineDate) && agreement.isDynamic !== true) ?
                                         <button class="button small" onClick={() => this.agreementSelect(agreement, item.accommodationDetails)}>
                                             {t("Book it")}
                                         </button> :
