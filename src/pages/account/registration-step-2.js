@@ -41,6 +41,7 @@ class RegistrationStep2 extends React.Component {
                     invitationCode: this.state.invitationCode
                 },
                 success: () => {
+                    store.setCachedUserRegistered(true);
                     this.setState({ redirectToIndexPage: true });
                 },
                 error: (error) => {
