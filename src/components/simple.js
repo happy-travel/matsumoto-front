@@ -18,7 +18,7 @@ export const Highlighted = ({ str, highlight }) => {
     highlight = encodeURIComponent(highlight);
     return highlight ?
         <span dangerouslySetInnerHTML={
-            {__html: escapeRegExp(str)?.replace?.(new RegExp(escapeRegExp(highlight), 'gi'), (s) => ("<b>"+ s +"</b>"))}
+            {__html: str?.replace?.(new RegExp(escapeRegExp(highlight), 'gi'), (s) => ("<b>"+ s +"</b>"))}
     } /> : <span>{str}</span>;
 };
 
