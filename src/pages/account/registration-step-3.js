@@ -5,8 +5,12 @@ import { useTranslation } from "react-i18next";
 import { Redirect, Link } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Formik } from "formik";
-import { FieldText, FieldTextarea, FieldSelect } from "components/form";
+import {
+    CachedForm,
+    FieldText,
+    FieldTextarea,
+    FieldSelect
+} from "components/form";
 import { registrationCompanyValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import UI from "stores/ui-store";
@@ -97,7 +101,8 @@ class RegistrationStep3 extends React.Component {
                             Already have an account? <span onClick={() => Authorize.signoutRedirect()} class="link">Log In Here.</span>
                         </p>
 
-                        <Formik
+                        <CachedForm
+                            id="RegistrationStepThreeForm"
                             initialValues={{
                                 "name": "",
                                 "address": "",
@@ -174,9 +179,9 @@ class RegistrationStep3 extends React.Component {
                                         <div class="row">
                                             <FieldSelect formik={formik}
                                                          id="preferredCurrency"
-                                                         label={t("Preferred currency")}
+                                                         label={t("Company account currency")}
                                                          required
-                                                         placeholder={t("Preferred currency")}
+                                                         placeholder={t("Company account currency")}
                                                          options={[
                                                              { value: "USD", text: "US Dollars"}
                                                          ]}
@@ -223,7 +228,6 @@ class RegistrationStep3 extends React.Component {
                     </div>
                 </section>
             </div>
-
         );
     }
 }

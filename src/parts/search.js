@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { API, session, dateFormat, plural } from "core";
 
 import { Redirect } from "react-router-dom";
-import { FieldText, FieldSelect } from "components/form";
+import { CachedForm, FieldText, FieldSelect } from "components/form";
 import Flag from "components/flag";
 
 import store from "stores/accommodation-store";
@@ -16,8 +16,6 @@ import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
 import { accommodationSearchValidator } from "components/form/validation";
 import { Stars } from "components/simple";
-
-import { Formik } from 'formik';
 import moment from "moment";
 
 const sum = field => {
@@ -39,6 +37,7 @@ class AccommodationSearch extends React.Component {
         };
         this.submit = this.submit.bind(this);
         this.reset = this.reset.bind(this);
+        this.setDestinationAutoComplete = this.setDestinationAutoComplete.bind(this);
     }
 
     submit(values, { setSubmitting }) {
@@ -139,7 +138,7 @@ class AccommodationSearch extends React.Component {
         formik.setFieldValue('destinationSelected', true); // set for pass validation
     }
 
-    setDestinationAutoComplete = (formik) => {
+    setDestinationAutoComplete(formik) {
         const item = UI.suggestions.destination?.suggestionExtendInfo;
         if (item) {
             this.setDestinationValue(item, formik);
@@ -164,7 +163,8 @@ class AccommodationSearch extends React.Component {
                         {'' + UI.destinations}
                         {JSON.stringify(store.suggestion)}
                     </div>
-                    <Formik
+                    <CachedForm
+                        id="SearchForm"
                         initialValues={{
                             destination: "",
                             destinationSelected: false,
@@ -184,7 +184,7 @@ class AccommodationSearch extends React.Component {
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
                         render={formik => (
-                            <form onSubmit={formik.handleSubmit}>
+                            <React.Fragment>
                                 <div class="form">
                                     <div class="row">
                                         <FieldText formik={formik}
@@ -329,7 +329,7 @@ class AccommodationSearch extends React.Component {
                                         {t("Clear")}
                                     </button>
                                 </div>
-                            </form>
+                            </React.Fragment>
                         )}
                     />
                 </section>

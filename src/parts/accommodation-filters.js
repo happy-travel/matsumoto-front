@@ -2,13 +2,13 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import {
+    CachedForm,
     FieldCheckbox,
     FieldRange
 } from "components/form";
 import { Expandable } from "components/simple";
 
 import store from "stores/accommodation-store";
-import { Formik } from "formik";
 import { hotelStars } from "core";
 
 @observer
@@ -20,14 +20,12 @@ class AccommodationFiltersPart extends React.Component {
             return <div class="left-section filters" />;
 
         return (
-            <Formik
-                initialValues={{
-
-                }}
+            <CachedForm
+                id="AccommodationFiltersForm"
                 render={formik => {
                     store.setSelectedFilters(formik.values);
                     return (
-                        <form onSubmit={formik.handleSubmit}>
+                        <React.Fragment>
                             <div class="left-section filters">
                                 { (store.filters.price.max - store.filters.price.min > 1) &&
                                   store.filters.price.max < Infinity && <Expandable
@@ -112,7 +110,7 @@ class AccommodationFiltersPart extends React.Component {
     <Expandable header={t("Accommodation Chain")} />
 */ }
                             </div>
-                        </form>
+                        </React.Fragment>
 
                     );
             }} />

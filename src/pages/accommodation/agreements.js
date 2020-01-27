@@ -103,7 +103,7 @@ class AccommodationAgreementsPage extends React.Component {
                         {
                             text: t("Find Accommodation")
                         }, {
-                            text: store.search.form?.["destination"] || ""
+                            text: store.search.destination
                         }, {
                             text: item.accommodationDetails.name
                         }

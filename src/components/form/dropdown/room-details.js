@@ -3,8 +3,7 @@ import { plural } from "core";
 import { observer } from "mobx-react";
 import store, { defaultChildrenAge } from "stores/accommodation-store";
 import { useTranslation } from "react-i18next";
-import { FieldText } from "components/form";
-import { Formik } from "formik";
+import { CachedForm, FieldText } from "components/form";
 
 const Row = ({ room, t, text, field, value }) => (
     <div class="row">
@@ -57,10 +56,11 @@ class PeopleDropdown extends React.Component {
                         {(store.getRoomDetails(room)?.childrenNumber > 0) &&
                             <div class="form">
                                 <h4>{t("Please enter children ages")}</h4>
-                                <Formik
+                                <CachedForm
+                                    id="RoomDetailsForm"
                                     initialValues={Array(10).fill("" + defaultChildrenAge)}
                                     render={formik => (
-                                        <form onSubmit={formik.handleSubmit}>
+                                        <React.Fragment>
                                             <div class="row children">
                                                 {[...Array(store.getRoomDetails(room)?.childrenNumber)].map((x, child) => (
                                                     <FieldText formik={formik}
@@ -73,7 +73,7 @@ class PeopleDropdown extends React.Component {
                                                     />
                                                 ))}
                                             </div>
-                                        </form>
+                                        </React.Fragment>
                                     )}
                                 />
                             </div>

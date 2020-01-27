@@ -76,13 +76,13 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")}: <b>{ store.search.form?.["destination"] }</b> <span>({store.hotelArray.length})</span>
+                            {t("Results for")}: <b>{ store.search.destination }</b> <span>({store.hotelArray.length})</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
                                 text: t("Find Accommodation")
                             }, {
-                                text: store.search.form?.["destination"] || ""
+                                text: store.search.destination
                             }
                         ]}/>
                     </div>

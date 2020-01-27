@@ -2,9 +2,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { API, dateFormat, price, plural } from "core";
-import { Formik, FieldArray } from "formik";
+import { FieldArray } from "formik";
 
 import {
+    CachedForm,
     FieldText,
     FieldTextarea,
     FieldSwitch,
@@ -245,7 +246,8 @@ class AccommodationBookingPage extends React.Component {
                     current={1}
                 />
 
-                <Formik
+                <CachedForm
+                    id="BookingForm"
                     initialValues={{
                         room: variant?.rooms?.map((x,r) => ({
                             passengers: [

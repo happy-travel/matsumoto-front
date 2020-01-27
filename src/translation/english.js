@@ -51,7 +51,7 @@ translations: {
     "Zip/Postal Code": "Zip/Postal Code",
     "Select Country": "Select Country",
     "Preferred Payment Method": "Preferred Payment Method",
-    "Preferred currency": "Preferred currency",
+    "Company account currency": "Company account currency",
     "Telephone": "Telephone",
     "Fax": "Fax",
     "Prefix": "Prefix",

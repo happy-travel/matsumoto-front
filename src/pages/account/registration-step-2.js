@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Formik } from "formik";
+import { CachedForm } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import FormUserData from "parts/form-user-data";
@@ -112,7 +112,8 @@ class RegistrationStep2 extends React.Component {
                 Create a new HappyTravel.com account and start booking.
             </p>
 
-        <Formik
+        <CachedForm
+            id="RegistrationStepTwoForm"
             initialValues={this.state.initialValues}
             enableReinitialize={true}
             validationSchema={registrationUserValidator}

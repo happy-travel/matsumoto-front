@@ -1,13 +1,16 @@
-const googleSessionStorageKey = 'google-session',
-      currentUserSessionKey = 'current-user-id';
+export const StorageUserIdKey = "_user_id";
+
+const googleSessionStorageKey = "google-session";
+
+const getUserHashFromStore = () => window.localStorage.getItem(StorageUserIdKey);
 
 const userKey = (key, everyUser) => {
-    var userId = currentUserSessionKey; // todo: UserStore.id;
+    var userId = getUserHashFromStore();
 
     if (!userId || everyUser)
         return key;
 
-    return userId + '_' + key;
+    return key + '_' + userId;
 };
 
 export const localStorage = {
@@ -46,19 +49,25 @@ export const session = {
         return result;
     },
     set: (key, item) => {
+        if (!getUserHashFromStore()) return;
+
         if (session.isAvailable())
-            window.sessionStorage.setItem(key, item);
+            window.sessionStorage.setItem(userKey(key), item);
         else
             window._session[key] = item;
     },
     get: (key) => {
+        if (!getUserHashFromStore()) return;
+
         if (session.isAvailable())
-            return window.sessionStorage.getItem(key);
+            return window.sessionStorage.getItem(userKey(key));
         return window._session[key];
     },
     remove: (key) => {
+        if (!getUserHashFromStore()) return;
+
         if (session.isAvailable())
-            window.sessionStorage.removeItem(key);
+            window.sessionStorage.removeItem(userKey(key));
         else
             window._session[key] = null;
     },

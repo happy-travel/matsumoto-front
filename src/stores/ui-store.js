@@ -40,6 +40,8 @@ class UIStore {
     @observable topAlertText = null;
     @observable advancedSearch = false;
 
+    @observable formCache = {};
+
     constructor() {
         if ("localhost" == window.location.hostname) autosave(this, "_ui_store_cache");
     }
@@ -49,6 +51,10 @@ class UIStore {
             return this.regions;
 
         return null;
+    }
+
+    getFormCache(formName) {
+        return this.formCache[formName] || null;
     }
 
     getSuggestion(field, value) {
@@ -151,6 +157,10 @@ class UIStore {
             this.advancedSearch = value;
         else
             this.advancedSearch = !this.advancedSearch;
+    }
+
+    setFormCache(formName, values) {
+        this.formCache[formName] = values;
     }
 }
 
