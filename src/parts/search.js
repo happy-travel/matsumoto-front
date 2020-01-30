@@ -18,15 +18,18 @@ import { accommodationSearchValidator } from "components/form/validation";
 import { Stars } from "components/simple";
 import moment from "moment";
 
-const sum = field => {
+const sum = (formik, field) => {
     var result = 0;
-    for (var i = 0; i < store.search.rooms; i++) {
-        if (store.getRoomDetails(i)) {
-            result += store.getRoomDetails(i)[field];
-        }
-    }
+    for (var i = 0; i < formik.values.roomDetails.length; i++)
+        result += formik.values.roomDetails[i][field];
     return result;
 };
+const maximumRoomsPerQuery = 5,
+      maximumPeoplePerQuery = 9,
+      validateFilterQuery = (form) => {
+          const countPeoples = form.roomDetails?.reduce((acc, currentValue) => acc + currentValue.adultsNumber + currentValue.childrenNumber, 0);
+          return form.roomDetails?.length <= maximumRoomsPerQuery && countPeoples <= maximumPeoplePerQuery;
+      };
 
 @observer
 class AccommodationSearch extends React.Component {
@@ -40,18 +43,40 @@ class AccommodationSearch extends React.Component {
         this.setDestinationAutoComplete = this.setDestinationAutoComplete.bind(this);
     }
 
-    submit(values, { setSubmitting }) {
+    submit(values) {
         //todo: setSubmitting, loading
-        const isValidFilterQuery = store.validateFilterQuery();
-        store.setNewSearchForm(values, UI.advancedSearch);
+        const isValidFilterQuery = validateFilterQuery(values);
+        store.setNewSearchDestination(values.destination);
         store.setSearchResult(null);
         session.google.clear();
         store.setIsInvalidFilterQuery(isValidFilterQuery);
+
+        var body = {
+            filters: "Default",
+            checkInDate: values.checkInDate,
+            checkOutDate: values.checkOutDate,
+            roomDetails: values.roomDetails,
+            location: {
+                predictionResult: values.predictionResult,
+                coordinates: {
+                    latitude: 0,
+                    longitude: 0
+                },
+                distance: (parseInt(values.radius) || 0) * 1000
+            },
+            nationality: values.nationalityCode,
+            residency: values.residencyCode
+        };
+
+        if (UI.advancedSearch) {
+            body.ratings = values.ratings;
+            body.propertyTypes = values.propertyTypes;
+        }
+
         if (isValidFilterQuery) {
             store.setSearchIsLoading(true);
 
             // todo: temporary adults workaround
-            var body = JSON.parse(JSON.stringify(store.search.request));
             for (var i = 0; i < body.roomDetails.length; i++) {
                 body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
                 body.roomDetails[i].childrenNumber = 0;
@@ -98,7 +123,7 @@ class AccommodationSearch extends React.Component {
 
     reset(formik) {
         formik.resetForm();
-        store.setNewSearchForm(null);
+        store.setNewSearchDestination("");
     }
 
     componentDidUpdate() {
@@ -114,24 +139,25 @@ class AccommodationSearch extends React.Component {
             "nationality": "residency"
         };
 
-        formik.setFieldValue(connected, country.name);
-        if ("country" != connected) //todo: repair this workaround
-            store.setSearchRequestField(connected, country.code);
-        else
-            formik.setFieldValue("countryCode", country.code);
         UI.setCountries([]);
+        formik.setFieldValue(connected, country.name);
+        formik.setFieldValue(`${connected}Code`, country.code);
+        formik.setFieldValue(`${connected}Selected`, true);
 
-        formik.setFieldValue(`${connected}Selected`, true); // set for pass validation
-
-        if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
-            store.setSearchRequestField(anotherField[connected], country.code);
+        if (!formik.values[anotherField[connected]]) {
             formik.setFieldValue(anotherField[connected], country.name);
+            formik.setFieldValue(`${anotherField[connected]}Code`, country.code);
             formik.setFieldValue(`${anotherField[connected]}Selected`, true);
         }
     }
 
     setDestinationValue(item, formik) {
-        store.setRequestDestination(item);
+        formik.setFieldValue("predictionResult", {
+            "id": item.id,
+            "sessionId": session.google.current(),
+            "source": item.source,
+            "type": item.type
+        });
         UI.setDestinationSuggestions([]);
         UI.setSuggestion('destination');
         formik.setFieldValue('destination', item.value);
@@ -155,9 +181,6 @@ class AccommodationSearch extends React.Component {
                 <section>
                     {/* todo: remove the following hack and make back parser for query */}
                     <div class="hide">
-                        {''+store.search.request.checkInDate}
-                        {''+store.search.request.checkOutDate}
-                        {[...Array(store.search.rooms)].map((x,i)=>JSON.stringify(store.getRoomDetails(i)))}
                         {'' + UI.advancedSearch}
                         {'' + UI.countries}
                         {'' + UI.destinations}
@@ -169,9 +192,21 @@ class AccommodationSearch extends React.Component {
                             destination: "",
                             destinationSelected: false,
                             residency: "",
+                            residencyCode: "",
                             residencySelected: false,
                             nationality: "",
+                            nationalityCode: "",
                             nationalitySelected: false,
+
+                            // Second part:
+                            checkInDate: moment().utc().startOf("day"),
+                            checkOutDate: moment().utc().startOf("day").add(1, "d"),
+                            roomDetails: [
+                                {
+                                    "adultsNumber": 2,
+                                    "childrenNumber": 0
+                                }
+                            ],
 
                             // Advanced search:
                             propertyTypes: "Any",
@@ -209,19 +244,17 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={DateDropdown}
                                                    value={
-                                                       dateFormat.b(store.search.request.checkInDate)
+                                                       dateFormat.b(formik.values.checkInDate)
                                                        + " – " +
-                                                       dateFormat.b(store.search.request.checkOutDate)
+                                                       dateFormat.b(formik.values.checkOutDate)
                                                    }
                                                    setValue={range => {
-                                                       store.setDateRange({
-                                                           start: moment(range.start).add(1, 'd'),
-                                                           end: moment(range.end).add(1, 'd')
-                                                       });
+                                                       formik.setFieldValue("checkInDate", moment(range.start).add(1, 'd'));
+                                                       formik.setFieldValue("checkOutDate", moment(range.end).add(1, 'd'));
                                                    }}
                                                    options={moment.range(
-                                                       moment(store.search.request.checkInDate).local().startOf('day'),
-                                                       moment(store.search.request.checkOutDate).local().endOf('day')
+                                                       moment(formik.values.checkInDate).local().startOf('day'),
+                                                       moment(formik.values.checkOutDate).local().endOf('day')
                                                    )}
                                         />
                                         <FieldText formik={formik}
@@ -232,9 +265,9 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={PeopleDropdown}
                                                    value={
-                                                          [plural(t, sum("adultsNumber"), "Adult"),
-                                                           plural(t, sum("childrenNumber"), "Children"),
-                                                           plural(t, store.search.rooms, "Room")].join(" • ")
+                                                          [plural(t, sum(formik, "adultsNumber"), "Adult"),
+                                                           plural(t, sum(formik, "childrenNumber"), "Children"),
+                                                           plural(t, formik.values.roomDetails.length, "Room")].join(" • ")
                                                    }
                                         />
                                     </div>
@@ -284,13 +317,13 @@ class AccommodationSearch extends React.Component {
                                                    label={t("Nationality")}
                                                    placeholder={t("Choose your nationality")}
                                                    clearable
-                                                   Flag={<Flag code={store.search.request.nationality} />}
+                                                   Flag={<Flag code={formik.values.nationalityCode} />}
                                                    Dropdown={RegionDropdown}
                                                    onChange={regionInputChanged}
                                                    options={UI.countries}
                                                    setValue={this.setCountryValue}
                                                    addClass="size-large"
-                                                   onClear={() => store.setSearchRequestField("nationality", '')}
+                                                   onClear={() => formik.setFieldValue("nationalityCode", '')}
                                         />
                                         <FieldText formik={formik}
                                                    id="residency"
@@ -298,13 +331,13 @@ class AccommodationSearch extends React.Component {
                                                    label={t("Residency")}
                                                    placeholder={t("Choose your residency")}
                                                    clearable
-                                                   Flag={<Flag code={store.search.request.residency} />}
+                                                   Flag={<Flag code={formik.values.residencyCode} />}
                                                    Dropdown={RegionDropdown}
                                                    options={UI.countries}
                                                    setValue={this.setCountryValue}
                                                    onChange={regionInputChanged}
                                                    addClass="size-large"
-                                                   onClear={() => store.setSearchRequestField("residency", '')}
+                                                   onClear={() => formik.setFieldValue("residencyCode", '')}
                                         />
                                         <div class="field">
                                             <div class="label"/>

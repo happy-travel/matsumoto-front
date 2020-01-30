@@ -328,6 +328,7 @@ translations: {
     "Cancellation is not possible furthermore, out of deadline": "Cancellation is not possible furthermore, out of deadline",
     "City": "City",
     "Get started": "Get started",
-    "Dynamic offer": "Dynamic offer"
+    "Dynamic offer": "Dynamic offer",
+    "Please enter": "Please enter"
 }
 };

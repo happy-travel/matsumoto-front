@@ -9,6 +9,7 @@ export const dateFormat = {
 
 export const decorate = {
     cutFirstPart: (str, firstPart) => {
+        firstPart+="";
         if (!firstPart || !str)
             return '';
         if (str.slice(0, firstPart.length).toUpperCase() == firstPart.toUpperCase())
@@ -38,23 +39,14 @@ export const getParams = () => {
     return params;
 };
 
-const easeInOutQuad = function (t, b, c, d) {
-    //t = current time
-    //b = start value
-    //c = change in value
-    //d = duration
-    t /= d/2;
-    if (t < 1) return c/2*t*t + b;
-    t--;
-    return -c/2 * (t*(t-2) - 1) + b;
-};
-
 export const scrollTo = (element, to, duration = 600) => {
     const start = element.scrollTop;
     const change = to - start;
     let currentTime = 0;
     const increment = 20;
-
+    const easeInOutQuad = function (t, b, c, d) {
+        t /= d/2;if (t < 1) return c/2*t*t + b;t--;return -c/2 * (t*(t-2) - 1) + b;
+    };
     const animateScroll = () => {
         currentTime += increment;
         element.scrollTop = easeInOutQuad(currentTime, start, change, duration);

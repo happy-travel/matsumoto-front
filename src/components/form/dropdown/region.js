@@ -1,16 +1,16 @@
 import React from "react";
 import { observer } from "mobx-react";
 import UI from "stores/ui-store";
-import store from "stores/accommodation-store";
 import { decorate } from "core";
 import { Highlighted } from "components/simple";
 import { API } from "core";
 import Flag from "components/flag";
 
 export const regionInputChanged = (event, props) => {
-    store.setSearchRequestField(props.id, '');
-    if (props.formik)
+    if (props.formik) {
         props.formik.setFieldValue(`${props.id}Selected`, false);
+        props.formik.setFieldValue(`${props.id}Code`, "");
+    }
 
     var query = event.target.value;
     if (!query)
@@ -36,7 +36,7 @@ class RegionDropdown extends React.Component {
         if (!UI.countries?.length || !UI.regionList?.length)
             return;
 
-        var countries = [...UI.countries]; //todo: sort for regions
+        var countries = [...UI.countries];
 
         for (var i = 0; i < countries.length; i++) {
             if (decorate.cutFirstPart(countries[i].name, this.props.value))
@@ -75,7 +75,7 @@ class RegionDropdown extends React.Component {
                               class={`country line${UI.focusedDropdownIndex === index ? ' country__focused' : ''}`}
                             >
                                 <Flag code={country.code} />
-                                <Highlighted str={country.name} highlight={this.props.value} /> {/* todo: pick culture normally */}
+                                <Highlighted str={country.name} highlight={this.props.value} />
                             </div>
                         </div>
                     })}
