@@ -18,7 +18,7 @@ export const Highlighted = ({ str, highlight }) => {
     highlight = encodeURIComponent(highlight);
     return highlight ?
         <span dangerouslySetInnerHTML={
-            {__html: str?.replace?.(new RegExp(highlight, 'gi'), (s) => ("<b>"+ s +"</b>"))}
+            {__html: str?.replace?.(new RegExp(escapeRegExp(highlight), 'gi'), (s) => ("<b>"+ s +"</b>"))}
     } /> : <span>{str}</span>;
 };
 
@@ -96,4 +96,8 @@ export const groupAndCount = arr => {
         result.push(count[item] + " x " + item);
 
     return result.join(", ");
+};
+
+export const escapeRegExp = str => {
+    return str?.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 };

@@ -49,7 +49,11 @@ class AccommodationAgreementsPage extends React.Component {
             loading: true
         });
         API.post({
-            url: API.A_SEARCH_STEP_THREE(store.selected.accommodation.availabilityId, agreement.id),
+            url: API.A_SEARCH_STEP_THREE(
+                store.selected.accommodation.availabilityId,
+                agreement.id,
+                store.selected.accommodation.source
+            ),
             success: (result) => {
                 this.setState({
                     redirectToBookingPage: true
