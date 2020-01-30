@@ -3,8 +3,8 @@ import settings from "settings";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { dateFormat, price, API } from "core";
+import { Formik } from "formik";
 import {
-    CachedForm,
     FieldText,
     FieldCheckbox
 } from "components/form";
@@ -147,8 +147,7 @@ render() {
                 {t("Please Enter Your Card Details")}
             </h2>
 
-            <CachedForm
-                id="PaymentForm"
+            <Formik
                 initialValues={{
                     card_number: "",
                     expiry_month: "",
@@ -160,7 +159,7 @@ render() {
                 validationSchema={creditCardValidator}
                 onSubmit={this.submit}
                 render={formik => (
-                <React.Fragment>
+                <form onSubmit={formik.handleSubmit}>
                     <div class="form">
                         <div class="row">
                             <FieldText formik={formik}
@@ -221,7 +220,7 @@ render() {
                             { t("Pay") + price(this.state.currency, this.state.amount || 0) }
                         </button>
                     </div>
-                </React.Fragment>
+                </form>
                 )}
             />
         </div>

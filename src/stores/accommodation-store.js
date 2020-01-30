@@ -14,7 +14,7 @@ class AccommodationStore {
     search = {
         destination: "",
         loading: false,
-        form: null,
+        request: null,
         result: null
     };
 
@@ -55,7 +55,7 @@ class AccommodationStore {
     paymentMethod = PAYMENT_METHODS.CARD;
 
     constructor() {
-        if ("localhost" == window.location.hostname) autosave(this, "_accommodation_store_cache");
+        autosave(this, "_accommodation_store_cache");
     }
 
     @computed get hotelArray() {
@@ -84,19 +84,22 @@ class AccommodationStore {
         this.booking.result = {};
         this.paymentResult = {};
     }
+
     setSelectedFilters(filters) {
         this.selectedFilters = filters;
     }
+
     setSearchIsLoading(value) {
         this.search.loading = value;
     }
 
-    setNewSearchDestination(destination) {
-        this.search.destination = destination;
+    setNewSearchRequest(form) {
+        this.setSearchResult(null);
+        this.search.request = form;
     }
 
-    setIsInvalidFilterQuery(isValidFilterQuery) {
-        this.isValidFilterQuery = isValidFilterQuery;
+    setIsValidFilterQuery(value) {
+        this.isValidFilterQuery = value;
     }
 
     setUserBookingList(value) {

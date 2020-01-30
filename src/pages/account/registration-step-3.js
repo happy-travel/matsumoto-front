@@ -14,6 +14,7 @@ import {
 import { registrationCompanyValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import UI from "stores/ui-store";
+import View from "stores/view-store";
 import Authorize from "core/auth/authorize";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 
@@ -47,7 +48,7 @@ class RegistrationStep3 extends React.Component {
                 this.setState({ redirectToIndexPage: true });
             },
             error: (error) => {
-                UI.setTopAlertText(error?.title || error?.detail);
+                View.setTopAlertText(error?.title || error?.detail);
                 if (error && !(error?.title || error?.detail))
                     this.setState({ redirectToIndexPage: true });
             }
@@ -57,9 +58,8 @@ class RegistrationStep3 extends React.Component {
     setCountryValue(country, formik, connected) {
         formik.setFieldValue(connected, country.name);
         formik.setFieldValue("countryCode", country.code);
-        formik.setFieldValue('countrySelected', true); // set for pass validation
         store.setCountryValue(country);
-        UI.setCountries([]);
+        View.setCountries([]);
     }
 
     render() {
@@ -72,7 +72,7 @@ class RegistrationStep3 extends React.Component {
 
             <div class="account block sign-up-page">
                 <div className="hide">
-                    {'' + UI.countries}
+                    {'' + View.countries}
                 </div>
                 <section>
                     <div class="logo-wrapper">
@@ -106,14 +106,14 @@ class RegistrationStep3 extends React.Component {
                             initialValues={{
                                 "name": "",
                                 "address": "",
+                                "country": "",
                                 "countryCode": "",
                                 "city": "",
                                 "phone": "",
                                 "fax": "",
                                 "preferredCurrency": "USD",
                                 "preferredPaymentMethod": "",
-                                "website": "",
-                                countrySelected: false,
+                                "website": ""
                             }}
                             validationSchema={registrationCompanyValidator}
                             onSubmit={this.submit}
@@ -146,12 +146,12 @@ class RegistrationStep3 extends React.Component {
                                         <div class="row">
                                             <FieldText formik={formik}
                                                        id="country"
-                                                       additionalFieldForValidation="countrySelected"
+                                                       additionalFieldForValidation="countryCode"
                                                        label={t("Country")}
                                                        placeholder={t("Country")}
                                                        Dropdown={RegionDropdown}
                                                        onChange={regionInputChanged}
-                                                       options={UI.countries}
+                                                       options={View.countries}
                                                        setValue={this.setCountryValue}
                                                        required
                                             />

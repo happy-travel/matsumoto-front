@@ -32,6 +32,8 @@ export const localStorage = {
 
 export const session = {
     isAvailable: () => {
+        if (window._session_available !== undefined)
+            return window._session_available;
         var result = false,
             key = "availability_check",
             test_result = Math.trunc(10000 * Math.random());
@@ -46,6 +48,7 @@ export const session = {
             if (window && !window._session)
                 window._session = {};
         }
+        window._session_available = result;
         return result;
     },
     set: (key, item) => {

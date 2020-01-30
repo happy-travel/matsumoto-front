@@ -6,7 +6,7 @@ import { groupAndCount } from "components/simple";
 
 import { API, dateFormat, price, plural } from "core";
 import store from 'stores/accommodation-store';
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 import AccommodationCommonDetails from "parts/accommodation-details";
 
 import {
@@ -61,7 +61,7 @@ class AccommodationAgreementsPage extends React.Component {
                 store.selectAgreement(result);
             },
             error: (error) => {
-                UI.setTopAlertText("Sorry, this room is not available now, try again later");
+                View.setTopAlertText("Sorry, this room is not available now, try again later");
                 if (error)
                     console.log("error: " + error);
             },
@@ -135,7 +135,8 @@ class AccommodationAgreementsPage extends React.Component {
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Guests")}</div>
-                            <div class="h2">{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}</div>
+                            <div class="h2">{plural(t, store.search.request.adultsTotal, "Adult")}</div>
+                            {!!store.search.request.childrenTotal && <div class="h2">{plural(t, store.search.request.childrenTotal, "Children")}</div>}
                         </div>
                     </div>
                     <div class="part">

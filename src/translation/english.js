@@ -329,6 +329,7 @@ translations: {
     "City": "City",
     "Get started": "Get started",
     "Dynamic offer": "Dynamic offer",
-    "Please enter": "Please enter"
+    "Please enter": "Please enter",
+    "and": "and"
 }
 };

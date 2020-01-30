@@ -19,7 +19,7 @@ import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 @observer
 class AccommodationBookingPage extends React.Component {
@@ -124,7 +124,7 @@ class AccommodationBookingPage extends React.Component {
                     });
                 }
             },
-            error: (error) => UI.setTopAlertText(error?.title || error?.detail || error?.message)
+            error: (error) => View.setTopAlertText(error?.title || error?.detail || error?.message)
         });
     }
 

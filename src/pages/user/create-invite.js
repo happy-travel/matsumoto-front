@@ -5,6 +5,7 @@ import { API } from "core";
 import { CachedForm, FieldText } from "components/form";
 import { registrationUserValidatorWithEmail } from "components/form/validation";
 import UI from "stores/ui-store";
+import View from "stores/view-store";
 import FormUserData from "parts/form-user-data";
 import { Loader } from "components/simple";
 
@@ -36,7 +37,7 @@ class UserInvitePage extends React.Component {
             success: () => this.setState({ success: true }),
             error: (error) => {
                 this.setState({ success: false });
-                UI.setTopAlertText(error?.title || error?.detail);
+                View.setTopAlertText(error?.title || error?.detail);
             }
         });
     }

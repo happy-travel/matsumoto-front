@@ -7,6 +7,12 @@ const handleChange = (formName, values) => {
     UI.setFormCache(formName, values);
 };
 
+const handleReset = (formName, formik, initialValues) => {
+    formik.resetForm();
+    formik.setValues(initialValues);
+    UI.setFormCache(formName, null);
+};
+
 class CachedForm extends React.Component {
     render() {
         var {
@@ -16,7 +22,6 @@ class CachedForm extends React.Component {
             render
         } = this.props,
             formName = this.props.id;
-
         return (
             <Formik
                 onSubmit={onSubmit}
@@ -26,7 +31,7 @@ class CachedForm extends React.Component {
                 validateOnChange={true}
                 render={formik => (
                     <form onSubmit={formik.handleSubmit}>
-                        {render(formik)}
+                        {render(formik, () => handleReset(formName, formik, initialValues) )}
                     </form>
                 )}
             />

@@ -19,6 +19,9 @@ const
         if ("rooms" == field)
             current = formik.values.roomDetails.length;
 
+        if ("childrenAges" == field)
+            current = formik.values.roomDetails[roomNumber].childrenAges.length;
+
         const value = current + plus;
         const finalNewValue = Math.max(value, minimumValuesForSearch[field]);
 
@@ -32,18 +35,20 @@ const
             if (current < finalNewValue)
                 formik.setFieldValue("roomDetails", [...formik.values.roomDetails, {
                     adultsNumber: 2,
-                    childrenNumber: 0
+                    childrenAges: []
                 }]);
             if (current > finalNewValue) {
                 var roomDetails = formik.values.roomDetails;
                 roomDetails.pop();
                 formik.setFieldValue("roomDetails", roomDetails);
             }
-        } else
-            formik.setFieldValue(`roomDetails.${roomNumber}.${field}`, finalNewValue);
+        }
+
+        if ("adultsNumber" == field)
+            formik.setFieldValue(`roomDetails.${roomNumber}.adultsNumber`, finalNewValue);
 
         if ("childrenNumber" == field) {
-            var childrenAges = formik.values.roomDetails[roomNumber].childrenAges || [];
+            var childrenAges = formik.values.roomDetails[roomNumber].childrenAges;
             if (current < finalNewValue)
                 childrenAges.push(defaultChildrenAge);
             if (current > finalNewValue)
@@ -100,15 +105,15 @@ class PeopleDropdown extends React.Component {
                                      room={number}
                                      text="Children"
                                      field="childrenNumber"
-                                     value={room.childrenNumber}
+                                     value={room.childrenAges?.length}
                                 />
                                 {(room.childrenAges?.length > 0) &&
                                     <div class="form">
                                         <h4>{t("Please enter children ages")}</h4>
-                                        <FieldArray
-                                            render={() => (
-                                                <div class="row children">
-                                                    {room.childrenAges.map((item, r) => (
+                                        <div class="row children">
+                                            <FieldArray
+                                                render={() => (
+                                                    room.childrenAges.map((item, r) => (
                                                         <FieldText formik={formik}
                                                             id={`roomDetails.${number}.childrenAges.${r}`}
                                                             placeholder={t("Please enter")}
@@ -116,10 +121,10 @@ class PeopleDropdown extends React.Component {
                                                             numeric
                                                             maxLength={2}
                                                         />
-                                                    ))}
-                                                </div>
-                                            )}
-                                        />
+                                                    ))
+                                                )}
+                                            />
+                                        </div>
                                     </div>
                                 }
                             </React.Fragment>

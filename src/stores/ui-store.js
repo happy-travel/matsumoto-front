@@ -17,8 +17,6 @@ export const INVOICE_TYPES = {
 
 class UIStore {
     @observable regions = [];
-    @observable countries = [];
-    @observable destinations = [];
     @observable currencies = [];
     @observable initialized = false;
     @observable openDropdown = null;
@@ -37,13 +35,12 @@ class UIStore {
         "title": null,
         "position": null
     };
-    @observable topAlertText = null;
     @observable advancedSearch = false;
 
     @observable formCache = {};
 
     constructor() {
-        if ("localhost" == window.location.hostname) autosave(this, "_ui_store_cache");
+        autosave(this, "_ui_store_cache");
     }
 
     @computed get regionList() {
@@ -53,8 +50,8 @@ class UIStore {
         return null;
     }
 
-    getFormCache(formName) {
-        return this.formCache[formName] || null;
+    @computed get isAppInitialized() {
+        return (this.initialized && this.regions.length && this.currencies.length);
     }
 
     getSuggestion(field, value) {
@@ -93,39 +90,6 @@ class UIStore {
         this.currencies = value || [];
     }
 
-    setCountries(value) {
-        const newGroupedCountries = value.reduce(function (r, a) {
-            r[a.regionId] = r[a.regionId] || [];
-            r[a.regionId].push(a);
-            return r;
-        }, Object.create(null));
-        let countries = [];
-        this.regionList?.forEach(region => {
-            if (newGroupedCountries[region.id]) {
-                countries = countries.concat(newGroupedCountries[region.id].sort((a, b) => {
-                    if (a.name > b.name) {
-                        return 1;
-                    }
-                    if (a.name < b.name) {
-                        return -1;
-                    }
-                    return 0;
-                }));
-            }
-        });
-        this.countries = countries;
-    }
-
-    setDestinationSuggestions(value = []) {
-        const typesWeights = {
-            'landmark': 1,
-            'destination': 2,
-            'accommodation': 3,
-            'location': 4,
-        };
-        this.destinations = value.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
-    }
-
     setOpenDropdown(id) {
         this.openDropdown = id || null;
         this.focusedDropdownIndex = null;
@@ -148,10 +112,6 @@ class UIStore {
         this.user = value;
     }
 
-    setTopAlertText(value) {
-        this.topAlertText = value || null;
-    }
-
     toggleAdvancedSearch(value) {
         if (typeof value != "undefined")
             this.advancedSearch = value;
@@ -159,8 +119,12 @@ class UIStore {
             this.advancedSearch = !this.advancedSearch;
     }
 
+    getFormCache(formName) {
+        return this.formCache[formName] ? JSON.parse(this.formCache[formName]) : null;
+    }
+
     setFormCache(formName, values) {
-        this.formCache[formName] = values;
+        this.formCache[formName] = JSON.stringify(values);
     }
 }
 
