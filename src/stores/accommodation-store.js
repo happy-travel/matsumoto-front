@@ -107,6 +107,13 @@ class AccommodationStore {
     }
 
     setSearchResult(value) {
+        if (value?.results)
+            for (var i=0; i < value.results.length; i++) {
+                var source = value.results[i].source;
+                value.results[i] = value.results[i].data;
+                value.results[i].source = source;
+            }
+
         this.search.result = value;
 
         if (this.search.result?.results?.length) {
@@ -220,10 +227,13 @@ class AccommodationStore {
     }
 
     selectAccommodation(accommodation) {
-        this.selected.accommodation = accommodation;
+        var source = accommodation.source;
+        this.selected.accommodation = accommodation.data;
+        this.selected.accommodation.source = source;
     }
 
     selectAgreement(result) {
+        result = result?.data || null;
         this.selected = {
             accommodation : result,
             agreement : result?.agreement,
