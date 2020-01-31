@@ -1,9 +1,8 @@
 import React from "react";
 import { observable } from "mobx";
-import { decorate } from "core";
 import UI from "./ui-store";
 
-class UIStore {
+class ViewStore {
     @observable countries = [];
     @observable destinations = [];
     @observable topAlertText = null;
@@ -46,4 +45,4 @@ class UIStore {
     }
 }
 
-export default new UIStore();
+export default new ViewStore();
