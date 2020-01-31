@@ -1,0 +1,74 @@
+.personal-info
+  &__wrapper
+    padding: 75px 0 95px
+    h1
+      font-size: 36px
+      line-height: 43px
+      color: #231F20
+      text-align: center
+      & + p
+        font-size: 13px
+        line-height: 16px
+        text-align: center
+        letter-spacing: 1px
+        color: #A4AAB3
+        margin-top: 11px
+    h2
+      margin-bottom: 50px
+      font-size: 20px
+      line-height: 24px
+      letter-spacing: 1px
+      text-transform: uppercase
+      color: #231F20
+  &__button
+    width: 266px
+    height: 46px
+    display: flex
+    align-items: center
+    justify-content: center
+    margin: 35px auto 80px
+    color: #fff !important
+    font-size: 13px
+  &__tabs
+    display: flex
+    justify-content: center
+    margin-bottom: 90px
+    border-bottom: 1px solid rgba(216, 218, 220, 0.5)
+    width: 100%
+    a
+      font-size: 13px
+      line-height: 16px
+      text-align: center
+      text-transform: uppercase
+      color: #797F89
+      margin-right: 10px
+      padding: 13px 25px
+      position: relative
+      &.active
+        &:after
+          content: ''
+          height: 4px
+          width: 100%
+          background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%), #C4C4C4
+          border-radius: 4px
+          position: absolute
+          bottom: 0
+          left: 0
+  &__form
+    .row
+      margin-bottom: 18px
+    &__hor-label
+      width: 225px
+      vertical-align: middle
+      line-height: 34px
+    &__checkbox
+      div
+        margin-right: 48px
+    &__link
+      text-decoration-line: underline !important
+      color: #1267FB !important
+      font-size: 13px
+      margin-top: 50px
+.form div.personal-info__field
+  margin-right: 42px
+  width: 50%

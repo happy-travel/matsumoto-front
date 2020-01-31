@@ -20,6 +20,7 @@ import accountInvite              from "pages/account/accept-invite";
 import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
+import personalInfo               from "pages/user/personalInfo";
 
 import contactUsPage              from "pages/common/contact";
 import termsPage                  from "pages/common/terms";
@@ -42,7 +43,8 @@ export const routesWithHeaderAndFooter = [
     "/payment/form",
     "/user/booking",
     "/user/payment-history",
-    "/user/invite"
+    "/user/invite",
+    "/user/settings",
 ];
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
@@ -76,6 +78,7 @@ const Routes = () => (
         <Route path="/user/booking"               component={userBookingManagement} />
         <Route path="/user/payment-history"       component={accountStatement} />
         <Route path="/user/invite"                component={userInvite} />
+        <Route path="/user/settings"              component={personalInfo} />
 
         <Route path="/contact"                    component={contactUsPage} />
         <Route path="/terms"                      component={termsPage} />
