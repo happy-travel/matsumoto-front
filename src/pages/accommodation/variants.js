@@ -28,11 +28,11 @@ class AccommodationVariantsPage extends React.Component {
         this.showDetailsModal = this.showDetailsModal.bind(this);
     }
 
-    showDetailsModal(id) {
+    showDetailsModal(item) {
         UI.setModal(MODALS.ACCOMMODATION_DETAILS);
         UI.setModalData(null);
         API.get({
-            url: API.ACCOMMODATION_DETAILS(id),
+            url: API.ACCOMMODATION_DETAILS(item.accommodationDetails.id, item.source),
             success: result => UI.setModalData(result)
         });
     }
@@ -128,7 +128,7 @@ class AccommodationVariantsPage extends React.Component {
                         <div class="photo">
                             <img src={item.accommodationDetails.picture.source} alt="" />
                         </div>
-                        <div class="title" onClick={() => this.showDetailsModal(item.accommodationDetails.id)} >
+                        <div class="title" onClick={() => this.showDetailsModal(item)} >
                             <h2>
                                 <u>{item.accommodationDetails.name}</u>
                                 <Stars count={item.accommodationDetails.rating} />

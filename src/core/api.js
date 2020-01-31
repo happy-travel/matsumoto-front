@@ -43,8 +43,8 @@ API_METHODS = {
     BOOKING_GET_BY_CODE   : referenceCode =>
                             v1 + `/bookings/accommodations/refcode/${referenceCode}`,
 
-    ACCOMMODATION_DETAILS : accommodationId =>
-                            v1 + "/accommodations/" + accommodationId,
+    ACCOMMODATION_DETAILS : (accommodationId, source) =>
+                            v1 + `/${source}/accommodations/${accommodationId}`,
 
     A_SEARCH_STEP_ONE     : v1 + "/availabilities/accommodations",
     A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
