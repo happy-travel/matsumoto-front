@@ -51,7 +51,7 @@ translations: {
     "Zip/Postal Code": "Zip/Postal Code",
     "Select Country": "Select Country",
     "Preferred Payment Method": "Preferred Payment Method",
-    "Preferred currency": "Preferred currency",
+    "Company account currency": "Company account currency",
     "Telephone": "Telephone",
     "Fax": "Fax",
     "Prefix": "Prefix",
@@ -328,6 +328,10 @@ translations: {
     "Cancellation is not possible furthermore, out of deadline": "Cancellation is not possible furthermore, out of deadline",
     "City": "City",
     "Get started": "Get started",
-    "Dynamic offer": "Dynamic offer"
+    "Dynamic offer": "Dynamic offer",
+    "Please enter": "Please enter",
+    "and": "and",
+    "out of": "out of",
+    "available": "available"
 }
 };
