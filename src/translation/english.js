@@ -330,6 +330,8 @@ translations: {
     "Get started": "Get started",
     "Dynamic offer": "Dynamic offer",
     "Please enter": "Please enter",
-    "and": "and"
+    "and": "and",
+    "out of": "out of",
+    "available": "available"
 }
 };
