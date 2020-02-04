@@ -12,7 +12,6 @@ export const PAYMENT_METHODS = {
 class AccommodationStore {
     @observable
     search = {
-        destination: "",
         loading: false,
         request: null,
         result: null
