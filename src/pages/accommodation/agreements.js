@@ -83,7 +83,7 @@ class AccommodationAgreementsPage extends React.Component {
         if (this.state.redirectToVariantsPage)
             return <Redirect push to="/search" />;
 
-        if (!item.accommodationDetails)
+        if (!item?.accommodationDetails)
             return null;
 
         return (
@@ -159,7 +159,7 @@ class AccommodationAgreementsPage extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            { item.agreements.map(agreement =>
+                            { item.agreements?.map(agreement =>
                                 <tr>
                                     <td class="agreement">
                                         {groupAndCount(agreement.rooms)}<br/>

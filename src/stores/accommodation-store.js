@@ -22,6 +22,7 @@ class AccommodationStore {
     selected = {
         agreement: null,
         accommodation: null,
+        accommodationFinal: null,
         deadlineDetails: null,
         availabilityId: null
     };
@@ -119,7 +120,8 @@ class AccommodationStore {
     selectAgreement(result) {
         result = result?.data || null;
         this.selected = {
-            accommodation : result,
+            ...this.selected,
+            accommodationFinal : result,
             agreement : result?.agreement,
             availabilityId : result?.availabilityId,
             deadlineDetails : result?.deadlineDetails

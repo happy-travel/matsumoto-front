@@ -50,7 +50,7 @@ class AccommodationBookingPage extends React.Component {
     }
 
     submit(values, { setSubmitting }) {
-        if (!store.selected?.accommodation?.accommodationDetails?.id)
+        if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
             return null; //todo: another answer
 
         var variant = store.selected.agreement,
@@ -133,11 +133,11 @@ class AccommodationBookingPage extends React.Component {
 
         var booking = store.booking.result || {};
 
-        if (!store.selected?.accommodation?.accommodationDetails?.id)
+        if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
             return null; //todo: another answer
 
-        var hotel = store.selected.accommodation.accommodationDetails,
-            baseInfo = store.selected.accommodation,
+        var hotel = store.selected.accommodationFinal.accommodationDetails,
+            baseInfo = store.selected.accommodationFinal,
             variant = store.selected.agreement,
             deadlineDetails = store.selected.deadlineDetails;
 

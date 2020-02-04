@@ -6,9 +6,17 @@ export default (store, key) => {
 
     autorun(() => {
         if (initial) {
-            const cached = session.get(key);
+            const cached = session.get(key),
+                  reserve = JSON.parse(JSON.stringify(toJS(store)));
+
             if (cached)
-                set(store, JSON.parse(cached));
+                try {
+                    var value = JSON.parse(cached);
+                    set(store, value);
+                }
+                catch (e) {
+                    set(store, reserve);
+                }
         }
         session.set(key, JSON.stringify(toJS(store)));
     });

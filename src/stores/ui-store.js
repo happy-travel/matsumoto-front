@@ -120,11 +120,21 @@ class UIStore {
     }
 
     getFormCache(formName) {
-        return this.formCache[formName] ? JSON.parse(this.formCache[formName]) : null;
+        if (!this.formCache[formName])
+            return null;
+        var result = null;
+        try {
+            result = JSON.parse(this.formCache[formName]);
+        } catch (e) {}
+        return result;
     }
 
     setFormCache(formName, values) {
-        this.formCache[formName] = JSON.stringify(values);
+        this.formCache[formName] = values ? JSON.stringify(values) : null;
+    }
+
+    dropFormCache(formName) {
+        this.setFormCache(formName);
     }
 }
 
