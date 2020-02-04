@@ -7,8 +7,7 @@ import { Loader } from "components/simple";
 
 import UI from "stores/ui-store";
 import store from "stores/accommodation-store";
-import { Formik } from "formik";
-import { FieldText } from "components/form";
+import { CachedForm, FieldText } from "components/form";
 
 import DateDropdown from "components/form/dropdown/date";
 import moment from "moment";
@@ -57,10 +56,10 @@ class AccountStatementPage extends React.Component {
                     <section>
                         <div class="input-wrap">
                             <div class="form">
-                                <Formik
-                                    onSubmit={() => {}}
+                                <CachedForm
+                                    id="AccountStatementForm"
                                     render={formik => (
-                                        <form onSubmit={formik.handleSubmit}>
+                                        <React.Fragment>
                                             <FieldText formik={formik}
                                                 id="range"
                                                 placeholder={t("Choose date")}
@@ -84,7 +83,7 @@ class AccountStatementPage extends React.Component {
                                                     moment(this.state.end).local().endOf('day')
                                                 )}
                                             />
-                                        </form>
+                                        </React.Fragment>
                                     )}
                                 />
                             </div>

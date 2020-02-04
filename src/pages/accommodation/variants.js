@@ -80,7 +80,7 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")}: <b>{ store.search.form?.["destination"] }</b>
+                            {t("Results for")}: <b>{ store.search.request.destination }</b>
                             <span>&nbsp;({store.hotelArray.length} {t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")})</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
@@ -161,7 +161,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="billet">
                             <div class="count">
-                                {plural(t, store.search.result?.numberOfNights, "Night")},
+                                {plural(t, store.search.result.numberOfNights, "Night")},
                                 {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                             </div>
                             <div class="price">

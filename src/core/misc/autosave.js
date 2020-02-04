@@ -5,11 +5,18 @@ export default (store, key) => {
     var initial = true;
 
     autorun(() => {
-        // return;
-        if (initial) { // todo: don't load when it's not needed
-            const cached = JSON.parse(session.get(key));
+        if (initial) {
+            const cached = session.get(key),
+                  reserve = JSON.parse(JSON.stringify(toJS(store)));
+
             if (cached)
-                set(store, cached);
+                try {
+                    var value = JSON.parse(cached);
+                    set(store, value);
+                }
+                catch (e) {
+                    set(store, reserve);
+                }
         }
         session.set(key, JSON.stringify(toJS(store)));
     });

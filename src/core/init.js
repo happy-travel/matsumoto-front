@@ -43,18 +43,21 @@ const init = () => {
                 authStore.setCachedUserRegistered(true);
         }
     });
-    API.get({
-        url: API.BASE_REGIONS,
-        success: (result) =>
-            UI.setRegions(result),
-        after: () =>
-            UI.setInitialized(true)
-    });
-    API.get({
-        url: API.BASE_CURRENCIES,
-        success: (result) =>
-            UI.setCurrencies(result)
-    });
+
+    if (!UI.isAppInitialized) {
+        API.get({
+            url: API.BASE_REGIONS,
+            success: (result) =>
+                UI.setRegions(result),
+            after: () =>
+                UI.setInitialized(true)
+        });
+        API.get({
+            url: API.BASE_CURRENCIES,
+            success: (result) =>
+                UI.setCurrencies(result)
+        });
+    }
     
     window.addEventListener("mouseup", (event) => {
         var target = event.target;
