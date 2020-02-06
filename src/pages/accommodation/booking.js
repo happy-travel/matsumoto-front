@@ -2,9 +2,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { API, dateFormat, price, plural } from "core";
-import { Formik, FieldArray } from "formik";
+import { FieldArray } from "formik";
 
 import {
+    CachedForm,
     FieldText,
     FieldTextarea,
     FieldSwitch,
@@ -18,7 +19,7 @@ import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 @observer
 class AccommodationBookingPage extends React.Component {
@@ -49,7 +50,7 @@ class AccommodationBookingPage extends React.Component {
     }
 
     submit(values, { setSubmitting }) {
-        if (!store.selected?.accommodation?.accommodationDetails?.id)
+        if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
             return null; //todo: another answer
 
         var variant = store.selected.agreement,
@@ -123,7 +124,7 @@ class AccommodationBookingPage extends React.Component {
                     });
                 }
             },
-            error: (error) => UI.setTopAlertText(error?.title || error?.detail || error?.message)
+            error: (error) => View.setTopAlertText(error?.title || error?.detail || error?.message)
         });
     }
 
@@ -132,11 +133,11 @@ class AccommodationBookingPage extends React.Component {
 
         var booking = store.booking.result || {};
 
-        if (!store.selected?.accommodation?.accommodationDetails?.id)
+        if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
             return null; //todo: another answer
 
-        var hotel = store.selected.accommodation.accommodationDetails,
-            baseInfo = store.selected.accommodation,
+        var hotel = store.selected.accommodationFinal.accommodationDetails,
+            baseInfo = store.selected.accommodationFinal,
             variant = store.selected.agreement,
             deadlineDetails = store.selected.deadlineDetails;
 
@@ -245,7 +246,8 @@ class AccommodationBookingPage extends React.Component {
                     current={1}
                 />
 
-                <Formik
+                <CachedForm
+                    id="BookingForm"
                     initialValues={{
                         room: variant?.rooms?.map((x,r) => ({
                             passengers: [

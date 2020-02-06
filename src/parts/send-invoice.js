@@ -1,10 +1,9 @@
 import React from "react";
-import { FieldText } from "components/form";
+import { CachedForm, FieldText } from "components/form";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, dateFormat } from "core";
 import UI, { INVOICE_TYPES } from "stores/ui-store";
-import { Formik } from "formik";
 import { emailFormValidator } from "components/form/validation";
 
 @observer
@@ -70,12 +69,13 @@ class SendInvoiceModal extends React.Component {
                 { loading && <div>{t("Loading...")}</div>}
 
                 { !error && !success && !loading &&
-                    <Formik
+                    <CachedForm
+                        id="SendInvoiceForm"
                         initialValues={{ email: "" }}
                         validationSchema={emailFormValidator}
                         onSubmit={this.submit}
                         render={formik => (
-                            <form onSubmit={formik.handleSubmit}>
+                            <React.Fragment>
                                 <div class="form">
                                     <p>
                                         {t("Enter email to receive information about booking")} <br/>
@@ -93,7 +93,7 @@ class SendInvoiceModal extends React.Component {
                                         </button>
                                     </div>
                                 </div>
-                            </form>
+                            </React.Fragment>
                         )}
                     />
                 }

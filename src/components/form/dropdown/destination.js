@@ -2,6 +2,7 @@ import React from 'react';
 import {observer} from "mobx-react";
 import store from 'stores/accommodation-store';
 import UI from 'stores/ui-store';
+import View from 'stores/view-store';
 import { decorate } from "core";
 import { Highlighted } from "components/simple";
 
@@ -21,17 +22,17 @@ class DestinationDropdown extends React.Component {
         } = this.props;
 
         store.setRequestDestination(item);
-        UI.setDestinationSuggestions([]);
+        View.setDestinationSuggestions([]);
         formik.setFieldValue(connected, item.value);
     }
 
     generateSuggestion = () => {
-        if (!UI?.destinations?.length)
+        if (!View?.destinations?.length)
             return;
 
-        for (var i = 0; i < UI.destinations.length; i++) {
-            if (decorate.cutFirstPart(UI.destinations[i].value, this.props.value))
-                return UI.destinations[i];
+        for (var i = 0; i < View.destinations.length; i++) {
+            if (decorate.cutFirstPart(View.destinations[i].value, this.props.value))
+                return View.destinations[i];
         }
     };
 
@@ -41,16 +42,16 @@ class DestinationDropdown extends React.Component {
     }
 
     render() {
-        if (!UI?.destinations?.length)
+        if (!View?.destinations?.length)
             return null;
 
         const {connected, formik} = this.props;
         return (
         <div class="cities dropdown">
             <div class="scroll">
-                {UI?.destinations?.map?.((item, index) => {
+                {View?.destinations?.map?.((item, index) => {
                     let destinationType = null;
-                    if (index === 0 || item.type !== UI.destinations[index - 1]?.type) {
+                    if (index === 0 || item.type !== View.destinations[index - 1]?.type) {
                         destinationType = <div className="subtitle">{item.type}</div>
                     }
                     return (

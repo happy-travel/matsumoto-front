@@ -1,6 +1,6 @@
 import settings from "settings";
 import Authorize from "core/auth/authorize";
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 import authStore from "stores/auth-store";
 import { isRedirectNeeded } from "./init";
 
@@ -141,11 +141,11 @@ Authorize.getUser().then(user => {
                 }
                 if (failed) {
                     if (_.methods_dont_show_error.indexOf(url) < 0 && result && result.status >= 400 && result.detail)
-                        UI.setTopAlertText(result.detail);
+                        View.setTopAlertText(result.detail);
                     if (error)
                         error(result);
                 } else {
-                    UI.setTopAlertText(null);
+                    View.setTopAlertText(null);
                     if (success)
                         success(result);
                 }
