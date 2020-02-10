@@ -167,15 +167,9 @@ class AccommodationVariantsPage extends React.Component {
                             <div class="price">
                                 {price(item.agreements?.[0]?.price)}
                             </div>
-                            { (item.agreements.some(agreement => moment().isBefore(agreement.deadlineDate))
-                            && item.agreements.some(agreement => agreement.isDynamic !== true)) ?
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
-                            </button> :
-                            <button class="button small disabled">
-                                {t("Choose Room")}
                             </button>
-                            }
                         </div>
                         { item.agreements.slice(0, 2).map(agreement => <div class="row">
                             <div class="icons">

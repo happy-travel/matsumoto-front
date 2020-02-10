@@ -190,13 +190,9 @@ class AccommodationAgreementsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        { (moment().isBefore(agreement.deadlineDate) && agreement.isDynamic !== true) ?
                                         <button class="button small" onClick={() => this.agreementSelect(agreement, item.accommodationDetails)}>
                                             {t("Book it")}
-                                        </button> :
-                                        <button class="button small disabled">
-                                            {t("Book it")}
-                                        </button> }
+                                        </button>
                                     </td>
                                 </tr>
                             )}
