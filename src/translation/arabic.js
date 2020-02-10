@@ -15,7 +15,7 @@ translations: {
     "footer_address_line_2": "B106, Saraya Avenue building,",
     "footer_address_line_3": "Garhoud, Deira",
     "footer_address_line_4": "P.O. Box 36366",
-    "_copyright": "حقوق الملكية",
+    "_copyright": "حقوق الملكية © 2019 — 2020 HappyTravelDotCom Travel and Tourism LLC",
     "Are you supplier?": "هل أنت متعهد خدمات؟",
     "Registration": "التسجيل",
     "User name": "اسم المستخدم",

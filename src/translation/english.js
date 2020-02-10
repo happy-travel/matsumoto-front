@@ -21,7 +21,7 @@ translations: {
     "footer_address_line_3": "Garhoud, Deira",
     "footer_address_line_4": "P.O. Box 36366",
     "footer_address_line_5": "Dubai, United Arab Emirates",
-    "_copyright": "Copyright © 2019 HappyTravelDotCom Travel and Tourism LLC. All Rights Reserved.",
+    "_copyright": "Copyright © 2019 — 2020 HappyTravelDotCom Travel and Tourism LLC. All Rights Reserved.",
     "Are you supplier?": "Are you a supplier?",
     "Log In": "Log In",
     "Registration": "Registration",
