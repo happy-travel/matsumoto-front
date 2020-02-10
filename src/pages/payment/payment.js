@@ -50,7 +50,7 @@ class PaymentPage extends React.Component {
                 service_command     : "TOKENIZATION",
                 merchant_reference  : require('uuid/v4')(),
                 language            : "en", //the only alternative : "ar"
-                return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.result?.referenceCode
+                return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.referenceCode
             }
         };
         this.submit = this.submit.bind(this);

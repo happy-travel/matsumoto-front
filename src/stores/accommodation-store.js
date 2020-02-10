@@ -30,6 +30,7 @@ class AccommodationStore {
     booking = {
         request: {},
         result: null,
+        referenceCode: null,
         selected: {}
     };
 
@@ -131,6 +132,10 @@ class AccommodationStore {
 
     setBookingRequest(request) {
         this.booking.request = request;
+    }
+
+    setBookingReferenceCode(result) {
+        this.booking.referenceCode = result || null;
     }
 
     setBookingResult(result, data) {

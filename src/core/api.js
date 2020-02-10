@@ -18,8 +18,8 @@ API_METHODS = {
     CARDS_COMMON          : v1 + "/cards",
     CARDS_SETTINGS        : v1 + "/cards/settings",
     CARDS_SIGN            : v1 + "/cards/signatures",
-    PAYMENTS_CARD_COMMON  : v1 + "/payments/card",
-    PAYMENTS_ACC_COMMON   : v1 + "/payments/account",
+    PAYMENTS_CARD_COMMON  : v1 + "/payments/bookings/card",
+    PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
     ACCOUNT_AVAILABLE     : v1 + "/payments/accounts/available",
@@ -30,7 +30,10 @@ API_METHODS = {
     USER_INVITE           : invitationCode =>
                             v1 + "/customers/invitations" + (invitationCode ? "/" + invitationCode : ""),
 
-    ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
+    ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
+    A_BOOKING_FINALIZE    : referenceCode =>
+                            v1 + `/accommodations/bookings/${referenceCode}/finalize`,
+
     BOOKING_LIST          : v1 + "/bookings/accommodations/customer",
     BOOKING_CANCEL        : bookingId =>
                             v1 + `/bookings/accommodations/${bookingId}/cancel`,

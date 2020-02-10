@@ -26,7 +26,6 @@ class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToConfirmationPage: false,
             accountPaymentPossibility: false
         };
         this.submit = this.submit.bind(this);
@@ -34,7 +33,7 @@ class AccommodationBookingPage extends React.Component {
 
     componentDidMount() {
         store.setBookingRequest(null);
-        store.setBookingResult(null);
+        store.setBookingReferenceCode(null);
 
         API.get({
             url: API.ACCOUNT_AVAILABLE,
@@ -89,40 +88,16 @@ class AccommodationBookingPage extends React.Component {
             "roomDetails": roomDetails,
             "features": [],
             "itineraryNumber": values.itineraryNumber,
+            "dataProvider": store.selected.accommodation.source
         };
         store.setBookingRequest(request);
 
         API.post({
             url: API.ACCOMMODATION_BOOKING,
             body: request,
-            after: (result, err, data) => {
-                store.setBookingResult(result, data);
-                if (store.paymentMethod == PAYMENT_METHODS.CARD)
-                    setSubmitting(false);
-                if (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) {
-                    API.post({
-                        url: API.PAYMENTS_ACC_COMMON,
-                        body: {
-                            referenceCode: result.referenceCode
-                        },
-                        after: (data, error) => {
-                            store.setPaymentResult({
-                                params: {
-                                    response_message: "Success",
-                                    referenceCode: result.referenceCode
-                                },
-                                result: {
-                                    status: data?.status,
-                                    error: error?.detail || error?.title
-                                }
-                            });
-                            setSubmitting(false);
-                            this.setState({
-                                redirectToConfirmationPage: true
-                            });
-                        }
-                    });
-                }
+            after: (result) => {
+                store.setBookingReferenceCode(result);
+                setSubmitting(false);
             },
             error: (error) => View.setTopAlertText(error?.title || error?.detail || error?.message)
         });
@@ -130,8 +105,6 @@ class AccommodationBookingPage extends React.Component {
 
     render() {
         const { t } = useTranslation();
-
-        var booking = store.booking.result || {};
 
         if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
             return null; //todo: another answer
@@ -143,9 +116,6 @@ class AccommodationBookingPage extends React.Component {
 
         if (!variant || !deadlineDetails)
             return null;
-
-        if (this.state.redirectToConfirmationPage)
-            return <Redirect push to="/accommodation/confirmation" />;
 
         return (
 
@@ -464,11 +434,14 @@ class AccommodationBookingPage extends React.Component {
                                     </div>
                                 </div>
 
-                                { formik.isSubmitting && !booking.referenceCode &&
+                                { formik.isSubmitting && !store.booking.referenceCode &&
                                     <Loader page /> }
 
-                                { booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
+                                { store.booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
                                     <Redirect to="/payment/form" /> }
+
+                                { store.booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) &&
+                                    <Redirect to="/payment/account" /> }
 
                             </div>
                         </form>
