@@ -37,7 +37,10 @@ class ViewStore {
             'accommodation': 3,
             'location': 4,
         };
-        this.destinations = value.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
+        if (value)
+            this.destinations = value.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
+        else
+            this.destinations = [];
     }
 
     setTopAlertText(value) {
