@@ -199,7 +199,7 @@ class FieldText extends React.Component {
                             { Icon }
                         </div> }
                         { (clearable && getValue(formik, id)) ? <div>
-                            <button type="button" class="clear" onClick={ this.clear } />
+                            <div class="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>
                     {((formik?.errors[id]?.length > 1) && formik?.touched[id] && (UI.openDropdown != id)) ?
