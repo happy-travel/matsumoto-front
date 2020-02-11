@@ -87,7 +87,7 @@ class AccommodationVariantsPage extends React.Component {
                             {
                                 text: t("Find Accommodation")
                             }, {
-                                text: store.search.form?.["destination"] || ""
+                                text: store.search.request?.destination
                             }
                         ]}/>
                     </div>

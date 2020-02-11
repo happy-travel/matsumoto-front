@@ -107,7 +107,7 @@ class AccommodationAgreementsPage extends React.Component {
                         {
                             text: t("Find Accommodation")
                         }, {
-                            text: store.search.form?.destination
+                            text: store.search.request?.destination
                         }, {
                             text: item.accommodationDetails.name
                         }
@@ -127,6 +127,8 @@ class AccommodationAgreementsPage extends React.Component {
                         <div class="subpart">
                             <div class="h1">{t("Check In Date")}</div>
                             <div class="h2">{dateFormat.d(store.search.request.checkInDate)}</div>
+                            { item.accommodationDetails?.schedule?.checkInTime &&
+                              <div class="h3">{t("From")} {JSON.stringify(item.accommodationDetails.schedule.checkInTime)}</div> }
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Check Out Date")}</div>
