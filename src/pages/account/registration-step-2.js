@@ -126,7 +126,9 @@ class RegistrationStep2 extends React.Component {
                             <div class="field">
                                 <div class="inner">
                                     <button type="submit" class="button">
-                                        {t("Finish Registration")}
+                                        { this.state.invitationCode ?
+                                            t("Finish Registration") :
+                                            t("Continue Registration")}
                                     </button>
                                 </div>
                             </div>

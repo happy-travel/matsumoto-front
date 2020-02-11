@@ -42,7 +42,7 @@ translations: {
     "One number": "One number",
     "10 characters minimum": "10 characters minimum",
     "Generate Password": "Generate Password",
-    "Continue registration": "Continue registration",
+    "Continue Registration": "Continue Registration",
     "Back to previous step": "Back to previous step",
     "Salutation": "Salutation",
     "Position/Designation": "Position/Designation",

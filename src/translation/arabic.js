@@ -31,7 +31,7 @@ translations: {
     "One uppercase character": "حرف واحد من الحروف الكبيرة",
     "One number": "رقم واحد",
     "Generate Password": "إنشاء كلمة المرور",
-    "Continue registration": "الاستمرار في التسجيل",
+    "Continue Registration": "الاستمرار في التسجيل",
     "Back to previous step": "العودة إلى الخطوة السابقة",
     "Salutation": "التحية",
     "Position/Designation": "الموقع/التعيين",
