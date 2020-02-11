@@ -34,17 +34,17 @@ API_METHODS = {
     A_BOOKING_FINALIZE    : referenceCode =>
                             v1 + `/accommodations/bookings/${referenceCode}/finalize`,
 
-    BOOKING_LIST          : v1 + "/bookings/accommodations/customer",
+    BOOKING_LIST          : v1 + "/accommodations/bookings/customer",
     BOOKING_CANCEL        : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}/cancel`,
+                            v1 + `/accommodations/bookings/${bookingId}/cancel`,
     BOOKING_VOUCHER       : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}/voucher`,
+                            v1 + `/accommodations/bookings/${bookingId}/voucher`,
     BOOKING_INVOICE       : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}/invoice`,
+                            v1 + `/accommodations/bookings/${bookingId}/invoice`,
     BOOKING_GET_BY_ID     : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}`,
+                            v1 + `/accommodations/bookings/${bookingId}`,
     BOOKING_GET_BY_CODE   : referenceCode =>
-                            v1 + `/bookings/accommodations/refcode/${referenceCode}`,
+                            v1 + `/accommodations/bookings/refcode/${referenceCode}`,
 
     ACCOMMODATION_DETAILS : (accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}`,
