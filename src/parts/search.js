@@ -92,6 +92,7 @@ class AccommodationSearch extends React.Component {
     }
 
     submit(values) {
+        UI.setOpenDropdown(null);
         //todo: setSubmitting, loading
         const isValidFilterQuery = validateFilterQuery(values);
         store.setSearchResult(null);
