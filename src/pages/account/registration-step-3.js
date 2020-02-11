@@ -113,7 +113,8 @@ class RegistrationStep3 extends React.Component {
                                 "fax": "",
                                 "preferredCurrency": "USD",
                                 "preferredPaymentMethod": "",
-                                "website": ""
+                                "website": "",
+                                "postalCode": ""
                             }}
                             validationSchema={registrationCompanyValidator}
                             onSubmit={this.submit}
@@ -138,7 +139,7 @@ class RegistrationStep3 extends React.Component {
                                         </div>
                                         <div class="row">
                                             <FieldText formik={formik}
-                                                       id={"zip"}
+                                                       id={"postalCode"}
                                                        label={t("Zip/Postal Code")}
                                                        placeholder={t("Zip/Postal Code")}
                                             />
