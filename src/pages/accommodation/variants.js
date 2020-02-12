@@ -80,7 +80,7 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")}: <b>{ store.search.request.destination }</b>
+                            {t("Results for")}: <b>{ store?.search?.request?.destination }</b>
                             <span>&nbsp;({store.hotelArray.length} {t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")})</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
