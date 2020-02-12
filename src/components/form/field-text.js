@@ -162,7 +162,7 @@ class FieldText extends React.Component {
         var finalValue = ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '');
 
         return (
-            <div class={"field" + (addClass ? ' ' + addClass : '')}>
+            <div class={"field" + (addClass ? ' ' + addClass : '')} data-dropdown={id}>
                 <label>
                     { label && <div class="label">
                         <span class={required ? "required" : ""}>{label}</span>

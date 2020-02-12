@@ -4,6 +4,7 @@ import { API } from "core";
 import Authorize from "./auth/authorize";
 import React from "react";
 import { getParams } from "core";
+import dropdownToggler from "components/form/dropdown/toggler";
 
 const noRedirectPages = ["/contact", "/terms", "/privacy", "/about", "/signup/", "/pay"];
 
@@ -58,16 +59,8 @@ const init = () => {
                 UI.setCurrencies(result)
         });
     }
-    
-    window.addEventListener("mouseup", (event) => {
-        var target = event.target;
-        for (var i = 0; target && i < 30; i++){
-            if (target?.classList && (target.classList.contains("dropdown") || target.classList.contains("field")))
-                return;
-            target = target.parentNode;
-        }
-        UI.setOpenDropdown(null);
-    });
+
+    dropdownToggler();
 
 };
 

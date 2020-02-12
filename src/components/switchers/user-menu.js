@@ -20,17 +20,11 @@ class UserMenuDropdown extends React.Component {
         };
     }
 
-    toggleMenu() {
-        if (dropdownId == UI.openDropdown)
-            return UI.setOpenDropdown(null);
-        UI.setOpenDropdown(dropdownId);
-    }
-
     render() {
         const { t } = useTranslation();
 
         return (
-            <div class="switcher user-switcher" onClick={this.toggleMenu}>
+            <div class="switcher user-switcher" onClick={() => UI.setOpenDropdown(dropdownId)}>
                 <div class="avatar">
                     <NoAvatar />
                 </div>
