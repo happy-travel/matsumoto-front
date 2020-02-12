@@ -3,7 +3,8 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
 
-import { FieldText } from "components/form";
+import { dateFormat } from "core";
+import { FieldText, FieldSwitch } from "components/form";
 import Table from "components/table";
 
 import data from './mocks';
@@ -24,6 +25,7 @@ const columns = [
     {
         Header: 'SignUp Date',
         accessor: 'signUpDate',
+        Cell: (item) => dateFormat.b(item.cell.value)
     },
     {
         Header: 'Markup',
@@ -35,11 +37,13 @@ const columns = [
     },
     {
         Header: 'Actions',
-        accessor: 'actions',
+        accessor: '',
+        Cell: () => <button disabled><span className={`icon icon-action-pen-orange`}/></button>
     },
     {
         Header: 'Status',
         accessor: 'markup',
+        Cell: (item) => <FieldSwitch />
     },
 ];
 

@@ -1,8 +1,9 @@
 import React from "react";
-import { useTable, usePagination } from "react-table";
+import { useTable, usePagination, useSortBy } from "react-table";
+
+import Pagination from "components/pagination";
 
 function Table({ columns, data, className }) {
-    // Use the state and functions returned from useTable to build your UI
     const {
         getTableProps,
         getTableBodyProps,
@@ -11,12 +12,10 @@ function Table({ columns, data, className }) {
         page,
         canPreviousPage,
         canNextPage,
-        pageOptions,
         pageCount,
         gotoPage,
         nextPage,
         previousPage,
-        setPageSize,
         state: { pageIndex, pageSize },
     } = useTable(
         {
@@ -24,32 +23,25 @@ function Table({ columns, data, className }) {
             data,
             initialState: { pageIndex: 0 },
         },
-        usePagination
+        useSortBy,
+        usePagination,
     );
 
     return (
         <>
-      <pre>
-        <code>
-          {JSON.stringify(
-              {
-                  pageIndex,
-                  pageSize,
-                  pageCount,
-                  canNextPage,
-                  canPreviousPage,
-              },
-              null,
-              2
-          )}
-        </code>
-      </pre>
             <table {...getTableProps()} className={className}>
                 <thead>
                 {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                {column.render('Header')}
+                                <span>
+                                    {column.isSorted ?
+                                    (column.isSortedDesc ? <span className={`icon icon-arrow-expand`} /> : <span className={`icon icon-arrow-expand-rotate`} /> )
+                                    : <span className={`icon icon-arrows-expand`} />}
+                                </span>
+                            </th>
                         ))}
                     </tr>
                 ))}
@@ -67,19 +59,15 @@ function Table({ columns, data, className }) {
                 })}
                 </tbody>
             </table>
-            <div className="pagination">
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    {'<'} Prev
-                </button>{' '}
-                <>
-                    {Array(pageCount).fill(1).map((item, index) => <button className="">
-                        {index + 1}
-                    </button>)}
-                </>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
-                    Next {'>'}
-                </button>
-            </div>
+            <Pagination
+                previousPage={previousPage}
+                canPreviousPage={canPreviousPage}
+                pageCount={pageCount}
+                gotoPage={gotoPage}
+                pageIndex={pageIndex}
+                canNextPage={canNextPage}
+                nextPage={nextPage}
+            />
         </>
     )
 }
