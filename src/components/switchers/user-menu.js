@@ -24,7 +24,9 @@ class UserMenuDropdown extends React.Component {
         const { t } = useTranslation();
 
         return (
-            <div class="switcher user-switcher" onClick={() => UI.setOpenDropdown(dropdownId)}>
+            <div class="switcher user-switcher"
+                 data-dropdown="close"
+                 onClick={() => UI.setOpenDropdown(dropdownId)}>
                 <div class="avatar">
                     <NoAvatar />
                 </div>

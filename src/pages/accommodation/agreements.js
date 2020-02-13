@@ -128,7 +128,7 @@ class AccommodationAgreementsPage extends React.Component {
                             <div class="h1">{t("Check In Date")}</div>
                             <div class="h2">{dateFormat.d(store.search.request.checkInDate)}</div>
                             { item.accommodationDetails?.schedule?.checkInTime &&
-                              <div class="h3">{t("From")} {JSON.stringify(item.accommodationDetails.schedule.checkInTime)}</div> }
+                              <div class="h3">{t("From")} {item.accommodationDetails.schedule.checkInTime}</div> }
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Check Out Date")}</div>
@@ -153,8 +153,7 @@ class AccommodationAgreementsPage extends React.Component {
                         <table class="table agt">
                             <thead>
                                 <tr>
-                                    <th>{t("Room Type")}</th>
-                                    <th class="icons">{t("Accommodates")}</th>
+                                    <th colSpan="2">{t("Room Type")}</th>
                                     <th class="price">{t("Price for")} {plural(t, store.search?.result?.numberOfNights, "Night")}</th>
                                     <th class="pros">{t("Pros")}</th>
                                     <th />

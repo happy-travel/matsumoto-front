@@ -12,7 +12,7 @@ const Amenities = ({ hotel, fromPage, fromModal, t }) => {
             <h2>{t("Accommodation Amenities")}</h2>
             <ul class="amenities">
                 {list.map(item => (
-                    <li>{t("amenities_" + item)}{" "}</li>
+                    (item == item.toLowerCase()) ? <li>{t("amenities_" + item)}{" "}</li> : <li>{item}</li>
                 ))}
             </ul>
         </React.Fragment>
@@ -34,18 +34,48 @@ const Amenities = ({ hotel, fromPage, fromModal, t }) => {
     </React.Fragment>;
 };
 
-const Text = ({ hotel }) => (
-    <div class="text">
-        {hotel.textualDescriptions?.[0]?.description || hotel.textualDescriptions?.[1]?.description || ''}
-    </div>
-);
+const descriptionLength = 500,
+    decodeHtml = html => {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value.trim();
+    };
 
 @observer
 class AccommodationCommonDetailsPart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fullDescription: false
+        }
+    }
+
     render() {
         const { t } = useTranslation(),
               hotel = this.props.accommodation,
               { fromModal, fromPage } = this.props;
+
+        const Text = () => {
+            var description = hotel.textualDescriptions?.[0]?.description || hotel.textualDescriptions?.[1]?.description;
+            if (!description)
+                return null;
+
+            description = decodeHtml(description);
+
+            if (this.state.fullDescription || (description.length <= 0.9 * descriptionLength))
+                return <div class="text">{description}</div>;
+
+            description = description.substr(0, descriptionLength);
+            description = description.substr(0,
+                Math.min(description.length, Math.max(description.lastIndexOf(" "), description.lastIndexOf("."))));
+
+            return <div class="text">
+                {description} <span class="expand"
+                      onClick={() => this.setState({ fullDescription: true })}>
+                    {t("more...")}
+                </span>
+            </div>;
+        };
 
         return (
             <div class={"details" + (fromModal ? " from-modal" : "") + (fromPage ? " from-page" : "")}>
@@ -71,7 +101,7 @@ class AccommodationCommonDetailsPart extends React.Component {
                     </div>
                 </div>
 
-                { fromModal && <Text hotel={hotel} /> }
+                { fromModal && <Text /> }
 
                 <h2>{t("Accommodation Photos")}</h2>
 
@@ -85,7 +115,7 @@ class AccommodationCommonDetailsPart extends React.Component {
                     ))}
                 </Gallery> }
 
-                { fromPage && <Text hotel={hotel} /> }
+                { fromPage && <Text /> }
 
                 { fromModal &&
                     <table><tbody>

@@ -152,7 +152,6 @@ class AccommodationVariantsPage extends React.Component {
                     <div class="description">
                         <span>{t("Located in")} {item.accommodationDetails.location.locality}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.{" "}
                             {item.accommodationDetails.generalTextualDescription && item.accommodationDetails.generalTextualDescription.descriptions && item.accommodationDetails.generalTextualDescription.descriptions.en}</span>
-                        { /* <span class="expand">{t("more...")}</span> */ }
                     </div>
                     <div class="table">
                         <div class="title">
