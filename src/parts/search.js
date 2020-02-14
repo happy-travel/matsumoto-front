@@ -50,8 +50,8 @@ const formFormatter = (values) => {
 
     var body = {
         filters: "Default",
-        checkInDate: values.checkInDate,
-        checkOutDate: values.checkOutDate,
+        checkInDate: moment(values.checkInDate).utc(true).format(),
+        checkOutDate: moment(values.checkOutDate).utc(true).format(),
         roomDetails: roomDetails,
         location: {
             predictionResult: values.predictionResult,
@@ -210,8 +210,8 @@ class AccommodationSearch extends React.Component {
                             residencyCode: "",
                             nationality: "",
                             nationalityCode: "",
-                            checkInDate: moment().utc().startOf("day"),
-                            checkOutDate: moment().utc().startOf("day").add(1, "d"),
+                            checkInDate: moment().startOf("day"),
+                            checkOutDate: moment().startOf("day").add(1, "d"),
                             roomDetails: [
                                 {
                                     adultsNumber: 2,
@@ -260,12 +260,12 @@ class AccommodationSearch extends React.Component {
                                                        dateFormat.b(formik.values.checkOutDate)
                                                    }
                                                    setValue={range => {
-                                                       formik.setFieldValue("checkInDate", moment(range.start).add(1, 'd'));
-                                                       formik.setFieldValue("checkOutDate", moment(range.end).add(1, 'd'));
+                                                       formik.setFieldValue("checkInDate", range.start);
+                                                       formik.setFieldValue("checkOutDate", range.end);
                                                    }}
                                                    options={moment.range(
-                                                       moment(formik.values.checkInDate).local().startOf('day'),
-                                                       moment(formik.values.checkOutDate).local().endOf('day')
+                                                       moment(formik.values.checkInDate),
+                                                       moment(formik.values.checkOutDate)
                                                    )}
                                         />
                                         <FieldText formik={formik}
