@@ -89,6 +89,7 @@ class AccommodationSearch extends React.Component {
         };
         this.submit = this.submit.bind(this);
         this.setDestinationAutoComplete = this.setDestinationAutoComplete.bind(this);
+        this.destinationInputChanged = this.destinationInputChanged.bind(this);
     }
 
     submit(values) {
@@ -118,7 +119,7 @@ class AccommodationSearch extends React.Component {
             });
         }
 
-        body.destination = values.destination;
+        body.destination = values.predictionDestination;
         body.adultsTotal = sum(values, "adultsNumber");
         body.childrenTotal = sum(values, "childrenNumber");
         store.setNewSearchRequest(body);
@@ -143,6 +144,7 @@ class AccommodationSearch extends React.Component {
             },
             after: (data) => {
                 View.setDestinationSuggestions(data);
+                this.setDestinationAutoComplete(props.formik, true);
             }
         });
     }
@@ -170,22 +172,25 @@ class AccommodationSearch extends React.Component {
         }
     }
 
-    setDestinationValue(item, formik) {
+    setDestinationValue(item, formik, silent) {
         formik.setFieldValue("predictionResult", {
             "id": item.id,
             "sessionId": session.google.current(),
             "source": item.source,
             "type": item.type
         });
-        View.setDestinationSuggestions([]);
-        UI.setSuggestion('destination');
-        formik.setFieldValue('destination', item.value);
+        formik.setFieldValue("predictionDestination", item.value);
+        if (!silent) {
+            View.setDestinationSuggestions([]);
+            UI.setSuggestion('destination');
+            formik.setFieldValue('destination', item.value);
+        }
     }
 
-    setDestinationAutoComplete(formik) {
+    setDestinationAutoComplete(formik, silent) {
         const item = UI.suggestions.destination?.suggestionExtendInfo;
         if (item) {
-            this.setDestinationValue(item, formik);
+            this.setDestinationValue(item, formik, silent);
         }
     }
 
@@ -225,7 +230,8 @@ class AccommodationSearch extends React.Component {
                             address: "",
                             radius: "",
                             order: "room",
-                            predictionResult: null
+                            predictionResult: null,
+                            predictionDestination: ""
                         }}
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
