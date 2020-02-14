@@ -230,11 +230,9 @@ render() {
                                 b={plural(t, accommodation.agreement.rooms[index].adultsNumber, "Adult")}
                             />
 
-                            { room.roomDetails.passengers?.length > 1 && <React.Fragment>
-                                {room.roomDetails.passengers.map((item,index) => (
-                                    <React.Fragment>
-                                        {index ? <Passenger passenger={ item } /> : null}
-                                    </React.Fragment>
+                            { room.roomDetails.length > 1 && <React.Fragment>
+                                {room.roomDetails.passengers.map((item) => (
+                                    <Passenger passenger={ item } />
                                 ))}
                             </React.Fragment> }
 
