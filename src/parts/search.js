@@ -180,7 +180,7 @@ class AccommodationSearch extends React.Component {
             "type": item.type
         });
         formik.setFieldValue("predictionDestination", item.value);
-        if (!silent) {
+        if (silent !== true) {
             View.setDestinationSuggestions([]);
             UI.setSuggestion('destination');
             formik.setFieldValue('destination', item.value);
