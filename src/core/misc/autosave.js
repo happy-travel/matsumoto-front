@@ -1,5 +1,6 @@
 import { autorun, set, toJS } from "mobx";
 import { session } from "../storage";
+import settings from "settings";
 
 export default (store, key) => {
     var initial = true;
@@ -12,12 +13,16 @@ export default (store, key) => {
             if (cached)
                 try {
                     var value = JSON.parse(cached);
-                    set(store, value);
+                    if (value.build == settings.build)
+                        set(store, value);
+                    else
+                        set(store, reserve);
                 }
                 catch (e) {
                     set(store, reserve);
                 }
         }
+        store.build = settings.build;
         session.set(key, JSON.stringify(toJS(store)));
     });
 
