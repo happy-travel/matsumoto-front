@@ -43,7 +43,7 @@ class DateDropdown extends React.Component {
             <div class="date dropdown">
                 <DateRangePicker
                     className={"calendar-style"}
-                    firstOfWeek={"rtl" == window.localStorage.getItem('direction') ? 0 : 1}
+                    firstOfWeek={"rtl" == window.localStorage.getItem('direction') ? 6 : 1}
                     numberOfCalendars={2}
                     selectionType="range"
                     minimumDate={"dates" == connected ? new Date() : null}
