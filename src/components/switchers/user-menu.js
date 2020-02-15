@@ -45,9 +45,10 @@ class UserMenuDropdown extends React.Component {
                     { (UI.user?.companies?.[0].inCompanyPermissions?.indexOf("CustomerInvitation") != -1) && <Link to="/user/invite" class="item">
                         {t("Send invitation")}
                     </Link> }
-                    <div class="item" onClick={() =>
-                        Authorize.signoutRedirect().then(this.setState({ loading: true }))
-                    }>
+                    <div class="item" onClick={() => {
+                        UI.dropAllFormCaches();
+                        Authorize.signoutRedirect().then(this.setState({loading: true}));
+                    }}>
                         {t("Log out")}
                     </div>
                 </div>}

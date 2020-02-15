@@ -6,6 +6,7 @@ import { FieldArray } from "formik";
 
 import {
     CachedForm,
+    FORM_NAMES,
     FieldText,
     FieldTextarea,
     FieldSwitch,
@@ -112,7 +113,18 @@ class AccommodationBookingPage extends React.Component {
         var hotel = store.selected.accommodationFinal.accommodationDetails,
             baseInfo = store.selected.accommodationFinal,
             variant = store.selected.agreement,
-            deadlineDetails = store.selected.deadlineDetails;
+            deadlineDetails = store.selected.deadlineDetails,
+
+            initialValues = {
+                room: variant?.rooms?.map((x,r) => ({
+                    passengers: [
+                        ...Array(variant?.rooms[r]?.adultsNumber),
+                        ...Array(variant?.rooms[r]?.childrenNumber),
+                    ]
+                })) || [],
+                accepted: true,
+                itineraryNumber: '',
+            };
 
         if (!variant || !deadlineDetails)
             return null;
@@ -217,21 +229,22 @@ class AccommodationBookingPage extends React.Component {
                 />
 
                 <CachedForm
-                    id="BookingForm"
-                    initialValues={{
-                        room: variant?.rooms?.map((x,r) => ({
-                            passengers: [
-                                ...Array(variant?.rooms[r]?.adultsNumber),
-                                ...Array(variant?.rooms[r]?.childrenNumber),
-                            ]
-                        })),
-                        accepted: true,
-                        itineraryNumber: '',
+                    id={ FORM_NAMES.BookingForm }
+                    cacheValidator ={ cache => {
+                        if (cache?.room?.length != initialValues?.room.length)
+                            return false;
+                        for (var i = 0; i < initialValues?.room.length; i++)
+                            if (cache?.room?.[i]?.passengers?.length != initialValues?.room[i].passengers.length)
+                                return false;
+
+                        // todo: age validation is needed in future
+                        return true;
                     }}
+                    initialValues={initialValues}
                     validationSchema={accommodationBookingValidator}
                     onSubmit={this.submit}
                     render={formik => (
-                        <form onSubmit={formik.handleSubmit}>
+                        <React.Fragment>
                             <div class="form">
                                 <FieldArray
                                     render={() => (
@@ -444,7 +457,7 @@ class AccommodationBookingPage extends React.Component {
                                     <Redirect to="/payment/account" /> }
 
                             </div>
-                        </form>
+                        </React.Fragment>
                     )}
                 />
             </div>

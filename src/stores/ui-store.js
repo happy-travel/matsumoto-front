@@ -136,6 +136,10 @@ class UIStore {
     dropFormCache(formName) {
         this.setFormCache(formName);
     }
+
+    dropAllFormCaches() {
+        this.formCache = {};
+    }
 }
 
 export default new UIStore();

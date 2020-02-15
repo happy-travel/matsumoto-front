@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import {
     CachedForm,
+    FORM_NAMES,
     FieldCheckbox,
     FieldRange
 } from "components/form";
@@ -21,7 +22,7 @@ class AccommodationFiltersPart extends React.Component {
 
         return (
             <CachedForm
-                id="AccommodationFiltersForm"
+                id={ FORM_NAMES.AccommodationFiltersForm }
                 render={formik => {
                     store.setSelectedFilters(formik.values);
                     return (

@@ -2,7 +2,7 @@ import React from "react";
 import { plural } from "core";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { CachedForm, FieldText } from "components/form";
+import { FieldText } from "components/form";
 import { FieldArray } from "formik";
 
 const

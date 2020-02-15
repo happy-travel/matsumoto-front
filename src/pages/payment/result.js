@@ -4,6 +4,8 @@ import { getParams, API, session } from "core";
 import store from "stores/accommodation-store";
 import { Redirect } from "react-router-dom";
 import { Loader } from "components/simple";
+import UI from "stores/ui-store";
+import { FORM_NAMES } from "components/form";
 
 @observer
 class PaymentResultPage extends React.Component {
@@ -36,6 +38,7 @@ class PaymentResultPage extends React.Component {
             API.post({
                 url: API.A_BOOKING_FINALIZE(params.merchant_reference),
                 after: () => {
+                    UI.dropFormCache(FORM_NAMES.BookingForm);
                     this.setState({
                         redirectToConfirmationPage: true
                     });

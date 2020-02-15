@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { CachedForm, FieldText } from "components/form";
+import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationUserValidatorWithEmail } from "components/form/validation";
 import UI from "stores/ui-store";
 import View from "stores/view-store";
@@ -34,7 +34,10 @@ class UserInvitePage extends React.Component {
                     title: values.title
                 }
             },
-            success: () => this.setState({ success: true }),
+            success: () => {
+                UI.dropFormCache(FORM_NAMES.CreateInviteForm);
+                this.setState({ success: true });
+            },
             error: (error) => {
                 this.setState({ success: false });
                 View.setTopAlertText(error?.title || error?.detail);
@@ -73,7 +76,7 @@ class UserInvitePage extends React.Component {
             </p> }
 
             { false === this.state.success && <CachedForm
-                id="CreateInviteForm"
+                id={FORM_NAMES.CreateInviteForm}
                 initialValues={{
                     "email": "",
                     "title": "",

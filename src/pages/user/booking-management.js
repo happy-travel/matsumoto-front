@@ -5,10 +5,11 @@ import { API, dateFormat, price } from "core";
 
 import { Dual, Loader } from "components/simple";
 import { Redirect } from "react-router-dom";
+import { Formik } from "formik";
 
 import store from "stores/accommodation-store";
 import moment from "moment";
-import { CachedForm, FieldText } from "components/form";
+import { FieldText } from "components/form";
 
 const getClassByStatus = status => ({
     "Confirmed": "green",
@@ -173,8 +174,7 @@ class UserBookingManagementPage extends React.Component {
                         </nav>
                         <div class="input-wrap">
                             <div class="form">
-                                <CachedForm
-                                    id="BookingManagementSearchForm"
+                                <Formik
                                     render={formik => (
                                         <form onSubmit={formik.handleSubmit}>
                                             <FieldText formik={formik}

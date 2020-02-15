@@ -3,7 +3,9 @@ import { observer } from "mobx-react";
 import { API } from "core"
 import { Loader } from "components/simple";
 import store from "stores/accommodation-store";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import UI from "stores/ui-store";
+import { FORM_NAMES } from "components/form";
 
 @observer
 class AccountPaymentPage extends React.Component {
@@ -34,6 +36,7 @@ class AccountPaymentPage extends React.Component {
                 API.post({
                     url: API.A_BOOKING_FINALIZE(store.booking.referenceCode),
                     after: () => {
+                        UI.dropFormCache(FORM_NAMES.BookingForm);
                         this.setState({
                             redirectToConfirmationPage: true
                         });

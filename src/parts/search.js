@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { API, session, dateFormat, plural } from "core";
 
 import { Redirect } from "react-router-dom";
-import { CachedForm, FieldText, FieldSelect } from "components/form";
+import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";
 import Flag from "components/flag";
 
 import store from "stores/accommodation-store";
@@ -109,6 +109,7 @@ class AccommodationSearch extends React.Component {
                 body: body,
                 success: (result) => {
                     store.setSearchResult(result);
+                    UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm)
                 },
                 error: (error) => {
                     // todo: handle
@@ -208,7 +209,7 @@ class AccommodationSearch extends React.Component {
                         {JSON.stringify(store.suggestion)}
                     </div>
                     <CachedForm
-                        id="SearchForm"
+                        id={ FORM_NAMES.SearchForm }
                         initialValues={{
                             destination: "",
                             residency: "",

@@ -4,12 +4,13 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { CachedForm } from "components/form";
+import { CachedForm, FORM_NAMES } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import FormUserData from "parts/form-user-data";
-import { API  } from "core";
+import { API } from "core";
 import View from "stores/view-store";
+import UI from "stores/ui-store";
 
 @observer
 class RegistrationStep2 extends React.Component {
@@ -43,6 +44,8 @@ class RegistrationStep2 extends React.Component {
                 success: () => {
                     store.setCachedUserRegistered(true);
                     this.setState({ redirectToIndexPage: true });
+
+                    UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
                 },
                 error: (error) => {
                     View.setTopAlertText(error?.title || error?.detail);
@@ -113,13 +116,13 @@ class RegistrationStep2 extends React.Component {
             </p>
 
         <CachedForm
-            id="RegistrationStepTwoForm"
+            id={ FORM_NAMES.RegistrationStepTwoForm }
             initialValues={this.state.initialValues}
             enableReinitialize={true}
             validationSchema={registrationUserValidator}
             onSubmit={this.submit}
             render={formik => (
-                <form onSubmit={formik.handleSubmit}>
+                <React.Fragment>
                     <div class="form">
                         <FormUserData formik={formik} t={t} />
                         <div class="row submit-holder">
@@ -134,7 +137,7 @@ class RegistrationStep2 extends React.Component {
                             </div>
                         </div>
                     </div>
-                </form>
+                </React.Fragment>
             )}
         />
         </div>

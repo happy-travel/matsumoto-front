@@ -1,5 +1,5 @@
 import React from "react";
-import { CachedForm, FieldText } from "components/form";
+import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, dateFormat } from "core";
@@ -33,6 +33,7 @@ class SendInvoiceModal extends React.Component {
                     success: true,
                     loading: false
                 });
+                UI.dropFormCache(FORM_NAMES.SendInvoiceForm);
             },
             error: () => {
                 this.setState({
@@ -70,7 +71,7 @@ class SendInvoiceModal extends React.Component {
 
                 { !error && !success && !loading &&
                     <CachedForm
-                        id="SendInvoiceForm"
+                        id={ FORM_NAMES.SendInvoiceForm }
                         initialValues={{ email: "" }}
                         validationSchema={emailFormValidator}
                         onSubmit={this.submit}

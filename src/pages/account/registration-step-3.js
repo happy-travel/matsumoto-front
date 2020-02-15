@@ -7,6 +7,7 @@ import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import {
     CachedForm,
+    FORM_NAMES,
     FieldText,
     FieldTextarea,
     FieldSelect
@@ -46,6 +47,9 @@ class RegistrationStep3 extends React.Component {
                 store.setCompanyForm({});
                 store.setCachedUserRegistered(true);
                 this.setState({ redirectToIndexPage: true });
+
+                UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
+                UI.dropFormCache(FORM_NAMES.RegistrationStepThreeForm);
             },
             error: (error) => {
                 View.setTopAlertText(error?.title || error?.detail);
@@ -102,7 +106,7 @@ class RegistrationStep3 extends React.Component {
                         </p>
 
                         <CachedForm
-                            id="RegistrationStepThreeForm"
+                            id={ FORM_NAMES.RegistrationStepThreeForm }
                             initialValues={{
                                 "name": "",
                                 "address": "",
@@ -119,7 +123,7 @@ class RegistrationStep3 extends React.Component {
                             validationSchema={registrationCompanyValidator}
                             onSubmit={this.submit}
                             render={formik => (
-                                <form onSubmit={formik.handleSubmit}>
+                                <React.Fragment>
                                     <div class="form">
                                         <div class="row">
                                             <FieldText formik={formik}
@@ -223,7 +227,7 @@ class RegistrationStep3 extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                </React.Fragment>
                             )}
                         />
                     </div>

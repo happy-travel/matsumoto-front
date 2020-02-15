@@ -6,6 +6,16 @@ import FieldTextarea from "./field-textarea";
 import FieldRange from "./field-range";
 import FieldSelect from "./field-select";
 
+const FORM_NAMES = {
+    CreateInviteForm: "CreateInviteForm",
+    AccommodationFiltersForm: "AccommodationFiltersForm",
+    RegistrationStepTwoForm: "RegistrationStepTwoForm",
+    RegistrationStepThreeForm: "RegistrationStepThreeForm",
+    SearchForm: "SearchForm",
+    BookingForm: "BookingForm", //todo: google token can be expired, need a validation in future
+    SendInvoiceForm: "SendInvoiceForm"
+};
+
 export {
     CachedForm,
     FieldText,
@@ -13,5 +23,7 @@ export {
     FieldCheckbox,
     FieldTextarea,
     FieldRange,
-    FieldSelect
+    FieldSelect,
+
+    FORM_NAMES
 };
