@@ -39,6 +39,8 @@ class UIStore {
 
     @observable formCache = {};
 
+    @observable currentAPIVersion = null;
+
     constructor() {
         autosave(this, "_ui_store_cache");
     }
@@ -139,6 +141,10 @@ class UIStore {
 
     dropAllFormCaches() {
         this.formCache = {};
+    }
+
+    setCurrentAPIVersion(value) {
+        this.currentAPIVersion = value;
     }
 }
 

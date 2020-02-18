@@ -2,8 +2,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import settings from "settings";
+import UI from "stores/ui-store";
+import {observer} from "mobx-react";
 
-const Footer = () => {
+@observer
+class Footer extends React.Component {
+render() {
     const { t } = useTranslation();
     return (
         <footer>
@@ -22,7 +26,8 @@ const Footer = () => {
                             </a>
                         </div> */ }
                         <div class="service-info">
-                            Build version {settings.build || 0}
+                            Build – {settings.build || 0}<br/>
+                            API – {UI.currentAPIVersion || 0}
                         </div>
                     </div>
                     <div class="links">
@@ -70,6 +75,6 @@ const Footer = () => {
             </div>
         </footer>
     );
-};
+}}
 
 export default Footer;

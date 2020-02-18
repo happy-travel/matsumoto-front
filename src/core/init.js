@@ -58,6 +58,11 @@ const init = () => {
             success: (result) =>
                 UI.setCurrencies(result)
         });
+        API.get({
+            url: API.BASE_VERSION,
+            success: (result) =>
+                UI.setCurrentAPIVersion(result)
+        });
     }
 
     dropdownToggler();

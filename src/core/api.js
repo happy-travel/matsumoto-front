@@ -58,6 +58,8 @@ API_METHODS = {
     BILLING_HISTORY       : companyId =>
                             v1 + `/payments/history/${companyId}`,
 
+    BASE_VERSION          : v1 + "/versions",
+
     DIRECT_LINK_PAY : {
         SETTINGS     :         v1 + "/external/payment-links/tokenization-settings",
         GET_INFO     : code => v1 + "/external/payment-links/" + code,
