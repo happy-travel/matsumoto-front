@@ -18,7 +18,7 @@ let settings = {
 
     sentry_dsn            : process.env.SENTRY_DSN || dev.SENTRY_DSN,
 
-    build                 : process.env.BUILD_VERSION || 0
+    build                 : process.env.BUILD_VERSION || "JS_Default"
 };
 
 if ("localhost" == window.location.hostname)

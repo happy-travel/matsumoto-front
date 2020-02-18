@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import settings from "settings";
 
 const Footer = () => {
     const { t } = useTranslation();
@@ -20,6 +21,9 @@ const Footer = () => {
                                 <span class="icon icon-snet-2-t" />
                             </a>
                         </div> */ }
+                        <div class="service-info">
+                            Build version {settings.build || 0}
+                        </div>
                     </div>
                     <div class="links">
                         <menu class="primary">
