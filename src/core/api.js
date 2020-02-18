@@ -38,9 +38,9 @@ API_METHODS = {
     BOOKING_CANCEL        : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}/cancel`,
     BOOKING_VOUCHER       : bookingId =>
-                            v1 + `/accommodations/bookings/${bookingId}/voucher`,
+                            v1 + `/accommodations/supporting-documentation/${bookingId}/voucher/send`,
     BOOKING_INVOICE       : bookingId =>
-                            v1 + `/accommodations/bookings/${bookingId}/invoice`,
+                            v1 + `/accommodations/supporting-documentation/${bookingId}/invoice/send`,
     BOOKING_GET_BY_ID     : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}`,
     BOOKING_GET_BY_CODE   : referenceCode =>
