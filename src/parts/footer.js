@@ -25,10 +25,6 @@ render() {
                                 <span class="icon icon-snet-2-t" />
                             </a>
                         </div> */ }
-                        <div class="service-info">
-                            Build – {settings.build || 0}<br/>
-                            API – {UI.currentAPIVersion || 0}
-                        </div>
                     </div>
                     <div class="links">
                         <menu class="primary">
@@ -52,6 +48,10 @@ render() {
                             <img src="/images/other/mc-on-dark.png" class="transparent" />
                             <img src="/images/other/visa-sec.png" />
                             <img src="/images/other/mc-sec-on-dark.png" class="transparent" />
+                        </div>
+                        <div class="service-info">
+                            Web – {settings.build || 0}<br/>
+                            API – {UI.currentAPIVersion || 0}
                         </div>
                     </div>
                     <div class="contact">
