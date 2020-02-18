@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, session, dateFormat, plural } from "core";
+import { API, session, dateFormat, plural, decorate } from "core";
 
 import { Redirect } from "react-router-dom";
 import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";
@@ -92,8 +92,11 @@ class AccommodationSearch extends React.Component {
         this.destinationInputChanged = this.destinationInputChanged.bind(this);
     }
 
-    submit(values) {
+    submit(values, formik) {
         UI.setOpenDropdown(null);
+        if (values.predictionDestination != values.destination)
+            formik.setFieldValue("destination", values.predictionDestination);
+
         //todo: setSubmitting, loading
         const isValidFilterQuery = validateFilterQuery(values);
         store.setSearchResult(null);
@@ -131,21 +134,23 @@ class AccommodationSearch extends React.Component {
     }
 
     destinationInputChanged(e, props) {
-        var query = e.target.value;
-        if (!query)
+        var currentValue = e.target.value;
+        if (!currentValue)
             return View.setCountries([]);
+
         if (props.formik)
             props.formik.setFieldValue("predictionResult", null);
 
         API.get({
             url: API.LOCATION_PREDICTION,
             body: {
-                query,
+                query: currentValue,
                 sessionId: session.google.create()
             },
             after: (data) => {
-                View.setDestinationSuggestions(data);
+                View.setDestinationSuggestions(data, currentValue);
                 this.setDestinationAutoComplete(props.formik, true);
+                UI.setSuggestion("destination", currentValue, View?.destinations?.length ? View.destinations[0] : "");
             }
         });
     }
@@ -173,7 +178,7 @@ class AccommodationSearch extends React.Component {
         }
     }
 
-    setDestinationValue(item, formik, silent) {
+    setDestinationValue(item, formik, silent, currentValue) {
         formik.setFieldValue("predictionResult", {
             "id": item.id,
             "sessionId": session.google.current(),
@@ -181,6 +186,10 @@ class AccommodationSearch extends React.Component {
             "type": item.type
         });
         formik.setFieldValue("predictionDestination", item.value);
+
+        if (currentValue)
+            UI.setSuggestion("destination", currentValue, item);
+
         if (silent !== true) {
             View.setDestinationSuggestions([]);
             UI.setSuggestion('destination');
@@ -188,11 +197,12 @@ class AccommodationSearch extends React.Component {
         }
     }
 
-    setDestinationAutoComplete(formik, silent) {
-        const item = UI.suggestions.destination?.suggestionExtendInfo;
-        if (item) {
-            this.setDestinationValue(item, formik, silent);
-        }
+    setDestinationAutoComplete(formik, silent, suggestion) {
+        var item = UI.suggestions.destination;
+        if (suggestion)
+            item = { value: formik.values.destination, suggestion: suggestion.value, suggestionExtendInfo: suggestion };
+        if (item)
+            this.setDestinationValue(item?.suggestionExtendInfo, formik, silent, item?.value);
     }
 
     render() {

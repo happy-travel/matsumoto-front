@@ -1,9 +1,7 @@
 import React from 'react';
-import {observer} from "mobx-react";
-import store from 'stores/accommodation-store';
+import { observer } from "mobx-react";
 import UI from 'stores/ui-store';
 import View from 'stores/view-store';
-import { decorate } from "core";
 import { Highlighted } from "components/simple";
 
 /* Refactoring possibility: make a class for suggestion dropdown menus and remove code copies with region dropdown */
@@ -12,7 +10,6 @@ class DestinationDropdown extends React.Component {
     constructor(props) {
         super(props);
         this.setValue = this.setValue.bind(this);
-        this.generateSuggestion = this.generateSuggestion.bind(this);
     }
 
     setValue(item) {
@@ -23,21 +20,6 @@ class DestinationDropdown extends React.Component {
 
         View.setDestinationSuggestions([]);
         formik.setFieldValue(connected, item.value);
-    }
-
-    generateSuggestion = () => {
-        if (!View?.destinations?.length)
-            return;
-
-        for (var i = 0; i < View.destinations.length; i++) {
-            if (decorate.cutFirstPart(View.destinations[i].value, this.props.value))
-                return View.destinations[i];
-        }
-    };
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.value != this.props.value)
-            UI.setSuggestion(this.props.connected, this.props.value, this.generateSuggestion());
     }
 
     render() {

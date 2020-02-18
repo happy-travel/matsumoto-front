@@ -1,6 +1,7 @@
 import React from "react";
 import { observable } from "mobx";
 import UI from "./ui-store";
+import { decorate } from "core";
 
 class ViewStore {
     @observable countries = [];
@@ -30,15 +31,17 @@ class ViewStore {
         this.countries = countries;
     }
 
-    setDestinationSuggestions(value = []) {
+    setDestinationSuggestions(value = [], currentValue) {
         const typesWeights = {
             'landmark': 1,
             'destination': 2,
             'accommodation': 3,
             'location': 4,
         };
-        if (value)
+        if (value) {
             this.destinations = value.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
+            this.destinations = this.destinations.filter(item => decorate.cutFirstPart(item.value, currentValue))
+        }
         else
             this.destinations = [];
     }
