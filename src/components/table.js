@@ -3,7 +3,17 @@ import { useTable, usePagination, useSortBy } from "react-table";
 
 import Pagination from "components/pagination";
 
-function Table({ columns, data, className }) {
+function Table(props) {
+    const {
+        columns,
+        data,
+        className,
+        count,
+        pageIndex: controlledPageIndex,
+        pageSize: controlledPageSize,
+        fetchData,
+        manualPagination: controlledManualPagination
+    } = props;
     const {
         getTableProps,
         getTableBodyProps,
@@ -21,11 +31,18 @@ function Table({ columns, data, className }) {
         {
             columns,
             data,
-            initialState: { pageIndex: 0 },
+            initialState: { pageIndex: controlledPageIndex, pageSize: controlledPageSize },
+            manualPagination: controlledManualPagination,
+            pageCount: Math.ceil(count / controlledPageSize),
         },
         useSortBy,
         usePagination,
     );
+
+    // Listen for changes in pagination and use the state to fetch our new data
+    React.useEffect(() => {
+        fetchData({ pageIndex, pageSize })
+    }, [fetchData, pageIndex, pageSize]);
 
     return (
         <>

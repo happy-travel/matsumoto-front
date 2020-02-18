@@ -7,7 +7,7 @@ import { dateFormat } from "core";
 import { FieldText, FieldSwitch } from "components/form";
 import Table from "components/table";
 
-import data from './mocks';
+import UsersStore from "stores/usersStore";
 
 const columns = [
     {
@@ -53,8 +53,13 @@ class UsersManagement extends React.Component {
         super();
     }
 
+    componentDidMount() {
+        UsersStore.getUsersCompany();
+    }
+
     render() {
         const { t } = useTranslation();
+        const {usersCompany, getUsersCompany, usersCompanyIsLoading, usersTablePageInfo, usersCompanyCount} = UsersStore;
 
         return (<div>
             <div className="users-management__search-wrapper">
@@ -68,7 +73,6 @@ class UsersManagement extends React.Component {
                                                   id="searchField"
                                                   label={t("Username, Name or E-mail")}
                                                   placeholder={t("Choose your Username, Name or E-mail")}
-                                           // Icon={<span class="icon icon-hotel" />}
                                                   Flag={false}
                                            // Dropdown={DestinationDropdown}
                                            // options={UI.destinations}
@@ -95,11 +99,20 @@ class UsersManagement extends React.Component {
             <section>
                 <div className="users-management__table__title">
                     <h3>All Users</h3>
-                    <button type="submit" className="button">
+                    <button type="submit" className="button users-management__button-search-user">
                         {t("add new user")}
                     </button>
                 </div>
-                <Table data={data} columns={columns} className="users-management__table" />
+                <Table
+                    data={usersCompany}
+                    count={usersCompanyCount}
+                    fetchData={getUsersCompany}
+                    loading={usersCompanyIsLoading}
+                    columns={columns}
+                    {...usersTablePageInfo}
+                    className="users-management__table"
+                    manualPagination
+                />
             </section>
         </div>)
     }
