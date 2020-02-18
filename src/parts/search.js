@@ -139,8 +139,8 @@ class AccommodationSearch extends React.Component {
             },
             after: (data) => {
                 View.setDestinationSuggestions(data, currentValue);
-                this.setDestinationAutoComplete(props.formik, true);
                 UI.setSuggestion("destination", currentValue, View?.destinations?.length ? View.destinations[0] : "");
+                this.setDestinationAutoComplete(props.formik, true);
             }
         });
     }
