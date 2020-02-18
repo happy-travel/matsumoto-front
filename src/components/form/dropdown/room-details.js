@@ -30,7 +30,6 @@ const
                 childrenNumber: MAXIMUM_PEOPLE_PER_REQUEST - currentPeopleInAnotherRooms - formik.values.roomDetails[roomNumber].adultsNumber,
                 rooms: currentPeopleInAnotherRooms < MAXIMUM_PEOPLE_PER_REQUEST ? MAXIMUM_ROOMS_PER_REQUEST : currentRooms
             };
-        console.log(JSON.stringify(maximumValuesForOneRoom));
 
         if ("rooms" == field)
             current = currentRooms;
@@ -134,8 +133,9 @@ class PeopleDropdown extends React.Component {
                                                             id={`roomDetails.${number}.childrenAges.${r}`}
                                                             placeholder={t("Please enter")}
                                                             suggestion={plural(t, item, "year")}
-                                                            numeric
+                                                            numeric={17}
                                                             maxLength={2}
+                                                            data-dropdown="room"
                                                         />
                                                     ))
                                                 )}

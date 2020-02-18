@@ -113,8 +113,11 @@ class FieldText extends React.Component {
         }
         //todo suggestion
 
-        if (this.props.numeric) //todo: temporary. rewrite to this.props.mask
+        if (this.props.numeric) {//todo: temporary. rewrite to this.props.mask
             event.target.value = event.target.value.replace(/[^0-9.]/g, "");
+            if (typeof this.props.numeric == "number" && event.target.value)
+                event.target.value = Math.min(event.target.value, this.props.numeric);
+        }
 
         if (this.props.onChange)
             this.props.onChange(event, this.props);
@@ -167,7 +170,7 @@ class FieldText extends React.Component {
         var finalValue = ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '');
 
         return (
-            <div class={"field" + (addClass ? ' ' + addClass : '')} data-dropdown={id}>
+            <div class={"field" + (addClass ? ' ' + addClass : '')} data-dropdown={this.props["data-dropdown"] || id}>
                 <label>
                     { label && <div class="label">
                         <span class={required ? "required" : ""}>{label}</span>
