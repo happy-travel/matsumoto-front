@@ -6,9 +6,11 @@ import { FieldText } from "components/form";
 import { FieldArray } from "formik";
 
 const
-    defaultChildrenAge = 12,
-    maximumPeoplePerRoom = 9,
-    minimumValuesForSearch = {
+    DEFAULT_CHILDREN_AGE = 12,
+    MAXIMUM_PEOPLE_PER_REQUEST = 9,
+    MAXIMUM_ROOMS_PER_REQUEST = 5,
+    DEFAULT_ROOM_ADULTS = 2,
+    MINIMUM_VALUES = {
         adultsNumber: 1,
         childrenNumber: 0,
         rooms: 1
@@ -17,20 +19,27 @@ const
         if (!formik)
             return;
 
-        var maximumValuesForSearch = {
-            adultsNumber: maximumPeoplePerRoom - formik.values.roomDetails[roomNumber].childrenAges.length,
-            childrenNumber: maximumPeoplePerRoom - formik.values.roomDetails[roomNumber].adultsNumber,
-            rooms: 5
-        };
+        var currentRooms = formik.values.roomDetails.length,
+            currentPeopleInAnotherRooms = formik.values.roomDetails?.reduce((acc, currentValue, index) => {
+                if ("rooms" != field && roomNumber == index)
+                    return acc;
+                return acc + currentValue.adultsNumber + currentValue.childrenAges.length;
+            }, 0),
+            maximumValuesForOneRoom = {
+                adultsNumber: MAXIMUM_PEOPLE_PER_REQUEST - currentPeopleInAnotherRooms - formik.values.roomDetails[roomNumber].childrenAges.length,
+                childrenNumber: MAXIMUM_PEOPLE_PER_REQUEST - currentPeopleInAnotherRooms - formik.values.roomDetails[roomNumber].adultsNumber,
+                rooms: currentPeopleInAnotherRooms < MAXIMUM_PEOPLE_PER_REQUEST ? MAXIMUM_ROOMS_PER_REQUEST : currentRooms
+            };
+        console.log(JSON.stringify(maximumValuesForOneRoom));
 
         if ("rooms" == field)
-            current = formik.values.roomDetails.length;
+            current = currentRooms;
 
         if ("childrenAges" == field)
             current = formik.values.roomDetails[roomNumber].childrenAges.length;
 
         const value = current + plus;
-        const finalNewValue = Math.min(Math.max(value, minimumValuesForSearch[field]), maximumValuesForSearch[field]);
+        const finalNewValue = Math.min(Math.max(value, MINIMUM_VALUES[field]), maximumValuesForOneRoom[field]);
 
         if (test)
             return (finalNewValue != current);
@@ -41,7 +50,7 @@ const
         if ("rooms" == field) {
             if (current < finalNewValue)
                 formik.setFieldValue("roomDetails", [...formik.values.roomDetails, {
-                    adultsNumber: 2,
+                    adultsNumber: currentPeopleInAnotherRooms <= MAXIMUM_PEOPLE_PER_REQUEST - DEFAULT_ROOM_ADULTS ? DEFAULT_ROOM_ADULTS : MINIMUM_VALUES.adultsNumber,
                     childrenAges: []
                 }]);
             if (current > finalNewValue) {
@@ -57,7 +66,7 @@ const
         if ("childrenNumber" == field) {
             var childrenAges = formik.values.roomDetails[roomNumber].childrenAges;
             if (current < finalNewValue)
-                childrenAges.push(defaultChildrenAge);
+                childrenAges.push(DEFAULT_CHILDREN_AGE);
             if (current > finalNewValue)
                 childrenAges.pop();
             formik.setFieldValue(`roomDetails.${roomNumber}.childrenAges`, childrenAges);
