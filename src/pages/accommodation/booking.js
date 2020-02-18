@@ -35,6 +35,7 @@ class AccommodationBookingPage extends React.Component {
     componentDidMount() {
         store.setBookingRequest(null);
         store.setBookingReferenceCode(null);
+        store.setPaymentMethod(PAYMENT_METHODS.CARD);
 
         API.get({
             url: API.ACCOUNT_AVAILABLE,
