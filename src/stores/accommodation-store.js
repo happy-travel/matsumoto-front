@@ -38,9 +38,6 @@ class AccommodationStore {
     filters = null;
 
     @observable
-    isValidFilterQuery = false;
-
-    @observable
     selectedFilters = null;
 
     @observable
@@ -97,10 +94,6 @@ class AccommodationStore {
     setNewSearchRequest(form) {
         this.setSearchResult(null);
         this.search.request = form;
-    }
-
-    setIsValidFilterQuery(value) {
-        this.isValidFilterQuery = value;
     }
 
     setUserBookingList(value) {

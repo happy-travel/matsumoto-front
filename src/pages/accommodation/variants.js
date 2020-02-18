@@ -107,7 +107,7 @@ class AccommodationVariantsPage extends React.Component {
                     */ }
                 </div>
 
-                { (!store.hotelArray.length || !store.isValidFilterQuery) &&
+                { !store.hotelArray.length &&
                     <div>
                         <div class="head">
                             <div class="title">

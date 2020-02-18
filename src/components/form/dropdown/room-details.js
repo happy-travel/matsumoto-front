@@ -7,6 +7,7 @@ import { FieldArray } from "formik";
 
 const
     defaultChildrenAge = 12,
+    maximumPeoplePerRoom = 9,
     minimumValuesForSearch = {
         adultsNumber: 1,
         childrenNumber: 0,
@@ -16,6 +17,12 @@ const
         if (!formik)
             return;
 
+        var maximumValuesForSearch = {
+            adultsNumber: maximumPeoplePerRoom - formik.values.roomDetails[roomNumber].childrenAges.length,
+            childrenNumber: maximumPeoplePerRoom - formik.values.roomDetails[roomNumber].adultsNumber,
+            rooms: 5
+        };
+
         if ("rooms" == field)
             current = formik.values.roomDetails.length;
 
@@ -23,7 +30,7 @@ const
             current = formik.values.roomDetails[roomNumber].childrenAges.length;
 
         const value = current + plus;
-        const finalNewValue = Math.max(value, minimumValuesForSearch[field]);
+        const finalNewValue = Math.min(Math.max(value, minimumValuesForSearch[field]), maximumValuesForSearch[field]);
 
         if (test)
             return (finalNewValue != current);

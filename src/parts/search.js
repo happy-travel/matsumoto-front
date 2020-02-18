@@ -29,12 +29,6 @@ const sum = (values, field) => {
     }
     return result;
 };
-const maximumRoomsPerQuery = 5,
-      maximumPeoplePerQuery = 9,
-      validateFilterQuery = (form) => {
-          const countPeoples = form.roomDetails?.reduce((acc, currentValue) => acc + currentValue.adultsNumber + currentValue.childrenAges.length, 0);
-          return form.roomDetails?.length <= maximumRoomsPerQuery && countPeoples <= maximumPeoplePerQuery;
-      };
 
 const formFormatter = (values) => {
     var roomDetails = [];
@@ -98,30 +92,26 @@ class AccommodationSearch extends React.Component {
             formik.setFieldValue("destination", values.predictionDestination);
 
         //todo: setSubmitting, loading
-        const isValidFilterQuery = validateFilterQuery(values);
         store.setSearchResult(null);
         session.google.clear();
-        store.setIsValidFilterQuery(isValidFilterQuery);
 
         var body = formFormatter(values);
 
-        if (isValidFilterQuery) {
-            store.setSearchIsLoading(true);
-            API.post({
-                url: API.A_SEARCH_STEP_ONE,
-                body: body,
-                success: (result) => {
-                    store.setSearchResult(result);
-                    UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm)
-                },
-                error: (error) => {
-                    // todo: handle
-                },
-                after: () => {
-                    store.setSearchIsLoading(false);
-                }
-            });
-        }
+        store.setSearchIsLoading(true);
+        API.post({
+            url: API.A_SEARCH_STEP_ONE,
+            body: body,
+            success: (result) => {
+                store.setSearchResult(result);
+                UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm)
+            },
+            error: (error) => {
+                // todo: handle
+            },
+            after: () => {
+                store.setSearchIsLoading(false);
+            }
+        });
 
         body.destination = values.predictionDestination;
         body.adultsTotal = sum(values, "adultsNumber");
