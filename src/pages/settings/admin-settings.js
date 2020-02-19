@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {observer} from "mobx-react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
@@ -7,9 +6,10 @@ import { useTranslation } from "react-i18next";
 import { FieldText, FieldSelect, FieldSwitch, FieldCheckbox } from "components/form";
 import Flag from "components/flag";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
+import UsersPagesHeader from "components/usersPagesHeader";
 
 @observer
-class PersonalInfo extends React.Component {
+class AdminSettings extends React.Component {
     constructor() {
         super();
 
@@ -17,23 +17,12 @@ class PersonalInfo extends React.Component {
     }
 
     render() {
-        var { t } = useTranslation();
+        const { t } = useTranslation();
 
         const store = {};
 
         return (<div className="personal-info__wrapper">
-            <section>
-                <h1>COMPANYNAME SETTINGS</h1>
-                <p>{t('Account Not Verificated Yet')}</p>
-                <a href="" className="button personal-info__button">{t('Update contract')}</a>
-            </section>
-
-            <div className="personal-info__tabs">
-                <Link to="/">{t('Company settings')}</Link>
-                <Link to="/" className="active">{t('Admin settings')}</Link>
-                <Link to="/">{t('users menagement')}</Link>
-                <Link to="/">{t('Notifications')}</Link>
-            </div>
+            <UsersPagesHeader />
 
             <section>
                 <h2>{t('Personal information')}</h2>
@@ -294,4 +283,4 @@ class PersonalInfo extends React.Component {
     }
 }
 
-export default PersonalInfo;
+export default AdminSettings;
