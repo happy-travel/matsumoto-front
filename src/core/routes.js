@@ -21,7 +21,7 @@ import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
-import personalInfo               from "pages/settings/admin-settings";
+import AdminSettings              from "pages/settings/admin-settings";
 
 import contactUsPage              from "pages/common/contact";
 import termsPage                  from "pages/common/terms";
@@ -80,7 +80,7 @@ const Routes = () => (
         <Route path="/user/payment-history"       component={accountStatement} />
         <Route path="/user/invite"                component={userInvite} />
 
-        <Route path="/settings/admin"             component={personalInfo} />
+        <Route path="/settings/admin"             component={AdminSettings} />
 
         <Route path="/contact"                    component={contactUsPage} />
         <Route path="/terms"                      component={termsPage} />

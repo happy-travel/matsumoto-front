@@ -21,10 +21,10 @@ class AdminSettings extends React.Component {
 
         const store = {};
 
-        return (<div className="personal-info__wrapper">
+        return (<div>
             <UsersPagesHeader />
 
-            <section>
+            <section className="personal-info__wrapper">
                 <h2>{t('Personal information')}</h2>
 
                 <Formik
