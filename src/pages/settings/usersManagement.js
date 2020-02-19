@@ -2,10 +2,12 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
+import { Link } from 'react-router-dom';
 
 import { dateFormat } from "core";
 import { FieldText, FieldSwitch } from "components/form";
 import Table from "components/table";
+import UsersPagesHeader from "components/usersPagesHeader";
 
 import UsersStore from "stores/usersStore";
 
@@ -62,6 +64,7 @@ class UsersManagement extends React.Component {
         const {usersCompany, getUsersCompany, usersCompanyIsLoading, usersTablePageInfo, usersCompanyCount} = UsersStore;
 
         return (<div>
+            <UsersPagesHeader />
             <div className="users-management__search-wrapper">
                <section>
                    <Formik
@@ -81,10 +84,10 @@ class UsersManagement extends React.Component {
                                            // setAutoComplete={this.setDestinationAutoComplete}
                                                   clearable
                                        />
-                                       <div className="field">
+                                       <div className="field field-no-grow">
                                            <div className="label"/>
                                            <div className="inner">
-                                               <button type="submit" className="button">
+                                               <button type="submit" className="button users-management__button-search-user">
                                                    {t("Search user")}
                                                </button>
                                            </div>
@@ -99,9 +102,9 @@ class UsersManagement extends React.Component {
             <section>
                 <div className="users-management__table__title">
                     <h3>All Users</h3>
-                    <button type="submit" className="button users-management__button-search-user">
+                    <Link to="/settings/users/add" className="button users-management__button-add-new-user">
                         {t("add new user")}
-                    </button>
+                    </Link>
                 </div>
                 <Table
                     data={usersCompany}

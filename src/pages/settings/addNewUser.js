@@ -1,11 +1,14 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import { Formik } from "formik";
+import { withRouter } from "react-router";
 
 import Breadcrumbs from "components/breadcrumbs";
-import {FieldCheckbox, FieldSelect, FieldSwitch, FieldText} from "../../components/form";
-import {Formik} from "formik";
+import { FieldCheckbox, FieldSelect, FieldSwitch, FieldText } from "../../components/form";
+import UsersPagesHeader from "components/usersPagesHeader";
 
+@withRouter
 @observer
 export default class AddNewUser extends React.Component {
     constructor() {
@@ -16,6 +19,7 @@ export default class AddNewUser extends React.Component {
         const { t } = useTranslation();
 
         return <section className="add-new-user">
+            <UsersPagesHeader />
             <div className="add-new-user__header">
                 <Breadcrumbs noBackButton items={[
                     {
@@ -25,7 +29,7 @@ export default class AddNewUser extends React.Component {
                     }
                 ]}/>
 
-                <button>{`< Back`}</button>
+                <button onClick={() => this.props.history.goBack()}>{`< Back`}</button>
             </div>
 
             <h2>{t("USER TYPE")}</h2>
