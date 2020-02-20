@@ -22,12 +22,15 @@ import { accommodationBookingValidator } from "components/form/validation";
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
 
+const isPaymentAvailable = (balance, price) =>
+   ( balance?.currency && (balance.balance >= balance.creditLimit) );
+
 @observer
 class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            accountPaymentPossibility: false
+            balance: false
         };
         this.submit = this.submit.bind(this);
     }
@@ -38,10 +41,10 @@ class AccommodationBookingPage extends React.Component {
         store.setPaymentMethod(PAYMENT_METHODS.CARD);
 
         API.get({
-            url: API.ACCOUNT_AVAILABLE,
+            url: API.ACCOUNT_BALANCE("USD"),
             success: result =>
                 this.setState({
-                    accountPaymentPossibility: result
+                    balance: result
                 })
         });
     }
@@ -406,15 +409,15 @@ class AccommodationBookingPage extends React.Component {
                                     <div class="list">
                                         <div
                                             class={"item"
-                                                    + (this.state.accountPaymentPossibility ? "" : " disabled")
+                                                    + (isPaymentAvailable(this.state.balance) ? "" : " disabled")
                                                     + (PAYMENT_METHODS.ACCOUNT == store.paymentMethod ? " selected" : "")
                                             }
-                                            onClick={this.state.accountPaymentPossibility
+                                            onClick={isPaymentAvailable(this.state.balance)
                                                 ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
                                                 : () => {}}
                                         >
                                             <span class="icon icon-radio" />
-                                            {t("My Site Balance")}
+                                            {t("Account")}. {price(this.state.balance.currency, this.state.balance.balance)}
                                         </div>
                                         <div
                                             class={"item"

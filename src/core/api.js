@@ -22,7 +22,8 @@ API_METHODS = {
     PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
-    ACCOUNT_AVAILABLE     : v1 + "/payments/accounts/available",
+    ACCOUNT_BALANCE       : currencyCode =>
+                            v1 + `/payments/accounts/balance/${currencyCode}`,
 
     USER                  : v1 + "/customers",
     USER_REGISTRATION     : v1 + "/customers/register",

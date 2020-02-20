@@ -333,6 +333,7 @@ translations: {
     "and": "and",
     "out of": "out of",
     "available": "available",
-    "No accommodations available": "No accommodations available"
+    "No accommodations available": "No accommodations available",
+    "Account": "Account"
 }
 };
