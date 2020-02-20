@@ -44,7 +44,7 @@ const columns = [
     },
     {
         Header: 'Status',
-        accessor: 'markup',
+        accessor: 'status',
         Cell: (item) => <FieldSwitch />
     },
 ];
