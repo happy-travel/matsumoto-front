@@ -332,6 +332,7 @@ translations: {
     "Please enter": "Please enter",
     "and": "and",
     "out of": "out of",
-    "available": "available"
+    "available": "available",
+    "No accommodations available": "No accommodations available"
 }
 };

@@ -81,7 +81,14 @@ class AccommodationVariantsPage extends React.Component {
                     <div class="title">
                         <h3>
                             {t("Results for")}: <b>{ store?.search?.request?.destination }</b>
-                            <span>&nbsp;({store.hotelArray.length} {t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")})</span>
+
+                            {!!store.hotelArray.length &&
+                                <span>&nbsp;({store.hotelArray.length}&nbsp;
+                                    { !!store.search.result?.numberOfProcessedResults && <React.Fragment>
+                                        {t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")})
+                                    </React.Fragment> }
+                                </span>
+                            }
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
@@ -90,6 +97,13 @@ class AccommodationVariantsPage extends React.Component {
                                 text: store.search.request?.destination
                             }
                         ]}/>
+                        { !store.hotelArray.length &&
+                            <h3>
+                                <span>
+                                    {t("No accommodations available")}
+                                </span>
+                            </h3>
+                        }
                     </div>
                     { /* todo:
                     <div class="sorter">
@@ -108,7 +122,7 @@ class AccommodationVariantsPage extends React.Component {
                 </div>
 
                 { !store.hotelArray.length &&
-                    <div>
+                    <div style={{ paddingTop: "50px" }}>
                         <div class="head">
                             <div class="title">
                                 <h3>{t("Found nothing?")}</h3>
@@ -116,7 +130,7 @@ class AccommodationVariantsPage extends React.Component {
                                 {t("You could reach our Operations team directly, and we pick an accommodation for you.")}
                                 <br/>
                                 <br/>
-                                <a href="mailto:info@happytravel.com">{t("Email")}: info@happytravel.com</a>
+                                {t("Email")}: <a href="mailto:info@happytravel.com" class="link">info@happytravel.com</a>
                             </div>
                         </div>
                     </div> }
