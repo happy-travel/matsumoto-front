@@ -43,9 +43,10 @@ class RegistrationStep2 extends React.Component {
                 },
                 success: () => {
                     store.setCachedUserRegistered(true);
-                    this.setState({ redirectToIndexPage: true });
-
                     UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
+                    window.sessionStorage.removeItem("_auth__invCode");
+
+                    this.setState({ redirectToIndexPage: true });
                 },
                 error: (error) => {
                     View.setTopAlertText(error?.title || error?.detail);

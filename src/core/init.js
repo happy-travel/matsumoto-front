@@ -18,8 +18,6 @@ const init = () => {
         getParams().code) { // and auth
         if (getParams().invCode)
             window.sessionStorage.setItem("_auth__invCode", getParams().invCode);
-        else
-            window.sessionStorage.removeItem("_auth__invCode");
     }
 
     API.get({
