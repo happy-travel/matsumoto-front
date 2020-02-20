@@ -160,7 +160,7 @@ class AccommodationAgreementsPage extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            { item.agreements?.map(agreement =>
+                            { item?.agreements?.map(agreement =>
                                 <tr>
                                     <td class="agreement">
                                         {groupAndCount(agreement.rooms)}<br/>

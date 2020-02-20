@@ -74,7 +74,10 @@ class UIStore {
     }
 
     setRegions(value) {
-        this.regions = value && Array.isArray(value) ? value.sort((currentRegion, nextRegion) => {
+        if (!value || !Array.isArray(value))
+            return [];
+
+        this.regions = value.sort((currentRegion, nextRegion) => {
             if (currentRegion.id === 142 || currentRegion.name === "Asia") {
                 return -1;
             }
@@ -82,7 +85,7 @@ class UIStore {
                 return 1;
             }
             return 0;
-        }) : [];
+        });
     }
     setInitialized(value) {
         this.initialized = value || false;

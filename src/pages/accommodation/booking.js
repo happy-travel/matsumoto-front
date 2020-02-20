@@ -141,9 +141,9 @@ class AccommodationBookingPage extends React.Component {
         <section class="double-sections">
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
-                <div class="expanded">
+                { hotel.pictures?.[0]?.source && <div class="expanded">
                     <img src={hotel.pictures[0].source} alt={hotel.pictures[0].caption} class="round" />
-                </div>
+                </div> }
                 <div class="static item no-border">
                     {hotel.name}
                 </div>

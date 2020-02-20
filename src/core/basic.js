@@ -40,6 +40,8 @@ export const getParams = () => {
 };
 
 export const scrollTo = (element, to, duration = 600) => {
+    if (element?.scrollTop === undefined)
+        return;
     const start = element.scrollTop;
     const change = to - start;
     let currentTime = 0;
