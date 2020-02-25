@@ -98,8 +98,9 @@ _.request = ({
     after     // function(result, error, response) - Fires the last
 }) => {
 Authorize.getUser().then(user => {
-    authStore.setUserCache(user);
-    if (!external_url && (!user?.access_token)) {
+    if (!external_url && isRedirectNeeded())
+        authStore.setUserCache(user);
+    if (!external_url && !user?.access_token) {
         if (isRedirectNeeded())
             Authorize.signinRedirect();
         return;

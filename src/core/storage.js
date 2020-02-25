@@ -52,7 +52,7 @@ export const session = {
         return result;
     },
     set: (key, item) => {
-        //if (!getUserHashFromStore()) return;
+        if (!getUserHashFromStore()) return;
 
         if (session.isAvailable())
             window.sessionStorage.setItem(userKey(key), item);
@@ -60,7 +60,7 @@ export const session = {
             window._session[key] = item;
     },
     get: (key) => {
-        //if (!getUserHashFromStore()) return;
+        if (!getUserHashFromStore()) return;
 
         if (session.isAvailable())
             return window.sessionStorage.getItem(userKey(key));
