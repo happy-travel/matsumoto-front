@@ -211,7 +211,6 @@ translations: {
     "Card Number": "Card Number",
     "Save my card for faster checkout": "Save my card for faster checkout",
     "Expiration Date": "Expiration Date",
-    "CCV": "CCV",
     "Card Holder Name": "Card Holder Name",
     "Deadline": "Deadline",
     "Please enter here": "Please enter here",

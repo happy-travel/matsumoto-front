@@ -45,8 +45,8 @@ render() {
                         </menu>
                         <div class="payments">
                             <img src="/images/other/visa.png" />
-                            <img src="/images/other/mc-on-dark.png" class="transparent" />
                             <img src="/images/other/visa-sec.png" />
+                            <img src="/images/other/mc-on-dark.png" class="transparent" />
                             <img src="/images/other/mc-sec-on-dark.png" class="transparent" />
                         </div>
                         <div class="service-info">
