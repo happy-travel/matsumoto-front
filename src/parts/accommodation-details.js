@@ -34,7 +34,7 @@ const Amenities = ({ hotel, fromPage, fromModal, t }) => {
     </React.Fragment>;
 };
 
-const descriptionLength = 500,
+const descriptionLength = 450,
     decodeHtml = html => {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
