@@ -380,7 +380,7 @@ class AccommodationBookingPage extends React.Component {
 
                                     <p class="remark">
                                         {(deadlineDetails.policies || []).map(item => (<React.Fragment>
-                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.
+                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.<br/>
                                         </React.Fragment>))}
                                     </p>
 
