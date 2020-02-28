@@ -268,9 +268,9 @@ render() {
                             <button class="button small" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
                                 {t("Send Voucher")}
                             </button>
-                            <button class="button small" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)}>
+                            { "Confirmed" != booking.status && <button class="button small" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)}>
                                 {t("Send Invoice")}
-                            </button>
+                            </button> }
                         </div>
 
                         { this.state.fromHistory &&
