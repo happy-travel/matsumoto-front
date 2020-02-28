@@ -28,8 +28,11 @@ API_METHODS = {
     USER                  : v1 + "/customers",
     USER_REGISTRATION     : v1 + "/customers/register",
     USER_REGISTRATION_M   : v1 + "/customers/register/master",
-    USER_INVITE           : invitationCode =>
-                            v1 + "/customers/invitations" + (invitationCode ? "/" + invitationCode : ""),
+
+    USER_INVITE_DATA      : invitationCode =>
+                            v1 + "/customers/invitations" + "/" + invitationCode,
+    USER_INVITE_SEND      : v1 + "/customers/invitations/send",
+    USER_INVITE_GET_LINK  : v1 + "/customers/invitations",
 
     ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
     A_BOOKING_FINALIZE    : referenceCode =>

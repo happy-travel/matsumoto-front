@@ -64,7 +64,7 @@ class RegistrationStep2 extends React.Component {
         var invitationCode = window.sessionStorage.getItem("_auth__invCode");
         if (invitationCode)
             API.get({
-                url: API.USER_INVITE(invitationCode),
+                url: API.USER_INVITE_DATA(invitationCode),
                 success: data => {
                     this.setState({
                         invitationCode: invitationCode,
