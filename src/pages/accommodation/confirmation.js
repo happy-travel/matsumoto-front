@@ -264,14 +264,14 @@ render() {
                             <span class="icon icon-action-writing" />
                         </a> */ }
 
-                        <div class="left">
+                        { "Cancelled" != booking.status && <div class="left">
                             <button class="button small" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
                                 {t("Send Voucher")}
                             </button>
                             { "Confirmed" != booking.status && <button class="button small" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)}>
                                 {t("Send Invoice")}
                             </button> }
-                        </div>
+                        </div> }
 
                         { this.state.fromHistory &&
                           "Cancelled" != booking.status &&
