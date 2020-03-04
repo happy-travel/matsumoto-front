@@ -7,14 +7,15 @@ pipeline {
     environment {
         APP_NAME="matsumoto-front"
         NAMESPACE="dev"
-        GIT_URL="git@bitbucket.org:happytravel/${APP_NAME}.git"
-        GIT_CRED_ID='bitbucket'
+        GIT_URL="git@github.com:happy-travel/${APP_NAME}.git"
+        GIT_CRED_ID='github'
         GIT_BRANCH="master"
         URL_REGISTRY="registry.dev.happytravel.com"
         IMAGE_NAME="${APP_NAME}:${NAMESPACE}"
         IDENTITY_URL = 'https://identity.dev.happytravel.com/'
         EDO_URL = 'https://edo-api.dev.happytravel.com/'
-        SENTRY_DSN = 'https://21e4194b435946e0b2e20444d6948d25@sentry.dev.happytravel.com/4'         
+        SENTRY_DSN = 'https://21e4194b435946e0b2e20444d6948d25@sentry.dev.happytravel.com/4'
+        DISCORD_WEBHOOK_URL=credentials('discord')
     }
     
     stages {
@@ -31,7 +32,7 @@ pipeline {
         stage('Build docker image') {
             steps {
                 withCredentials([string(credentialsId: 'VAULT_TOKEN', variable: 'VAULT_TOKEN')]) {
-                    sh 'docker build -t $URL_REGISTRY/$IMAGE_NAME-$BUILD_NUMBER --build-arg "IDENTITY_URL=$IDENTITY_URL" --build-arg "EDO_URL=$EDO_URL" --build-arg "SENTRY_DSN=$SENTRY_DSN" . --no-cache'
+                    sh 'docker build -t $URL_REGISTRY/$IMAGE_NAME-$BUILD_NUMBER --build-arg "IDENTITY_URL=$IDENTITY_URL" --build-arg "EDO_URL=$EDO_URL" --build-arg "SENTRY_DSN=$SENTRY_DSN" --build-arg "BUILD_VERSION=$(git rev-parse --short HEAD)" . --no-cache'
                 }
             }
         }
@@ -113,7 +114,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
         "\n \n __**ChangeLog:**__ " + " \n " + changeLog
         
     // Send message
-    discordSend webhookURL: 'https://discordapp.com/api/webhooks/585188681892233239/eFnBXVIb-03zxCqOncAkCXvbnke02dWsDx2acpFDp1Lhe7JUyW5jGahAIH2VaiqzAbUQ',
+    discordSend webhookURL: env.DISCORD_WEBHOOK_URL,
     description: summary,
     result: currentBuild.currentResult,
     footer: currentBuild.currentResult,
