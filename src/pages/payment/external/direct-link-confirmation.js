@@ -84,15 +84,15 @@ return (
                     b={ price(booking.currency, booking.amount || 0) }
                 />
 
-                <Dual addClass="line"
+                { booking.paymentStatus && <Dual addClass="line"
                     a={t('Order status')}
                     b={booking.paymentStatus}
-                />
+                /> }
 
-                <Dual addClass="line"
+                { booking.comment && <Dual addClass="line"
                     a={t('Additional Information')}
                     b={booking.comment}
-                />
+                /> }
 
             </div>
         </section>

@@ -42,6 +42,7 @@ class PaymentDirectLinkPage extends PaymentPage {
                     amount: result.amount,
                     currency: result.currency,
                     comment: result.comment,
+                    status: result.creditCardPaymentStatus,
                     service: {
                         ...this.state.service,
                         return_url: settings.payment_callback_host + "/payment/result/" + result.referenceCode
