@@ -169,7 +169,7 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                     <div class="table">
                         <div class="title">
-                            {t("Recommended variant for")}{" "}
+                            {t("Recommended option for")}{" "}
                             {plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                         </div>
                         <div class="billet">
