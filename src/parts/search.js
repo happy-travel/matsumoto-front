@@ -1,14 +1,15 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, session, dateFormat, plural } from "core";
+import { API, session, dateFormat, plural, decorate } from "core";
 
 import { Redirect } from "react-router-dom";
-import { FieldText, FieldSelect } from "components/form";
+import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";
 import Flag from "components/flag";
 
 import store from "stores/accommodation-store";
 import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import DateDropdown from "components/form/dropdown/date";
@@ -16,18 +17,61 @@ import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
 import { accommodationSearchValidator } from "components/form/validation";
 import { Stars } from "components/simple";
-
-import { Formik } from 'formik';
 import moment from "moment";
 
-const sum = field => {
+const sum = (values, field) => {
     var result = 0;
-    for (var i = 0; i < store.search.rooms; i++) {
-        if (store.getRoomDetails(i)) {
-            result += store.getRoomDetails(i)[field];
-        }
+    for (var i = 0; i < values.roomDetails.length; i++) {
+        if ("childrenNumber" == field)
+            result += values.roomDetails[i].childrenAges.length;
+        else
+            result += values.roomDetails[i][field];
     }
     return result;
+};
+
+const formFormatter = (values) => {
+    var roomDetails = [];
+    for (var i = 0; i < values.roomDetails.length; i++) {
+        var room = {
+            adultsNumber: values.roomDetails[i].adultsNumber,
+            childrenNumber: values.roomDetails[i].childrenAges.length
+        };
+        if (values.roomDetails[i].childrenAges.length)
+            room.childrenAges = values.roomDetails[i].childrenAges;
+        roomDetails.push(room);
+    }
+
+    var body = {
+        filters: "Default",
+        checkInDate: moment(values.checkInDate).utc(true).format(),
+        checkOutDate: moment(values.checkOutDate).utc(true).format(),
+        roomDetails: roomDetails,
+        location: {
+            predictionResult: values.predictionResult,
+            coordinates: {
+                latitude: 0,
+                longitude: 0
+            },
+            distance: (parseInt(values.radius) || 0) * 1000
+        },
+        nationality: values.nationalityCode,
+        residency: values.residencyCode
+    };
+
+    if (UI.advancedSearch) {
+        body.ratings = values.ratings;
+        body.propertyTypes = values.propertyTypes;
+    }
+
+    // todo: temporary adults workaround
+    for (i = 0; i < body.roomDetails.length; i++) {
+        body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
+        body.roomDetails[i].childrenNumber = 0;
+        body.roomDetails[i].childrenAges = [];
+    }
+
+    return body;
 };
 
 @observer
@@ -38,68 +82,67 @@ class AccommodationSearch extends React.Component {
             redirectToVariantsPage: false
         };
         this.submit = this.submit.bind(this);
-        this.reset = this.reset.bind(this);
+        this.setDestinationAutoComplete = this.setDestinationAutoComplete.bind(this);
+        this.destinationInputChanged = this.destinationInputChanged.bind(this);
     }
 
-    submit(values, { setSubmitting }) {
+    submit(values, formik) {
+        UI.setOpenDropdown(null);
+        if (values.predictionDestination != values.destination)
+            formik.setFieldValue("destination", values.predictionDestination);
+
         //todo: setSubmitting, loading
-        const isValidFilterQuery = store.validateFilterQuery();
-        store.setNewSearchForm(values, UI.advancedSearch);
         store.setSearchResult(null);
         session.google.clear();
-        store.setIsInvalidFilterQuery(isValidFilterQuery);
-        if (isValidFilterQuery) {
-            store.setSearchIsLoading(true);
 
-            // todo: temporary adults workaround
-            var body = JSON.parse(JSON.stringify(store.search.request));
-            for (var i = 0; i < body.roomDetails.length; i++) {
-                body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
-                body.roomDetails[i].childrenNumber = 0;
-                body.roomDetails[i].childrenAges = [];
+        var body = formFormatter(values);
+
+        store.setSearchIsLoading(true);
+        API.post({
+            url: API.A_SEARCH_STEP_ONE,
+            body: body,
+            success: (result) => {
+                store.setSearchResult(result);
+                UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm)
+            },
+            error: (error) => {
+                // todo: handle
+            },
+            after: () => {
+                store.setSearchIsLoading(false);
             }
+        });
 
-            API.post({
-                url: API.A_SEARCH_STEP_ONE,
-                body: body,
-                success: (result) => {
-                    store.setSearchResult(result);
-                },
-                error: (error) => {
-                    // todo: handle
-                },
-                after: () => {
-                    store.setSearchIsLoading(false);
-                }
-            });
-        }
+        body.destination = values.predictionDestination;
+        body.adultsTotal = sum(values, "adultsNumber");
+        body.childrenTotal = sum(values, "childrenNumber");
+        store.setNewSearchRequest(body);
+
         this.setState({
             redirectToVariantsPage: true
         });
     }
 
     destinationInputChanged(e, props) {
-        var query = e.target.value;
-        if (!query)
-            return UI.setCountries([]);
+        var currentValue = e.target.value;
+        if (!currentValue)
+            return View.setCountries([]);
+
         if (props.formik)
-            props.formik.setFieldValue('destinationSelected', false);
+            props.formik.setFieldValue("predictionResult", null);
 
         API.get({
             url: API.LOCATION_PREDICTION,
             body: {
-                query,
+                query: currentValue,
                 sessionId: session.google.create()
             },
             after: (data) => {
-                UI.setDestinationSuggestions(data);
+                View.setDestinationSuggestions(data, currentValue);
+                UI.setSuggestion("destination", currentValue, View?.destinations?.length ? View.destinations[0] : "");
+                this.setDestinationAutoComplete(props.formik, true);
             }
         });
-    }
-
-    reset(formik) {
-        formik.resetForm();
-        store.setNewSearchForm(null);
     }
 
     componentDidUpdate() {
@@ -110,92 +153,102 @@ class AccommodationSearch extends React.Component {
     }
 
     setCountryValue(country, formik, connected) {
+        View.setCountries([]);
+
         const anotherField = {
             "residency": "nationality",
             "nationality": "residency"
         };
-
         formik.setFieldValue(connected, country.name);
-        if ("country" != connected) //todo: repair this workaround
-            store.setSearchRequestField(connected, country.code);
-        else
-            formik.setFieldValue("countryCode", country.code);
-        UI.setCountries([]);
+        formik.setFieldValue(`${connected}Code`, country.code);
 
-        formik.setFieldValue(`${connected}Selected`, true); // set for pass validation
-
-        if (anotherField[connected] && !store.search.request[anotherField[connected]]) {
-            store.setSearchRequestField(anotherField[connected], country.code);
+        if (!formik.values[`${anotherField[connected]}Code`]) {
             formik.setFieldValue(anotherField[connected], country.name);
-            formik.setFieldValue(`${anotherField[connected]}Selected`, true);
+            formik.setFieldValue(`${anotherField[connected]}Code`, country.code);
         }
     }
 
-    setDestinationValue(item, formik) {
-        store.setRequestDestination(item);
-        UI.setDestinationSuggestions([]);
-        UI.setSuggestion('destination');
-        formik.setFieldValue('destination', item.value);
-        formik.setFieldValue('destinationSelected', true); // set for pass validation
+    setDestinationValue(item, formik, silent, currentValue) {
+        formik.setFieldValue("predictionResult", {
+            "id": item.id,
+            "sessionId": session.google.current(),
+            "source": item.source,
+            "type": item.type
+        });
+        formik.setFieldValue("predictionDestination", item.value);
+
+        if (currentValue)
+            UI.setSuggestion("destination", currentValue, item);
+
+        if (silent !== true) {
+            View.setDestinationSuggestions([]);
+            UI.setSuggestion('destination');
+            formik.setFieldValue('destination', item.value);
+        }
     }
 
-    setDestinationAutoComplete = (formik) => {
-        const item = UI.suggestions.destination?.suggestionExtendInfo;
-        if (item) {
-            this.setDestinationValue(item, formik);
-        }
+    setDestinationAutoComplete(formik, silent, suggestion) {
+        var item = UI.suggestions.destination;
+        if (suggestion)
+            item = { value: formik.values.destination, suggestion: suggestion.value, suggestionExtendInfo: suggestion };
+        if (item)
+            this.setDestinationValue(item?.suggestionExtendInfo, formik, silent, item?.value);
     }
 
     render() {
         var { t } = useTranslation();
 
         return (
-
             <div class="search block">
                 { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
                 <section>
-                    {/* todo: remove the following hack and make back parser for query */}
                     <div class="hide">
-                        {''+store.search.request.checkInDate}
-                        {''+store.search.request.checkOutDate}
-                        {[...Array(store.search.rooms)].map((x,i)=>JSON.stringify(store.getRoomDetails(i)))}
                         {'' + UI.advancedSearch}
-                        {'' + UI.countries}
-                        {'' + UI.destinations}
+                        {'' + View.countries}
+                        {'' + View.destinations}
                         {JSON.stringify(store.suggestion)}
                     </div>
-                    <Formik
+                    <CachedForm
+                        id={ FORM_NAMES.SearchForm }
                         initialValues={{
                             destination: "",
-                            destinationSelected: false,
                             residency: "",
-                            residencySelected: false,
+                            residencyCode: "",
                             nationality: "",
-                            nationalitySelected: false,
-
+                            nationalityCode: "",
+                            checkInDate: moment().startOf("day"),
+                            checkOutDate: moment().startOf("day").add(1, "d"),
+                            roomDetails: [
+                                {
+                                    adultsNumber: 2,
+                                    childrenAges: []
+                                }
+                            ],
                             // Advanced search:
                             propertyTypes: "Any",
                             ratings: "Unknown",
                             availability: "all",
                             address: "",
                             radius: "",
-                            order: "room"
+                            order: "room",
+                            predictionResult: null,
+                            predictionDestination: ""
                         }}
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
-                        render={formik => (
-                            <form onSubmit={formik.handleSubmit}>
+                        render={(formik, reset) => (
+                            <React.Fragment>
                                 <div class="form">
                                     <div class="row">
                                         <FieldText formik={formik}
                                                    id="destination"
-                                                   additionalFieldForValidation="destinationSelected"
+                                                   additionalFieldForValidation="predictionResult"
                                                    label={t("Destination, Hotel name, Location or Landmark")}
                                                    placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                                    Icon={<span class="icon icon-hotel" />}
                                                    Flag={false}
                                                    Dropdown={DestinationDropdown}
-                                                   options={UI.destinations}
+                                                   options={View.destinations}
                                                    setValue={this.setDestinationValue}
                                                    onChange={this.destinationInputChanged}
                                                    setAutoComplete={this.setDestinationAutoComplete}
@@ -209,19 +262,17 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={DateDropdown}
                                                    value={
-                                                       dateFormat.b(store.search.request.checkInDate)
+                                                       dateFormat.b(formik.values.checkInDate)
                                                        + " – " +
-                                                       dateFormat.b(store.search.request.checkOutDate)
+                                                       dateFormat.b(formik.values.checkOutDate)
                                                    }
                                                    setValue={range => {
-                                                       store.setDateRange({
-                                                           start: moment(range.start).add(1, 'd'),
-                                                           end: moment(range.end).add(1, 'd')
-                                                       });
+                                                       formik.setFieldValue("checkInDate", range.start);
+                                                       formik.setFieldValue("checkOutDate", range.end);
                                                    }}
                                                    options={moment.range(
-                                                       moment(store.search.request.checkInDate).local().startOf('day'),
-                                                       moment(store.search.request.checkOutDate).local().endOf('day')
+                                                       moment(formik.values.checkInDate),
+                                                       moment(formik.values.checkOutDate)
                                                    )}
                                         />
                                         <FieldText formik={formik}
@@ -232,9 +283,9 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={PeopleDropdown}
                                                    value={
-                                                          [plural(t, sum("adultsNumber"), "Adult"),
-                                                           plural(t, sum("childrenNumber"), "Children"),
-                                                           plural(t, store.search.rooms, "Room")].join(" • ")
+                                                          [plural(t, sum(formik.values, "adultsNumber"), "Adult"),
+                                                           plural(t, sum(formik.values, "childrenNumber"), "Children"),
+                                                           plural(t, formik.values.roomDetails.length, "Room")].join(" • ")
                                                    }
                                         />
                                     </div>
@@ -280,31 +331,31 @@ class AccommodationSearch extends React.Component {
                                     <div class="row">
                                         <FieldText formik={formik}
                                                    id="nationality"
-                                                   additionalFieldForValidation="nationalitySelected"
+                                                   additionalFieldForValidation="nationalityCode"
                                                    label={t("Nationality")}
                                                    placeholder={t("Choose your nationality")}
                                                    clearable
-                                                   Flag={<Flag code={store.search.request.nationality} />}
+                                                   Flag={<Flag code={formik.values.nationalityCode} />}
                                                    Dropdown={RegionDropdown}
                                                    onChange={regionInputChanged}
-                                                   options={UI.countries}
+                                                   options={View.countries}
                                                    setValue={this.setCountryValue}
                                                    addClass="size-large"
-                                                   onClear={() => store.setSearchRequestField("nationality", '')}
+                                                   onClear={() => formik.setFieldValue("nationalityCode", '')}
                                         />
                                         <FieldText formik={formik}
                                                    id="residency"
-                                                   additionalFieldForValidation="residencySelected"
+                                                   additionalFieldForValidation="residencyCode"
                                                    label={t("Residency")}
                                                    placeholder={t("Choose your residency")}
                                                    clearable
-                                                   Flag={<Flag code={store.search.request.residency} />}
+                                                   Flag={<Flag code={formik.values.residencyCode} />}
                                                    Dropdown={RegionDropdown}
-                                                   options={UI.countries}
+                                                   options={View.countries}
                                                    setValue={this.setCountryValue}
                                                    onChange={regionInputChanged}
                                                    addClass="size-large"
-                                                   onClear={() => store.setSearchRequestField("residency", '')}
+                                                   onClear={() => formik.setFieldValue("residencyCode", '')}
                                         />
                                         <div class="field">
                                             <div class="label"/>
@@ -325,16 +376,15 @@ class AccommodationSearch extends React.Component {
                                             {t("Advanced Search")}
                                         </button>
                                     }
-                                    <button type="button" class="button-clear" onClick={() => this.reset(formik)}>
+                                    <button type="button" class="button-clear" onClick={reset}>
                                         {t("Clear")}
                                     </button>
                                 </div>
-                            </form>
+                            </React.Fragment>
                         )}
                     />
                 </section>
             </div>
-
         );
     }
 }

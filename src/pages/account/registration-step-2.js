@@ -4,11 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Formik } from "formik";
+import { CachedForm, FORM_NAMES } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import FormUserData from "parts/form-user-data";
-import { API  } from "core";
+import { API } from "core";
+import View from "stores/view-store";
 import UI from "stores/ui-store";
 
 @observer
@@ -41,11 +42,21 @@ class RegistrationStep2 extends React.Component {
                     invitationCode: this.state.invitationCode
                 },
                 success: () => {
+                    API.get({
+                        url: API.USER,
+                        success: (result) => {
+                            if (result?.email)
+                                UI.setUser(result);
+                        }
+                    });
                     store.setCachedUserRegistered(true);
+                    UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
+                    window.sessionStorage.removeItem("_auth__invCode");
+
                     this.setState({ redirectToIndexPage: true });
                 },
                 error: (error) => {
-                    UI.setTopAlertText(error?.title || error?.detail);
+                    View.setTopAlertText(error?.title || error?.detail);
                     if (error && !(error?.title || error?.detail))
                         this.setState({ redirectToIndexPage: true });
                 }
@@ -60,7 +71,7 @@ class RegistrationStep2 extends React.Component {
         var invitationCode = window.sessionStorage.getItem("_auth__invCode");
         if (invitationCode)
             API.get({
-                url: API.USER_INVITE(invitationCode),
+                url: API.USER_INVITE_DATA(invitationCode),
                 success: data => {
                     this.setState({
                         invitationCode: invitationCode,
@@ -112,26 +123,29 @@ class RegistrationStep2 extends React.Component {
                 Create a new HappyTravel.com account and start booking.
             </p>
 
-        <Formik
+        <CachedForm
+            id={ FORM_NAMES.RegistrationStepTwoForm }
             initialValues={this.state.initialValues}
             enableReinitialize={true}
             validationSchema={registrationUserValidator}
             onSubmit={this.submit}
             render={formik => (
-                <form onSubmit={formik.handleSubmit}>
+                <React.Fragment>
                     <div class="form">
                         <FormUserData formik={formik} t={t} />
                         <div class="row submit-holder">
                             <div class="field">
                                 <div class="inner">
                                     <button type="submit" class="button">
-                                        {t("Finish Registration")}
+                                        { this.state.invitationCode ?
+                                            t("Finish Registration") :
+                                            t("Continue Registration")}
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </React.Fragment>
             )}
         />
         </div>

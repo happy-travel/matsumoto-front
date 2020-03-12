@@ -9,13 +9,7 @@ const dropdownId = "LocaleSwitcherDropdown";
 
 @observer
 class LocaleSwitcherDropdown extends React.Component {
-    toggleMenu() {
-        if (dropdownId == UI.openDropdown)
-            return UI.setOpenDropdown(null);
-        UI.setOpenDropdown(dropdownId);
-    }
-
-    changeLanguage = (i18n, lng) => {
+    changeLanguage(i18n, lng) {
         i18n.changeLanguage(lng);
         localStorage.set("locale", lng);
         localStorage.set("direction", i18n.dir(lng), "all");
@@ -28,7 +22,9 @@ class LocaleSwitcherDropdown extends React.Component {
 
         return (
             <React.Fragment>
-                <div class="switcher language-switcher" onClick={this.toggleMenu}>
+                <div class="switcher language-switcher"
+                     data-dropdown="close"
+                     onClick={() => UI.setOpenDropdown(dropdownId)}>
                     <div class="flag-holder">
                         {t("current_language_name") == "English" ?
                             <Flag code={"gb"} /> :

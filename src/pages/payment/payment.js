@@ -50,7 +50,7 @@ class PaymentPage extends React.Component {
                 service_command     : "TOKENIZATION",
                 merchant_reference  : require('uuid/v4')(),
                 language            : "en", //the only alternative : "ar"
-                return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.result?.referenceCode
+                return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.referenceCode
             }
         };
         this.submit = this.submit.bind(this);
@@ -200,13 +200,13 @@ render() {
                             <FieldText formik={formik}
                                 id="card_security_code"
                                 password
-                                label={t("CCV")}
-                                placeholder={t("CCV")}
+                                label={"CVV"}
+                                placeholder={"CVV"}
                                 addClass="size-half"
                                 required
                                 clearable
                                 numeric
-                                maxLength={3}
+                                maxLength={6}
                             />
                         </div>
                         <div class="row hide">

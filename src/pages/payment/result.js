@@ -4,6 +4,8 @@ import { getParams, API, session } from "core";
 import store from "stores/accommodation-store";
 import { Redirect } from "react-router-dom";
 import { Loader } from "components/simple";
+import UI from "stores/ui-store";
+import { FORM_NAMES } from "components/form";
 
 @observer
 class PaymentResultPage extends React.Component {
@@ -17,20 +19,36 @@ class PaymentResultPage extends React.Component {
     }
 
     callback(data, error, after3ds) {
+        var params = getParams(),
+            directLinkCode = session.get(params.merchant_reference);
+
         if (!after3ds && ("Secure3d" == data?.status)) {
             window.location.href = data.secure3d;
             return;
         }
         store.setPaymentResult({
-            params: getParams(),
+            params: params,
             result: {
                 status: data?.status,
                 error: error?.detail || error?.title
             }
         });
-        this.setState({
-            redirectToConfirmationPage: true
-        });
+
+        if (!directLinkCode)
+            API.post({
+                url: API.A_BOOKING_FINALIZE(params.merchant_reference),
+                after: () => {
+                    UI.dropFormCache(FORM_NAMES.BookingForm);
+                    this.setState({
+                        redirectToConfirmationPage: true
+                    });
+                }
+            });
+        else
+            this.setState({
+                redirectToConfirmationPage: true
+            });
+
     }
 
     componentDidMount() {
@@ -65,27 +83,16 @@ class PaymentResultPage extends React.Component {
                 }
             });
 
-        API.get({
-            url: API.BOOKING_GET_BY_CODE(bookingReference),
-            after: (data) => {
-                var booking = data?.bookingDetails;
-                if (!booking)
-                    return;
-
-                API.post({
-                    url: API.PAYMENTS_CARD_COMMON,
-                    body: {
-                        amount: data.serviceDetails.agreement.price.netTotal,
-                        currency: data.serviceDetails.agreement.price.currency,
-                        referenceCode: bookingReference,
-                        token: {
-                            code: params.token_name,
-                            type: "OneTime"
-                        }
-                    },
-                    after: (data, error) => this.callback(data, error)
-                });
-            }
+        API.post({
+            url: API.PAYMENTS_CARD_COMMON,
+            body: {
+                referenceCode: bookingReference,
+                token: {
+                    code: params.token_name,
+                    type: "OneTime"
+                }
+            },
+            after: (data, error) => this.callback(data, error)
         });
     }
 

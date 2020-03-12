@@ -50,18 +50,17 @@ class FieldText extends React.Component {
 
     onKeyDown(e) {
         if (this.props.Dropdown && this.props.options) {
+            var value = this.props.options[UI.focusedDropdownIndex];
             switch (e.keyCode) {
                 case 13:
                 case 39: // Enter or Right arrow
                     // Select first suggestion or selected menu item
                     e.preventDefault();
-                    const value = this.props.options[UI.focusedDropdownIndex];
                     if (value && this.props.setValue) {
                         this.props.setValue(value, this.props.formik, this.props.id);
                     }
-                    if (!value && this.props.setAutoComplete) {
+                    if (!value && this.props.setAutoComplete)
                         this.props.setAutoComplete(this.props.formik);
-                    }
                     break;
                 case 38: // Arrow top
                     // Move up in suggestion list
@@ -72,6 +71,9 @@ class FieldText extends React.Component {
                     } else {
                         scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
                     }
+                    value = this.props.options[UI.focusedDropdownIndex];
+                    if (this.props.setAutoComplete)
+                        this.props.setAutoComplete(this.props.formik, true, value);
                     break;
                 case 40: // Arrow bottom
                     // Move down in suggestion list
@@ -82,6 +84,9 @@ class FieldText extends React.Component {
                             scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
                         }
                     }
+                    value = this.props.options[UI.focusedDropdownIndex];
+                    if (this.props.setAutoComplete)
+                        this.props.setAutoComplete(this.props.formik, true, value);
                     break;
                 default:
                     return;
@@ -108,8 +113,11 @@ class FieldText extends React.Component {
         }
         //todo suggestion
 
-        if (this.props.numeric) //todo: temporary. rewrite to this.props.mask
+        if (this.props.numeric) {//todo: temporary. rewrite to this.props.mask
             event.target.value = event.target.value.replace(/[^0-9.]/g, "");
+            if (typeof this.props.numeric == "number" && event.target.value)
+                event.target.value = Math.min(event.target.value, this.props.numeric);
+        }
 
         if (this.props.onChange)
             this.props.onChange(event, this.props);
@@ -162,7 +170,7 @@ class FieldText extends React.Component {
         var finalValue = ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '');
 
         return (
-            <div class={"field" + (addClass ? ' ' + addClass : '')}>
+            <div class={"field" + (addClass ? ' ' + addClass : '')} data-dropdown={this.props["data-dropdown"] || id}>
                 <label>
                     { label && <div class="label">
                         <span class={required ? "required" : ""}>{label}</span>
@@ -199,7 +207,7 @@ class FieldText extends React.Component {
                             { Icon }
                         </div> }
                         { (clearable && getValue(formik, id)) ? <div>
-                            <button type="button" class="clear" onClick={ this.clear } />
+                            <div class="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>
                     {((formik?.errors[id]?.length > 1) && formik?.touched[id] && (UI.openDropdown != id)) ?

@@ -1,6 +1,6 @@
 import settings from "settings";
 import Authorize from "core/auth/authorize";
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 import authStore from "stores/auth-store";
 import { isRedirectNeeded } from "./init";
 
@@ -18,42 +18,51 @@ API_METHODS = {
     CARDS_COMMON          : v1 + "/cards",
     CARDS_SETTINGS        : v1 + "/cards/settings",
     CARDS_SIGN            : v1 + "/cards/signatures",
-    PAYMENTS_CARD_COMMON  : v1 + "/payments/card",
-    PAYMENTS_ACC_COMMON   : v1 + "/payments/account",
+    PAYMENTS_CARD_COMMON  : v1 + "/payments/bookings/card",
+    PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
-    ACCOUNT_AVAILABLE     : v1 + "/payments/accounts/available",
+    ACCOUNT_BALANCE       : currencyCode =>
+                            v1 + `/payments/accounts/balance/${currencyCode}`,
 
     USER                  : v1 + "/customers",
     USER_REGISTRATION     : v1 + "/customers/register",
     USER_REGISTRATION_M   : v1 + "/customers/register/master",
-    USER_INVITE           : invitationCode =>
-                            v1 + "/customers/invitations" + (invitationCode ? "/" + invitationCode : ""),
 
-    ACCOMMODATION_BOOKING : v1 + "/bookings/accommodations",
-    BOOKING_LIST          : v1 + "/bookings/accommodations/customer",
+    USER_INVITE_DATA      : invitationCode =>
+                            v1 + "/customers/invitations" + "/" + invitationCode,
+    USER_INVITE_SEND      : v1 + "/customers/invitations/send",
+    USER_INVITE_GET_LINK  : v1 + "/customers/invitations",
+
+    ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
+    A_BOOKING_FINALIZE    : referenceCode =>
+                            v1 + `/accommodations/bookings/${referenceCode}/finalize`,
+
+    BOOKING_LIST          : v1 + "/accommodations/bookings/customer",
     BOOKING_CANCEL        : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}/cancel`,
+                            v1 + `/accommodations/bookings/${bookingId}/cancel`,
     BOOKING_VOUCHER       : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}/voucher`,
+                            v1 + `/accommodations/supporting-documentation/${bookingId}/voucher/send`,
     BOOKING_INVOICE       : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}/invoice`,
+                            v1 + `/accommodations/supporting-documentation/${bookingId}/invoice/send`,
     BOOKING_GET_BY_ID     : bookingId =>
-                            v1 + `/bookings/accommodations/${bookingId}`,
+                            v1 + `/accommodations/bookings/${bookingId}`,
     BOOKING_GET_BY_CODE   : referenceCode =>
-                            v1 + `/bookings/accommodations/refcode/${referenceCode}`,
+                            v1 + `/accommodations/bookings/refcode/${referenceCode}`,
 
-    ACCOMMODATION_DETAILS : accommodationId =>
-                            v1 + "/accommodations/" + accommodationId,
+    ACCOMMODATION_DETAILS : (accommodationId, source) =>
+                            v1 + `/${source}/accommodations/${accommodationId}`,
 
     A_SEARCH_STEP_ONE     : v1 + "/availabilities/accommodations",
-    A_SEARCH_STEP_TWO     : (availabilityId, accommodationId) =>
-                            v1 + `/accommodations/${accommodationId}/availabilities/${availabilityId}`,
-    A_SEARCH_STEP_THREE   : (availabilityId, agreementId) =>
-                            v1 + `/accommodations/availabilities/${availabilityId}/agreements/${agreementId}`,
+    A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
+                            v1 + `/${source}/accommodations/${accommodationId}/availabilities/${availabilityId}`,
+    A_SEARCH_STEP_THREE   : (availabilityId, agreementId, source) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}`,
 
     BILLING_HISTORY       : companyId =>
                             v1 + `/payments/history/${companyId}`,
+
+    BASE_VERSION          : v1 + "/versions",
 
     DIRECT_LINK_PAY : {
         SETTINGS     :         v1 + "/external/payment-links/tokenization-settings",
@@ -92,8 +101,9 @@ _.request = ({
     after     // function(result, error, response) - Fires the last
 }) => {
 Authorize.getUser().then(user => {
-    authStore.setUserCache(user);
-    if (!external_url && (!user?.access_token)) {
+    if (!external_url && isRedirectNeeded())
+        authStore.setUserCache(user);
+    if (!external_url && !user?.access_token) {
         if (isRedirectNeeded())
             Authorize.signinRedirect();
         return;
@@ -141,11 +151,11 @@ Authorize.getUser().then(user => {
                 }
                 if (failed) {
                     if (_.methods_dont_show_error.indexOf(url) < 0 && result && result.status >= 400 && result.detail)
-                        UI.setTopAlertText(result.detail);
+                        View.setTopAlertText(result.detail);
                     if (error)
                         error(result);
                 } else {
-                    UI.setTopAlertText(null);
+                    View.setTopAlertText(null);
                     if (success)
                         success(result);
                 }

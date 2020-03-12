@@ -1,8 +1,7 @@
 import React from 'react';
-import {observer} from "mobx-react";
-import store from 'stores/accommodation-store';
+import { observer } from "mobx-react";
 import UI from 'stores/ui-store';
-import { decorate } from "core";
+import View from 'stores/view-store';
 import { Highlighted } from "components/simple";
 
 /* Refactoring possibility: make a class for suggestion dropdown menus and remove code copies with region dropdown */
@@ -11,7 +10,6 @@ class DestinationDropdown extends React.Component {
     constructor(props) {
         super(props);
         this.setValue = this.setValue.bind(this);
-        this.generateSuggestion = this.generateSuggestion.bind(this);
     }
 
     setValue(item) {
@@ -20,37 +18,21 @@ class DestinationDropdown extends React.Component {
             formik
         } = this.props;
 
-        store.setRequestDestination(item);
-        UI.setDestinationSuggestions([]);
+        View.setDestinationSuggestions([]);
         formik.setFieldValue(connected, item.value);
     }
 
-    generateSuggestion = () => {
-        if (!UI?.destinations?.length)
-            return;
-
-        for (var i = 0; i < UI.destinations.length; i++) {
-            if (decorate.cutFirstPart(UI.destinations[i].value, this.props.value))
-                return UI.destinations[i];
-        }
-    };
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.value != this.props.value)
-            UI.setSuggestion(this.props.connected, this.props.value, this.generateSuggestion());
-    }
-
     render() {
-        if (!UI?.destinations?.length)
+        if (!View?.destinations?.length)
             return null;
 
         const {connected, formik} = this.props;
         return (
         <div class="cities dropdown">
             <div class="scroll">
-                {UI?.destinations?.map?.((item, index) => {
+                {View?.destinations?.map?.((item, index) => {
                     let destinationType = null;
-                    if (index === 0 || item.type !== UI.destinations[index - 1]?.type) {
+                    if (index === 0 || item.type !== View.destinations[index - 1]?.type) {
                         destinationType = <div className="subtitle">{item.type}</div>
                     }
                     return (

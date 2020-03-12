@@ -38,10 +38,12 @@ const App = () => {
                     <Route>
                         <Route component={ AuthDefault } />
                         { canShowContent ? <React.Fragment>
-                            <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
-                            <TopAlert />
-                            <Route exact path={ routesWithSearch } component={ Search } />
-                            <Routes />
+                            <div class="block-wrapper">
+                                <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
+                                <TopAlert />
+                                <Route exact path={ routesWithSearch } component={ Search } />
+                                <Routes />
+                            </div>
                             <Route exact path={ routesWithFooter } component={ Footer } />
                         </React.Fragment> : <Loader page /> }
                     </Route>

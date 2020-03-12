@@ -16,7 +16,9 @@ let settings = {
     payment_callback_host : window.location.origin,
     payment_any_cb_host   : window.location.origin,
 
-    sentry_dsn            : process.env.SENTRY_DSN || dev.SENTRY_DSN
+    sentry_dsn            : process.env.SENTRY_DSN || dev.SENTRY_DSN,
+
+    build                 : process.env.BUILD_VERSION || "JS_Default"
 };
 
 if ("localhost" == window.location.hostname)

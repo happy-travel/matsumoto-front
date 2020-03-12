@@ -5,11 +5,11 @@ import { API, dateFormat, price } from "core";
 
 import { Dual, Loader } from "components/simple";
 import { Redirect } from "react-router-dom";
+import { Formik } from "formik";
 
 import store from "stores/accommodation-store";
 import moment from "moment";
 import { FieldText } from "components/form";
-import { Formik } from "formik";
 
 const getClassByStatus = status => ({
     "Confirmed": "green",
@@ -175,7 +175,6 @@ class UserBookingManagementPage extends React.Component {
                         <div class="input-wrap">
                             <div class="form">
                                 <Formik
-                                    onSubmit={() => {}}
                                     render={formik => (
                                         <form onSubmit={formik.handleSubmit}>
                                             <FieldText formik={formik}

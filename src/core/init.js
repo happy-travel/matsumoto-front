@@ -4,6 +4,7 @@ import { API } from "core";
 import Authorize from "./auth/authorize";
 import React from "react";
 import { getParams } from "core";
+import dropdownToggler from "components/form/dropdown/toggler";
 
 const noRedirectPages = ["/contact", "/terms", "/privacy", "/about", "/signup/", "/pay"];
 
@@ -17,8 +18,6 @@ const init = () => {
         getParams().code) { // and auth
         if (getParams().invCode)
             window.sessionStorage.setItem("_auth__invCode", getParams().invCode);
-        else
-            window.sessionStorage.removeItem("_auth__invCode");
     }
 
     API.get({
@@ -43,29 +42,28 @@ const init = () => {
                 authStore.setCachedUserRegistered(true);
         }
     });
+
+    if (!UI.isAppInitialized) {
+        API.get({
+            url: API.BASE_REGIONS,
+            success: (result) =>
+                UI.setRegions(result),
+            after: () =>
+                UI.setInitialized(true)
+        });
+        API.get({
+            url: API.BASE_CURRENCIES,
+            success: (result) =>
+                UI.setCurrencies(result)
+        });
+    }
     API.get({
-        url: API.BASE_REGIONS,
+        url: API.BASE_VERSION,
         success: (result) =>
-            UI.setRegions(result),
-        after: () =>
-            UI.setInitialized(true)
-    });
-    API.get({
-        url: API.BASE_CURRENCIES,
-        success: (result) =>
-            UI.setCurrencies(result)
-    });
-    
-    window.addEventListener("mouseup", (event) => {
-        var target = event.target;
-        for (var i = 0; target && i < 30; i++){
-            if (target?.classList && (target.classList.contains("dropdown") || target.classList.contains("field")))
-                return;
-            target = target.parentNode;
-        }
-        UI.setOpenDropdown(null);
+            UI.setCurrentAPIVersion(result)
     });
 
+    dropdownToggler();
 };
 
 export default init;

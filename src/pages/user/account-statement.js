@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 import { API, dateFormat, price } from "core";
 
 import { Loader } from "components/simple";
+import { Formik } from "formik";
 
 import UI from "stores/ui-store";
 import store from "stores/accommodation-store";
-import { Formik } from "formik";
 import { FieldText } from "components/form";
 
 import DateDropdown from "components/form/dropdown/date";
@@ -18,8 +18,8 @@ class AccountStatementPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            start: moment().utc().startOf("day").add(-1, "M"),
-            end: moment().utc().startOf("day")
+            start: moment().startOf("day").add(-1, "M"),
+            end: moment().startOf("day")
         };
         this.getData = this.getData.bind(this);
     }
@@ -30,8 +30,8 @@ class AccountStatementPage extends React.Component {
         API.post({
             url: API.BILLING_HISTORY(UI.user.companies[0].id),
             body: {
-                "fromDate": this.state.start,
-                "toDate": this.state.end
+                "fromDate": moment(this.state.start).utc(true).format(),
+                "toDate": moment(this.state.end).add(1,"d").utc(true).format()
             },
             after: data => store.setUserPaymentsList(data)
         });
@@ -58,7 +58,6 @@ class AccountStatementPage extends React.Component {
                         <div class="input-wrap">
                             <div class="form">
                                 <Formik
-                                    onSubmit={() => {}}
                                     render={formik => (
                                         <form onSubmit={formik.handleSubmit}>
                                             <FieldText formik={formik}
@@ -74,14 +73,14 @@ class AccountStatementPage extends React.Component {
                                                 }
                                                 setValue={range => {
                                                     this.setState({
-                                                        start: moment(range.start).add(1, 'd').utc().startOf("day"),
-                                                        end: moment(range.end).add(1, 'd').utc().startOf("day")
+                                                        start: range.start,
+                                                        end: range.end
                                                     });
                                                     this.getData();
                                                 }}
                                                 options={moment.range(
-                                                    moment(this.state.start).local().startOf('day'),
-                                                    moment(this.state.end).local().endOf('day')
+                                                    moment(this.state.start),
+                                                    moment(this.state.end)
                                                 )}
                                             />
                                         </form>
