@@ -45,9 +45,10 @@ render() {
                         </menu>
                         <div class="payments">
                             <img src="/images/other/visa.png" />
-                            <img src="/images/other/mc-on-dark.png" class="transparent" />
-                            <img src="/images/other/visa-sec.png" />
-                            <img src="/images/other/mc-sec-on-dark.png" class="transparent" />
+                            <img src="/images/other/visa-sec.png" class="interval"/>
+                            <img src="/images/other/mc-on-dark.png" class="near transparent" />
+                            <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" />
+                            <img src="/images/other/amex.png" />
                         </div>
                         <div class="service-info">
                             Web – {settings.build || 0}<br/>

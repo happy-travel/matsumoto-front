@@ -42,6 +42,13 @@ class RegistrationStep2 extends React.Component {
                     invitationCode: this.state.invitationCode
                 },
                 success: () => {
+                    API.get({
+                        url: API.USER,
+                        success: (result) => {
+                            if (result?.email)
+                                UI.setUser(result);
+                        }
+                    });
                     store.setCachedUserRegistered(true);
                     UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
                     window.sessionStorage.removeItem("_auth__invCode");
@@ -64,7 +71,7 @@ class RegistrationStep2 extends React.Component {
         var invitationCode = window.sessionStorage.getItem("_auth__invCode");
         if (invitationCode)
             API.get({
-                url: API.USER_INVITE(invitationCode),
+                url: API.USER_INVITE_DATA(invitationCode),
                 success: data => {
                     this.setState({
                         invitationCode: invitationCode,

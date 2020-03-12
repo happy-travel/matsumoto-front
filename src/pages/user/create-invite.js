@@ -9,6 +9,25 @@ import View from "stores/view-store";
 import FormUserData from "parts/form-user-data";
 import { Loader } from "components/simple";
 
+const copyToClipboard = text => {
+    if (window.clipboardData && window.clipboardData.setData) {
+        return clipboardData.setData("Text", text);
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");
+        } catch (ex) {
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+};
+
 @observer
 class UserInvitePage extends React.Component {
     constructor(props) {
@@ -23,7 +42,7 @@ class UserInvitePage extends React.Component {
     submit(values) {
         this.setState({ success: null });
         API.post({
-            url: API.USER_INVITE(),
+            url: values.send ? API.USER_INVITE_SEND : API.USER_INVITE_GET_LINK,
             body: {
                 email: values.email,
                 companyId: UI.user.companies[0].id,
@@ -34,9 +53,14 @@ class UserInvitePage extends React.Component {
                     title: values.title
                 }
             },
-            success: () => {
+            success: data => {
                 UI.dropFormCache(FORM_NAMES.CreateInviteForm);
-                this.setState({ success: true });
+                this.setState({
+                    success:
+                        (values.send || !data) ?
+                        true :
+                        window.location.origin + "/signup/invite/" + values.email + "/" + data
+                });
             },
             error: (error) => {
                 this.setState({ success: false });
@@ -47,6 +71,11 @@ class UserInvitePage extends React.Component {
 
     reset() {
         this.setState({ success: false });
+    }
+
+    submitButtonClick(send, formik) {
+        formik.setFieldValue("send", send);
+        formik.handleSubmit();
     }
 
     render() {
@@ -63,13 +92,30 @@ class UserInvitePage extends React.Component {
             { this.state.success === null &&
                 <Loader />
             }
-            { this.state.success && <p>
-                {t("Your invitation sent.")}<br/>
-                <br/>
-                <button class="button payment-back" onClick={this.reset}>
-                    {t("Send one more invite")}
-                </button>
-            </p> }
+            { this.state.success && <div>
+                {this.state.success === true ?
+                <div>
+                    <h2>{t("Your invitation sent")}</h2>
+                    <br/>
+                </div> :
+                <div>
+                    <div class="form">
+                        <h2>{t("Send this link as invite")}</h2>
+                        <FieldText
+                            value={this.state.success}
+                        />
+                    </div>
+                    <br/>
+                    <button class="button small" onClick={() => copyToClipboard(this.state.success)}>
+                        {t("Copy to clipboard")}
+                    </button>
+                </div>}
+                <div style={{ marginTop: "100px" }}>
+                    <button class="button payment-back" onClick={this.reset}>
+                        {t("Send one more invite")}
+                    </button>
+                </div>
+            </div> }
             { false === this.state.success && <p>
                 {t("Invite someone to create a free HappyTravel.com account and start booking today.")}<br/>
                 <br/>
@@ -101,8 +147,15 @@ class UserInvitePage extends React.Component {
                             <div class="row submit-holder">
                                 <div class="field">
                                     <div class="inner">
-                                        <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                        <button onClick={() => this.submitButtonClick(true, formik)} class={"button" + (formik.isValid ? "" : " disabled")}>
                                             {t("Send invitation")}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="inner">
+                                        <button onClick={() => this.submitButtonClick(false, formik)} class={"button" + (formik.isValid ? "" : " disabled")}>
+                                            {t("Generate invitation link")}
                                         </button>
                                     </div>
                                 </div>

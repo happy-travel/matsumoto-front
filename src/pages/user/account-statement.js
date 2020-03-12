@@ -31,7 +31,7 @@ class AccountStatementPage extends React.Component {
             url: API.BILLING_HISTORY(UI.user.companies[0].id),
             body: {
                 "fromDate": moment(this.state.start).utc(true).format(),
-                "toDate": moment(this.state.end).utc(true).format()
+                "toDate": moment(this.state.end).add(1,"d").utc(true).format()
             },
             after: data => store.setUserPaymentsList(data)
         });

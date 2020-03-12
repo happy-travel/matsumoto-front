@@ -1,7 +1,7 @@
 import UI from "stores/ui-store";
 
 export default () => {
-    window.addEventListener("mouseup", (event) => {
+    window.addEventListener("mouseup", event => {
         if (!UI.openDropdown)
             return;
 
@@ -21,5 +21,10 @@ export default () => {
         }
 
         UI.setOpenDropdown(null);
+    });
+
+    window.addEventListener("keyup", event => {
+        if (event?.keyCode == 27) // Escape
+            UI.setOpenDropdown(null);
     });
 };

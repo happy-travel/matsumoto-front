@@ -64,7 +64,6 @@ const init = () => {
     });
 
     dropdownToggler();
-
 };
 
 export default init;

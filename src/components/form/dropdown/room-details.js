@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { FieldText } from "components/form";
 import { FieldArray } from "formik";
+import UI, { MODALS } from "stores/ui-store";
 
 const
     DEFAULT_CHILDREN_AGE = 12,
@@ -29,7 +30,8 @@ const
                 adultsNumber: MAXIMUM_PEOPLE_PER_REQUEST - currentPeopleInAnotherRooms - formik.values.roomDetails[roomNumber].childrenAges.length,
                 childrenNumber: MAXIMUM_PEOPLE_PER_REQUEST - currentPeopleInAnotherRooms - formik.values.roomDetails[roomNumber].adultsNumber,
                 rooms: currentPeopleInAnotherRooms < MAXIMUM_PEOPLE_PER_REQUEST ? MAXIMUM_ROOMS_PER_REQUEST : currentRooms
-            };
+            },
+            currentPeople = currentPeopleInAnotherRooms + formik.values.roomDetails[roomNumber].childrenAges.length + formik.values.roomDetails[roomNumber].adultsNumber;
 
         if ("rooms" == field)
             current = currentRooms;
@@ -43,8 +45,13 @@ const
         if (test)
             return (finalNewValue != current);
 
-        if (!plus)
-            return false;
+        if (finalNewValue == current && (
+            ("rooms" == field && currentRooms == MAXIMUM_ROOMS_PER_REQUEST) ||
+            ("rooms" != field && currentPeople == MAXIMUM_PEOPLE_PER_REQUEST)
+        )) {
+            UI.setModal(MODALS.SEARCH_OVERLOAD);
+            return;
+        }
 
         if ("rooms" == field) {
             if (current < finalNewValue)

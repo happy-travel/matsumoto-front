@@ -44,6 +44,11 @@ class PaymentResultPage extends React.Component {
                     });
                 }
             });
+        else
+            this.setState({
+                redirectToConfirmationPage: true
+            });
+
     }
 
     componentDidMount() {

@@ -197,7 +197,6 @@ translations: {
     "Card Number": "رقم البطاقة",
     "Save my card for faster checkout": "حفظ بطاقتي لسرعة الخروج",
     "Expiration Date": "تاريخ إنتهاء الصلاحية",
-    "CCV": "CCV",
     "Card Holder Name": "إسم صاحب البطاقة",
     "Error": "خطأ",
     "An error occured": "حدث خطأ",

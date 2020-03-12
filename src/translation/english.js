@@ -211,7 +211,6 @@ translations: {
     "Card Number": "Card Number",
     "Save my card for faster checkout": "Save my card for faster checkout",
     "Expiration Date": "Expiration Date",
-    "CCV": "CCV",
     "Card Holder Name": "Card Holder Name",
     "Deadline": "Deadline",
     "Please enter here": "Please enter here",
@@ -257,7 +256,7 @@ translations: {
     "has passed. A cancellation fee will be charged according to accommodation's cancellation policy.": "has passed. A cancellation fee will be charged according to accommodation's cancellation policy.",
     "Are you sure want to cancel booking?": "Are you sure want to cancel booking?",
     "Choose Room": "Choose Room",
-    "Recommended variant for": "Recommended variant for",
+    "Recommended option for": "Recommended option for",
     "Night": "Night",
     "Night_plural": "Nights",
     "FREE Cancellation - Without Prepayment": "FREE Cancellation - Without Prepayment",
@@ -314,7 +313,7 @@ translations: {
     "Search...": "Search...",
     "Send invitation": "Send invitation",
     "Invite a user to your company": "Invite a user to your company",
-    "Your invitation sent.": "Your invitation sent.",
+    "Your invitation sent": "Your invitation sent",
     "Send one more invite": "Send one more invite",
     "Invite someone to create a free HappyTravel.com account and start booking today.": "Invite someone to create a free HappyTravel.com account and start booking today.",
     "Accommodation": "Accommodation",
@@ -334,6 +333,9 @@ translations: {
     "out of": "out of",
     "available": "available",
     "No accommodations available": "No accommodations available",
-    "Account": "Account"
+    "Account": "Account",
+    "Would you like an exclusive offer?": "Would you like an exclusive offer?",
+    "Generate invitation link": "Generate invitation link",
+    "Send this link as invite": "Send this link as invite"
 }
 };

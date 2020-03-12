@@ -200,13 +200,13 @@ render() {
                             <FieldText formik={formik}
                                 id="card_security_code"
                                 password
-                                label={t("CCV")}
-                                placeholder={t("CCV")}
+                                label={"CVV"}
+                                placeholder={"CVV"}
                                 addClass="size-half"
                                 required
                                 clearable
                                 numeric
-                                maxLength={3}
+                                maxLength={6}
                             />
                         </div>
                         <div class="row hide">
