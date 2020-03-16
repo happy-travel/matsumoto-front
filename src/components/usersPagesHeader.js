@@ -9,7 +9,6 @@ export default function () {
         <section className="users-pages__header">
             <h1>COMPANYNAME SETTINGS</h1>
             <p>{t('Account Not Verificated Yet')}</p>
-            <a href="" className="button users-pages__button">{t('Update contract')}</a>
         </section>
         <div className="users-pages-navigation">
             <NavLink to="/settings/company">{t('Company settings')}</NavLink >

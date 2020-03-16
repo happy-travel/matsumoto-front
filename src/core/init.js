@@ -23,8 +23,10 @@ const init = () => {
     API.get({
         url: API.USER,
         success: (result) => {
-            if (result?.email)
-                UI.setUser(result);
+            if (result?.email) {
+                UI.setUser(result); // todo: move this user info to auth store
+                authStore.setUser(result);
+            }
         },
         after: (a, b, response) => {
             if (!response)
