@@ -20,6 +20,11 @@ class UsersStore {
         this.usersCompany = [...data].splice(this.usersTablePageInfo.pageIndex * this.usersTablePageInfo.pageSize, this.usersTablePageInfo.pageSize);
         // this.usersCompany = data;
     }
+
+    @action.bound
+    setCompanyUsers(result) {
+        this.usersCompany = result;
+    }
 }
 
 export default new UsersStore();

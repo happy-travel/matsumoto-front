@@ -9,11 +9,23 @@ class AuthStore {
         "company": {}
     };
 
+    @observable user = {
+        "email": null,
+        "lastName": null,
+        "firstName": null,
+        "title": null,
+        "position": null
+    };
+
     @observable userCache = null;
     @observable cachedUserRegistered = false;
 
     constructor() {
         autosave(this, "_auth_store_cache");
+    }
+
+    setUser(value) {
+        this.user = value;
     }
 
     setUserForm(form) {

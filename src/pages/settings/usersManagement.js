@@ -4,29 +4,26 @@ import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
 import { Link } from 'react-router-dom';
 
-import { dateFormat } from "core";
+import { dateFormat, API } from "core";
 import { FieldText, FieldSwitch } from "components/form";
 import Table from "components/table";
 import UsersPagesHeader from "components/usersPagesHeader";
 
 import UsersStore from "stores/usersStore";
+import AuthStore from "stores/auth-store";
 
 const columns = [
     {
         Header: 'Name',
-        accessor: 'name',
+        accessor: 'FirstName',
     },
     {
         Header: 'Company Name',
-        accessor: 'company',
-    },
-    {
-        Header: 'Location',
-        accessor: 'location',
+        accessor: 'CompanyName',
     },
     {
         Header: 'SignUp Date',
-        accessor: 'signUpDate',
+        accessor: 'Created',
         Cell: (item) => dateFormat.b(item.cell.value)
     },
     {
@@ -34,18 +31,9 @@ const columns = [
         accessor: 'markup',
     },
     {
-        Header: 'Type',
-        accessor: 'type',
-    },
-    {
         Header: 'Actions',
         accessor: '',
         Cell: () => <button disabled><span className={`icon icon-action-pen-orange`}/></button>
-    },
-    {
-        Header: 'Status',
-        accessor: 'status',
-        Cell: (item) => <FieldSwitch />
     },
 ];
 
@@ -53,6 +41,17 @@ const columns = [
 class UsersManagement extends React.Component {
     constructor() {
         super();
+
+        console.log(AuthStore.user);
+
+        if (AuthStore.user?.companies[0]) {
+            const {id, branchId} = AuthStore.user?.companies[0];
+            API.get({
+                url: API.COMPANY_BRANCH_CUSTOMERS(id, branchId),
+                success: (result) =>
+                    UsersStore.setCompanyUsers(result)
+            });
+        }
     }
 
     componentDidMount() {

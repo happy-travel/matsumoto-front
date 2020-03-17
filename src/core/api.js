@@ -61,8 +61,10 @@ API_METHODS = {
         SIGN         : code => v1 + "/external/payment-links/" + code + "/sign",
         PAY          : code => v1 + "/external/payment-links/" + code + "/pay",
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
-    }
+    },
 
+    COMPANY_BRANCH_CUSTOMERS    : (companyId, branchId) =>
+                           v1 + `companies/${companyId}/branch/${branchId}/customers`,
 };
 
 
