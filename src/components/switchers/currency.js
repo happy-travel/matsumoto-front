@@ -8,12 +8,6 @@ const dropdownId = "CurrencySwitcherDropdown";
 
 @observer
 class CurrencySwitcherDropdown extends React.Component {
-    toggleMenu() {
-        if (dropdownId == UI.openDropdown)
-            return UI.setOpenDropdown(null);
-        UI.setOpenDropdown(dropdownId);
-    }
-
     changeCurrency = (value) => {
         //todo: finish the component
     };
@@ -23,7 +17,7 @@ class CurrencySwitcherDropdown extends React.Component {
 
         return (
             <React.Fragment>
-                <div class="switcher currency-switcher" onClick={this.toggleMenu}>
+                <div class="switcher currency-switcher">
                     <div class="currency">USD <span>(US Dollars)</span></div>
                     { /* <div class="switch-arrow" />
                     {dropdownId == UI.openDropdown && <div class="currency dropdown">

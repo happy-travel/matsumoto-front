@@ -1,8 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import settings from "settings";
+import UI from "stores/ui-store";
+import {observer} from "mobx-react";
 
-const Footer = () => {
+@observer
+class Footer extends React.Component {
+render() {
     const { t } = useTranslation();
     return (
         <footer>
@@ -40,9 +45,14 @@ const Footer = () => {
                         </menu>
                         <div class="payments">
                             <img src="/images/other/visa.png" />
-                            <img src="/images/other/mc-on-dark.png" class="transparent" />
-                            <img src="/images/other/visa-sec.png" />
-                            <img src="/images/other/mc-sec-on-dark.png" class="transparent" />
+                            <img src="/images/other/visa-sec.png" class="interval"/>
+                            <img src="/images/other/mc-on-dark.png" class="near transparent" />
+                            <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" />
+                            <img src="/images/other/amex.png" />
+                        </div>
+                        <div class="service-info">
+                            Web – {settings.build || 0}<br/>
+                            API – {UI.currentAPIVersion || 0}
                         </div>
                     </div>
                     <div class="contact">
@@ -66,6 +76,6 @@ const Footer = () => {
             </div>
         </footer>
     );
-};
+}}
 
 export default Footer;

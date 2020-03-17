@@ -80,16 +80,30 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")}: <b>{ store.search.form?.["destination"] }</b>
-                            <span>&nbsp;({store.hotelArray.length} {t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")})</span>
+                            {t("Results for")}: <b>{ store?.search?.request?.destination }</b>
+
+                            {!!store.hotelArray.length &&
+                                <span>&nbsp;({store.hotelArray.length}&nbsp;
+                                    { !!store.search.result?.numberOfProcessedResults && <React.Fragment>
+                                        {t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")})
+                                    </React.Fragment> }
+                                </span>
+                            }
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
                                 text: t("Find Accommodation")
                             }, {
-                                text: store.search.form?.["destination"] || ""
+                                text: store.search.request?.destination
                             }
                         ]}/>
+                        { !store.hotelArray.length &&
+                            <h3>
+                                <span>
+                                    {t("No accommodations available")}
+                                </span>
+                            </h3>
+                        }
                     </div>
                     { /* todo:
                     <div class="sorter">
@@ -107,8 +121,8 @@ class AccommodationVariantsPage extends React.Component {
                     */ }
                 </div>
 
-                { (!store.hotelArray.length || !store.isValidFilterQuery) &&
-                    <div>
+                { !store.hotelArray.length &&
+                    <div style={{ paddingTop: "50px" }}>
                         <div class="head">
                             <div class="title">
                                 <h3>{t("Found nothing?")}</h3>
@@ -116,7 +130,7 @@ class AccommodationVariantsPage extends React.Component {
                                 {t("You could reach our Operations team directly, and we pick an accommodation for you.")}
                                 <br/>
                                 <br/>
-                                <a href="mailto:info@happytravel.com">{t("Email")}: info@happytravel.com</a>
+                                {t("Email")}: <a href="mailto:info@happytravel.com" class="link">info@happytravel.com</a>
                             </div>
                         </div>
                     </div> }
@@ -152,30 +166,23 @@ class AccommodationVariantsPage extends React.Component {
                     <div class="description">
                         <span>{t("Located in")} {item.accommodationDetails.location.locality}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.{" "}
                             {item.accommodationDetails.generalTextualDescription && item.accommodationDetails.generalTextualDescription.descriptions && item.accommodationDetails.generalTextualDescription.descriptions.en}</span>
-                        { /* <span class="expand">{t("more...")}</span> */ }
                     </div>
                     <div class="table">
                         <div class="title">
-                            {t("Recommended variant for")}{" "}
+                            {t("Recommended option for")}{" "}
                             {plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                         </div>
                         <div class="billet">
                             <div class="count">
-                                {plural(t, store.search.result?.numberOfNights, "Night")},
+                                {plural(t, store.search.result.numberOfNights, "Night")},
                                 {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                             </div>
                             <div class="price">
                                 {price(item.agreements?.[0]?.price)}
                             </div>
-                            { (item.agreements.some(agreement => moment().isBefore(agreement.deadlineDate))
-                            && item.agreements.some(agreement => agreement.isDynamic !== true)) ?
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
-                            </button> :
-                            <button class="button small disabled">
-                                {t("Choose Room")}
                             </button>
-                            }
                         </div>
                         { item.agreements.slice(0, 2).map(agreement => <div class="row">
                             <div class="icons">

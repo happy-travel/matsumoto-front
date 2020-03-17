@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 @observer
 class TopAlert extends React.Component {
@@ -10,11 +10,11 @@ class TopAlert extends React.Component {
     }
 
     hideAlert() {
-        UI.setTopAlertText(null);
+        View.setTopAlertText(null);
     }
 
     render() {
-        if (!UI?.topAlertText)
+        if (!View?.topAlertText)
             return null;
 
         return (
@@ -22,7 +22,7 @@ class TopAlert extends React.Component {
                 <section>
                     <span class="icon icon-warning-inverted"/>
                     <div class="inner">
-                        {UI?.topAlertText}
+                        {View?.topAlertText}
                     </div>
                     <div class="close-button" onClick={this.hideAlert}>
                         <span class="icon icon-close white" />

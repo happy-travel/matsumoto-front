@@ -13,10 +13,10 @@ import moment from "moment";
 import store from "stores/accommodation-store";
 
 const Passenger = ({ passenger }) => (
-    <Dual addClass="line"
+    passenger ? <Dual addClass="line"
         a={"Passenger Name"}
         b={passenger.title + ". " + passenger.firstName + " " + passenger.lastName}
-    />
+    /> : null
 );
 
 @observer
@@ -193,12 +193,12 @@ render() {
                         </React.Fragment>}
                     />
 
-                    <h2>
+                    { !!booking.roomDetails.length && <h2>
                         {t("Leading Passenger")}
-                    </h2>
-                    <Passenger passenger={booking.roomDetails[0].roomDetails.passengers[0]} />
+                    </h2> }
+                    <Passenger passenger={booking.roomDetails?.[0]?.roomDetails?.passengers[0]} />
 
-                    { (booking.roomDetails.length > 1 || booking.roomDetails[0].roomDetails.passengers.length > 1) && <React.Fragment>
+                    { (booking.roomDetails.length > 1 || booking.roomDetails?.[0]?.roomDetails.passengers.length > 1) && <React.Fragment>
                         <h2>
                             {t("Other Passengers")}
                         </h2>
@@ -230,11 +230,9 @@ render() {
                                 b={plural(t, accommodation.agreement.rooms[index].adultsNumber, "Adult")}
                             />
 
-                            { room.roomDetails.passengers?.length > 1 && <React.Fragment>
-                                {room.roomDetails.passengers.map((item,index) => (
-                                    <React.Fragment>
-                                        {index ? <Passenger passenger={ item } /> : null}
-                                    </React.Fragment>
+                            { room.roomDetails.length > 1 && <React.Fragment>
+                                {room.roomDetails.passengers.map((item) => (
+                                    <Passenger passenger={ item } />
                                 ))}
                             </React.Fragment> }
 

@@ -44,12 +44,13 @@
                 &:hover
                     color: $color-text
                     border-color: $color-text
-                .disabled
+                &.disabled
                     cursor: default
                     border: 1px solid $color-usual-gray
-                    &:hover
+                    color: $color-usual-gray
+                    &:hover, & span
                         color: $color-usual-gray
-                        border-color: $color-text-light
+                        border-color: $color-usual-gray
                 &.selected
                     color: $color-text
                     border-color: $color-brand

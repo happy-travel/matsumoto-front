@@ -3,6 +3,7 @@ import settings from "settings";
 import PaymentPage from "../payment";
 
 import { session } from "core";
+import { StorageUserIdKey } from "core/storage";
 
 import { API } from "core";
 import { Loader } from "components/simple";
@@ -48,6 +49,10 @@ class PaymentDirectLinkPage extends PaymentPage {
                 });
             }
         });
+
+        if (!window.localStorage.getItem(StorageUserIdKey))
+            window.localStorage.setItem(StorageUserIdKey, "__direct_payment");
+
         this.snare();
     }
 

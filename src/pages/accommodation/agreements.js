@@ -6,7 +6,7 @@ import { groupAndCount } from "components/simple";
 
 import { API, dateFormat, price, plural } from "core";
 import store from 'stores/accommodation-store';
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 import AccommodationCommonDetails from "parts/accommodation-details";
 
 import {
@@ -61,7 +61,7 @@ class AccommodationAgreementsPage extends React.Component {
                 store.selectAgreement(result);
             },
             error: (error) => {
-                UI.setTopAlertText("Sorry, this room is not available now, try again later");
+                View.setTopAlertText("Sorry, this room is not available now, try again later");
                 if (error)
                     console.log("error: " + error);
             },
@@ -83,7 +83,7 @@ class AccommodationAgreementsPage extends React.Component {
         if (this.state.redirectToVariantsPage)
             return <Redirect push to="/search" />;
 
-        if (!item.accommodationDetails)
+        if (!item?.accommodationDetails)
             return null;
 
         return (
@@ -107,7 +107,7 @@ class AccommodationAgreementsPage extends React.Component {
                         {
                             text: t("Find Accommodation")
                         }, {
-                            text: store.search.form?.["destination"] || ""
+                            text: store.search.request?.destination
                         }, {
                             text: item.accommodationDetails.name
                         }
@@ -127,6 +127,8 @@ class AccommodationAgreementsPage extends React.Component {
                         <div class="subpart">
                             <div class="h1">{t("Check In Date")}</div>
                             <div class="h2">{dateFormat.d(store.search.request.checkInDate)}</div>
+                            { item.accommodationDetails?.schedule?.checkInTime &&
+                              <div class="h3">{t("From")} {item.accommodationDetails.schedule.checkInTime}</div> }
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Check Out Date")}</div>
@@ -135,7 +137,8 @@ class AccommodationAgreementsPage extends React.Component {
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Guests")}</div>
-                            <div class="h2">{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}</div>
+                            <div class="h2">{plural(t, store.search.request.adultsTotal, "Adult")}</div>
+                            {!!store.search.request.childrenTotal && <div class="h2">{plural(t, store.search.request.childrenTotal, "Children")}</div>}
                         </div>
                     </div>
                     <div class="part">
@@ -150,15 +153,14 @@ class AccommodationAgreementsPage extends React.Component {
                         <table class="table agt">
                             <thead>
                                 <tr>
-                                    <th>{t("Room Type")}</th>
-                                    <th class="icons">{t("Accommodates")}</th>
+                                    <th colSpan="2">{t("Room Type")}</th>
                                     <th class="price">{t("Price for")} {plural(t, store.search?.result?.numberOfNights, "Night")}</th>
                                     <th class="pros">{t("Pros")}</th>
                                     <th />
                                 </tr>
                             </thead>
                             <tbody>
-                            { item.agreements.map(agreement =>
+                            { item?.agreements?.map(agreement =>
                                 <tr>
                                     <td class="agreement">
                                         {groupAndCount(agreement.rooms)}<br/>
@@ -189,13 +191,9 @@ class AccommodationAgreementsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        { (moment().isBefore(agreement.deadlineDate) && agreement.isDynamic !== true) ?
                                         <button class="button small" onClick={() => this.agreementSelect(agreement, item.accommodationDetails)}>
                                             {t("Book it")}
-                                        </button> :
-                                        <button class="button small disabled">
-                                            {t("Book it")}
-                                        </button> }
+                                        </button>
                                     </td>
                                 </tr>
                             )}

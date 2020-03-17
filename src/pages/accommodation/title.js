@@ -21,34 +21,34 @@ render () {
                     {
                         city: 'PARIS, FRANCE',
                         flag: 'fr',
-                        propertiesCount: '161',
-                        image: '/images/hotels/france.png'
+                        propertiesCount: '2831',
+                        image: '/images/hotels/france.jpg'
                     },
                     {
                         city: 'LONDON, ENGLAND',
                         flag: 'gb',
-                        propertiesCount: '334',
-                        image: '/images/hotels/london.png'
+                        propertiesCount: '3399',
+                        image: '/images/hotels/london.jpg'
                     }
                 ]} />
                 <Tiles list={[
                     {
                         city: 'ROME, ITALY',
                         flag: 'it',
-                        propertiesCount: '65',
-                        image: '/images/hotels/rome.png'
+                        propertiesCount: '5965',
+                        image: '/images/hotels/rome.jpg'
                     },
                     {
                         city: 'BARCELONA, SPAIN',
                         flag: 'es',
-                        propertiesCount: '223',
-                        image: '/images/hotels/barcelona.png'
+                        propertiesCount: '1770',
+                        image: '/images/hotels/barcelona.jpg'
                     },
                     {
-                        city: 'DORTMUND, GERMANY',
-                        flag: 'fr',
-                        propertiesCount: '11',
-                        image: '/images/hotels/dortmund.png'
+                        city: 'DUBAI, United Arab Emirates',
+                        flag: 'ae',
+                        propertiesCount: '949',
+                        image: '/images/hotels/dubai.jpg'
                     }
                 ]} />
                 <h1><span>{t("Exclusive offers")}</span></h1>
@@ -56,22 +56,22 @@ render () {
                     {
                         title: 'EMERALD PALACE KEMPINSKI DUBAI, DUBAI',
                         flag: 'ae',
-                        image: '/images/hotels/emeraldplace.png'
+                        image: '/images/hotels/emeraldplace.jpg'
                     },
                     {
                         title: 'HILTON BAKU, BAKU',
                         flag: 'az',
-                        image: '/images/hotels/hilton.png'
+                        image: '/images/hotels/hilton.jpg'
                     },
                     {
                         title: 'KEMPINSKI HOTEL MALL OF THE EMIRATES, DUBAI',
                         flag: 'ae',
-                        image: '/images/hotels/kempinski.png'
+                        image: '/images/hotels/kempinski.jpg'
                     },
                     {
                         title: 'PULLMAN DUBAI CREEK CITY CENTRE HOTEL, DUBAI',
                         flag: 'ae',
-                        image: '/images/hotels/pullman.png'
+                        image: '/images/hotels/pullman.jpg'
                     }
                 ]} />
             </section>

@@ -1,7 +1,8 @@
 import React from "react";
-import { observable, computed } from "mobx";
+import { observable } from "mobx";
 import autosave from "core/misc/autosave";
 import { RenderTheApp } from "../";
+import { StorageUserIdKey } from "core/storage";
 
 class AuthStore {
     @observable registration = {
@@ -44,6 +45,12 @@ class AuthStore {
 
     setUserCache(newUserCache) {
         var rerenderNeeded = this.userCache?.access_token != newUserCache?.access_token;
+
+        if (newUserCache?.profile?.email)
+            window.localStorage.setItem(StorageUserIdKey, btoa(newUserCache.profile?.email));
+        else
+            window.localStorage.removeItem(StorageUserIdKey);
+
         if (newUserCache?.access_token)
             this.userCache = {
                 access_token: newUserCache?.access_token

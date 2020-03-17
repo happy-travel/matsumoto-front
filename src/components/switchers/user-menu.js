@@ -20,17 +20,13 @@ class UserMenuDropdown extends React.Component {
         };
     }
 
-    toggleMenu() {
-        if (dropdownId == UI.openDropdown)
-            return UI.setOpenDropdown(null);
-        UI.setOpenDropdown(dropdownId);
-    }
-
     render() {
         const { t } = useTranslation();
 
         return (
-            <div class="switcher user-switcher" onClick={this.toggleMenu}>
+            <div class="switcher user-switcher"
+                 data-dropdown="close"
+                 onClick={() => UI.setOpenDropdown(dropdownId)}>
                 <div class="avatar">
                     <NoAvatar />
                 </div>
@@ -43,15 +39,18 @@ class UserMenuDropdown extends React.Component {
                     <Link to="/user/booking" class="item">
                         {t("Booking management")}
                     </Link>
-                    <Link to="/user/payment-history" class="item">
-                        {t("Account statement")}
-                    </Link>
-                    { (UI.user?.companies?.[0].inCompanyPermissions?.indexOf("CustomerInvitation") != -1) && <Link to="/user/invite" class="item">
-                        {t("Send invitation")}
-                    </Link> }
-                    <div class="item" onClick={() =>
-                        Authorize.signoutRedirect().then(this.setState({ loading: true }))
-                    }>
+                    { (UI.user?.companies?.[0].inCompanyPermissions?.indexOf("ViewCompanyAllPaymentHistory") != -1) &&
+                        <Link to="/user/payment-history" class="item">
+                            {t("Account statement")}
+                        </Link> }
+                    { (UI.user?.companies?.[0].inCompanyPermissions?.indexOf("CustomerInvitation") != -1) &&
+                        <Link to="/user/invite" class="item">
+                            {t("Send invitation")}
+                        </Link> }
+                    <div class="item" onClick={() => {
+                        UI.dropAllFormCaches();
+                        Authorize.signoutRedirect().then(this.setState({loading: true}));
+                    }}>
                         {t("Log out")}
                     </div>
                 </div>}

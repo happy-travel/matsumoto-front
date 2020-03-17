@@ -5,11 +5,17 @@ import { useTranslation } from "react-i18next";
 import { Redirect, Link } from "react-router-dom";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Formik } from "formik";
-import { FieldText, FieldTextarea, FieldSelect } from "components/form";
+import {
+    CachedForm,
+    FORM_NAMES,
+    FieldText,
+    FieldTextarea,
+    FieldSelect
+} from "components/form";
 import { registrationCompanyValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import UI from "stores/ui-store";
+import View from "stores/view-store";
 import Authorize from "core/auth/authorize";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 
@@ -41,9 +47,12 @@ class RegistrationStep3 extends React.Component {
                 store.setCompanyForm({});
                 store.setCachedUserRegistered(true);
                 this.setState({ redirectToIndexPage: true });
+
+                UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
+                UI.dropFormCache(FORM_NAMES.RegistrationStepThreeForm);
             },
             error: (error) => {
-                UI.setTopAlertText(error?.title || error?.detail);
+                View.setTopAlertText(error?.title || error?.detail);
                 if (error && !(error?.title || error?.detail))
                     this.setState({ redirectToIndexPage: true });
             }
@@ -53,9 +62,8 @@ class RegistrationStep3 extends React.Component {
     setCountryValue(country, formik, connected) {
         formik.setFieldValue(connected, country.name);
         formik.setFieldValue("countryCode", country.code);
-        formik.setFieldValue('countrySelected', true); // set for pass validation
         store.setCountryValue(country);
-        UI.setCountries([]);
+        View.setCountries([]);
     }
 
     render() {
@@ -68,7 +76,7 @@ class RegistrationStep3 extends React.Component {
 
             <div class="account block sign-up-page">
                 <div className="hide">
-                    {'' + UI.countries}
+                    {'' + View.countries}
                 </div>
                 <section>
                     <div class="logo-wrapper">
@@ -97,10 +105,12 @@ class RegistrationStep3 extends React.Component {
                             Already have an account? <span onClick={() => Authorize.signoutRedirect()} class="link">Log In Here.</span>
                         </p>
 
-                        <Formik
+                        <CachedForm
+                            id={ FORM_NAMES.RegistrationStepThreeForm }
                             initialValues={{
                                 "name": "",
                                 "address": "",
+                                "country": "",
                                 "countryCode": "",
                                 "city": "",
                                 "phone": "",
@@ -108,12 +118,12 @@ class RegistrationStep3 extends React.Component {
                                 "preferredCurrency": "USD",
                                 "preferredPaymentMethod": "",
                                 "website": "",
-                                countrySelected: false,
+                                "postalCode": ""
                             }}
                             validationSchema={registrationCompanyValidator}
                             onSubmit={this.submit}
                             render={formik => (
-                                <form onSubmit={formik.handleSubmit}>
+                                <React.Fragment>
                                     <div class="form">
                                         <div class="row">
                                             <FieldText formik={formik}
@@ -133,7 +143,7 @@ class RegistrationStep3 extends React.Component {
                                         </div>
                                         <div class="row">
                                             <FieldText formik={formik}
-                                                       id={"zip"}
+                                                       id={"postalCode"}
                                                        label={t("Zip/Postal Code")}
                                                        placeholder={t("Zip/Postal Code")}
                                             />
@@ -141,12 +151,12 @@ class RegistrationStep3 extends React.Component {
                                         <div class="row">
                                             <FieldText formik={formik}
                                                        id="country"
-                                                       additionalFieldForValidation="countrySelected"
+                                                       additionalFieldForValidation="countryCode"
                                                        label={t("Country")}
                                                        placeholder={t("Country")}
                                                        Dropdown={RegionDropdown}
                                                        onChange={regionInputChanged}
-                                                       options={UI.countries}
+                                                       options={View.countries}
                                                        setValue={this.setCountryValue}
                                                        required
                                             />
@@ -174,9 +184,9 @@ class RegistrationStep3 extends React.Component {
                                         <div class="row">
                                             <FieldSelect formik={formik}
                                                          id="preferredCurrency"
-                                                         label={t("Preferred currency")}
+                                                         label={t("Company account currency")}
                                                          required
-                                                         placeholder={t("Preferred currency")}
+                                                         placeholder={t("Company account currency")}
                                                          options={[
                                                              { value: "USD", text: "US Dollars"}
                                                          ]}
@@ -217,13 +227,12 @@ class RegistrationStep3 extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                </React.Fragment>
                             )}
                         />
                     </div>
                 </section>
             </div>
-
         );
     }
 }

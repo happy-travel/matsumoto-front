@@ -18,8 +18,5 @@ export default Yup.object().shape({
             'Credit Card expiry year is not valid',
              value => valid.expirationYear(value).isValid),
     card_security_code: Yup.string()
-        .required("*")
-        .test('is-card-cvv',
-            'Credit Card secure code is not valid',
-             value => valid.cvv(value).isValid),
+        .required("Credit Card secure code is not valid")
 });

@@ -1,26 +1,25 @@
 import React from "react";
 import { observer } from "mobx-react";
 import UI from "stores/ui-store";
-import store from "stores/accommodation-store";
+import View from "stores/view-store";
 import { decorate } from "core";
 import { Highlighted } from "components/simple";
 import { API } from "core";
 import Flag from "components/flag";
 
 export const regionInputChanged = (event, props) => {
-    store.setSearchRequestField(props.id, '');
     if (props.formik)
-        props.formik.setFieldValue(`${props.id}Selected`, false);
+        props.formik.setFieldValue(`${props.id}Code`, "");
 
     var query = event.target.value;
     if (!query)
-        return UI.setCountries([]);
+        return View.setCountries([]);
 
     API.get({
         url: API.COUNTRIES_PREDICTION,
         body: { query },
         after: (data) => {
-            UI.setCountries(data || []);
+            View.setCountries(data || []);
         }
     });
 };
@@ -33,10 +32,10 @@ class RegionDropdown extends React.Component {
     }
 
     generateSuggestion = () => {
-        if (!UI.countries?.length || !UI.regionList?.length)
+        if (!View.countries?.length || !UI.regionList?.length)
             return;
 
-        var countries = [...UI.countries]; //todo: sort for regions
+        var countries = [...View.countries];
 
         for (var i = 0; i < countries.length; i++) {
             if (decorate.cutFirstPart(countries[i].name, this.props.value))
@@ -50,17 +49,17 @@ class RegionDropdown extends React.Component {
     }
 
     render() {
-        if (!UI.countries?.length)
+        if (!View.countries?.length)
             return null; //todo: change to separated lists for different inputs
 
         const {connected, formik} = this.props;
         return (
             <div class="cities dropdown">
                 <div class="scroll">
-                    {UI.countries.map((country, index) => {
+                    {View.countries.map((country, index) => {
                         let region = null;
-                        if (index === 0 || UI.countries[index]?.regionId !== UI.countries[index - 1]?.regionId) {
-                            const regionId = +UI.countries[index]?.regionId;
+                        if (index === 0 || View.countries[index]?.regionId !== View.countries[index - 1]?.regionId) {
+                            const regionId = +View.countries[index]?.regionId;
                             const currentRegion = UI.regionList?.find(regionItem => regionItem.id === regionId);
                             region = <div
                               key={currentRegion?.name}
@@ -75,7 +74,7 @@ class RegionDropdown extends React.Component {
                               class={`country line${UI.focusedDropdownIndex === index ? ' country__focused' : ''}`}
                             >
                                 <Flag code={country.code} />
-                                <Highlighted str={country.name} highlight={this.props.value} /> {/* todo: pick culture normally */}
+                                <Highlighted str={country.name} highlight={this.props.value} />
                             </div>
                         </div>
                     })}

@@ -1,15 +1,29 @@
-import FieldText from './field-text';
-import FieldSwitch from './field-switch';
-import FieldCheckbox from './field-checkbox';
-import FieldTextarea from './field-textarea';
-import FieldRange from './field-range';
-import FieldSelect from './field-select';
+import CachedForm from "./cached-form";
+import FieldText from "./field-text";
+import FieldSwitch from "./field-switch";
+import FieldCheckbox from "./field-checkbox";
+import FieldTextarea from "./field-textarea";
+import FieldRange from "./field-range";
+import FieldSelect from "./field-select";
+
+const FORM_NAMES = {
+    CreateInviteForm: "CreateInviteForm",
+    AccommodationFiltersForm: "AccommodationFiltersForm",
+    RegistrationStepTwoForm: "RegistrationStepTwoForm",
+    RegistrationStepThreeForm: "RegistrationStepThreeForm",
+    SearchForm: "SearchForm",
+    BookingForm: "BookingForm", //todo: google token can be expired, need a validation in future
+    SendInvoiceForm: "SendInvoiceForm"
+};
 
 export {
+    CachedForm,
     FieldText,
     FieldSwitch,
     FieldCheckbox,
     FieldTextarea,
     FieldRange,
-    FieldSelect
+    FieldSelect,
+
+    FORM_NAMES
 };
