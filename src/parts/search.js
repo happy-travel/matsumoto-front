@@ -64,13 +64,6 @@ const formFormatter = (values) => {
         body.propertyTypes = values.propertyTypes;
     }
 
-    // todo: temporary adults workaround
-    for (i = 0; i < body.roomDetails.length; i++) {
-        body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
-        body.roomDetails[i].childrenNumber = 0;
-        body.roomDetails[i].childrenAges = [];
-    }
-
     return body;
 };
 
