@@ -60,6 +60,8 @@ class PaymentPage extends React.Component {
         API.get({
             url: API.CARDS_SETTINGS,
             after: data => {
+                if (!data)
+                    return;
                 this.setState({
                     service: {
                         ...this.state.service,
@@ -148,7 +150,7 @@ render() {
                 {t("This order was successfully paid already")}
             </h2> }
 
-            { ("Success" != this.state.status) &&
+            { this.state.direct && ("Success" != this.state.status) &&
               ("Created" != this.state.status) && <h2 class="payment-title">
                 {t("You are not able to pay this order anymore")}
             </h2> }

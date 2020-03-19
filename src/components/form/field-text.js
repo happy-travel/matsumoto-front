@@ -175,10 +175,14 @@ class FieldText extends React.Component {
                     { label && <div class="label">
                         <span class={required ? "required" : ""}>{label}</span>
                     </div> }
+                    HERE:: {JSON.stringify(!!(!formik?.errors[id] && formik?.touched[id]))}
                     <div class={"input"
                         + (this.state.focus ? ' focus' : '')
                         + (disabled ? ' disabled' : '')
-                        + ((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] && formik?.touched[id]) ? ' error' : '')}
+                        + ((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] &&
+                            formik?.touched[id]) ? ' error' : '')
+                        + ((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] &&
+                            formik?.touched[id]) ? ' error' : '')}
                     >
                         { !!Flag && !!finalValue && <div>
                             { Flag }

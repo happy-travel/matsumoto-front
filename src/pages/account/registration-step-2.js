@@ -11,6 +11,7 @@ import FormUserData from "parts/form-user-data";
 import { API } from "core";
 import View from "stores/view-store";
 import UI from "stores/ui-store";
+import Authorize from "core/auth/authorize";
 
 @observer
 class RegistrationStep2 extends React.Component {
@@ -143,6 +144,9 @@ class RegistrationStep2 extends React.Component {
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                        <div style={{ marginTop: "60px" }}>
+                            <span onClick={() => Authorize.signoutRedirect()} class="link">Log out</span>
                         </div>
                     </div>
                 </React.Fragment>
