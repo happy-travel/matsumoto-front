@@ -29,15 +29,14 @@ const init = () => {
         after: (a, b, response) => {
             if (!response)
                 return;
-            if (response.status == 401) {
+            if (response.status == 401 || response.status == 403) {
                 if (isRedirectNeeded())
                     Authorize.signinRedirect();
                 return;
             }
-            if (response.status != 200) {
+            if (response.status == 400 && "Could not get customer data" == response.detail) {
                 if (isRedirectNeeded())
                     window.location.href = window.location.origin + "/signup/user";
-                //todo: make normal redirect
             } else
                 authStore.setCachedUserRegistered(true);
         }

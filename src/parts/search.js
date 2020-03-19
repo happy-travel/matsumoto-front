@@ -106,10 +106,12 @@ class AccommodationSearch extends React.Component {
             }
         });
 
-        body.destination = values.predictionDestination;
-        body.adultsTotal = sum(values, "adultsNumber");
-        body.childrenTotal = sum(values, "childrenNumber");
-        store.setNewSearchRequest(body);
+        store.setNewSearchRequest({
+            ...body,
+            destination: values.predictionDestination,
+            adultsTotal: sum(values, "adultsNumber"),
+            childrenTotal: sum(values, "childrenNumber")
+        });
 
         this.setState({
             redirectToVariantsPage: true
