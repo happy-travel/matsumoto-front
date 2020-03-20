@@ -153,6 +153,7 @@ class FieldText extends React.Component {
             formik,
             setValue,
             additionalFieldForValidation,
+            autocomplete,
             //onChange
         } = this.props;
 
@@ -202,7 +203,7 @@ class FieldText extends React.Component {
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                                 maxLength={ maxLength }
-                                autocomplete="off"
+                                autocomplete={autocomplete ? autocomplete : "off"}
                                 {...(readonly ? {readonly: "readonly"} : {})}
                             />
                             { ValueObject }

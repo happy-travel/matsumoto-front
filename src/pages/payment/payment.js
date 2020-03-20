@@ -180,6 +180,7 @@ render() {
                                     label={t("Card Holder Name")}
                                     placeholder={t("Card Holder Name")}
                                     onChange={decorateCardholderName}
+                                    autocomplete="cc-name"
                                 />
                             </div>
                             <div class="row">
@@ -192,6 +193,7 @@ render() {
                                     maxLength={22}
                                     onChange={this.detectCardType}
                                     Icon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} /> : null}
+                                    autocomplete="cc-number"
                                 />
                             </div>
                             <div class="row">
@@ -204,6 +206,7 @@ render() {
                                     numeric={"/"}
                                     onChange={decorateExpirationDate}
                                     maxLength={5}
+                                    autocomplete="cc-exp"
                                 />
                                 <FieldText formik={formik}
                                     id="card_security_code"
@@ -222,6 +225,7 @@ render() {
                                     required
                                     numeric
                                     maxLength={this.state.code.size}
+                                    autocomplete="cc-csc"
                                 />
                             </div>
                             <div class="row hide">
