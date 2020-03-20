@@ -34,11 +34,6 @@ const getInitialValues = (formName, initialValues, cacheValidator) => {
 };
 
 class CachedForm extends React.Component {
-
-    componentDidMount() {
-        console.log('a');
-    }
-
     render() {
         var {
             onSubmit = () => {},

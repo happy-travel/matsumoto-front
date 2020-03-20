@@ -338,6 +338,8 @@ translations: {
     "Generate invitation link": "Generate invitation link",
     "Send this link as invite": "Send this link as invite",
     "This order was successfully paid already": "This order was successfully paid already",
-    "You are not able to pay this order anymore": "You are not able to pay this order anymore"
+    "You are not able to pay this order anymore": "You are not able to pay this order anymore",
+    "Security code on your credit card": "Security code on your credit card",
+    "It's safe, only a part of your card data will be stored": "It's safe, only a part of your card data will be stored"
 }
 };

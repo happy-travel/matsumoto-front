@@ -114,7 +114,11 @@ class FieldText extends React.Component {
         //todo suggestion
 
         if (this.props.numeric) {//todo: temporary. rewrite to this.props.mask
-            event.target.value = event.target.value.replace(/[^0-9.]/g, "");
+            if ("/" == this.props.numeric)
+                event.target.value = event.target.value.replace(/[^0-9.\/ ]/g, "");
+            else
+                event.target.value = event.target.value.replace(/[^0-9.]/g, "");
+
             if (typeof this.props.numeric == "number" && event.target.value)
                 event.target.value = Math.min(event.target.value, this.props.numeric);
         }
@@ -149,6 +153,7 @@ class FieldText extends React.Component {
             formik,
             setValue,
             additionalFieldForValidation,
+            //onChange
         } = this.props;
 
         if (suggestion)
@@ -179,7 +184,8 @@ class FieldText extends React.Component {
                         + (this.state.focus ? ' focus' : '')
                         + (disabled ? ' disabled' : '')
                         + ((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] &&
-                            formik?.touched[id]) ? ' error' : '')}
+                            formik?.touched[id]) ? ' error' : '')
+                        + ((!formik?.errors[id] && finalValue) ? ' valid' : '')}
                     >
                         { !!Flag && !!finalValue && <div>
                             { Flag }

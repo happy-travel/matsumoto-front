@@ -11,31 +11,20 @@ import {
 import { Dual, Header } from "components/simple";
 import store from "stores/accommodation-store";
 import { creditCardValidator } from "components/form/validation";
+import { creditCardType } from "card-validator";
 import Breadcrumbs from "components/breadcrumbs";
-
-const postVirtualForm = (path, values) => {
-    var form = document.createElement("form");
-    form.setAttribute("method", "POST");
-    form.setAttribute("action", path);
-    for (var key in values)
-        if (values.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", values[key]);
-            form.appendChild(hiddenField);
-        }
-    document.body.appendChild(form);
-    form.submit();
-};
-
-const formatExpiryDate = (values) => {
-    var MM = values.expiry_month.replace(/\D/g,''),
-        YY = values.expiry_year.replace(/\D/g,'');
-    if (1 == MM.length) MM = "0" + MM;
-    if (4 == YY.length) YY = YY.slice(-2);
-    return YY + MM;
-};
+import ReactTooltip from "react-tooltip";
+import {
+    prettyCardNumber,
+    postVirtualForm,
+    formatExpiryDate,
+    allowedTypes,
+    decorateExpirationDate,
+    decorateCardholderName
+} from "./utils/decorator";
+import {
+    snare
+} from "./utils/snare";
 
 @observer
 class PaymentPage extends React.Component {
@@ -51,9 +40,14 @@ class PaymentPage extends React.Component {
                 merchant_reference  : require('uuid/v4')(),
                 language            : "en", //the only alternative : "ar"
                 return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.referenceCode
+            },
+            code: {
+                name: "CVV",
+                size: 3
             }
         };
         this.submit = this.submit.bind(this);
+        this.detectCardType = this.detectCardType.bind(this);
     }
 
     componentDidMount() {
@@ -72,20 +66,25 @@ class PaymentPage extends React.Component {
                 });
             }
         });
-        this.snare();
+        snare();
     }
 
-    snare() {
-        window.io_bbout_element_id = "device_fingerprint";
-        window.io_install_stm = false;
-        window.io_exclude_stm = 0;
-        window.io_install_flash = false;
-        window.io_enable_rip = true;
+    detectCardType(e) {
+        var info = creditCardType(e.target?.value);
+        if (!e.target?.value || !info?.[0]) {
+            this.setState({
+                type: null
+            });
+            return;
+        }
+        info = info[0];
 
-        var script = document.createElement("script");
-        script.src = "https://mpsnare.iesnare.com/snare.js";
-        script.async = true;
-        document.body.appendChild(script);
+        this.setState({
+            code: info.code,
+            type: info.type
+        });
+
+        e.target.value = prettyCardNumber(e.target.value, info);
     }
 
     submit(values) {
@@ -169,6 +168,7 @@ render() {
                         card_holder_name: "",
                         remember_me: false
                     }}
+                    validateOnChange={true}
                     validationSchema={creditCardValidator}
                     onSubmit={this.submit}
                     render={formik => (
@@ -179,7 +179,7 @@ render() {
                                     id="card_holder_name"
                                     label={t("Card Holder Name")}
                                     placeholder={t("Card Holder Name")}
-                                    clearable
+                                    onChange={decorateCardholderName}
                                 />
                             </div>
                             <div class="row">
@@ -188,43 +188,53 @@ render() {
                                     label={t("Card Number")}
                                     placeholder={t("Card Number")}
                                     required
-                                    clearable
-                                    maxLength={40}
+                                    numeric={"/"}
+                                    maxLength={22}
+                                    onChange={this.detectCardType}
+                                    Icon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} /> : null}
                                 />
                             </div>
                             <div class="row">
                                 <FieldText formik={formik}
-                                    id="expiry_month"
+                                    id="expiry_date"
                                     label={t("Expiration Date")}
-                                    placeholder={"MM"}
-                                    addClass="size-fourth label-long after-slash"
+                                    placeholder={"MM/YY"}
+                                    addClass="size-half"
                                     required
-                                    numeric
-                                    maxLength={2}
-                                />
-                                <FieldText formik={formik}
-                                    id="expiry_year"
-                                    label={<div/>}
-                                    placeholder={"YY"}
-                                    addClass="size-fourth"
-                                    numeric
-                                    maxLength={4}
+                                    numeric={"/"}
+                                    onChange={decorateExpirationDate}
+                                    maxLength={5}
                                 />
                                 <FieldText formik={formik}
                                     id="card_security_code"
                                     password
-                                    label={"CVV"}
-                                    placeholder={"CVV"}
+                                    label={
+                                        <span>
+                                            {this.state.code.name}
+                                            <span
+                                                class="icon icon-info"
+                                                data-tip="Security code on your credit card"
+                                            />
+                                        </span>
+                                    }
+                                    placeholder={this.state.code.name}
                                     addClass="size-half"
                                     required
-                                    clearable
                                     numeric
-                                    maxLength={6}
+                                    maxLength={this.state.code.size}
                                 />
                             </div>
                             <div class="row hide">
                                 <FieldCheckbox formik={formik}
-                                    label={"Save my card for faster checkout"}
+                                    label={
+                                        <span>
+                                            {t("Save my card for faster checkout")}
+                                            <span
+                                                class="icon icon-info"
+                                                data-tip={t("It's safe, only a part of your card data will be stored")}
+                                            />
+                                        </span>
+                                    }
                                     id={"remember_me"}
                                 />
                             </div>
@@ -240,6 +250,7 @@ render() {
         </div>
     </section>
     <input type="hidden" id="device_fingerprint" name="device_fingerprint" />
+    <ReactTooltip place="top" type="dark" effect="solid"/>
 </div>
 
         </React.Fragment>
