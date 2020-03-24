@@ -44,10 +44,14 @@ class PaymentPage extends React.Component {
             code: {
                 name: "CVV",
                 size: 3
-            }
+            },
+            savedCards: [],
+            selectedCardId: null
         };
         this.submit = this.submit.bind(this);
         this.detectCardType = this.detectCardType.bind(this);
+        this.payBySavedCard = this.payBySavedCard.bind(this);
+        this.selectCard = this.selectCard.bind(this);
     }
 
     componentDidMount() {
@@ -65,6 +69,12 @@ class PaymentPage extends React.Component {
                     request_url: data.tokenizationUrl
                 });
             }
+        });
+        API.get({
+            url: API.CARDS_COMMON,
+            success: data => this.setState({
+                savedCards: data
+            })
         });
         snare();
     }
@@ -118,6 +128,26 @@ class PaymentPage extends React.Component {
         });
     }
 
+    payBySavedCard() {
+        if (!this.state.selectedCardId)
+            return;
+        API.post({
+            url: API.PAYMENTS_CARD_COMMON,
+            body: {
+                referenceCode: store.booking?.referenceCode,
+                token: this.state.savedCards.find(item => this.state.selectedCardId == item.id)?.token,
+                securityCode: "123"
+            },
+            after: (data, error, x) => console.log(data, error, x)
+        });
+    }
+
+    selectCard(id) {
+        this.setState({
+            selectedCardId: id
+        });
+    }
+
 render() {
     const { t } = useTranslation();
 
@@ -153,6 +183,30 @@ render() {
               ("Created" != this.state.status) && <h2 class="payment-title">
                 {t("You are not able to pay this order anymore")}
             </h2> }
+
+            { !this.state.direct && !!this.state.savedCards.length && <React.Fragment>
+                <h2 class="payment-title">
+                    {t("Pay by saved cards")}
+                </h2>
+                <div class="form">
+                    <div class="payment method cards">
+                        <div class="list">
+                        {this.state.savedCards.map(item => {
+                            var type = creditCardType(item.number)?.[0]?.type;
+                            return (<div
+                                onClick={() => this.selectCard(item.id)}
+                                class={"item" + (item.id == this.state.selectedCardId ? " selected" : "")}>
+                                {allowedTypes[type] ? <img src={allowedTypes[type]} /> : null}
+                                {item.number} <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
+                            </div>);
+                        })}
+                        </div>
+                    </div>
+                    <button class={"no-margin button" + (this.state.selectedCardId ? "" : " disabled")} onClick={this.payBySavedCard}>
+                        Pay by saved card
+                    </button>
+                </div>
+            </React.Fragment>}
 
             { (!this.state.direct || ("Created" == this.state.status)) && <React.Fragment>
                 <h2 class="payment-title">
@@ -228,7 +282,7 @@ render() {
                                     autocomplete="cc-csc"
                                 />
                             </div>
-                            <div class="row hide">
+                            <div class="row">
                                 <FieldCheckbox formik={formik}
                                     label={
                                         <span>
