@@ -22,9 +22,7 @@ import {
     decorateExpirationDate,
     decorateCardholderName
 } from "./utils/decorator";
-import {
-    snare
-} from "./utils/snare";
+import { snare } from "./utils/snare";
 
 @observer
 class PaymentPage extends React.Component {
