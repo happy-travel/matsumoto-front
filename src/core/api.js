@@ -73,7 +73,16 @@ API_METHODS = {
     },
 
     COMPANY_BRANCH_CUSTOMERS    : (companyId, branchId) =>
-                           v1 + `companies/${companyId}/branch/${branchId}/customers`,
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers`,
+    COMPANY_CUSTOMERS    : (companyId) =>
+                           v1 + `/companies/${companyId}/customers`,
+    COMPANY_CUSTOMER    : (companyId, customerId) =>
+                           v1 + `/companies/${companyId}/customers/${customerId}`,
+
+    CUSTOMER_PERMISSIONS: (companyId, customerId) =>
+        v1 + `/companies/${companyId}/customers/${customerId}/permissions`,
+    CUSTOMER_BRANCH_PERMISSIONS: (companyId, customerId, branchId) =>
+        v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}/permissions`,
 };
 
 
@@ -122,7 +131,7 @@ Authorize.getUser().then(user => {
             })
         };
 
-    if ("POST" == method)
+    if ("POST" == method  || method === "PUT")
         request.body = JSON.stringify(body);
     else {
         var getBody = Object.keys(body).map(function(key) {
@@ -188,6 +197,13 @@ _.get = (params) => {
 _.post = (params) => {
     _.request({
         method: "POST",
+        ...params
+    })
+};
+
+_.put = (params) => {
+    _.request({
+        method: "PUT",
         ...params
     })
 };

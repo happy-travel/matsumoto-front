@@ -5,6 +5,7 @@ import { Formik } from "formik";
 import { Link } from 'react-router-dom';
 
 import { dateFormat, API } from "core";
+import {PERMISSIONS} from "core/enums";
 import { FieldText, FieldSwitch } from "components/form";
 import Table from "components/table";
 import UsersPagesHeader from "components/usersPagesHeader";
@@ -15,52 +16,59 @@ import AuthStore from "stores/auth-store";
 const columns = [
     {
         Header: 'Name',
-        accessor: 'FirstName',
+        accessor: 'name',
     },
     {
         Header: 'Company Name',
-        accessor: 'CompanyName',
+        accessor: 'companyName',
     },
     {
         Header: 'SignUp Date',
-        accessor: 'Created',
+        accessor: 'created',
         Cell: (item) => dateFormat.b(item.cell.value)
     },
     {
         Header: 'Markup',
-        accessor: 'markup',
+        accessor: 'markupSettings',
+        Cell: (item) => item.cell.value || '-'
     },
     {
         Header: 'Actions',
-        accessor: '',
-        Cell: () => <button disabled><span className={`icon icon-action-pen-orange`}/></button>
+        accessor: 'customerId',
+        Cell: (item) => {
+            const {inCompanyPermissions, id, branchId} = AuthStore.user?.companies[0]; // todo: change to current company
+            if (inCompanyPermissions?.length > 0) {
+                const url = inCompanyPermissions.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
+                    `/settings/users/${item.cell.value}/${id}/${branchId}` :
+                    `/settings/users/${item.cell.value}/${id}`;
+                return <Link to={url}><span className={`icon icon-action-pen-orange`}/></Link>
+            }
+            return '';
+        }
     },
 ];
 
 @observer
 class UsersManagement extends React.Component {
-    constructor() {
-        super();
-
-        console.log(AuthStore.user);
-
+    getUsersCompany() {
         if (AuthStore.user?.companies[0]) {
-            const {id, branchId} = AuthStore.user?.companies[0];
-            API.get({
-                url: API.COMPANY_BRANCH_CUSTOMERS(id, branchId),
-                success: (result) =>
-                    UsersStore.setCompanyUsers(result)
-            });
+            const {id, branchId, inCompanyPermissions} = AuthStore.user?.companies[0]; // todo: change to current company
+            if (inCompanyPermissions?.length > 0) {
+                const url = inCompanyPermissions.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
+                    API.COMPANY_BRANCH_CUSTOMERS(id, branchId) :
+                    API.COMPANY_CUSTOMERS(id);
+                API.get({
+                    url,
+                    success: (result) =>
+                        UsersStore.setCompanyUsers(result)
+                });
+            }
         }
-    }
-
-    componentDidMount() {
-        UsersStore.getUsersCompany();
     }
 
     render() {
         const { t } = useTranslation();
-        const {usersCompany, getUsersCompany, usersCompanyIsLoading, usersTablePageInfo, usersCompanyCount} = UsersStore;
+        const {usersCompany, usersCompanyIsLoading, usersTablePageInfo, usersCompanyCount} = UsersStore;
 
         return (<div>
             <UsersPagesHeader />
@@ -75,12 +83,6 @@ class UsersManagement extends React.Component {
                                                   id="searchField"
                                                   label={t("Username, Name or E-mail")}
                                                   placeholder={t("Choose your Username, Name or E-mail")}
-                                                  Flag={false}
-                                           // Dropdown={DestinationDropdown}
-                                           // options={UI.destinations}
-                                           // setValue={this.setDestinationValue}
-                                           // onChange={this.destinationInputChanged}
-                                           // setAutoComplete={this.setDestinationAutoComplete}
                                                   clearable
                                        />
                                        <div className="field field-no-grow">
@@ -101,14 +103,14 @@ class UsersManagement extends React.Component {
             <section>
                 <div className="users-management__table__title">
                     <h3>All Users</h3>
-                    <Link to="/settings/users/add" className="button users-management__button-add-new-user">
-                        {t("add new user")}
-                    </Link>
+                    {/*<Link to="/settings/users/add" className="button users-management__button-add-new-user">*/}
+                    {/*    {t("add new user")}*/}
+                    {/*</Link>*/}
                 </div>
                 <Table
                     data={usersCompany}
                     count={usersCompanyCount}
-                    fetchData={getUsersCompany}
+                    fetchData={this.getUsersCompany}
                     loading={usersCompanyIsLoading}
                     columns={columns}
                     {...usersTablePageInfo}
