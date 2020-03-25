@@ -27,8 +27,10 @@ class AuthStore {
         "title": null,
         "position": null
     };
+    @observable isUserDataLoading = true;
 
     @observable userSettings = defaultUserSettings;
+    @observable isUserSettingsLoading = true;
 
     @observable userCache = null;
     @observable cachedUserRegistered = false;
@@ -39,6 +41,7 @@ class AuthStore {
 
     setUser(value) {
         this.user = value;
+        this.isUserDataLoading = false;
     }
 
     setUserForm(form) {
@@ -82,6 +85,7 @@ class AuthStore {
     @action.bound
     setUserSettings(result) {
         this.userSettings = result || defaultUserSettings;
+        this.isUserSettingsLoading = false;
     }
 }
 

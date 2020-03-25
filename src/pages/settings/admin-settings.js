@@ -4,10 +4,11 @@ import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 
 import { API } from "core";
-import { FieldText, FieldSelect, FieldSwitch, FieldCheckbox } from "components/form";
+import { FieldText, FieldSelect, FieldSwitch } from "components/form";
 import Flag from "components/flag";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import UsersPagesHeader from "components/usersPagesHeader";
+import { Loader } from "components/simple";
 
 import AuthStore from "stores/auth-store";
 import UI from "stores/ui-store";
@@ -43,7 +44,18 @@ class AdminSettings extends React.Component {
             url: API.CUSTOMER_SETTINGS,
             body: values,
             success: (result) => {
-                console.log(result)
+            //    todo: make success
+            },
+            error: (error) => console.log(error)
+        });
+    }
+
+    submitUserData(values) {
+        API.put({
+            url: API.USER,
+            body: values,
+            success: (result) => {
+            //    todo: make success
             },
             error: (error) => console.log(error)
         });
@@ -53,7 +65,23 @@ class AdminSettings extends React.Component {
         const { t } = useTranslation();
 
         const {email, lastName, firstName, title, position} = AuthStore.user;
-        const {preferredLanguage, weekStartOn, availableCredit, nationality, residency, nationalityName, residencyName} = AuthStore.userSettings;
+        const {
+            userSettings: {
+                preferredLanguage,
+                weekStartOn,
+                availableCredit,
+                nationality,
+                residency,
+                nationalityName,
+                residencyName,
+            },
+            isUserDataLoading,
+            isUserSettingsLoading
+        } = AuthStore;
+
+        if (isUserSettingsLoading || isUserDataLoading) {
+            return <Loader page />
+        }
 
         return (<div>
             <UsersPagesHeader />
@@ -62,6 +90,7 @@ class AdminSettings extends React.Component {
                 <h2>{t('Personal information')}</h2>
 
                 <Formik
+                    onSubmit={this.submitUserData}
                     initialValues={{
                         "email": email,
                         "lastName": lastName,
