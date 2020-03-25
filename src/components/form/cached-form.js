@@ -52,6 +52,7 @@ class CachedForm extends React.Component {
                 initialValues={getInitialValues(formName, initialValues, cacheValidator)}
                 validationSchema={validationSchema}
                 validateOnChange={true}
+                validateOnMount={true}
                 enableReinitialize={enableReinitialize}
                 render={formik => (
                     <form onSubmit={formik.handleSubmit}>

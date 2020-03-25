@@ -52,6 +52,8 @@ API_METHODS = {
 
     ACCOMMODATION_DETAILS : (accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}`,
+    REQUEST_DEADLINE      : (availabilityId, source, agreementId) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}/deadline`,
 
     A_SEARCH_STEP_ONE     : v1 + "/availabilities/accommodations",
     A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
@@ -146,7 +148,7 @@ Authorize.getUser().then(user => {
         })
         .then(
             (result) => {
-                if (rawResponse.status == 401 && isRedirectNeeded()) {
+                if ((rawResponse.status == 401 || rawResponse.status == 403) && isRedirectNeeded()) {
                     Authorize.signinRedirect();
                     return;
                 }

@@ -8,6 +8,7 @@
     "react-dev-utils": "9.0.0",
     "react-dom": "16.8.6",
     "react-router-dom": "5.0.0",
+    "react-tooltip": "4.1.2",
     "mobx": "4.9.4",
     "mobx-react": "6.0.0-rc.4",
     "i18next": "15.1.0",

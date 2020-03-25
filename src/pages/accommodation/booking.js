@@ -72,7 +72,7 @@ class AccommodationBookingPage extends React.Component {
                     "title": values.room[r].passengers[i].title,
                     "firstName": values.room[r].passengers[i].firstName,
                     "lastName": values.room[r].passengers[i].lastName,
-                    "age": 33, //todo: temporary adults workaround. correct: i < adults ? 33 : store.search.request.roomDetails[r].childrenAges[i-adults],
+                    "age": i < adults ? 33 : store.search.request.roomDetails[r].childrenAges[i-adults],
                     ...( i == 0 ? {"isLeader": true} : {} )
                 });
 
@@ -375,7 +375,15 @@ class AccommodationBookingPage extends React.Component {
                                 <div class="part" style={{marginTop: "6px"}}>
                                     <h3 style={{marginBottom: "24px"}}>{t("Additional Information")}</h3>
                                     <p class="remark">
-                                        {t("Cancellation Deadline")}: {dateFormat.a(deadlineDetails.date)}
+                                        {
+                                            deadlineDetails.date ?
+                                            <span>
+                                                {t("Cancellation Deadline")}: {dateFormat.a(deadlineDetails.date)}
+                                            </span>:
+                                            <span class="info green">
+                                                {t("FREE Cancellation - Without Prepayment")}
+                                            </span>
+                                        }
                                     </p>
 
                                     <p class="remark">

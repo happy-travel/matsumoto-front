@@ -14,8 +14,8 @@ import {
     FieldCheckbox
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
-import { Stars, Loader, Deadline } from "components/simple";
-import moment from "moment";
+import { Stars, Loader } from "components/simple";
+import Deadline from "components/deadline";
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -200,7 +200,9 @@ class AccommodationVariantsPage extends React.Component {
                                         </strong>
                                     }
                                     <Deadline t={t}
-                                        date={agreement.deadlineDate}
+                                        agreement={agreement}
+                                        availabilityId={item.availabilityId}
+                                        source={item.source}
                                     />
                                 </div>
                                 <div class="info green">

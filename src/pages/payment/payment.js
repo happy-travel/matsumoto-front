@@ -11,31 +11,18 @@ import {
 import { Dual, Header } from "components/simple";
 import store from "stores/accommodation-store";
 import { creditCardValidator } from "components/form/validation";
+import { creditCardType } from "card-validator";
 import Breadcrumbs from "components/breadcrumbs";
-
-const postVirtualForm = (path, values) => {
-    var form = document.createElement("form");
-    form.setAttribute("method", "POST");
-    form.setAttribute("action", path);
-    for (var key in values)
-        if (values.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", values[key]);
-            form.appendChild(hiddenField);
-        }
-    document.body.appendChild(form);
-    form.submit();
-};
-
-const formatExpiryDate = (values) => {
-    var MM = values.expiry_month.replace(/\D/g,''),
-        YY = values.expiry_year.replace(/\D/g,'');
-    if (1 == MM.length) MM = "0" + MM;
-    if (4 == YY.length) YY = YY.slice(-2);
-    return YY + MM;
-};
+import ReactTooltip from "react-tooltip";
+import {
+    prettyCardNumber,
+    postVirtualForm,
+    formatExpiryDate,
+    allowedTypes,
+    decorateExpirationDate,
+    decorateCardholderName
+} from "./utils/decorator";
+import { snare } from "./utils/snare";
 
 @observer
 class PaymentPage extends React.Component {
@@ -51,15 +38,22 @@ class PaymentPage extends React.Component {
                 merchant_reference  : require('uuid/v4')(),
                 language            : "en", //the only alternative : "ar"
                 return_url          : settings.payment_any_cb_host + "/payment/result/" + store.booking?.referenceCode
+            },
+            code: {
+                name: "CVV",
+                size: 3
             }
         };
         this.submit = this.submit.bind(this);
+        this.detectCardType = this.detectCardType.bind(this);
     }
 
     componentDidMount() {
         API.get({
             url: API.CARDS_SETTINGS,
             after: data => {
+                if (!data)
+                    return;
                 this.setState({
                     service: {
                         ...this.state.service,
@@ -70,20 +64,25 @@ class PaymentPage extends React.Component {
                 });
             }
         });
-        this.snare();
+        snare();
     }
 
-    snare() {
-        window.io_bbout_element_id = "device_fingerprint";
-        window.io_install_stm = false;
-        window.io_exclude_stm = 0;
-        window.io_install_flash = false;
-        window.io_enable_rip = true;
+    detectCardType(e) {
+        var info = creditCardType(e.target?.value);
+        if (!e.target?.value || !info?.[0]) {
+            this.setState({
+                type: null
+            });
+            return;
+        }
+        info = info[0];
 
-        var script = document.createElement("script");
-        script.src = "https://mpsnare.iesnare.com/snare.js";
-        script.async = true;
-        document.body.appendChild(script);
+        this.setState({
+            code: info.code,
+            type: info.type
+        });
+
+        e.target.value = prettyCardNumber(e.target.value, info);
     }
 
     submit(values) {
@@ -139,93 +138,121 @@ render() {
                 }
             ]}/>
             }
+
             { this.state.comment && <p>
                 { this.state.comment }
             </p> }
 
-            <h2 class="payment-title">
-                {t("Please Enter Your Card Details")}
-            </h2>
+            { "Success" == this.state.status && <h2 class="payment-title">
+                {t("This order was successfully paid already")}
+            </h2> }
 
-            <Formik
-                initialValues={{
-                    card_number: "",
-                    expiry_month: "",
-                    expiry_year: "",
-                    card_security_code: "",
-                    card_holder_name: "",
-                    remember_me: false
-                }}
-                validationSchema={creditCardValidator}
-                onSubmit={this.submit}
-                render={formik => (
-                <form onSubmit={formik.handleSubmit}>
-                    <div class="form">
-                        <div class="row">
-                            <FieldText formik={formik}
-                                id="card_holder_name"
-                                label={t("Card Holder Name")}
-                                placeholder={t("Card Holder Name")}
-                                clearable
-                            />
+            { this.state.direct && ("Success" != this.state.status) &&
+              ("Created" != this.state.status) && <h2 class="payment-title">
+                {t("You are not able to pay this order anymore")}
+            </h2> }
+
+            { (!this.state.direct || ("Created" == this.state.status)) && <React.Fragment>
+                <h2 class="payment-title">
+                    {t("Please Enter Your Card Details")}
+                </h2>
+
+                <Formik
+                    initialValues={{
+                        card_number: "",
+                        expiry_month: "",
+                        expiry_year: "",
+                        card_security_code: "",
+                        card_holder_name: "",
+                        remember_me: false
+                    }}
+                    validateOnChange={true}
+                    validationSchema={creditCardValidator}
+                    onSubmit={this.submit}
+                    render={formik => (
+                    <form onSubmit={formik.handleSubmit}>
+                        <div class="form">
+                            <div class="row">
+                                <FieldText formik={formik}
+                                    id="card_holder_name"
+                                    label={t("Card Holder Name")}
+                                    placeholder={t("Card Holder Name")}
+                                    onChange={decorateCardholderName}
+                                    autocomplete="cc-name"
+                                />
+                            </div>
+                            <div class="row">
+                                <FieldText formik={formik}
+                                    id="card_number"
+                                    label={t("Card Number")}
+                                    placeholder={t("Card Number")}
+                                    required
+                                    numeric={"/"}
+                                    maxLength={22}
+                                    onChange={this.detectCardType}
+                                    Icon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} /> : null}
+                                    autocomplete="cc-number"
+                                />
+                            </div>
+                            <div class="row">
+                                <FieldText formik={formik}
+                                    id="expiry_date"
+                                    label={t("Expiration Date")}
+                                    placeholder={"MM/YY"}
+                                    addClass="size-half"
+                                    required
+                                    numeric={"/"}
+                                    onChange={decorateExpirationDate}
+                                    maxLength={5}
+                                    autocomplete="cc-exp"
+                                />
+                                <FieldText formik={formik}
+                                    id="card_security_code"
+                                    password
+                                    label={
+                                        <span>
+                                            {this.state.code.name}
+                                            <span
+                                                class="icon icon-info"
+                                                data-tip="Security code on your credit card"
+                                            />
+                                        </span>
+                                    }
+                                    placeholder={this.state.code.name}
+                                    addClass="size-half"
+                                    required
+                                    numeric
+                                    maxLength={this.state.code.size}
+                                    autocomplete="cc-csc"
+                                />
+                            </div>
+                            <div class="row hide">
+                                <FieldCheckbox formik={formik}
+                                    label={
+                                        <span>
+                                            {t("Save my card for faster checkout")}
+                                            <span
+                                                class="icon icon-info"
+                                                data-tip={t("It's safe, only a part of your card data will be stored")}
+                                            />
+                                        </span>
+                                    }
+                                    id={"remember_me"}
+                                />
+                            </div>
+                            <button class="button">
+                                <span class="icon icon-white-lock" />
+                                { t("Pay") + price(this.state.currency, this.state.amount || 0) }
+                            </button>
                         </div>
-                        <div class="row">
-                            <FieldText formik={formik}
-                                id="card_number"
-                                label={t("Card Number")}
-                                placeholder={t("Card Number")}
-                                required
-                                clearable
-                                maxLength={40}
-                            />
-                        </div>
-                        <div class="row">
-                            <FieldText formik={formik}
-                                id="expiry_month"
-                                label={t("Expiration Date")}
-                                placeholder={"MM"}
-                                addClass="size-fourth label-long after-slash"
-                                required
-                                numeric
-                                maxLength={2}
-                            />
-                            <FieldText formik={formik}
-                                id="expiry_year"
-                                label={<div/>}
-                                placeholder={"YY"}
-                                addClass="size-fourth"
-                                numeric
-                                maxLength={4}
-                            />
-                            <FieldText formik={formik}
-                                id="card_security_code"
-                                password
-                                label={"CVV"}
-                                placeholder={"CVV"}
-                                addClass="size-half"
-                                required
-                                clearable
-                                numeric
-                                maxLength={6}
-                            />
-                        </div>
-                        <div class="row hide">
-                            <FieldCheckbox formik={formik}
-                                label={"Save my card for faster checkout"}
-                                id={"remember_me"}
-                            />
-                        </div>
-                        <button class="button">
-                            <span class="icon icon-white-lock" />
-                            { t("Pay") + price(this.state.currency, this.state.amount || 0) }
-                        </button>
-                    </div>
-                </form>
-                )}
-            />
+                    </form>
+                    )}
+                />
+            </React.Fragment> }
         </div>
     </section>
     <input type="hidden" id="device_fingerprint" name="device_fingerprint" />
+    <ReactTooltip place="top" type="dark" effect="solid"/>
 </div>
 
         </React.Fragment>

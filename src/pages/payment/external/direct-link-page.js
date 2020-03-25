@@ -7,6 +7,7 @@ import { StorageUserIdKey } from "core/storage";
 
 import { API } from "core";
 import { Loader } from "components/simple";
+import { snare } from "../utils/snare";
 
 class PaymentDirectLinkPage extends PaymentPage {
     constructor(props) {
@@ -42,6 +43,7 @@ class PaymentDirectLinkPage extends PaymentPage {
                     amount: result.amount,
                     currency: result.currency,
                     comment: result.comment,
+                    status: result.creditCardPaymentStatus,
                     service: {
                         ...this.state.service,
                         return_url: settings.payment_callback_host + "/payment/result/" + result.referenceCode
@@ -53,7 +55,7 @@ class PaymentDirectLinkPage extends PaymentPage {
         if (!window.localStorage.getItem(StorageUserIdKey))
             window.localStorage.setItem(StorageUserIdKey, "__direct_payment");
 
-        this.snare();
+        snare();
     }
 
 }
