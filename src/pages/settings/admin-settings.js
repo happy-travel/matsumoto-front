@@ -3,9 +3,9 @@ import {observer} from "mobx-react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 
+import { registrationUserValidator } from "components/form/validation";
 import { API } from "core";
 import { FieldText, FieldSelect, FieldSwitch } from "components/form";
-import Flag from "components/flag";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import UsersPagesHeader from "components/usersPagesHeader";
 import { Loader } from "components/simple";
@@ -91,6 +91,7 @@ class AdminSettings extends React.Component {
 
                 <Formik
                     onSubmit={this.submitUserData}
+                    validationSchema={registrationUserValidator}
                     initialValues={{
                         "email": email,
                         "lastName": lastName,
@@ -98,6 +99,7 @@ class AdminSettings extends React.Component {
                         "title": title,
                         "position": position,
                     }}
+                    enableReinitialize
                     render={formik => (
                         <form onSubmit={formik.handleSubmit}>
                             <div className="form">
@@ -190,6 +192,7 @@ class AdminSettings extends React.Component {
                         "residency": residency,
                         "residencyName": residencyName,
                     }}
+                    enableReinitialize
                     onSubmit={this.submitUserSettings}
                     render={formik => (
                         <form onSubmit={formik.handleSubmit}>

@@ -2,13 +2,15 @@ import React from "react";
 import { NavLink  } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import AuthStore from "stores/auth-store";
+
 export default function () {
     const { t } = useTranslation();
 
     return  <>
         <section className="users-pages__header">
-            <h1>COMPANYNAME SETTINGS</h1>
-            <p>{t('Account Not Verificated Yet')}</p>
+            <h1>{AuthStore.user?.companies[0]?.name} SETTINGS</h1>
+            {/*<p>{t('Account Not Verificated Yet')}</p>*/}
         </section>
         <div className="users-pages-navigation">
             <NavLink to="/settings/company">{t('Company settings')}</NavLink >
