@@ -6,14 +6,42 @@
 
 .payment
     &.block
-        .form .row
-            margin-bottom: 15px
+        .icon.icon-info
+            position: relative
+            margin-right: -12px
+            top: -2px
+            right: -16px
+            cursor: default
+        .checkbox
+            .icon.icon-info
+                right: -7px
+        .form
+            .field
+                .input.valid
+                    overflow-x: visible
+                    &:after
+                        content: " "
+                        background: #FFFFFF url("./icons/check-round.svg") left top no-repeat
+                        position: absolute
+                        top: -9px
+                        right: -8px
+                        display: block
+                        width: 18px
+                        height: 18px
+                .icon-wrap
+                    img
+                        height: 20px
+                        margin-top: 12px
+            .row
+                margin-bottom: 15px
         .button
+            margin-top: 17px
             .icon
                 margin-right: 12px
         .middle-section
             padding-left: 308px
             padding-right: 308px
+
     &.method
         padding-top: 20px
         .value
@@ -60,11 +88,3 @@
                     position: relative
                     top: 8px
                     margin-left: 10px
-    .after-slash
-        &:after
-            display: block
-            content: "/"
-            position: absolute
-            z-index: 10
-            top: 50px
-            right: -12px

@@ -64,13 +64,6 @@ const formFormatter = (values) => {
         body.propertyTypes = values.propertyTypes;
     }
 
-    // todo: temporary adults workaround
-    for (i = 0; i < body.roomDetails.length; i++) {
-        body.roomDetails[i].adultsNumber = body.roomDetails[i].adultsNumber + body.roomDetails[i].childrenNumber;
-        body.roomDetails[i].childrenNumber = 0;
-        body.roomDetails[i].childrenAges = [];
-    }
-
     return body;
 };
 
@@ -113,10 +106,12 @@ class AccommodationSearch extends React.Component {
             }
         });
 
-        body.destination = values.predictionDestination;
-        body.adultsTotal = sum(values, "adultsNumber");
-        body.childrenTotal = sum(values, "childrenNumber");
-        store.setNewSearchRequest(body);
+        store.setNewSearchRequest({
+            ...body,
+            destination: values.predictionDestination,
+            adultsTotal: sum(values, "adultsNumber"),
+            childrenTotal: sum(values, "childrenNumber")
+        });
 
         this.setState({
             redirectToVariantsPage: true

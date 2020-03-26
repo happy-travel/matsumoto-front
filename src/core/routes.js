@@ -54,7 +54,8 @@ export const routesWithHeaderAndFooter = [
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
     "/pay/*",
-    "/payment/confirmation"
+    "/payment/confirmation",
+    "/signup/*"
 ];
 
 const Routes = () => (
