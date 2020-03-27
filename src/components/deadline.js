@@ -31,7 +31,7 @@ class Deadline extends React.Component {
             date = this.state.result?.date || agreement.deadlineDate,
             isRequestPossible = ((2 == source) && !this.state.result);
 
-        /* if (!date && isRequestPossible)
+        if (!date && isRequestPossible)
             return (
                 <div class="info">
                     <div
@@ -41,7 +41,7 @@ class Deadline extends React.Component {
                         {t("Cancellation Deadline")} <i class="icon icon-info" />
                     </div>
                 </div>
-            ); */
+            );
 
         if (date) {
             if (moment().isBefore(date))
