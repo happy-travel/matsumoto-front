@@ -147,7 +147,7 @@ Authorize.getUser().then(user => {
         })
         .then(
             (result) => {
-                if (rawResponse.status == 401 && isRedirectNeeded()) {
+                if ((rawResponse.status == 401 || rawResponse.status == 403) && isRedirectNeeded()) {
                     Authorize.signinRedirect();
                     return;
                 }
