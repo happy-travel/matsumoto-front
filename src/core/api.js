@@ -15,10 +15,11 @@ API_METHODS = {
     COUNTRIES_PREDICTION  : v1 + "/locations/countries",
     LOCATION_PREDICTION   : v1 + "/locations/predictions",
 
-    CARDS_COMMON          : v1 + "/cards",
+    CARDS_SAVED           : v1 + "/cards",
     CARDS_SETTINGS        : v1 + "/cards/settings",
     CARDS_SIGN            : v1 + "/cards/signatures",
-    PAYMENTS_CARD_COMMON  : v1 + "/payments/bookings/card",
+    PAYMENTS_CARD_NEW     : v1 + "/payments/bookings/card/new",
+    PAYMENTS_CARD_SAVED   : v1 + "/payments/bookings/card/new",
     PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 

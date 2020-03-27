@@ -69,7 +69,7 @@ class PaymentPage extends React.Component {
             }
         });
         API.get({
-            url: API.CARDS_COMMON,
+            url: API.CARDS_SAVED,
             success: data => this.setState({
                 savedCards: data
             })
@@ -130,10 +130,10 @@ class PaymentPage extends React.Component {
         if (!this.state.selectedCardId)
             return;
         API.post({
-            url: API.PAYMENTS_CARD_COMMON,
+            url: API.PAYMENTS_CARD_SAVED,
             body: {
                 referenceCode: store.booking?.referenceCode,
-                token: this.state.savedCards.find(item => this.state.selectedCardId == item.id)?.token,
+                cardId: this.state.selectedCardId,
                 securityCode: "123"
             },
             after: (data, error, x) => console.log(data, error, x)
