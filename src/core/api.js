@@ -78,11 +78,11 @@ API_METHODS = {
                            v1 + `/companies/${companyId}/branches/${branchId}/customers`,
     COMPANY_CUSTOMERS    : (companyId) =>
                            v1 + `/companies/${companyId}/customers`,
-    COMPANY_CUSTOMER    : (companyId, customerId) =>
+    COMPANY_CUSTOMER     : (companyId, customerId) =>
                            v1 + `/companies/${companyId}/customers/${customerId}`,
 
-    CUSTOMER_PERMISSIONS: (companyId, customerId) =>
-        v1 + `/companies/${companyId}/customers/${customerId}/permissions`,
+    ALL_PERMISSIONS      : v1 + "/all-permissions-list",
+
     CUSTOMER_BRANCH_PERMISSIONS: (companyId, customerId, branchId) =>
         v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}/permissions`,
 };

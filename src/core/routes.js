@@ -48,7 +48,6 @@ export const routesWithHeaderAndFooter = [
     "/user/payment-history",
     "/user/invite",
     "/settings/users",
-    "/settings/users/:customerId/:companyId/",
     "/settings/users/:customerId/:companyId/:branchId/",
 ];
 export const routesWithFooter = [
@@ -88,7 +87,6 @@ const Routes = () => (
 
         <Route path="/settings/users/add"         component={addNewUser} />
         <Route path="/settings/users/:customerId/:companyId/:branchId/"         component={addNewUser} />
-        <Route path="/settings/users/:customerId/:companyId"         component={addNewUser} />
         <Route path="/settings/users" exact       component={usersManagement} />
 
         <Route path="/contact"                    component={contactUsPage} />

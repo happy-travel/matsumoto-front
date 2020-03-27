@@ -1,8 +1,9 @@
 import React from "react";
-import { observable } from "mobx";
+import { observable, computed, action } from "mobx";
 import autosave from "core/misc/autosave";
 import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";
+import {API} from "core";
 
 class AuthStore {
     @observable registration = {
@@ -19,10 +20,15 @@ class AuthStore {
     };
 
     @observable userCache = null;
+    @observable permissionsList = [];
     @observable cachedUserRegistered = false;
 
     constructor() {
         autosave(this, "_auth_store_cache");
+    }
+
+    @computed get currentCompany() {
+        return this.user?.companies[0] || {};
     }
 
     setUser(value) {
@@ -65,6 +71,14 @@ class AuthStore {
 
     setCachedUserRegistered(value) {
         this.cachedUserRegistered = value;
+    }
+
+    @action.bound
+    getAllPermissions() {
+        API.get({
+            url: API.ALL_PERMISSIONS,
+            success: (result) => this.permissionsList = result,
+        })
     }
 }
 

@@ -11,6 +11,8 @@ import Breadcrumbs from "components/breadcrumbs";
 import { FieldCheckbox, FieldSelect, FieldSwitch, FieldText } from "../../components/form";
 import UsersPagesHeader from "components/usersPagesHeader";
 
+import AuthStore from "stores/auth-store";
+
 @withRouter
 @observer
 export default class AddNewUser extends React.Component {
@@ -25,21 +27,22 @@ export default class AddNewUser extends React.Component {
     componentDidMount() {
         if (this.props.match?.params) {
             const {companyId, branchId, customerId} = this.props.match.params;
-            const url = branchId ?
+            const {inCompanyPermissions} = AuthStore.currentCompany;
+            const url = inCompanyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
                 API.COMPANY_BRANCH_CUSTOMERS(companyId, branchId) :
                 API.COMPANY_CUSTOMER(companyId, customerId);
-            API.get({
+            Promise.all([API.get({
                 url,
-                success: (result) => this.setState({inCompanyPermissions: result.inCompanyPermissions}),
-            });
+                success: (result) => this.setState({inCompanyPermissions: result.inCompanyPermissions || []}),
+            }),
+              AuthStore.getAllPermissions()
+            ])
         }
     }
 
     submit = (values) => {
         const {companyId, branchId, customerId} = this.props.match.params;
-        const url = branchId ?
-            API.CUSTOMER_BRANCH_PERMISSIONS(companyId, customerId, branchId) :
-            API.CUSTOMER_PERMISSIONS(companyId, customerId);
+        const url = API.CUSTOMER_BRANCH_PERMISSIONS(companyId, customerId, branchId);
         const body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
 
         API.put({
@@ -108,7 +111,7 @@ export default class AddNewUser extends React.Component {
                 <Formik
                     onSubmit={this.submit}
                     initialValues={{
-                        ...Object.keys(PERMISSIONS).reduce((obj, key) => ({...obj, [PERMISSIONS[key]]: inCompanyPermissions.includes(PERMISSIONS[key])}), {})
+                        ...AuthStore.permissionsList.reduce((obj, key) => ({...obj, [key]: inCompanyPermissions.includes(key)}), {})
                     }}
                     render={formik => (
                         <form onSubmit={formik.handleSubmit}>
@@ -196,14 +199,14 @@ export default class AddNewUser extends React.Component {
                                 {/*</div>*/}
 
                                 <div className="row wrap">
-                                    {Object.keys(PERMISSIONS_LABELS).map((key) => {
+                                    {AuthStore.permissionsList.map((key) => {
                                         return <div className="field field-no-grow flex jc-between add-new-user__switch">
                                             <div className="label">
                                                 <div>{t(PERMISSIONS_LABELS[key])}</div>
                                             </div>
                                             <FieldSwitch
                                                 formik={formik}
-                                                id={PERMISSIONS[key]}
+                                                id={key}
                                             />
                                         </div>
                                     })}

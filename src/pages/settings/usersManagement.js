@@ -36,11 +36,9 @@ const columns = [
         Header: 'Actions',
         accessor: 'customerId',
         Cell: (item) => {
-            const {inCompanyPermissions, id, branchId} = AuthStore.user?.companies[0]; // todo: change to current company
+            const {inCompanyPermissions, id, branchId} = AuthStore.currentCompany; // todo: change to current company
             if (inCompanyPermissions?.length > 0) {
-                const url = inCompanyPermissions.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
-                    `/settings/users/${item.cell.value}/${id}/${branchId}` :
-                    `/settings/users/${item.cell.value}/${id}`;
+                const url = `/settings/users/${item.cell.value}/${id}/${branchId}`;
                 return <Link to={url}><span className={`icon icon-action-pen-orange`}/></Link>
             }
             return '';
@@ -51,10 +49,10 @@ const columns = [
 @observer
 class UsersManagement extends React.Component {
     getUsersCompany() {
-        if (AuthStore.user?.companies[0]) {
-            const {id, branchId, inCompanyPermissions} = AuthStore.user?.companies[0]; // todo: change to current company
+        if (AuthStore.currentCompany) {
+            const {id, branchId, inCompanyPermissions} = AuthStore.currentCompany;
             if (inCompanyPermissions?.length > 0) {
-                const url = inCompanyPermissions.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
+                const url = inCompanyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
                     API.COMPANY_BRANCH_CUSTOMERS(id, branchId) :
                     API.COMPANY_CUSTOMERS(id);
                 API.get({
