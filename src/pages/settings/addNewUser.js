@@ -65,7 +65,7 @@ export default class AddNewUser extends React.Component {
 
     render() {
         const { t } = useTranslation();
-        const {inCompanyPermissions, loadingCompanyInfo, loadingPermissions} = this.state;
+        const {inCompanyPermissions, loadingCompanyInfo, loadingPermissions, permissionsList} = this.state;
         if (loadingCompanyInfo || loadingPermissions) {
             return <Loader page />
         }
@@ -125,7 +125,7 @@ export default class AddNewUser extends React.Component {
                 <Formik
                     onSubmit={this.submit}
                     initialValues={{
-                        ...AuthStore.permissionsList.reduce((obj, key) => ({...obj, [key]: inCompanyPermissions.includes(key)}), {})
+                        ...permissionsList.reduce((obj, key) => ({...obj, [key]: inCompanyPermissions.includes(key)}), {})
                     }}
                     enableReinitialize
                     render={formik => (
@@ -214,7 +214,7 @@ export default class AddNewUser extends React.Component {
                                 {/*</div>*/}
 
                                 <div className="row wrap">
-                                    {AuthStore.permissionsList.map((key) => {
+                                    {permissionsList.map((key) => {
                                         return <div className="field field-no-grow flex jc-between add-new-user__switch">
                                             <div className="label">
                                                 <div>{t(PERMISSIONS_LABELS[key])}</div>
