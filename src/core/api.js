@@ -19,7 +19,8 @@ API_METHODS = {
     CARDS_SETTINGS        : v1 + "/cards/settings",
     CARDS_SIGN            : v1 + "/cards/signatures",
     PAYMENTS_CARD_NEW     : v1 + "/payments/bookings/card/new",
-    PAYMENTS_CARD_SAVED   : v1 + "/payments/bookings/card/new",
+    PAYMENTS_CARD_SAVED   : v1 + "/payments/bookings/card/saved",
+    PAYMENTS_CARD_COMMON  : v1 + "/payments/bookings/card", //temporary
     PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 

@@ -67,7 +67,7 @@ class PaymentResultPage extends React.Component {
             return;
         }
 
-        var request = {
+        /*var request = {
                 referenceCode: bookingReference,
                 token: params.token_name,
                 isSaveCardNeeded: "YES" == params.remember_me
@@ -83,6 +83,18 @@ class PaymentResultPage extends React.Component {
         API.post({
             url: API.PAYMENTS_CARD_NEW,
             body: request,
+            after: (data, error) => this.callback(data, error)
+        }); */
+
+        API.post({
+            url: API.PAYMENTS_CARD_COMMON,
+            body: {
+                referenceCode: bookingReference,
+                token: {
+                    code: params.token_name,
+                    type: "OneTime"
+                }
+            },
             after: (data, error) => this.callback(data, error)
         });
     }

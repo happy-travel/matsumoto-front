@@ -68,12 +68,12 @@ class PaymentPage extends React.Component {
                 });
             }
         });
-        API.get({
+        /* API.get({
             url: API.CARDS_SAVED,
             success: data => this.setState({
                 savedCards: data
             })
-        });
+        }); */
         snare();
     }
 
