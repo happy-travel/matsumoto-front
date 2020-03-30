@@ -16,7 +16,7 @@ export default function () {
             <NavLink to="/settings/company">{t('Company settings')}</NavLink >
             <NavLink to="/settings/admin" activeClassName="active">{t('Admin settings')}</NavLink >
             <NavLink to="/settings/users">{t('users management')}</NavLink >
-            <NavLink to="/settings/notifications">{t('Notifications')}</NavLink >
+            {/*<NavLink to="/settings/notifications">{t('Notifications')}</NavLink >*/}
         </div>
     </>
 }
