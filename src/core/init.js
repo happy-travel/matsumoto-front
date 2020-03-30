@@ -26,7 +26,7 @@ const init = () => {
             if (result?.email)
                 UI.setUser(result);
         },
-        after: (a, b, response) => {
+        after: (a, error, response) => {
             if (!response)
                 return;
             if (response.status == 401 || response.status == 403) {
@@ -34,7 +34,7 @@ const init = () => {
                     Authorize.signinRedirect();
                 return;
             }
-            if (response.status == 400 && "Could not get customer data" == response.detail) {
+            if (response.status == 400 && "Could not get customer data" == error?.detail) {
                 if (isRedirectNeeded())
                     window.location.href = window.location.origin + "/signup/user";
             } else
