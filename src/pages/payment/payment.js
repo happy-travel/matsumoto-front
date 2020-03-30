@@ -280,7 +280,7 @@ render() {
                                     autocomplete="cc-csc"
                                 />
                             </div>
-                            <div class="row">
+                            <div class="row hide">
                                 <FieldCheckbox formik={formik}
                                     label={
                                         <span>
