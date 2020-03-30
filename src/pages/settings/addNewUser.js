@@ -10,6 +10,7 @@ import {API} from "core";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldCheckbox, FieldSelect, FieldSwitch, FieldText } from "../../components/form";
 import UsersPagesHeader from "components/usersPagesHeader";
+import { Loader } from "components/simple";
 
 import AuthStore from "stores/auth-store";
 
@@ -21,23 +22,33 @@ export default class AddNewUser extends React.Component {
 
         this.state = {
             inCompanyPermissions: [],
+            loadingCompanyInfo: true,
+            permissionsList: [],
+            loadingPermissions: true,
         }
     }
 
     componentDidMount() {
         if (this.props.match?.params) {
-            const {companyId, branchId, customerId} = this.props.match.params;
-            const {inCompanyPermissions} = AuthStore.currentCompany;
-            const url = inCompanyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
-                API.COMPANY_BRANCH_CUSTOMERS(companyId, branchId) :
-                API.COMPANY_CUSTOMER(companyId, customerId);
-            Promise.all([API.get({
-                url,
-                success: (result) => this.setState({inCompanyPermissions: result.inCompanyPermissions || []}),
-            }),
-              AuthStore.getAllPermissions()
-            ])
+            this.getData();
         }
+    }
+
+    async getData() {
+        const {companyId, branchId, customerId} = this.props.match.params;
+        const {inCompanyPermissions} = AuthStore.currentCompany;
+        const url = inCompanyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
+          API.COMPANY_BRANCH_CUSTOMER(companyId, branchId, customerId) :
+          API.COMPANY_CUSTOMER(companyId, customerId);
+        await Promise.all([API.get({
+            url,
+            success: (result) => this.setState({inCompanyPermissions: result.inCompanyPermissions || [], loadingCompanyInfo: false}),
+        }),
+            API.get({
+                url: API.ALL_PERMISSIONS,
+                success: (result) => this.setState({permissionsList: result, loadingPermissions: false}),
+            })
+        ]);
     }
 
     submit = (values) => {
@@ -54,7 +65,10 @@ export default class AddNewUser extends React.Component {
 
     render() {
         const { t } = useTranslation();
-        const {inCompanyPermissions} = this.state;
+        const {inCompanyPermissions, loadingCompanyInfo, loadingPermissions} = this.state;
+        if (loadingCompanyInfo || loadingPermissions) {
+            return <Loader page />
+        }
 
         return <section className="add-new-user">
             <UsersPagesHeader />
@@ -113,6 +127,7 @@ export default class AddNewUser extends React.Component {
                     initialValues={{
                         ...AuthStore.permissionsList.reduce((obj, key) => ({...obj, [key]: inCompanyPermissions.includes(key)}), {})
                     }}
+                    enableReinitialize
                     render={formik => (
                         <form onSubmit={formik.handleSubmit}>
                             <div className="form">

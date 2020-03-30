@@ -20,7 +20,6 @@ class AuthStore {
     };
 
     @observable userCache = null;
-    @observable permissionsList = [];
     @observable cachedUserRegistered = false;
 
     constructor() {
@@ -28,7 +27,7 @@ class AuthStore {
     }
 
     @computed get currentCompany() {
-        return this.user?.companies[0] || {};
+        return this.user?.companies && this.user?.companies[0] || {};
     }
 
     setUser(value) {
@@ -71,14 +70,6 @@ class AuthStore {
 
     setCachedUserRegistered(value) {
         this.cachedUserRegistered = value;
-    }
-
-    @action.bound
-    getAllPermissions() {
-        API.get({
-            url: API.ALL_PERMISSIONS,
-            success: (result) => this.permissionsList = result,
-        })
     }
 }
 

@@ -78,6 +78,8 @@ API_METHODS = {
                            v1 + `/companies/${companyId}/branches/${branchId}/customers`,
     COMPANY_CUSTOMERS    : (companyId) =>
                            v1 + `/companies/${companyId}/customers`,
+    COMPANY_BRANCH_CUSTOMER     : (companyId, branchId, customerId) =>
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}`,
     COMPANY_CUSTOMER     : (companyId, customerId) =>
                            v1 + `/companies/${companyId}/customers/${customerId}`,
 
