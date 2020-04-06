@@ -55,6 +55,10 @@ class AccommodationAgreementsPage extends React.Component {
                 store.selected.accommodation.source
             ),
             success: (result) => {
+                if (!result?.data) {
+                    View.setTopAlertText("Sorry, this room is not available now (#2), try again later");
+                    return;
+                }
                 this.setState({
                     redirectToBookingPage: true
                 });
