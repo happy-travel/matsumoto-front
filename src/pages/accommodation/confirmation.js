@@ -159,9 +159,10 @@ render() {
                         b={accommodation.accommodationName}
                     />
 
+                    { /* todo: no data */}
                     <Dual addClass="line"
                         a={t("Additional")}
-                        b={accommodation.roomContractSet.contractType}
+                        b={accommodation.roomContractSet?.roomContract?.[0]?.contractType}
                     />
 
                     <Dual addClass="line"
@@ -185,12 +186,14 @@ render() {
                             />}
                     />
 
+                    { /* todo: no data */}
                     <Dual addClass="line"
                         a={t("Board basis")}
-                        b={<React.Fragment>
-                            {accommodation.roomContractSet.boardBasisCode}:{" "}
-                            {accommodation.roomContractSet.boardBasisCode == "RO" ? t("Room Only") : (accommodation.roomContractSet.mealPlan || "")}
-                        </React.Fragment>}
+                        b={accommodation.roomContractSet?.roomContract?.[0] ? <React.Fragment>
+                            {accommodation.roomContractSet.roomContract[0].boardBasisCode}:{" "}
+                            {accommodation.roomContractSet.roomContract[0].boardBasisCode == "RO" ? t("Room Only"
+                            ) : (accommodation.roomContractSet.roomContract[0].mealPlan || "")}
+                        </React.Fragment> : null}
                     />
 
                     { !!booking.roomDetails.length && <h2>
@@ -223,14 +226,17 @@ render() {
                             />
                             <Dual addClass="line"
                                 a={t("Room Cost")}
-                                b={price(accommodation.roomContractSet.roomContracts[index].roomPrices[0])}
+                                b={
+                                    null
+                                    /* price(accommodation.roomContractSet.roomContracts[index].roomPrices[0]) */
+                                }
                             />
                             <Dual addClass="line"
                                 a={t("Accommodates")}
-                                b={
-                                    plural(t, accommodation.roomContractSet.roomContracts[index].adultsNumber, "Adult")
+                                b={ ""
+                                   /* plural(t, accommodation.roomContractSet.roomContracts[index].adultsNumber, "Adult")
                                     + (!accommodation.roomContractSet.roomContracts[index].childrenNumber ? "" :
-                                    (", " + plural(t, accommodation.roomContractSet.roomContracts[index].childrenNumber, "Children")))
+                                    (", " + plural(t, accommodation.roomContractSet.rooms[index].childrenNumber, "Children"))) */
                                 }
                             />
 
@@ -243,7 +249,8 @@ render() {
                         </React.Fragment>
                     ))}
 
-                    { !!Object.keys(accommodation.roomContractSet.remarks).length &&
+                    { /* todo: no data */}
+                    { !!Object.keys(accommodation?.roomContractSet?.remarks || {}).length &&
                         <React.Fragment>
                             <h2 style={{ marginBottom: "17px" }}>
                                 {t("Remark")}
