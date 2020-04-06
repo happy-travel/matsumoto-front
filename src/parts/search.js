@@ -99,7 +99,7 @@ class AccommodationSearch extends React.Component {
             body: body,
             success: (result) => {
                 store.setSearchResult(result);
-                UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm)
+                UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm);
             },
             error: (error) => {
                 // todo: handle
