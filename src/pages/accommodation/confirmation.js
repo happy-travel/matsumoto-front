@@ -161,12 +161,12 @@ render() {
 
                     <Dual addClass="line"
                         a={t("Additional")}
-                        b={accommodation.agreement.contractType}
+                        b={accommodation.roomContractSet.contractType}
                     />
 
                     <Dual addClass="line"
                         a={t("Total Cost")}
-                        b={price(accommodation.agreement.price)}
+                        b={price(accommodation.roomContractSet.price)}
                     />
 
                     <Dual addClass="line"
@@ -188,8 +188,8 @@ render() {
                     <Dual addClass="line"
                         a={t("Board basis")}
                         b={<React.Fragment>
-                            {accommodation.agreement.boardBasisCode}:{" "}
-                            {accommodation.agreement.boardBasisCode == "RO" ? t("Room Only") : (accommodation.agreement.mealPlan || "")}
+                            {accommodation.roomContractSet.boardBasisCode}:{" "}
+                            {accommodation.roomContractSet.boardBasisCode == "RO" ? t("Room Only") : (accommodation.roomContractSet.mealPlan || "")}
                         </React.Fragment>}
                     />
 
@@ -223,14 +223,14 @@ render() {
                             />
                             <Dual addClass="line"
                                 a={t("Room Cost")}
-                                b={price(accommodation.agreement.rooms[index].roomPrices[0])}
+                                b={price(accommodation.roomContractSet.roomContracts[index].roomPrices[0])}
                             />
                             <Dual addClass="line"
                                 a={t("Accommodates")}
                                 b={
-                                    plural(t, accommodation.agreement.rooms[index].adultsNumber, "Adult")
-                                    + (!accommodation.agreement.rooms[index].childrenNumber ? "" :
-                                    (", " + plural(t, accommodation.agreement.rooms[index].childrenNumber, "Children")))
+                                    plural(t, accommodation.roomContractSet.roomContracts[index].adultsNumber, "Adult")
+                                    + (!accommodation.roomContractSet.roomContracts[index].childrenNumber ? "" :
+                                    (", " + plural(t, accommodation.roomContractSet.roomContracts[index].childrenNumber, "Children")))
                                 }
                             />
 
@@ -243,13 +243,13 @@ render() {
                         </React.Fragment>
                     ))}
 
-                    { !!Object.keys(accommodation.agreement.remarks).length &&
+                    { !!Object.keys(accommodation.roomContractSet.remarks).length &&
                         <React.Fragment>
                             <h2 style={{ marginBottom: "17px" }}>
                                 {t("Remark")}
                             </h2>
-                            {Object.keys(accommodation.agreement.remarks).map(key => (
-                                <p class="remark">{accommodation.agreement.remarks[key]}</p>
+                            {Object.keys(accommodation.roomContractSet.remarks).map(key => (
+                                <p class="remark">{accommodation.roomContractSet.remarks[key]}</p>
                             ))}
                         </React.Fragment>
                      }

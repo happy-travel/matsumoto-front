@@ -50,21 +50,21 @@ class AccommodationBookingPage extends React.Component {
     }
 
     componentWillUnmount() {
-        store.selectAgreement(null);
+        store.selectRoomContractSet(null);
     }
 
     submit(values, { setSubmitting }) {
         if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
             return null; //todo: another answer
 
-        var variant = store.selected.agreement,
+        var variant = store.selected.roomContractSet,
             search = store.search.request;
 
         var roomDetails = [];
 
-        for (var r = 0; r < variant?.rooms?.length; r++) {
-            var adults = variant?.rooms[r]?.adultsNumber,
-                total = adults + variant?.rooms[r]?.childrenNumber,
+        for (var r = 0; r < variant?.roomContracts?.length; r++) {
+            var adults = variant?.roomContracts[r]?.adultsNumber,
+                total = adults + variant?.roomContracts[r]?.childrenNumber,
                 passengers = [];
 
             for (var i = 0; i < total; i++)
@@ -77,7 +77,7 @@ class AccommodationBookingPage extends React.Component {
                 });
 
             roomDetails.push({
-                type: variant.rooms[r]?.type,
+                type: variant.roomContracts[r]?.type,
                 passengers
             })
         }
@@ -88,7 +88,7 @@ class AccommodationBookingPage extends React.Component {
             "paymentMethod": store.paymentMethod,
             "residency": search.residency,
             "mainPassengerName": roomDetails[0].passengers[0].firstName + " " + roomDetails[0].passengers[0].lastName,
-            "agreementId": variant.id,
+            "roomContractSetId": variant.id,
             "agentReference": values.agentReference,
             "roomDetails": roomDetails,
             "features": [],
@@ -116,14 +116,14 @@ class AccommodationBookingPage extends React.Component {
 
         var hotel = store.selected.accommodationFinal.accommodationDetails,
             baseInfo = store.selected.accommodationFinal,
-            variant = store.selected.agreement,
+            variant = store.selected.roomContractSet,
             deadlineDetails = store.selected.deadlineDetails,
 
             initialValues = {
-                room: variant?.rooms?.map((x,r) => ({
+                room: variant?.roomContracts?.map((x,r) => ({
                     passengers: [
-                        ...Array(variant?.rooms[r]?.adultsNumber),
-                        ...Array(variant?.rooms[r]?.childrenNumber),
+                        ...Array(variant?.roomContracts[r]?.adultsNumber),
+                        ...Array(variant?.roomContracts[r]?.childrenNumber),
                     ]
                 })) || [],
                 accepted: true,
@@ -171,11 +171,11 @@ class AccommodationBookingPage extends React.Component {
                 />
                 <Dual
                     a={t("Number of Rooms")}
-                    b={variant.rooms.length}
+                    b={variant.roomContracts.length}
                 />
                 <Dual
                     a={t("Board Basis")}
-                    b={variant.boardBasisCode + ": " + ("RO" == variant.boardBasisCode ? t("Room Only") : variant.mealPlan)}
+                    b={variant.roomContracts[0].boardBasisCode + ": " + ("RO" == variant.roomContracts[0].boardBasisCode ? t("Room Only") : variant.roomContracts[0].mealPlan)}
                 />
 
                 { /* deadlineDetails.remarkCodes.map( item => (
@@ -187,26 +187,26 @@ class AccommodationBookingPage extends React.Component {
                 </React.Fragment>
                 )) */ }
 
-                {variant?.rooms?.map((x,i)=>(
+                {variant?.roomContracts?.map((x,i)=>(
                 <React.Fragment>
-                    <div class="static item">{t("Room Information") + " " + (variant?.rooms?.length > 1 ? (i+1) : '')}</div>
+                    <div class="static item">{t("Room Information") + " " + (variant?.roomContracts?.length > 1 ? (i+1) : '')}</div>
                     <Dual
                         a={t("Room Type")}
-                        b={variant.rooms[i]?.type}
+                        b={variant.roomContracts[i]?.type}
                     />
                     { /* <Dual
                         a={t("Occupancy")}
-                        b={plural(t, rooms[i].adultsNumber, "Adult") + ", " + rooms[i].childrenNumber + " " + t("Children")}
+                        b={plural(t, roomContracts[i].adultsNumber, "Adult") + ", " + roomContracts[i].childrenNumber + " " + t("Children")}
                     /> */ }
                 </React.Fragment>
                 ))}
 
                 <div class="static item">{t("Room & Total Cost")}</div>
-                {variant?.rooms?.map((x,i)=>(
-                (variant?.rooms[i]?.roomPrices?.[0].netTotal !== undefined && "Room" == variant?.rooms[i]?.roomPrices?.[0].type) ?
+                {variant?.roomContracts?.map((x,i)=>(
+                (variant?.roomContracts[i]?.roomPrices?.[0].netTotal !== undefined && "Room" == variant?.roomContracts[i]?.roomPrices?.[0].type) ?
                 <Dual
-                    a={t("Room Cost") + " " + (variant?.rooms?.length > 1 ? (i+1) : '')}
-                    b={price(variant.rooms[i].roomPrices[0])}
+                    a={t("Room Cost") + " " + (variant?.roomContracts?.length > 1 ? (i+1) : '')}
+                    b={price(variant.roomContracts[i].roomPrices[0])}
                 /> : null
                 ))}
                 <Dual
@@ -253,12 +253,12 @@ class AccommodationBookingPage extends React.Component {
                                 <FieldArray
                                     render={() => (
                                 formik.values.room.map((item, r) => {
-                                    var adults = variant?.rooms[r]?.adultsNumber,
-                                        childrenAges = variant?.rooms[r]?.childrenAges;
+                                    var adults = variant?.roomContracts[r]?.adultsNumber,
+                                        childrenAges = variant?.roomContracts[r]?.childrenAges;
                                 return (
                                 <React.Fragment>
                                 <h2>
-                                    <span>Room {r+1}:</span> {variant.rooms[r]?.type}
+                                    <span>Room {r+1}:</span> {variant.roomContracts[r]?.type}
                                 </h2>
                                 <div class="part">
                                     <table class="people"><tbody>

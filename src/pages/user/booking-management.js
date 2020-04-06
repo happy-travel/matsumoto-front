@@ -219,11 +219,11 @@ class UserBookingManagementPage extends React.Component {
                                             <strong>{t("Location")}</strong>
                                             {item.countryName}, {item.localityName}
                                         </td>
-                                        <td>
+                                        { /* todo: temporary no API data.  <td>
                                             <strong>{t("Board Basis")}</strong>
                                             {item.boardBasisCode}:{" "}
                                             {item.boardBasisCode == "RO" ? t("Room Only") : (item.mealPlan || "")}
-                                        </td>
+                                        </td> */ }
                                         <td>
                                             <strong>{t("Check In")}</strong>
                                             {dateFormat.c(item.checkInDate)}

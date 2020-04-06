@@ -18,7 +18,7 @@ import { Stars, Loader } from "components/simple";
 import Deadline from "components/deadline";
 
 @observer
-class AccommodationAgreementsPage extends React.Component {
+class AccommodationRoomContractsSetsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +26,7 @@ class AccommodationAgreementsPage extends React.Component {
             redirectToVariantsPage: false,
             loading: false
         };
-        this.agreementSelect = this.agreementSelect.bind(this);
+        this.roomContractSetSelect = this.roomContractSetSelect.bind(this);
         this.back = this.back.bind(this);
     }
 
@@ -44,14 +44,14 @@ class AccommodationAgreementsPage extends React.Component {
         window.scrollTo(0, 0);
     }
 
-    agreementSelect(agreement) {
+    roomContractSetSelect(roomContractSet) {
         this.setState({
             loading: true
         });
         API.post({
             url: API.A_SEARCH_STEP_THREE(
                 store.selected.accommodation.availabilityId,
-                agreement.id,
+                roomContractSet.id,
                 store.selected.accommodation.source
             ),
             success: (result) => {
@@ -62,7 +62,7 @@ class AccommodationAgreementsPage extends React.Component {
                 this.setState({
                     redirectToBookingPage: true
                 });
-                store.selectAgreement(result);
+                store.selectRoomContractSet(result);
             },
             error: (error) => {
                 View.setTopAlertText("Sorry, this room is not available now, try again later");
@@ -93,7 +93,7 @@ class AccommodationAgreementsPage extends React.Component {
         return (
 
 <React.Fragment>
-    <div class="variants block agreements">
+    <div class="variants block room-contract-sets">
         <section class="double-sections">
             <div class="left-section filters">
                 <div class="billet">
@@ -164,21 +164,21 @@ class AccommodationAgreementsPage extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            { item?.agreements?.map(agreement =>
+                            { item?.roomContractSets?.map(roomContractSet =>
                                 <tr>
-                                    <td class="agreement">
-                                        {groupAndCount(agreement.rooms)}<br/>
-                                        {agreement.contractType}
+                                    <td class="room-contract-set">
+                                        {groupAndCount(roomContractSet.roomContracts)}<br/>
+                                        {roomContractSet.contractType}
                                     </td>
                                     <td class="icons">
                                         <span class="icon icon-man" />
-                                        {(agreement.rooms.length == 1 && agreement.rooms[0].type == "Single") ? null : <span class="icon icon-man" />}
+                                        {(roomContractSet.roomContracts.length == 1 && roomContractSet.roomContracts[0].type == "Single") ? null : <span class="icon icon-man" />}
                                     </td>
                                     <td class="price">
-                                        {price(agreement.price)}
+                                        {price(roomContractSet.price)}
                                     </td>
                                     <td class="pros">
-                                        {agreement.isDynamic === true &&
+                                        {roomContractSet.isDynamic === true &&
                                             <div class="one">
                                                 <strong>
                                                     {t("Dynamic offer")}
@@ -186,18 +186,20 @@ class AccommodationAgreementsPage extends React.Component {
                                             </div>
                                         }
                                         <div class="one green">
-                                            {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room Only") : (t("Breakfast Included") + ", " + agreement.mealPlan) }
+                                            {roomContractSet.roomContracts[0].boardBasisCode
+                                            }: {"RO" == roomContractSet.roomContracts[0].boardBasisCode ? t("Room Only") : (t("Breakfast Included") + ", " +
+                                            roomContractSet.roomContracts[0].mealPlan) }
                                         </div>
                                         <div class="one">
                                             <Deadline t={t}
-                                                agreement={agreement}
+                                                roomContractSet={roomContractSet}
                                                 availabilityId={store.selected.accommodation.availabilityId}
                                                 source={store.selected.accommodation.source}
                                             />
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        <button class="button small" onClick={() => this.agreementSelect(agreement, item.accommodationDetails)}>
+                                        <button class="button small" onClick={() => this.roomContractSetSelect(roomContractSet, item.accommodationDetails)}>
                                             {t("Book it")}
                                         </button>
                                     </td>
@@ -216,4 +218,4 @@ class AccommodationAgreementsPage extends React.Component {
     }
 }
 
-export default AccommodationAgreementsPage;
+export default AccommodationRoomContractsSetsPage;

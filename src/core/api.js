@@ -53,16 +53,16 @@ API_METHODS = {
 
     ACCOMMODATION_DETAILS : (accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}`,
-    REQUEST_DEADLINE      : (availabilityId, source, agreementId) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}/deadline`,
-
     A_SEARCH_STEP_ONE     : v1 + "/availabilities/accommodations",
     A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}/availabilities/${availabilityId}`,
-    A_SEARCH_STEP_THREE   : (availabilityId, agreementId, source) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}`,
+    A_SEARCH_STEP_THREE   : (availabilityId, roomContractSetId, source) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}`,
+    REQUEST_DEADLINE      : (availabilityId, roomContractSetId, source) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
 
-    BILLING_HISTORY       : companyId =>
+
+BILLING_HISTORY       : companyId =>
                             v1 + `/payments/history/${companyId}`,
 
     BASE_VERSION          : v1 + "/versions",

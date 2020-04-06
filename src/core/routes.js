@@ -5,7 +5,7 @@ import accommodationTitle         from "pages/accommodation/title";
 import accommodationVariants      from "pages/accommodation/variants";
 import accommodationBooking       from "pages/accommodation/booking";
 import accommodationConfirmation  from "pages/accommodation/confirmation";
-import accommodationAgreements    from "pages/accommodation/agreements";
+import accommodationContractsSets from "pages/accommodation/room-contract-sets";
 
 import paymentPage                from "pages/payment/payment";
 import paymentAccountPage         from "pages/payment/account";
@@ -33,7 +33,7 @@ import devAuthPage from "pages/account/odawara/confirmation";
 export const routesWithSearch = [
     "/",
     "/search",
-    "/accommodation/agreements"
+    "/search/contract"
 ];
 export const routesWithHeaderAndFooter = [
     ...routesWithSearch,
@@ -55,9 +55,9 @@ export const routesWithFooter = [
 const Routes = () => (
     <Switch>
         <Route exact path="/"                     component={accommodationTitle} />
-        <Route path="/search"                     component={accommodationVariants} />
+        <Route exact path="/search"               component={accommodationVariants} />
+        <Route exact path="/search/contract"      component={accommodationContractsSets} />
         <Route path="/accommodation/booking"      component={accommodationBooking} />
-        <Route path="/accommodation/agreements"   component={accommodationAgreements} />
         <Route path={
             ["/accommodation/confirmation/:id",
              "/accommodation/confirmation"]}      component={accommodationConfirmation} />
