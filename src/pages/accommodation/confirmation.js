@@ -227,7 +227,11 @@ render() {
                             />
                             <Dual addClass="line"
                                 a={t("Accommodates")}
-                                b={plural(t, accommodation.agreement.rooms[index].adultsNumber, "Adult")}
+                                b={
+                                    plural(t, accommodation.agreement.rooms[index].adultsNumber, "Adult")
+                                    + (!accommodation.agreement.rooms[index].childrenNumber ? "" :
+                                    (", " + plural(t, accommodation.agreement.rooms[index].childrenNumber, "Children")))
+                                }
                             />
 
                             { room.roomDetails.length > 1 && <React.Fragment>
