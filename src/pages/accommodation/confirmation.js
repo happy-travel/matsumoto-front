@@ -128,7 +128,7 @@ render() {
                             </div>
                         </div>
 
-                        { ("YES" == params.remember_me) && <div class="result-code">
+                        { ("YES" == params.remember_me) && <div>
                             {t("Your card was saved for your future purchases.")}
                         </div> }
                     </React.Fragment> }

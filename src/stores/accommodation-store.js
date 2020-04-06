@@ -140,6 +140,8 @@ class AccommodationStore {
 
     setPaymentResult(result) {
         this.paymentResult = result;
+        if (this.paymentResult.result == "Failed")
+            this.paymentResult.error = true;
         this.paymentResult.params_error = (result.params?.response_message != "Success");
     }
 
