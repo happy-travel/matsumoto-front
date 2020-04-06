@@ -31,7 +31,7 @@ API_METHODS = {
     USER_REGISTRATION_M   : v1 + "/customers/register/master",
 
     USER_INVITE_DATA      : invitationCode =>
-                            v1 + "/customers/invitations" + "/" + invitationCode,
+                            v1 + "/customers/invitations/" + invitationCode,
     USER_INVITE_SEND      : v1 + "/customers/invitations/send",
     USER_INVITE_GET_LINK  : v1 + "/customers/invitations",
 

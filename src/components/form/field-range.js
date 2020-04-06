@@ -2,13 +2,14 @@ import React from "react";
 import { observer } from "mobx-react";
 import InputRange from "react-input-range";
 import { price } from "core";
+import { getValue } from "./utils";
 
 @observer
 class FieldRangeSlider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: { min: props.min, max: props.max }
+            value: getValue(this.props.formik, this.props.id) || { min: props.min, max: props.max }
         };
         this.changing = this.changing.bind(this);
     }

@@ -2,12 +2,7 @@ import React from "react";
 import UI from "stores/ui-store";
 import { observer } from "mobx-react";
 import { localStorage, decorate, scrollTo } from "core";
-
-const getValue = (formik, id) => {
-    if (typeof id != "string") id = ""+id;
-    if (!formik) return '';
-    return id.split('.').reduce((o,i)=>o?.[i], formik.values);
-};
+import { getValue } from "./utils";
 
 @observer
 class FieldText extends React.Component {

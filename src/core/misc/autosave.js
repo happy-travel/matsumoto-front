@@ -6,9 +6,9 @@ export default (store, key) => {
     var initial = true;
 
     autorun(() => {
+        const cached = session.get(key);
         if (initial) {
-            const cached = session.get(key),
-                  reserve = JSON.parse(JSON.stringify(toJS(store)));
+            const reserve = JSON.parse(JSON.stringify(store));
 
             if (cached)
                 try {
@@ -23,7 +23,9 @@ export default (store, key) => {
                 }
         }
         store.build = settings.build;
-        session.set(key, JSON.stringify(toJS(store)));
+        const newValue = JSON.stringify(store);
+        if (cached != newValue)
+            session.set(key, newValue);
     });
 
     initial = false;
