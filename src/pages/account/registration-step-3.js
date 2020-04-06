@@ -85,9 +85,11 @@ class RegistrationStep3 extends React.Component {
                     <div class="middle-section">
                         <Breadcrumbs items={[
                             {
-                                text: t("Log In")
+                                text: t("Log In"),
+                                onClick: () => Authorize.signoutRedirect()
                             }, {
-                                text: t("Registration")
+                                text: t("Registration"),
+                                onClick: () => Authorize.signoutRedirect()
                             }, {
                                 text: t("Company Information")
                             }
