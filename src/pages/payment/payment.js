@@ -68,12 +68,12 @@ class PaymentPage extends React.Component {
                 });
             }
         });
-        /* API.get({
+        API.get({
             url: API.CARDS_SAVED,
             success: data => this.setState({
                 savedCards: data
             })
-        }); */
+        });
         snare();
     }
 
@@ -280,7 +280,7 @@ render() {
                                     autocomplete="cc-csc"
                                 />
                             </div>
-                            <div class="row hide">
+                            <div class="row">
                                 <FieldCheckbox formik={formik}
                                     label={
                                         <span>

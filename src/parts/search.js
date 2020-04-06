@@ -37,8 +37,11 @@ const formFormatter = (values) => {
             adultsNumber: values.roomDetails[i].adultsNumber,
             childrenNumber: values.roomDetails[i].childrenAges.length
         };
-        if (values.roomDetails[i].childrenAges.length)
-            room.childrenAges = values.roomDetails[i].childrenAges;
+        if (values.roomDetails[i].childrenAges.length) {
+            room.childrenAges = [];
+            for (var j = 0; j < values.roomDetails[i].childrenAges.length; j++)
+                room.childrenAges.push(values.roomDetails[i].childrenAges[j] || 12);
+        }
         roomDetails.push(room);
     }
 
