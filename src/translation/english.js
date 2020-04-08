@@ -233,7 +233,7 @@ translations: {
     "More than": "More than",
     "properties": "properties",
     "Exclusive offer": "Exclusive offer",
-    "Country & Hotels": "Country & Hotels",
+    "Countries & Hotels": "Countries & Hotels",
     "Exclusive offers": "Exclusive offers",
     "Remark": "Remark",
     "You don`t have any reservations": "You don`t have any reservations",

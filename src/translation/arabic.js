@@ -228,7 +228,7 @@ translations: {
     "More than": "أكثر من",
     "properties": "الخصائص",
     "Exclusive offer": "عرض حصري",
-    "Country & Hotels": "البلد والفنادق",
+    "Countries & Hotels": "البلد والفنادق",
     "Exclusive offers": "العروض الحصرية",
     "Remark": "تعليق",
     "You don`t have any reservations": "ليس لديك أي حجوزات",
