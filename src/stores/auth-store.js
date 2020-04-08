@@ -55,8 +55,12 @@ class AuthStore {
 
     setCompanyForm(form) {
         this.registration.company = form;
-        if (this.registration.company.phone)
+        if (this.registration.company.phone) {
             this.registration.company.phone = this.registration.company.phone.replace(/\D/g,''); //todo: make decorators
+        }
+        if (this.registration.company.fax) {
+            this.registration.company.fax = this.registration.company.fax.replace(/\D/g,'');
+        }
     }
 
     setCountryValue(country) {
