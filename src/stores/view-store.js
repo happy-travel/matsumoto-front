@@ -3,8 +3,6 @@ import { observable } from "mobx";
 import UI from "./ui-store";
 import { decorate } from "core";
 
-const capitalizeString = str => str.toLowerCase().replace(/(?:^|\s)\S/g, a => a.toUpperCase());
-
 class ViewStore {
     @observable countries = [];
     @observable destinations = [];
@@ -43,7 +41,7 @@ class ViewStore {
         if (value) {
             this.destinations = value.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
             this.destinations = this.destinations.filter(item => decorate.cutFirstPart(item.value, currentValue));
-            this.destinations.forEach((item, index) => this.destinations[index].value = capitalizeString(item.value));
+            this.destinations.forEach((item, index) => this.destinations[index].value = item.value);
         }
         else
             this.destinations = [];
