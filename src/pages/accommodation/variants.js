@@ -22,7 +22,7 @@ class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToAgreementsPage: false,
+            redirectToRoomContractSetsPage: false,
             loading: false
         };
         this.showDetailsModal = this.showDetailsModal.bind(this);
@@ -50,7 +50,7 @@ class AccommodationVariantsPage extends React.Component {
             success: result => {
                 store.selectAccommodation(result);
                 this.setState({
-                    redirectToAgreementsPage: true
+                    redirectToRoomContractSetsPage: true
                 });
             },
             after: () => {
@@ -64,8 +64,8 @@ class AccommodationVariantsPage extends React.Component {
     render() {
         const { t } = useTranslation();
 
-        if (this.state.redirectToAgreementsPage)
-            return <Redirect push to="/accommodation/agreements" />;
+        if (this.state.redirectToRoomContractSetsPage)
+            return <Redirect push to="/search/contract" />;
 
         return (
 
@@ -92,7 +92,8 @@ class AccommodationVariantsPage extends React.Component {
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
-                                text: t("Find Accommodation")
+                                text: t("Find Accommodation"),
+                                link: '/'
                             }, {
                                 text: store.search.request?.destination
                             }
@@ -140,9 +141,9 @@ class AccommodationVariantsPage extends React.Component {
                 { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
                     <div class="summary">
-                        <div class="photo">
+                        { item.accommodationDetails.picture.source && <div class="photo">
                             <img src={item.accommodationDetails.picture.source} alt="" />
-                        </div>
+                        </div> }
                         <div class="title" onClick={() => this.showDetailsModal(item)} >
                             <h2>
                                 <u>{item.accommodationDetails.name}</u>
@@ -160,7 +161,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.agreements?.[0]?.price.currency, item.fromPrice)}</div>
+                            <div class="value">{price(item.roomContractSets?.[0]?.price.currency, item.fromPrice)}</div>
                         </div>
                     </div>
                     <div class="description">
@@ -178,38 +179,38 @@ class AccommodationVariantsPage extends React.Component {
                                 {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
                             </div>
                             <div class="price">
-                                {price(item.agreements?.[0]?.price)}
+                                {price(item.roomContractSets?.[0]?.price)}
                             </div>
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
                             </button>
                         </div>
-                        { item.agreements.slice(0, 2).map(agreement => <div class="row">
+                        { item.roomContractSets.slice(0, 2).map(roomContractSet => <div class="row">
                             <div class="icons">
                                 <span class="icon icon-man" />
-                                {(agreement.rooms.length == 1 && agreement.rooms[0].type == "Single") ? null : <span class="icon icon-man" />}
+                                {(roomContractSet.roomContracts.length == 1 && roomContractSet.roomContracts[0].type == "Single") ? null : <span class="icon icon-man" />}
                             </div>
                             <div class="main">
                                 <h3>
-                                    {groupAndCount(agreement.rooms)}
+                                    {groupAndCount(roomContractSet.roomContracts)}
                                 </h3>
                                 <div>
-                                    {agreement.isDynamic === true &&
+                                    {roomContractSet.isDynamic === true &&
                                         <strong>
                                             {t("Dynamic offer")}
                                         </strong>
                                     }
                                     <Deadline t={t}
-                                        agreement={agreement}
+                                        roomContractSet={roomContractSet}
                                         availabilityId={item.availabilityId}
                                         source={item.source}
                                     />
                                 </div>
                                 <div class="info green">
-                                    {agreement.boardBasisCode}: {"RO" == agreement.boardBasisCode ? t("Room Only") : (t("Breakfast Included") + " " + agreement.mealPlan) }
+                                    {roomContractSet.roomContracts[0].boardBasisCode}: {"RO" == roomContractSet.roomContracts[0].boardBasisCode ? t("Room Only") : (t("Breakfast Included") + " " + roomContractSet.roomContracts[0].mealPlan) }
                                 </div>
                                 <div class="paragraph">
-                                    {agreement.contractType}
+                                    {roomContractSet.roomContracts[0].contractType}
                                 </div>
                             </div>
                         </div>) }

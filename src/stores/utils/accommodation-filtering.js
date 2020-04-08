@@ -34,8 +34,8 @@ export const createFilters = (response) => {
 
         filters.ratings.add(hotel?.accommodationDetails?.rating);
 
-        for (var j=0; j < hotel.agreements.length; j++) {
-            var item = hotel.agreements[j];
+        for (var j=0; j < hotel.roomContractSets.length; j++) {
+            var item = hotel.roomContractSets[j];
             filters.price.min = Math.min(filters.price.min, item.price.netTotal);
             filters.price.max = Math.max(filters.price.max, item.price.netTotal);
             filters.price.currency = item.price.currency;
@@ -68,18 +68,18 @@ export const applyFilters = (hotels, filters) => {
 
     if (atLeastOne(filters.price) && filters.price.min > 0 && filters.price.max < Infinity)
         for (var i = 0; i < result.length; i++)
-            if (result[i].agreements?.length)
-                result[i].agreements = result[i].agreements.filter(item => (
+            if (result[i].roomContractSets?.length)
+                result[i].roomContractSets = result[i].roomContractSets.filter(item => (
                     item.price.netTotal >= filters.price.min &&
                     item.price.netTotal <= filters.price.max
                 ));
 
     if (atLeastOne(filters.mealPlans))
         for (i = 0; i < result.length; i++)
-            if (result[i].agreements?.length)
-                result[i].agreements = result[i].agreements.filter(item => filters.mealPlans[item.boardBasisCode]);
+            if (result[i].roomContractSets?.length)
+                result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.mealPlans[item.boardBasisCode]);
 
-    result = result.filter(hotel => hotel.agreements.length);
+    result = result.filter(hotel => hotel.roomContractSets.length);
 
     return result;
 };

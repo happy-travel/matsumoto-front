@@ -84,7 +84,7 @@ class RegistrationStep2 extends React.Component {
 
     render() {
         var { t } = useTranslation();
-    
+
         if (this.state.redirectToThirdStep)
             return <Redirect push to="/signup/company" />;
 
@@ -105,9 +105,11 @@ class RegistrationStep2 extends React.Component {
         <div class="middle-section">
             <Breadcrumbs items={[
                 {
-                    text: t("Log In")
+                    text: t("Log In"),
+                    onClick: () => Authorize.signoutRedirect()
                 }, {
-                    text: t("Registration")
+                    text: t("Registration"),
+                    onClick: () => Authorize.signoutRedirect()
                 }, {
                     text: t("User Information")
                 }

@@ -1,16 +1,17 @@
 import React from "react";
 import settings from "settings";
+import PaymentResultPage from "./result";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, price, API } from "core";
+import { price, API } from "core";
 import { Formik } from "formik";
 import {
     FieldText,
     FieldCheckbox
 } from "components/form";
-import { Dual, Header } from "components/simple";
+import { Header, Loader } from "components/simple";
 import store from "stores/accommodation-store";
-import { creditCardValidator } from "components/form/validation";
+import { creditCardValidator, savedCreditCardValidator } from "components/form/validation";
 import { creditCardType } from "card-validator";
 import Breadcrumbs from "components/breadcrumbs";
 import ReactTooltip from "react-tooltip";
@@ -25,13 +26,13 @@ import {
 import { snare } from "./utils/snare";
 
 @observer
-class PaymentPage extends React.Component {
+class PaymentPage extends PaymentResultPage {
     constructor(props) {
         super(props);
         this.state = {
             request_url: null,
-            currency: store.selected?.agreement?.price.currency,
-            amount: store.selected?.agreement?.price.netTotal,
+            currency: store.selected?.roomContractSet?.price.currency,
+            amount: store.selected?.roomContractSet?.price.netTotal,
             comment: null,
             service: {
                 service_command     : "TOKENIZATION",
@@ -42,10 +43,15 @@ class PaymentPage extends React.Component {
             code: {
                 name: "CVV",
                 size: 3
-            }
+            },
+            savedCards: [],
+            selectedCardId: null,
+            loading: false
         };
         this.submit = this.submit.bind(this);
         this.detectCardType = this.detectCardType.bind(this);
+        this.payBySavedCard = this.payBySavedCard.bind(this);
+        this.selectCard = this.selectCard.bind(this);
     }
 
     componentDidMount() {
@@ -63,6 +69,12 @@ class PaymentPage extends React.Component {
                     request_url: data.tokenizationUrl
                 });
             }
+        });
+        API.get({
+            url: API.CARDS_SAVED,
+            success: data => this.setState({
+                savedCards: data || []
+            })
         });
         snare();
     }
@@ -99,7 +111,8 @@ class PaymentPage extends React.Component {
             service: {
                 ...this.state.service,
                 ...(fingerprint ? { device_fingerprint: fingerprint } : {})
-            }
+            },
+            loading: true
         });
 
         API.post({
@@ -116,12 +129,38 @@ class PaymentPage extends React.Component {
         });
     }
 
+    payBySavedCard(values) {
+        if (!this.state.selectedCardId)
+            return;
+
+        this.setState({
+            loading: true
+        });
+
+        API.post({
+            url: API.PAYMENTS_CARD_SAVED,
+            body: {
+                referenceCode: store.booking?.referenceCode,
+                cardId: this.state.selectedCardId,
+                securityCode: values.card_security_code
+            },
+            after: (data, error) => this.callback(data, error)
+        });
+    }
+
+    selectCard(id) {
+        this.setState({
+            selectedCardId: id
+        });
+    }
+
 render() {
     const { t } = useTranslation();
 
     return (
         <React.Fragment>
             { this.state.direct && <Header /> }
+            { this.state.loading && <Loader page /> }
 
 <div class="confirmation block payment">
     <section class="double-sections">
@@ -132,7 +171,8 @@ render() {
                     text: t("Search accommodation"),
                     link: "/search"
                 }, {
-                    text: t("Your Booking")
+                    text: t("Your Booking"),
+                    link: "/accommodation/booking",
                 }, {
                     text: t("Payment")
                 }
@@ -151,6 +191,49 @@ render() {
               ("Created" != this.state.status) && <h2 class="payment-title">
                 {t("You are not able to pay this order anymore")}
             </h2> }
+
+            { !this.state.direct && !!this.state.savedCards.length && <React.Fragment>
+                <h2 class="payment-title">
+                    {t("Pay using saved cards")}
+                </h2>
+                <Formik
+                    initialValues={{
+                        card_security_code: ""
+                    }}
+                    validateOnChange={true}
+                    validationSchema={savedCreditCardValidator}
+                    onSubmit={this.payBySavedCard}
+                    render={formik => (
+                        <form onSubmit={formik.handleSubmit}>
+                            <div class="form">
+                                <div class="payment method cards">
+                                    <div class="list">
+                                    {this.state.savedCards.map(item => {
+                                        var type = creditCardType(item.number)?.[0];
+                                        return (<div
+                                            onClick={() => this.selectCard(item.id)}
+                                            class={"item" + (item.id == this.state.selectedCardId ? " selected" : "")}>
+                                            {allowedTypes[type.type] ? <img src={allowedTypes[type.type]} /> : null}
+                                            {item.number} <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
+                                            <FieldText formik={formik}
+                                                id="card_security_code"
+                                                placeholder={this.state.code.name}
+                                                required
+                                                numeric
+                                                maxLength={this.state.code.size}
+                                            />
+                                        </div>);
+                                    })}
+                                    </div>
+                                </div>
+                                <button class={"no-margin button" + (this.state.selectedCardId ? "" : " disabled")}>
+                                    {t("Pay using saved cards")}
+                                </button>
+                            </div>
+                        </form>
+                    )}
+                />
+            </React.Fragment>}
 
             { (!this.state.direct || ("Created" == this.state.status)) && <React.Fragment>
                 <h2 class="payment-title">
@@ -226,7 +309,7 @@ render() {
                                     autocomplete="cc-csc"
                                 />
                             </div>
-                            <div class="row hide">
+                            <div class="row">
                                 <FieldCheckbox formik={formik}
                                     label={
                                         <span>
