@@ -136,8 +136,8 @@ export default class CompanySettings extends React.Component {
                         <div className="row">
                             <FieldText formik={formik}
                                        id="zipCode"
-                                       label={t("Zip/Postal Cod")}
-                                       placeholder={t("Zip/Postal Cod")}
+                                       label={t("Zip/Postal Code")}
+                                       placeholder={t("Zip/Postal Code")}
                                        value={postalCode}
                                        disabled
                             />

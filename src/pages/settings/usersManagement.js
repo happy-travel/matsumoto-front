@@ -64,6 +64,10 @@ class UsersManagement extends React.Component {
         }
     }
 
+    changeSearchField(values) {
+        UsersStore.filterCompanyUsers(values?.searchField?.replace(/\n/g, ''));
+    }
+
     render() {
         const { t } = useTranslation();
         const {usersCompany, usersCompanyIsLoading, usersTablePageInfo, usersCompanyCount} = UsersStore;
@@ -73,6 +77,7 @@ class UsersManagement extends React.Component {
             <div className="users-management__search-wrapper">
                <section>
                    <Formik
+                       onSubmit={this.changeSearchField}
                        render={formik => (
                            <form onSubmit={formik.handleSubmit}>
                                <div className="form">
