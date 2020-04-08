@@ -1,6 +1,7 @@
 import React from "react";
 import { hotelStars } from "core";
 import { Link } from "react-router-dom";
+import { plural } from "core";
 
 export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
     (!nonEmpty || b) ? <div class={"dual" + (addClass ? " " + addClass : '')}>
@@ -92,4 +93,16 @@ export const groupAndCount = arr => {
         result.push(count[item] + " x " + item);
 
     return result.join(", ");
+};
+
+export const PassengersCount = ({ t, adults, children, separator }) => {
+    return <React.Fragment>
+        { adults ? plural(t, adults, "Adult") : "" }
+        {(adults && children) ?
+            (undefined !== separator ?
+                separator :
+                (" " + t("and") + " ")) :
+            ""}
+        { children ? plural(t, children, "Children") : "" }
+        </React.Fragment>;
 };

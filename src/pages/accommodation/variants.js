@@ -10,7 +10,7 @@ import UI, { MODALS } from "stores/ui-store";
 
 import AccommodationFilters from "parts/accommodation-filters";
 import Breadcrumbs from "components/breadcrumbs";
-import { Stars, Loader } from "components/simple";
+import { Stars, Loader, PassengersCount } from "components/simple";
 import Deadline from "components/deadline";
 
 @observer
@@ -166,13 +166,18 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                     <div class="table">
                         <div class="title">
-                            {t("Recommended option for")}{" "}
-                            {plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
+                            {t("Recommended option for")
+                            } <PassengersCount t={t}
+                                               adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
+                                               children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}/>
                         </div>
                         <div class="billet">
                             <div class="count">
-                                {plural(t, store.search.result.numberOfNights, "Night")},
-                                {" "}{plural(t, store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber+item.childrenNumber), 0), "Adult")}
+                                {plural(t, store.search.result.numberOfNights, "Night")}
+                                , <PassengersCount t={t}
+                                                   adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
+                                                   children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}
+                                                   separator={", "} />
                             </div>
                             <div class="price">
                                 {price(item.roomContractSets?.[0]?.price)}

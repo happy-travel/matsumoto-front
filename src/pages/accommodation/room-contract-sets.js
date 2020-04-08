@@ -10,7 +10,7 @@ import View from "stores/view-store";
 import AccommodationCommonDetails from "parts/accommodation-details";
 
 import Breadcrumbs from "components/breadcrumbs";
-import { Loader } from "components/simple";
+import { Loader, PassengersCount } from "components/simple";
 import Deadline from "components/deadline";
 
 @observer
@@ -139,8 +139,8 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Guests")}</div>
-                            <div class="h2">{plural(t, store.search.request.adultsTotal, "Adult")}</div>
-                            {!!store.search.request.childrenTotal && <div class="h2">{plural(t, store.search.request.childrenTotal, "Children")}</div>}
+                            <div class="h2"><PassengersCount t={t} adults={store.search.request.adultsTotal} /></div>
+                            <div class="h2"><PassengersCount t={t} children={store.search.request.childrenTotal} /></div>
                         </div>
                     </div>
                     <div class="part">
