@@ -40,8 +40,7 @@ export const Stars = ({ count }) => {
 
 export const MealPlan = ({ room, t }) => {
     return <span>{
-        ("RO" == room.boardBasisCode ? t("Room only") : room.mealPlan) +
-        (room.boardBasisCode ? (" (" + room.boardBasisCode + ")") : "")
+        "RO" == room.boardBasisCode ? t("Room only") : room.mealPlan
     }</span>
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { API, dateFormat, price, plural } from "core";
+import { API, dateFormat, price } from "core";
 import { FieldArray } from "formik";
 
 import {
@@ -15,7 +15,7 @@ import {
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader } from "components/simple";
+import { Dual, Loader, MealPlan } from "components/simple";
 import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
@@ -175,7 +175,7 @@ class AccommodationBookingPage extends React.Component {
                 />
                 <Dual
                     a={t("Board Basis")}
-                    b={variant.roomContracts[0].boardBasisCode + ": " + variant.roomContracts[0].boardBasis}
+                    b={<MealPlan t={t} room={variant.roomContracts[0]} />}
                 />
 
                 { /* deadlineDetails.remarkCodes.map( item => (
