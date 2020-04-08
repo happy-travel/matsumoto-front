@@ -2,6 +2,7 @@
 import {observable, action} from "mobx";
 
 class UsersStore {
+    @observable usersCompanyBackup = [];
     @observable usersCompany = [];
     @observable usersCompanyCount = 0;
     @observable usersCompanyIsLoading = false;
@@ -13,6 +14,16 @@ class UsersStore {
     @action.bound
     setCompanyUsers(result) {
         this.usersCompany = result;
+        this.usersCompanyBackup = result;
+    }
+
+    @action.bound
+    filterCompanyUsers(value) {
+        if (value?.length > 0) {
+            this.usersCompany = this.usersCompanyBackup.filter((user) => user.name.toLowerCase().includes(value.toLowerCase()));
+        } else {
+            this.usersCompany = this.usersCompanyBackup;
+        }
     }
 }
 
