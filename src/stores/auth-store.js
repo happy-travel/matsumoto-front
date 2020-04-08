@@ -1,8 +1,18 @@
 import React from "react";
-import { observable } from "mobx";
+import { observable, action } from "mobx";
 import autosave from "core/misc/autosave";
 import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";
+
+const defaultUserSettings = {
+    "preferredLanguage": '',
+    "weekStartOn": '',
+    "availableCredit": false,
+    "nationality": '',
+    "nationalityName": '',
+    "residency": '',
+    "residencyName": '',
+};
 
 class AuthStore {
     @observable registration = {
@@ -10,11 +20,28 @@ class AuthStore {
         "company": {}
     };
 
+    @observable user = {
+        "email": null,
+        "lastName": null,
+        "firstName": null,
+        "title": null,
+        "position": null
+    };
+    @observable isUserDataLoading = true;
+
+    @observable userSettings = defaultUserSettings;
+    @observable isUserSettingsLoading = true;
+
     @observable userCache = null;
     @observable cachedUserRegistered = false;
 
     constructor() {
         autosave(this, "_auth_store_cache");
+    }
+
+    setUser(value) {
+        this.user = value;
+        this.isUserDataLoading = false;
     }
 
     setUserForm(form) {
@@ -53,6 +80,12 @@ class AuthStore {
 
     setCachedUserRegistered(value) {
         this.cachedUserRegistered = value;
+    }
+
+    @action.bound
+    setUserSettings(result) {
+        this.userSettings = result || defaultUserSettings;
+        this.isUserSettingsLoading = false;
     }
 }
 

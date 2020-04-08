@@ -22,6 +22,7 @@ import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
+import AdminSettings              from "pages/settings/admin-settings";
 import CompanySettings            from "pages/settings/companySettings";
 
 import contactUsPage              from "pages/common/contact";
@@ -46,7 +47,8 @@ export const routesWithHeaderAndFooter = [
     "/user/booking",
     "/user/payment-history",
     "/user/invite",
-    "/settings/company",
+    "/settings/admin",
+    "/settings/company"
 ];
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
@@ -83,6 +85,7 @@ const Routes = () => (
         <Route path="/user/payment-history"       component={accountStatement} />
         <Route path="/user/invite"                component={userInvite} />
 
+        <Route path="/settings/admin"             component={AdminSettings} />
         <Route path="/settings/company"           component={CompanySettings} />
 
         <Route path="/contact"                    component={contactUsPage} />

@@ -77,6 +77,8 @@ BILLING_HISTORY       : companyId =>
 
     COMPANY_INFO     : companyId =>
         v1 + `/companies/${companyId}`,
+
+    CUSTOMER_SETTINGS     : v1 + `/customers/settings/application`,
 };
 
 
@@ -125,7 +127,7 @@ Authorize.getUser().then(user => {
             })
         };
 
-    if ("POST" == method)
+    if ("POST" == method || method === "PUT")
         request.body = JSON.stringify(body);
     else {
         var getBody = Object.keys(body).map(function(key) {
@@ -191,6 +193,13 @@ _.get = (params) => {
 _.post = (params) => {
     _.request({
         method: "POST",
+        ...params
+    })
+};
+
+_.put = (params) => {
+    _.request({
+        method: "PUT",
         ...params
     })
 };

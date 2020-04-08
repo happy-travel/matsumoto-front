@@ -65,8 +65,14 @@ class SelectDropdown extends React.Component {
 @observer
 class FieldSelect extends React.Component {
     render() {
-        const { formik, id, options, addClass } = this.props;
-        const ValueObject = getTextByValue(formik, id, options);
+        var {
+            formik,
+            id,
+            options,
+            addClass,
+        } = this.props,
+
+            ValueObject = getTextByValue(formik, id, options);
 
         return (
             <FieldText
