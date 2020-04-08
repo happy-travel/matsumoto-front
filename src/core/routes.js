@@ -5,7 +5,7 @@ import accommodationTitle         from "pages/accommodation/title";
 import accommodationVariants      from "pages/accommodation/variants";
 import accommodationBooking       from "pages/accommodation/booking";
 import accommodationConfirmation  from "pages/accommodation/confirmation";
-import accommodationAgreements    from "pages/accommodation/agreements";
+import accommodationContractsSets from "pages/accommodation/room-contract-sets";
 
 import paymentPage                from "pages/payment/payment";
 import paymentAccountPage         from "pages/payment/account";
@@ -22,6 +22,12 @@ import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
+import usersManagement            from "pages/settings/usersManagement";
+import addNewUser                 from "pages/settings/addNewUser";
+
+import AdminSettings              from "pages/settings/admin-settings";
+import CompanySettings            from "pages/settings/companySettings";
+
 import contactUsPage              from "pages/common/contact";
 import termsPage                  from "pages/common/terms";
 import privacyPage                from "pages/common/privacy";
@@ -33,7 +39,7 @@ import devAuthPage from "pages/account/odawara/confirmation";
 export const routesWithSearch = [
     "/",
     "/search",
-    "/accommodation/agreements"
+    "/search/contract"
 ];
 export const routesWithHeaderAndFooter = [
     ...routesWithSearch,
@@ -43,7 +49,11 @@ export const routesWithHeaderAndFooter = [
     "/payment/form", "/payment/account",
     "/user/booking",
     "/user/payment-history",
-    "/user/invite"
+    "/user/invite",
+    "/settings/users",
+    "/settings/users/:customerId/:companyId/:branchId/",
+    "/settings/admin",
+    "/settings/company"
 ];
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
@@ -55,18 +65,18 @@ export const routesWithFooter = [
 const Routes = () => (
     <Switch>
         <Route exact path="/"                     component={accommodationTitle} />
-        <Route path="/search"                     component={accommodationVariants} />
+        <Route exact path="/search"               component={accommodationVariants} />
+        <Route exact path="/search/contract"      component={accommodationContractsSets} />
         <Route path="/accommodation/booking"      component={accommodationBooking} />
-        <Route path="/accommodation/agreements"   component={accommodationAgreements} />
         <Route path={
-            ["/accommodation/confirmation/:id",
-             "/accommodation/confirmation"]}      component={accommodationConfirmation} />
+               ["/accommodation/confirmation/:id",
+                "/accommodation/confirmation"]}   component={accommodationConfirmation} />
 
         <Route path="/payment/form"               component={paymentPage} />
         <Route path="/payment/account"            component={paymentAccountPage} />
         <Route path={
-            ["/payment/result/:ref",
-             "/payment/result"]}                  component={paymentResult} />
+               ["/payment/result/:ref",
+                "/payment/result"]}               component={paymentResult} />
         <Route path="/payments/callback"          component={payment3DSCallback} />
 
         <Route path="/pay/:code"                  component={paymentDirectLink} />
@@ -79,6 +89,14 @@ const Routes = () => (
         <Route path="/user/booking"               component={userBookingManagement} />
         <Route path="/user/payment-history"       component={accountStatement} />
         <Route path="/user/invite"                component={userInvite} />
+
+        <Route path="/settings/users/add"         component={addNewUser} />
+        <Route path="/settings/users/:customerId/:companyId/:branchId/"
+                                                  component={addNewUser} />
+        <Route exact path="/settings/users"       component={usersManagement} />
+
+        <Route path="/settings/admin"             component={AdminSettings} />
+        <Route path="/settings/company"           component={CompanySettings} />
 
         <Route path="/contact"                    component={contactUsPage} />
         <Route path="/terms"                      component={termsPage} />

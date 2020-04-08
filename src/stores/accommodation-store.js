@@ -19,7 +19,7 @@ class AccommodationStore {
 
     @observable
     selected = {
-        agreement: null,
+        roomContractSet: null,
         accommodation: null,
         accommodationFinal: null,
         deadlineDetails: null,
@@ -72,7 +72,7 @@ class AccommodationStore {
 
         if (this.search.result?.results?.length) {
             this.search.result.results.forEach(item => {
-                item.fromPrice = Math.min(...item.agreements.map(x => x.price.netTotal));
+                item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
             });
         }
 
@@ -105,17 +105,18 @@ class AccommodationStore {
     }
 
     selectAccommodation(accommodation) {
-        var source = accommodation.source;
-        this.selected.accommodation = accommodation.data;
-        this.selected.accommodation.source = source;
+        this.selected.accommodation = {
+            ...accommodation.data,
+            source: accommodation.source
+        };
     }
 
-    selectAgreement(result) {
+    selectRoomContractSet(result) {
         result = result?.data || null;
         this.selected = {
             ...this.selected,
             accommodationFinal : result,
-            agreement : result?.agreement,
+            roomContractSet : result?.roomContractSet,
             availabilityId : result?.availabilityId,
             deadlineDetails : result?.deadlineDetails
         };
@@ -140,6 +141,8 @@ class AccommodationStore {
 
     setPaymentResult(result) {
         this.paymentResult = result;
+        if (this.paymentResult.result == "Failed")
+            this.paymentResult.error = true;
         this.paymentResult.params_error = (result.params?.response_message != "Success");
     }
 

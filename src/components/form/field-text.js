@@ -2,12 +2,7 @@ import React from "react";
 import UI from "stores/ui-store";
 import { observer } from "mobx-react";
 import { localStorage, decorate, scrollTo } from "core";
-
-const getValue = (formik, id) => {
-    if (typeof id != "string") id = ""+id;
-    if (!formik) return '';
-    return id.split('.').reduce((o,i)=>o?.[i], formik.values);
-};
+import { getValue } from "./utils";
 
 @observer
 class FieldText extends React.Component {
@@ -50,17 +45,26 @@ class FieldText extends React.Component {
 
     onKeyDown(e) {
         if (this.props.Dropdown && this.props.options) {
-            var value = this.props.options[UI.focusedDropdownIndex];
+            let value = this.props.options[UI.focusedDropdownIndex];
+            let {suggestion} = this.props;
+            const {formik, id} = this.props;
             switch (e.keyCode) {
                 case 13:
                 case 39: // Enter or Right arrow
                     // Select first suggestion or selected menu item
-                    e.preventDefault();
                     if (value && this.props.setValue) {
-                        this.props.setValue(value, this.props.formik, this.props.id);
+                        e.preventDefault();
+                        this.props.setValue(value, formik, id);
                     }
-                    if (!value && this.props.setAutoComplete)
-                        this.props.setAutoComplete(this.props.formik);
+                    if (!value && this.props.setAutoComplete) {
+                        if (formik && !suggestion) {
+                            suggestion = UI.getSuggestion(id, getValue(formik, id));
+                        }
+                        if (suggestion) {
+                            e.preventDefault();
+                            this.props.setAutoComplete(this.props.formik);
+                        }
+                    }
                     break;
                 case 38: // Arrow top
                     // Move up in suggestion list

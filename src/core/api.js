@@ -20,7 +20,6 @@ API_METHODS = {
     CARDS_SIGN            : v1 + "/cards/signatures",
     PAYMENTS_CARD_NEW     : v1 + "/payments/bookings/card/new",
     PAYMENTS_CARD_SAVED   : v1 + "/payments/bookings/card/saved",
-    PAYMENTS_CARD_COMMON  : v1 + "/payments/bookings/card", //temporary
     PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
@@ -32,7 +31,7 @@ API_METHODS = {
     USER_REGISTRATION_M   : v1 + "/customers/register/master",
 
     USER_INVITE_DATA      : invitationCode =>
-                            v1 + "/customers/invitations" + "/" + invitationCode,
+                            v1 + "/customers/invitations/" + invitationCode,
     USER_INVITE_SEND      : v1 + "/customers/invitations/send",
     USER_INVITE_GET_LINK  : v1 + "/customers/invitations",
 
@@ -54,14 +53,14 @@ API_METHODS = {
 
     ACCOMMODATION_DETAILS : (accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}`,
-    REQUEST_DEADLINE      : (availabilityId, source, agreementId) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}/deadline`,
-
     A_SEARCH_STEP_ONE     : v1 + "/availabilities/accommodations",
     A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}/availabilities/${availabilityId}`,
-    A_SEARCH_STEP_THREE   : (availabilityId, agreementId, source) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}`,
+    A_SEARCH_STEP_THREE   : (availabilityId, roomContractSetId, source) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}`,
+    REQUEST_DEADLINE      : (availabilityId, roomContractSetId, source) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
+
 
     BILLING_HISTORY       : companyId =>
                             v1 + `/payments/history/${companyId}`,
@@ -74,8 +73,22 @@ API_METHODS = {
         SIGN         : code => v1 + "/external/payment-links/" + code + "/sign",
         PAY          : code => v1 + "/external/payment-links/" + code + "/pay",
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
-    }
+    },
 
+    COMPANY_BRANCH_CUSTOMERS : (companyId, branchId) =>
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers`,
+    COMPANY_CUSTOMERS        : (companyId) =>
+                           v1 + `/companies/${companyId}/customers`,
+    COMPANY_BRANCH_CUSTOMER  : (companyId, branchId, customerId) =>
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}`,
+    COMPANY_CUSTOMER         : (companyId, customerId) =>
+                           v1 + `/companies/${companyId}/customers/${customerId}`,
+    COMPANY_INFO             : companyId =>
+                           v1 + `/companies/${companyId}`,
+    CUSTOMER_SETTINGS    : v1 + `/customers/settings/application`,
+    ALL_PERMISSIONS      : v1 + "/all-permissions-list",
+    CUSTOMER_BRANCH_PERMISSIONS : (companyId, customerId, branchId) =>
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}/permissions`,
 };
 
 
@@ -124,7 +137,7 @@ Authorize.getUser().then(user => {
             })
         };
 
-    if ("POST" == method)
+    if ("POST" == method || "PUT" == method)
         request.body = JSON.stringify(body);
     else {
         var getBody = Object.keys(body).map(function(key) {
@@ -190,6 +203,13 @@ _.get = (params) => {
 _.post = (params) => {
     _.request({
         method: "POST",
+        ...params
+    })
+};
+
+_.put = (params) => {
+    _.request({
+        method: "PUT",
         ...params
     })
 };

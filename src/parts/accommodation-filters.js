@@ -26,7 +26,6 @@ class AccommodationFiltersPart extends React.Component {
                 render={formik => {
                     store.setSelectedFilters(formik.values);
                     return (
-                        <React.Fragment>
                             <div class="left-section filters">
                                 { (store.filters.price.max - store.filters.price.min > 1) &&
                                   store.filters.price.max < Infinity && <Expandable
@@ -60,7 +59,7 @@ class AccommodationFiltersPart extends React.Component {
                                         </div>
                                     }
                                 /> }
-                                { store.filters.mealPlans.length && <Expandable
+                                { (store.filters.mealPlans.length > 1) && <Expandable
                                     open
                                     header={t("Board Basis")}
                                     content={
@@ -111,7 +110,6 @@ class AccommodationFiltersPart extends React.Component {
     <Expandable header={t("Accommodation Chain")} />
 */ }
                             </div>
-                        </React.Fragment>
 
                     );
             }} />
