@@ -65,7 +65,7 @@ class UsersManagement extends React.Component {
     }
 
     changeSearchField(values) {
-        UsersStore.filterCompanyUsers(values.searchField.replace(/\n/g, ''));
+        UsersStore.filterCompanyUsers(values?.searchField?.replace(/\n/g, ''));
     }
 
     render() {
