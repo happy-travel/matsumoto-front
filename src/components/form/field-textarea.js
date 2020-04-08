@@ -21,7 +21,8 @@ class FieldTextarea extends FieldText {
             addClass,
             id,
             formik,
-            required
+            required,
+            disabled,
         } = this.props;
 
         return (
@@ -30,7 +31,11 @@ class FieldTextarea extends FieldText {
                     { label && <div class="label">
                         <span class={required ? "required" : ""}>{label}</span>
                     </div> }
-                    <div class={"input textarea" + (this.state.focus ? ' focus' : '') + ((formik?.errors[id] && formik?.touched[id]) ? ' error' : '')}>
+                    <div class={"input textarea"
+                        + (this.state.focus ? ' focus' : '')
+                        + ((formik?.errors[id] && formik?.touched[id]) ? ' error' : '')
+                        + (disabled ? ' disabled' : '')}
+                    >
                         <div class="inner">
                             <textarea
                                 id={id}
@@ -39,6 +44,7 @@ class FieldTextarea extends FieldText {
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
                                 onKeyUp={ this.onKeyUp }
+                                disabled={disabled}
                             />
                         </div>
                     </div>

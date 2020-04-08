@@ -1,11 +1,13 @@
 import React from 'react';
+import { getValue } from "./utils";
 
 class FieldCheckbox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: !!this.props.formik?.values[this.props.id]
+            value: !!getValue(this.props.formik, this.props.id)
         };
+        console.log(this.props.formik?.values);
         this.changing = this.changing.bind(this);
     }
 

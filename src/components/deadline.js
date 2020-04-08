@@ -15,8 +15,8 @@ class Deadline extends React.Component {
         API.get({
             url: API.REQUEST_DEADLINE(
                 this.props.availabilityId,
-                this.props.source,
-                this.props.agreement.id,
+                this.props.roomContractSet.id,
+                this.props.source
             ),
             success: data => {
                 this.setState({
@@ -27,8 +27,8 @@ class Deadline extends React.Component {
     }
 
     render() {
-        var { agreement, t, source } = this.props,
-            date = this.state.result?.date || agreement.deadlineDate,
+        var { roomContractSet, t, source } = this.props,
+            date = this.state.result?.date || roomContractSet.deadlineDate,
             isRequestPossible = ((2 == source) && !this.state.result);
 
         if (!date && isRequestPossible)

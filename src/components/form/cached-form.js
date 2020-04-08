@@ -1,62 +1,83 @@
 import React from "react";
-import { price } from "core";
 import { Formik } from "formik";
 import UI from "stores/ui-store";
 
-const handleChange = (formName, values) => {
-    UI.setFormCache(formName, values);
-};
-
-const handleReset = (formName, formik, initialValues) => {
-    formik.resetForm();
-    formik.setValues(initialValues);
-    UI.setFormCache(formName, null);
-};
-
-const getInitialValues = (formName, initialValues, cacheValidator) => {
-    var cached = UI.getFormCache(formName),
-        isValid = false;
-
-    if (!cached)
-        return initialValues;
-
-    if (cacheValidator) {
-        try {
-            isValid = cacheValidator(cached);
-        } catch (e) {}
-    } else
-        isValid = true;
-
-    if (isValid)
-        return cached;
-
-    return initialValues;
-};
-
 class CachedForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.getInitialValues = this.getInitialValues.bind(this);
+        this.handleReset = this.handleReset.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
+        this.state = {
+            initialized: false,
+            initialValues: this.getInitialValues()
+        };
+    }
+
+    getInitialValues() {
+        var {
+            initialValues = {},
+            cacheValidator,
+        } = this.props,
+            formName = this.props.id,
+            cached = UI.getFormCache(formName),
+            isValid = false;
+
+        if (!cached)
+            return initialValues;
+
+        if (cacheValidator) {
+            try {
+                isValid = cacheValidator(cached);
+            } catch (e) {}
+        } else
+            isValid = true;
+
+        if (isValid)
+            return cached;
+
+        return initialValues;
+    };
+
+    handleReset(formik) {
+        const {
+            initialValues = {}
+        } = this.props,
+            formName = this.props.id;
+
+        formik.resetForm();
+        formik.setValues(initialValues);
+        UI.setFormCache(formName, null);
+    }
+
+    handleChange(values) {
+        UI.setFormCache(this.props.id, values);
+    };
+
     render() {
         var {
             onSubmit = () => {},
-            initialValues = {},
             validationSchema,
             render,
-            cacheValidator,
-            enableReinitialize
+            enableReinitialize,
+            initialValues,
+            cacheValidator
         } = this.props,
             formName = this.props.id;
 
         return (
             <Formik
                 onSubmit={onSubmit}
-                validate={values => handleChange(formName, values)}
-                initialValues={getInitialValues(formName, initialValues, cacheValidator)}
+                validate={values => this.handleChange(values)}
+                initialValues={!enableReinitialize ? this.state.initialValues : this.getInitialValues()}
                 validationSchema={validationSchema}
                 validateOnChange={true}
                 validateOnMount={true}
                 enableReinitialize={enableReinitialize}
                 render={formik => (
                     <form onSubmit={formik.handleSubmit}>
-                        {render(formik, () => handleReset(formName, formik, initialValues) )}
+                        {render(formik, () => this.handleReset(formik) )}
                     </form>
                 )}
             />

@@ -15,10 +15,11 @@ API_METHODS = {
     COUNTRIES_PREDICTION  : v1 + "/locations/countries",
     LOCATION_PREDICTION   : v1 + "/locations/predictions",
 
-    CARDS_COMMON          : v1 + "/cards",
+    CARDS_SAVED           : v1 + "/cards",
     CARDS_SETTINGS        : v1 + "/cards/settings",
     CARDS_SIGN            : v1 + "/cards/signatures",
-    PAYMENTS_CARD_COMMON  : v1 + "/payments/bookings/card",
+    PAYMENTS_CARD_NEW     : v1 + "/payments/bookings/card/new",
+    PAYMENTS_CARD_SAVED   : v1 + "/payments/bookings/card/saved",
     PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
 
@@ -30,7 +31,7 @@ API_METHODS = {
     USER_REGISTRATION_M   : v1 + "/customers/register/master",
 
     USER_INVITE_DATA      : invitationCode =>
-                            v1 + "/customers/invitations" + "/" + invitationCode,
+                            v1 + "/customers/invitations/" + invitationCode,
     USER_INVITE_SEND      : v1 + "/customers/invitations/send",
     USER_INVITE_GET_LINK  : v1 + "/customers/invitations",
 
@@ -52,16 +53,16 @@ API_METHODS = {
 
     ACCOMMODATION_DETAILS : (accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}`,
-    REQUEST_DEADLINE      : (availabilityId, source, agreementId) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}/deadline`,
-
     A_SEARCH_STEP_ONE     : v1 + "/availabilities/accommodations",
     A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}/availabilities/${availabilityId}`,
-    A_SEARCH_STEP_THREE   : (availabilityId, agreementId, source) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/agreements/${agreementId}`,
+    A_SEARCH_STEP_THREE   : (availabilityId, roomContractSetId, source) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}`,
+    REQUEST_DEADLINE      : (availabilityId, roomContractSetId, source) =>
+                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
 
-    BILLING_HISTORY       : companyId =>
+
+BILLING_HISTORY       : companyId =>
                             v1 + `/payments/history/${companyId}`,
 
     BASE_VERSION          : v1 + "/versions",
@@ -73,6 +74,9 @@ API_METHODS = {
         PAY          : code => v1 + "/external/payment-links/" + code + "/pay",
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
     },
+
+    COMPANY_INFO     : companyId =>
+        v1 + `/companies/${companyId}`,
 
     CUSTOMER_SETTINGS     : v1 + `/customers/settings/application`,
 };
