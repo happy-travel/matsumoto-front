@@ -14,11 +14,16 @@ export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
 );
 
 export const Highlighted = ({ str, highlight }) => {
-    highlight = encodeURIComponent(highlight);
-    return highlight ?
-        <span dangerouslySetInnerHTML={
-            {__html: str?.replace?.(new RegExp(escapeRegExp(highlight), 'gi'), (s) => ("<b>"+ s +"</b>"))}
-    } /> : <span>{str}</span>;
+    if (!highlight || !str)
+        return <span>{str || ""}</span>;
+
+    highlight = highlight.trim().replace(/[\W_]+/g," ").split(' ');
+
+    for (var i = 0; i < highlight.length; i++)
+        if (highlight[i])
+            str = str.replace(new RegExp(highlight[i], 'gi'), (s) => ("<b>" + s + "</b>"));
+
+    return <span dangerouslySetInnerHTML={{__html: str}} />;
 };
 
 export const Stars = ({ count }) => {
@@ -81,8 +86,4 @@ export const groupAndCount = arr => {
         result.push(count[item] + " x " + item);
 
     return result.join(", ");
-};
-
-export const escapeRegExp = str => {
-    return str?.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 };
