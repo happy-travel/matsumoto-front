@@ -73,8 +73,10 @@ BILLING_HISTORY       : companyId =>
         SIGN         : code => v1 + "/external/payment-links/" + code + "/sign",
         PAY          : code => v1 + "/external/payment-links/" + code + "/pay",
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
-    }
+    },
 
+    COMPANY_INFO     : companyId =>
+        v1 + `/companies/${companyId}`,
 };
 
 

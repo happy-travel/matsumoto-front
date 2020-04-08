@@ -1,0 +1,74 @@
+.users-pages-navigation
+  display: flex
+  justify-content: center
+  border-bottom: 1px solid rgba(216, 218, 220, 0.5)
+  width: 100%
+  a
+    font-size: 13px
+    line-height: 16px
+    text-align: center
+    text-transform: uppercase
+    color: #797F89
+    margin-right: 10px
+    padding: 13px 25px
+    position: relative
+    &.active
+      &:after
+        content: ''
+        height: 4px
+        width: 100%
+        background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%), #C4C4C4
+        border-radius: 4px
+        position: absolute
+        bottom: 0
+        left: 0
+
+.users-pages
+  &__header
+    padding-top: 75px
+    h1
+      font-size: 36px
+      line-height: 43px
+      color: #231F20
+      text-align: center
+      & + p
+        font-size: 13px
+        line-height: 16px
+        text-align: center
+        letter-spacing: 1px
+        color: #A4AAB3
+        margin-top: 11px
+  &__button
+    width: 266px
+    height: 46px
+    display: flex
+    align-items: center
+    justify-content: center
+    margin: 35px auto 80px
+    color: #fff !important
+    font-size: 13px
+  &__title
+    margin-top: 90px
+    margin-bottom: 50px
+    font-size: 20px
+    font-weight: 500
+    line-height: 24px
+    letter-spacing: 1px
+    text-transform: uppercase
+    color: #231F20
+    position: relative
+    display: inline-block
+    align-self: flex-start
+    &:before, &:after
+      content: ''
+      position: absolute
+      top: 50%
+      right: 0
+      transform: translate(100px, -50%)
+      width: 40px
+      height: 4px
+      border-radius: 4px
+      background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%), #C4C4C4
+    &:after
+      transform: translate(116px, -50%)
+      width: 10px

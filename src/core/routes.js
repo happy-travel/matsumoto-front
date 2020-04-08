@@ -22,6 +22,8 @@ import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
+import CompanySettings            from "pages/settings/companySettings";
+
 import contactUsPage              from "pages/common/contact";
 import termsPage                  from "pages/common/terms";
 import privacyPage                from "pages/common/privacy";
@@ -43,7 +45,8 @@ export const routesWithHeaderAndFooter = [
     "/payment/form", "/payment/account",
     "/user/booking",
     "/user/payment-history",
-    "/user/invite"
+    "/user/invite",
+    "/settings/company",
 ];
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
@@ -60,13 +63,13 @@ const Routes = () => (
         <Route path="/accommodation/booking"      component={accommodationBooking} />
         <Route path={
             ["/accommodation/confirmation/:id",
-             "/accommodation/confirmation"]}      component={accommodationConfirmation} />
+                "/accommodation/confirmation"]}      component={accommodationConfirmation} />
 
         <Route path="/payment/form"               component={paymentPage} />
         <Route path="/payment/account"            component={paymentAccountPage} />
         <Route path={
             ["/payment/result/:ref",
-             "/payment/result"]}                  component={paymentResult} />
+                "/payment/result"]}                  component={paymentResult} />
         <Route path="/payments/callback"          component={payment3DSCallback} />
 
         <Route path="/pay/:code"                  component={paymentDirectLink} />
@@ -79,6 +82,8 @@ const Routes = () => (
         <Route path="/user/booking"               component={userBookingManagement} />
         <Route path="/user/payment-history"       component={accountStatement} />
         <Route path="/user/invite"                component={userInvite} />
+
+        <Route path="/settings/company"           component={CompanySettings} />
 
         <Route path="/contact"                    component={contactUsPage} />
         <Route path="/terms"                      component={termsPage} />
