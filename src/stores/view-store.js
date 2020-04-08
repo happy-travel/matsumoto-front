@@ -40,7 +40,6 @@ class ViewStore {
         };
         if (value) {
             this.destinations = value.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
-            this.destinations = this.destinations.filter(item => decorate.cutFirstPart(item.value, currentValue));
             this.destinations.forEach((item, index) => this.destinations[index].value = item.value);
         }
         else
