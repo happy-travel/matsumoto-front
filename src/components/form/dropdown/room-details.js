@@ -7,10 +7,9 @@ import { FieldArray } from "formik";
 import UI, { MODALS } from "stores/ui-store";
 
 const
-    DEFAULT_CHILDREN_AGE = 12,
     MAXIMUM_PEOPLE_PER_REQUEST = 9,
     MAXIMUM_ROOMS_PER_REQUEST = 5,
-    DEFAULT_ROOM_ADULTS = 2,
+    DEFAULT_ROOM_ADULTS = 1,
     MINIMUM_VALUES = {
         adultsNumber: 1,
         childrenNumber: 0,
@@ -72,7 +71,7 @@ const
         if ("childrenNumber" == field) {
             var childrenAges = formik.values.roomDetails[roomNumber].childrenAges;
             if (current < finalNewValue)
-                childrenAges.push(DEFAULT_CHILDREN_AGE);
+                childrenAges.push(null);
             if (current > finalNewValue)
                 childrenAges.pop();
             formik.setFieldValue(`roomDetails.${roomNumber}.childrenAges`, childrenAges);
@@ -139,7 +138,7 @@ class PeopleDropdown extends React.Component {
                                                         <FieldText formik={formik}
                                                             id={`roomDetails.${number}.childrenAges.${r}`}
                                                             placeholder={t("Please enter")}
-                                                            suggestion={plural(t, item, "year")}
+                                                            suggestion={item ? plural(t, item, "year") : null}
                                                             numeric={17}
                                                             maxLength={2}
                                                             data-dropdown="room"

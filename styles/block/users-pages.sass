@@ -26,6 +26,7 @@
 .users-pages
   &__header
     padding-top: 75px
+    padding-bottom: 80px
     h1
       font-size: 36px
       line-height: 43px
@@ -47,3 +48,28 @@
     margin: 35px auto 80px
     color: #fff !important
     font-size: 13px
+  &__title
+    margin-top: 90px
+    margin-bottom: 50px
+    font-size: 20px
+    font-weight: 500
+    line-height: 24px
+    letter-spacing: 1px
+    text-transform: uppercase
+    color: #231F20
+    position: relative
+    display: inline-block
+    align-self: flex-start
+    &:before, &:after
+      content: ''
+      position: absolute
+      top: 50%
+      right: 0
+      transform: translate(100px, -50%)
+      width: 40px
+      height: 4px
+      border-radius: 4px
+      background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%), #C4C4C4
+    &:after
+      transform: translate(116px, -50%)
+      width: 10px

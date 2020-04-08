@@ -67,31 +67,23 @@ class PaymentResultPage extends React.Component {
             return;
         }
 
-        if ("YES" == params.remember_me)
-            API.post({
-                url: API.CARDS_COMMON,
-                body: {
-                    number: params.card_number,
-                    expirationDate: params.expiry_date,
-                    holderName: params.card_holder_name,
-                    token: params.token_name,
-                    referenceCode: params.access_code,
-                    ownerType: "Customer"
-                },
-                after: () => {
-                    // todo: Saved successfully user callback
-                }
-            });
+        var request = {
+            referenceCode: bookingReference,
+            token: params.token_name,
+            isSaveCardNeeded: "YES" == params.remember_me
+        };
+
+        if (request.isSaveCardNeeded)
+            request.cardInfo = {
+                number: params.card_number,
+                expirationDate: params.expiry_date,
+                holderName: params.card_holder_name,
+                ownerType: "Customer"
+            };
 
         API.post({
-            url: API.PAYMENTS_CARD_COMMON,
-            body: {
-                referenceCode: bookingReference,
-                token: {
-                    code: params.token_name,
-                    type: "OneTime"
-                }
-            },
+            url: API.PAYMENTS_CARD_NEW,
+            body: request,
             after: (data, error) => this.callback(data, error)
         });
     }

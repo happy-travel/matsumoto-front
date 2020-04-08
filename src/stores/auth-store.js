@@ -3,7 +3,16 @@ import { observable, computed, action } from "mobx";
 import autosave from "core/misc/autosave";
 import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";
-import {API} from "core";
+
+const defaultUserSettings = {
+    "preferredLanguage": '',
+    "weekStartOn": '',
+    "availableCredit": false,
+    "nationality": '',
+    "nationalityName": '',
+    "residency": '',
+    "residencyName": '',
+};
 
 class AuthStore {
     @observable registration = {
@@ -19,6 +28,11 @@ class AuthStore {
         "position": null
     };
 
+    @observable isUserDataLoading = true;
+
+    @observable userSettings = defaultUserSettings;
+    @observable isUserSettingsLoading = true;
+
     @observable userCache = null;
     @observable cachedUserRegistered = false;
 
@@ -32,6 +46,7 @@ class AuthStore {
 
     setUser(value) {
         this.user = value;
+        this.isUserDataLoading = false;
     }
 
     setUserForm(form) {
@@ -70,6 +85,12 @@ class AuthStore {
 
     setCachedUserRegistered(value) {
         this.cachedUserRegistered = value;
+    }
+
+    @action.bound
+    setUserSettings(result) {
+        this.userSettings = result || defaultUserSettings;
+        this.isUserSettingsLoading = false;
     }
 }
 
