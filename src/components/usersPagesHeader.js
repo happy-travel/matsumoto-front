@@ -9,7 +9,7 @@ export default function () {
 
     return  <>
         <section className="users-pages__header">
-            <h1>{AuthStore.user?.companies[0]?.name} SETTINGS</h1>
+            <h1>{AuthStore.currentCompany.name} SETTINGS</h1>
             {/*<p>{t('Account Not Verificated Yet')}</p>*/}
         </section>
         <div className="users-pages-navigation">
