@@ -463,10 +463,10 @@ class AccommodationBookingPage extends React.Component {
                                     <Loader page /> }
 
                                 { store.booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
-                                    <Redirect to="/payment/form" /> }
+                                    <Redirect push to="/payment/form" /> }
 
                                 { store.booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) &&
-                                    <Redirect to="/payment/account" /> }
+                                    <Redirect push to="/payment/account" /> }
 
                             </div>
                         </React.Fragment>

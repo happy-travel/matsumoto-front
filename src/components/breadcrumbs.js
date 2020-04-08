@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
 
-const Breadcrumbs = ({ items = [], noBackButton }) => {
+const Breadcrumbs = ({ items = [], noBackButton, history }) => {
     var { t } = useTranslation();
 
     return (
@@ -12,17 +13,20 @@ const Breadcrumbs = ({ items = [], noBackButton }) => {
                     { item.link ?
                         <Link to={item.link}>
                             {item.text}
-                        </Link> :
-
+                        </Link>
+                      :
+                      item.onClick ?
+                        <span onClick={item.onClick} class="breadcrumbs--link">{item.text}</span>
+                        :
                         item.text
                     }
                     { index+1 < items.length ? <span class="small-arrow-right" /> : ' '}
                     {' '}
                 </React.Fragment>
             )) }
-            { /* todo: !noBackButton && <div class="back-button"><span class="small-arrow-left" /> {t('Back')}</div> */}
+            {!noBackButton && <div onClick={() => history.goBack()} class="back-button breadcrumbs--link"><span class="small-arrow-left" /> {t('Back')}</div>}
         </div>
     );
 };
 
-export default Breadcrumbs;
+export default withRouter(Breadcrumbs);

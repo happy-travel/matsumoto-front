@@ -171,7 +171,8 @@ render() {
                     text: t("Search accommodation"),
                     link: "/search"
                 }, {
-                    text: t("Your Booking")
+                    text: t("Your Booking"),
+                    link: "/accommodation/booking",
                 }, {
                     text: t("Payment")
                 }

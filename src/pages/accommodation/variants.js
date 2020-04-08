@@ -92,7 +92,8 @@ class AccommodationVariantsPage extends React.Component {
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
-                                text: t("Find Accommodation")
+                                text: t("Find Accommodation"),
+                                link: '/'
                             }, {
                                 text: store.search.request?.destination
                             }

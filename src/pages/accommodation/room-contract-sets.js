@@ -109,9 +109,11 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 <div class="title">
                     <Breadcrumbs noBackButton items={[
                         {
-                            text: t("Find Accommodation")
+                            text: t("Find Accommodation"),
+                            link: "/"
                         }, {
-                            text: store.search.request?.destination
+                            text: store.search.request?.destination,
+                            link: "/search",
                         }, {
                             text: item.accommodationDetails.name
                         }
