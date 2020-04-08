@@ -2,17 +2,13 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import { groupAndCount } from "components/simple";
+import { groupAndCount, MealPlan } from "components/simple";
 
 import { API, price, plural } from "core";
 import store from 'stores/accommodation-store';
 import UI, { MODALS } from "stores/ui-store";
 
 import AccommodationFilters from "parts/accommodation-filters";
-import {
-    FieldText,
-    FieldCheckbox
-} from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import { Stars, Loader } from "components/simple";
 import Deadline from "components/deadline";
@@ -207,7 +203,7 @@ class AccommodationVariantsPage extends React.Component {
                                     />
                                 </div>
                                 <div class="info green">
-                                    {roomContractSet.roomContracts[0].boardBasisCode}: {"RO" == roomContractSet.roomContracts[0].boardBasisCode ? t("Room Only") : (t("Breakfast Included") + " " + roomContractSet.roomContracts[0].mealPlan) }
+                                    <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
                                 </div>
                                 <div class="paragraph">
                                     {roomContractSet.roomContracts[0].contractType}

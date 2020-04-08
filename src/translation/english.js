@@ -260,7 +260,6 @@ translations: {
     "Night": "Night",
     "Night_plural": "Nights",
     "FREE Cancellation - Without Prepayment": "FREE Cancellation - Without Prepayment",
-    "Breakfast Included": "Breakfast Included",
     "Room Availability": "Room Availability",
     "Check In Date": "Check In Date",
     "Check Out Date": "Check Out Date",

@@ -175,7 +175,7 @@ class AccommodationBookingPage extends React.Component {
                 />
                 <Dual
                     a={t("Board Basis")}
-                    b={variant.roomContracts[0].boardBasisCode + ": " + ("RO" == variant.roomContracts[0].boardBasisCode ? t("Room Only") : variant.roomContracts[0].mealPlan)}
+                    b={variant.roomContracts[0].boardBasisCode + ": " + variant.roomContracts[0].boardBasis}
                 />
 
                 { /* deadlineDetails.remarkCodes.map( item => (
