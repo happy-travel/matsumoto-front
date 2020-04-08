@@ -22,6 +22,9 @@ import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
+import usersManagement            from "pages/settings/usersManagement";
+import addNewUser                 from "pages/settings/addNewUser";
+
 import AdminSettings              from "pages/settings/admin-settings";
 import CompanySettings            from "pages/settings/companySettings";
 
@@ -47,6 +50,8 @@ export const routesWithHeaderAndFooter = [
     "/user/booking",
     "/user/payment-history",
     "/user/invite",
+    "/settings/users",
+    "/settings/users/:customerId/:companyId/:branchId/",
     "/settings/admin",
     "/settings/company"
 ];
@@ -64,14 +69,14 @@ const Routes = () => (
         <Route exact path="/search/contract"      component={accommodationContractsSets} />
         <Route path="/accommodation/booking"      component={accommodationBooking} />
         <Route path={
-            ["/accommodation/confirmation/:id",
-                "/accommodation/confirmation"]}      component={accommodationConfirmation} />
+               ["/accommodation/confirmation/:id",
+                "/accommodation/confirmation"]}   component={accommodationConfirmation} />
 
         <Route path="/payment/form"               component={paymentPage} />
         <Route path="/payment/account"            component={paymentAccountPage} />
         <Route path={
-            ["/payment/result/:ref",
-                "/payment/result"]}                  component={paymentResult} />
+               ["/payment/result/:ref",
+                "/payment/result"]}               component={paymentResult} />
         <Route path="/payments/callback"          component={payment3DSCallback} />
 
         <Route path="/pay/:code"                  component={paymentDirectLink} />
@@ -84,6 +89,11 @@ const Routes = () => (
         <Route path="/user/booking"               component={userBookingManagement} />
         <Route path="/user/payment-history"       component={accountStatement} />
         <Route path="/user/invite"                component={userInvite} />
+
+        <Route path="/settings/users/add"         component={addNewUser} />
+        <Route path="/settings/users/:customerId/:companyId/:branchId/"
+                                                  component={addNewUser} />
+        <Route exact path="/settings/users"       component={usersManagement} />
 
         <Route path="/settings/admin"             component={AdminSettings} />
         <Route path="/settings/company"           component={CompanySettings} />

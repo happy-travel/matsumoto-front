@@ -62,7 +62,7 @@ API_METHODS = {
                             v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
 
 
-BILLING_HISTORY       : companyId =>
+    BILLING_HISTORY       : companyId =>
                             v1 + `/payments/history/${companyId}`,
 
     BASE_VERSION          : v1 + "/versions",
@@ -75,10 +75,20 @@ BILLING_HISTORY       : companyId =>
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
     },
 
-    COMPANY_INFO     : companyId =>
-        v1 + `/companies/${companyId}`,
-
-    CUSTOMER_SETTINGS     : v1 + `/customers/settings/application`,
+    COMPANY_BRANCH_CUSTOMERS : (companyId, branchId) =>
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers`,
+    COMPANY_CUSTOMERS        : (companyId) =>
+                           v1 + `/companies/${companyId}/customers`,
+    COMPANY_BRANCH_CUSTOMER  : (companyId, branchId, customerId) =>
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}`,
+    COMPANY_CUSTOMER         : (companyId, customerId) =>
+                           v1 + `/companies/${companyId}/customers/${customerId}`,
+    COMPANY_INFO             : companyId =>
+                           v1 + `/companies/${companyId}`,
+    CUSTOMER_SETTINGS    : v1 + `/customers/settings/application`,
+    ALL_PERMISSIONS      : v1 + "/all-permissions-list",
+    CUSTOMER_BRANCH_PERMISSIONS : (companyId, customerId, branchId) =>
+                           v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}/permissions`,
 };
 
 
@@ -127,7 +137,7 @@ Authorize.getUser().then(user => {
             })
         };
 
-    if ("POST" == method || method === "PUT")
+    if ("POST" == method || "PUT" == method)
         request.body = JSON.stringify(body);
     else {
         var getBody = Object.keys(body).map(function(key) {

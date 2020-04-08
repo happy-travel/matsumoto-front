@@ -1,5 +1,5 @@
 import React from "react";
-import { observable, action } from "mobx";
+import { observable, computed, action } from "mobx";
 import autosave from "core/misc/autosave";
 import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";
@@ -27,6 +27,7 @@ class AuthStore {
         "title": null,
         "position": null
     };
+
     @observable isUserDataLoading = true;
 
     @observable userSettings = defaultUserSettings;
@@ -37,6 +38,10 @@ class AuthStore {
 
     constructor() {
         autosave(this, "_auth_store_cache");
+    }
+
+    @computed get currentCompany() {
+        return this.user?.companies && this.user?.companies[0] || {};
     }
 
     setUser(value) {
