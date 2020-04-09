@@ -66,12 +66,18 @@ render() {
                             {t("footer_address_line_4")}<br/>
                             {t("footer_address_line_5")}
                         </div>
+                        <div class="license">
+                            <span>TRN:</span>  100497287100003 <span class="second">IATA: </span> 96-0 4653
+                        </div>
+                        <div class="license">
+                            <span>Trade License: </span> 828719
+                        </div>
                     </div>
                 </section>
             </div>
             <div class="copyright">
                 <section>
-                    {t("_copyright")}
+                    {t("_copyright")}<br/>
                 </section>
             </div>
         </footer>

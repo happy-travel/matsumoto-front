@@ -1,6 +1,7 @@
 import React from "react";
 import { hotelStars } from "core";
 import { Link } from "react-router-dom";
+import { plural } from "core";
 
 export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
     (!nonEmpty || b) ? <div class={"dual" + (addClass ? " " + addClass : '')}>
@@ -14,11 +15,16 @@ export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
 );
 
 export const Highlighted = ({ str, highlight }) => {
-    highlight = encodeURIComponent(highlight);
-    return highlight ?
-        <span dangerouslySetInnerHTML={
-            {__html: str?.replace?.(new RegExp(escapeRegExp(highlight), 'gi'), (s) => ("<b>"+ s +"</b>"))}
-    } /> : <span>{str}</span>;
+    if (!highlight || !str)
+        return <span>{str || ""}</span>;
+
+    highlight = highlight.trim().replace(/[\W_]+/g," ").split(' ');
+
+    for (var i = 0; i < highlight.length; i++)
+        if (highlight[i])
+            str = str.replace(new RegExp(highlight[i], 'gi'), (s) => ("<b>" + s + "</b>"));
+
+    return <span dangerouslySetInnerHTML={{__html: str}} />;
 };
 
 export const Stars = ({ count }) => {
@@ -31,6 +37,12 @@ export const Stars = ({ count }) => {
             {[...Array(result)].map(() => <i/>)}
         </span>
     );
+};
+
+export const MealPlan = ({ room, t }) => {
+    return <span>{
+        "RO" == room.boardBasisCode ? t("Room only") : room.mealPlan
+    }</span>
 };
 
 export const Expandable = class extends React.Component {
@@ -83,10 +95,6 @@ export const groupAndCount = arr => {
     return result.join(", ");
 };
 
-export const escapeRegExp = str => {
-    return str?.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-};
-
 export const CancelButton = ({ formik, className, children }) => {
     return <button className={className} onClick={(e) => {
         e.preventDefault();
@@ -94,4 +102,16 @@ export const CancelButton = ({ formik, className, children }) => {
     }}>
         {children}
     </button>
+};
+    
+export const PassengersCount = ({ t, adults, children, separator }) => {
+    return <React.Fragment>
+        { adults ? plural(t, adults, "Adult") : "" }
+        {(adults && children) ?
+            (undefined !== separator ?
+                separator :
+                (" " + t("and") + " ")) :
+            ""}
+        { children ? plural(t, children, "Children") : "" }
+        </React.Fragment>;
 };

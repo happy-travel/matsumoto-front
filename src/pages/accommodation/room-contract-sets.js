@@ -2,19 +2,15 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import { groupAndCount } from "components/simple";
+import { groupAndCount, MealPlan } from "components/simple";
 
 import { API, dateFormat, price, plural } from "core";
 import store from 'stores/accommodation-store';
 import View from "stores/view-store";
 import AccommodationCommonDetails from "parts/accommodation-details";
 
-import {
-    FieldText,
-    FieldCheckbox
-} from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
-import { Stars, Loader } from "components/simple";
+import { Loader, PassengersCount } from "components/simple";
 import Deadline from "components/deadline";
 
 @observer
@@ -143,8 +139,8 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Guests")}</div>
-                            <div class="h2">{plural(t, store.search.request.adultsTotal, "Adult")}</div>
-                            {!!store.search.request.childrenTotal && <div class="h2">{plural(t, store.search.request.childrenTotal, "Children")}</div>}
+                            <div class="h2"><PassengersCount t={t} adults={store.search.request.adultsTotal} /></div>
+                            <div class="h2"><PassengersCount t={t} children={store.search.request.childrenTotal} /></div>
                         </div>
                     </div>
                     <div class="part">
@@ -188,9 +184,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                             </div>
                                         }
                                         <div class="one green">
-                                            {roomContractSet.roomContracts[0].boardBasisCode
-                                            }: {"RO" == roomContractSet.roomContracts[0].boardBasisCode ? t("Room Only") : (t("Breakfast Included") + ", " +
-                                            roomContractSet.roomContracts[0].mealPlan) }
+                                            <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
                                         </div>
                                         <div class="one">
                                             <Deadline t={t}

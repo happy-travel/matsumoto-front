@@ -16,7 +16,7 @@ render () {
     <React.Fragment>
         <div class="tiles block">
             <section>
-                <h1><span>{t("Country & Hotels")}</span></h1>
+                <h1><span>{t("Countries & Hotels")}</span></h1>
                 <Tiles list={[
                     {
                         city: 'PARIS, FRANCE',
