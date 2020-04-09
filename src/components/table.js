@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import { useTable, usePagination, useSortBy } from "react-table";
 
 import Pagination from "components/pagination";
@@ -38,9 +38,14 @@ function Table(props) {
         useSortBy,
         usePagination,
     );
+    const isFirstRun = useRef(true);
 
     // Listen for changes in pagination and use the state to fetch our new data
-    React.useEffect(() => {
+    useEffect(() => {
+        if (isFirstRun.current) {
+          isFirstRun.current = false;
+          return;
+        }
         fetchData({ pageIndex, pageSize })
     }, [fetchData, pageIndex, pageSize]);
 

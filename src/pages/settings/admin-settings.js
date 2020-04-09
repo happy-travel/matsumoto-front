@@ -8,7 +8,7 @@ import { API } from "core";
 import { FieldText, FieldSelect, FieldSwitch } from "components/form";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import UsersPagesHeader from "components/usersPagesHeader";
-import { Loader } from "components/simple";
+import { Loader, CancelButton } from "components/simple";
 
 import AuthStore from "stores/auth-store";
 import UI from "stores/ui-store";
@@ -29,13 +29,13 @@ class AdminSettings extends React.Component {
 
     setCountryValue(country, formik, connected) {
         View.setCountries([]);
-        const additioalFields = {
+        const additionalFields = {
             'nationalityName': 'nationality',
             'residencyName': 'residency',
         };
         formik.setFieldValue(connected, country.name);
-        if (additioalFields[connected]) {
-            formik.setFieldValue(additioalFields[connected], country);
+        if (additionalFields[connected]) {
+            formik.setFieldValue(additionalFields[connected], country);
         }
     };
 
@@ -86,8 +86,8 @@ class AdminSettings extends React.Component {
         return (<div>
             <UsersPagesHeader />
 
-            <section className="personal-info__wrapper">
-                <h2>{t('Personal information')}</h2>
+            <section className="personal-info__wrapper medium-section">
+                <h2 className="users-pages__title">{t('Personal information')}</h2>
 
                 <Formik
                     onSubmit={this.submitUserData}
@@ -161,9 +161,7 @@ class AdminSettings extends React.Component {
                                     <div className="field field-no-grow">
                                         <div className="label"/>
                                         <div className="inner">
-                                            <button type="submit" className="button transparent-with-border button-controls">
-                                                {t("Cancel")}
-                                            </button>
+                                            <CancelButton formik={formik} className="button transparent-with-border button-controls">{t("Cancel")}</CancelButton>
                                         </div>
                                     </div>
                                     <div className="field field-no-grow">
@@ -180,7 +178,7 @@ class AdminSettings extends React.Component {
                     )}
                 />
 
-                <h2>{t('System Settings')}</h2>
+                <h2 className="users-pages__title">{t('System Settings')}</h2>
 
                 <Formik
                     initialValues={{
@@ -341,9 +339,7 @@ class AdminSettings extends React.Component {
                                     <div className="field field-no-grow">
                                         <div className="label"/>
                                         <div className="inner">
-                                            <button type="submit" className="button transparent-with-border button-controls">
-                                                {t("Cancel")}
-                                            </button>
+                                            <CancelButton formik={formik} className="button transparent-with-border button-controls">{t("Cancel")}</CancelButton>
                                         </div>
                                     </div>
                                     <div className="field field-no-grow">

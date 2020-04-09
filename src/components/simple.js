@@ -95,6 +95,15 @@ export const groupAndCount = arr => {
     return result.join(", ");
 };
 
+export const CancelButton = ({ formik, className, children }) => {
+    return <button className={className} onClick={(e) => {
+        e.preventDefault();
+        formik.resetForm();
+    }}>
+        {children}
+    </button>
+};
+    
 export const PassengersCount = ({ t, adults, children, separator }) => {
     return <React.Fragment>
         { adults ? plural(t, adults, "Adult") : "" }
