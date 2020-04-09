@@ -6,15 +6,14 @@ import { API } from "core";
 
 import UsersPagesHeader from "components/usersPagesHeader";
 import { FieldText, FieldTextarea } from "components/form";
+import { Loader } from "components/simple";
 
 import CompanyStore from "stores/company-store";
 import UI from "stores/ui-store";
 
 @observer
 export default class CompanySettings extends React.Component {
-    constructor() {
-        super();
-
+    componentDidMount() {
         API.get({
             url: API.COMPANY_INFO(UI.user.companies[0].id),
             success: (result) =>
@@ -36,12 +35,14 @@ export default class CompanySettings extends React.Component {
                 preferredPaymentMethod,
                 website,
                 email,
-            }
+            },
+            isLoadingCompanySettings,
         } = CompanyStore;
 
         return <>
             <UsersPagesHeader />
-            <section className="company-settings">
+            {isLoadingCompanySettings && <Loader />}
+            {!isLoadingCompanySettings && <section className="medium-section">
                 <Formik
                     render={formik => <div className="form">
                         <h2 className="users-pages__title">{t("MY ACCOUNT SUPERVISOR")}</h2>
@@ -161,7 +162,7 @@ export default class CompanySettings extends React.Component {
                         </div>
                     </div>}
                 />
-            </section>
+            </section>}
         </>
     }
 }

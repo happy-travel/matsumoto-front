@@ -9,6 +9,7 @@ import {PERMISSIONS} from "core/enums";
 import { FieldText, FieldSwitch } from "components/form";
 import Table from "components/table";
 import UsersPagesHeader from "components/usersPagesHeader";
+import {Loader} from "components/simple";
 
 import UsersStore from "stores/usersStore";
 import AuthStore from "stores/auth-store";
@@ -48,6 +49,10 @@ const columns = [
 
 @observer
 class UsersManagement extends React.Component {
+    componentDidMount() {
+        this.getUsersCompany();
+    }
+
     getUsersCompany() {
         if (AuthStore.currentCompany) {
             const {id, branchId, inCompanyPermissions} = AuthStore.currentCompany;
@@ -103,7 +108,8 @@ class UsersManagement extends React.Component {
                    />
                </section>
             </div>
-            <section>
+            {usersCompanyIsLoading && <Loader />}
+            {!usersCompanyIsLoading && <section>
                 <div className="users-management__table__title">
                     <h3>All Users</h3>
                     {/*<Link to="/settings/users/add" className="button users-management__button-add-new-user">*/}
@@ -111,16 +117,15 @@ class UsersManagement extends React.Component {
                     {/*</Link>*/}
                 </div>
                 <Table
-                    data={usersCompany}
-                    count={usersCompanyCount}
-                    fetchData={this.getUsersCompany}
-                    loading={usersCompanyIsLoading}
-                    columns={columns}
-                    {...usersTablePageInfo}
-                    className="users-management__table"
-                    manualPagination
+                  data={usersCompany}
+                  count={usersCompanyCount}
+                  fetchData={this.getUsersCompany}
+                  columns={columns}
+                  {...usersTablePageInfo}
+                  className="users-management__table"
+                  manualPagination
                 />
-            </section>
+            </section>}
         </div>)
     }
 }

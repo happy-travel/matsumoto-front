@@ -5,7 +5,7 @@ class UsersStore {
     @observable usersCompanyBackup = [];
     @observable usersCompany = [];
     @observable usersCompanyCount = 0;
-    @observable usersCompanyIsLoading = false;
+    @observable usersCompanyIsLoading = true;
     @observable usersTablePageInfo = {
         pageIndex: 0,
         pageSize: 10,
@@ -15,6 +15,7 @@ class UsersStore {
     setCompanyUsers(result) {
         this.usersCompany = result;
         this.usersCompanyBackup = result;
+        this.usersCompanyIsLoading = false;
     }
 
     @action.bound

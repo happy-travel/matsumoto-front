@@ -86,3 +86,12 @@ export const groupAndCount = arr => {
 export const escapeRegExp = str => {
     return str?.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 };
+
+export const CancelButton = ({ formik, className, children }) => {
+    return <button className={className} onClick={(e) => {
+        e.preventDefault();
+        formik.resetForm();
+    }}>
+        {children}
+    </button>
+};
