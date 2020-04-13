@@ -3,8 +3,9 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Stars } from "components/simple";
 import Gallery from "components/gallery";
+import {ADDITIONAL_INFO} from "core/enums";
 
-const Amenities = ({ hotel, fromPage, fromModal, t }) => {
+const Amenities = ({ hotel, fromPage, t }) => {
 
     const Part = ({ t, list }) => (
         !!list.length &&
@@ -123,26 +124,30 @@ class AccommodationCommonDetailsPart extends React.Component {
                             <td>
                                 <h2>{t("Additional Information")}</h2>
                                 <ul>
-                                    <li>{t("Number of floors")}: 1</li>
-                                    <li>{t("Number of rooms")}: 1</li>
+                                    {hotel?.additionalInfo && Object.keys(hotel?.additionalInfo).map((key) => {
+                                        if (hotel.additionalInfo[key] != 0 && hotel.additionalInfo[key]) {
+                                            return <li>{t(ADDITIONAL_INFO[key])}: {hotel.additionalInfo[key]}</li>
+                                        }
+                                        return null
+                                    })}
                                 </ul>
                             </td>
-                            <Amenities t={t} hotel={hotel} fromModal />
+                            <Amenities t={t} hotel={hotel} />
                         </tr>
-                        <tr>
-                            <td>
-                                <h2>{t("Business Features & Amenities")}</h2>
-                                <ul>
-                                    <li>{t("Conference Rooms")}</li>
-                                    <li>{t("Meeting Rooms")}</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <h2>{t("Transportation & Directions To The Hotel")}</h2>
-                                <div>{t("No Information")}</div>
-                            </td>
-                            <td />
-                        </tr>
+                        {/*<tr>*/}
+                        {/*    <td>*/}
+                        {/*        <h2>{t("Business Features & Amenities")}</h2>*/}
+                        {/*        <ul>*/}
+                        {/*            <li>{t("Conference Rooms")}</li>*/}
+                        {/*            <li>{t("Meeting Rooms")}</li>*/}
+                        {/*        </ul>*/}
+                        {/*    </td>*/}
+                        {/*    <td>*/}
+                        {/*        <h2>{t("Transportation & Directions To The Hotel")}</h2>*/}
+                        {/*        <div>{t("No Information")}</div>*/}
+                        {/*    </td>*/}
+                        {/*    <td />*/}
+                        {/*</tr>*/}
                     </tbody></table>
                 }
 

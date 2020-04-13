@@ -21,3 +21,18 @@ export const PERMISSIONS_LABELS = {
     'ObserveMarkupInBranch': 'Observe Markup In Branch',
     'ObserveMarkupInCompany': 'Observe Markup In Company',
 };
+
+export const ADDITIONAL_INFO = {
+    voltage: 'Voltage',
+    lobbySize: 'Lobby size',
+    elevatorCount: 'Elevator count',
+    twinRoomCount: 'Twin room count',
+    suiteRoomCount: 'Suite room count',
+    doubleRoomCount: 'Double room count',
+    singleRoomCount: 'Single room count',
+    tripleRoomCount: 'Triple room count',
+    quadrupleRoomCount: 'Quadruple room count',
+    conferenceRoomCount: 'Conference room count',
+    extendedTwinRoomCount: 'Extended twin room count',
+    extendedDoubleRoomCount: 'Extended double room count',
+};
