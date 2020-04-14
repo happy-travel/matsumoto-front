@@ -26,7 +26,7 @@ import usersManagement            from "pages/settings/usersManagement";
 import addNewUser                 from "pages/settings/addNewUser";
 
 import AdminSettings              from "pages/settings/admin-settings";
-import CompanySettings            from "pages/settings/companySettings";
+import CounterpartySettings       from "pages/settings/counterpartySettings";
 
 import contactUsPage              from "pages/common/contact";
 import termsPage                  from "pages/common/terms";
@@ -51,9 +51,9 @@ export const routesWithHeaderAndFooter = [
     "/user/payment-history",
     "/user/invite",
     "/settings/users",
-    "/settings/users/:customerId/:companyId/:branchId/",
+    "/settings/users/:agentId/:counterpartyId/:agencyId/",
     "/settings/admin",
-    "/settings/company"
+    "/settings/counterparty"
 ];
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
@@ -83,7 +83,7 @@ const Routes = () => (
         <Route path="/payment/confirmation"       component={paymentDirectLinkConfirm} />
 
         <Route path="/signup/user"                component={accountRegistrationStep2} />
-        <Route path="/signup/company"             component={accountRegistrationStep3} />
+        <Route path="/signup/counterparty"        component={accountRegistrationStep3} />
         <Route path="/signup/invite/:email/:code" component={accountInvite} />
 
         <Route path="/user/booking"               component={userBookingManagement} />
@@ -91,12 +91,12 @@ const Routes = () => (
         <Route path="/user/invite"                component={userInvite} />
 
         <Route path="/settings/users/add"         component={addNewUser} />
-        <Route path="/settings/users/:customerId/:companyId/:branchId/"
+        <Route path="/settings/users/:agentId/:counterpartyId/:agencyId/"
                                                   component={addNewUser} />
         <Route exact path="/settings/users"       component={usersManagement} />
 
         <Route path="/settings/admin"             component={AdminSettings} />
-        <Route path="/settings/company"           component={CompanySettings} />
+        <Route path="/settings/counterparty"           component={CounterpartySettings} />
 
         <Route path="/contact"                    component={contactUsPage} />
         <Route path="/terms"                      component={termsPage} />

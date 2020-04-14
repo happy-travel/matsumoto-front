@@ -26,20 +26,20 @@ API_METHODS = {
     ACCOUNT_BALANCE       : currencyCode =>
                             v1 + `/payments/accounts/balance/${currencyCode}`,
 
-    USER                  : v1 + "/customers",
-    USER_REGISTRATION     : v1 + "/customers/register",
-    USER_REGISTRATION_M   : v1 + "/customers/register/master",
+    USER                  : v1 + "/agents",
+    USER_REGISTRATION     : v1 + "/agents/register",
+    USER_REGISTRATION_M   : v1 + "/agents/register/master",
 
     USER_INVITE_DATA      : invitationCode =>
-                            v1 + "/customers/invitations/" + invitationCode,
-    USER_INVITE_SEND      : v1 + "/customers/invitations/send",
-    USER_INVITE_GET_LINK  : v1 + "/customers/invitations",
+                            v1 + "/agents/invitations/" + invitationCode,
+    USER_INVITE_SEND      : v1 + "/agents/invitations/send",
+    USER_INVITE_GET_LINK  : v1 + "/agents/invitations",
 
     ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
     A_BOOKING_FINALIZE    : referenceCode =>
                             v1 + `/accommodations/bookings/${referenceCode}/finalize`,
 
-    BOOKING_LIST          : v1 + "/accommodations/bookings/customer",
+    BOOKING_LIST          : v1 + "/accommodations/bookings/agent",
     BOOKING_CANCEL        : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}/cancel`,
     BOOKING_VOUCHER       : bookingId =>
@@ -62,8 +62,8 @@ API_METHODS = {
                             v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
 
 
-    BILLING_HISTORY       : companyId =>
-                            v1 + `/payments/history/${companyId}`,
+    BILLING_HISTORY       : counterpartyId =>
+                            v1 + `/payments/history/${counterpartyId}`,
 
     BASE_VERSION          : v1 + "/versions",
 
@@ -75,20 +75,20 @@ API_METHODS = {
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
     },
 
-    COMPANY_BRANCH_CUSTOMERS : (companyId, branchId) =>
-                           v1 + `/companies/${companyId}/branches/${branchId}/customers`,
-    COMPANY_CUSTOMERS        : (companyId) =>
-                           v1 + `/companies/${companyId}/customers`,
-    COMPANY_BRANCH_CUSTOMER  : (companyId, branchId, customerId) =>
-                           v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}`,
-    COMPANY_CUSTOMER         : (companyId, customerId) =>
-                           v1 + `/companies/${companyId}/customers/${customerId}`,
-    COMPANY_INFO             : companyId =>
-                           v1 + `/companies/${companyId}`,
-    CUSTOMER_SETTINGS    : v1 + `/customers/settings/application`,
+    COUNTERPARTY_AGENCY_AGENTS : (counterpartyId, agencyId) =>
+                           v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents`,
+    COUNTERPARTY_AGENTS        : (counterpartyId) =>
+                           v1 + `/counterparties/${counterpartyId}/agents`,
+    COUNTERPARTY_AGENCY_AGENT  : (counterpartyId, agencyId, agentId) =>
+                           v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents/${agentId}`,
+    COUNTERPARTY_AGENT         : (counterpartyId, agentId) =>
+                           v1 + `/counterparties/${counterpartyId}/agents/${agentId}`,
+    COUNTERPARTY_INFO             : counterpartyId =>
+                           v1 + `/counterparties/${counterpartyId}`,
+    AGENT_SETTINGS    : v1 + `/agents/settings/application`,
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
-    CUSTOMER_BRANCH_PERMISSIONS : (companyId, customerId, branchId) =>
-                           v1 + `/companies/${companyId}/branches/${branchId}/customers/${customerId}/permissions`,
+    AGENT_AGENCY_PERMISSIONS : (counterpartyId, agentId, agencyId) =>
+                           v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents/${agentId}/permissions`,
 };
 
 

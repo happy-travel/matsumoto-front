@@ -2,28 +2,28 @@
 import {observable, action} from "mobx";
 
 class UsersStore {
-    @observable usersCompanyBackup = [];
-    @observable usersCompany = [];
-    @observable usersCompanyCount = 0;
-    @observable usersCompanyIsLoading = true;
+    @observable usersCounterpartyBackup = [];
+    @observable usersCounterparty = [];
+    @observable usersCounterpartyCount = 0;
+    @observable usersCounterpartyIsLoading = true;
     @observable usersTablePageInfo = {
         pageIndex: 0,
         pageSize: 10,
     };
 
     @action.bound
-    setCompanyUsers(result) {
-        this.usersCompany = result;
-        this.usersCompanyBackup = result;
-        this.usersCompanyIsLoading = false;
+    setCounterpartyUsers(result) {
+        this.usersCounterparty = result;
+        this.usersCounterpartyBackup = result;
+        this.usersCounterpartyIsLoading = false;
     }
 
     @action.bound
-    filterCompanyUsers(value) {
+    filterCounterpartyUsers(value) {
         if (value?.length > 0) {
-            this.usersCompany = this.usersCompanyBackup.filter((user) => user.name.toLowerCase().includes(value.toLowerCase()));
+            this.usersCounterparty = this.usersCounterpartyBackup.filter((user) => user.name.toLowerCase().includes(value.toLowerCase()));
         } else {
-            this.usersCompany = this.usersCompanyBackup;
+            this.usersCounterparty = this.usersCounterpartyBackup;
         }
     }
 }

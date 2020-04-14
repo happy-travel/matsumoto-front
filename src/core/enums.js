@@ -1,25 +1,25 @@
 export const PERMISSIONS = {
-    PERMISSION_MANAGEMENT_IN_BRANCH: 'PermissionManagementInBranch',
-    EDIT_COMPANY_INFO: 'EditCompanyInfo',
-    PERMISSION_MANAGEMENT_IN_COMPANY: 'PermissionManagementInCompany',
-    CUSTOMER_INVITATION: 'CustomerInvitation',
+    PERMISSION_MANAGEMENT_IN_AGENCY: 'PermissionManagementInAgency',
+    EDIT_COUNTERPARTY_INFO: 'EditCounterpartyInfo',
+    PERMISSION_MANAGEMENT_IN_COUNTERPARTY: 'PermissionManagementInCounterparty',
+    AGENT_INVITATION: 'AgentInvitation',
     ACCOMMODATION_AVAILABILITY_SEARCH: 'AccommodationAvailabilitySearch',
     ACCOMMODATION_BOOKING: 'AccommodationBooking',
-    VIEW_COMPANY_ALL_PAYMENT_HISTORY: 'ViewCompanyAllPaymentHistory',
-    OBSERVE_MARKUP_IN_BRANCH: 'ObserveMarkupInBranch',
-    OBSERVE_MARKUP_COMPANY: 'ObserveMarkupInCompany',
+    VIEW_COUNTERPARTY_ALL_PAYMENT_HISTORY: 'ViewCounterpartyAllPaymentHistory',
+    OBSERVE_MARKUP_IN_AGENCY: 'ObserveMarkupInAgency',
+    OBSERVE_MARKUP_COUNTERPARTY: 'ObserveMarkupInCounterparty',
 };
 
 export const PERMISSIONS_LABELS = {
-    'PermissionManagementInBranch': 'Permission Management In Branch',
-    'EditCompanyInfo': 'Edit Company Info',
-    'PermissionManagementInCompany': 'Permission Management In Company',
-    'CustomerInvitation': 'Customer Invitation',
+    'PermissionManagementInAgency': 'Permission Management In Agency',
+    'EditCounterpartyInfo': 'Edit Counterparty Info',
+    'PermissionManagementInCounterparty': 'Permission Management In Counterparty',
+    'AgentInvitation': 'Agent Invitation',
     'AccommodationAvailabilitySearch': 'Accommodation Availability Search',
     'AccommodationBooking': 'Accommodation Booking',
-    'ViewCompanyAllPaymentHistory': 'ViewCompany All Payment History',
-    'ObserveMarkupInBranch': 'Observe Markup In Branch',
-    'ObserveMarkupInCompany': 'Observe Markup In Company',
+    'ViewCounterpartyAllPaymentHistory': 'View Counterparty All Payment History',
+    'ObserveMarkupInAgency': 'Observe Markup In Agency',
+    'ObserveMarkupInCounterparty': 'Observe Markup In Counterparty',
 };
 
 export const ADDITIONAL_INFO = {

@@ -8,22 +8,22 @@ import UsersPagesHeader from "components/usersPagesHeader";
 import { FieldText, FieldTextarea } from "components/form";
 import { Loader } from "components/simple";
 
-import CompanyStore from "stores/company-store";
-import UI from "stores/ui-store";
+import CounterpartyStore from "stores/counterparty-store";
+import AuthStore from "stores/auth-store";
 
 @observer
-export default class CompanySettings extends React.Component {
+export default class CounterpartySettings extends React.Component {
     componentDidMount() {
         API.get({
-            url: API.COMPANY_INFO(UI.user.companies[0].id),
+            url: API.COUNTERPARTY_INFO(AuthStore.activeCounterparty.id),
             success: (result) =>
-                CompanyStore.setCompany(result)
+                CounterpartyStore.setCounterparty(result)
         });
     }
     render() {
         const { t } = useTranslation();
         const {
-            companySettings: {
+            counterpartySettings: {
                 name,
                 address,
                 countryCode,
@@ -36,13 +36,13 @@ export default class CompanySettings extends React.Component {
                 website,
                 email,
             },
-            isLoadingCompanySettings,
-        } = CompanyStore;
+            isLoadingCounterpartySettings,
+        } = CounterpartyStore;
 
         return <>
             <UsersPagesHeader />
-            {isLoadingCompanySettings && <Loader />}
-            {!isLoadingCompanySettings && <section className="medium-section">
+            {isLoadingCounterpartySettings && <Loader />}
+            {!isLoadingCounterpartySettings && <section className="medium-section">
                 <Formik
                     render={formik => <div className="form">
                         <h2 className="users-pages__title">{t("MY ACCOUNT SUPERVISOR")}</h2>
@@ -84,9 +84,9 @@ export default class CompanySettings extends React.Component {
                         {/*               disabled*/}
                         {/*    />*/}
                         {/*    <FieldText formik={formik}*/}
-                        {/*               id="branch"*/}
-                        {/*               label={t("Branch")}*/}
-                        {/*               placeholder={t("Branch")}*/}
+                        {/*               id="agency"*/}
+                        {/*               label={t("Agency")}*/}
+                        {/*               placeholder={t("Agency")}*/}
                         {/*               disabled*/}
                         {/*    />*/}
                         {/*</div>*/}
@@ -111,7 +111,7 @@ export default class CompanySettings extends React.Component {
 
                         <div className="row">
                             <FieldText formik={formik}
-                                       id="companyName"
+                                       id="counterpartyName"
                                        label={t("Company Name")}
                                        placeholder={t("Company Name")}
                                        value={name}

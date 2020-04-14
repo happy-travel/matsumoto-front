@@ -12,7 +12,7 @@ import {
     FieldTextarea,
     FieldSelect
 } from "components/form";
-import { registrationCompanyValidator } from "components/form/validation";
+import { registrationCounterpartyValidator } from "components/form/validation";
 import store from "stores/auth-store";
 import UI from "stores/ui-store";
 import View from "stores/view-store";
@@ -30,7 +30,7 @@ class RegistrationStep3 extends React.Component {
     }
 
     submit(values) {
-        store.setCompanyForm(values);
+        store.setCounterpartyForm(values);
 
         API.post({
             url: API.USER_REGISTRATION_M,
@@ -44,7 +44,7 @@ class RegistrationStep3 extends React.Component {
                     }
                 });
                 store.setUserForm({});
-                store.setCompanyForm({});
+                store.setCounterpartyForm({});
                 store.setCachedUserRegistered(true);
                 this.setState({ redirectToIndexPage: true });
 
@@ -122,7 +122,7 @@ class RegistrationStep3 extends React.Component {
                                 "website": "",
                                 "postalCode": ""
                             }}
-                            validationSchema={registrationCompanyValidator}
+                            validationSchema={registrationCounterpartyValidator}
                             onSubmit={this.submit}
                             render={formik => (
                                 <React.Fragment>

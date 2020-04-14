@@ -35,11 +35,11 @@ const columns = [
     },
     {
         Header: 'Actions',
-        accessor: 'customerId',
+        accessor: 'agentId',
         Cell: (item) => {
-            const {inCompanyPermissions, id, branchId} = AuthStore.currentCompany; // todo: change to current company
-            if (inCompanyPermissions?.length > 0) {
-                const url = `/settings/users/${item.cell.value}/${id}/${branchId}`;
+            const {inCounterpartyPermissions, id, agencyId} = AuthStore.activeCounterparty;
+            if (inCounterpartyPermissions?.length > 0) {
+                const url = `/settings/users/${item.cell.value}/${id}/${agencyId}`;
                 return <Link to={url}><span className={`icon icon-action-pen-orange`}/></Link>
             }
             return '';
@@ -50,32 +50,32 @@ const columns = [
 @observer
 class UsersManagement extends React.Component {
     componentDidMount() {
-        this.getUsersCompany();
+        this.getUsersCounterparty();
     }
 
-    getUsersCompany() {
-        if (AuthStore.currentCompany) {
-            const {id, branchId, inCompanyPermissions} = AuthStore.currentCompany;
-            if (inCompanyPermissions?.length > 0) {
-                const url = inCompanyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
-                    API.COMPANY_BRANCH_CUSTOMERS(id, branchId) :
-                    API.COMPANY_CUSTOMERS(id);
+    getUsersCounterparty() {
+        if (AuthStore.activeCounterparty) {
+            const {id, agencyId, inCounterpartyPermissions} = AuthStore.activeCounterparty;
+            if (inCounterpartyPermissions?.length > 0) {
+                const url = inCounterpartyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_AGENCY) ?
+                    API.COUNTERPARTY_AGENCY_AGENTS(id, agencyId) :
+                    API.COUNTERPARTY_AGENTS(id);
                 API.get({
                     url,
                     success: (result) =>
-                        UsersStore.setCompanyUsers(result)
+                        UsersStore.setCounterpartyUsers(result)
                 });
             }
         }
     }
 
     changeSearchField(values) {
-        UsersStore.filterCompanyUsers(values?.searchField?.replace(/\n/g, ''));
+        UsersStore.filterCounterpartyUsers(values?.searchField?.replace(/\n/g, ''));
     }
 
     render() {
         const { t } = useTranslation();
-        const {usersCompany, usersCompanyIsLoading, usersTablePageInfo, usersCompanyCount} = UsersStore;
+        const {usersCounterparty, usersCounterpartyIsLoading, usersTablePageInfo, usersCounterpartyCount} = UsersStore;
 
         return (<div>
             <UsersPagesHeader />
@@ -108,8 +108,8 @@ class UsersManagement extends React.Component {
                    />
                </section>
             </div>
-            {usersCompanyIsLoading && <Loader />}
-            {!usersCompanyIsLoading && <section>
+            {usersCounterpartyIsLoading && <Loader />}
+            {!usersCounterpartyIsLoading && <section>
                 <div className="users-management__table__title">
                     <h3>All Users</h3>
                     {/*<Link to="/settings/users/add" className="button users-management__button-add-new-user">*/}
@@ -117,9 +117,9 @@ class UsersManagement extends React.Component {
                     {/*</Link>*/}
                 </div>
                 <Table
-                  data={usersCompany}
-                  count={usersCompanyCount}
-                  fetchData={this.getUsersCompany}
+                  data={usersCounterparty}
+                  count={usersCounterpartyCount}
+                  fetchData={this.getUsersCounterparty}
                   columns={columns}
                   {...usersTablePageInfo}
                   className="users-management__table"

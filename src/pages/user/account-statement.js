@@ -7,6 +7,7 @@ import { Loader } from "components/simple";
 import { Formik } from "formik";
 
 import UI from "stores/ui-store";
+import AuthStore from "stores/auth-store";
 import store from "stores/accommodation-store";
 import { FieldText } from "components/form";
 
@@ -25,10 +26,10 @@ class AccountStatementPage extends React.Component {
     }
 
     getData() {
-        if (!UI.user?.companies?.length)
+        if (!UI.user?.counterparties?.length)
             return;
         API.post({
-            url: API.BILLING_HISTORY(UI.user.companies[0].id),
+            url: API.BILLING_HISTORY(AuthStore.activeCounterparty.id),
             body: {
                 "fromDate": moment(this.state.start).utc(true).format(),
                 "toDate": moment(this.state.end).add(1,"d").utc(true).format()

@@ -86,7 +86,7 @@ class RegistrationStep2 extends React.Component {
         var { t } = useTranslation();
 
         if (this.state.redirectToThirdStep)
-            return <Redirect push to="/signup/company" />;
+            return <Redirect push to="/signup/counterparty" />;
 
         if (this.state.redirectToIndexPage)
             return <Redirect push to="/" />;

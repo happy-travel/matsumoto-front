@@ -5,6 +5,7 @@ import { API } from "core";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationUserValidatorWithEmail } from "components/form/validation";
 import UI from "stores/ui-store";
+import AuthStore from "stores/auth-store";
 import View from "stores/view-store";
 import FormUserData from "parts/form-user-data";
 import { Loader } from "components/simple";
@@ -45,7 +46,7 @@ class UserInvitePage extends React.Component {
             url: values.send ? API.USER_INVITE_SEND : API.USER_INVITE_GET_LINK,
             body: {
                 email: values.email,
-                companyId: UI.user.companies[0].id,
+                counterpartyId: AuthStore.activeCounterparty.id,
                 registrationInfo: {
                     firstName: values.firstName,
                     lastName: values.lastName,

@@ -36,7 +36,7 @@ const init = () => {
                     Authorize.signinRedirect();
                 return;
             }
-            if (response.status == 400 && "Could not get customer data" == error?.detail) {
+            if (response.status == 400 && "Could not get agent data" == error?.detail) {
                 if (isRedirectNeeded())
                     window.location.href = window.location.origin + "/signup/user";
             } else

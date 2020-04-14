@@ -20,7 +20,7 @@ class AdminSettings extends React.Component {
         super();
 
         API.get({
-            url: API.CUSTOMER_SETTINGS,
+            url: API.AGENT_SETTINGS,
             success: (result) => {
                 AuthStore.setUserSettings(result);
             }
@@ -41,7 +41,7 @@ class AdminSettings extends React.Component {
 
     submitUserSettings(values) {
         API.put({
-            url: API.CUSTOMER_SETTINGS,
+            url: API.AGENT_SETTINGS,
             body: values,
             success: (result) => {
             //    todo: make success

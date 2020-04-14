@@ -16,8 +16,8 @@ const defaultUserSettings = {
 
 class AuthStore {
     @observable registration = {
-        "customer": {},
-        "company": {}
+        "agent": {},
+        "counterparty": {}
     };
 
     @observable user = {
@@ -40,8 +40,9 @@ class AuthStore {
         autosave(this, "_auth_store_cache");
     }
 
-    @computed get currentCompany() {
-        return this.user?.companies && this.user?.companies[0] || {};
+    @computed get activeCounterparty() {
+        console.log(this.user);
+        return this.user?.counterparties && this.user?.counterparties[0] || {};
     }
 
     setUser(value) {
@@ -50,21 +51,21 @@ class AuthStore {
     }
 
     setUserForm(form) {
-        this.registration.customer = form;
+        this.registration.agent = form;
     }
 
-    setCompanyForm(form) {
-        this.registration.company = form;
-        if (this.registration.company.phone) {
-            this.registration.company.phone = this.registration.company.phone.replace(/\D/g,''); //todo: make decorators
+    setCounterpartyForm(form) {
+        this.registration.counterparty = form;
+        if (this.registration.counterparty.phone) {
+            this.registration.counterparty.phone = this.registration.counterparty.phone.replace(/\D/g,''); //todo: make decorators
         }
-        if (this.registration.company.fax) {
-            this.registration.company.fax = this.registration.company.fax.replace(/\D/g,'');
+        if (this.registration.counterparty.fax) {
+            this.registration.counterparty.fax = this.registration.counterparty.fax.replace(/\D/g,'');
         }
     }
 
     setCountryValue(country) {
-        this.registration.company.countryCode = country.code;
+        this.registration.counterparty.countryCode = country.code;
     }
 
     setUserCache(newUserCache) {

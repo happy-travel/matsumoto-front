@@ -9,11 +9,11 @@ export default function () {
 
     return  <>
         <section className="users-pages__header">
-            <h1>{AuthStore.currentCompany.name} <span>{t('Settings')}</span></h1>
+            <h1>{AuthStore.activeCounterparty.name} <span>{t('Settings')}</span></h1>
             {/*<p>{t('Account Not Verificated Yet')}</p>*/}
         </section>
         <div className="users-pages-navigation">
-            <NavLink to="/settings/company">{t('Company settings')}</NavLink >
+            <NavLink to="/settings/counterparty">{t('Company settings')}</NavLink >
             <NavLink to="/settings/admin" activeClassName="active">{t('Admin settings')}</NavLink >
             <NavLink to="/settings/users">{t('Users management')}</NavLink >
             {/*<NavLink to="/settings/notifications">{t('Notifications')}</NavLink >*/}

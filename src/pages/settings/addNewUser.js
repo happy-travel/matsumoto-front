@@ -21,8 +21,8 @@ export default class AddNewUser extends React.Component {
         super();
 
         this.state = {
-            inCompanyPermissions: [],
-            loadingCompanyInfo: true,
+            inCounterpartyPermissions: [],
+            loadingCounterpartyInfo: true,
             permissionsList: [],
             loadingPermissions: true,
         }
@@ -35,14 +35,14 @@ export default class AddNewUser extends React.Component {
     }
 
     async getData() {
-        const {companyId, branchId, customerId} = this.props.match.params;
-        const {inCompanyPermissions} = AuthStore.currentCompany;
-        const url = inCompanyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_BRANCH) ?
-          API.COMPANY_BRANCH_CUSTOMER(companyId, branchId, customerId) :
-          API.COMPANY_CUSTOMER(companyId, customerId);
+        const {counterpartyId, agencyId, agentId} = this.props.match.params;
+        const {inCounterpartyPermissions} = AuthStore.activeCounterparty;
+        const url = inCounterpartyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_AGENCY) ?
+          API.COUNTERPARTY_AGENCY_AGENT(counterpartyId, agencyId, agentId) :
+          API.COUNTERPARTY_AGENT(counterpartyId, agentId);
         await Promise.all([API.get({
             url,
-            success: (result) => this.setState({inCompanyPermissions: result.inCompanyPermissions || [], loadingCompanyInfo: false}),
+            success: (result) => this.setState({inCounterpartyPermissions: result.inCounterpartyPermissions || [], loadingCounterpartyInfo: false}),
         }),
             API.get({
                 url: API.ALL_PERMISSIONS,
@@ -52,8 +52,8 @@ export default class AddNewUser extends React.Component {
     }
 
     submit = (values) => {
-        const {companyId, branchId, customerId} = this.props.match.params;
-        const url = API.CUSTOMER_BRANCH_PERMISSIONS(companyId, customerId, branchId);
+        const {counterpartyId, agencyId, agentId} = this.props.match.params;
+        const url = API.AGENT_AGENCY_PERMISSIONS(counterpartyId, agentId, agencyId);
         const body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
 
         API.put({
@@ -61,12 +61,12 @@ export default class AddNewUser extends React.Component {
             body,
             success: () => this.props.history.goBack(),
         });
-    }
+    };
 
     render() {
         const { t } = useTranslation();
-        const {inCompanyPermissions, loadingCompanyInfo, loadingPermissions, permissionsList} = this.state;
-        if (loadingCompanyInfo || loadingPermissions) {
+        const {inCounterpartyPermissions, loadingCounterpartyInfo, loadingPermissions, permissionsList} = this.state;
+        if (loadingCounterpartyInfo || loadingPermissions) {
             return <Loader page />
         }
 
@@ -125,7 +125,7 @@ export default class AddNewUser extends React.Component {
                 <Formik
                     onSubmit={this.submit}
                     initialValues={{
-                        ...permissionsList.reduce((obj, key) => ({...obj, [key]: inCompanyPermissions.includes(key)}), {})
+                        ...permissionsList.reduce((obj, key) => ({...obj, [key]: inCounterpartyPermissions.includes(key)}), {})
                     }}
                     enableReinitialize
                     render={formik => (
