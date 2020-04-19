@@ -78,7 +78,7 @@ class PaymentResultPage extends React.Component {
                 number: params.card_number,
                 expirationDate: params.expiry_date,
                 holderName: params.card_holder_name,
-                ownerType: "Customer"
+                ownerType: "Agent"
             };
 
         API.post({

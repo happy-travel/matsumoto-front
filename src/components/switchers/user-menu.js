@@ -27,6 +27,7 @@ class UserMenuDropdown extends React.Component {
             <div class="switcher user-switcher"
                  data-dropdown="close"
                  onClick={() => UI.setOpenDropdown(dropdownId)}>
+                <div class="hide">{JSON.stringify(AuthStore.user?.counterparties)}</div>
                 <div class="avatar">
                     <NoAvatar />
                 </div>

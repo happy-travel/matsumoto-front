@@ -2,6 +2,11 @@ import * as Yup from "yup";
 import valid from "card-validator";
 
 export const creditCardValidator = Yup.object().shape({
+    card_holder_name: Yup.mixed().when("remember_me", {
+            is: true,
+            then: Yup.string().required("Name is required to save a card"),
+            otherwise: Yup.string(),
+        }),
     card_number: Yup.string()
         .required("*")
         .test('is-card-number',

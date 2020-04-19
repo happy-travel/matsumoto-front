@@ -41,7 +41,6 @@ class AuthStore {
     }
 
     @computed get activeCounterparty() {
-        console.log(this.user);
         return this.user?.counterparties && this.user?.counterparties[0] || {};
     }
 
