@@ -136,6 +136,8 @@ class AccommodationSearch extends React.Component {
                 sessionId: session.google.create()
             },
             after: (data) => {
+                if (currentValue != e.target.value)
+                    return;
                 View.setDestinationSuggestions(data, currentValue);
                 UI.setSuggestion("destination", currentValue, View?.destinations?.length ? View.destinations[0] : "");
                 this.setDestinationAutoComplete(props.formik, true);
