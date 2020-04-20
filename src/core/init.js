@@ -6,7 +6,7 @@ import React from "react";
 import { getParams } from "core";
 import dropdownToggler from "components/form/dropdown/toggler";
 
-const noRedirectPages = ["/contact", "/terms", "/privacy", "/about", "/signup/", "/pay"];
+const noRedirectPages = ["/contact", "/terms", "/privacy", "/about", "/signup/", "/pay", "/logout"];
 
 export const isRedirectNeeded = () => noRedirectPages.every(item => window.location.href.indexOf(item) == -1);
 
