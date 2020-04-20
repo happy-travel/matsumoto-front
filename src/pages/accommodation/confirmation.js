@@ -1,13 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, price, API, plural } from "core";
+import { dateFormat, price, API } from "core";
 import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader } from "components/simple";
-import { Link } from "react-router-dom";
+import { Dual, Loader, PassengersCount } from "components/simple";
 import moment from "moment";
 
 import store from "stores/accommodation-store";
@@ -226,18 +225,11 @@ render() {
                             />
                             <Dual addClass="line"
                                 a={t("Room Cost")}
-                                b={
-                                    null
-                                    /* price(accommodation.roomContractSet.roomContracts[index].roomPrices[0]) */
-                                }
+                                b={ price(booking.roomDetails[0].prices[0]) }
                             />
                             <Dual addClass="line"
                                 a={t("Accommodates")}
-                                b={ ""
-                                   /* plural(t, accommodation.roomContractSet.roomContracts[index].adultsNumber, "Adult")
-                                    + (!accommodation.roomContractSet.roomContracts[index].childrenNumber ? "" :
-                                    (", " + plural(t, accommodation.roomContractSet.rooms[index].childrenNumber, "Children"))) */
-                                }
+                                b={[...Array(booking.roomDetails[0].roomDetails.passengers.length).fill(<span className="icon icon-man"/>)]}
                             />
 
                             { room.roomDetails.length > 1 && <React.Fragment>
