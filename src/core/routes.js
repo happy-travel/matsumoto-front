@@ -33,6 +33,8 @@ import termsPage                  from "pages/common/terms";
 import privacyPage                from "pages/common/privacy";
 import aboutUsPage                from "pages/common/about";
 
+import logoutPage                 from "core/auth/logout";
+
 import errorPage   from "pages/common/error";
 import devAuthPage from "pages/account/odawara/confirmation";
 
@@ -105,6 +107,7 @@ const Routes = () => (
 
         <Route path="/dev/auth" component={devAuthPage} />
 
+        <Route path="/logout" component={logoutPage} />
         <Route path="/auth" component={null} />
         <Route component={errorPage} />
     </Switch>
