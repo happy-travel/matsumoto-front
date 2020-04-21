@@ -227,7 +227,7 @@ render() {
                                     </div>
                                 </div>
                                 <button class={"no-margin button" + (this.state.selectedCardId ? "" : " disabled")}>
-                                    {t("Pay using saved cards")}
+                                    { t("Pay") + price(this.state.currency, this.state.amount || 0) + t("using saved cards")}
                                 </button>
                             </div>
                         </form>
