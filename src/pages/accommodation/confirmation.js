@@ -6,7 +6,7 @@ import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, PassengersCount } from "components/simple";
+import { Dual, Loader, RoomPrices } from "components/simple";
 import moment from "moment";
 
 import store from "stores/accommodation-store";
@@ -225,7 +225,7 @@ render() {
                             />
                             <Dual addClass="line"
                                 a={t("Room Cost")}
-                                b={ price(booking.roomDetails[0].prices[0]) }
+                                b={ <RoomPrices t={t} prices={booking.roomDetails[0].prices} /> }
                             />
                             <Dual addClass="line"
                                 a={t("Accommodates")}

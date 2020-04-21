@@ -15,7 +15,7 @@ import {
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, MealPlan } from "components/simple";
+import { Dual, Loader, MealPlan, RoomPrices } from "components/simple";
 import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
@@ -159,15 +159,13 @@ class AccommodationBookingPage extends React.Component {
                 <div class="static item no-border">
                     {variant.contractType}
                 </div>
-                <Dual
+                <Dual addClass="column"
                     a={t("Arrival Date")}
                     b={dateFormat.a(baseInfo.checkInDate)}
-                    addClass="column"
                 />
-                <Dual
+                <Dual addClass="column"
                     a={t("Departure Date")}
                     b={dateFormat.a(baseInfo.checkOutDate)}
-                    addClass="column"
                 />
                 <Dual
                     a={t("Number of Rooms")}
@@ -202,11 +200,11 @@ class AccommodationBookingPage extends React.Component {
                 ))}
 
                 <div class="static item">{t("Room & Total Cost")}</div>
-                {variant?.roomContracts?.map((x,i)=>(
-                (variant?.roomContracts[i]?.roomPrices?.[0].netTotal !== undefined && "Room" == variant?.roomContracts[i]?.roomPrices?.[0].type) ?
-                <Dual
+                {variant?.roomContracts?.map((rc,i) => (
+                (rc.roomPrices?.[0].netTotal !== undefined) ?
+                <Dual addClass={ rc.roomPrices.length > 1 ? "column" : "" }
                     a={t("Room Cost") + " " + (variant?.roomContracts?.length > 1 ? (i+1) : '')}
-                    b={price(variant.roomContracts[i].roomPrices[0])}
+                    b={ <RoomPrices t={t} prices={variant.roomContracts[i].roomPrices} /> }
                 /> : null
                 ))}
                 <Dual

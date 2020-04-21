@@ -23,7 +23,7 @@ export const plural = (t, value, word) => value + " " + t(word, {count: parseInt
 export const price = (currencyOrObject, value) => {
     if (undefined === value && currencyOrObject)
         return price(currencyOrObject.currency, currencyOrObject.netTotal);
-    return " " + (currencyOrObject || "") + " " + (value || 0).toFixed(2) + " ";
+    return " " + (currencyOrObject || "") + String.fromCharCode(160) + (value || 0).toFixed(2) + " ";
 };
 
 export const hotelStars = [, "OneStar", "TwoStars", "ThreeStars", "FourStars", "FiveStars"];

@@ -1,7 +1,7 @@
 import React from "react";
 import { hotelStars } from "core";
 import { Link } from "react-router-dom";
-import { plural } from "core";
+import { plural, price, dateFormat } from "core";
 
 export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
     (!nonEmpty || b) ? <div class={"dual" + (addClass ? " " + addClass : '')}>
@@ -114,4 +114,22 @@ export const PassengersCount = ({ t, adults, children, separator }) => {
             ""}
         { children ? plural(t, children, "Children") : "" }
         </React.Fragment>;
+};
+
+export const RoomPrices = ({ t, prices }) => {
+    if (!(prices && prices.length))
+        return null;
+
+    if (prices.length == 1 || !prices[0].fromDate)
+        return <React.Fragment>
+            {price(prices[0])}
+        </React.Fragment>;
+
+    return <React.Fragment>
+        {prices.map(item => (
+            <div>
+                {dateFormat.c(item.fromDate)} – {dateFormat.c(item.toDate)}: {price(item)}
+            </div>
+        ))}
+    </React.Fragment>;
 };
