@@ -211,7 +211,7 @@ class AccommodationVariantsPage extends React.Component {
                                     <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
                                 </div>
                                 <div class="paragraph">
-                                    {roomContractSet.roomContracts[0].contractType}
+                                    {roomContractSet.roomContracts[0].contractDescription}
                                 </div>
                             </div>
                         </div>) }

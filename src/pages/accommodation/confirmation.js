@@ -95,10 +95,10 @@ render() {
                             text: t("Booking Confirmation")
                         }
                     ]}/>
-                    <ActionSteps
+                    { !this.state.fromHistory && <ActionSteps
                         items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
                         current={2}
-                    />
+                    /> }
 
                     { (!this.state.fromHistory && result) &&
                     <React.Fragment>

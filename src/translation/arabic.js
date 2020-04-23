@@ -205,7 +205,7 @@ translations: {
     "Please Enter Your Card Details": "الرجاء إدخال تفاصيل بطاقتك",
     "You need to pay": "تحتاج إلى الدفع",
     "My Site Balance": "ميزان الموقع الخاص بي",
-    "Credit/Debit Card": "بطاقة الائتمان / الخصم",
+    "Credit or Debit Card": "بطاقة الائتمان / الخصم",
     "Accommodations": "الإقامة",
     "Visas": "التأشيرات",
     "Privacy Policy": "سياسة الخصوصية",

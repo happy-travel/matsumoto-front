@@ -64,7 +64,7 @@ class AccommodationBookingPage extends React.Component {
 
         for (var r = 0; r < variant?.roomContracts?.length; r++) {
             var adults = variant?.roomContracts[r]?.adultsNumber,
-                total = adults + variant?.roomContracts[r]?.childrenNumber,
+                total = adults + variant?.roomContracts[r]?.childrenAges.length,
                 passengers = [];
 
             for (var i = 0; i < total; i++)
@@ -81,7 +81,7 @@ class AccommodationBookingPage extends React.Component {
                 passengers
             })
         }
-
+console.log(roomDetails);
         var request = {
             "availabilityId": store.selected.availabilityId,
             "nationality": search.nationality,
@@ -117,20 +117,19 @@ class AccommodationBookingPage extends React.Component {
         var hotel = store.selected.accommodationFinal.accommodationDetails,
             baseInfo = store.selected.accommodationFinal,
             variant = store.selected.roomContractSet,
-            deadlineDetails = store.selected.deadlineDetails,
 
             initialValues = {
                 room: variant?.roomContracts?.map((x,r) => ({
                     passengers: [
                         ...Array(variant?.roomContracts[r]?.adultsNumber),
-                        ...Array(variant?.roomContracts[r]?.childrenNumber),
+                        ...Array(variant?.roomContracts[r]?.childrenAges.length),
                     ]
                 })) || [],
                 accepted: true,
                 itineraryNumber: '',
             };
 
-        if (!variant || !deadlineDetails)
+        if (!variant)
             return null;
 
         return (
@@ -153,11 +152,8 @@ class AccommodationBookingPage extends React.Component {
                     , {hotel.location.country}
                 </div>
 
-                <div class="static item" style={{ marginBottom: 0 }}>
+                <div class="static item">
                     {t("Your Reservation")}
-                </div>
-                <div class="static item no-border">
-                    {variant.contractType}
                 </div>
                 <Dual addClass="column"
                     a={t("Arrival Date")}
@@ -167,50 +163,19 @@ class AccommodationBookingPage extends React.Component {
                     a={t("Departure Date")}
                     b={dateFormat.a(baseInfo.checkOutDate)}
                 />
-                <Dual
-                    a={t("Number of Rooms")}
-                    b={variant.roomContracts.length}
-                />
-                <Dual
-                    a={t("Board Basis")}
-                    b={<MealPlan t={t} room={variant.roomContracts[0]} />}
-                />
-
-                { /* deadlineDetails.remarkCodes.map( item => (
-                <React.Fragment>
-                    { variant.remarks[item] && <Dual
-                        a={t("Remark")}
-                        b={variant.remarks[item]}
-                    /> }
-                </React.Fragment>
-                )) */ }
-
-                {variant?.roomContracts?.map((x,i)=>(
-                <React.Fragment>
-                    <div class="static item">{t("Room Information") + " " + (variant?.roomContracts?.length > 1 ? (i+1) : '')}</div>
-                    <Dual
-                        a={t("Room Type")}
-                        b={variant.roomContracts[i]?.type}
-                    />
-                    { /* <Dual
-                        a={t("Occupancy")}
-                        b={plural(t, roomContracts[i].adultsNumber, "Adult") + ", " + roomContracts[i].childrenNumber + " " + t("Children")}
-                    /> */ }
-                </React.Fragment>
-                ))}
+                <div class="dual" style={{display: "inline-block"}}>
+                    <span class="first">{t("Number of Rooms")}</span>
+                    <span class="second">{variant.roomContracts.length}</span>
+                </div>
 
                 <div class="static item">{t("Room & Total Cost")}</div>
-                {variant?.roomContracts?.map((rc,i) => (
-                (rc.roomPrices?.[0].netTotal !== undefined) ?
-                <Dual addClass={ rc.roomPrices.length > 1 ? "column" : "" }
-                    a={t("Room Cost") + " " + (variant?.roomContracts?.length > 1 ? (i+1) : '')}
-                    b={ <RoomPrices t={t} prices={variant.roomContracts[i].roomPrices} /> }
-                /> : null
-                ))}
-                <Dual
-                    a={t("Total Cost")}
-                    b={price(variant.price)}
-                />
+                    {variant?.roomContracts?.map((rc,i) => (
+                        (rc.roomPrices?.[0].netTotal !== undefined) ?
+                        <Dual addClass={ rc.roomPrices.length > 1 ? "column" : "" }
+                            a={t("Room Cost") + " " + (variant?.roomContracts?.length > 1 ? (i+1) : '')}
+                            b={ <RoomPrices t={t} prices={variant.roomContracts[i].roomPrices} /> }
+                        /> : null
+                    ))}
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
                     <div>{price(variant.price)}</div>
@@ -238,8 +203,6 @@ class AccommodationBookingPage extends React.Component {
                         for (var i = 0; i < initialValues?.room.length; i++)
                             if (cache?.room?.[i]?.passengers?.length != initialValues?.room[i].passengers.length)
                                 return false;
-
-                        // todo: age validation is needed in future
                         return true;
                     }}
                     initialValues={initialValues}
@@ -250,13 +213,13 @@ class AccommodationBookingPage extends React.Component {
                             <div class="form">
                                 <FieldArray
                                     render={() => (
-                                formik.values.room.map((item, r) => {
-                                    var adults = variant?.roomContracts[r]?.adultsNumber,
-                                        childrenAges = variant?.roomContracts[r]?.childrenAges;
-                                return (
-                                <React.Fragment>
+                                variant?.roomContracts.map((item, r) => <React.Fragment>
                                 <h2>
-                                    <span>Room {r+1}:</span> {variant.roomContracts[r]?.type}
+                                    <span>
+                                        Room {r+1}:
+                                    </span> {item.contractDescription} <span>
+                                        {item.type}
+                                    </span>
                                 </h2>
                                 <div class="part">
                                     <table class="people"><tbody>
@@ -265,16 +228,15 @@ class AccommodationBookingPage extends React.Component {
                                             <th><span class="required">{t("First Name")}</span></th>
                                             <th><span class="required">{t("Last Name")}</span></th>
                                         </tr>
-
                                         <FieldArray
                                             render={() => (
                                         <React.Fragment>
-                                            {formik.values.room[r].passengers.map((item, index) => (
+                                            {formik.values.room[r].passengers.map((passengers, index) => (
                                             <tr>
                                                 <td>
                                                     <FieldSelect formik={formik}
                                                         id={`room.${r}.passengers.${index}.title`}
-                                                        placeholder={index < adults ?
+                                                        placeholder={index < item.adultsNumber ?
                                                             t("Please select one") :
                                                             t("Child") // + ", " + plural(t, childrenAges[index - adults], "year")
                                                         }
@@ -304,8 +266,34 @@ class AccommodationBookingPage extends React.Component {
                                         </React.Fragment>
                                         )} />
                                     </tbody></table>
+
+                                    <p className="remark">
+                                        {t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} />
+                                    </p>
+
+                                    <p className="remark">
+                                        {item.deadlineDetails.date ?
+                                            <span>
+                                                {t("Cancellation Deadline")}: {dateFormat.a(deadlineDetails.date)}
+                                            </span> :
+                                            <span className="info green">
+                                                {t("FREE Cancellation - Without Prepayment")}
+                                            </span>
+                                        }
+                                    </p>
+
+                                    <p class="remark">
+                                        {(item.deadlineDetails.policies || []).map(item => (<React.Fragment>
+                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.<br/>
+                                        </React.Fragment>))}
+                                    </p>
+
+                                    {item.remarks?.map(remark => (
+                                        <p class="remark">{remark.value}</p>
+                                    ))}
+
                                 </div>
-                                </React.Fragment>)}))} />
+                                </React.Fragment>))} />
 
                                 { /* todo
                                 <div class="part">
@@ -370,31 +358,6 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div> */ }
 
-                                <div class="part" style={{marginTop: "6px"}}>
-                                    <h3 style={{marginBottom: "24px"}}>{t("Additional Information")}</h3>
-                                    <p class="remark">
-                                        {
-                                            deadlineDetails.date ?
-                                            <span>
-                                                {t("Cancellation Deadline")}: {dateFormat.a(deadlineDetails.date)}
-                                            </span>:
-                                            <span class="info green">
-                                                {t("FREE Cancellation - Without Prepayment")}
-                                            </span>
-                                        }
-                                    </p>
-
-                                    <p class="remark">
-                                        {(deadlineDetails.policies || []).map(item => (<React.Fragment>
-                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.<br/>
-                                        </React.Fragment>))}
-                                    </p>
-
-                                    {Object.keys(variant.remarks || {}).map(key => (
-                                        <p class="remark">{variant.remarks[key]}</p>
-                                    ))}
-                                </div>
-
                                 <div class="part" style={{ paddingBottom: "5px", marginTop: "-4px" }}>
                                     <div class="row no-margin">
                                         <div class="vertical-label">{t("Itinerary number")}</div>
@@ -432,7 +395,7 @@ class AccommodationBookingPage extends React.Component {
                                             onClick={() => store.setPaymentMethod(PAYMENT_METHODS.CARD)}
                                         >
                                             <span class="icon icon-radio" />
-                                            {t("Credit/Debit Card")}
+                                            {t("Credit or Debit Card")}
                                             <img src="/images/other/visa.png" />
                                             <img src="/images/other/mc.png" />
                                         </div>

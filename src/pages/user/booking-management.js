@@ -238,7 +238,7 @@ class UserBookingManagementPage extends React.Component {
                                         </td>
                                         <td>
                                             <strong>{t("Cancellation Deadline")}</strong>
-                                            {(item.deadlineDetails.date) ? dateFormat.c(item.deadlineDetails.date) : t("None")}
+                                            {(item.deadlineDate) ? dateFormat.c(item.deadlineDate) : t("None")}
                                         </td>
                                         <td>
                                             <strong>{t("Status")}</strong>

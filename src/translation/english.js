@@ -225,7 +225,7 @@ translations: {
     "Please Enter Your Card Details": "Please Enter Your Card Details",
     "You need to pay": "You need to pay",
     "My Site Balance": "My Site Balance",
-    "Credit/Debit Card": "Credit/Debit Card",
+    "Credit or Debit Card": "Credit or Debit Card",
     "Finish Registration": "Finish Registration",
     "Please enter children ages": "Please enter children ages",
     "year": "year",
