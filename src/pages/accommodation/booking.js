@@ -274,7 +274,7 @@ console.log(roomDetails);
                                     <p className="remark">
                                         {item.deadlineDetails.date ?
                                             <span>
-                                                {t("Cancellation Deadline")}: {dateFormat.a(deadlineDetails.date)}
+                                                {t("Cancellation Deadline")}: {dateFormat.a(item.deadlineDetails.date)}
                                             </span> :
                                             <span className="info green">
                                                 {t("FREE Cancellation - Without Prepayment")}
