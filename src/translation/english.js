@@ -243,7 +243,7 @@ translations: {
     "Payment result": "Payment result",
     "Card acceptance message": "Card acceptance message",
     "Your card was saved for your future purchases.": "Your card was saved for your future purchases.",
-    "cancellation costs you": "cancellation costs you",
+    "cancellation costs": "cancellation costs",
     "of total amount": "of total amount",
     "Cancel booking": "Cancel booking",
     "Number of floors": "Number of floors",
@@ -341,6 +341,6 @@ translations: {
     "Security code on your credit card": "Security code on your credit card",
     "It's safe, only a part of your card data will be stored": "It's safe, only a part of your card data will be stored",
     "Pay using saved cards": "Pay using saved cards",
-    "using saved cards": "using saved cards"
+    "using saved card": "using saved card"
 }
 };

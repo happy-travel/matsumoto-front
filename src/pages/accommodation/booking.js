@@ -284,7 +284,7 @@ console.log(roomDetails);
 
                                     <p class="remark">
                                         {(item.deadlineDetails.policies || []).map(item => (<React.Fragment>
-                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs you")} {item.percentage}% {t("of total amount")}.<br/>
+                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.<br/>
                                         </React.Fragment>))}
                                     </p>
 

@@ -238,7 +238,7 @@ translations: {
     "Card acceptance message": "رسالة قبول البطاقة",
     "Your card was saved for your future purchases.": "تم حفظ بطاقتك لعمليات الشراء المستقبلية",
     "Decline": "رفض",
-    "cancellation costs you": "الإلغاء يكلفك",
+    "cancellation costs": "الإلغاء يكلفك",
     "of total amount": "من المبلغ الإجمالي",
     "Cancel booking": "إلغاء الحجز",
     "Number of floors": "عدد الطوابق",

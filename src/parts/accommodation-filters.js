@@ -75,6 +75,21 @@ class AccommodationFiltersPart extends React.Component {
                                         </div>
                                     }
                                 /> }
+                                { ( (("localhost" == window.location.hostname) || (window.location.hostname.indexOf("dev.happytravel") > -1)) &&
+                                    (!!store.filters.__source.length)) && <Expandable
+                                    open
+                                    header={t("Source")}
+                                    content={
+                                        <div class="expanded">
+                                            { store.filters.__source.map((item, i) => (
+                                                <FieldCheckbox formik={formik}
+                                                               label={ "source=" + item }
+                                                               id={ "source." + item }
+                                                />
+                                            )) }
+                                        </div>
+                                    }
+                                /> }
 { /* todo:
     <div class="static item">{t("Map")}</div>
     <div class="expanded">

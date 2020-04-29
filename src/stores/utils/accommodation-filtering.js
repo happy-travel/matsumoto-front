@@ -1,4 +1,8 @@
 const atLeastOne = (obj) => {
+    if (!obj)
+        return false;
+    if (obj.length)
+        return true;
     var result = false;
     for (var i in obj)
         if (obj.hasOwnProperty(i))
@@ -14,7 +18,8 @@ export const createFilters = (response) => {
                 currency: ""
             },
             mealPlans: new Set(),
-            ratings: new Set()
+            ratings: new Set(),
+            __source: new Set()
         },
         hotels = response?.results,
         mapPoints = [];
@@ -33,6 +38,7 @@ export const createFilters = (response) => {
         //todo: when we create a map, use this array
 
         filters.ratings.add(hotel?.accommodationDetails?.rating);
+        filters.__source.add("" + hotel?.source);
 
         for (var j=0; j < hotel.roomContractSets.length; j++) {
             var item = hotel.roomContractSets[j];
@@ -48,6 +54,7 @@ export const createFilters = (response) => {
     filters.price.max = Math.ceil(filters.price.max);
     filters.mealPlans = [...filters.mealPlans];
     filters.ratings = [...filters.ratings];
+    filters.__source = [...filters.__source];
 
     return filters;
 };
@@ -78,6 +85,9 @@ export const applyFilters = (hotels, filters) => {
         for (i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.mealPlans[item.boardBasisCode]);
+
+    if (atLeastOne(filters.source))
+        result = result.filter(item => filters.source[item.source]);
 
     result = result.filter(hotel => hotel.roomContractSets.length);
 
