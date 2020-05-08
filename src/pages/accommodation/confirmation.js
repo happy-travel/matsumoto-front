@@ -6,7 +6,7 @@ import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader } from "components/simple";
+import { Dual, Loader, MealPlan } from "components/simple";
 import moment from "moment";
 
 import store from "stores/accommodation-store";
@@ -211,8 +211,8 @@ render() {
                                 b={room.contractDescription}
                             />
                             <Dual addClass="line"
-                                  a={t("Meal plan")}
-                                  b={room.mealPlan}
+                                  a={t("Board basis")}
+                                  b={<MealPlan t={t} room={room} />}
                             />
                             <Dual addClass="line"
                                 a={t("Room Cost")}

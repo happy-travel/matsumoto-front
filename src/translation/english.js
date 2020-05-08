@@ -112,7 +112,6 @@ translations: {
     "Property Type": "Property Type",
     "Rating": "Rating",
     "Preferred": "Preferred",
-    "Room Only": "Room Only",
     "Breakfast": "Breakfast",
     "Rate Type": "Rate Type",
     "Flexible": "Flexible",
@@ -342,6 +341,11 @@ translations: {
     "It's safe, only a part of your card data will be stored": "It's safe, only a part of your card data will be stored",
     "Pay using saved cards": "Pay using saved cards",
     "using saved card": "using saved card",
-    "Meal plan": "Meal plan"
+    "No Breakfast": "No Breakfast",
+    "SelfCatering": "Self Catering",
+    "BedAndBreakfast": "Bed And Breakfast",
+    "HalfBoard": "Half Board",
+    "FullBoard": "Full Board",
+    "AllInclusive": "All Inclusive"
 }
 };

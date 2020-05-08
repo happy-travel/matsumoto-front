@@ -40,9 +40,13 @@ export const Stars = ({ count }) => {
 };
 
 export const MealPlan = ({ room, t }) => {
-    return <span>{
-        "RO" == room.boardBasisCode ? t("Room only") : room.mealPlan
-    }</span>
+    if (!room?.boardBasis)
+        return null;
+    if ("NotSpecified" == room.boardBasis)
+        return <span>{room.mealPlan}</span>;
+    if ("RoomOnly" == room.boardBasis)
+        return <span>{t("No Breakfast")}</span>;
+    return <span>{t(room.boardBasis)}</span>;
 };
 
 export const Expandable = class extends React.Component {
