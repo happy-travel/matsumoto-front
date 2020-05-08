@@ -1,6 +1,6 @@
 const dev = {
-    EDO_URL      : "https://edo-api.dev.happytravel.com/",
-    IDENTITY_URL : "https://identity.dev.happytravel.com/",
+    EDO_URL      : "https://edo-dev.happytravel.com/",
+    IDENTITY_URL : "https://identity-dev.happytravel.com/",
     SENTRY_DSN   : "https://21e4194b435946e0b2e20444d6948d25@sentry.dev.happytravel.com/4"
 };
 

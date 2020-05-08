@@ -6,7 +6,7 @@ import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, RoomPrices } from "components/simple";
+import { Dual, Loader } from "components/simple";
 import moment from "moment";
 
 import store from "stores/accommodation-store";
@@ -73,7 +73,7 @@ class AccommodationConfirmationPage extends React.Component {
 render() {
     var { t } = useTranslation(),
         booking = store.booking.result?.bookingDetails || {},
-        accommodation = store.booking.result?.serviceDetails || {};
+        data = store.booking.result || {};
 
     if (store.paymentResult?.result)
         var {
@@ -155,23 +155,20 @@ render() {
 
                     <Dual addClass="line"
                         a={t("Booked Service")}
-                        b={accommodation.accommodationName}
-                    />
-
-                    { /* todo: no data */}
-                    <Dual addClass="line"
-                        a={t("Additional")}
-                        b={accommodation.roomContractSet?.roomContract?.[0]?.contractType}
+                        b={booking.accommodationName}
                     />
 
                     <Dual addClass="line"
                         a={t("Total Cost")}
-                        b={price(accommodation.roomContractSet.price)}
+                        b={price(data.totalPrice)}
                     />
 
                     <Dual addClass="line"
                         a={t("Service Location")}
-                        b={accommodation.countryName + ", " + accommodation.cityName}
+                        b={ <React.Fragment>
+                                {booking.location.country + ", " + booking.location.locality}<br/>
+                                {booking.location.address}
+                            </React.Fragment> }
                     />
 
                     <Dual
@@ -185,28 +182,18 @@ render() {
                             />}
                     />
 
-                    { /* todo: no data */}
-                    <Dual addClass="line"
-                        a={t("Board basis")}
-                        b={accommodation.roomContractSet?.roomContract?.[0] ? <React.Fragment>
-                            {accommodation.roomContractSet.roomContract[0].boardBasisCode}:{" "}
-                            {accommodation.roomContractSet.roomContract[0].boardBasisCode == "RO" ? t("Room Only"
-                            ) : (accommodation.roomContractSet.roomContract[0].mealPlan || "")}
-                        </React.Fragment> : null}
-                    />
-
                     { !!booking.roomDetails.length && <h2>
                         {t("Leading Passenger")}
                     </h2> }
-                    <Passenger passenger={booking.roomDetails?.[0]?.roomDetails?.passengers[0]} />
+                    <Passenger passenger={booking.roomDetails?.[0]?.passengers[0]} />
 
-                    { (booking.roomDetails.length > 1 || booking.roomDetails?.[0]?.roomDetails.passengers.length > 1) && <React.Fragment>
+                    { (booking.roomDetails.length > 1 || booking.roomDetails?.[0]?.passengers.length > 1) && <React.Fragment>
                         <h2>
                             {t("Other Passengers")}
                         </h2>
 
                         { booking.roomDetails.map((room, index1) => (
-                            room.roomDetails.passengers.map(( item, index2 ) => (
+                            room.passengers.map(( item, index2 ) => (
                                 (index1 || index2) ? <Passenger passenger={ item } /> : null
                             ))
                         ))}
@@ -221,37 +208,36 @@ render() {
 
                             <Dual addClass="line"
                                 a={t("Room type")}
-                                b={room.roomDetails.type}
+                                b={room.contractDescription}
+                            />
+                            <Dual addClass="line"
+                                  a={t("Meal plan")}
+                                  b={room.mealPlan}
                             />
                             <Dual addClass="line"
                                 a={t("Room Cost")}
-                                b={ <RoomPrices t={t} prices={booking.roomDetails[0].prices} /> }
+                                b={price(room.price)}
                             />
                             <Dual addClass="line"
                                 a={t("Accommodates")}
-                                b={[...Array(booking.roomDetails[0].roomDetails.passengers.length).fill(<span className="icon icon-man"/>)]}
+                                b={[...Array(room.passengers.length).fill(<span className="icon icon-man"/>)]}
                             />
 
-                            { room.roomDetails.length > 1 && <React.Fragment>
-                                {room.roomDetails.passengers.map((item) => (
+                            { room.length > 1 && <React.Fragment>
+                                {room.passengers.map((item) => (
                                     <Passenger passenger={ item } />
                                 ))}
                             </React.Fragment> }
 
+                            { room?.remarks?.map(item => (
+                                <Dual addClass="line"
+                                      a={item.key}
+                                      b={item.value}
+                                />
+                            ))}
+
                         </React.Fragment>
                     ))}
-
-                    { /* todo: no data */}
-                    { !!Object.keys(accommodation?.roomContractSet?.remarks || {}).length &&
-                        <React.Fragment>
-                            <h2 style={{ marginBottom: "17px" }}>
-                                {t("Remark")}
-                            </h2>
-                            {Object.keys(accommodation.roomContractSet.remarks).map(key => (
-                                <p class="remark">{accommodation.roomContractSet.remarks[key]}</p>
-                            ))}
-                        </React.Fragment>
-                     }
 
                     <div class="actions">
                         { /* <a href="javascript:void(0)">

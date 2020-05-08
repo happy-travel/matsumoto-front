@@ -341,6 +341,7 @@ translations: {
     "Security code on your credit card": "Security code on your credit card",
     "It's safe, only a part of your card data will be stored": "It's safe, only a part of your card data will be stored",
     "Pay using saved cards": "Pay using saved cards",
-    "using saved card": "using saved card"
+    "using saved card": "using saved card",
+    "Meal plan": "Meal plan"
 }
 };

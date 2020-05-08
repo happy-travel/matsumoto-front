@@ -12,8 +12,8 @@ pipeline {
         GIT_BRANCH="master"
         URL_REGISTRY="registry.dev.happytravel.com"
         IMAGE_NAME="${APP_NAME}:${NAMESPACE}"
-        IDENTITY_URL = 'https://identity.dev.happytravel.com/'
-        EDO_URL = 'https://edo-api.dev.happytravel.com/'
+        IDENTITY_URL = 'https://identity-dev.happytravel.com/'
+        EDO_URL = 'https://edo-dev.happytravel.com/'
         SENTRY_DSN = 'https://21e4194b435946e0b2e20444d6948d25@sentry.dev.happytravel.com/4'
         DISCORD_WEBHOOK_URL=credentials('discord')
     }
