@@ -1,21 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { API } from "core"
-import { Loader } from "components/simple";
 import store from "stores/accommodation-store";
-import { Redirect } from "react-router-dom";
-import UI from "stores/ui-store";
-import { FORM_NAMES } from "components/form";
+import FinalizePaymentPage from "./finalize";
 
 @observer
-class AccountPaymentPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            redirectToConfirmationPage: false
-        };
-    }
-
+class AccountPaymentPage extends FinalizePaymentPage {
     componentDidMount() {
         API.post({
             url: API.PAYMENTS_ACC_COMMON,
@@ -23,34 +13,17 @@ class AccountPaymentPage extends React.Component {
                 referenceCode: store.booking.referenceCode
             },
             after: (data, error) => {
-                store.setPaymentResult({
-                    params: {
+                this.finalize(
+                    store.booking.referenceCode,
+                    data,
+                    error,
+                    {
                         response_message: "Success",
                         referenceCode: store.booking.referenceCode
-                    },
-                    result: {
-                        status: data?.status,
-                        error: error?.detail || error?.title
                     }
-                });
-                API.post({
-                    url: API.A_BOOKING_FINALIZE(store.booking.referenceCode),
-                    after: () => {
-                        UI.dropFormCache(FORM_NAMES.BookingForm);
-                        this.setState({
-                            redirectToConfirmationPage: true
-                        });
-                    }
-                });
+                );
             }
         });
-    }
-
-    render() {
-        if (this.state.redirectToConfirmationPage)
-            return <Redirect push to="/accommodation/confirmation" />;
-
-        return <Loader white page />;
     }
 }
 

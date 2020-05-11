@@ -1,23 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { getParams, API, session } from "core";
-import store from "stores/accommodation-store";
-import { Redirect } from "react-router-dom";
-import { Loader } from "components/simple";
-import UI from "stores/ui-store";
-import { FORM_NAMES } from "components/form";
+import FinalizePaymentPage from "./finalize";
 
 @observer
-class PaymentResultPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            directLinkCode: null,
-            redirectToConfirmationPage: false
-        };
-        this.callback = this.callback.bind(this);
-    }
-
+class PaymentResultPage extends FinalizePaymentPage {
     callback(data, error, after3ds) {
         var params = getParams(),
             directLinkCode = session.get(params.merchant_reference);
@@ -26,24 +13,14 @@ class PaymentResultPage extends React.Component {
             window.location.href = data.secure3d;
             return;
         }
-        store.setPaymentResult({
-            params: params,
-            result: {
-                status: data?.status,
-                error: error?.detail || error?.title
-            }
-        });
 
         if (!directLinkCode)
-            API.post({
-                url: API.A_BOOKING_FINALIZE(params.merchant_reference),
-                after: () => {
-                    UI.dropFormCache(FORM_NAMES.BookingForm);
-                    this.setState({
-                        redirectToConfirmationPage: true
-                    });
-                }
-            });
+            this.finalize(
+                params.merchant_reference,
+                data,
+                error,
+                params
+            );
         else
             this.setState({
                 redirectToConfirmationPage: true
@@ -86,16 +63,6 @@ class PaymentResultPage extends React.Component {
             body: request,
             after: (data, error) => this.callback(data, error)
         });
-    }
-
-    render() {
-        if (this.state.directLinkCode && this.state.redirectToConfirmationPage)
-            return <Redirect push to="/payment/confirmation" />;
-
-        if (this.state.redirectToConfirmationPage)
-            return <Redirect push to="/accommodation/confirmation" />;
-
-        return <Loader white page />;
     }
 }
 
