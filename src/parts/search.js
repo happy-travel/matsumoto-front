@@ -123,6 +123,8 @@ class AccommodationSearch extends React.Component {
 
     destinationInputChanged(e, props) {
         var currentValue = e.target.value;
+        if (currentValue.trim)
+            currentValue = currentValue.trim();
         if (!currentValue)
             return View.setCountries([]);
 
