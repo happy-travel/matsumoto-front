@@ -81,7 +81,7 @@ class AccommodationBookingPage extends React.Component {
                 passengers
             })
         }
-console.log(roomDetails);
+
         var request = {
             "availabilityId": store.selected.availabilityId,
             "nationality": search.nationality,

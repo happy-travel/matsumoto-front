@@ -1,8 +1,12 @@
 import React from "react";
-import PaymentResultPage from "./result";
+import BasicPaymentPage from "./utils/processing";
 import { getParams, API, session } from "core";
 
-class Payment3DSecureCallbackPage extends PaymentResultPage {
+class Payment3DSecureCallbackPage extends BasicPaymentPage {
+    constructor(props) {
+        super(props);
+        this.render = super.render.bind(this);
+    }
     componentDidMount() {
         var params = getParams(),
             directLinkCode = session.get(params.merchant_reference);

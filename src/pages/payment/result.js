@@ -1,33 +1,12 @@
 import React from "react";
-import { observer } from "mobx-react";
+import BasicPaymentPage from "./utils/processing";
 import { getParams, API, session } from "core";
-import FinalizePaymentPage from "./finalize";
 
-@observer
-class PaymentResultPage extends FinalizePaymentPage {
-    callback(data, error, after3ds) {
-        var params = getParams(),
-            directLinkCode = session.get(params.merchant_reference);
-
-        if (!after3ds && ("Secure3d" == data?.status)) {
-            window.location.href = data.secure3d;
-            return;
-        }
-
-        if (!directLinkCode)
-            this.finalize(
-                params.merchant_reference,
-                data,
-                error,
-                params
-            );
-        else
-            this.setState({
-                redirectToConfirmationPage: true
-            });
-
+class PaymentResultPage extends BasicPaymentPage {
+    constructor(props) {
+        super(props);
+        this.render = super.render.bind(this);
     }
-
     componentDidMount() {
         var bookingReference = this.props.match.params.ref,
             params = getParams(),

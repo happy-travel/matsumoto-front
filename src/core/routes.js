@@ -70,15 +70,17 @@ const Routes = () => (
         <Route exact path="/search"               component={accommodationVariants} />
         <Route exact path="/search/contract"      component={accommodationContractsSets} />
         <Route path="/accommodation/booking"      component={accommodationBooking} />
-        <Route path={
-               ["/accommodation/confirmation/:id",
-                "/accommodation/confirmation"]}   component={accommodationConfirmation} />
+        <Route path={[
+                    "/accommodation/confirmation/:id",
+                    "/accommodation/confirmation"
+                    ]}                            component={accommodationConfirmation} />
 
         <Route path="/payment/form"               component={paymentPage} />
         <Route path="/payment/account"            component={paymentAccountPage} />
-        <Route path={
-               ["/payment/result/:ref",
-                "/payment/result"]}               component={paymentResult} />
+        <Route path={[
+                    "/payment/result/:ref",
+                    "/payment/result"
+                    ]}                            component={paymentResult} />
         <Route path="/payments/callback"          component={payment3DSCallback} />
 
         <Route path="/pay/:code"                  component={paymentDirectLink} />
@@ -95,10 +97,10 @@ const Routes = () => (
         <Route path="/settings/users/add"         component={addNewUser} />
         <Route path="/settings/users/:agentId/:counterpartyId/:agencyId/"
                                                   component={addNewUser} />
-        <Route exact path="/settings/users"       component={usersManagement} />
+        <Route path="/settings/users"             component={usersManagement} />
 
         <Route path="/settings/admin"             component={AdminSettings} />
-        <Route path="/settings/counterparty"           component={CounterpartySettings} />
+        <Route path="/settings/counterparty"      component={CounterpartySettings} />
 
         <Route path="/contact"                    component={contactUsPage} />
         <Route path="/terms"                      component={termsPage} />

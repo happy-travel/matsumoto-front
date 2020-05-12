@@ -1,11 +1,15 @@
 import React from "react";
+import BasicPaymentPage from "./utils/processing";
 import { observer } from "mobx-react";
 import { API } from "core"
 import store from "stores/accommodation-store";
-import FinalizePaymentPage from "./finalize";
 
 @observer
-class AccountPaymentPage extends FinalizePaymentPage {
+class AccountPaymentPage extends BasicPaymentPage {
+    constructor(props) {
+        super(props);
+        this.render = super.render.bind(this);
+    }
     componentDidMount() {
         API.post({
             url: API.PAYMENTS_ACC_COMMON,

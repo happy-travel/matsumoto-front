@@ -1,6 +1,6 @@
 import React from "react";
 import settings from "settings";
-import PaymentResultPage from "./result";
+import BasicPaymentPage from "./utils/processing";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { price, API } from "core";
@@ -26,7 +26,7 @@ import {
 import { snare } from "./utils/snare";
 
 @observer
-class PaymentPage extends PaymentResultPage {
+class PaymentPage extends BasicPaymentPage {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,6 +52,7 @@ class PaymentPage extends PaymentResultPage {
         this.detectCardType = this.detectCardType.bind(this);
         this.payBySavedCard = this.payBySavedCard.bind(this);
         this.selectCard = this.selectCard.bind(this);
+        this.callback = this.callback.bind(this);
     }
 
     componentDidMount() {
@@ -227,7 +228,7 @@ render() {
                                     </div>
                                 </div>
                                 <button class={"no-margin button" + (this.state.selectedCardId ? "" : " disabled")}>
-                                    { t("Pay") + price(this.state.currency, this.state.amount || 0) + t("using saved cards")}
+                                    { t("Pay") + price(this.state.currency, this.state.amount || 0) + t("using saved card")}
                                 </button>
                             </div>
                         </form>

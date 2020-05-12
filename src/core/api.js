@@ -85,7 +85,7 @@ API_METHODS = {
                            v1 + `/counterparties/${counterpartyId}/agents/${agentId}`,
     COUNTERPARTY_INFO             : counterpartyId =>
                            v1 + `/counterparties/${counterpartyId}`,
-    AGENT_SETTINGS    : v1 + `/agents/settings/application`,
+    AGENT_SETTINGS       : v1 + `/agents/settings/application`,
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
     AGENT_AGENCY_PERMISSIONS : (counterpartyId, agentId, agencyId) =>
                            v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents/${agentId}/permissions`,
