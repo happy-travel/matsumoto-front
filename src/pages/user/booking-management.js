@@ -219,11 +219,6 @@ class UserBookingManagementPage extends React.Component {
                                             <strong>{t("Location")}</strong>
                                             {item.countryName}, {item.localityName}
                                         </td>
-                                        { /* todo: temporary no API data.  <td>
-                                            <strong>{t("Board Basis")}</strong>
-                                            {item.boardBasisCode}:{" "}
-                                            {item.boardBasisCode == "RO" ? t("Room Only") : (item.mealPlan || "")}
-                                        </td> */ }
                                         <td>
                                             <strong>{t("Check In")}</strong>
                                             {dateFormat.c(item.checkInDate)}
@@ -238,7 +233,7 @@ class UserBookingManagementPage extends React.Component {
                                         </td>
                                         <td>
                                             <strong>{t("Cancellation Deadline")}</strong>
-                                            {(item.deadlineDate) ? dateFormat.c(item.deadlineDate) : t("None")}
+                                            {item.deadline ? dateFormat.c(item.deadline) : t("None")}
                                         </td>
                                         <td>
                                             <strong>{t("Status")}</strong>
