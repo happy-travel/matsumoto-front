@@ -19,6 +19,7 @@ class CachedForm extends React.Component {
         var {
             initialValues = {},
             cacheValidator,
+            valuesOverwrite = values => values
         } = this.props,
             formName = this.props.id,
             cached = UI.getFormCache(formName),
@@ -35,9 +36,9 @@ class CachedForm extends React.Component {
             isValid = true;
 
         if (isValid)
-            return cached;
+            return valuesOverwrite(cached);
 
-        return initialValues;
+        return valuesOverwrite(initialValues);
     };
 
     handleReset(formik) {
@@ -62,7 +63,8 @@ class CachedForm extends React.Component {
             render,
             enableReinitialize,
             initialValues,
-            cacheValidator
+            cacheValidator,
+            valuesOverwrite
         } = this.props,
             formName = this.props.id;
 

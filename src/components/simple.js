@@ -15,7 +15,7 @@ export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
 );
 
 export const Highlighted = ({ str, highlight }) => {
-    if (!highlight || !str)
+    if (!highlight || !str || !highlight.trim)
         return <span>{str || ""}</span>;
 
     highlight = highlight.trim().replace(/[\W_]+/g," ").split(' ');

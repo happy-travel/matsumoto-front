@@ -44,6 +44,13 @@ const init = () => {
         }
     });
 
+    API.get({
+        url: API.AGENT_SETTINGS,
+        success: (result) => {
+            authStore.setSettings(result);
+        }
+    });
+
     if (!UI.isAppInitialized) {
         API.get({
             url: API.BASE_REGIONS,

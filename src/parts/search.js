@@ -10,6 +10,7 @@ import Flag from "components/flag";
 import store from "stores/accommodation-store";
 import UI from "stores/ui-store";
 import View from "stores/view-store";
+import authStore from "stores/auth-store";
 
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import DateDropdown from "components/form/dropdown/date";
@@ -235,6 +236,17 @@ class AccommodationSearch extends React.Component {
                             order: "room",
                             predictionResult: null,
                             predictionDestination: ""
+                        }}
+                        valuesOverwrite={values => {
+                            if (!values.residency || !values.residencyCode) {
+                                values.residency = authStore.settings.residency;
+                                values.residencyCode = authStore.settings.residencyCode;
+                            }
+                            if (!values.nationality || !values.nationalityCode) {
+                                values.nationality = authStore.settings.nationality;
+                                values.nationalityCode = authStore.settings.nationalityCode;
+                            }
+                            return values;
                         }}
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
