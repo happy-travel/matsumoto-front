@@ -117,35 +117,6 @@ BWC.pre_normalise = function(inputName, orth) {
         return BWC.pre_normalise_ar(orth);
 };
 
-BWC.commonChars = {
-    '\u00A0': "", // non-breaking space
-    " ": "",
-    ".": "",
-    ",": "",
-    "(": "",
-    ")": "",
-};
-
-BWC.alwaysAcceptASCII = false;
-
-BWC.addCommonChar = function(sym) {
-    BWC.commonChars[sym] = "";
-};
-
-BWC.removeCommonChar = function(sym) {
-    delete BWC.commonChars[sym];
-};
-
-BWC.isCommonChar = function(sym) {
-    if (BWC.commonChars[sym] !== null && BWC.commonChars[sym] !== undefined)
-        return true;
-    // ALL ASCII CHARS? CHAR NUM <128; WITH THIS, REVERSE TEST WON'T WORK
-    if (BWC.alwaysAcceptASCII && sym.charCodeAt(0) < 128) {
-        return true;
-    }
-    return false;
-};
-
 BWC.makeA2BMap = function() {
     let map = {};
     for (let i = 0; i < BWC.chartable.length; i++) {
@@ -168,76 +139,38 @@ BWC.a2bMap = BWC.makeA2BMap();
 BWC.b2aMap = BWC.makeB2AMap();
 
 class BWResult {
-    constructor(output, errors, ok) { this.output = output; this.errors = errors; this.ok = ok; }
+    constructor(output) { this.output = output; }
 }
 
-BWC.reverseTest = function(mapTo, input, result) {
-    let remaptable = {};
-    if (mapTo === BWC.a2bMap.to)
-        remaptable = BWC.a2bMap;
-    else if (mapTo === BWC.b2aMap.to)
-        remaptable = BWC.b2aMap;
-    else
-        return "Couldn't find maptable for " + mapTo;
-
-    let rev = BWC.convert(remaptable, result, false);
-    if (rev.output !== input) {
-        let err = "Reverse test failed: input " + input + " != reverse " + rev.output;
-        return err;
-    }
-    else
-        return null;
-};
-
-BWC.convert = function(maptable, input, doReverseTest) {
-    //console.log("convert called with '" + input + "'");
+BWC.convert = function(maptable, input) {
     input = BWC.pre_normalise(maptable.from, input);
     let res = [];
-    let errs = [];
     for (let i = 0; i < input.length; i++) {
-        let sym = input[i];
-        let sym2 = maptable.table[sym];
-        // console.log("sym", sym);
-        // console.log("sym2", sym2);
-        if (sym.length > 0 && (sym2 === undefined || sym2 === null)) {
-            if (BWC.isCommonChar(sym)) {
-                // console.log("/" + sym + "/ is a common char");
-                res.push(sym);
-            } else {
-                res.push(BWC.defaultChar);
-                let msg = "Invalid " + maptable.from + " input symbol '" + sym + "'";
-                errs.push(msg);
-            }
-        }
-        else {
+        let sym = input[i],
+            sym2 = maptable.table[sym];
+
+        if (sym.length > 0 && (sym2 === undefined || sym2 === null))
+            res.push(sym);
+        else
             res.push(sym2);
-        }
     }
 
-    let ok = (errs.length > 0);
     let mapped = res.join("");
     mapped = BWC.post_normalise(maptable.to, mapped);
 
-    if (errs.length == 0 && doReverseTest) {
-        let err = BWC.reverseTest(maptable.from, input, mapped);
-        if (err !== null) {
-            errs.push(err)
-        }
-    }
-    let r = new BWResult(mapped, errs, ok);
-    return r;
+    return new BWResult(mapped);
 };
 
 BWC.b2a = function(s) {
-    return BWC.convert(BWC.b2aMap, s, true);
+    return BWC.convert(BWC.b2aMap, s, true).output;
 };
 
 BWC.a2b = function(s) {
-    return BWC.convert(BWC.a2bMap, s, true);
+    return BWC.convert(BWC.a2bMap, s, true).output;
 };
 
 let cyr_to_latin = str => {
-
+    if (!str) return "";
     var ru = {
         'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
         'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i',
@@ -261,5 +194,5 @@ let cyr_to_latin = str => {
 };
 
 export default event => {
-    event.target.value = cyr_to_latin(BWC.b2a(event.target.value)) || "";
+    event.target.value = cyr_to_latin(BWC.a2b(event.target.value)) || "";
 };
