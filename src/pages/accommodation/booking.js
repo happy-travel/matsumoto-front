@@ -21,6 +21,7 @@ import { accommodationBookingValidator } from "components/form/validation";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
+import transliterate from "components/external/transliterate";
 
 const isPaymentAvailable = (balance, price) =>
    ( balance?.currency && (balance.balance >= balance.creditLimit) );
@@ -252,6 +253,7 @@ class AccommodationBookingPage extends React.Component {
                                                     <FieldText formik={formik}
                                                         id={`room.${r}.passengers.${index}.firstName`}
                                                         placeholder={t("Please enter first name")}
+                                                        onChange={transliterate}
                                                         clearable
                                                     />
                                                 </td>
@@ -259,6 +261,7 @@ class AccommodationBookingPage extends React.Component {
                                                     <FieldText formik={formik}
                                                         id={`room.${r}.passengers.${index}.lastName`}
                                                         placeholder={t("Please enter last name")}
+                                                        onChange={transliterate}
                                                         clearable
                                                     />
                                                 </td>
