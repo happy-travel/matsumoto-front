@@ -5,13 +5,13 @@ import { Formik } from "formik";
 import { Link } from 'react-router-dom';
 
 import { dateFormat, API } from "core";
-import {PERMISSIONS} from "core/enums";
-import { FieldText, FieldSwitch } from "components/form";
+import { PERMISSIONS } from "core/enums";
+import { FieldText } from "components/form";
 import Table from "components/table";
-import UsersPagesHeader from "components/usersPagesHeader";
-import {Loader} from "components/simple";
+import UsersPagesHeader from "components/users-pages-header";
+import { Loader } from "components/simple";
 
-import UsersStore from "stores/usersStore";
+import UsersStore from "stores/users-store";
 import AuthStore from "stores/auth-store";
 
 const columns = [

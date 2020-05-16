@@ -113,7 +113,7 @@ class AccountStatementPage extends React.Component {
                                                 <strong>{t("Created")}</strong>
                                                 {dateFormat.c(item.created)}
                                             </td>
-                                            <td>
+                                            <td style={{width: "70%"}}>
                                                 {item.eventData.referenceCode &&
                                                     <div>
                                                         <strong>{t("Reference Code")}</strong>

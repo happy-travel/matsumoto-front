@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
 import { withRouter } from "react-router";
 
-import {PERMISSIONS_LABELS, PERMISSIONS} from "core/enums";
+import { PERMISSIONS_LABELS, PERMISSIONS } from "core/enums";
 import {API} from "core";
 
 import Breadcrumbs from "components/breadcrumbs";
-import { FieldCheckbox, FieldSelect, FieldSwitch, FieldText } from "../../components/form";
-import UsersPagesHeader from "components/usersPagesHeader";
+import { FieldSwitch } from "components/form";
+import UsersPagesHeader from "components/users-pages-header";
 import { Loader } from "components/simple";
 
 import AuthStore from "stores/auth-store";
@@ -52,9 +52,12 @@ export default class AddNewUser extends React.Component {
     }
 
     submit = (values) => {
-        const {counterpartyId, agencyId, agentId} = this.props.match.params;
-        const url = API.AGENT_AGENCY_PERMISSIONS(counterpartyId, agentId, agencyId);
-        const body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
+        var { counterpartyId, agencyId, agentId } = this.props.match.params,
+            url = API.AGENT_AGENCY_PERMISSIONS(counterpartyId, agentId, agencyId),
+            body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
+
+        if (!body.length)
+            body = ["NONE"];
 
         API.put({
             url,

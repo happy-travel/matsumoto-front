@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { API } from "core";
 
-import UsersPagesHeader from "components/usersPagesHeader";
+import UsersPagesHeader from "components/users-pages-header";
 import { FieldText, FieldTextarea } from "components/form";
 import { Loader } from "components/simple";
 

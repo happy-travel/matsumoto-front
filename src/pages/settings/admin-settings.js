@@ -8,7 +8,7 @@ import { API } from "core";
 import { FieldText, FieldSelect, FieldSwitch } from "components/form";
 import Flag from "components/flag";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
-import UsersPagesHeader from "components/usersPagesHeader";
+import UsersPagesHeader from "components/users-pages-header";
 import { CancelButton } from "components/simple";
 
 import authStore from "stores/auth-store";

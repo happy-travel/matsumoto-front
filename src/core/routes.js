@@ -22,8 +22,8 @@ import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
-import usersManagement            from "pages/settings/usersManagement";
-import addNewUser                 from "pages/settings/addNewUser";
+import usersManagement            from "pages/settings/users-management";
+import addNewUser                 from "pages/settings/add-new-user";
 
 import AdminSettings              from "pages/settings/admin-settings";
 import CounterpartySettings       from "pages/settings/counterparty-settings";
