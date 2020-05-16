@@ -36,7 +36,7 @@ class FieldTextarea extends FieldText {
                         + ((formik?.errors[id] && formik?.touched[id]) ? ' error' : '')
                         + (disabled ? ' disabled' : '')}
                     >
-                        <div class="inner">
+                        { !disabled ? <div class="inner">
                             <textarea
                                 id={id}
                                 placeholder={ placeholder }
@@ -44,9 +44,8 @@ class FieldTextarea extends FieldText {
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
                                 onKeyUp={ this.onKeyUp }
-                                disabled={disabled}
                             />
-                        </div>
+                        </div> : formik?.values[id] }
                     </div>
                     {(formik?.errors[id]?.length && formik?.touched[id]) ?
                         <div class="error-holder">{formik.errors[id]}</div>

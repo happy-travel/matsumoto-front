@@ -26,7 +26,7 @@ import usersManagement            from "pages/settings/usersManagement";
 import addNewUser                 from "pages/settings/addNewUser";
 
 import AdminSettings              from "pages/settings/admin-settings";
-import CounterpartySettings       from "pages/settings/counterpartySettings";
+import CounterpartySettings       from "pages/settings/counterparty-settings";
 
 import contactUsPage              from "pages/common/contact";
 import termsPage                  from "pages/common/terms";

@@ -348,6 +348,9 @@ translations: {
     "AllInclusive": "All Inclusive",
     "Settings": "Settings",
     "Users management": "Users management",
-    "All Users": "All Users"
+    "All Users": "All Users",
+    "Not provided": "Not provided",
+    "Voucher personalisation": "Voucher personalisation",
+    "My account supervisor": "My account supervisor"
 }
 };
