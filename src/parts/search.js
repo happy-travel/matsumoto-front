@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, session, dateFormat, plural, decorate } from "core";
+import { API, session, dateFormat, plural } from "core";
 
 import { Redirect } from "react-router-dom";
 import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";

@@ -1,8 +1,9 @@
 import React from "react";
 import DateRangePicker from "react-daterange-picker";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 
 import UI from "stores/ui-store";
+import authStore from "stores/auth-store";
 
 const stateDefinitions = {
     available: {
@@ -43,7 +44,7 @@ class DateDropdown extends React.Component {
             <div class="date dropdown">
                 <DateRangePicker
                     className={"calendar-style"}
-                    firstOfWeek={"rtl" == window.localStorage.getItem('direction') ? 0 : 1}
+                    firstOfWeek={authStore.settings.weekStarts ? (authStore.settings.weekStarts % 7) : ("rtl" == window.localStorage.getItem('direction') ? 0 : 1)}
                     numberOfCalendars={2}
                     selectionType="range"
                     minimumDate={"dates" == connected ? new Date() : null}

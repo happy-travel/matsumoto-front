@@ -330,7 +330,7 @@ translations: {
     "out of": "out of",
     "available": "available",
     "No accommodations available": "No accommodations available",
-    "Account": "Account",
+    "Account balance": "Account balance",
     "Would you like an exclusive offer?": "Would you like an exclusive offer?",
     "Generate invitation link": "Generate invitation link",
     "Send this link as invite": "Send this link as invite",
@@ -351,6 +351,7 @@ translations: {
     "All Users": "All Users",
     "Not provided": "Not provided",
     "Voucher personalisation": "Voucher personalisation",
-    "My account supervisor": "My account supervisor"
+    "My account supervisor": "My account supervisor",
+    "Default": "Default"
 }
 };

@@ -59,7 +59,13 @@ class AdminSettings extends React.Component {
     render() {
         const { t } = useTranslation();
 
-        const {email, lastName, firstName, title, position} = authStore.user;
+        const {
+            email,
+            lastName,
+            firstName,
+            title,
+            position
+        } = authStore.user;
 
         return (<div>
             <UsersPagesHeader />
@@ -146,7 +152,7 @@ class AdminSettings extends React.Component {
                                         <div className="label"/>
                                         <div className="inner">
                                             <button type="submit" className="button button-controls">
-                                                {t("save changes")}
+                                                {t("Save changes")}
                                             </button>
                                         </div>
                                     </div>
@@ -177,17 +183,18 @@ class AdminSettings extends React.Component {
                                                  addClass={"personal-info__field"}
                                     />
                                     <FieldSelect formik={formik}
-                                                 id="weekStartOn"
-                                                 label={t("Week start on")}
-                                                 placeholder={t("Week start on")}
+                                                 id="weekStarts"
+                                                 label={t("Week starts on")}
+                                                 placeholder={t("Week starts on")}
                                                  options={[
-                                                     { value: "sn", text: "Sunday"},
-                                                     { value: "md", text: "Monday"},
-                                                     { value: "tu", text: "Tuesday"},
-                                                     { value: "wed", text: "Wednesday"},
-                                                     { value: "th", text: "Thursday"},
-                                                     { value: "fr", text: "Friday"},
-                                                     { value: "st", text: "Saturday"},
+                                                     { value: 0, text: "Default"},
+                                                     { value: 7, text: "Sunday"},
+                                                     { value: 1, text: "Monday"},
+                                                     { value: 2, text: "Tuesday"},
+                                                     { value: 3, text: "Wednesday"},
+                                                     { value: 4, text: "Thursday"},
+                                                     { value: 5, text: "Friday"},
+                                                     { value: 6, text: "Saturday"},
                                                  ]}
                                                  addClass={"personal-info__field"}
                                     />

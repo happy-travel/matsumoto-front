@@ -21,6 +21,7 @@ import { accommodationBookingValidator } from "components/form/validation";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
+import authStore from "stores/auth-store";
 import transliterate from "components/external/transliterate";
 
 const isPaymentAvailable = (balance, price) =>
@@ -389,7 +390,8 @@ class AccommodationBookingPage extends React.Component {
                                                 : () => {}}
                                         >
                                             <span class="icon icon-radio" />
-                                            {t("Account")}. {price(this.state.balance.currency, this.state.balance.balance)}
+                                            {t("Account balance")} {authStore.settings.availableCredit &&
+                                                <span>{"(" + price(this.state.balance.currency, this.state.balance.balance).trim() + ")"}</span>}
                                         </div>
                                         <div
                                             class={"item"

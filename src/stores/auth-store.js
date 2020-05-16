@@ -5,13 +5,8 @@ import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";
 
 const defaultUserSettings = {
-    "preferredLanguage": '',
-    "weekStartOn": '',
-    "availableCredit": false,
-    "nationality": '',
-    "nationalityName": '',
-    "residency": '',
-    "residencyName": '',
+    "weekStarts": 0,
+    "availableCredit": true,
 };
 
 class AuthStore {
