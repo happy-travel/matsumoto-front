@@ -6,7 +6,6 @@ import { API, dateFormat, price } from "core";
 import { Loader } from "components/simple";
 import { Formik } from "formik";
 
-import UI from "stores/ui-store";
 import AuthStore from "stores/auth-store";
 import store from "stores/accommodation-store";
 import { FieldText } from "components/form";
@@ -26,7 +25,7 @@ class AccountStatementPage extends React.Component {
     }
 
     getData() {
-        if (!UI.user?.counterparties?.length)
+        if (!AuthStore.user?.counterparties?.length)
             return;
         API.post({
             url: API.BILLING_HISTORY(AuthStore.activeCounterparty.id),

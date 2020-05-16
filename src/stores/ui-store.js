@@ -29,13 +29,6 @@ class UIStore {
     };
     @observable modal = null;
     @observable modalData = null;
-    @observable user = {
-        "email": null,
-        "lastName": null,
-        "firstName": null,
-        "title": null,
-        "position": null
-    };
     @observable advancedSearch = false;
 
     @observable formCache = {};
@@ -112,10 +105,6 @@ class UIStore {
     setModal(id) {
         this.modal = id || null;
         document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
-    }
-
-    setUser(value) {
-        this.user = value;
     }
 
     toggleAdvancedSearch(value) {

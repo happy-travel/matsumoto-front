@@ -27,12 +27,11 @@ class UserMenuDropdown extends React.Component {
             <div class="switcher user-switcher"
                  data-dropdown="close"
                  onClick={() => UI.setOpenDropdown(dropdownId)}>
-                <div class="hide">{JSON.stringify(AuthStore.user?.counterparties)}</div>
                 <div class="avatar">
                     <NoAvatar />
                 </div>
                 <div class="double">
-                    <div class="name" {...calcTitleFor(UI.user?.firstName + UI.user?.lastName)}>{UI.user?.firstName} {UI.user?.lastName}</div>
+                    <div class="name" {...calcTitleFor(AuthStore.user?.firstName + AuthStore.user?.lastName)}>{AuthStore.user?.firstName} {AuthStore.user?.lastName}</div>
                     <div class="company" {...calcTitleFor(AuthStore.activeCounterparty.name)}>{AuthStore.activeCounterparty.name}</div>
                 </div>
                 <div class="switch-arrow" />

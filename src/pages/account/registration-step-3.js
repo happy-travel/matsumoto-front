@@ -40,7 +40,7 @@ class RegistrationStep3 extends React.Component {
                     url: API.USER,
                     success: (result) => {
                         if (result?.email)
-                            UI.setUser(result);
+                            store.setUser(result);
                     }
                 });
                 store.setUserForm({});

@@ -47,7 +47,7 @@ class RegistrationStep2 extends React.Component {
                         url: API.USER,
                         success: (result) => {
                             if (result?.email)
-                                UI.setUser(result);
+                                store.setUser(result);
                         }
                     });
                     store.setCachedUserRegistered(true);
