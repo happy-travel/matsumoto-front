@@ -113,7 +113,6 @@ translations: {
     "Sort by": "التصنيف حسب",
     "From": "من ",
     "Location": "الموقع",
-    "Located in": "يقع في",
     "more...": "المزيد...",
     "Included Services": "الخدمات المشمولة",
     "Actions": "الإجراءات",

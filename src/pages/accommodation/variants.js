@@ -6,7 +6,6 @@ import { groupAndCount, MealPlan } from "components/simple";
 
 import { API, price, plural } from "core";
 import store from 'stores/accommodation-store';
-import UI, { MODALS } from "stores/ui-store";
 
 import AccommodationFilters from "parts/accommodation-filters";
 import Breadcrumbs from "components/breadcrumbs";
@@ -21,16 +20,6 @@ class AccommodationVariantsPage extends React.Component {
             redirectToRoomContractSetsPage: false,
             loading: false
         };
-        this.showDetailsModal = this.showDetailsModal.bind(this);
-    }
-
-    showDetailsModal(item) {
-        UI.setModal(MODALS.ACCOMMODATION_DETAILS);
-        UI.setModalData(null);
-        API.get({
-            url: API.ACCOMMODATION_DETAILS(item.accommodationDetails.id, item.source),
-            success: result => UI.setModalData(result)
-        });
     }
 
     accommodationSelect(accommodation) {
@@ -140,7 +129,7 @@ class AccommodationVariantsPage extends React.Component {
                         { item.accommodationDetails.picture.source && <div class="photo">
                             <img src={item.accommodationDetails.picture.source} alt="" />
                         </div> }
-                        <div class="title" onClick={() => this.showDetailsModal(item)} >
+                        <div class="title">
                             <h2>
                                 <u>{item.accommodationDetails.name}</u>
                                 <Stars count={item.accommodationDetails.rating} />
@@ -149,20 +138,18 @@ class AccommodationVariantsPage extends React.Component {
                                 {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.locality}<br/>
                                 {item.accommodationDetails.location.address}
                             </div>
+                            { /*
                             <div class="features">
                                 <span class="icon icon-info-big"/>
-                                { /* todo: <span class="icon icon-map" /> */ }
-                                { /* todo: <span class="button pink mini-label">{t("Preferred")}</span> */ }
+                                <span class="icon icon-map" />
+                                <span class="button pink mini-label">{t("Preferred")}</span>
                             </div>
+                            */ }
                         </div>
                         <div class="prices">
                             <div class="from">{t("From")}</div>
                             <div class="value">{price(item.roomContractSets?.[0]?.price.currency, item.fromPrice)}</div>
                         </div>
-                    </div>
-                    <div class="description">
-                        <span>{t("Located in")} {item.accommodationDetails.location.locality}, {item.accommodationDetails.location.country} {item.accommodationDetails.name}.{" "}
-                            {item.accommodationDetails.generalTextualDescription && item.accommodationDetails.generalTextualDescription.descriptions && item.accommodationDetails.generalTextualDescription.descriptions.en}</span>
                     </div>
                     <div class="table">
                         <div class="title">

@@ -129,7 +129,6 @@ translations: {
     "Accommodation in": "Accommodation in",
     "From": "From",
     "Location": "Location",
-    "Located in": "Located in",
     "more...": "more...",
     "Included Services": "Included Services",
     "Actions": "Actions",
