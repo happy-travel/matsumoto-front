@@ -1,50 +1,45 @@
 import React from "react";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 
 import { registrationUserValidator } from "components/form/validation";
 import { API } from "core";
 import { FieldText, FieldSelect, FieldSwitch } from "components/form";
+import Flag from "components/flag";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import UsersPagesHeader from "components/usersPagesHeader";
-import { Loader, CancelButton } from "components/simple";
+import { CancelButton } from "components/simple";
 
-import AuthStore from "stores/auth-store";
+import authStore from "stores/auth-store";
 import UI from "stores/ui-store";
 import View from "stores/view-store";
 
 @observer
 class AdminSettings extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         API.get({
             url: API.AGENT_SETTINGS,
             success: (result) => {
-                AuthStore.setUserSettings(result);
+                authStore.setSettings(result);
             }
         });
     }
 
     setCountryValue(country, formik, connected) {
         View.setCountries([]);
-        const additionalFields = {
-            'nationalityName': 'nationality',
-            'residencyName': 'residency',
-        };
         formik.setFieldValue(connected, country.name);
-        if (additionalFields[connected]) {
-            formik.setFieldValue(additionalFields[connected], country);
-        }
+        formik.setFieldValue(connected+"Code", country.code);
     };
 
     submitUserSettings(values) {
         API.put({
             url: API.AGENT_SETTINGS,
             body: values,
-            success: (result) => {
-            //    todo: make success
+            success: () => {
+                authStore.setSettings(values);
             },
             error: (error) => console.log(error)
         });
@@ -64,24 +59,7 @@ class AdminSettings extends React.Component {
     render() {
         const { t } = useTranslation();
 
-        const {email, lastName, firstName, title, position} = AuthStore.user;
-        const {
-            userSettings: {
-                preferredLanguage,
-                weekStartOn,
-                availableCredit,
-                nationality,
-                residency,
-                nationalityName,
-                residencyName,
-            },
-            isUserDataLoading,
-            isUserSettingsLoading
-        } = AuthStore;
-
-        if (isUserSettingsLoading || isUserDataLoading) {
-            return <Loader page />
-        }
+        const {email, lastName, firstName, title, position} = authStore.user;
 
         return (<div>
             <UsersPagesHeader />
@@ -181,15 +159,7 @@ class AdminSettings extends React.Component {
                 <h2 className="users-pages__title">{t('System Settings')}</h2>
 
                 <Formik
-                    initialValues={{
-                        "preferredLanguage": preferredLanguage,
-                        "weekStartOn": weekStartOn,
-                        "availableCredit": availableCredit,
-                        "nationality": nationality,
-                        "nationalityName": nationalityName,
-                        "residency": residency,
-                        "residencyName": residencyName,
-                    }}
+                    initialValues={authStore.settings}
                     enableReinitialize
                     onSubmit={this.submitUserSettings}
                     render={formik => (
@@ -280,32 +250,30 @@ class AdminSettings extends React.Component {
                                 {/*</div>*/}
                                 <div className="row">
                                     <FieldText formik={formik}
-                                               id="nationalityName"
-                                               // additionalFieldForValidation="nationalitySelected"
+                                               id="nationality"
                                                label={t("Nationality")}
                                                placeholder={t("Choose your nationality")}
                                                clearable
-                                               // Flag={<Flag code={store.search.request.nationality} />}
+                                               Flag={<Flag code={formik.values.nationalityCode} />}
                                                Dropdown={RegionDropdown}
                                                onChange={regionInputChanged}
                                                options={UI.countries}
                                                setValue={this.setCountryValue}
                                                addClass={"personal-info__field"}
-                                               // onClear={() => store.setSearchRequestField("nationality", '')}
+                                               onClear={() => formik.setFieldValue("nationalityCode", '')}
                                     />
                                     <FieldText formik={formik}
-                                               id="residencyName"
-                                               // additionalFieldForValidation="nationalitySelected"
+                                               id="residency"
                                                label={t("Residency")}
                                                placeholder={t("Choose your residency")}
                                                clearable
-                                               // Flag={<Flag code={store.search.request.nationality} />}
+                                               Flag={<Flag code={formik.values.residencyCode} />}
                                                Dropdown={RegionDropdown}
                                                onChange={regionInputChanged}
                                                options={UI.countries}
                                                setValue={this.setCountryValue}
                                                addClass={"personal-info__field"}
-                                               // onClear={() => store.setSearchRequestField("nationality", '')}
+                                               onClear={() => formik.setFieldValue("residencyCode", '')}
                                     />
                                     {/*<FieldSelect formik={formik}*/}
                                     {/*             id="preferredDateFormat"*/}
@@ -346,7 +314,7 @@ class AdminSettings extends React.Component {
                                         <div className="label"/>
                                         <div className="inner">
                                             <button type="submit" className="button button-controls">
-                                                {t("save changes")}
+                                                {t("Save changes")}
                                             </button>
                                         </div>
                                     </div>

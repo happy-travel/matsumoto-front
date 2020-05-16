@@ -1,4 +1,4 @@
-import { autorun, set, toJS } from "mobx";
+import { autorun, set } from "mobx";
 import { session } from "../storage";
 import settings from "settings";
 

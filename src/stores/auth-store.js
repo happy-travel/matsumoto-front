@@ -30,8 +30,7 @@ class AuthStore {
 
     @observable isUserDataLoading = true;
 
-    @observable userSettings = defaultUserSettings;
-    @observable isUserSettingsLoading = true;
+    @observable settings = defaultUserSettings;
 
     @observable userCache = null;
     @observable cachedUserRegistered = false;
@@ -91,10 +90,8 @@ class AuthStore {
         this.cachedUserRegistered = value;
     }
 
-    @action.bound
-    setUserSettings(result) {
-        this.userSettings = result || defaultUserSettings;
-        this.isUserSettingsLoading = false;
+    setSettings(value) {
+        this.settings = value;
     }
 }
 

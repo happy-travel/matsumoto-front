@@ -26,7 +26,7 @@ class CachedForm extends React.Component {
             isValid = false;
 
         if (!cached)
-            return initialValues;
+            return valuesOverwrite(initialValues);
 
         if (cacheValidator) {
             try {

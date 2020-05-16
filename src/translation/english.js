@@ -346,6 +346,9 @@ translations: {
     "BedAndBreakfast": "Bed And Breakfast",
     "HalfBoard": "Half Board",
     "FullBoard": "Full Board",
-    "AllInclusive": "All Inclusive"
+    "AllInclusive": "All Inclusive",
+    "Settings": "Settings",
+    "Users management": "Users management",
+    "All Users": "All Users"
 }
 };

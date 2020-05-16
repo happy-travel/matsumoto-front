@@ -172,7 +172,7 @@ class AccommodationBookingPage extends React.Component {
                     {variant?.roomContracts?.map((rc,i) => (
                         (rc.roomPrices?.[0].netTotal !== undefined) ?
                         <Dual addClass={ rc.roomPrices.length > 1 ? "column" : "" }
-                            a={t("Room Cost") + " " + (variant?.roomContracts?.length > 1 ? (i+1) : '')}
+                            a={t("Room Cost") + (variant?.roomContracts?.length > 1 ? (" " + (i+1)) : '')}
                             b={ <RoomPrices t={t} prices={variant.roomContracts[i].roomPrices} /> }
                         /> : null
                     ))}
