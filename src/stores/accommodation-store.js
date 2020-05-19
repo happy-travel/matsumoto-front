@@ -1,6 +1,5 @@
 import React from "react";
 import { observable, computed } from "mobx";
-import { session } from "core";
 import autosave from "core/misc/autosave";
 import { createFilters, applyFilters } from "./utils/accommodation-filtering";
 

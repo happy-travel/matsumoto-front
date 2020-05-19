@@ -12,16 +12,14 @@ import { FieldSwitch } from "components/form";
 import UsersPagesHeader from "components/users-pages-header";
 import { Loader } from "components/simple";
 
-import AuthStore from "stores/auth-store";
-
 @withRouter
 @observer
 export default class AddNewUser extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            inCounterpartyPermissions: [],
+            inAgencyPermissions: [],
             loadingCounterpartyInfo: true,
             permissionsList: [],
             loadingPermissions: true,
@@ -30,30 +28,28 @@ export default class AddNewUser extends React.Component {
 
     componentDidMount() {
         if (this.props.match?.params) {
-            this.getData();
+            const { agencyId, agentId } = this.props.match.params;
+
+            API.get({
+                url: API.AGENCY_AGENT(agencyId, agentId),
+                success: result => this.setState({
+                    inAgencyPermissions: result.inAgencyPermissions || [],
+                    loadingCounterpartyInfo: console.log(result) || false
+                })
+            });
+            API.get({
+                url: API.ALL_PERMISSIONS,
+                success: result => this.setState({
+                    permissionsList: result,
+                    loadingPermissions: false
+                })
+            });
         }
     }
 
-    async getData() {
-        const {counterpartyId, agencyId, agentId} = this.props.match.params;
-        const {inCounterpartyPermissions} = AuthStore.activeCounterparty;
-        const url = inCounterpartyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_AGENCY) ?
-          API.COUNTERPARTY_AGENCY_AGENT(counterpartyId, agencyId, agentId) :
-          API.COUNTERPARTY_AGENT(counterpartyId, agentId);
-        await Promise.all([API.get({
-            url,
-            success: (result) => this.setState({inCounterpartyPermissions: result.inCounterpartyPermissions || [], loadingCounterpartyInfo: false}),
-        }),
-            API.get({
-                url: API.ALL_PERMISSIONS,
-                success: (result) => this.setState({permissionsList: result, loadingPermissions: false}),
-            })
-        ]);
-    }
-
     submit = (values) => {
-        var { counterpartyId, agencyId, agentId } = this.props.match.params,
-            url = API.AGENT_AGENCY_PERMISSIONS(counterpartyId, agentId, agencyId),
+        var { agencyId, agentId } = this.props.match.params,
+            url = API.AGENT_PERMISSIONS(agentId, agencyId),
             body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
 
         if (!body.length)
@@ -68,7 +64,7 @@ export default class AddNewUser extends React.Component {
 
     render() {
         const { t } = useTranslation();
-        const {inCounterpartyPermissions, loadingCounterpartyInfo, loadingPermissions, permissionsList} = this.state;
+        const {inAgencyPermissions, loadingCounterpartyInfo, loadingPermissions, permissionsList} = this.state;
         if (loadingCounterpartyInfo || loadingPermissions) {
             return <Loader page />
         }
@@ -124,11 +120,10 @@ export default class AddNewUser extends React.Component {
 
             <div>
                 {/*<h2>{t('Personal information')}</h2>*/}
-
                 <Formik
                     onSubmit={this.submit}
                     initialValues={{
-                        ...permissionsList.reduce((obj, key) => ({...obj, [key]: inCounterpartyPermissions.includes(key)}), {})
+                        ...permissionsList.reduce((obj, key) => ({...obj, [key]: inAgencyPermissions.includes(key)}), {})
                     }}
                     enableReinitialize
                     render={formik => (

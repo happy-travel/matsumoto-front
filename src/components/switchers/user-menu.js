@@ -39,11 +39,11 @@ class UserMenuDropdown extends React.Component {
                     <Link to="/user/booking" class="item">
                         {t("Booking management")}
                     </Link>
-                    { (AuthStore.activeCounterparty.inCounterpartyPermissions?.indexOf("ViewCounterpartyAllPaymentHistory") != -1) &&
+                    { (AuthStore.activeCounterparty.inAgencyPermissions?.indexOf("ViewCounterpartyAllPaymentHistory") != -1) &&
                         <Link to="/user/payment-history" class="item">
                             {t("Account statement")}
                         </Link> }
-                    { (AuthStore.activeCounterparty.inCounterpartyPermissions?.indexOf("AgentInvitation") != -1) &&
+                    { (AuthStore.activeCounterparty.inAgencyPermissions?.indexOf("AgentInvitation") != -1) &&
                         <Link to="/user/invite" class="item">
                             {t("Send invitation")}
                         </Link> }

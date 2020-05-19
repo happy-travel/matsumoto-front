@@ -79,20 +79,16 @@ API_METHODS = {
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
     },
 
-    COUNTERPARTY_AGENCY_AGENTS : (counterpartyId, agencyId) =>
-                           v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents`,
-    COUNTERPARTY_AGENTS        : (counterpartyId) =>
-                           v1 + `/counterparties/${counterpartyId}/agents`,
-    COUNTERPARTY_AGENCY_AGENT  : (counterpartyId, agencyId, agentId) =>
-                           v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents/${agentId}`,
-    COUNTERPARTY_AGENT         : (counterpartyId, agentId) =>
-                           v1 + `/counterparties/${counterpartyId}/agents/${agentId}`,
-    COUNTERPARTY_INFO             : counterpartyId =>
+    AGENCY_AGENTS        : agencyId =>
+                           v1 + `/agencies/${agencyId}/agents`,
+    AGENCY_AGENT         : (agencyId, agentId) =>
+                           v1 + `/agencies/${agencyId}/agents/${agentId}`,
+    COUNTERPARTY_INFO    : counterpartyId =>
                            v1 + `/counterparties/${counterpartyId}`,
     AGENT_SETTINGS       : v1 + `/agents/settings/application`,
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
-    AGENT_AGENCY_PERMISSIONS : (counterpartyId, agentId, agencyId) =>
-                           v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents/${agentId}/permissions`,
+    AGENT_PERMISSIONS    : (agentId, agencyId) =>
+                           v1 + `/agencies/${agencyId}/agents/${agentId}/permissions`,
 };
 
 

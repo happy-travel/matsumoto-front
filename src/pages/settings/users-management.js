@@ -5,7 +5,6 @@ import { Formik } from "formik";
 import { Link } from 'react-router-dom';
 
 import { dateFormat, API } from "core";
-import { PERMISSIONS } from "core/enums";
 import { FieldText } from "components/form";
 import Table from "components/table";
 import UsersPagesHeader from "components/users-pages-header";
@@ -37,12 +36,10 @@ const columns = [
         Header: 'Actions',
         accessor: 'agentId',
         Cell: (item) => {
-            const {inCounterpartyPermissions, id, agencyId} = AuthStore.activeCounterparty;
-            if (inCounterpartyPermissions?.length > 0) {
-                const url = `/settings/users/${item.cell.value}/${id}/${agencyId}`;
-                return <Link to={url}><span className={`icon icon-action-pen-orange`}/></Link>
-            }
-            return '';
+            const { id, agencyId } = AuthStore.activeCounterparty;
+            return <Link
+                to={`/settings/users/${item.cell.value}/${id}/${agencyId}`}
+            ><span className={`icon icon-action-pen-orange`}/></Link>;
         }
     },
 ];
@@ -55,17 +52,12 @@ class UsersManagement extends React.Component {
 
     getUsersCounterparty() {
         if (AuthStore.activeCounterparty) {
-            const {id, agencyId, inCounterpartyPermissions} = AuthStore.activeCounterparty;
-            if (inCounterpartyPermissions?.length > 0) {
-                const url = inCounterpartyPermissions?.includes(PERMISSIONS.PERMISSION_MANAGEMENT_IN_AGENCY) ?
-                    API.COUNTERPARTY_AGENCY_AGENTS(id, agencyId) :
-                    API.COUNTERPARTY_AGENTS(id);
-                API.get({
-                    url,
-                    success: (result) =>
-                        UsersStore.setCounterpartyUsers(result)
-                });
-            }
+            const { agencyId } = AuthStore.activeCounterparty;
+            API.get({
+                url: API.AGENCY_AGENTS(agencyId),
+                success: (result) =>
+                    UsersStore.setCounterpartyUsers(result)
+            });
         }
     }
 
@@ -75,7 +67,7 @@ class UsersManagement extends React.Component {
 
     render() {
         const { t } = useTranslation();
-        const {usersCounterparty, usersCounterpartyIsLoading, usersTablePageInfo, usersCounterpartyCount} = UsersStore;
+        const { usersCounterparty, usersCounterpartyIsLoading, usersTablePageInfo, usersCounterpartyCount } = UsersStore;
 
         return (<div>
             <UsersPagesHeader />
