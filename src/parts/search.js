@@ -96,16 +96,44 @@ class AccommodationSearch extends React.Component {
 
         store.setSearchIsLoading(true);
         API.post({
-            url: API.A_SEARCH_STEP_ONE,
+            url: API.A_SEARCH_ONE_CREATE,
             body: body,
             success: (result) => {
-                store.setSearchResult(result);
-                UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm);
+                var requestID = result,
+                    status = "Unknown";
+
+                const getter = (deep) => {
+                    if (deep >= 180 && "Ready" != status) {
+                        store.setSearchIsLoading(false);
+                        return;
+                    }
+                    setTimeout(() => API.get({
+                        url: API.A_SEARCH_ONE_CHECK(requestID),
+                        success: (data) => {
+                            status = data.taskState;
+                            if ("Running" == status)
+                                getter(deep+1);
+                            if ("Ready" == status)
+                                API.get({
+                                    url: API.A_SEARCH_ONE_RESULT(requestID),
+                                    success: (result) => {
+                                        store.setSearchResult(result);
+                                        UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm);
+                                    },
+                                    after: () => {
+                                        store.setSearchIsLoading(false);
+                                    }
+                                });
+                        },
+                        error: () => {
+                            store.setSearchIsLoading(false);
+                        }
+                    }), 1000);
+                };
+                getter();
+
             },
             error: () => {
-                store.setSearchResult([]);
-            },
-            after: () => {
                 store.setSearchIsLoading(false);
             }
         });
