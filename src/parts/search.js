@@ -102,6 +102,20 @@ class AccommodationSearch extends React.Component {
                 var requestID = result,
                     status = "Unknown";
 
+                const loader = (length) => {
+                    if (length && (store.search?.result?.length != length)) //todo: prevent multithread loader
+                        API.get({
+                            url: API.A_SEARCH_ONE_RESULT(requestID),
+                            success: (result) => {
+                                store.setSearchResult(result);
+                                UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm);
+                            },
+                            after: () => {
+                                store.setSearchIsLoading(false);
+                            }
+                        });
+                };
+
                 const getter = (deep) => {
                     if (deep >= 180 && "Ready" != status) {
                         store.setSearchIsLoading(false);
@@ -109,21 +123,18 @@ class AccommodationSearch extends React.Component {
                     }
                     setTimeout(() => API.get({
                         url: API.A_SEARCH_ONE_CHECK(requestID),
-                        success: (data) => {
+                        success: data => {
                             status = data.taskState;
+                            if ("Pending" == status)
+                                getter(deep+1);
                             if ("Running" == status)
                                 getter(deep+1);
-                            if ("Ready" == status)
-                                API.get({
-                                    url: API.A_SEARCH_ONE_RESULT(requestID),
-                                    success: (result) => {
-                                        store.setSearchResult(result);
-                                        UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm);
-                                    },
-                                    after: () => {
-                                        store.setSearchIsLoading(false);
-                                    }
-                                });
+                            if ("PartiallyCompleted" == status) {
+                                loader(data.resultCount);
+                                getter(deep + 1);
+                            }
+                            if ("Completed" == status)
+                                loader(data.resultCount);
                         },
                         error: () => {
                             store.setSearchIsLoading(false);

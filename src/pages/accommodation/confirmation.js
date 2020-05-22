@@ -223,17 +223,15 @@ render() {
                                         ))}
                                     />}
                             </div>
-                            <div class="part no-icon">
-                                { room?.remarks?.map(item => (
+                            {!!room?.remarks?.length && <div class="part no-icon remarks">
+                                { room.remarks.map(item => (
                                     <div>
-                                        {item.key}: {item.value}
+                                        <b>{item.key}:</b> {item.value}
                                     </div>
                                 ))}
-                            </div>
+                            </div> }
                         </React.Fragment>
                     ))}
-
-
 
                     <div class="actions">
                         <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>

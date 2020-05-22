@@ -1,9 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
 @observer
 class PaymentInformation extends React.Component {
     render() {
+        var { t } = useTranslation();
+
         var {
             params_error,
             params,
