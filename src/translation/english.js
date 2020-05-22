@@ -352,6 +352,8 @@ translations: {
     "Not provided": "Not provided",
     "Voucher personalisation": "Voucher personalisation",
     "My account supervisor": "My account supervisor",
-    "Default": "Default"
+    "Default": "Default",
+    "Contact": "Contact",
+    "Room Details": "Room Details"
 }
 };

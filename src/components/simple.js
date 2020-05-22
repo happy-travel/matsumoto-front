@@ -120,6 +120,12 @@ export const PassengersCount = ({ t, adults, children, separator }) => {
         </React.Fragment>;
 };
 
+export const PassengerName = ({ passenger }) => (
+    passenger ? <React.Fragment>{
+        passenger.title + ". " + passenger.firstName + " " + passenger.lastName
+    }</React.Fragment> : null
+);
+
 export const RoomPrices = ({ t, prices }) => {
     if (!(prices && prices.length))
         return null;

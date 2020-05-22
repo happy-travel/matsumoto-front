@@ -87,7 +87,7 @@ class UserInvitePage extends React.Component {
 <div class="confirmation management block">
     <section class="double-sections">
         <div class="middle-section">
-            <h2 class="payment-title">
+            <h2 class="underline">
                 {t("Invite a user to your company")}
             </h2>
             { this.state.success === null &&

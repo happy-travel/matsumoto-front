@@ -8,6 +8,11 @@
         font-size: 20px
         line-height: 24px
         margin: 45px 0 37px
+        &.underline
+            padding: 0 0 25px
+            margin-bottom: 33px
+            margin-top: 0
+            border-bottom: 1px solid $color-usual-gray
         &.payment-title
             margin-bottom: 15px
 
@@ -67,16 +72,16 @@
                 color: $color-text-light
 
     .actions
-        margin-top: 40px
-        text-align: right
+        margin-top: 90px
         .icon
             width: 24px
             height: 24px
             margin-left: 24px
         .button
-            margin-left: 20px
-            padding-left: 45px
-            padding-right: 45px
+            margin-right: 20px
+            padding: 0 20px
+            line-height: 38px
+            height: 38px
         .left
             display: flex
             flex-direction: column
@@ -84,26 +89,75 @@
             .button
                 margin-left: 0
                 margin-bottom: 6px
-            
-    .dual
-        .first
-            margin-right: 6px
-        .first, .second
+
+    &.nova
+        h2
+            margin-top: 10px
+        .line
+            display: flex
+            flex-direction: row
+            justify-content: space-between
             flex-grow: 1
-            flex-basis: 0
-        &.line
-            border: 1px solid $color-usual-gray
-            border-radius: 4px
-            margin-bottom: 6px
-            text-align: left
+        .part
+            display: flex
+            flex-direction: row
+            margin-bottom: 30px
+            &.no-icon
+                padding-left: 74px
+                margin-top: -15px
+            .dual
+                padding: 2px 45px 18px 0
+                flex-direction: column
+                justify-content: flex-start
+                &.grow
+                    flex-basis: 218%
+                .first
+                    font-size: 13px
+                    line-height: 16px
+                    margin-bottom: 3px
+                    color: $color-dark-gray
+                .second
+                    font-size: 15px
+                    line-height: 26px
+                    text-align: left
+        .icon-holder
+            margin-right: 28px
+            width: 46px
+            height: 46px
+            &.circle
+                color: #FBAA1C
+                border: 1px solid
+                border-radius: 46px
+                text-align: center
+                line-height: 44px
+                font-size: 24px
+                .icon
+                    position: relative
+                    top: -3px
+
+
+    .editor /* legacy */
+        .dual
             .first
-                flex-grow: 0
-                margin: 0
-                background: #F5F9FA
-                width: 194px
-                flex-basis: 194px
-            .second
+                margin-right: 6px
+            .first, .second
+                flex-grow: 1
+                flex-basis: 0
+            &.line
+                border: 1px solid $color-usual-gray
+                border-radius: 4px
+                margin-bottom: 6px
                 text-align: left
-                border-left: 1px solid $color-usual-gray
-            div
-                padding: 15px
+                .first
+                    flex-grow: 0
+                    margin: 0
+                    background: #F5F9FA
+                    width: 194px
+                    flex-basis: 194px
+                .second
+                    text-align: left
+                    border-left: 1px solid $color-usual-gray
+                div
+                    padding: 15px
+
+
