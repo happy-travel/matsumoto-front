@@ -53,11 +53,11 @@ API_METHODS = {
 
     ACCOMMODATION_DETAILS : (accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}`,
-    A_SEARCH_ONE_CREATE   : v1 + "/availabilities/accommodations/async",
+    A_SEARCH_ONE_CREATE   : v1 + "/availabilities/accommodations/searches",
     A_SEARCH_ONE_CHECK    : searchId =>
-                            v1 + `/availabilities/accommodations/async/${searchId}/state`,
+                            v1 + `/availabilities/accommodations/searches/${searchId}/state`,
     A_SEARCH_ONE_RESULT   : searchId =>
-                            v1 + `/availabilities/accommodations/async/${searchId}`,
+                            v1 + `/availabilities/accommodations/searches/${searchId}`,
     A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
                             v1 + `/${source}/accommodations/${accommodationId}/availabilities/${availabilityId}`,
     A_SEARCH_STEP_THREE   : (availabilityId, roomContractSetId, source) =>
