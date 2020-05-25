@@ -46,7 +46,7 @@ class UserInvitePage extends React.Component {
             url: values.send ? API.USER_INVITE_SEND : API.USER_INVITE_GET_LINK,
             body: {
                 email: values.email,
-                agencyId: AuthStore.activeCounterparty.id,
+                agencyId: AuthStore.activeCounterparty.agencyId,
                 registrationInfo: {
                     firstName: values.firstName,
                     lastName: values.lastName,
