@@ -156,7 +156,7 @@ render() {
                             <Dual
                                   a={t("Your Booking")}
                                   b={
-                                      plural(t, "?", "Night") + ", " +
+                                      plural(t, booking.numberOfNights, "Night") + ", " +
                                       plural(t, booking.roomDetails.length, "Room")
                                   }
                             />
