@@ -132,18 +132,18 @@ render() {
                                 a={t("Address")}
                                 b={ booking.location.address }
                             />
-                            { /* todo: <Dual
+                            { !!booking.сontactInfo?.phone && <Dual
                                 a={t("Contact")}
-                                b={ "phone" }
-                            /> */ }
+                                b={ booking.contactInfo.phone }
+                            /> }
                             <Dual
                                   a={t("Service Location")}
                                   b={ booking.location.country + ", " + booking.location.locality }
                             />
-                            { /* todo: <Dual
+                            { !!booking.agentReference && <Dual
                                 a={t("Agent Reference")}
-                                b={""}
-                            /> */ }
+                                b={booking.agentReference}
+                            /> }
                         </div>
                     </div>
 
