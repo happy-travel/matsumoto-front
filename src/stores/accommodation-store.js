@@ -13,7 +13,9 @@ class AccommodationStore {
     search = {
         loading: false,
         request: null,
-        result: null
+        result: null,
+        length: 0,
+        requestId: null
     };
 
     @observable
@@ -59,27 +61,41 @@ class AccommodationStore {
         return applyFilters(this.search?.result?.results, this.selectedFilters) || [];
     }
 
-    setSearchResult(value) {
-        if (value?.results)
-            for (var i=0; i < value.results.length; i++) {
+    setSearchResult(value, nonZeroPage) {
+        if (value?.results) {
+            for (var i = 0; i < value.results.length; i++) {
                 var source = value.results[i].source;
                 value.results[i] = value.results[i].data;
                 value.results[i].source = source;
             }
-
-        this.search.result = value;
-
-        if (this.search.result?.results?.length) {
-            this.search.result.results.forEach(item => {
-                item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
-            });
+            if (value.results?.length) {
+                value.results.forEach(item => {
+                    item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
+                });
+            }
+            if (nonZeroPage)
+                this.search.result.results.push(...value.results);
+            else
+                this.search.result = value;
+        } else {
+            this.search.length = 0;
+            this.search.result = [];
         }
 
         this.filters = createFilters(this.search.result);
+
         this.selectedFilters = null;
         this.booking.request = null;
         this.booking.result = {};
         this.paymentResult = {};
+    }
+
+    setSearchResultLength(length) {
+        this.search.length = length;
+    }
+
+    setSearchRequestId(requestId) {
+        this.search.requestId = requestId;
     }
 
     setSelectedFilters(filters) {

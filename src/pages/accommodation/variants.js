@@ -4,6 +4,8 @@ import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import { groupAndCount, MealPlan } from "components/simple";
 
+import InfiniteScroll from "react-infinite-scroll-component";
+
 import { API, price, plural } from "core";
 import store from 'stores/accommodation-store';
 
@@ -12,14 +14,18 @@ import Breadcrumbs from "components/breadcrumbs";
 import { Stars, Loader, PassengersCount } from "components/simple";
 import Deadline from "components/deadline";
 
+import { loadCurrentSearch } from "parts/accommodation-search-common-logic";
+
 @observer
 class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             redirectToRoomContractSetsPage: false,
-            loading: false
+            loading: false,
+            page: 0
         };
+        this.loadNextPage = this.loadNextPage.bind(this);
     }
 
     accommodationSelect(accommodation) {
@@ -46,6 +52,13 @@ class AccommodationVariantsPage extends React.Component {
         });
     }
 
+    loadNextPage() {
+        this.setState({
+            page: this.state.page+1
+        });
+        loadCurrentSearch(this.state.page);
+    }
+
     render() {
         const { t } = useTranslation();
 
@@ -68,10 +81,10 @@ class AccommodationVariantsPage extends React.Component {
                             {t("Results for")}: <b>{ store?.search?.request?.destination }</b>
 
                             {!!store.hotelArray.length &&
-                                <span>&nbsp;({store.hotelArray.length}&nbsp;
+                                <span>&nbsp;({store.hotelArray.length}
                                     { !!store.search.result?.numberOfProcessedResults && <React.Fragment>
-                                        {t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")})
-                                    </React.Fragment> }
+                                        &nbsp;{t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")}
+                                    </React.Fragment> })
                                 </span>
                             }
                         </h3>
@@ -123,6 +136,12 @@ class AccommodationVariantsPage extends React.Component {
 
                 { this.state.loading && <Loader page /> }
 
+                <InfiniteScroll
+                    dataLength={store.hotelArray.length}
+                    next={this.loadNextPage}
+                    hasMore={true}
+                    loader={<Loader />}
+                >
                 { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
                     <div class="summary">
@@ -204,6 +223,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>) }
                     </div>
                 </div>) }
+                </InfiniteScroll>
             </div>
         </section> }
     </div>

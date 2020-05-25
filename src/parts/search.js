@@ -20,6 +20,8 @@ import { accommodationSearchValidator } from "components/form/validation";
 import { Stars } from "components/simple";
 import moment from "moment";
 
+import { loadCurrentSearch } from "./accommodation-search-common-logic";
+
 const sum = (values, field) => {
     var result = 0;
     for (var i = 0; i < values.roomDetails.length; i++) {
@@ -98,22 +100,15 @@ class AccommodationSearch extends React.Component {
         API.post({
             url: API.A_SEARCH_ONE_CREATE,
             body: body,
-            success: (result) => {
-                var requestID = result,
-                    status = "Unknown";
+            success: result => {
+                var status = "Unknown";
+                store.setSearchRequestId(result);
 
-                const loader = (length) => {
-                    if (length && (store.search?.result?.length != length)) //todo: prevent multithread loader
-                        API.get({
-                            url: API.A_SEARCH_ONE_RESULT(requestID),
-                            success: (result) => {
-                                store.setSearchResult(result);
-                                UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm);
-                            },
-                            after: () => {
-                                store.setSearchIsLoading(false);
-                            }
-                        });
+                const loader = (data) => {
+                    if (data.resultCount && (store.search?.length != data.resultCount)) {
+                        store.setSearchResultLength(data.resultCount);
+                        loadCurrentSearch(0);
+                    }
                 };
 
                 const getter = (deep) => {
@@ -122,19 +117,13 @@ class AccommodationSearch extends React.Component {
                         return;
                     }
                     setTimeout(() => API.get({
-                        url: API.A_SEARCH_ONE_CHECK(requestID),
+                        url: API.A_SEARCH_ONE_CHECK(store.search.requestId),
                         success: data => {
                             status = data.taskState;
-                            if ("Pending" == status)
+                            if ("PartiallyCompleted" == status || "Completed" == status)
+                                loader(data);
+                            if ("Pending" == status || "Running" == status || "PartiallyCompleted" == status)
                                 getter(deep+1);
-                            if ("Running" == status)
-                                getter(deep+1);
-                            if ("PartiallyCompleted" == status) {
-                                loader(data.resultCount);
-                                getter(deep + 1);
-                            }
-                            if ("Completed" == status)
-                                loader(data.resultCount);
                         },
                         error: () => {
                             store.setSearchIsLoading(false);
