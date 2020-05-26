@@ -1,8 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
-import LocaleSwitcher from "components/switchers/locale";
-import CurrencySwitcher from "components/switchers/currency";
 import UserMenu from "components/switchers/user-menu";
 import authStore from "stores/auth-store";
 
@@ -17,14 +15,7 @@ const Header = () => {
                 </div>
                 <nav>
                     { !!authStore.userCache?.access_token && <li><Link class="selected" to="/">{t("Accommodations")}</Link></li> }
-                    { /*
-                    <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Transfers')}</a></li>
-                    <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Tours')}</a></li>
-                    <li><a href="#" onClick={(e)=>e.preventDefault()}>{t('Visa')}</a></li>
-                    */ }
                 </nav>
-                <LocaleSwitcher />
-                { !!authStore.userCache?.access_token && <CurrencySwitcher /> }
                 { !!authStore.userCache?.access_token && <UserMenu /> }
             </section>
         </header>

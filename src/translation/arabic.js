@@ -11,7 +11,6 @@ translations: {
     "Email": "البريد الإلكتروني",
     "Phone": "الهاتف",
     "Address": "العنوان",
-    "footer_address_line_1": "HappyTravelDotCom Travel and Tourism LLC,",
     "footer_address_line_2": "B106, Saraya Avenue building,",
     "footer_address_line_3": "Garhoud, Deira",
     "footer_address_line_4": "P.O. Box 36366",

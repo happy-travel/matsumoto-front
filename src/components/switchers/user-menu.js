@@ -34,7 +34,6 @@ class UserMenuDropdown extends React.Component {
                     <div class="name" {...calcTitleFor(AuthStore.user?.firstName + AuthStore.user?.lastName)}>{AuthStore.user?.firstName} {AuthStore.user?.lastName}</div>
                     <div class="company" {...calcTitleFor(AuthStore.activeCounterparty.name)}>{AuthStore.activeCounterparty.name}</div>
                 </div>
-                <div class="switch-arrow" />
                 {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
                     <Link to="/user/booking" class="item">
                         {t("Booking management")}

@@ -3,7 +3,10 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import settings from "settings";
 import UI from "stores/ui-store";
-import {observer} from "mobx-react";
+import { observer } from "mobx-react";
+import LocaleSwitcher from "components/switchers/locale";
+import CurrencySwitcher from "components/switchers/currency";
+import authStore from "stores/auth-store";
 
 @observer
 class Footer extends React.Component {
@@ -29,19 +32,12 @@ render() {
                     <div class="links">
                         <menu class="primary">
                             <li><Link to="/">{t("Accommodations")}</Link></li>
-                            { /* todo:
-                            <li><a href="#">{t("Transfers")}</a></li>
-                            <li><a href="#">{t("Tours")}</a></li>
-                            <li><a href="#">{t("Visas")}</a></li>
-                            <li><a href="#">{t("About")}</a></li>
-                            <li><a href="#">{t("FAQ")}</a></li>
-                            */ }
+                            <li><Link to="/contact">{t("Contact Us")}</Link></li>
+                            <li><Link to="/about">{t("About Us")}</Link></li>
                         </menu>
                         <menu class="secondary">
                             <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
                             <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
-                            <li><Link to="/contact">{t("Contact Us")}</Link></li>
-                            <li><Link to="/about">{t("About Us")}</Link></li>
                         </menu>
                         <div class="payments">
                             <img src="/images/other/visa.png" />
@@ -55,19 +51,27 @@ render() {
                             API – {UI.currentAPIVersion || 0}
                         </div>
                     </div>
+                    <div class="switchers">
+
+                        <LocaleSwitcher />
+                        { !!authStore.userCache?.access_token && <CurrencySwitcher /> }
+                    </div>
                     <div class="contact">
                         <h3>{t("Contact Us")}</h3>
                         <div><span>{t("Email")}:</span> <a href="mailto:info@happytravel.com">info@happytravel.com</a></div>
                         <div><span>{t("Phone")}:</span> +971-4-2999080</div>
                         <div>
-                            <span>{t("Address")}:</span> {t("footer_address_line_1")}<br/>
+                            <span>{t("Address")}:</span> HappyTravelDotCom<br/> Travel and Tourism LLC,<br/>
                             {t("footer_address_line_2")}<br/>
                             {t("footer_address_line_3")}<br/>
                             {t("footer_address_line_4")}<br/>
                             {t("footer_address_line_5")}
                         </div>
                         <div class="license">
-                            <span>TRN:</span>  100497287100003 <span class="second">IATA: </span> 96-0 4653
+                            <span>TRN:</span> 100497287100003
+                        </div>
+                        <div class="license">
+                            <span>IATA: </span> 96-0 4653
                         </div>
                         <div class="license">
                             <span>Trade License: </span> 828719
