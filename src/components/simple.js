@@ -83,15 +83,24 @@ export const Header = () => (
     </header>
 );
 
-export const groupAndCount = arr => {
+export const GroupRoomTypesAndCount = ({ t, contracts, solo }) => {
     const count = {},
           result = [];
-    for (let i = 0; i < arr.length; i++) {
-        if(count.hasOwnProperty(arr[i].type))
-            count[arr[i].type]++;
+    for (let i = 0; i < contracts.length; i++) {
+        var description = contracts[i].contractDescription;
+        if ("NotSpecified" != contracts[i].type)
+            description = t(contracts[i].type) + (description ? (": " + description) : "");
+        if (!description)
+            description = t("Room");
+        if (count.hasOwnProperty(description))
+            count[description]++;
         else
-            count[arr[i].type] = 1;
+            count[description] = 1;
     }
+
+    if (solo)
+        for (let item in count)
+            return item;
 
     for (let item in count)
         result.push(count[item] + " x " + item);

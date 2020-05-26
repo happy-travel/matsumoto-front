@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import { groupAndCount, MealPlan } from "components/simple";
+import { GroupRoomTypesAndCount, MealPlan } from "components/simple";
 
 import { API, dateFormat, price, plural } from "core";
 import store from 'stores/accommodation-store';
@@ -165,7 +165,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                             { item?.roomContractSets?.map(roomContractSet =>
                                 <tr>
                                     <td class="room-contract-set">
-                                        {groupAndCount(roomContractSet.roomContracts)}<br/>
+                                        <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} /><br/>
                                         {roomContractSet.contractType}
                                     </td>
                                     <td class="icons">

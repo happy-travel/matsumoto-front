@@ -6,7 +6,7 @@ import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, MealPlan, PassengerName } from "components/simple";
+import { Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount } from "components/simple";
 import moment from "moment";
 import PaymentInformation from "parts/payment-information";
 
@@ -194,7 +194,7 @@ render() {
                                 <div class="line">
                                     <Dual
                                         a={t("Room type")}
-                                        b={room.contractDescription}
+                                        b={<GroupRoomTypesAndCount solo t={t} contracts={[room]} />}
                                     />
                                     <Dual
                                         a={t("Board basis")}

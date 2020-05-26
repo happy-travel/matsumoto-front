@@ -353,6 +353,14 @@ translations: {
     "My account supervisor": "My account supervisor",
     "Default": "Default",
     "Contact": "Contact",
-    "Room Details": "Room Details"
+    "Room Details": "Room Details",
+
+    "Single" : "Single",
+    "TwinOrSingle": "Twin Or Single",
+    "Twin": "Twin",
+    "Double": "Double",
+    "Triple": "Triple",
+    "Quadruple": "Quadruple",
+    "Family": "Family Room"
 }
 };

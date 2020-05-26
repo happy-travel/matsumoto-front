@@ -15,7 +15,7 @@ import {
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, MealPlan, RoomPrices } from "components/simple";
+import { Dual, Loader, MealPlan, RoomPrices, GroupRoomTypesAndCount } from "components/simple";
 import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 
@@ -219,9 +219,7 @@ class AccommodationBookingPage extends React.Component {
                                 <h2>
                                     <span>
                                         Room {r+1}:
-                                    </span> {item.contractDescription} <span>
-                                        {item.type}
-                                    </span>
+                                    </span> <GroupRoomTypesAndCount solo t={t} contracts={[item]} />
                                 </h2>
                                 <div class="part">
                                     <table class="people"><tbody>

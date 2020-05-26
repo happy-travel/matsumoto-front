@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import { groupAndCount, MealPlan } from "components/simple";
+import { GroupRoomTypesAndCount, MealPlan } from "components/simple";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -199,7 +199,7 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                             <div class="main">
                                 <h3>
-                                    {groupAndCount(roomContractSet.roomContracts)}
+                                    <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
                                 </h3>
                                 <div>
                                     {roomContractSet.isDynamic === true &&
