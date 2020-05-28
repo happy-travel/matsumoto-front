@@ -87,7 +87,7 @@ export const GroupRoomTypesAndCount = ({ t, contracts, solo }) => {
     const count = {},
           result = [];
     for (let i = 0; i < contracts.length; i++) {
-        var description = contracts[i].contractDescription;
+        var description = (contracts[i].contractDescription || "").trim();
         if ("NotSpecified" != contracts[i].type)
             description = t(contracts[i].type) + (description ? (": " + description) : "");
         if (!description)
