@@ -11,6 +11,7 @@ import {
 } from "components/form";
 import { Header, Loader } from "components/simple";
 import store from "stores/accommodation-store";
+import UI from "stores/ui-store";
 import { creditCardValidator, savedCreditCardValidator } from "components/form/validation";
 import { creditCardType } from "card-validator";
 import Breadcrumbs from "components/breadcrumbs";
@@ -107,6 +108,8 @@ class PaymentPage extends BasicPaymentPage {
             remember_me: values.remember_me ? "YES" : "NO"
         };
 
+        UI.setSaveCreditCardFlag(values.remember_me);
+
         var fingerprint = this.state.direct ? "" : (document.getElementById("device_fingerprint")?.value || "");
         this.setState({
             service: {
@@ -137,6 +140,8 @@ class PaymentPage extends BasicPaymentPage {
         this.setState({
             loading: true
         });
+
+        UI.setSaveCreditCardFlag(false);
 
         API.post({
             url: API.PAYMENTS_CARD_SAVED,

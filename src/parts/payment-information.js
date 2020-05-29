@@ -1,6 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import UI from "stores/ui-store";
 
 @observer
 class PaymentInformation extends React.Component {
@@ -40,7 +41,7 @@ class PaymentInformation extends React.Component {
                     </div>
                 </div>
 
-                { ("YES" == params.remember_me && !result.error) && <div>
+                { (UI.saveCreditCard && !result.error) && <div>
                     {t("Your card was saved for your future purchases.")}
                 </div> }
             </React.Fragment>

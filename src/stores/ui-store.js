@@ -35,6 +35,8 @@ class UIStore {
 
     @observable currentAPIVersion = null;
 
+    @observable saveCreditCard = false;
+
     constructor() {
         autosave(this, "_ui_store_cache");
     }
@@ -138,6 +140,10 @@ class UIStore {
 
     setCurrentAPIVersion(value) {
         this.currentAPIVersion = value;
+    }
+
+    setSaveCreditCardFlag(value) {
+        this.saveCreditCard = value || false;
     }
 }
 
