@@ -122,9 +122,6 @@ class FieldText extends React.Component {
                 event.target.value = event.target.value.replace(/[^0-9.\/ ]/g, "");
             else
                 event.target.value = event.target.value.replace(/[^0-9.]/g, "");
-
-            if (typeof this.props.numeric == "number" && event.target.value)
-                event.target.value = Math.min(event.target.value, this.props.numeric);
         }
 
         if (this.props.onChange)

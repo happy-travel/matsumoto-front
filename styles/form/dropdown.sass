@@ -39,10 +39,22 @@
             &.children
                 flex-wrap: wrap
                 width: 310px
-                .field
+                .part
+                    display: flex
                     width: 135px
                     flex-grow: 0
                     margin-top: 10px
+                    flex-direction: row
+                    margin-right: 18px
+                    .field
+                        width: 52px
+                        min-width: 0
+                        margin-right: 0
+                        .input
+                            height: 40px
+                            line-height: 38px
+                    .btn
+                        margin-left: 3px
             &:last-child
                 margin-bottom: 0
             .caption
@@ -56,9 +68,11 @@
                 border-radius: 4px
                 text-align: center
                 &.enabled
-                    cursor: pointer
                     border-color: $color-brand
+                &.enabled, &.active
+                    cursor: pointer
                     &:hover
+                        border-color: $color-brand
                         background: $color-brand
                         color: #ffffff
             .value
