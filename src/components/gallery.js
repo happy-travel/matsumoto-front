@@ -1,19 +1,52 @@
-import React, {useState} from 'react';
-import { Carousel } from "components/external/react-responsive-carousel";
+import React from 'react';
 
-export default function (props) {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    function onChange(e) {
-        setCurrentIndex(e);
+const Image = ({ item }) => (
+    item?.source ? <div class="sizer">
+        <img src={item.source} alt={item.caption || ""} />
+    </div> : null
+);
+
+class Gallery extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: 0
+        };
     }
-    return <div className="gallery">
-        <Carousel
-            selectedItem={currentIndex}
-            onChange={onChange}
-            showIndicators={false}
-            showArrows={false}
-            showStatus={false}
-            transitionTime={200}
-        >{props.children}</Carousel>
-    </div>
+
+    render() {
+        var { pictures } = this.props,
+            { selected } = this.state;
+
+        if (!pictures || !pictures.length)
+            return null;
+
+        var thumbs = [];
+        for (var i = 0; i < pictures.length / 3; i++) {
+            var subthumbs = [];
+            for (var j = 0; j < 3 && i * 3 + j < pictures.length; j++) {
+                (index => subthumbs.push(
+                    <div
+                        class={"item" + (index == selected ? " selected" : "")}
+                        onClick={() => this.setState({ selected: index })}
+                    >
+                        <Image item={pictures[index]} />
+                    </div>
+                ))(i * 3 + j)
+            }
+            thumbs.push(<div class="subthumbs">{subthumbs}</div>);
+        }
+
+
+        return <div class="gallery">
+            <div class="big">
+                <Image item={pictures[selected]} index={selected} />
+            </div>
+            <div class="thumbs">
+                {thumbs}
+            </div>
+        </div>;
+    }
 }
+
+export default Gallery;

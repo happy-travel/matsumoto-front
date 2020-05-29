@@ -146,7 +146,7 @@ class AccommodationVariantsPage extends React.Component {
                 >
                 { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
-                    <div class="summary">
+                    <div class="summary" onClick={() => this.accommodationSelect(item)}>
                         { item.accommodationDetails.picture.source && <div class="photo">
                             <img src={item.accommodationDetails.picture.source} alt="" />
                         </div> }
