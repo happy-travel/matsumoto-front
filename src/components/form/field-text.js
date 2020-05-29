@@ -101,6 +101,7 @@ class FieldText extends React.Component {
     clear() {
         if (this.props.formik) {
             this.props.formik.setFieldValue(this.props.id, '\n');
+            this.props.formik.setFieldTouched(this.props.id, false);
             if (this.props.onClear)
                 this.props.onClear();
             if (this.props.Dropdown)
@@ -127,8 +128,10 @@ class FieldText extends React.Component {
         if (this.props.onChange)
             this.props.onChange(event, this.props);
 
-        if (this.props.formik)
+        if (this.props.formik) {
             this.props.formik.handleChange(event);
+            this.props.formik.setFieldTouched(this.props.id, true);
+        }
     }
 
     render() {

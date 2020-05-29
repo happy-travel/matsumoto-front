@@ -9,7 +9,7 @@ import { FieldText, FieldSelect, FieldSwitch } from "components/form";
 import Flag from "components/flag";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import UsersPagesHeader from "components/users-pages-header";
-import { CancelButton } from "components/simple";
+import { CancelButton, Loader } from "components/simple";
 
 import authStore from "stores/auth-store";
 import UI from "stores/ui-store";
@@ -19,6 +19,9 @@ import View from "stores/view-store";
 class AdminSettings extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            loading: false
+        };
 
         API.get({
             url: API.AGENT_SETTINGS,
@@ -26,6 +29,8 @@ class AdminSettings extends React.Component {
                 authStore.setSettings(result);
             }
         });
+        this.submitUserData = this.submitUserData.bind(this);
+        this.submitUserSettings = this.submitUserSettings.bind(this);
     }
 
     setCountryValue(country, formik, connected) {
@@ -35,24 +40,28 @@ class AdminSettings extends React.Component {
     };
 
     submitUserSettings(values) {
+        this.setState({ loading: true });
         API.put({
             url: API.AGENT_SETTINGS,
             body: values,
             success: () => {
                 authStore.setSettings(values);
             },
-            error: (error) => console.log(error)
+            error: (error) => console.log(error),
+            after: () => this.setState({ loading: false })
         });
     }
 
-    submitUserData(values) {
+    submitUserData(values, formik) {
+        this.setState({ loading: true });
         API.put({
             url: API.USER,
             body: values,
-            success: (result) => {
-            //    todo: make success
+            success: () => {
+                formik.setTouched([]);
             },
-            error: (error) => console.log(error)
+            error: (error) => console.log(error),
+            after: () => this.setState({ loading: false })
         });
     }
 
@@ -69,6 +78,8 @@ class AdminSettings extends React.Component {
 
         return (<div>
             <UsersPagesHeader />
+
+            {this.state.loading && <Loader page />}
 
             <section className="personal-info__wrapper medium-section">
                 <h2 className="users-pages__title">{t('Personal information')}</h2>
@@ -142,16 +153,16 @@ class AdminSettings extends React.Component {
                                 {/*    />*/}
                                 {/*</div>*/}
                                 <div className="row jc-end">
-                                    <div className="field field-no-grow">
+                                    { /* <div className="field field-no-grow">
                                         <div className="label"/>
                                         <div className="inner">
                                             <CancelButton formik={formik} className="button transparent-with-border button-controls">{t("Cancel")}</CancelButton>
                                         </div>
-                                    </div>
+                                    </div> */ }
                                     <div className="field field-no-grow">
                                         <div className="label"/>
                                         <div className="inner">
-                                            <button type="submit" className="button button-controls">
+                                            <button type="submit" className={"button button-controls" + (Object.entries(formik.touched).length ? "" : " disabled")}>
                                                 {t("Save changes")}
                                             </button>
                                         </div>
@@ -311,16 +322,16 @@ class AdminSettings extends React.Component {
                                 {/*    <a href="#" className="personal-info__form__link">Generate login link</a>*/}
                                 {/*</div>*/}
                                 <div className="row jc-end">
-                                    <div className="field field-no-grow">
+                                    { /* <div className="field field-no-grow">
                                         <div className="label"/>
                                         <div className="inner">
                                             <CancelButton formik={formik} className="button transparent-with-border button-controls">{t("Cancel")}</CancelButton>
                                         </div>
-                                    </div>
+                                    </div> */ }
                                     <div className="field field-no-grow">
                                         <div className="label"/>
                                         <div className="inner">
-                                            <button type="submit" className="button button-controls">
+                                            <button type="submit" className={"button button-controls" + (Object.entries(formik.touched).length ? "" : " disabled")}>
                                                 {t("Save changes")}
                                             </button>
                                         </div>

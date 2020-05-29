@@ -23,7 +23,9 @@ export default class AddNewUser extends React.Component {
             loadingCounterpartyInfo: true,
             permissionsList: [],
             loadingPermissions: true,
-        }
+        };
+
+        this.submit = this.submit.bind(this);
     }
 
     componentDidMount() {
@@ -47,7 +49,7 @@ export default class AddNewUser extends React.Component {
         }
     }
 
-    submit = (values) => {
+    submit(values) {
         var { agencyId, agentId } = this.props.match.params,
             url = API.AGENT_PERMISSIONS(agentId, agencyId),
             body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
@@ -66,7 +68,7 @@ export default class AddNewUser extends React.Component {
         const { t } = useTranslation();
         const {inAgencyPermissions, loadingCounterpartyInfo, loadingPermissions, permissionsList} = this.state;
         if (loadingCounterpartyInfo || loadingPermissions) {
-            return <Loader page />
+            return <Loader page />;
         }
 
         return <section className="add-new-user">
@@ -76,7 +78,7 @@ export default class AddNewUser extends React.Component {
                     {
                         text: t("Users Management")
                     }, {
-                        text: t("Add New User")
+                        text: t("User permissions")
                     }
                 ]}/>
 
@@ -193,7 +195,7 @@ export default class AddNewUser extends React.Component {
                                 {/*    />*/}
                                 {/*</div>*/}
 
-                                <h2>{t('Settings')}</h2>
+                                <h2 className="users-pages__title" style={{ marginTop: "40px" }}>{t('Settings')}</h2>
 
                                 {/*<div className="row add-new-user__select-nationality">*/}
                                 {/*    <FieldSelect formik={formik}*/}

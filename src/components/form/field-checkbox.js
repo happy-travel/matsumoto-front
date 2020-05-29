@@ -18,8 +18,10 @@ class FieldCheckbox extends React.Component {
             value: newValue
         });
 
-        if (formik)
+        if (formik) {
             formik.setFieldValue(id, newValue);
+            formik.setFieldTouched(id, true);
+        }
     }
 
     render() {
