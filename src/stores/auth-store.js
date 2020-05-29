@@ -5,8 +5,9 @@ import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";
 
 const defaultUserSettings = {
-    "weekStarts": 0,
-    "availableCredit": true,
+    loaded: false,
+    weekStarts: 0,
+    availableCredit: true
 };
 
 class AuthStore {
@@ -86,7 +87,8 @@ class AuthStore {
     }
 
     setSettings(value) {
-        this.settings = value;
+        this.settings = value || {};
+        this.settings.loaded = true;
     }
 }
 

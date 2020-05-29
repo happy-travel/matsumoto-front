@@ -278,7 +278,7 @@ class AccommodationSearch extends React.Component {
                         }}
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
-                        enableReinitialize={true}
+                        enableReinitialize={!authStore.settings.loaded}
                         render={(formik, reset) => (
                             <React.Fragment>
                                 <div class="form">
