@@ -5,33 +5,19 @@ import { Stars } from "components/simple";
 import Gallery from "components/gallery";
 import {ADDITIONAL_INFO} from "core/enums";
 
-const Amenities = ({ hotel, fromPage, t }) => {
-
-    const Part = ({ t, list }) => (
-        !!list.length &&
-        <React.Fragment>
-            <h2>{t("Accommodation Amenities")}</h2>
-            <ul class="amenities">
-                {list.map(item => (
-                    (item == item.toLowerCase()) ? <li>{t("amenities_" + item)}{" "}</li> : <li>{item}</li>
-                ))}
-            </ul>
-        </React.Fragment>
-    );
-
+const Amenities = ({ hotel, t }) => {
     if (!hotel.accommodationAmenities?.length)
         return null;
 
-    if (fromPage)
-        return <Part t={t} list={hotel.accommodationAmenities} />;
+    var list = hotel.accommodationAmenities;
 
     return <React.Fragment>
-        <td>
-            <Part t={t} list={hotel.accommodationAmenities.slice(0, Math.round(hotel.accommodationAmenities.length/2))} />
-        </td>
-        <td>
-            <Part t={t} list={hotel.accommodationAmenities.slice(Math.round(hotel.accommodationAmenities.length/2))} />
-        </td>
+        <h2>{t("Accommodation Amenities")}</h2>
+        <ul class="amenities">
+            {list.map(item => (
+                (item == item.toLowerCase()) ? <li>{t("amenities_" + item)}{" "}</li> : <li>{item}</li>
+            ))}
+        </ul>
     </React.Fragment>;
 };
 
@@ -63,7 +49,7 @@ class AccommodationCommonDetailsPart extends React.Component {
 
             description = decodeHtml(description);
 
-            if (this.state.fullDescription || (description.length <= 0.9 * descriptionLength))
+            if (this.state.fullDescription)
                 return <div class="text">{description}</div>;
 
             description = description.substr(0, descriptionLength);
@@ -93,7 +79,7 @@ class AccommodationCommonDetailsPart extends React.Component {
                         </div> }
                         <div class="line">
                             <span class="icon icon-small-pin" />
-                            {hotel.location.address}, {hotel.location.locality}, {hotel.location.country}
+                            <span class="subline">{hotel.location.address}, {hotel.location.locality}, {hotel.location.country}</span>
                         </div>
                         {hotel.contacts?.phone && <div class="line">
                             <span class="icon icon-small-phone" />
@@ -143,7 +129,7 @@ class AccommodationCommonDetailsPart extends React.Component {
                     </tbody></table>
                 }
 
-                { fromPage && <Amenities t={t} hotel={hotel} fromPage /> }
+                { this.state.fullDescription && <Amenities t={t} hotel={hotel} /> }
             </div>
         );
     }
