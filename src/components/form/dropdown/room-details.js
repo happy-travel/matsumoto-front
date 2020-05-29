@@ -140,6 +140,7 @@ class PeopleDropdown extends React.Component {
                                                                 placeholder="12"
                                                                 maxLength={2}
                                                                 data-dropdown="room"
+                                                                numeric
                                                             />
                                                             <div
                                                                 class="btn active"
