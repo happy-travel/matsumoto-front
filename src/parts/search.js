@@ -244,9 +244,9 @@ class AccommodationSearch extends React.Component {
                         initialValues={{
                             destination: "",
                             residency: "",
-                            residencyCode: "",
+                            residencyCode: authStore.settings.residencyCode || "",
                             nationality: "",
-                            nationalityCode: "",
+                            nationalityCode: authStore.settings.nationalityCode || "",
                             checkInDate: moment().startOf("day"),
                             checkOutDate: moment().startOf("day").add(1, "d"),
                             roomDetails: [
@@ -267,17 +267,18 @@ class AccommodationSearch extends React.Component {
                         }}
                         valuesOverwrite={values => {
                             if (!values.residency || !values.residencyCode) {
-                                values.residency = authStore.settings.residency;
-                                values.residencyCode = authStore.settings.residencyCode;
+                                values.residency = authStore.settings.residency || "";
+                                values.residencyCode = authStore.settings.residencyCode || "";
                             }
                             if (!values.nationality || !values.nationalityCode) {
-                                values.nationality = authStore.settings.nationality;
-                                values.nationalityCode = authStore.settings.nationalityCode;
+                                values.nationality = authStore.settings.nationality || "";
+                                values.nationalityCode = authStore.settings.nationalityCode || "";
                             }
                             return values;
                         }}
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
+                        enableReinitialize={true}
                         render={(formik, reset) => (
                             <React.Fragment>
                                 <div class="form">
