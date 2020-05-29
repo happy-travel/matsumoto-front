@@ -86,6 +86,8 @@ class AccommodationStore {
         }
 
         this.hasMoreVariants = !!value?.results?.length;
+        if (this.search.status == "PartiallyCompleted")
+            this.hasMoreVariants = "true"; // temporary
 
         this.filters = createFilters(this.search.result);
 
