@@ -1,5 +1,4 @@
 import React from "react";
-import { plural } from "core";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { FieldText } from "components/form";
@@ -139,7 +138,6 @@ class PeopleDropdown extends React.Component {
                                                             <FieldText formik={formik}
                                                                 id={`roomDetails.${number}.childrenAges.${r}`}
                                                                 placeholder="12"
-                                                                suggestion={item ? plural(t, item, "year") : null}
                                                                 maxLength={2}
                                                                 data-dropdown="room"
                                                             />
