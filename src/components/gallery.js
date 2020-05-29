@@ -42,8 +42,10 @@ class Gallery extends React.Component {
             <div class="big">
                 <Image item={pictures[selected]} index={selected} />
             </div>
-            <div class="thumbs">
-                {thumbs}
+            <div class="thumbs-wrapper">
+                <div class="thumbs">
+                    {thumbs}
+                </div>
             </div>
         </div>;
     }
