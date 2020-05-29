@@ -83,7 +83,9 @@ class AccommodationVariantsPage extends React.Component {
                             {!!store.hotelArray.length &&
                                 <span>&nbsp;({store.hotelArray.length}
                                     { !!store.search.result?.numberOfProcessedResults && <React.Fragment>
-                                        &nbsp;{t("out of")} {store.search.result?.numberOfProcessedResults} {t("available")}
+                                        &nbsp;{t("out of")} {store.search.result?.numberOfProcessedResults}{
+                                        store.search.status == "PartiallyCompleted" ? "+" : ""
+                                        } {t("available")}
                                     </React.Fragment> })
                                 </span>
                             }
@@ -139,7 +141,7 @@ class AccommodationVariantsPage extends React.Component {
                 <InfiniteScroll
                     dataLength={store.hotelArray.length}
                     next={this.loadNextPage}
-                    hasMore={true}
+                    hasMore={store.hasMoreVariants}
                     loader={<Loader />}
                 >
                 { store.hotelArray.map(item =>

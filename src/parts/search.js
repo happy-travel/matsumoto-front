@@ -106,7 +106,7 @@ class AccommodationSearch extends React.Component {
 
                 const loader = (data) => {
                     if (data.resultCount && (store.search?.length != data.resultCount)) {
-                        store.setSearchResultLength(data.resultCount);
+                        store.setSearchResultLength(data.resultCount, data.taskState);
                         loadCurrentSearch(0);
                     }
                 };

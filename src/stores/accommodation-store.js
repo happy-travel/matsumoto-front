@@ -14,7 +14,7 @@ class AccommodationStore {
         loading: false,
         request: null,
         result: null,
-        length: 0,
+        length: 0, status: "",
         requestId: null
     };
 
@@ -53,6 +53,9 @@ class AccommodationStore {
     @observable
     paymentMethod = PAYMENT_METHODS.CARD;
 
+    @observable
+    hasMoreVariants = false;
+
     constructor() {
         autosave(this, "_accommodation_store_cache");
     }
@@ -82,6 +85,8 @@ class AccommodationStore {
             this.search.result = [];
         }
 
+        this.hasMoreVariants = !!value?.results?.length;
+
         this.filters = createFilters(this.search.result);
 
         this.selectedFilters = null;
@@ -90,8 +95,9 @@ class AccommodationStore {
         this.paymentResult = {};
     }
 
-    setSearchResultLength(length) {
+    setSearchResultLength(length, status) {
         this.search.length = length;
+        this.search.status = status;
     }
 
     setSearchRequestId(requestId) {

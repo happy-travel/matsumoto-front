@@ -78,7 +78,7 @@ class AccommodationFiltersPart extends React.Component {
                                 { ( (("localhost" == window.location.hostname) || (window.location.hostname.indexOf("dev.happytravel") > -1)) &&
                                     (!!store.filters.__source.length)) && <Expandable
                                     open
-                                    header={t("Source")}
+                                    header="Source"
                                     content={
                                         <div class="expanded">
                                             { store.filters.__source.map((item, i) => (
