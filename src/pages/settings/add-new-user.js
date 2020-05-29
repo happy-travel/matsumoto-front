@@ -5,12 +5,15 @@ import { Formik } from "formik";
 import { withRouter } from "react-router";
 
 import { PERMISSIONS_LABELS, PERMISSIONS } from "core/enums";
-import {API} from "core";
+import { API } from "core";
 
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import UsersPagesHeader from "components/users-pages-header";
 import { Loader } from "components/simple";
+
+import View from "stores/view-store";
+import {Redirect} from "react-router-dom";
 
 @withRouter
 @observer
@@ -23,6 +26,9 @@ export default class AddNewUser extends React.Component {
             loadingCounterpartyInfo: true,
             permissionsList: [],
             loadingPermissions: true,
+
+            redirectBack: false,
+            loading: false
         };
 
         this.submit = this.submit.bind(this);
@@ -50,6 +56,8 @@ export default class AddNewUser extends React.Component {
     }
 
     submit(values) {
+        this.setState({ loading: true });
+
         var { agencyId, agentId } = this.props.match.params,
             url = API.AGENT_PERMISSIONS(agentId, agencyId),
             body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
@@ -60,7 +68,11 @@ export default class AddNewUser extends React.Component {
         API.put({
             url,
             body,
-            success: () => this.props.history.goBack(),
+            success: () => this.setState({ redirectBack: true }),
+            error: () => {
+                this.setState({ loading: false });
+                View.setTopAlertText("Unable to save user permissions, please try later");
+            }
         });
     };
 
@@ -71,7 +83,12 @@ export default class AddNewUser extends React.Component {
             return <Loader page />;
         }
 
+        if (this.state.redirectBack)
+            return <Redirect push to="/settings/users" />;
+
         return <section className="add-new-user">
+            { this.state.loading && <Loader page /> }
+
             <UsersPagesHeader />
             <div className="add-new-user__header">
                 <Breadcrumbs noBackButton items={[
@@ -231,7 +248,7 @@ export default class AddNewUser extends React.Component {
                                     <div className="field field-no-grow">
                                         <div className="label"/>
                                         <div className="inner">
-                                            <button type="submit" className="button transparent-with-border button-controls" onClick={this.props.history.goBack}>
+                                            <button type="submit" className="button transparent-with-border button-controls" onClick={() => this.setState({ redirectBack: true })}>
                                                 {t("exit, no changes")}
                                             </button>
                                         </div>
