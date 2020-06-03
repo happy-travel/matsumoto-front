@@ -388,7 +388,7 @@ class AccommodationBookingPage extends React.Component {
                                                 : () => {}}
                                         >
                                             <span class="icon icon-radio" />
-                                            {t("Account balance")} {(authStore.settings.availableCredit === false) &&
+                                            {t("Account balance")} {(authStore.settings.availableCredit === true) &&
                                                 <span>{"(" + price(this.state.balance.currency, this.state.balance.balance).trim() + ")"}</span>}
                                         </div>
                                         <div
