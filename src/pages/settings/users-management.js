@@ -25,7 +25,7 @@ const columns = [
     {
         Header: 'SignUp Date',
         accessor: 'created',
-        Cell: (item) => dateFormat.b(item.cell.value)
+        Cell: (item) => dateFormat.b(item.cell.value *1000)
     },
     {
         Header: 'Markup',
