@@ -229,6 +229,9 @@ render() {
                                         <b>{item.key}:</b> {item.value}
                                     </div>
                                 ))}
+                                {(room.deadlineDetails.policies || []).map(item => (<div>
+                                    {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.<br/>
+                                </div>))}
                             </div> }
                         </React.Fragment>
                     ))}
