@@ -90,6 +90,8 @@ class AccommodationSearch extends React.Component {
         if (values.predictionDestination != values.destination)
             formik.setFieldValue("destination", values.predictionDestination);
 
+        store.setSearchResultLength(0, undefined);
+
         //todo: setSubmitting, loading
         store.setSearchResult(null);
         session.google.clear();
@@ -105,14 +107,14 @@ class AccommodationSearch extends React.Component {
                 store.setSearchRequestId(result);
 
                 const loader = (data) => {
-                    if (data.resultCount && (store.search?.length != data.resultCount)) {
+                    if (store.search?.length !== data.resultCount || store.search?.status !== data.taskState) {
                         store.setSearchResultLength(data.resultCount, data.taskState);
                         loadCurrentSearch(0);
                     }
                 };
 
                 const getter = (deep) => {
-                    if (deep >= 180 && "Ready" != status) {
+                    if (deep > 180) {
                         store.setSearchIsLoading(false);
                         return;
                     }
@@ -120,7 +122,7 @@ class AccommodationSearch extends React.Component {
                         url: API.A_SEARCH_ONE_CHECK(store.search.requestId),
                         success: data => {
                             status = data.taskState;
-                            if ("PartiallyCompleted" == status || "Completed" == status)
+                            if ("PartiallyCompleted" == status || "Completed" == status || "Failed" == status)
                                 loader(data);
                             if ("Pending" == status || "Running" == status || "PartiallyCompleted" == status)
                                 getter(deep+1);
