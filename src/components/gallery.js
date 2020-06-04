@@ -1,10 +1,24 @@
 import React from 'react';
 
-const Image = ({ item }) => (
-    item?.source ? <div class="sizer">
-        <img src={item.source} alt={item.caption || ""} />
-    </div> : null
-);
+const Picture = ({ item, big }) => {
+    if (!item?.source)
+        return null;
+
+    if (big) {
+        var cover = false,
+            img = new Image();
+        img.src = item.source;
+
+        if (img.width && img.height && (img.width > img.height) && (img.width < 3 * img.height))
+            cover = true;
+    }
+
+    return (
+        <div class={"sizer" + (big ? " big" : "") + (cover ? " cover" : "")}>
+            <img src={item.source} alt={item.caption || ""} />
+        </div>
+    );
+};
 
 class Gallery extends React.Component {
     constructor(props) {
@@ -30,17 +44,16 @@ class Gallery extends React.Component {
                         class={"item" + (index == selected ? " selected" : "")}
                         onClick={() => this.setState({ selected: index })}
                     >
-                        <Image item={pictures[index]} />
+                        <Picture item={pictures[index]} />
                     </div>
                 ))(i * 3 + j)
             }
             thumbs.push(<div class="subthumbs">{subthumbs}</div>);
         }
 
-
         return <div class="gallery">
             <div class="big">
-                <Image item={pictures[selected]} index={selected} />
+                <Picture big item={pictures[selected]} index={selected} />
             </div>
             <div class="thumbs-wrapper">
                 <div class="thumbs">
