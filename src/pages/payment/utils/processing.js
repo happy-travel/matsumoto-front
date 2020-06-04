@@ -29,19 +29,24 @@ class BasicPaymentPage extends React.Component {
 
     finalize(reference, data, error, params) {
         this.setResult(data, error, params);
-        API.post({
-            url: API.A_BOOKING_FINALIZE(reference),
-            after: (data, error) => {
-                if (error?.detail)
-                    this.setResult(data, error, params);
-                else
-                    UI.dropFormCache(FORM_NAMES.BookingForm);
+        if (!error) {
+            API.post({
+                url: API.A_BOOKING_FINALIZE(reference),
+                after: (data, error) => {
+                    if (error?.detail)
+                        this.setResult(data, error, params);
+                    else
+                        UI.dropFormCache(FORM_NAMES.BookingForm);
 
-                this.setState({
-                    redirectToConfirmationPage: true
-                });
-            }
-        });
+                    this.setState({
+                        redirectToConfirmationPage: true
+                    });
+                }
+            });
+        } else
+            this.setState({
+                redirectToConfirmationPage: true
+            });
     }
 
     callback(data, error, after3ds) {

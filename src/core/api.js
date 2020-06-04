@@ -105,7 +105,8 @@ _.methods_with_cache = [
 ];
 
 _.methods_dont_show_error = [
-    _.USER
+    _.USER,
+    _.PAYMENTS_CARD_NEW
 ];
 
 _.request = ({

@@ -361,6 +361,10 @@ translations: {
     "Double": "Double",
     "Triple": "Triple",
     "Quadruple": "Quadruple",
-    "Family": "Family Room"
+    "Family": "Family Room",
+
+    "Oppps! Something wrong": "Oppps! Something wrong",
+    "Payment failed": "Payment failed",
+    "Try to pay again": "Try to pay again"
 }
 };
