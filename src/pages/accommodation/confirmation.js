@@ -9,6 +9,7 @@ import ActionSteps from "components/action-steps";
 import { Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount } from "components/simple";
 import moment from "moment";
 import PaymentInformation from "parts/payment-information";
+import FullDeadline from "components/full-deadline";
 
 import store from "stores/accommodation-store";
 
@@ -229,9 +230,7 @@ render() {
                                         <b>{item.key}:</b> {item.value}
                                     </div>
                                 ))}
-                                {(room.deadlineDetails.policies || []).map(item => (<div>
-                                    {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.<br/>
-                                </div>))}
+                                <FullDeadline t={t} deadlineDetails={room.deadlineDetails} />
                             </div> }
                         </React.Fragment>
                     ))}

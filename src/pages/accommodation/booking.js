@@ -18,6 +18,7 @@ import ActionSteps from "components/action-steps";
 import { Dual, Loader, MealPlan, RoomPrices, GroupRoomTypesAndCount } from "components/simple";
 import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
+import FullDeadline from "components/full-deadline";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
@@ -49,10 +50,6 @@ class AccommodationBookingPage extends React.Component {
                     balance: result
                 })
         });
-    }
-
-    componentWillUnmount() {
-        store.selectRoomContractSet(null);
     }
 
     submit(values, { setSubmitting }) {
@@ -273,22 +270,7 @@ class AccommodationBookingPage extends React.Component {
                                         {t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} />
                                     </p>
 
-                                    <p className="remark">
-                                        {item.deadlineDetails.date ?
-                                            <span>
-                                                {t("Cancellation Deadline")}: {dateFormat.a(item.deadlineDetails.date)}
-                                            </span> :
-                                            <span className="info green">
-                                                {t("FREE Cancellation - Without Prepayment")}
-                                            </span>
-                                        }
-                                    </p>
-
-                                    <p class="remark">
-                                        {(item.deadlineDetails.policies || []).map(item => (<React.Fragment>
-                                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.<br/>
-                                        </React.Fragment>))}
-                                    </p>
+                                    <FullDeadline t={t} deadlineDetails={item.deadlineDetails} />
 
                                     {item.remarks?.map(remark => (
                                         <p class="remark">{remark.value}</p>
