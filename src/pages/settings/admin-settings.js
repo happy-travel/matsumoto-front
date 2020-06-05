@@ -176,7 +176,7 @@ class AdminSettings extends React.Component {
                 <h2 className="users-pages__title">{t('System Settings')}</h2>
 
                 <Formik
-                    initialValues={authStore.settings}
+                    initialValues={authStore.settings || {}}
                     enableReinitialize
                     onSubmit={this.submitUserSettings}
                     render={formik => (

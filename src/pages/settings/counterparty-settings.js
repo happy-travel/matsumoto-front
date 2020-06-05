@@ -36,7 +36,7 @@ export default class CounterpartySettings extends React.Component {
             { this.state.loading && <Loader />}
             { !this.state.loading && <section className="medium-section">
                 <Formik
-                    initialValues={this.state.settings}
+                    initialValues={this.state.settings || {}}
                     enableReinitialize={true}
                     render={formik => {
                         var params = {

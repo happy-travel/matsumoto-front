@@ -74,6 +74,7 @@ class UsersManagement extends React.Component {
             <div className="users-management__search-wrapper">
                <section>
                    <Formik
+                       initialValues={{}}
                        onSubmit={this.changeSearchField}
                        render={formik => (
                            <form onSubmit={formik.handleSubmit}>

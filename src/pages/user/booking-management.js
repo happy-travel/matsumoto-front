@@ -175,6 +175,7 @@ class UserBookingManagementPage extends React.Component {
                         <div class="input-wrap">
                             <div class="form">
                                 <Formik
+                                    initialValues={{ search: "" }}
                                     render={formik => (
                                         <form onSubmit={formik.handleSubmit}>
                                             <FieldText formik={formik}
