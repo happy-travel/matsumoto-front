@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import UI from "stores/ui-store";
 import ViewFailed from "parts/view-failed";
+import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 
 @observer
 class PaymentInformation extends React.Component {
@@ -40,7 +41,7 @@ class PaymentInformation extends React.Component {
                         </React.Fragment>
                     }
                     button={t("Try to pay again")}
-                    link="/payment/form"
+                    link={ store.paymentMethod == PAYMENT_METHODS.CARD ? "/payment/form" : "/accommodation/booking" }
                 />
                     :
                 <div class="result-code">

@@ -89,7 +89,10 @@ render() {
                         }, {
                             text: t("Booking Confirmation")
                         }
-                    ]}/>
+                    ]}
+                        backLink="/accommodation/booking"
+                        noBackButton={!this.state.fromHistory}
+                    />
                     { !this.state.fromHistory && <ActionSteps
                         items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
                         current={2}

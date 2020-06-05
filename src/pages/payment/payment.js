@@ -182,7 +182,9 @@ render() {
                 }, {
                     text: t("Payment")
                 }
-            ]}/>
+            ]}
+                backLink="/accommodation/booking"
+            />
             }
 
             { this.state.comment && <p>

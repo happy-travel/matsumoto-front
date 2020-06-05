@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 
-const Breadcrumbs = ({ items = [], noBackButton, history }) => {
+const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
     var { t } = useTranslation();
 
     return (
@@ -24,7 +24,11 @@ const Breadcrumbs = ({ items = [], noBackButton, history }) => {
                     {' '}
                 </React.Fragment>
             )) }
-            {!noBackButton && <div onClick={() => history.goBack()} class="back-button breadcrumbs--link"><span class="small-arrow-left" /> {t('Back')}</div>}
+            {!noBackButton && (
+                backLink ?
+                <Link to={backLink}><span class="back-button breadcrumbs--link"><span class="small-arrow-left" /> {t('Back')}</span></Link> :
+                <div onClick={() => history.goBack()} class="back-button breadcrumbs--link"><span class="small-arrow-left" /> {t('Back')}</div>
+            )}
         </div>
     );
 };

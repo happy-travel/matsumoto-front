@@ -33,7 +33,8 @@ class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            balance: false
+            balance: false,
+            redirectToPayment: false
         };
         this.submit = this.submit.bind(this);
     }
@@ -99,8 +100,9 @@ class AccommodationBookingPage extends React.Component {
         API.post({
             url: API.ACCOMMODATION_BOOKING,
             body: request,
-            after: (result) => {
+            after: result => {
                 store.setBookingReferenceCode(result);
+                this.setState({ redirectToPayment: true });
                 setSubmitting(false);
             },
             error: (error) => View.setTopAlertText(error?.title || error?.detail || error?.message)
@@ -405,13 +407,13 @@ class AccommodationBookingPage extends React.Component {
                                     </div>
                                 </div>
 
-                                { formik.isSubmitting && !store.booking.referenceCode &&
+                                { formik.isSubmitting && !this.state.redirectToPayment &&
                                     <Loader page /> }
 
-                                { store.booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
+                                { this.state.redirectToPayment && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
                                     <Redirect push to="/payment/form" /> }
 
-                                { store.booking.referenceCode && (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) &&
+                                { this.state.redirectToPayment && (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) &&
                                     <Redirect push to="/payment/account" /> }
 
                             </div>
