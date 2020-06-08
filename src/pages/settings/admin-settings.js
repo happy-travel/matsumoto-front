@@ -15,6 +15,18 @@ import authStore from "stores/auth-store";
 import UI from "stores/ui-store";
 import View from "stores/view-store";
 
+const settingsCleaner = values => {
+    return {
+        nationality: values.nationality,
+        residency: values.residency,
+        nationalityCode: values.nationalityCode,
+        residencyCode: values.residencyCode,
+        weekStarts: values.weekStarts,
+        preferredLanguage: values.preferredLanguage,
+        availableCredit: values.availableCredit
+    };
+};
+
 @observer
 class AdminSettings extends React.Component {
     constructor(props) {
@@ -56,7 +68,7 @@ class AdminSettings extends React.Component {
         this.setState({ loading: true });
         API.put({
             url: API.USER,
-            body: values,
+            body: settingsCleaner(values),
             success: () => {
                 formik.setTouched([]);
             },
@@ -257,7 +269,7 @@ class AdminSettings extends React.Component {
                                 <div className="row">
                                     <div className="personal-info__form__hor-label">{t("Show Available Credit")}</div>
                                     <FieldSwitch formik={formik}
-                                                 id={"availableCredit"}
+                                                 id="availableCredit"
                                     />
                                 </div>
                                 {/*<div className="row">*/}
