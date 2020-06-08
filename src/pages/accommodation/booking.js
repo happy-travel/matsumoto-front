@@ -269,7 +269,7 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
 
                                     <p class="remark">
-                                        <b>{t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} /></b>
+                                        {t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} />
                                     </p>
 
                                     <FullDeadline t={t}

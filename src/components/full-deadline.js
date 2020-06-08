@@ -4,11 +4,11 @@ import moment from "moment";
 
 class FullDeadline extends React.Component {
     render() {
-        var { deadlineDetails, remarks, t } = this.props,
+        var { deadlineDetails = {}, remarks, t } = this.props,
             warnAboutDeadlineIsNear = false;
 
         if (deadlineDetails.date) {
-            if (moment().add(-7, "d").isBefore(deadlineDetails.date)) // правильное условие
+            if (moment().add(7, "d").isAfter(deadlineDetails.date))
                 warnAboutDeadlineIsNear = true;
         }
 
@@ -30,11 +30,11 @@ class FullDeadline extends React.Component {
                                 {t("FREE Cancellation - Without Prepayment")}
                             </span>
                         }
-                        { !!deadlineDetails?.policies?.length && <div>
-                            {deadlineDetails.policies.map(item => (<React.Fragment>
-                                {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.<br/>
-                            </React.Fragment>))}
-                        </div> }
+                        { !!deadlineDetails?.policies?.length && <React.Fragment>
+                            {deadlineDetails.policies.map(item => (<div>
+                                {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
+                            </div>))}
+                        </React.Fragment> }
                     </div>
                 </div>
                 { !!remarks && !!remarks.length && <div class="accent-frame information">
