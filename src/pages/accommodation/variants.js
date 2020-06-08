@@ -141,7 +141,7 @@ class AccommodationVariantsPage extends React.Component {
                 <InfiniteScroll
                     dataLength={store.hotelArray.length}
                     next={this.loadNextPage}
-                    hasMore={store.hasMoreVariants}
+                    hasMore={store.search.hasMoreVariants}
                     loader={<Loader />}
                 >
                 { store.hotelArray.map(item =>
@@ -226,6 +226,7 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                 </div>) }
                 </InfiniteScroll>
+                {(store.search.status != "Completed") && <Loader />}
             </div>
         </section> }
     </div>
