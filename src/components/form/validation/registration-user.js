@@ -8,11 +8,9 @@ export const emailForm =  {
 
 const validator = {
     firstName: Yup.string()
-        .min(2, "Too short")
         .max(50, "Too long")
         .required("Required"),
     lastName: Yup.string()
-        .min(2, "Too short")
         .max(50, "Too long")
         .required("Required"),
     title: Yup.string()

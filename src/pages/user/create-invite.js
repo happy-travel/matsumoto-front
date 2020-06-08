@@ -34,7 +34,8 @@ class UserInvitePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            success: false
+            success: false,
+            form: null
         };
         this.submit = this.submit.bind(this);
         this.reset = this.reset.bind(this);
@@ -60,7 +61,8 @@ class UserInvitePage extends React.Component {
                     success:
                         (values.send || !data) ?
                         true :
-                        window.location.origin + "/signup/invite/" + values.email + "/" + data
+                        window.location.origin + "/signup/invite/" + values.email + "/" + data,
+                    name: (values.firstName || values.lastName) ? (values.firstName + " " + values.lastName) : null
                 });
             },
             error: (error) => {
@@ -96,7 +98,9 @@ class UserInvitePage extends React.Component {
             { this.state.success && <div>
                 {this.state.success === true ?
                 <div>
-                    <h2>{t("Your invitation sent")}</h2>
+                    { this.state.name ?
+                        <h2>{t("Your invitation sent to")} {this.state.name}</h2> :
+                        <h2>{t("Your invitation sent")}</h2> }
                     <br/>
                 </div> :
                 <div>
