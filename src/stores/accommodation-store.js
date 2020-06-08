@@ -155,10 +155,10 @@ class AccommodationStore {
         this.booking.referenceCode = result || null;
     }
 
-    setBookingResult(result, data) {
+    setBookingResult(result, data, err) {
         this.booking.result =
             ( null !== result && data?.status != 200 )
-                ? { error: data?.detail }
+                ? { error: data?.detail || err?.message || true }
                 : result;
     }
 

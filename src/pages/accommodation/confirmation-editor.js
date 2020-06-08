@@ -66,7 +66,7 @@ class AccommodationConfirmationPage extends React.Component {
             });
             API.get({
                 url: referenceCode ? API.BOOKING_GET_BY_CODE(referenceCode) : API.BOOKING_GET_BY_ID(bookingId),
-                after: (result, err, data) => store.setBookingResult(result, data)
+                after: (result, err, data) => store.setBookingResult(result || {}, data, err)
             });
         }
     }

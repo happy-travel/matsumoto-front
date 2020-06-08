@@ -10,6 +10,7 @@ import { Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount } from "c
 import moment from "moment";
 import PaymentInformation from "parts/payment-information";
 import FullDeadline from "components/full-deadline";
+import ViewFailed from "parts/view-failed";
 
 import store from "stores/accommodation-store";
 
@@ -60,7 +61,7 @@ class AccommodationConfirmationPage extends React.Component {
             });
             API.get({
                 url: referenceCode ? API.BOOKING_GET_BY_CODE(referenceCode) : API.BOOKING_GET_BY_ID(bookingId),
-                after: (result, err, data) => store.setBookingResult(result, data)
+                after: (result, err, data) => store.setBookingResult(result || {}, data, err)
             });
         }
     }
@@ -103,9 +104,14 @@ render() {
                         params={params}
                         result={result}
                     /> }
-
                     { !booking.referenceCode
-                        ? ( result?.error ? null : <Loader /> )
+                        ? ( data?.error ?
+                            <ViewFailed
+                                reason={t("Unable to load a booking confirmation")}
+                                button={t("Back to booking management")}
+                                link="/user/booking"
+                            />
+                        : <Loader /> )
                         : <React.Fragment>
 
                     <div class={"accent-frame" + ( "Cancelled" == booking.status ? " cancelled" : "")}>
