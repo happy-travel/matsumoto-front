@@ -120,10 +120,10 @@ class AccommodationBookingPage extends React.Component {
             variant = store.selected.roomContractSet,
 
             initialValues = {
-                room: variant?.roomContracts?.map((x,r) => ({
+                room: variant?.roomContracts?.map(item => ({
                     passengers: [
-                        ...Array(variant?.roomContracts[r]?.adultsNumber),
-                        ...Array(variant?.roomContracts[r]?.childrenAges.length),
+                        ...Array(item?.adultsNumber),
+                        ...Array(item?.childrenAges.length),
                     ]
                 })) || [],
                 accepted: true,
@@ -198,7 +198,7 @@ class AccommodationBookingPage extends React.Component {
 
                 <CachedForm
                     id={ FORM_NAMES.BookingForm }
-                    cacheValidator ={ cache => {
+                    cacheValidator={ cache => {
                         if (cache?.room?.length != initialValues?.room.length)
                             return false;
                         for (var i = 0; i < initialValues?.room.length; i++)

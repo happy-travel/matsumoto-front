@@ -55,10 +55,10 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                     View.setTopAlertText("Sorry, this room is not available now (#2), try again later");
                     return;
                 }
+                store.selectRoomContractSet(result);
                 this.setState({
                     redirectToBookingPage: true
                 });
-                store.selectRoomContractSet(result);
             },
             error: (error) => {
                 View.setTopAlertText("Sorry, this room is not available now, try again later");
