@@ -365,6 +365,7 @@ translations: {
 
     "Oppps! Something wrong": "Oppps! Something wrong",
     "Payment failed": "Payment failed",
-    "Try to pay again": "Try to pay again"
+    "Try to pay again": "Try to pay again",
+    "Hotel Information": "Hotel Information"
 }
 };

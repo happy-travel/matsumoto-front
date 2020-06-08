@@ -49,7 +49,7 @@ return (
         <section class="double-sections">
             <div class="middle-section">
 
-                { params_error && <div class="result-code error">
+                { params_error && <div class="accent-frame error">
                     <div class="before">
                         <span class="icon icon-close white" />
                     </div>
@@ -63,7 +63,7 @@ return (
                     </div>
                 </div> }
 
-                <div class={"result-code" + (result.error ? " error" : "")}>
+                <div class={"accent-frame" + (result.error ? " error" : "")}>
                     { (result.status || result.error) && <div class="before">
                         { result.error ? <span class="icon icon-close white" /> : <span class="icon icon-white-check" /> }
                     </div> }

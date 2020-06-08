@@ -20,7 +20,7 @@ class TopAlert extends React.Component {
         return (
             <div class="top-alert">
                 <section>
-                    <span class="icon icon-warning-inverted"/>
+                    <span class="icon icon-warning-white"/>
                     <div class="inner">
                         {View?.topAlertText}
                     </div>

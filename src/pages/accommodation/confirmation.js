@@ -108,7 +108,7 @@ render() {
                         ? ( result?.error ? null : <Loader /> )
                         : <React.Fragment>
 
-                    <div class={"result-code" + ( "Cancelled" == booking.status ? " cancelled" : "")}>
+                    <div class={"accent-frame" + ( "Cancelled" == booking.status ? " cancelled" : "")}>
                         <div class="before">
                             <span class="icon icon-white-check" />
                         </div>
@@ -227,14 +227,10 @@ render() {
                                         ))}
                                     />}
                             </div>
-                            {!!room?.remarks?.length && <div class="part no-icon remarks">
-                                { room.remarks.map(item => (
-                                    <div>
-                                        <b>{item.key}:</b> {item.value}
-                                    </div>
-                                ))}
-                                <FullDeadline t={t} deadlineDetails={room.deadlineDetails} />
-                            </div> }
+                            <FullDeadline t={t}
+                                          deadlineDetails={room.deadlineDetails}
+                                          remarks={room?.remarks}
+                            />
                         </React.Fragment>
                     ))}
 

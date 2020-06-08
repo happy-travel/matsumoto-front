@@ -114,7 +114,7 @@ render() {
                         {t("Booking Details")}
                     </h2>
 
-                    <div class={"result-code" + ( "Cancelled" == booking.status ? " cancelled" : "")}>
+                    <div class={"accent-frame" + ( "Cancelled" == booking.status ? " cancelled" : "")}>
                         <div class="before">
                             <span class="icon icon-white-check" />
                         </div>

@@ -16,61 +16,6 @@
         &.payment-title
             margin-bottom: 15px
 
-    .result-code
-        margin: 30px 0
-        border: 1px solid $color-usual-gray
-        border-radius: 5px
-        background: #ffffff
-        position: relative
-        padding-right: 22px
-        line-height: 58px
-        color: $color-text-light
-        min-height: 60px
-        height: auto
-        overflow: hidden
-        padding-left: 67px
-        .dual
-            width: auto
-            line-height: 18px
-            padding: 20px 0
-            .first
-                flex-basis: auto
-        .before
-            position: absolute
-            left: 0
-            display: block
-            float: left
-            color: #FFFFFF
-            background: #23D578
-            width: 49px
-            height: 100%
-            margin-right: 18px
-            text-align: center
-            line-height: 65px
-        strong
-            font-size: 15px
-            line-height: 18px
-            color: $color-text
-            &.green,
-            &.Success,
-            &.Confirmed
-                color: #23D578
-        &.error
-            .text
-                overflow: hidden
-            .before
-                background: $color-red
-            strong
-                color: $color-red
-            .icon-close
-                width: 15px
-                height: 24px
-        &.cancelled
-            .before
-                background: $color-text-light
-            strong
-                color: $color-text-light
-
     .actions
         margin-top: 90px
         .icon
@@ -166,4 +111,83 @@
                 div
                     padding: 15px
 
+.accent-frame
+    margin: 30px 0
+    border: 1px solid $color-usual-gray
+    border-radius: 5px
+    background: #ffffff
+    position: relative
+    padding-right: 22px
+    line-height: 58px
+    color: $color-text-light
+    min-height: 60px
+    height: auto
+    overflow: hidden
+    padding-left: 67px
+    .dual, .data
+        width: auto
+        line-height: 18px
+        padding: 20px 0
+        .first
+            flex-basis: auto
+    .before
+        position: absolute
+        left: 0
+        display: block
+        float: left
+        color: #FFFFFF
+        background: #23D578
+        width: 49px
+        height: 100%
+        margin-right: 18px
+        text-align: center
+        line-height: 65px
+    strong
+        font-size: 15px
+        line-height: 18px
+        color: $color-text
+        &.green,
+        &.Success,
+        &.Confirmed
+            color: #23D578
+    &.error
+        .text
+            overflow: hidden
+        .before
+            background: $color-red
+        strong
+            color: $color-red
+        .icon-close
+            width: 15px
+            height: 24px
+    &.cancelled
+        .before
+            background: $color-text-light
+        strong
+            color: $color-text-light
+    &.information
+        border-radius: 2px
+        padding-left: 89px
+        margin: 25px 0 -10px
+        color: $color-dark-gray
+        b
+            color: $color-text
+        .data
+            padding: 24px 0
+            div
+                margin-top: 7px
+        .before
+            background: #ffffff
+            padding-left: 25px
+            margin-right: 0
+            width: 61px
+            display: flex
+            padding-top: 30px
+            border-left: 6px solid transparent
+        &.warn, &.ok
+            .before
+                border-left-color: $color-yellow
+        &.ok
+            .before
+                border-left-color: #1BB765
 

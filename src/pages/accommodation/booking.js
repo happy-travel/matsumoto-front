@@ -268,16 +268,14 @@ class AccommodationBookingPage extends React.Component {
                                         )} />
                                     </tbody></table>
 
-                                    <p className="remark">
-                                        {t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} />
+                                    <p class="remark">
+                                        <b>{t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} /></b>
                                     </p>
 
-                                    <FullDeadline t={t} deadlineDetails={item.deadlineDetails} />
-
-                                    {item.remarks?.map(remark => (
-                                        <p class="remark">{remark.value}</p>
-                                    ))}
-
+                                    <FullDeadline t={t}
+                                                  deadlineDetails={item.deadlineDetails}
+                                                  remarks={item.remarks}
+                                    />
                                 </div>
                                 </React.Fragment>))} />
 

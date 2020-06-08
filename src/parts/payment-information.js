@@ -18,7 +18,7 @@ class PaymentInformation extends React.Component {
 
         return (
             <React.Fragment>
-                { params_error && <div class={"result-code error"}>
+                { params_error && <div class="accent-frame error">
                     <div class="before">
                         <span class="icon icon-close white" />
                     </div>
@@ -44,7 +44,7 @@ class PaymentInformation extends React.Component {
                     link={ store.paymentMethod == PAYMENT_METHODS.CARD ? "/payment/form" : "/accommodation/booking" }
                 />
                     :
-                <div class="result-code">
+                <div class="accent-frame">
                     { !!result.status && <div class="before">
                         <span class="icon icon-white-check" />
                     </div> }
