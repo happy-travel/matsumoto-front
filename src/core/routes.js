@@ -1,5 +1,6 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import Route from "./misc/route";
 
 import accommodationTitle         from "pages/accommodation/title";
 import accommodationVariants      from "pages/accommodation/variants";
@@ -67,45 +68,45 @@ export const routesWithFooter = [
 const Routes = () => (
     <Switch>
         <Route exact path="/"                     component={accommodationTitle} />
-        <Route exact path="/search"               component={accommodationVariants} />
-        <Route exact path="/search/contract"      component={accommodationContractsSets} />
-        <Route path="/accommodation/booking"      component={accommodationBooking} />
+        <Route exact path="/search"               component={accommodationVariants} title="Search Results" />
+        <Route exact path="/search/contract"      component={accommodationContractsSets} title="Select An Accommodation" />
+        <Route path="/accommodation/booking"      component={accommodationBooking} title="Accommodation Booking" />
         <Route path={[
                     "/accommodation/confirmation/:id",
                     "/accommodation/confirmation"
-                    ]}                            component={accommodationConfirmation} />
+                    ]}                            component={accommodationConfirmation} title="Your Booking Confirmation" />
 
-        <Route path="/payment/form"               component={paymentPage} />
-        <Route path="/payment/account"            component={paymentAccountPage} />
+        <Route path="/payment/form"               component={paymentPage} title="Payment" />
+        <Route path="/payment/account"            component={paymentAccountPage} title="Account" />
         <Route path={[
                     "/payment/result/:ref",
                     "/payment/result"
-                    ]}                            component={paymentResult} />
-        <Route path="/payments/callback"          component={payment3DSCallback} />
+                    ]}                            component={paymentResult} title="Processing" />
+        <Route path="/payments/callback"          component={payment3DSCallback} title="Processing" />
 
         <Route path="/pay/:code"                  component={paymentDirectLink} />
-        <Route path="/payment/confirmation"       component={paymentDirectLinkConfirm} />
+        <Route path="/payment/confirmation"       component={paymentDirectLinkConfirm} title="Confirmation" />
 
-        <Route path="/signup/user"                component={accountRegistrationStep2} />
-        <Route path="/signup/counterparty"        component={accountRegistrationStep3} />
-        <Route path="/signup/invite/:email/:code" component={accountInvite} />
+        <Route path="/signup/user"                component={accountRegistrationStep2} title="Sign Up" />
+        <Route path="/signup/counterparty"        component={accountRegistrationStep3} title="Sign Up" />
+        <Route path="/signup/invite/:email/:code" component={accountInvite} title="Sign Up" />
 
-        <Route path="/user/booking"               component={userBookingManagement} />
-        <Route path="/user/payment-history"       component={accountStatement} />
-        <Route path="/user/invite"                component={userInvite} />
+        <Route path="/user/booking"               component={userBookingManagement} title="Your Bookings" />
+        <Route path="/user/payment-history"       component={accountStatement} title="Your Payments" />
+        <Route path="/user/invite"                component={userInvite} title="Send Invite" />
 
-        <Route path="/settings/users/add"         component={addNewUser} />
+        <Route path="/settings/users/add"         component={addNewUser} title="Add New User" />
         <Route path="/settings/users/:agentId/:counterpartyId/:agencyId/"
-                                                  component={addNewUser} />
-        <Route path="/settings/users"             component={usersManagement} />
+                                                  component={addNewUser} title="User Settings" />
+        <Route path="/settings/users"             component={usersManagement} title="User Management" />
 
-        <Route path="/settings/admin"             component={AdminSettings} />
-        <Route path="/settings/counterparty"      component={CounterpartySettings} />
+        <Route path="/settings/admin"             component={AdminSettings} title="Your Settings" />
+        <Route path="/settings/counterparty"      component={CounterpartySettings} title="Counterparty Settings" />
 
-        <Route path="/contact"                    component={contactUsPage} />
-        <Route path="/terms"                      component={termsPage} />
-        <Route path="/privacy"                    component={privacyPage} />
-        <Route path="/about"                      component={aboutUsPage} />
+        <Route path="/contact"                    component={contactUsPage} title="Contact Us" />
+        <Route path="/terms"                      component={termsPage} title="Terms & Conditions" />
+        <Route path="/privacy"                    component={privacyPage} title="Privacy Policy" />
+        <Route path="/about"                      component={aboutUsPage} title="About Us" />
 
         <Route path="/dev/auth" component={devAuthPage} />
 
