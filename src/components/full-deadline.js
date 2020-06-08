@@ -30,11 +30,9 @@ class FullDeadline extends React.Component {
                                 {t("FREE Cancellation - Without Prepayment")}
                             </span>
                         }
-                        { !!deadlineDetails?.policies?.length && <React.Fragment>
-                            {deadlineDetails.policies.map(item => (<div>
-                                {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
-                            </div>))}
-                        </React.Fragment> }
+                        { !!deadlineDetails?.policies?.length && deadlineDetails.policies.map(item => (<div>
+                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
+                        </div>))}
                     </div>
                 </div>
                 { !!remarks && !!remarks.length && <div class="accent-frame information">
