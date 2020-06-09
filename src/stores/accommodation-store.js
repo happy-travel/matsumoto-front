@@ -16,7 +16,8 @@ class AccommodationStore {
         result: null,
         length: 0, status: "",
         requestId: null,
-        hasMoreVariants: false
+        hasMoreVariants: false,
+        page: 0
     };
 
     @observable
@@ -62,7 +63,7 @@ class AccommodationStore {
         return applyFilters(this.search?.result?.results, this.selectedFilters) || [];
     }
 
-    setSearchResult(value, nonZeroPage) {
+    setSearchResult(value, page = 0) {
         if (value?.results) {
             for (var i = 0; i < value.results.length; i++) {
                 var source = value.results[i].source;
@@ -74,7 +75,7 @@ class AccommodationStore {
                     item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
                 });
             }
-            if (nonZeroPage)
+            if (page != 0)
                 this.search.result.results.push(...value.results);
             else
                 this.search.result = value;
@@ -82,6 +83,8 @@ class AccommodationStore {
             this.search.length = 0;
             this.search.result = [];
         }
+
+        this.search.page = page;
 
         this.search.hasMoreVariants = !!value?.results?.length;
         if (this.search.status == "PartiallyCompleted")

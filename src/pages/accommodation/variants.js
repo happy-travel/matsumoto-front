@@ -22,8 +22,7 @@ class AccommodationVariantsPage extends React.Component {
         super(props);
         this.state = {
             redirectToRoomContractSetsPage: false,
-            loading: false,
-            page: 0
+            loading: false
         };
         this.loadNextPage = this.loadNextPage.bind(this);
     }
@@ -53,10 +52,7 @@ class AccommodationVariantsPage extends React.Component {
     }
 
     loadNextPage() {
-        this.setState({
-            page: this.state.page+1
-        });
-        loadCurrentSearch(this.state.page);
+        loadCurrentSearch((store.search.page || 0) + 1);
     }
 
     render() {
