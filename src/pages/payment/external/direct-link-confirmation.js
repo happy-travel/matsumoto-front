@@ -1,9 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, price, API, session } from "core";
-
-import { Dual, Header } from "components/simple";
+import { API, session } from "core";
+import { Dual, StaticHeader, price } from "simple";
 
 import store from "stores/accommodation-store";
 
@@ -43,7 +42,7 @@ render() {
 
 return (
 <React.Fragment>
-    <Header />
+    <StaticHeader />
 
     <div class="confirmation block">
         <section class="double-sections">

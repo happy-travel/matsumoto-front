@@ -1,9 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import UI from "stores/ui-store";
 import { localStorage } from "core";
-import Flag from "components/flag";
+import { Flag } from "simple";
+
+import UI from "stores/ui-store";
 
 const dropdownId = "LocaleSwitcherDropdown";
 

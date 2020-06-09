@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink  } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import AuthStore from "stores/auth-store";
@@ -7,7 +7,7 @@ import AuthStore from "stores/auth-store";
 export default function () {
     const { t } = useTranslation();
 
-    return  <>
+    return <React.Fragment>
         <section className="users-pages__header">
             <h1>{AuthStore.activeCounterparty.name}</h1>
             {/*<p>{t('Account Not Verificated Yet')}</p>*/}
@@ -18,5 +18,5 @@ export default function () {
             <NavLink to="/settings/users">{t('Users management')}</NavLink >
             {/*<NavLink to="/settings/notifications">{t('Notifications')}</NavLink >*/}
         </div>
-    </>
+    </React.Fragment>;
 }

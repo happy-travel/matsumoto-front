@@ -2,16 +2,19 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import { GroupRoomTypesAndCount, MealPlan } from "components/simple";
+import { API } from "core";
 
-import { API, dateFormat, price, plural } from "core";
-import store from 'stores/accommodation-store';
-import View from "stores/view-store";
-import AccommodationCommonDetails from "parts/accommodation-details";
+import {
+    GroupRoomTypesAndCount, MealPlan, Loader, PassengersCount, dateFormat, price
+} from "simple";
 
 import Breadcrumbs from "components/breadcrumbs";
-import { Loader, PassengersCount } from "components/simple";
 import Deadline from "components/deadline";
+
+import AccommodationCommonDetails from "parts/accommodation-details";
+
+import store from 'stores/accommodation-store';
+import View from "stores/view-store";
 
 @observer
 class AccommodationRoomContractsSetsPage extends React.Component {
@@ -137,7 +140,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                         <div class="subpart">
                             <div class="h1">{t("Check Out Date")}</div>
                             <div class="h2">{dateFormat.d(store.search.request.checkOutDate)}</div>
-                            <div class="h3">{plural(t, store.search?.result?.numberOfNights, "Night")}</div>
+                            <div class="h3">{__plural(t, store.search?.result?.numberOfNights, "Night")}</div>
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Guests")}</div>
@@ -158,7 +161,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                             <thead>
                                 <tr>
                                     <th>{t("Room Type")}</th>
-                                    <th class="price">{t("Price for")} {plural(t, store.search?.result?.numberOfNights, "Night")}</th>
+                                    <th class="price">{t("Price for")} {__plural(t, store.search?.result?.numberOfNights, "Night")}</th>
                                     <th class="pros" />
                                     <th />
                                 </tr>

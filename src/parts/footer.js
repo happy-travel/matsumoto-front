@@ -2,10 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import settings from "settings";
-import UI from "stores/ui-store";
 import { observer } from "mobx-react";
 import LocaleSwitcher from "components/switchers/locale";
 import CurrencySwitcher from "components/switchers/currency";
+
+import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
 
 @observer

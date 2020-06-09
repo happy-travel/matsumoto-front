@@ -3,7 +3,7 @@ import Tiles from 'components/tiles';
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import authStore from "stores/auth-store";
-import { Loader } from "../../components/simple";
+import { Loader } from "simple";
 
 @observer
 class AccommodationTitlePage extends React.Component {

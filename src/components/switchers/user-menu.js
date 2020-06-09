@@ -1,12 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import UI from "stores/ui-store";
 import Authorize from "core/auth/authorize";
-import {Link, NavLink} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
-import { Loader } from "components/simple";
+import { Loader } from "simple";
+
 import AuthStore from "stores/auth-store";
+import UI from "stores/ui-store";
 
 const dropdownId = "UserMenuDropdown",
       calcTitleFor = (value) => (value?.length > 14 ? { title: value } : {});

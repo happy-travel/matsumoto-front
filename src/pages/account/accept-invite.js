@@ -1,6 +1,5 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { API } from "core";
 import Authorize from "core/auth/authorize";
 
 @observer

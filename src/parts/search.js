@@ -1,24 +1,23 @@
 import React from "react";
+import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, session, dateFormat, plural } from "core";
+import { API, session } from "core";
+import { dateFormat, Flag, Stars } from "simple";
 
 import { Redirect } from "react-router-dom";
 import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";
-import Flag from "components/flag";
-
-import store from "stores/accommodation-store";
-import UI from "stores/ui-store";
-import View from "stores/view-store";
-import authStore from "stores/auth-store";
+import { accommodationSearchValidator } from "components/form/validation";
 
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import DateDropdown from "components/form/dropdown/date";
 import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
-import { accommodationSearchValidator } from "components/form/validation";
-import { Stars } from "components/simple";
-import moment from "moment";
+
+import store from "stores/accommodation-store";
+import UI from "stores/ui-store";
+import View from "stores/view-store";
+import authStore from "stores/auth-store";
 
 import { loadCurrentSearch } from "./accommodation-search-common-logic";
 
@@ -329,9 +328,9 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={PeopleDropdown}
                                                    value={
-                                                          [plural(t, sum(formik.values, "adultsNumber"), "Adult"),
-                                                           plural(t, sum(formik.values, "childrenNumber"), "Children"),
-                                                           plural(t, formik.values.roomDetails.length, "Room")].join(" • ")
+                                                          [__plural(t, sum(formik.values, "adultsNumber"), "Adult"),
+                                                           __plural(t, sum(formik.values, "childrenNumber"), "Children"),
+                                                           __plural(t, formik.values.roomDetails.length, "Room")].join(" • ")
                                                    }
                                         />
                                     </div>

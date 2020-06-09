@@ -1,5 +1,4 @@
-import React from "react";
-import { observable, computed, action } from "mobx";
+import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
 import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";

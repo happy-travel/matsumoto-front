@@ -1,5 +1,4 @@
-// import React from 'react';
-import {observable, action} from "mobx";
+import { observable, action } from "mobx";
 
 class UsersStore {
     @observable usersCounterpartyBackup = [];

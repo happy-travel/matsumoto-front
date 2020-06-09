@@ -1,19 +1,18 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import { withRouter } from "react-router";
-
-import { PERMISSIONS_LABELS, PERMISSIONS } from "core/enums";
 import { API } from "core";
 
+import { Loader } from "simple";
+import { PERMISSIONS_LABELS } from "core/enums";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
-import UsersPagesHeader from "components/users-pages-header";
-import { Loader } from "components/simple";
+import UsersPagesHeader from "parts/users-pages-header";
 
 import View from "stores/view-store";
-import {Redirect} from "react-router-dom";
 
 @withRouter
 @observer

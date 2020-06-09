@@ -3,18 +3,10 @@ import settings from "settings";
 import BasicPaymentPage from "./utils/processing";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { price, API } from "core";
+import { API } from "core";
 import { Formik } from "formik";
-import {
-    FieldText,
-    FieldCheckbox
-} from "components/form";
-import { Header, Loader } from "components/simple";
-import store from "stores/accommodation-store";
-import UI from "stores/ui-store";
-import { creditCardValidator, savedCreditCardValidator } from "components/form/validation";
+import { StaticHeader, Loader, price } from "simple";
 import { creditCardType } from "card-validator";
-import Breadcrumbs from "components/breadcrumbs";
 import ReactTooltip from "react-tooltip";
 import {
     prettyCardNumber,
@@ -25,6 +17,16 @@ import {
     decorateCardholderName
 } from "./utils/decorator";
 import { snare } from "./utils/snare";
+
+import {
+    FieldText,
+    FieldCheckbox
+} from "components/form";
+import Breadcrumbs from "components/breadcrumbs";
+import { creditCardValidator, savedCreditCardValidator } from "components/form/validation";
+
+import store from "stores/accommodation-store";
+import UI from "stores/ui-store";
 
 @observer
 class PaymentPage extends BasicPaymentPage {
@@ -165,7 +167,7 @@ render() {
 
     return (
         <React.Fragment>
-            { this.state.direct && <Header /> }
+            { this.state.direct && <StaticHeader /> }
             { this.state.loading && <Loader page /> }
 
 <div class="confirmation block payment">

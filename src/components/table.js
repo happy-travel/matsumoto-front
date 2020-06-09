@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { useTable, usePagination, useSortBy } from "react-table";
 
 import Pagination from "components/pagination";

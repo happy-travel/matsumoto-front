@@ -1,10 +1,11 @@
 import React from "react";
+import { API } from "core";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, dateFormat } from "core";
-import UI, { INVOICE_TYPES } from "stores/ui-store";
 import { emailFormValidator } from "components/form/validation";
+
+import UI, { INVOICE_TYPES } from "stores/ui-store";
 
 @observer
 class SendInvoiceModal extends React.Component {

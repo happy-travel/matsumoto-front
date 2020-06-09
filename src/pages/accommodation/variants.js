@@ -2,19 +2,19 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
-import { GroupRoomTypesAndCount, MealPlan } from "components/simple";
-
 import InfiniteScroll from "react-infinite-scroll-component";
+import { API } from "core";
 
-import { API, price, plural } from "core";
-import store from 'stores/accommodation-store';
-
-import AccommodationFilters from "parts/accommodation-filters";
+import {
+    GroupRoomTypesAndCount, MealPlan, Stars, Loader, PassengersCount, price
+} from "simple";
 import Breadcrumbs from "components/breadcrumbs";
-import { Stars, Loader, PassengersCount } from "components/simple";
 import Deadline from "components/deadline";
 
+import AccommodationFilters from "parts/accommodation-filters";
 import { loadCurrentSearch } from "parts/accommodation-search-common-logic";
+
+import store from 'stores/accommodation-store';
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -177,7 +177,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="billet">
                             <div class="count">
-                                {plural(t, store.search.result.numberOfNights, "Night")}
+                                {__plural(t, store.search.result.numberOfNights, "Night")}
                                 , <PassengersCount t={t}
                                                    adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
                                                    children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}

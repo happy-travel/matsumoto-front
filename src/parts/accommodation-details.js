@@ -1,9 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Stars } from "components/simple";
+import { Stars } from "simple";
 import Gallery from "components/gallery";
-import {ADDITIONAL_INFO} from "core/enums";
+import { ADDITIONAL_INFO } from "core/enums";
 
 const Amenities = ({ hotel, t }) => {
     if (!hotel.accommodationAmenities?.length)

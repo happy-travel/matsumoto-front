@@ -2,8 +2,9 @@ import React from "react";
 import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
 import { isRedirectNeeded } from "core/init";
+import { Loader } from "simple";
+
 import store from "stores/auth-store";
-import { Loader } from "components/simple";
 
 class AuthDefaultComponent extends React.PureComponent {
     render() {

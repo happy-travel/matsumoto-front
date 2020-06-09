@@ -1,8 +1,9 @@
 import React from 'react';
 import { observer } from "mobx-react";
+import { Highlighted } from "simple";
+
 import UI from 'stores/ui-store';
 import View from 'stores/view-store';
-import { Highlighted } from "components/simple";
 
 /* Refactoring possibility: make a class for suggestion dropdown menus and remove code copies with region dropdown */
 @observer

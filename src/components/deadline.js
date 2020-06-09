@@ -1,6 +1,7 @@
 import moment from "moment";
 import React from "react";
-import { dateFormat, API } from "core";
+import { API } from "core";
+import { dateFormat } from "simple";
 
 class Deadline extends React.Component {
     constructor(props) {

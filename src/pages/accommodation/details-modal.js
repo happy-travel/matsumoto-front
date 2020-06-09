@@ -1,8 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import UI from "stores/ui-store";
 import AccommodationCommonDetails from "parts/accommodation-details";
+
+import UI from "stores/ui-store";
 
 @observer
 class AccommodationDetailsModal extends React.Component {

@@ -2,16 +2,19 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
+import { API } from "core";
+
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { CachedForm, FORM_NAMES } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
-import store from "stores/auth-store";
+
 import FormUserData from "parts/form-user-data";
-import { API } from "core";
+import Authorize from "core/auth/authorize";
+
+import store from "stores/auth-store";
 import View from "stores/view-store";
 import UI from "stores/ui-store";
-import Authorize from "core/auth/authorize";
 
 @observer
 class RegistrationStep2 extends React.Component {

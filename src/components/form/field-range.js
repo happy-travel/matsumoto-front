@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import InputRange from "react-input-range";
-import { price } from "core";
+import { price } from "simple";
 import { getValue } from "./utils";
 
 @observer

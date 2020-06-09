@@ -1,11 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { getParams, API, session } from "core";
-import UI from "stores/ui-store";
-import { FORM_NAMES } from "components/form";
-import store from "stores/accommodation-store";
 import { Redirect } from "react-router-dom";
-import { Loader } from "components/simple";
+import { Loader } from "simple";
+import { FORM_NAMES } from "components/form";
+
+import store from "stores/accommodation-store";
+import UI from "stores/ui-store";
 
 @observer
 class BasicPaymentPage extends React.Component {

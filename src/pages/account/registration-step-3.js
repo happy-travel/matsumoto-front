@@ -1,8 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { API } from "core";
 import { useTranslation } from "react-i18next";
 import { Redirect, Link } from "react-router-dom";
+import { API } from "core";
+
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import {
@@ -13,11 +14,12 @@ import {
     FieldSelect
 } from "components/form";
 import { registrationCounterpartyValidator } from "components/form/validation";
+import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
+import Authorize from "core/auth/authorize";
+
 import store from "stores/auth-store";
 import UI from "stores/ui-store";
 import View from "stores/view-store";
-import Authorize from "core/auth/authorize";
-import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 
 @observer
 class RegistrationStep3 extends React.Component {

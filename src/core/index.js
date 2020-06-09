@@ -2,7 +2,8 @@ import API from "./api";
 import { session, localStorage } from "./storage";
 import App from "./app";
 import init from "./init";
-import { dateFormat, decorate, hotelStars, price, plural, getParams, scrollTo } from "./basic";
+import { getParams } from "./misc/get-params";
+import { scrollTo } from "./misc/scroll-to";
 
 export {
     API,
@@ -11,10 +12,5 @@ export {
     App,
     init,
     scrollTo,
-    dateFormat,
-    decorate,
-    hotelStars,
-    price,
-    plural,
     getParams
 };

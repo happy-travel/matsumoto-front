@@ -1,7 +1,8 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import UserMenu from "components/switchers/user-menu";
+
 import authStore from "stores/auth-store";
 
 const Header = () => {

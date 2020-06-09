@@ -1,11 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react";
+import { API } from "core";
+import { Flag, Highlighted, decorate } from "simple";
+
 import UI from "stores/ui-store";
 import View from "stores/view-store";
-import { decorate } from "core";
-import { Highlighted } from "components/simple";
-import { API } from "core";
-import Flag from "components/flag";
 
 export const regionInputChanged = (event, props) => {
     if (props.formik)

@@ -3,12 +3,12 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
 import { Link } from 'react-router-dom';
+import { API } from "core";
 
-import { dateFormat, API } from "core";
+import { dateFormat, Loader } from "simple";
 import { FieldText } from "components/form";
 import Table from "components/table";
-import UsersPagesHeader from "components/users-pages-header";
-import { Loader } from "components/simple";
+import UsersPagesHeader from "parts/users-pages-header";
 
 import UsersStore from "stores/users-store";
 import AuthStore from "stores/auth-store";

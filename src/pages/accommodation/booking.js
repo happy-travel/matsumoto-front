@@ -1,29 +1,29 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { API, dateFormat, price } from "core";
+import { API } from "core";
 import { FieldArray } from "formik";
 
+import {
+    Dual, Loader, MealPlan, RoomPrices, GroupRoomTypesAndCount, dateFormat, price
+} from "simple";
 import {
     CachedForm,
     FORM_NAMES,
     FieldText,
-    FieldTextarea,
-    FieldSwitch,
     FieldCheckbox,
     FieldSelect
 } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, MealPlan, RoomPrices, GroupRoomTypesAndCount } from "components/simple";
 import { Link, Redirect } from "react-router-dom";
 import { accommodationBookingValidator } from "components/form/validation";
 import FullDeadline from "components/full-deadline";
+import transliterate from "components/external/transliterate";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
-import transliterate from "components/external/transliterate";
 
 const isPaymentAvailable = (balance, price) =>
    ( balance?.currency && (balance.balance >= balance.creditLimit) );
@@ -243,7 +243,7 @@ class AccommodationBookingPage extends React.Component {
                                                         id={`room.${r}.passengers.${index}.title`}
                                                         placeholder={index < item.adultsNumber ?
                                                             t("Please select one") :
-                                                            t("Child") // + ", " + plural(t, childrenAges[index - adults], "year")
+                                                            t("Child") // + ", " + __plural(t, childrenAges[index - adults], "year")
                                                         }
                                                         options={[
                                                             { value: "Mr", text: t("Mr.")},

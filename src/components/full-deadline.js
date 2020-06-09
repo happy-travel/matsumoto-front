@@ -1,5 +1,5 @@
 import React from "react";
-import { dateFormat } from "core";
+import { dateFormat } from "simple";
 import moment from "moment";
 
 class FullDeadline extends React.Component {

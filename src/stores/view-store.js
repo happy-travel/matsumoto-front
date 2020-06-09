@@ -1,7 +1,6 @@
-import React from "react";
 import { observable } from "mobx";
+import { decorate } from "simple";
 import UI from "./ui-store";
-import { decorate } from "core";
 
 class ViewStore {
     @observable countries = [];

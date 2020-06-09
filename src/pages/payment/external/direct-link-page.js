@@ -1,13 +1,9 @@
 import React from "react";
 import settings from "settings";
-import PaymentPage from "../payment";
-
-import { session } from "core";
+import { session, API } from "core";
 import { StorageUserIdKey } from "core/storage";
-
-import { API } from "core";
-import { Loader } from "components/simple";
 import { snare } from "../utils/snare";
+import PaymentPage from "../payment";
 
 class PaymentDirectLinkPage extends PaymentPage {
     constructor(props) {

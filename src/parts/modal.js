@@ -1,11 +1,12 @@
 import React from 'react';
 import { observer } from "mobx-react";
-import UI, { MODALS } from "stores/ui-store";
 
 import AccommodationDetailsModal from "pages/accommodation/details-modal";
 import CancellationConfirmationModal from "parts/cancellation";
 import SendInvoiceModal from "parts/send-invoice";
 import SearchOverloadModal from "parts/search-overload";
+
+import UI, { MODALS } from "stores/ui-store";
 
 const modalComponent = {
     [MODALS.ACCOMMODATION_DETAILS]: AccommodationDetailsModal,

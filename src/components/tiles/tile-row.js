@@ -2,7 +2,6 @@ import React from "react";
 import TileItem from "./tile-item";
 
 const Tiles = class extends React.Component {
-
     render() {
         var {
             list

@@ -1,8 +1,10 @@
 import React from "react";
-import UI from "stores/ui-store";
 import { observer } from "mobx-react";
-import { localStorage, decorate, scrollTo } from "core";
+import { localStorage, scrollTo } from "core";
+import { decorate } from "simple";
 import { getValue } from "./utils";
+
+import UI from "stores/ui-store";
 
 @observer
 class FieldText extends React.Component {

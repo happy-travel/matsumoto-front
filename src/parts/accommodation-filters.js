@@ -7,10 +7,9 @@ import {
     FieldCheckbox,
     FieldRange
 } from "components/form";
-import { Expandable } from "components/simple";
+import { Expandable, hotelStars } from "simple";
 
 import store from "stores/accommodation-store";
-import { hotelStars } from "core";
 
 @observer
 class AccommodationFiltersPart extends React.Component {

@@ -1,16 +1,20 @@
 import React from "react";
+import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, price, API } from "core";
-import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
+import { API } from "core";
+
+import {
+    Dual, Loader, MealPlan, dateFormat, price
+} from "simple";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, MealPlan } from "components/simple";
-import moment from "moment";
+
 import PaymentInformation from "parts/payment-information";
 
 import store from "stores/accommodation-store";
+import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 const Passenger = ({ passenger }) => (
     passenger ? <Dual addClass="line"

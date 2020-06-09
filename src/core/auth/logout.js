@@ -1,6 +1,6 @@
 import React from "react";
 import Authorize from "./authorize";
-import { Loader } from "components/simple";
+import { Loader } from "simple";
 
 class AuthLogoutComponent extends React.PureComponent {
 

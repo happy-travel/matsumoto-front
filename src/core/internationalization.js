@@ -12,7 +12,7 @@ i18n.init({
         ar: arabic
     },
     fallbackLng: "en",
-    debug: "localhost" == window.location.hostname,
+    debug: __localhost,
 
     ns: ["translations"],
     defaultNS: "translations",

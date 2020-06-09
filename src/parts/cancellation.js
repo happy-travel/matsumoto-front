@@ -1,9 +1,10 @@
 import React from "react";
+import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, dateFormat } from "core";
+import { API } from "core";
+import { dateFormat } from "simple";
 import UI from "stores/ui-store";
-import moment from "moment";
 
 @observer
 class CancellationConfirmationModal extends React.Component {

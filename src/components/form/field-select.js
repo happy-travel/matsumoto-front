@@ -1,6 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import FieldText from "./field-text";
+
 import UI from "stores/ui-store";
 
 const getDeepValue = (obj, path) => {

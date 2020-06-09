@@ -1,30 +1,31 @@
-import React from 'react';
-import '../../styles';
+import React from "react";
+import "../../styles";
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import ScrollToTop from './misc/scroll-to-top';
-import { I18nextProvider } from 'react-i18next';
-import internationalization from './internationalization';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import ScrollToTop from "./misc/scroll-to-top";
+import { I18nextProvider } from "react-i18next";
+import internationalization from "./internationalization";
 
-import AuthCallback from 'core/auth/callback';
-import AuthSilent   from 'core/auth/silent';
-import AuthDefault  from 'core/auth/default';
+import AuthCallback from "core/auth/callback";
+import AuthSilent   from "core/auth/silent";
+import AuthDefault  from "core/auth/default";
 
-import Header    from 'parts/header';
-import Footer    from 'parts/footer';
-import TopAlert  from 'parts/top-alert';
-import Modal     from 'parts/modal';
-import Search    from 'parts/search';
+import Header    from "parts/header";
+import Footer    from "parts/footer";
+import TopAlert  from "parts/top-alert";
+import Modal     from "parts/modal";
+import Search    from "parts/search";
 
 import Routes, {
     routesWithHeaderAndFooter,
     routesWithSearch,
     routesWithFooter
-} from './routes';
+} from "./routes";
 
-import authStore from 'stores/auth-store';
-import { Loader } from "components/simple";
+import { Loader } from "simple";
 import { isRedirectNeeded } from "core/init";
+
+import authStore from "stores/auth-store";
 
 const App = () => {
     var canShowContent = !isRedirectNeeded() || authStore.userCache?.access_token;

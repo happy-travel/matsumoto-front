@@ -1,7 +1,6 @@
-import React from "react";
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
-import { decorate } from "core";
+import { decorate } from "simple";
 
 /* Refactoring possibility: import babel-plugin-objective-enums and make enums */
 export const MODALS = {

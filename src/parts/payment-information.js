@@ -1,9 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import UI from "stores/ui-store";
 import ViewFailed from "parts/view-failed";
+
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
+import UI from "stores/ui-store";
 
 @observer
 class PaymentInformation extends React.Component {

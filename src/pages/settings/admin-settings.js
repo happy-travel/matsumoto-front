@@ -2,14 +2,13 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
-
-import { registrationUserValidator } from "components/form/validation";
 import { API } from "core";
+
+import { Loader, Flag } from "simple";
+import { registrationUserValidator } from "components/form/validation";
 import { FieldText, FieldSelect, FieldSwitch } from "components/form";
-import Flag from "components/flag";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
-import UsersPagesHeader from "components/users-pages-header";
-import { CancelButton, Loader } from "components/simple";
+import UsersPagesHeader from "parts/users-pages-header";
 
 import authStore from "stores/auth-store";
 import UI from "stores/ui-store";

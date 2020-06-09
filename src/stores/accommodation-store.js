@@ -1,4 +1,3 @@
-import React from "react";
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
 import { createFilters, applyFilters } from "./utils/accommodation-filtering";

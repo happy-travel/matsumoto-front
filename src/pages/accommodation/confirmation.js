@@ -1,18 +1,22 @@
 import React from "react";
+import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { dateFormat, price, API, plural } from "core";
-import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
+import { API } from "core";
+
+import {
+    Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat, price
+} from "simple";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount } from "components/simple";
-import moment from "moment";
-import PaymentInformation from "parts/payment-information";
 import FullDeadline from "components/full-deadline";
+
+import PaymentInformation from "parts/payment-information";
 import ViewFailed from "parts/view-failed";
 
 import store from "stores/accommodation-store";
+import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 @observer
 class AccommodationConfirmationPage extends React.Component {
@@ -106,11 +110,11 @@ render() {
                     /> }
                     { !booking.referenceCode
                         ? ( data?.error ?
-                            <ViewFailed
+                            ((this.state.fromHistory || !result?.error) ? <ViewFailed
                                 reason={t("Unable to load a booking confirmation")}
                                 button={t("Back to booking management")}
                                 link="/user/booking"
-                            />
+                            /> : null)
                         : <Loader /> )
                         : <React.Fragment>
 
@@ -166,8 +170,8 @@ render() {
                             <Dual
                                   a={t("Your Booking")}
                                   b={
-                                      plural(t, booking.numberOfNights, "Night") + ", " +
-                                      plural(t, booking.roomDetails.length, "Room")
+                                      __plural(t, booking.numberOfNights, "Night") + ", " +
+                                      __plural(t, booking.roomDetails.length, "Room")
                                   }
                             />
                             <Dual

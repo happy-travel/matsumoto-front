@@ -2,12 +2,11 @@ import React from "react";
 import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
 import { init } from "core";
-import { getParams } from "core";
-import { Loader } from "components/simple";
+import { Loader } from "simple";
+
 import store from "stores/auth-store";
 
 class AuthCallbackComponent extends React.PureComponent {
-
     componentDidMount() {
         Authorize.removeUser();
         Authorize.signinRedirectCallback()
