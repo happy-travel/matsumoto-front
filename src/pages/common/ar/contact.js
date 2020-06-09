@@ -20,7 +20,7 @@ export default function () {
                         <br/>
                         Our Office Address<br/>
                         <br/>
-                        {t('footer_address_line_1')}<br/>
+                        HappyTravelDotCom Travel and Tourism LLC,<br/>
                         <br/>
                         {t('footer_address_line_2')}<br/>
                         <br/>
