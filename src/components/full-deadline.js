@@ -43,7 +43,7 @@ class FullDeadline extends React.Component {
                         <b>{t("Hotel Information")}</b>
                         { remarks.map(item => (
                             <div>
-                                {item.value} {item.key ? "(" + item.key + ")" : ""}
+                                {item.key ? <span>{item.key}:</span> : ""} {item.value}
                             </div>
                         ))}
                     </div>

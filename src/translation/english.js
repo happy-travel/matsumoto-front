@@ -369,6 +369,9 @@ translations: {
     "Try to pay again": "Try to pay again",
     "Hotel Information": "Hotel Information",
     "Unable to load a booking confirmation": "Unable to load a booking confirmation",
-    "Back to booking management": "Back to booking management"
+    "Back to booking management": "Back to booking management",
+
+    "Please note the booking price has changed.": "Please note the booking price has changed.",
+    "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.": "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final."
 }
 };

@@ -135,8 +135,13 @@ class AccommodationStore {
         };
     }
 
-    selectRoomContractSet(result) {
+    selectRoomContractSet(result, preloaded) {
         result = result?.data || null;
+
+        if (result?.roomContractSet?.price.currency != preloaded?.price?.currency ||
+            result?.roomContractSet?.price.netTotal !== preloaded?.price?.netTotal)
+            result.roomContractSet.priceChangedAlert = true;
+
         this.selected = {
             ...this.selected,
             accommodationFinal : result,

@@ -356,8 +356,21 @@ class AccommodationBookingPage extends React.Component {
 
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
+                                    { !!variant.priceChangedAlert && <div class="accent-frame information warn alternative-margin">
+                                        <div class="before">
+                                            <span class="icon icon-warning-yellow" />
+                                        </div>
+                                        <div class="data">
+                                            <b>
+                                                {t("Please note the booking price has changed.")}
+                                            </b>
+                                            <div>
+                                                {t("To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.")}
+                                            </div>
+                                        </div>
+                                    </div>}
                                     <p>{t("You need to pay")}:
-                                        <span class="value">{price(variant.price)}</span>
+                                        <span class="value"><b>{price(variant.price)}</b></span>
                                     </p>
                                     <div class="list">
                                         <div
