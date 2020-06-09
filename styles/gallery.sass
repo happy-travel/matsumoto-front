@@ -2,16 +2,13 @@
 
 .gallery
     max-width: 100%
-    height: auto
+    height: 214px
     display: inline-flex
     vertical-align: top
     flex-direction: row
-    overflow: hidden
     padding: 6px
     border: 1px solid #D8DADC
     border-radius: 4px
-    &.with-scroll
-        padding-bottom: 3px
     .big
         border: 1px solid #ffffff
         border-radius: 4px
@@ -31,15 +28,15 @@
         flex-direction: row
         &.scroll
             overflow-x: scroll
-            height: 208px
+            height: 209px
             &::-webkit-scrollbar
-                height: 4px
+                height: 5px
                 line-height: 0
             &::-webkit-scrollbar-track
-                background: white
+                background: transparent
             &::-webkit-scrollbar-thumb
-                background-color: $color-usual-gray
-                border-radius: 4px
+                background-color: $color-brand
+                border-radius: 5px
         .subthumbs
             display: flex
             flex-direction: column
