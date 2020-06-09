@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { plural, price, dateFormat } from "core";
 
 export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
-    (!nonEmpty || b) ? <div class={"dual" + (addClass ? " " + addClass : '')}>
+    (!nonEmpty || b) ? <div class={"dual" + __class(addClass)}>
         <div class="first">
             { first || a }
         </div>
@@ -62,7 +62,7 @@ export const Expandable = class extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div class={"item" + (this.state.open ? " open" : "")}
+                <div class={"item" + __class(this.state.open, "open")}
                      onClick={() => this.setState({ open : !this.state.open })}>
                     {this.props.header}
                 </div>
@@ -73,9 +73,9 @@ export const Expandable = class extends React.Component {
 };
 
 export const Loader = ({ page, white }) => (
-    <div class={"loader" + (page ? " full-page" : "") + (white ? " white" : "")}><div class="x">
-        <div class="a" /><div class="b" /><div />
-    </div></div>
+    <div class={"loader" + __class(page, "full-page") + __class(white, "white")}>
+        <div class="x"><div class="a" /><div class="b" /><div /></div>
+    </div>
 );
 
 export const Header = () => (

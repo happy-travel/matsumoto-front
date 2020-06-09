@@ -114,7 +114,7 @@ render() {
                         : <Loader /> )
                         : <React.Fragment>
 
-                    <div class={"accent-frame" + ( "Cancelled" == booking.status ? " cancelled" : "")}>
+                    <div class={"accent-frame" + __class("Cancelled" == booking.status, "cancelled")}>
                         <div class="before">
                             <span class="icon icon-white-check" />
                         </div>
@@ -221,7 +221,7 @@ render() {
                                     a={t("Accommodates")}
                                     b={[...Array(room.passengers.length).fill(<span class="icon icon-man"/>)]}
                                 />
-                                <Dual addClass={room.passengers.length < 2 && "grow"}
+                                <Dual addClass={__class(room.passengers.length < 2, "grow")}
                                     a={t("Leading Passenger")}
                                     b={<PassengerName passenger={room.passengers[0]} />}
                                 />
@@ -250,7 +250,8 @@ render() {
 
                         { this.state.fromHistory &&
                           "Cancelled" != booking.status &&
-                        <button class={"button" + ( moment().isBefore(booking.checkInDate) ? " pink" : " gray")} onClick={this.showCancellationConfirmation}>
+                        <button class={"button" + __class(moment().isBefore(booking.checkInDate), "pink", "gray")}
+                                onClick={this.showCancellationConfirmation}>
                             {t("Cancel booking")}
                         </button> }
 

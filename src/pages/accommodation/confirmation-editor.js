@@ -114,7 +114,7 @@ render() {
                         {t("Booking Details")}
                     </h2>
 
-                    <div class={"accent-frame" + ( "Cancelled" == booking.status ? " cancelled" : "")}>
+                    <div class={"accent-frame" + __class("Cancelled" == booking.status, "cancelled")}>
                         <div class="before">
                             <span class="icon icon-white-check" />
                         </div>
@@ -239,7 +239,9 @@ render() {
 
                         { this.state.fromHistory &&
                           "Cancelled" != booking.status &&
-                        <button class={"button" + ( moment().isBefore(booking.checkInDate) ? " pink" : " gray")} onClick={this.showCancellationConfirmation}>
+                        <button
+                            class={"button" + __class(moment().isBefore(booking.checkInDate), "pink", "gray")}
+                            onClick={this.showCancellationConfirmation}>
                             {t("Cancel booking")}
                         </button> }
 

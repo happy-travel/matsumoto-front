@@ -65,7 +65,7 @@ class AccommodationCommonDetailsPart extends React.Component {
         };
 
         return (
-            <div class={"details" + (fromModal ? " from-modal" : "") + (fromPage ? " from-page" : "")}>
+            <div class={"details" + __class(fromModal, "from-modal") + __class(fromPage, "from-page")}>
                 <div class="top">
                     {fromModal && hotel?.pictures?.[0]?.source && <div class="photo">
                         <img src={hotel.pictures[0].source} alt={hotel.pictures[0].caption} class="round" />

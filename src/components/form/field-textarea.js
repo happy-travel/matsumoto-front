@@ -26,15 +26,15 @@ class FieldTextarea extends FieldText {
         } = this.props;
 
         return (
-            <div class={"field" + (addClass ? ' ' + addClass : '')}>
+            <div class={"field" + __class(addClass)}>
                 <label>
                     { label && <div class="label">
-                        <span class={required ? "required" : ""}>{label}</span>
+                        <span class={__class(required, "required")}>{label}</span>
                     </div> }
-                    <div class={"input textarea"
-                        + (this.state.focus ? ' focus' : '')
-                        + ((formik?.errors[id] && formik?.touched[id]) ? ' error' : '')
-                        + (disabled ? ' disabled' : '')}
+                    <div class={"input textarea" +
+                        __class(this.state.focus, "focus") +
+                        __class((formik?.errors[id] && formik?.touched[id]), "error") +
+                        __class(disabled, "disabled")}
                     >
                         { !disabled ? <div class="inner">
                             <textarea

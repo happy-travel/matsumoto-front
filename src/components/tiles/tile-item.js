@@ -14,10 +14,10 @@ class TileItem extends React.Component {
         { t } = useTranslation();
 
         return (
-            <div class={'item' + (item.exclusive ? ' offer' : '')}>
+            <div class={"item" + __class(item.exclusive, "offer")}>
                 <div class="body">
                     <div class="info">
-                        <Flag code={ item.flag } />
+                        <Flag code={item.flag} />
                         <div>
                             <div class="title">{item.city || item.title}</div>
                             { item.propertiesCount && <div class="count">{t("More than")} {item.propertiesCount} {t("properties")}</div> }

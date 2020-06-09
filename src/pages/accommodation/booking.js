@@ -172,7 +172,7 @@ class AccommodationBookingPage extends React.Component {
                 <div class="static item">{t("Room & Total Cost")}</div>
                     {variant?.roomContracts?.map((rc,i) => (
                         (rc.roomPrices?.[0].netTotal !== undefined) ?
-                        <Dual addClass={ rc.roomPrices.length > 1 ? "column" : "" }
+                        <Dual addClass={__class(rc.roomPrices.length > 1, "column")}
                             a={t("Room Cost") + (variant?.roomContracts?.length > 1 ? (" " + (i+1)) : '')}
                             b={ <RoomPrices t={t} prices={variant.roomContracts[i].roomPrices} /> }
                         /> : null
@@ -380,9 +380,9 @@ class AccommodationBookingPage extends React.Component {
                                     </p>
                                     <div class="list">
                                         <div
-                                            class={"item"
-                                                    + (isPaymentAvailable(this.state.balance) ? "" : " disabled")
-                                                    + (PAYMENT_METHODS.ACCOUNT == store.paymentMethod ? " selected" : "")
+                                            class={"item" +
+                                                __class(!isPaymentAvailable(this.state.balance), "disabled") +
+                                                __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
                                             }
                                             onClick={isPaymentAvailable(this.state.balance)
                                                 ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
@@ -393,8 +393,8 @@ class AccommodationBookingPage extends React.Component {
                                                 <span>{"(" + price(this.state.balance.currency, this.state.balance.balance).trim() + ")"}</span>}
                                         </div>
                                         <div
-                                            class={"item"
-                                                    + (PAYMENT_METHODS.CARD == store.paymentMethod ? " selected" : "")
+                                            class={"item" +
+                                                __class(PAYMENT_METHODS.CARD == store.paymentMethod, "selected")
                                             }
                                             onClick={() => store.setPaymentMethod(PAYMENT_METHODS.CARD)}
                                         >
@@ -417,7 +417,7 @@ class AccommodationBookingPage extends React.Component {
                                             />
                                         </div>
                                         <div class="second">
-                                            <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                            <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
                                                 {t("Confirm booking")}
                                             </button>
                                         </div>

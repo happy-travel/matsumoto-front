@@ -26,7 +26,7 @@ class FieldCheckbox extends React.Component {
 
     render() {
         return (
-            <div onClick={this.changing} class={"checkbox" + (this.state.value ? ' on' : '')}>
+            <div onClick={this.changing} class={"checkbox" + __class(this.state.value, "on")}>
                 {this.props.label}
             </div>
         );

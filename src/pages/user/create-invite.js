@@ -152,14 +152,16 @@ class UserInvitePage extends React.Component {
                             <div class="row submit-holder">
                                 <div class="field">
                                     <div class="inner">
-                                        <button onClick={() => this.submitButtonClick(true, formik)} class={"button" + (formik.isValid ? "" : " disabled")}>
+                                        <button onClick={() => this.submitButtonClick(true, formik)}
+                                                class={"button" + __class(!formik.isValid, "disabled")}>
                                             {t("Send invitation")}
                                         </button>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <div class="inner">
-                                        <button onClick={() => this.submitButtonClick(false, formik)} class={"button" + (formik.isValid ? "" : " disabled")}>
+                                        <button onClick={() => this.submitButtonClick(false, formik)}
+                                                class={"button" + __class(!formik.isValid, "disabled")}>
                                             {t("Generate invitation link")}
                                         </button>
                                     </div>

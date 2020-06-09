@@ -81,12 +81,12 @@ const Row = ({ room, t, text, field, value, formik }) => (
     <div class="row">
         <div class="caption">{t(text)}</div>
         <div
-            class={"btn" + (setRequestRoomDetails(formik, value, room, field, -1, "test") ? " enabled" : "")}
+            class={"btn" + __class(setRequestRoomDetails(formik, value, room, field, -1, "test"), "enabled")}
             onClick={() => setRequestRoomDetails(formik, value, room, field, -1)}
         >–</div>
         <div class="value">{value}</div>
         <div
-            class={"btn" + (setRequestRoomDetails(formik, value, room, field, +1, "test") ? " enabled" : "")}
+            class={"btn" + __class(setRequestRoomDetails(formik, value, room, field, +1, "test"), "enabled")}
             onClick={() => setRequestRoomDetails(formik, value, room, field, +1)}
         >+</div>
     </div>

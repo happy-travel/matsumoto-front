@@ -219,7 +219,7 @@ class RegistrationStep3 extends React.Component {
                                         <div class="row submit-holder">
                                             <div class="field">
                                                 <div class="inner">
-                                                    <button type="submit" class={"button" + (formik.isValid ? "" : " disabled")}>
+                                                    <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
                                                         {t("Get started")}
                                                     </button>
                                                 </div>

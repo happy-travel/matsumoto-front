@@ -221,7 +221,7 @@ render() {
                                         var type = creditCardType(item.number)?.[0];
                                         return (<div
                                             onClick={() => this.selectCard(item.id)}
-                                            class={"item" + (item.id == this.state.selectedCardId ? " selected" : "")}>
+                                            class={"item" + __class(item.id == this.state.selectedCardId, "selected")}>
                                             {allowedTypes[type.type] ? <img src={allowedTypes[type.type]} /> : null}
                                             {item.number} <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
                                             <FieldText formik={formik}
@@ -235,7 +235,7 @@ render() {
                                     })}
                                     </div>
                                 </div>
-                                <button class={"no-margin button" + (this.state.selectedCardId ? "" : " disabled")}>
+                                <button class={"no-margin button" + __class(!this.state.selectedCardId, "disabled")}>
                                     { t("Pay") + price(this.state.currency, this.state.amount || 0) + t("using saved card")}
                                 </button>
                             </div>

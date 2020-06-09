@@ -1,14 +1,13 @@
 import React from 'react';
 
 const ActionSteps = ({ items = [], current, addClass }) => (
-    <div class={"action-steps" + (addClass ? (" " + addClass) : '')}>
+    <div class={"action-steps" + __class(addClass)}>
         { items.map((item, index) => (
             <React.Fragment>
-                <div class={
-                    "step" +
-                    (index  < current   ? " finished" : '') +
-                    (index == current-1 ? " previous" : '') +
-                    (index == current   ? " current"  : '')
+                <div class={"step" +
+                    __class(index  < current   , "finished") +
+                    __class(index == current-1 , "previous") +
+                    __class(index == current   , "current")
                 }>
                     {item}
                 </div>

@@ -180,17 +180,17 @@ class FieldText extends React.Component {
         var finalValue = ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '');
 
         return (
-            <div class={"field" + (addClass ? ' ' + addClass : '')} data-dropdown={this.props["data-dropdown"] || id}>
+            <div class={"field" + __class(addClass)} data-dropdown={this.props["data-dropdown"] || id}>
                 <label>
                     { label && <div class="label">
-                        <span class={required ? "required" : ""}>{label}</span>
+                        <span class={__class(required, "required")}>{label}</span>
                     </div> }
-                    <div class={"input"
-                        + (this.state.focus ? ' focus' : '')
-                        + (disabled ? ' disabled' : '')
-                        + ((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] &&
-                            formik?.touched[id]) ? ' error' : '')
-                        + ((!formik?.errors[id] && finalValue) ? ' valid' : '')}
+                    <div class={"input" +
+                        __class(this.state.focus, "focus") +
+                        __class(disabled, "disabled") +
+                        __class((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] && formik?.touched[id]),
+                                          "error") +
+                        __class(!formik?.errors[id] && finalValue, "valid")}
                     >
                         { !!Flag && !!finalValue && <div>
                             { Flag }
@@ -211,7 +211,7 @@ class FieldText extends React.Component {
                                 {...(readonly ? {readonly: "readonly"} : {})}
                             />
                             { ValueObject }
-                            { isSuggestionVisible && suggestion && <div class={"suggestion" + (numeric ? " solid" : "")}>
+                            { isSuggestionVisible && suggestion && <div class={"suggestion" + __class(numeric, "solid")}>
                                 <span>{ getValue(formik, id) || value }</span>{ suggestion }
                             </div> }
                         </div>
@@ -226,7 +226,7 @@ class FieldText extends React.Component {
                         <div class="error-holder">{formik.errors[id]}</div>
                     : null}
                 </label>
-                { Dropdown ? <div class={UI.openDropdown == id ? '' : 'hide'}>
+                { Dropdown ? <div class={__class(UI.openDropdown != id, "hide")}>
                     <Dropdown formik={formik}
                               connected={id}
                               setValue={setValue}

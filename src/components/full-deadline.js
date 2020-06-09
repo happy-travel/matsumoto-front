@@ -14,7 +14,7 @@ class FullDeadline extends React.Component {
 
         return (
             <React.Fragment>
-                <div class={"accent-frame information" + (warnAboutDeadlineIsNear ? " warn" : " ok")}>
+                <div class={"accent-frame information" + __class(warnAboutDeadlineIsNear, "warn", "ok")}>
                     <div class="before">
                         { warnAboutDeadlineIsNear ?
                             <span class="icon icon-warning-yellow" /> :
@@ -43,7 +43,7 @@ class FullDeadline extends React.Component {
                         <b>{t("Hotel Information")}</b>
                         { remarks.map(item => (
                             <div>
-                                {item.key ? <span>{item.key}:</span> : ""} {item.value}
+                                {!!item.key && <span>{item.key}:</span>} {item.value}
                             </div>
                         ))}
                     </div>

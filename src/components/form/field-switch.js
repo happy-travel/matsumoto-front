@@ -5,7 +5,7 @@ class FieldSwitch extends FieldCheckbox {
     render() {
         return (
             <div onClick={this.changing}>
-                <div class={"switch-control" + (this.state.value ? ' active' : '')} />
+                <div class={"switch-control" + __class(this.state.value, "active")} />
             </div>
         );
     }

@@ -335,7 +335,7 @@ class AccommodationSearch extends React.Component {
                                                    }
                                         />
                                     </div>
-                                    <div class={"row advanced" + ( UI.advancedSearch ? '' : " invisible" )}>
+                                    <div class={"row advanced" + __class(!UI.advancedSearch, "invisible")}>
                                         <FieldSelect formik={formik}
                                                      id="propertyTypes"
                                                      label={t("Property Type")}

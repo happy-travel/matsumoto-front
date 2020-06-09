@@ -18,14 +18,14 @@ const getClassByStatus = status => ({
 
 const Filter = ({ text, value, that }) => (
     <li><div
-        class={"item" + (value == that.state.filter_time ? " selected" : "")}
+        class={"item" + __class(value == that.state.filter_time, "selected")}
         onClick={() => that.setState({ filter_time: value })}
     >{text}</div></li>
 );
 
 const Sorter = ({ text, value, that }) => (
     <div
-        class={"item" + (value == that.state.sort_by ? " selected"+that.state.sort_order : "")}
+        class={"item" + __class(value == that.state.sort_by, "selected"+that.state.sort_order)}
         onClick={() => {
             if (value == that.state.sort_by)
                 that.setState({ sort_order: -that.state.sort_order });
@@ -212,7 +212,7 @@ class UserBookingManagementPage extends React.Component {
                                 {list.map(item => item && (
                                     <tr
                                         onClick={() => this.setState({ redirectToBookingConfirmationId: item.id })}
-                                        class={getClassByStatus(item.status) == "gray" ? "gray" : ""}
+                                        class={__class(getClassByStatus(item.status) == "gray", "gray")}
                                     >
                                         <td>
                                             <strong>{t("Accommodations")}</strong>

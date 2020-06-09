@@ -14,7 +14,7 @@ const Picture = ({ item, big }) => {
     }
 
     return (
-        <div class={"sizer" + (big ? " big" : "") + (cover ? " cover" : "")}>
+        <div class={"sizer" + __class(big, "big") + __class(cover, "cover")}>
             <img src={item.source} alt={item.caption || ""} />
         </div>
     );
@@ -41,7 +41,7 @@ class Gallery extends React.Component {
             for (var j = 0; j < 3 && i * 3 + j < pictures.length; j++) {
                 (index => subthumbs.push(
                     <div
-                        class={"item" + (index == selected ? " selected" : "")}
+                        class={"item" + __class(index == selected, "selected")}
                         onClick={() => this.setState({ selected: index })}
                     >
                         <Picture item={pictures[index]} />
@@ -55,7 +55,7 @@ class Gallery extends React.Component {
             <div class="big">
                 <Picture big item={pictures[selected]} index={selected} />
             </div>
-            { (pictures.length > 1) && <div class={"thumbs" + (pictures.length >= 12 ? " scroll" : "")}>
+            { (pictures.length > 1) && <div class={"thumbs" + __class(pictures.length >= 12, "scroll")}>
                 {thumbs}
             </div> }
         </div>;

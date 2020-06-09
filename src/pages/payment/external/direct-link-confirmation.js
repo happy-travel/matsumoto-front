@@ -63,7 +63,7 @@ return (
                     </div>
                 </div> }
 
-                <div class={"accent-frame" + (result.error ? " error" : "")}>
+                <div class={"accent-frame" + __class(result.error, "error")}>
                     { (result.status || result.error) && <div class="before">
                         { result.error ? <span class="icon icon-close white" /> : <span class="icon icon-white-check" /> }
                     </div> }
