@@ -342,8 +342,8 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
                                 </div> */ }
 
-                                <div class="part" style={{ paddingBottom: "5px", marginTop: "-4px" }}>
-                                    <div class="row no-margin">
+                                <div class="part" style={{ margin: "-10px 0 5px" }}>
+                                    <div class="row">
                                         <div class="vertical-label">{t("Itinerary number")}</div>
                                         <FieldText formik={formik}
                                                    id={"itineraryNumber"}
