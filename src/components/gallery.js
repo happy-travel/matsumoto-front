@@ -51,15 +51,13 @@ class Gallery extends React.Component {
             thumbs.push(<div class="subthumbs">{subthumbs}</div>);
         }
 
-        return <div class="gallery">
+        return <div class={"gallery" + (pictures.length >= 12 ? " with-scroll" : "")}>
             <div class="big">
                 <Picture big item={pictures[selected]} index={selected} />
             </div>
-            <div class="thumbs-wrapper">
-                <div class="thumbs">
-                    {thumbs}
-                </div>
-            </div>
+            { (pictures.length > 1) && <div class={"thumbs" + (pictures.length >= 12 ? " scroll" : "")}>
+                {thumbs}
+            </div> }
         </div>;
     }
 }
