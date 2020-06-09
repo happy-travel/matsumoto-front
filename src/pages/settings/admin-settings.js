@@ -107,7 +107,8 @@ class AdminSettings extends React.Component {
                         "position": position,
                     }}
                     enableReinitialize
-                    render={formik => (
+                >
+                    {formik => (
                         <form onSubmit={formik.handleSubmit}>
                             <div className="form">
                                 <div className="row">
@@ -183,7 +184,7 @@ class AdminSettings extends React.Component {
                             </div>
                         </form>
                     )}
-                />
+                </Formik>
 
                 <h2 className="users-pages__title">{t('System Settings')}</h2>
 
@@ -191,7 +192,8 @@ class AdminSettings extends React.Component {
                     initialValues={authStore.settings || {}}
                     enableReinitialize
                     onSubmit={this.submitUserSettings}
-                    render={formik => (
+                >
+                    {formik => (
                         <form onSubmit={formik.handleSubmit}>
                             <div className="form personal-info__form">
                                 <div className="row">
@@ -352,7 +354,7 @@ class AdminSettings extends React.Component {
                             </div>
                         </form>
                     )}
-                />
+                </Formik>
             </section>
         </div>)
     }

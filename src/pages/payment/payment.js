@@ -211,7 +211,8 @@ render() {
                     validateOnChange={true}
                     validationSchema={savedCreditCardValidator}
                     onSubmit={this.payBySavedCard}
-                    render={formik => (
+                >
+                    {formik => (
                         <form onSubmit={formik.handleSubmit}>
                             <div class="form">
                                 <div class="payment method cards">
@@ -240,7 +241,7 @@ render() {
                             </div>
                         </form>
                     )}
-                />
+                </Formik>
             </React.Fragment>}
 
             { (!this.state.direct || ("Created" == this.state.status)) && <React.Fragment>
@@ -260,7 +261,8 @@ render() {
                     validateOnChange={true}
                     validationSchema={creditCardValidator}
                     onSubmit={this.submit}
-                    render={formik => (
+                >
+                {formik => (
                     <form onSubmit={formik.handleSubmit}>
                         <div class="form">
                             <div class="row">
@@ -338,7 +340,7 @@ render() {
                         </div>
                     </form>
                     )}
-                />
+                </Formik>
             </React.Fragment> }
         </div>
     </section>

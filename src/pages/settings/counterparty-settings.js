@@ -38,12 +38,14 @@ export default class CounterpartySettings extends React.Component {
                 <Formik
                     initialValues={this.state.settings || {}}
                     enableReinitialize={true}
-                    render={formik => {
-                        var params = {
-                            formik: formik,
-                            placeholder: t("Not provided"),
-                            disabled: true
-                        };
+                    onSubmit={() => {}}
+                >
+                {formik => {
+                    var params = {
+                        formik: formik,
+                        placeholder: t("Not provided"),
+                        disabled: true
+                    };
 
                     return <div className="form">
                         <h2 className="users-pages__title">{t("My account supervisor")}</h2>
@@ -103,7 +105,8 @@ export default class CounterpartySettings extends React.Component {
                             />
                         </div>
                     </div>;
-                }}/>
+                }}
+            </Formik>
             </section> }
         </React.Fragment>
     }

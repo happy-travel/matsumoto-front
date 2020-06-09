@@ -77,12 +77,13 @@ class CachedForm extends React.Component {
                 validateOnChange={true}
                 validateOnMount={true}
                 enableReinitialize={enableReinitialize}
-                render={formik => (
+            >
+                {formik => (
                     <form onSubmit={formik.handleSubmit}>
                         {render(formik, () => this.handleReset(formik) )}
                     </form>
                 )}
-            />
+            </Formik>
         );
     }
 }

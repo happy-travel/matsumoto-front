@@ -145,7 +145,8 @@ export default class AddNewUser extends React.Component {
                         ...permissionsList.reduce((obj, key) => ({...obj, [key]: inAgencyPermissions.includes(key)}), {})
                     }}
                     enableReinitialize
-                    render={formik => (
+                >
+                    {formik => (
                         <form onSubmit={formik.handleSubmit}>
                             <div className="form">
                                 {/*<div className="row">*/}
@@ -265,7 +266,7 @@ export default class AddNewUser extends React.Component {
                             </div>
                         </form>
                     )}
-                />
+                </Formik>
             </div>
         </section>
     }

@@ -176,16 +176,18 @@ class UserBookingManagementPage extends React.Component {
                             <div class="form">
                                 <Formik
                                     initialValues={{ search: "" }}
-                                    render={formik => (
-                                        <form onSubmit={formik.handleSubmit}>
-                                            <FieldText formik={formik}
-                                                       id="search"
-                                                       placeholder={t("Search...")}
-                                                       onChange={this.searchChange}
-                                            />
-                                        </form>
-                                    )}
-                                />
+                                    onSubmit={() => {}}
+                                >
+                                {formik => (
+                                    <form onSubmit={formik.handleSubmit}>
+                                        <FieldText formik={formik}
+                                                   id="search"
+                                                   placeholder={t("Search...")}
+                                                   onChange={this.searchChange}
+                                        />
+                                    </form>
+                                )}
+                                </Formik>
                             </div>
                         </div>
                     </section>

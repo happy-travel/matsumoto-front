@@ -76,7 +76,8 @@ class UsersManagement extends React.Component {
                    <Formik
                        initialValues={{}}
                        onSubmit={this.changeSearchField}
-                       render={formik => (
+                   >
+                       {formik => (
                            <form onSubmit={formik.handleSubmit}>
                                <div className="form">
                                    <div className="row">
@@ -98,7 +99,7 @@ class UsersManagement extends React.Component {
                                </div>
                            </form>
                        )}
-                   />
+                   </Formik>
                </section>
             </div>
             {usersCounterpartyIsLoading && <Loader />}

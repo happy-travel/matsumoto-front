@@ -58,7 +58,10 @@ class AccountStatementPage extends React.Component {
                         <div class="input-wrap">
                             <div class="form">
                                 <Formik
-                                    render={formik => (
+                                    initialValues={{}}
+                                    onSubmit={() => {}}
+                                >
+                                    {formik => (
                                         <form onSubmit={formik.handleSubmit}>
                                             <FieldText formik={formik}
                                                 id="range"
@@ -85,7 +88,7 @@ class AccountStatementPage extends React.Component {
                                             />
                                         </form>
                                     )}
-                                />
+                                </Formik>
                             </div>
                         </div>
                     </section>
