@@ -74,7 +74,7 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")}: <b>{ store?.search?.request?.destination }</b>
+                            {t("Results for")} <b>{ store?.search?.request?.destination }</b>
 
                             {!!store.hotelArray.length &&
                                 <span>&nbsp;({store.hotelArray.length}
@@ -191,12 +191,8 @@ class AccommodationVariantsPage extends React.Component {
                             </button>
                         </div>
                         { item.roomContractSets.slice(0, 2).map(roomContractSet => <div class="row">
-                            <div class="icons">
-                                <span class="icon icon-man" />
-                                {(roomContractSet.roomContracts.length == 1 && roomContractSet.roomContracts[0].type == "Single") ? null : <span class="icon icon-man" />}
-                            </div>
                             <div class="main">
-                                <h3>
+                                <h3 onClick={() => this.accommodationSelect(item)}>
                                     <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
                                 </h3>
                                 <div>
@@ -213,9 +209,6 @@ class AccommodationVariantsPage extends React.Component {
                                 </div>
                                 <div class="info green">
                                     <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
-                                </div>
-                                <div class="paragraph">
-                                    {roomContractSet.roomContracts[0].contractDescription}
                                 </div>
                             </div>
                         </div>) }

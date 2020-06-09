@@ -105,7 +105,9 @@ export const GroupRoomTypesAndCount = ({ t, contracts, solo }) => {
     for (let item in count)
         result.push(count[item] + " x " + item);
 
-    return result.join(", ");
+    return <React.Fragment>{
+        result.map(item => <div>{item}</div>)
+    }</React.Fragment>;
 };
 
 export const CancelButton = ({ formik, className, children }) => {

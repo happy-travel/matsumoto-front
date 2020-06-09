@@ -186,7 +186,13 @@ class AccommodationBookingPage extends React.Component {
                 <Breadcrumbs items={[
                     {
                         text: t("Search accommodation"),
+                        link: "/"
+                    }, {
+                        text: hotel.location.locality + ", " + hotel.location.country,
                         link: "/search"
+                    }, {
+                        text: hotel.name,
+                        link: "/search/contract"
                     }, {
                         text: t("Guest Details")
                     }

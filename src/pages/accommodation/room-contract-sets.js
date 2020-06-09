@@ -103,17 +103,19 @@ class AccommodationRoomContractsSetsPage extends React.Component {
             </div>
             <div class="right-section">
                 <div class="title">
-                    <Breadcrumbs noBackButton items={[
+                    <Breadcrumbs items={[
                         {
                             text: t("Find Accommodation"),
                             link: "/"
                         }, {
                             text: store.search.request?.destination,
-                            link: "/search",
+                            link: "/search"
                         }, {
                             text: item.accommodationDetails.name
                         }
-                    ]}/>
+                    ]}
+                        backLink="/search"
+                    />
                 </div>
                 { this.state.loading && <Loader page /> }
 
@@ -155,9 +157,9 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                         <table class="table agt">
                             <thead>
                                 <tr>
-                                    <th colSpan="2">{t("Room Type")}</th>
+                                    <th>{t("Room Type")}</th>
                                     <th class="price">{t("Price for")} {plural(t, store.search?.result?.numberOfNights, "Night")}</th>
-                                    <th class="pros">{t("Pros")}</th>
+                                    <th class="pros" />
                                     <th />
                                 </tr>
                             </thead>
@@ -165,12 +167,9 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                             { item?.roomContractSets?.map(roomContractSet =>
                                 <tr>
                                     <td class="room-contract-set">
-                                        <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} /><br/>
-                                        {roomContractSet.contractType}
-                                    </td>
-                                    <td class="icons">
-                                        <span class="icon icon-man" />
-                                        {(roomContractSet.roomContracts.length == 1 && roomContractSet.roomContracts[0].type == "Single") ? null : <span class="icon icon-man" />}
+                                        <span onClick={() => this.roomContractSetSelect(roomContractSet, item.accommodationDetails)}>
+                                            <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
+                                        </span>
                                     </td>
                                     <td class="price">
                                         {price(roomContractSet.price)}
