@@ -46,7 +46,12 @@ export const MealPlan = ({ room, t }) => {
         return <span>{room.mealPlan}</span>;
     if ("RoomOnly" == room.boardBasis)
         return <span>{t("No Breakfast")}</span>;
-    return <span>{t(room.boardBasis)}</span>;
+    if ("AllInclusive" == room.boardBasis)
+        return <span>{t(room.boardBasis)}</span>;
+    if ((t(room.boardBasis) || "").toLowerCase() == (room.mealPlan || "").toLowerCase())
+        return <span>{room.mealPlan}</span>;
+
+    return <span>{t(room.boardBasis)} – {room.mealPlan}</span>;
 };
 
 export const Expandable = class extends React.Component {
