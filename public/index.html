@@ -6,6 +6,11 @@
     <title>Happytravel.com</title>
   </head>
   <body>
+    <script type="application/javascript">
+      window.__localhost = "localhost" == window.location.hostname;
+      window.__devEnv = window.location.hostname.indexOf("dev.happytravel.com") > -1;
+      window.__class = function(a,b,c){ if (a) return " "+b; if (c) return " "+c; return ""; };
+    </script>
     <div id="app"></div>
   </body>
 </html>

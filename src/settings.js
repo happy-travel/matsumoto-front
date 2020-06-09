@@ -21,7 +21,7 @@ let settings = {
     build                 : process.env.BUILD_VERSION || "JS_Default"
 };
 
-if ("localhost" == window.location.hostname)
+if (__localhost)
     settings.payment_callback_host = "https://dev.happytravel.com";
 
 settings.edo = (culture) => settings.edo_url + culture + settings.edo_v1;

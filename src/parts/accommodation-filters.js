@@ -75,7 +75,7 @@ class AccommodationFiltersPart extends React.Component {
                                         </div>
                                     }
                                 /> }
-                                { ( (("localhost" == window.location.hostname) || (window.location.hostname.indexOf("dev.happytravel") > -1)) &&
+                                { ( (__localhost || __devEnv) &&
                                     (!!store.filters.__source.length)) && <Expandable
                                     open
                                     header="Source"

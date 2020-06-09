@@ -81,11 +81,10 @@ class BasicPaymentPage extends React.Component {
 
         return <React.Fragment>
             <Loader white page />
-            {((window.location.hostname.indexOf("dev.happytravel.com") > -1) &&
+            {__devEnv &&
                 <div className="top-alert development">
                     <a href={("http://localhost:4000" + window.location.pathname + window.location.search)}>Process to localhost</a>
-                </div>
-            )}
+                </div>}
         </React.Fragment>;
     }
 }
