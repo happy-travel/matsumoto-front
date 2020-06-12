@@ -1,0 +1,267 @@
+@import "../base/all"
+
+.site
+    header
+        box-shadow: none
+    .skip-link
+        display: none
+    .site-header
+        background: #2f7981 url("http://localhost:4000/images/background.jpg") center center no-repeat
+        background-size: cover
+        height: 400px
+        text-align: center
+        position: relative
+        padding: 0
+        z-index: 1
+        .site-branding
+            padding-top: 136px
+            background: url("logo.png") top center no-repeat
+            background-size: 150px
+            margin: 0
+        .site-branding-container
+            height: 100%
+            background: rgba(0, 0, 0, 0.38)
+        h1
+            display: block
+            font-weight: 500
+            font-size: 36px
+            line-height: 43px
+            &, & a
+                color: #FFFFFF
+        p
+            margin-top: 4px
+            font-size: 15px
+            line-height: 18px
+            color: #ffffff
+            color: rgba(255, 255, 255, 0.9)
+
+    *
+        outline: none !important
+    a:hover
+        text-decoration: none
+    section
+        width: auto
+
+    .widget_search
+        position: absolute
+        left: 0
+        width: 100%
+        top: 240px
+        z-index: 100
+        display: flex
+        justify-content: center
+        .search-form
+            position: relative
+            display: flex
+            flex-grow: 1
+            max-width: 692px
+            padding: 0 20px
+            &:after
+                content: ' '
+                position: absolute
+                top: 0
+                right: 20px
+                display: block
+                width: 52px
+                height: 52px
+                background: url("search-icon.svg") center center no-repeat
+                z-index: 1
+        .search-submit
+            display: inline-block
+            background: #FBAA1C
+            background: linear-gradient(90deg, #FBAA1C 0%, #FFCE0B 100%)
+            border-radius: 0
+            border-top-right-radius: 5px
+            border-bottom-right-radius: 5px
+            width: 52px
+            height: 52px
+            font-size: 0
+            text-indent: 52px
+            margin-top: 0
+            &:focus
+                outline: none
+        label
+            flex-grow: 1
+            position: relative
+        .search-field
+            border-radius: 0
+            border-top-left-radius: 5px
+            border-bottom-left-radius: 5px
+            flex-grow: 1
+            padding: 5px 16px
+            line-height: 40px
+            width: 100%
+            font-size: 14px
+            &:focus
+                border-color: #FBAA1C
+            &::placeholder
+                color: #9A9B9D
+
+    .widget_categories
+        .widget-title
+            display: none
+        ul
+            display: flex
+            justify-content: center
+            border-bottom: 1px solid $color-usual-gray
+            margin-bottom: 62px
+            li
+                margin: 0 20px
+                font-size: 14px
+                line-height: 17px
+                font-weight: 400
+                a
+                    display: inline-block
+                    padding: 25px 0
+                    font-size: 14px
+                    line-height: 17px
+                    color: #231F20
+                    position: relative
+                &.selected
+                    a:after
+                        background: #F9A51B
+                        background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+                        border-radius: 4px
+                        content: ' '
+                        height: 4px
+                        bottom: 0
+                        left: 0
+                        width: 100%
+                        position: absolute
+
+    .entry-title:before
+        display: none !important
+
+    .entry
+        max-width: 1095px
+        margin: 0 auto 50px
+        display: flex
+        position: relative
+        .category-name, .post-date
+            text-transform: uppercase
+            font-weight: 600
+            font-size: 10px
+            line-height: 12px
+            margin-bottom: 7px
+            color: #548EF5
+        .post-date
+            color: #6D6D6D
+        .entry-header
+            margin: 65px 0 8px
+            line-height: 28px
+            height: auto
+            .entry-title
+                width: 300px
+                font-weight: 700
+                font-size: 20px
+                color: $color-text
+        .entry-content
+            font-size: 14px
+            line-height: 20px
+            color: $color-text
+            margin: 0
+            max-width: 630px
+            padding: 0
+            @media (max-width: 1360px)
+                max-width: 560px
+            p
+                margin: 0 0 8px
+        .post-thumbnail
+            position: relative
+            padding: 10px 45px 10px 0
+            height: 269px
+            margin: 0
+            img
+                width: 420px
+                height: 236px
+                object-fit: cover
+        .picture-frame
+            &:before, &:after
+                content: " "
+                position: absolute
+                z-index: 4
+                border: 2px solid $color-text-light
+                left: 10px
+                width: 400px
+                height: 257px
+                bottom: 12px
+            &:before
+                border-bottom: 0
+                border-right: 0
+                width: 375px
+            &:after
+                border-top: 0
+                border-left: 0
+                height: 232px
+            div
+                position: absolute
+                z-index: 4
+                border-bottom: 2px solid $color-text-light
+                left: 379px
+                width: 35px
+                height: 0
+                top: 12px
+                transform: rotate(45deg)
+
+    .side-date
+        text-transform: uppercase
+        font-weight: 600
+        font-size: 10px
+        line-height: 12px
+        transform: rotate(-90deg)
+        color: $color-text-light
+        width: 200px
+        position: absolute
+        left: -120px
+        z-index: 100
+        top: 95px
+        text-align: right
+
+    @include mobile
+        .entry
+            max-width: 630px
+            .entry-content
+                max-width: 630px
+            flex-direction: column
+            .entry-header
+                margin-top: 5px
+            .post-thumbnail
+                padding-right: 0
+                margin-bottom: 15px
+        .site-main
+            margin: 0 auto
+
+    .site-main
+        padding: 0 20px 0 48px
+
+
+.float-icon
+    display: block
+    position: absolute
+    top: 660px
+    left: 50%
+    margin-left: 600px
+    z-index: 9998
+    a
+        outline: none !important
+    @media (max-width: 1360px)
+        left: auto
+        margin-left: 0
+        right: 20px
+    &.second
+        z-index: 9999
+        a
+            display: inline-block
+            margin-top: 73px
+
+
+
+.icon.icon-retail-whatsapp, .icon.icon-retail-mail
+    width: 60px
+    height: 60px
+    background-image: url("./whatsapp.svg")
+    background-size: cover
+.icon.icon-retail-mail
+    width: 60px
+    height: 60px
+    background-image: url("./mail.svg")
