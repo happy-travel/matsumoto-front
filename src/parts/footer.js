@@ -30,32 +30,33 @@ render() {
                             </a>
                         </div> */ }
                     </div>
-                    <div class="links">
-                        <menu class="primary">
-                            <li><Link to="/">{t("Accommodations")}</Link></li>
-                            <li><Link to="/contact">{t("Contact Us")}</Link></li>
-                            <li><Link to="/about">{t("About Us")}</Link></li>
-                        </menu>
-                        <menu class="secondary">
-                            <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
-                            <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
-                        </menu>
-                        <div class="payments">
-                            <img src="/images/other/visa.png" />
-                            <img src="/images/other/visa-sec.png" class="interval"/>
-                            <img src="/images/other/mc-on-dark.png" class="near transparent" />
-                            <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" />
-                            <img src="/images/other/amex.png" />
+                    <div class="middle">
+                        <div class="links">
+                            <menu class="primary">
+                                <li><Link to="/">{t("Accommodations")}</Link></li>
+                                <li><Link to="/contact">{t("Contact Us")}</Link></li>
+                                <li><Link to="/about">{t("About Us")}</Link></li>
+                            </menu>
+                            <menu class="secondary">
+                                <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
+                                <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
+                            </menu>
+                            <div class="payments">
+                                <img src="/images/other/visa.png" />
+                                <img src="/images/other/visa-sec.png" class="interval"/>
+                                <img src="/images/other/mc-on-dark.png" class="near transparent" />
+                                <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" />
+                                <img src="/images/other/amex.png" />
+                            </div>
+                            <div class="service-info">
+                                Web – {settings.build || 0}<br/>
+                                API – {UI.currentAPIVersion || 0}
+                            </div>
                         </div>
-                        <div class="service-info">
-                            Web – {settings.build || 0}<br/>
-                            API – {UI.currentAPIVersion || 0}
+                        <div class="switchers">
+                            <LocaleSwitcher />
+                            { !!authStore.userCache?.access_token && <CurrencySwitcher /> }
                         </div>
-                    </div>
-                    <div class="switchers">
-
-                        <LocaleSwitcher />
-                        { !!authStore.userCache?.access_token && <CurrencySwitcher /> }
                     </div>
                     <div class="contact">
                         <h3>{t("Contact Us")}</h3>

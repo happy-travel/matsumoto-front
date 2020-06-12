@@ -1,14 +1,23 @@
-@import 'base/colors'
+@import 'base/all'
 
 footer
     background: #2e2f34
     width: 100%
     min-width: 200px
     margin-top: 135px
+    position: relative
     a
         color: #FFFFFF
         &:hover
             color: #A4AAB3
+
+    section
+        width: auto // TEMPORARY
+
+    .middle
+        display: flex
+        flex-direction: row
+        flex-grow: 1
 
     .upper-part
         padding: 47px 0 32px
@@ -77,8 +86,8 @@ footer
 
     .copyright
         color: $color-text-light
-        height: 66px
-        line-height: 66px
+        line-height: 18px
+        padding: 24px 0
         font-size: 12px
         text-align: center
 
@@ -97,6 +106,8 @@ footer
                 margin-right: 5px
             &.transparent
                 background: transparent
+            &:last-child
+                margin-right: 0
 
     .service-info
         margin-top: 43px
@@ -113,3 +124,42 @@ footer
 
     .dropdown
         margin-top: -13px
+
+    @include mobile
+        .upper-part
+            padding-left: 20px
+            padding-right: 20px
+            .links
+                padding-bottom: 50px
+                flex-grow: 0
+                padding-left: 30px
+        .middle
+            flex-direction: column
+            justify-content: flex-start
+        .copyright
+            max-width: 300px
+            margin: 0 auto
+        .service-info
+            position: absolute
+            bottom: 100px
+            right: 20px
+
+    @include phone
+        .upper-part
+            padding-top: 30px
+            section
+                flex-direction: column
+            .company
+                margin: 0 auto 20px
+            menu
+                justify-content: center
+                li:last-child
+                    margin-right: 0 !important
+            .switchers
+                justify-content: center
+                margin: 0 auto
+            .payments
+                text-align: center
+            .contact
+                width: 280px
+                margin: 40px auto 0
