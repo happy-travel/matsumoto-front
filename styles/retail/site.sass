@@ -1,12 +1,33 @@
 @import "../base/all"
 
 .site
+    &.inner-page
+        .widget
+            display: none !important
+            &.widget_polylang
+                display: block !important
+        .site-header
+            height: auto
+            min-height: 133px
+            margin-bottom: 22px
+            .site-branding-container
+                min-height: 133px
+                padding-bottom: 15px
+            .site-branding
+                background-size: 70px
+                padding-top: 50px
+            @media (max-width: 560px)
+                h1
+                    font-size: 29px
+        .site-content
+            padding: 10px 0
+
     header
         box-shadow: none
     .skip-link
         display: none
     .site-header
-        background: #2f7981 url("http://localhost:4000/images/background.jpg") center center no-repeat
+        background: #2f7981 url("https://retail.happytravel.com/wp-content/uploads/2020/06/background.jpg") center center no-repeat
         background-size: cover
         height: 400px
         text-align: center
@@ -15,7 +36,7 @@
         z-index: 1
         .site-branding
             padding-top: 136px
-            background: url("logo.png") top center no-repeat
+            background: url("https://retail.happytravel.com/wp-content/uploads/2020/06/logo.png") top center no-repeat
             background-size: 150px
             margin: 0
         .site-branding-container
@@ -56,20 +77,9 @@
             flex-grow: 1
             max-width: 692px
             padding: 0 20px
-            &:after
-                content: ' '
-                position: absolute
-                top: 0
-                right: 20px
-                display: block
-                width: 52px
-                height: 52px
-                background: url("search-icon.svg") center center no-repeat
-                z-index: 1
         .search-submit
             display: inline-block
-            background: #FBAA1C
-            background: linear-gradient(90deg, #FBAA1C 0%, #FFCE0B 100%)
+            background: #FBAA1C url("search-icon.svg") center center no-repeat
             border-radius: 0
             border-top-right-radius: 5px
             border-bottom-right-radius: 5px
@@ -105,6 +115,7 @@
             justify-content: center
             border-bottom: 1px solid $color-usual-gray
             margin-bottom: 62px
+            flex-wrap: wrap
             li
                 margin: 0 20px
                 font-size: 14px
@@ -117,7 +128,7 @@
                     line-height: 17px
                     color: #231F20
                     position: relative
-                &.selected
+                &.current-cat
                     a:after
                         background: #F9A51B
                         background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
@@ -146,8 +157,10 @@
             color: #548EF5
         .post-date
             color: #6D6D6D
+        .category-name a:after
+            content: ' news'
         .entry-header
-            margin: 65px 0 8px
+            margin: 45px 0 8px
             line-height: 28px
             height: auto
             .entry-title
@@ -159,13 +172,15 @@
             font-size: 14px
             line-height: 20px
             color: $color-text
-            margin: 0
             max-width: 630px
             padding: 0
+            margin: 0
             @media (max-width: 1360px)
                 max-width: 560px
             p
                 margin: 0 0 8px
+        .entry-footer
+            margin: 0
         .post-thumbnail
             position: relative
             padding: 10px 45px 10px 0
@@ -174,17 +189,23 @@
             img
                 width: 420px
                 height: 236px
-                object-fit: cover
+                object-fit: contain
         .picture-frame
+            display: block
+            opacity: .33
+            position: relative
+            z-index: 20
+            transform: rotate(-1deg)
+            top: -12px
             &:before, &:after
                 content: " "
                 position: absolute
                 z-index: 4
-                border: 2px solid $color-text-light
+                border: 2px solid #000
                 left: 10px
                 width: 400px
                 height: 257px
-                bottom: 12px
+                top: 0
             &:before
                 border-bottom: 0
                 border-right: 0
@@ -192,16 +213,84 @@
             &:after
                 border-top: 0
                 border-left: 0
+                top: 25px
                 height: 232px
-            div
+            span
                 position: absolute
                 z-index: 4
-                border-bottom: 2px solid $color-text-light
+                border-bottom: 2px solid #000
                 left: 379px
                 width: 35px
                 height: 0
                 top: 12px
                 transform: rotate(45deg)
+                display: block
+            @media (max-width: 450px)
+                span
+                    right: 10px
+                    left: auto
+                &:after
+                    width: calc( 100% - 25px )
+                &:before
+                    width: calc( 100% - 50px )
+
+    .side
+        &.side-short
+            .entry-content
+                max-height: 83px
+                overflow: hidden
+                & > p:not(:first-child)
+                    display: none
+                & > img
+                    display: none
+            &.no-picture
+                .entry-content
+                    max-height: 700px
+                    max-width: 1000px
+                    & > *
+                        display: none
+                        margin: 8px 0
+                        &:first-child
+                            display: block
+                .entry-header
+                    margin-top: 8px
+        .read-more
+            margin-bottom: 8px
+            a
+                color: $color-blue
+    .archive-title
+        font-size: 27px
+        &:after
+            content: ' News'
+    .archive .page-header .page-description,
+    .search .page-header .page-description
+        display: inline
+    .page-header
+        margin: -55px auto 30px
+        max-width: 1095px
+
+    .entry
+        .full-entry
+            margin-top: -20px
+            .entry-header
+                margin: 0
+                .entry-title
+                    margin: 5px 0 25px
+                    width: auto
+                    font-size: 26px
+                    font-weight: 600
+            .post-thumbnail
+                height: auto
+                img
+                    max-height: 450px
+                    width: auto
+                    height: auto
+                .picture-frame
+                    display: none
+
+    .page-content
+        .search-form
+            max-width: 500px
 
     .side-date
         text-transform: uppercase
@@ -233,28 +322,44 @@
 
     .site-main
         padding: 0 20px 0 48px
+        @media (max-width: 500px)
+            padding: 0 15px
 
+.body-wrapper
+    min-width: 0 !important
 
 .float-icon
     display: block
-    position: absolute
-    top: 660px
-    left: 50%
-    margin-left: 600px
+    position: sticky
+    top: 60px
     z-index: 9998
-    a
+    height: 0
+    @media (max-width: 760px)
+        top: -70px
+    div
+        position: absolute
+        left: calc(50% + 600px)
         outline: none !important
-    @media (max-width: 1360px)
-        left: auto
-        margin-left: 0
-        right: 20px
-    &.second
-        z-index: 9999
-        a
-            display: inline-block
-            margin-top: 73px
+        margin-top: 90px
+        @media (max-width: 1360px)
+            left: auto
+            margin-left: 0
+            right: 20px
+    a
+        margin-bottom: 13px
+        display: block
+        width: 60px
+        height: 60px
 
-
+.top-link
+    width: 300px
+    height: 100px
+    position: absolute
+    top: 0
+    left: 50%
+    margin-left: -150px
+    display: block
+    z-index: 30
 
 .icon.icon-retail-whatsapp, .icon.icon-retail-mail
     width: 60px
@@ -265,3 +370,114 @@
     width: 60px
     height: 60px
     background-image: url("./mail.svg")
+
+footer .upper-part section
+    max-width: 1100px
+
+.image-filters-enabled .entry .post-thumbnail
+    .post-thumbnail-inner
+        filter: none !important
+    &:before, &:after
+        display: none !important
+
+[dir] footer .upper-part .company .logo-wrapper .logo
+    background-image: url("https://happytravel.com/images/logo/logo-small.png")
+
+#page
+    width: 100%
+    position: relative
+
+.post-navigation .nav-links a .meta-nav:before
+    content: "← "
+.post-navigation .nav-links a .meta-nav:after
+    content: " →"
+
+.nav-links
+    .post-title
+        color: $color-blue
+
+.error-404.not-found .search-submit, .no-results.not-found .search-submit
+    background: $color-brand
+    background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+
+.page-content
+    .search-field
+        border-radius: 4px
+        &:focus
+            border-color: $color-brand
+
+.pagination
+    justify-content: flex-start
+    color: $color-blue
+    margin: 70px auto 0
+    max-width: 1030px
+    .nav-links
+        font-size: 18px
+        font-weight: 400
+        line-height: 24px
+        margin: 0
+        a:hover
+            color: $color-brand !important
+        & > span
+            font-weight: 700
+            border: 0 !important
+            color: $color-text
+            background: #f9f9f9
+        & > span, & > a
+            border-radius: 8px
+            margin: 0 10px
+            padding: 0.5rem 0.9rem !important
+        .page-numbers
+            border: 1px solid
+            &.prev, &.next
+                border: 0
+                padding-left: 0.3rem !important
+                padding-right: 0.3rem !important
+                color: $color-blue
+
+a:focus
+    text-decoration: none !important
+
+.text-all-news
+    span:after
+        content: "All News" !important
+
+[lang="ru-RU"]
+    .entry
+        .category-name a:after
+            content: '' !important
+    .archive-title:after
+            content: '' !important
+    .text-all-news
+        span:after
+            content: "Все Новости" !important
+
+.widget_polylang
+    position: absolute
+    z-index: 2
+    top: 13px
+    left: 50%
+    transform: translateX(-50%)
+    width: 100% !important
+    max-width: 1300px
+    padding-right: 100px
+    text-align: right
+    @media (max-width: 560px)
+        width: auto
+        padding-right: 10px
+    .widget-title
+        display: none
+    ul
+        display: inline-block
+    a
+        display: block
+        background: #ffffff
+        border: 1px solid #ddd
+        padding: 3px 12px
+        border-radius: 12px
+        color: $color-text
+        img
+            margin-right: 3px
+        &:hover
+            border-color: $color-brand
+            color: #000
