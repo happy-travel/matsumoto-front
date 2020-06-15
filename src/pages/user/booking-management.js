@@ -60,7 +60,7 @@ class UserBookingManagementPage extends React.Component {
             search = this.state.search_query;
 
         if (!result || !result.length)
-            return null;
+            return result;
 
         result = result.filter(() => true);
 
