@@ -89,6 +89,9 @@ class AccommodationStore {
         if (this.search.status == "PartiallyCompleted")
             this.search.hasMoreVariants = this.search.result?.results?.length < this.search.length;
 
+        if ((this.search.status != "PartiallyCompleted") || this.search.result?.results?.length)
+            this.search.loading = false;
+
         this.filters = createFilters(this.search.result);
 
         this.selectedFilters = null;
@@ -115,7 +118,6 @@ class AccommodationStore {
     }
 
     setNewSearchRequest(form) {
-        this.setSearchResult(null);
         this.search.request = form;
     }
 

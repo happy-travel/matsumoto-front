@@ -65,9 +65,8 @@ class AccommodationVariantsPage extends React.Component {
 
 <React.Fragment>
     <div class="variants block">
-        { store?.search?.loading || ((store.search.status != "Completed") && !store.hotelArray.length) ?
+        { store?.search?.loading ?
         <Loader /> :
-
         <section class="double-sections">
             <AccommodationFilters />
             <div class="right-section">

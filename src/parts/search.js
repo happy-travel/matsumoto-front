@@ -91,7 +91,6 @@ class AccommodationSearch extends React.Component {
 
         store.setSearchResultLength(0, undefined);
 
-        //todo: setSubmitting, loading
         store.setSearchResult(null);
         session.google.clear();
 
@@ -106,6 +105,10 @@ class AccommodationSearch extends React.Component {
                 store.setSearchRequestId(result);
 
                 const loader = (data) => {
+                    if ("Failed" == data.taskState) {
+                        store.setSearchIsLoading(false);
+                        return;
+                    }
                     if (store.search?.length !== data.resultCount || store.search?.status !== data.taskState) {
                         loadCurrentSearch(0, () => {
                             store.setSearchResultLength(data.resultCount, data.taskState);

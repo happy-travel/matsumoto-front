@@ -16,7 +16,7 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
             callback();
             store.setSearchResult(result, page);
         },
-        after: () => {
+        error: () => {
             store.setSearchIsLoading(false);
         }
     });
