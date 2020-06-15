@@ -451,6 +451,13 @@ a:focus
     .text-all-news
         span:after
             content: "Все Новости" !important
+    .widget_polylang
+        a
+            span:before
+                content: "Switch to "
+        @media (max-width: 760px)
+            .lang-item-first:before
+                content: "Switch to "
 
 .widget_polylang
     position: absolute
@@ -476,8 +483,17 @@ a:focus
         padding: 3px 12px
         border-radius: 12px
         color: $color-text
+        span:before
+            content: "Сменить на "
+            @media (max-width: 760px)
+                display: none
         img
             margin-right: 3px
         &:hover
             border-color: $color-brand
             color: #000
+    @media (max-width: 760px)
+        .lang-item-first:before
+            color: #ffffff
+            content: "Сменить на "
+            margin: 0 11px 2px 0
