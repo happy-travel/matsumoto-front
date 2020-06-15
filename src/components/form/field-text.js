@@ -11,7 +11,9 @@ class FieldText extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            focus: false
+            focus: false,
+            everBlured: false,
+            everChanged: false
         };
         this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -43,6 +45,9 @@ class FieldText extends React.Component {
 
         if (this.props.formik)
             this.props.formik.handleBlur(event);
+
+        if (!this.state.everBlured)
+            this.setState({ everBlured: true });
     }
 
     onKeyDown(e) {
@@ -115,12 +120,10 @@ class FieldText extends React.Component {
     }
 
     changing(event) {
-        if (this.props.Dropdown) {
+        if (this.props.Dropdown)
             UI.setOpenDropdown(this.props.id);
-        }
-        //todo suggestion
 
-        if (this.props.numeric) {//todo: temporary. rewrite to this.props.mask
+        if (this.props.numeric) {
             if ("/" == this.props.numeric)
                 event.target.value = event.target.value.replace(/[^0-9.\/ ]/g, "");
             else
@@ -131,9 +134,12 @@ class FieldText extends React.Component {
             this.props.onChange(event, this.props);
 
         if (this.props.formik) {
-            this.props.formik.handleChange(event);
             this.props.formik.setFieldTouched(this.props.id, true);
+            this.props.formik.handleChange(event);
         }
+
+        if (!this.state.everChanged)
+            this.setState({ everChanged: true });
     }
 
     render() {
@@ -190,7 +196,7 @@ class FieldText extends React.Component {
                     <div class={"input" +
                         __class(this.state.focus, "focus") +
                         __class(disabled, "disabled") +
-                        __class((formik?.errors[id] && formik?.touched[id]) || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation] && formik?.touched[id]),
+                        __class(((formik?.errors[id] || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation])) && formik?.touched[id]),
                                           "error") +
                         __class(!formik?.errors[id] && finalValue, "valid")}
                     >
@@ -225,7 +231,9 @@ class FieldText extends React.Component {
                         </div> : null }
                     </div>
                     {((formik?.errors[id]?.length > 1) && formik?.touched[id] && (UI.openDropdown != id)) ?
-                        <div class="error-holder">{formik.errors[id]}</div>
+                        <div class={"error-holder" +
+                                    __class(!this.state.everBlured || !this.state.everChanged || this.state.focus, "possible-hide") //possible-hide
+                        }>{formik.errors[id]}</div>
                     : null}
                 </label>
                 { Dropdown ? <div class={__class(UI.openDropdown != id, "hide")}>

@@ -49,7 +49,8 @@ class PaymentPage extends BasicPaymentPage {
             },
             savedCards: [],
             selectedCardId: null,
-            loading: false
+            loading: false,
+            everSubmitted: false
         };
         this.submit = this.submit.bind(this);
         this.detectCardType = this.detectCardType.bind(this);
@@ -118,7 +119,8 @@ class PaymentPage extends BasicPaymentPage {
                 ...this.state.service,
                 ...(fingerprint ? { device_fingerprint: fingerprint } : {})
             },
-            loading: true
+            loading: true,
+            everSubmitted: true
         });
 
         API.post({
@@ -254,8 +256,7 @@ render() {
                 <Formik
                     initialValues={{
                         card_number: "",
-                        expiry_month: "",
-                        expiry_year: "",
+                        expiry_date: "",
                         card_security_code: "",
                         card_holder_name: "",
                         remember_me: false
@@ -265,7 +266,7 @@ render() {
                     onSubmit={this.submit}
                 >
                 {formik => (
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={formik.handleSubmit} class={__class(!this.state.everSubmitted, "never-submitted")}>
                         <div class="form">
                             <div class="row">
                                 <FieldText formik={formik}

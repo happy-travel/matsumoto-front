@@ -9,10 +9,12 @@ class CachedForm extends React.Component {
         this.getInitialValues = this.getInitialValues.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
             initialized: false,
-            initialValues: this.getInitialValues()
+            initialValues: this.getInitialValues(),
+            everSubmitted: false
         };
     }
 
@@ -48,6 +50,7 @@ class CachedForm extends React.Component {
         } = this.props,
             formName = this.props.id;
 
+        this.setState({ everSubmitted: false });
         formik.resetForm();
         formik.setValues(initialValues);
         UI.setFormCache(formName, null);
@@ -57,9 +60,15 @@ class CachedForm extends React.Component {
         UI.setFormCache(this.props.id, values);
     };
 
+    handleSubmit(props) {
+        this.setState({ everSubmitted: true });
+        if (this.props.onSubmit)
+            this.props.onSubmit(props);
+    };
+
     render() {
         var {
-            onSubmit = () => {},
+            onSubmit,
             validationSchema,
             render,
             enableReinitialize,
@@ -71,7 +80,7 @@ class CachedForm extends React.Component {
 
         return (
             <Formik
-                onSubmit={onSubmit}
+                onSubmit={this.handleSubmit}
                 validate={values => this.handleChange(values)}
                 initialValues={!enableReinitialize ? this.state.initialValues : this.getInitialValues()}
                 validationSchema={validationSchema}
@@ -80,7 +89,7 @@ class CachedForm extends React.Component {
                 enableReinitialize={enableReinitialize}
             >
                 {formik => (
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={formik.handleSubmit} class={__class(!this.state.everSubmitted, "never-submitted")}>
                         {render(formik, () => this.handleReset(formik) )}
                     </form>
                 )}
