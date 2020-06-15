@@ -60,10 +60,10 @@ class CachedForm extends React.Component {
         UI.setFormCache(this.props.id, values);
     };
 
-    handleSubmit(props) {
+    handleSubmit(props, extended) {
         this.setState({ everSubmitted: true });
         if (this.props.onSubmit)
-            this.props.onSubmit(props);
+            this.props.onSubmit(props, extended);
     };
 
     render() {

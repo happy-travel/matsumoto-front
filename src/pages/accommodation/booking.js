@@ -54,8 +54,11 @@ class AccommodationBookingPage extends React.Component {
     }
 
     submit(values, { setSubmitting }) {
-        if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
-            return null; //todo: another answer
+        if (!store.selected?.accommodationFinal?.accommodationDetails?.id) {
+            setSubmitting(false);
+            View.setTopAlertText("Booking unsuccessful, please try again later or contact us for help.");
+            return null;
+        }
 
         var variant = store.selected.roomContractSet,
             search = store.search.request;
