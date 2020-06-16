@@ -32,12 +32,12 @@ render() {
                     </div>
                     <div class="middle">
                         <div class="links">
-                            <menu class="primary">
+                            <menu>
                                 <li><Link to="/">{t("Accommodations")}</Link></li>
                                 <li><Link to="/contact">{t("Contact Us")}</Link></li>
                                 <li><Link to="/about">{t("About Us")}</Link></li>
                             </menu>
-                            <menu class="secondary">
+                            <menu>
                                 <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
                                 <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
                             </menu>

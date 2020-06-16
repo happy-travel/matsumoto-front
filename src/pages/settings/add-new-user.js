@@ -147,7 +147,7 @@ export default class AddNewUser extends React.Component {
                 >
                     {formik => (
                         <form onSubmit={formik.handleSubmit}>
-                            <div className="form">
+                            <div className="form users-pages">
                                 {/*<div className="row">*/}
                                 {/*    <FieldSelect formik={formik}*/}
                                 {/*                 id="title"*/}
@@ -212,7 +212,7 @@ export default class AddNewUser extends React.Component {
                                 {/*    />*/}
                                 {/*</div>*/}
 
-                                <h2 className="users-pages__title" style={{ marginTop: "40px" }}>{t('Settings')}</h2>
+                                <h2><span class="brand">{t('Settings')}</span></h2>
 
                                 {/*<div className="row add-new-user__select-nationality">*/}
                                 {/*    <FieldSelect formik={formik}*/}

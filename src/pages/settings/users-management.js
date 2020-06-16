@@ -103,9 +103,9 @@ class UsersManagement extends React.Component {
                </section>
             </div>
             {usersCounterpartyIsLoading && <Loader />}
-            {!usersCounterpartyIsLoading && <section>
+            {!usersCounterpartyIsLoading && <section class="users-pages">
                 <div className="users-management__table__title">
-                    <h2 className="users-pages__title" style={{ margin: 0 }}>{t("All Users")}</h2>
+                    <h2><span class="brand">{t("All Users")}</span></h2>
                     {/*<Link to="/settings/users/add" className="button users-management__button-add-new-user">*/}
                     {/*    {t("add new user")}*/}
                     {/*</Link>*/}

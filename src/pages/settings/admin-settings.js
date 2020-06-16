@@ -92,8 +92,8 @@ class AdminSettings extends React.Component {
 
             {this.state.loading && <Loader page />}
 
-            <section className="personal-info__wrapper medium-section">
-                <h2 className="users-pages__title">{t('Personal information')}</h2>
+            <section className="personal-info__wrapper medium-section users-pages">
+                <h2><span class="brand">{t('Personal information')}</span></h2>
 
                 <Formik
                     onSubmit={this.submitUserData}
@@ -185,7 +185,7 @@ class AdminSettings extends React.Component {
                     )}
                 </Formik>
 
-                <h2 className="users-pages__title">{t('System Settings')}</h2>
+                <h2><span class="brand">{t('System Settings')}</span></h2>
 
                 <Formik
                     initialValues={authStore.settings || {}}

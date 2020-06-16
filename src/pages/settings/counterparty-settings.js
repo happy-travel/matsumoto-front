@@ -34,7 +34,7 @@ export default class CounterpartySettings extends React.Component {
         return <React.Fragment>
             <UsersPagesHeader />
             { this.state.loading && <Loader />}
-            { !this.state.loading && <section className="medium-section">
+            { !this.state.loading && <section className="medium-section users-pages">
                 <Formik
                     initialValues={this.state.settings || {}}
                     enableReinitialize={true}
@@ -48,7 +48,7 @@ export default class CounterpartySettings extends React.Component {
                     };
 
                     return <div className="form">
-                        <h2 className="users-pages__title">{t("My account supervisor")}</h2>
+                        <h2><span class="brand">{t("My account supervisor")}</span></h2>
                         <div className="row">
                             <FieldText {...params}
                                        id="preferredPaymentMethod"
@@ -70,7 +70,7 @@ export default class CounterpartySettings extends React.Component {
                             />
                         </div>
 
-                        <h2 className="users-pages__title">{t("Voucher personalisation")}</h2>
+                        <h2><span class="brand">{t("Voucher personalisation")}</span></h2>
 
                         <div className="row">
                             <FieldText {...params}
