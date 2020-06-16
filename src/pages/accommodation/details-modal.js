@@ -31,7 +31,7 @@ class AccommodationDetailsModal extends React.Component {
                         fromModal
                     />
                     { /*
-                    <div class="button-holder">
+                    <div class="pdf-button-holder">
                         <button class="button">
                             <div class="image">
                                 {t("Create PDF")}
