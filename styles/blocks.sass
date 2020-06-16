@@ -23,19 +23,47 @@
     min-height: 100vh
 
 .block.document
+    font-size: 16px
+    line-height: 22px
+    section
+        padding-right: 200px
+        @media (max-width: 800px)
+            padding-right: 0
     h1
         font-size: 28px
         line-height: 28px
         margin: 5px 0 37px
+        &.underline
+            border-bottom: 1px solid $color-usual-gray
+            padding-bottom: 20px
+            margin-bottom: 25px
     h2
         font-size: 24px
-
+        margin: 45px 0 20px
+    h3
+        font-size: 20px
+        font-weight: 600
+        margin: 35px 0 15px
     p
-        margin-bottom: 15px
-    ul
+        margin-bottom: 20px
+    .indent
+        margin: 15px 0 20px 45px
+    ul, ol
         margin: 15px 0
         list-style: disc
-        padding-left: 20px
+        padding-left: 45px
         li
             list-style: disc
             margin-bottom: 10px
+        &.dash
+            &, & > li
+                list-style: '— '
+    ol
+        &, & > li
+            list-style: lower-latin
+        &.digital
+            &, & > li
+                list-style: decimal
+        &.roman
+            &, & > li
+                list-style: lower-roman
