@@ -318,10 +318,12 @@ class TermsPage extends React.Component {
                             of our Terms of Use in your country of residence or any other country.</li>
                     </ol>
 
+                    <div class="updated">Updated on June 17, 2020</div>
+
                     <div class="pdf-button-holder">
                         <a href="/documents/happytravel-terms.pdf" class="button">
                             <span class="image">
-                                Download PDF
+                                Download Terms & Conditions
                             </span>
                         </a>
                     </div>

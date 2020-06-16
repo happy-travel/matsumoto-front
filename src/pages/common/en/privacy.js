@@ -330,10 +330,12 @@ class PrivacyPolicyPage extends React.Component {
                         enable third-parties to collect or share your data. When you leave our website, we
                         encourage you to read the privacy notice of each website you visit.</p>
 
+                    <div class="updated">Updated on June 17, 2020</div>
+
                     <div class="pdf-button-holder">
                         <a href="/documents/happytravel-privacy-policy.pdf" class="button">
                             <span class="image">
-                                Download PDF
+                                Download Privacy Policy
                             </span>
                         </a>
                     </div>
