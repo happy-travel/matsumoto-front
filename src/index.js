@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
-import { init } from "core";
+import init from "core/init";
 import App from "core/app";
 import settings from "settings";
 

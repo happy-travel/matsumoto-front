@@ -2,7 +2,7 @@ import settings from "settings";
 import Authorize from "core/auth/authorize";
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
-import { isRedirectNeeded } from "./init";
+import isRedirectNeeded from "./misc/is-redirect-needed";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 

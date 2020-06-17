@@ -1,7 +1,7 @@
 import React from "react";
 import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
-import { isRedirectNeeded } from "core/init";
+import { isRedirectNeeded } from "core";
 import { Loader } from "simple";
 
 import store from "stores/auth-store";

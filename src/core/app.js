@@ -23,7 +23,7 @@ import Routes, {
 } from "./routes";
 
 import { Loader } from "simple";
-import { isRedirectNeeded } from "core/init";
+import { isRedirectNeeded } from "core";
 
 import authStore from "stores/auth-store";
 

@@ -1,15 +1,10 @@
-import { API } from "core";
 import Authorize from "./auth/authorize";
 import React from "react";
-import { getParams } from "core";
+import { API, getParams, isRedirectNeeded } from "core";
 import dropdownToggler from "components/form/dropdown/toggler";
 
 import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
-
-const noRedirectPages = ["/contact", "/terms", "/privacy", "/about", "/signup/", "/pay", "/logout"];
-
-export const isRedirectNeeded = () => noRedirectPages.every(item => window.location.href.indexOf(item) == -1);
 
 const init = () => {
     if (window.location.href.indexOf("/auth/") > 0)
