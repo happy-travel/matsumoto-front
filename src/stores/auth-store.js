@@ -1,6 +1,5 @@
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
-import { RenderTheApp } from "../";
 import { StorageUserIdKey } from "core/storage";
 
 const defaultUserSettings = {
@@ -77,8 +76,8 @@ class AuthStore {
             this.userCache = null;
             this.cachedUserRegistered = false;
         }
-        if (rerenderNeeded)
-            RenderTheApp();
+        if (rerenderNeeded && _renderTheApp)
+            _renderTheApp();
     }
 
     setCachedUserRegistered(value) {
