@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
-import { App, init } from "core";
+import { init } from "core";
+import App from "core/app";
 import settings from "settings";
 
 if (!__localhost)
