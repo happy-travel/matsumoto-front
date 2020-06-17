@@ -61,8 +61,7 @@
     "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
-    "terser-webpack-plugin": "1.2.3",
-    "react-responsive-carousel": "3.1.51"
+    "terser-webpack-plugin": "1.2.3"
   },
   "scripts": {
     "start": "node config/scripts/start.js",
