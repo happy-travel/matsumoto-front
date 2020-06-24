@@ -198,7 +198,7 @@ render() {
 
                     <h2 class="underline">{t("Room Details")}</h2>
                     { booking.roomDetails.map((room, index) => (
-                        <React.Fragment>
+                        <div class="room-part">
                             <div class="part">
                                 <div class="icon-holder circle">
                                     { booking.roomDetails.length > 1 ?
@@ -241,7 +241,7 @@ render() {
                                           deadlineDetails={room.deadlineDetails}
                                           remarks={room?.remarks}
                             />
-                        </React.Fragment>
+                        </div>
                     ))}
 
                     <div class="actions">
