@@ -66,11 +66,12 @@ class BasicPaymentPage extends React.Component {
                 error,
                 params
             );
-        else
+        else {
+            this.setResult(data, error, params);
             this.setState({
                 redirectToConfirmationPage: true
             });
-
+        }
     }
 
     render() {

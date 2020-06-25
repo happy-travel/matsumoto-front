@@ -17,11 +17,11 @@ class ViewFailed extends React.Component {
                         <p>{reason}</p>
                     </div>
 
-                    <Link to={link}>
+                    {!!button && <Link to={link}>
                         <span class="button">
                             {button}
                         </span>
-                    </Link>
+                    </Link> }
                 </div>
             </div>
         );

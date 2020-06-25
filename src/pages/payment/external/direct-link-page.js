@@ -11,7 +11,8 @@ class PaymentDirectLinkPage extends PaymentPage {
         this.state = {
             ...this.state,
             direct: true,
-            orderCode: null
+            orderCode: null,
+            loading: true
         };
     }
 
@@ -36,6 +37,7 @@ class PaymentDirectLinkPage extends PaymentPage {
             after: result => {
                 session.set(result.referenceCode, orderCode);
                 this.setState({
+                    loading: false,
                     amount: result.amount,
                     currency: result.currency,
                     comment: result.comment,

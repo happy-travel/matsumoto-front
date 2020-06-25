@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, session } from "core";
 import { Dual, StaticHeader, price } from "simple";
+import ViewFailed from "parts/view-failed";
 
 import store from "stores/accommodation-store";
 
@@ -18,6 +19,11 @@ class DirectLinkConfirmationPage extends React.Component {
     }
 
     componentDidMount() {
+        if (!store.paymentResult?.params?.merchant_reference) {
+            this.setState({ booking: { error: "error" } });
+            return;
+        }
+
         var code = session.get(store.paymentResult.params.merchant_reference);
         if (!code)
             this.setState({ booking: { error: "error" } });
@@ -46,29 +52,18 @@ return (
 
     <div class="confirmation block">
         <section class="double-sections">
+            { !!result && "Success" == result.status ?
+
             <div class="middle-section">
+                <h2>{t("Your order has been paid successfully")}</h2>
 
-                { params_error && <div class="accent-frame error">
+                <div class="accent-frame">
                     <div class="before">
-                        <span class="icon icon-close white" />
+                        <span class="icon icon-white-check" />
                     </div>
                     <div class="dual">
                         <div class="first">
-                            {t("Payment message")}: <strong>{messageFormatter(params?.response_message)}</strong>
-                        </div>
-                        <div class="second">
-                            {t("Response code")}: <strong>{params?.response_code}</strong>
-                        </div>
-                    </div>
-                </div> }
-
-                <div class={"accent-frame" + __class(result.error, "error")}>
-                    { (result.status || result.error) && <div class="before">
-                        { result.error ? <span class="icon icon-close white" /> : <span class="icon icon-white-check" /> }
-                    </div> }
-                    <div class="dual">
-                        <div class="first">
-                            {t("Payment result")}: <strong>{result.status || result.error}</strong>
+                            {t("Payment result")}: <strong>{result.status}</strong>
                         </div>
                     </div>
                 </div>
@@ -94,6 +89,31 @@ return (
                 /> }
 
             </div>
+            :
+            <div class="middle-section">
+                { params_error && <div class="accent-frame error">
+                    <div class="before">
+                        <span class="icon icon-close white" />
+                    </div>
+                    <div class="dual">
+                        <div class="first">
+                            {t("Payment message")}: <strong>{messageFormatter(params?.response_message)}</strong>
+                        </div>
+                        <div class="second">
+                            {t("Response code")}: <strong>{params?.response_code}</strong>
+                        </div>
+                    </div>
+                </div> }
+                <ViewFailed
+                    reason={
+                        <React.Fragment>
+                            {t("Payment failed")}<br/>
+                            {result.error}
+                        </React.Fragment>
+                    }
+                />
+            </div>
+            }
         </section>
     </div>
 </React.Fragment>

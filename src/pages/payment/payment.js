@@ -199,7 +199,7 @@ render() {
                 {t("This order was successfully paid already")}
             </h2> }
 
-            { this.state.direct && ("Success" != this.state.status) &&
+            { this.state.direct && !this.state.loading && ("Success" != this.state.status) &&
               ("Created" != this.state.status) && <h2 class="payment-title">
                 {t("You are not able to pay this order anymore")}
             </h2> }

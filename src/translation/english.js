@@ -366,6 +366,7 @@ translations: {
 
     "Oppps! Something wrong": "Oppps! Something wrong",
     "Payment failed": "Payment failed",
+    "Your order has been paid successfully": "Your order has been paid successfully",
     "Try to pay again": "Try to pay again",
     "Hotel Information": "Hotel Information",
     "Unable to load a booking confirmation": "Unable to load a booking confirmation",
