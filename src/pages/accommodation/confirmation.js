@@ -108,7 +108,7 @@ render() {
                         params={params}
                         result={result}
                     /> }
-                    { !booking.referenceCode
+                    { (!booking.referenceCode || result?.error)
                         ? ( (data?.error || result?.error) ?
                             ((this.state.fromHistory || !result?.error) ? <ViewFailed
                                 reason={t("Unable to load a booking confirmation")}
