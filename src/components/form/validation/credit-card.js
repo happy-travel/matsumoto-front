@@ -22,5 +22,5 @@ export const creditCardValidator = Yup.object().shape({
 });
 
 export const savedCreditCardValidator = Yup.object().shape({
-    card_security_code: Yup.string().required("*")
+    card_security_code: Yup.string().min(3, "*")
 });

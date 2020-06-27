@@ -17,8 +17,11 @@
                 right: -7px
         .form
             .field
+                &.force-invalid
+                    .input.valid
+                        &:after
+                            display: none
                 .input.valid
-                    overflow-x: visible
                     &:after
                         content: " "
                         background: #FFFFFF url("./icons/check-round.svg") left top no-repeat

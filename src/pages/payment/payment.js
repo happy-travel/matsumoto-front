@@ -231,7 +231,9 @@ render() {
                                             <FieldText formik={formik}
                                                 id="card_security_code"
                                                 placeholder={this.state.code.name}
+                                                addClass={__class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
                                                 required
+                                                password
                                                 numeric
                                                 maxLength={this.state.code.size}
                                             />
@@ -259,7 +261,8 @@ render() {
                         expiry_date: "",
                         card_security_code: "",
                         card_holder_name: "",
-                        remember_me: false
+                        remember_me: false,
+                        code_length: 3
                     }}
                     validateOnChange={true}
                     validationSchema={creditCardValidator}
@@ -315,7 +318,8 @@ render() {
                                         </span>
                                     }
                                     placeholder={this.state.code.name}
-                                    addClass="size-half"
+                                    addClass={"size-half" +
+                                        __class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
                                     required
                                     numeric
                                     maxLength={this.state.code.size}
