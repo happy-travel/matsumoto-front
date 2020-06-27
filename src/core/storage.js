@@ -1,78 +1,29 @@
-export const StorageUserIdKey = "_user_id";
-
+import { userAuthGetFromStorage } from "core/auth";
 const googleSessionStorageKey = "google-session";
+import { windowLocalStorage, windowSessionStorage } from "core/misc/window-storage";
 
-const getUserHashFromStore = () => window.localStorage.getItem(StorageUserIdKey);
-
-const userKey = (key, everyUser) => {
-    var userId = getUserHashFromStore();
-
-    if (!userId || everyUser)
-        return key;
-
+const userKey = (key) => {
+    var userId = userAuthGetFromStorage() || "_no_user_";
     return key + '_' + userId;
 };
 
 export const localStorage = {
-    set: (key, item, everyUser) => {
-        try {
-            window.localStorage.setItem(userKey(key, everyUser), item)
-        } catch (e) {
-        }
-    },
-    get: (key, everyUser) => {
-        var result = null;
-        try {
-            result = window.localStorage.getItem(userKey(key, everyUser));
-        } catch (e) {
-        }
-        return result;
-    }
+    set: (key, item) => windowLocalStorage.set(userKey(key), item),
+    get: (key) => windowLocalStorage.get(userKey(key))
 };
 
 export const session = {
-    isAvailable: () => {
-        if (window._session_available !== undefined)
-            return window._session_available;
-        var result = false,
-            key = "availability_check",
-            test_result = Math.trunc(10000 * Math.random());
-        try {
-            window.sessionStorage.setItem(key, test_result);
-            if (test_result == window.sessionStorage.getItem(key))
-                result = true;
-            window.sessionStorage.removeItem(key);
-        } catch (e) {
-        }
-        if (!result) {
-            if (window && !window._session)
-                window._session = {};
-        }
-        window._session_available = result;
-        return result;
-    },
     set: (key, item) => {
-        if (!getUserHashFromStore()) return;
-
-        if (session.isAvailable())
-            window.sessionStorage.setItem(userKey(key), item);
-        else
-            window._session[key] = item;
+        if (!userAuthGetFromStorage()) return;
+        windowSessionStorage.set(userKey(key), item);
     },
     get: (key) => {
-        if (!getUserHashFromStore()) return;
-
-        if (session.isAvailable())
-            return window.sessionStorage.getItem(userKey(key));
-        return window._session[key];
+        if (!userAuthGetFromStorage()) return;
+        return windowSessionStorage.get(userKey(key));
     },
     remove: (key) => {
-        if (!getUserHashFromStore()) return;
-
-        if (session.isAvailable())
-            window.sessionStorage.removeItem(userKey(key));
-        else
-            window._session[key] = null;
+        if (!userAuthGetFromStorage()) return;
+        windowSessionStorage.remove(userKey(key));
     },
     google: {
         create: () => {

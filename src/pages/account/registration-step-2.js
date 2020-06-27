@@ -1,8 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { API } from "core";
+import { userAuthSetToStorage } from "core/auth";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -10,8 +11,6 @@ import { CachedForm, FORM_NAMES } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 
 import FormUserData from "parts/form-user-data";
-import Authorize from "core/auth/authorize";
-
 import store from "stores/auth-store";
 import View from "stores/view-store";
 import UI from "stores/ui-store";
@@ -48,12 +47,12 @@ class RegistrationStep2 extends React.Component {
                 success: () => {
                     API.get({
                         url: API.USER,
-                        success: (result) => {
-                            if (result?.email)
-                                store.setUser(result);
+                        success: (user) => {
+                            if (user?.email)
+                                store.setUser(user);
+                            userAuthSetToStorage(user);
                         }
                     });
-                    store.setCachedUserRegistered(true);
                     UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
                     window.sessionStorage.removeItem("_auth__invCode");
 
@@ -109,10 +108,10 @@ class RegistrationStep2 extends React.Component {
             <Breadcrumbs items={[
                 {
                     text: t("Log In"),
-                    onClick: () => Authorize.signoutRedirect()
+                    link: "/logout"
                 }, {
                     text: t("Registration"),
-                    onClick: () => Authorize.signoutRedirect()
+                    link: "/logout"
                 }, {
                     text: t("User Information")
                 }
@@ -151,7 +150,7 @@ class RegistrationStep2 extends React.Component {
                             </div>
                         </div>
                         <div style={{ marginTop: "60px" }}>
-                            <span onClick={() => Authorize.signoutRedirect()} class="link">Log out</span>
+                            <Link to="/logout" class="link">Log out</Link>
                         </div>
                     </div>
                 </React.Fragment>

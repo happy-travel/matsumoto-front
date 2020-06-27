@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Redirect, Link } from "react-router-dom";
 import { API } from "core";
+import { userAuthSetToStorage } from "core/auth";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -15,7 +16,6 @@ import {
 } from "components/form";
 import { registrationCounterpartyValidator } from "components/form/validation";
 import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
-import Authorize from "core/auth/authorize";
 
 import store from "stores/auth-store";
 import UI from "stores/ui-store";
@@ -40,14 +40,14 @@ class RegistrationStep3 extends React.Component {
             success: () => {
                 API.get({
                     url: API.USER,
-                    success: (result) => {
-                        if (result?.email)
-                            store.setUser(result);
+                    success: (user) => {
+                        if (user?.email)
+                            store.setUser(user);
+                        userAuthSetToStorage(user);
                     }
                 });
                 store.setUserForm({});
                 store.setCounterpartyForm({});
-                store.setCachedUserRegistered(true);
                 this.setState({ redirectToIndexPage: true });
 
                 UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
@@ -88,10 +88,10 @@ class RegistrationStep3 extends React.Component {
                         <Breadcrumbs items={[
                             {
                                 text: t("Log In"),
-                                onClick: () => Authorize.signoutRedirect()
+                                link: "/logout"
                             }, {
                                 text: t("Registration"),
-                                onClick: () => Authorize.signoutRedirect()
+                                link: "/logout"
                             }, {
                                 text: t("Company Information")
                             }
@@ -106,7 +106,7 @@ class RegistrationStep3 extends React.Component {
                         </h1>
                         <p>
                             Create a free HappyTravel.com account and start booking today.<br/>
-                            Already have an account? <span onClick={() => Authorize.signoutRedirect()} class="link">Log In Here.</span>
+                            Already have an account? <Link to="/logout" class="link">Log In Here.</Link>
                         </p>
 
                         <CachedForm

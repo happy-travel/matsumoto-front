@@ -7,7 +7,7 @@ import LocaleSwitcher from "components/switchers/locale";
 import CurrencySwitcher from "components/switchers/currency";
 
 import UI from "stores/ui-store";
-import authStore from "stores/auth-store";
+import { Authorized } from "core/auth";
 
 @observer
 class Footer extends React.Component {
@@ -55,7 +55,7 @@ render() {
                         </div>
                         <div class="switchers">
                             <LocaleSwitcher />
-                            { !!authStore.userCache?.access_token && <CurrencySwitcher /> }
+                            { Authorized() && <CurrencySwitcher /> }
                         </div>
                     </div>
                     <div class="contact">

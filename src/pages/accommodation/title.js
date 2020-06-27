@@ -9,9 +9,6 @@ import { Loader } from "simple";
 class AccommodationTitlePage extends React.Component {
 render () {
     var { t } = useTranslation();
-    if (!authStore.cachedUserRegistered)
-        return <Loader white page />;
-
     return (
     <React.Fragment>
         <div class="tiles block">

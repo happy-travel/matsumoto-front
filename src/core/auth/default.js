@@ -1,20 +1,17 @@
 import React from "react";
 import Authorize from "./authorize";
 import { withRouter } from "react-router-dom";
-import { isRedirectNeeded } from "core";
+import { isPageAvailableAuthorizedOnly, Authorized } from "core/auth";
 import { Loader } from "simple";
-
-import store from "stores/auth-store";
 
 class AuthDefaultComponent extends React.PureComponent {
     render() {
-        if (isRedirectNeeded()) {
+        if (isPageAvailableAuthorizedOnly()) {
             Authorize.getUser().then(user => {
-                store.setUserCache(user);
                 if (!user?.access_token)
                     Authorize.signinRedirect();
             });
-            if (!store.userCache?.access_token)
+            if (!Authorized())
                 return <Loader white page />;
         }
 

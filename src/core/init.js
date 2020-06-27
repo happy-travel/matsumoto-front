@@ -1,6 +1,7 @@
 import Authorize from "./auth/authorize";
 import React from "react";
-import { API, getParams, isRedirectNeeded } from "core";
+import { isPageAvailableAuthorizedOnly, userAuthSetToStorage } from "core/auth";
+import { API, getParams } from "core";
 import dropdownToggler from "components/form/dropdown/toggler";
 
 import UI from "stores/ui-store";
@@ -22,19 +23,19 @@ const init = () => {
             if (result?.email)
                 authStore.setUser(result);
         },
-        after: (a, error, response) => {
+        after: (user, error, response) => {
             if (!response)
                 return;
             if (response.status == 401 || response.status == 403) {
-                if (isRedirectNeeded())
+                if (isPageAvailableAuthorizedOnly())
                     Authorize.signinRedirect();
                 return;
             }
             if (response.status == 400 && "Could not get agent data" == error?.detail) {
-                if (isRedirectNeeded())
+                if (isPageAvailableAuthorizedOnly())
                     window.location.href = window.location.origin + "/signup/user";
             } else
-                authStore.setCachedUserRegistered(true);
+                userAuthSetToStorage(user);
         }
     });
 

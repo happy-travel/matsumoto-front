@@ -1,8 +1,7 @@
 import settings from "settings";
 import Authorize from "core/auth/authorize";
+import { userAuthRemoveFromStorage, isPageAvailableAuthorizedOnly } from "core/auth";
 import View from "stores/view-store";
-import authStore from "stores/auth-store";
-import isRedirectNeeded from "./misc/is-redirect-needed";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
@@ -119,11 +118,11 @@ _.request = ({
     after     // function(result, error, response) - Fires the last
 }) => {
 Authorize.getUser().then(user => {
-    if (!external_url && isRedirectNeeded())
-        authStore.setUserCache(user);
     if (!external_url && !user?.access_token) {
-        if (isRedirectNeeded())
+        if (isPageAvailableAuthorizedOnly()) {
+            userAuthRemoveFromStorage();
             Authorize.signinRedirect();
+        }
         return;
     }
 
@@ -163,7 +162,7 @@ Authorize.getUser().then(user => {
         })
         .then(
             (result) => {
-                if ((rawResponse.status == 401 || rawResponse.status == 403) && isRedirectNeeded()) {
+                if ((rawResponse.status == 401 || rawResponse.status == 403) && isPageAvailableAuthorizedOnly()) {
                     Authorize.signinRedirect();
                     return;
                 }

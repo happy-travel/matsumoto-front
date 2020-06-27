@@ -1,8 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { localStorage, scrollTo } from "core";
+import { scrollTo } from "core";
 import { decorate } from "simple";
 import { getValue } from "./utils";
+import { windowLocalStorage } from "core/misc/window-storage";
 
 import UI from "stores/ui-store";
 
@@ -173,7 +174,7 @@ class FieldText extends React.Component {
             suggestion = decorate.cutFirstPart(suggestion, getValue(formik, id));
 
         /* todo: Remove this workaround when server rtl suggestions works correct */
-        var isSuggestionVisible = localStorage.get("direction", true) != "rtl";
+        var isSuggestionVisible = windowLocalStorage.get("direction") != "rtl";
 
         if (ValueObject !== undefined) {
             if (ValueObject)

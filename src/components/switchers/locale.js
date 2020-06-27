@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { localStorage } from "core";
+import { windowLocalStorage } from "core/misc/window-storage";
 import { Flag } from "simple";
 
 import UI from "stores/ui-store";
@@ -13,11 +14,10 @@ class LocaleSwitcherDropdown extends React.Component {
     changeLanguage(i18n, lng) {
         i18n.changeLanguage(lng);
         localStorage.set("locale", lng);
-        localStorage.set("direction", i18n.dir(lng), "all");
+        windowLocalStorage.set("direction", i18n.dir(lng));
         window.setPageDirectionFromLS();
     };
 
-    // todo: refactor
     render() {
         const { t, i18n } = useTranslation();
 

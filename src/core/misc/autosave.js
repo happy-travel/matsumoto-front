@@ -3,30 +3,32 @@ import { session } from "../storage";
 import settings from "settings";
 
 export default (store, key) => {
-    var initial = true;
+
+    var cached = session.get(key);
+
+    const reserve = JSON.parse(JSON.stringify(store));
+
+    if (cached)
+        try {
+            var value = JSON.parse(cached);
+            if (value.build == settings.build)
+                set(store, value);
+            else
+                set(store, reserve);
+        }
+        catch (e) {
+            set(store, reserve);
+        }
+    else
+        set(store, { build: settings.build }); // hack for autorun keep runing
 
     autorun(() => {
-        const cached = session.get(key);
-        if (initial) {
-            const reserve = JSON.parse(JSON.stringify(store));
-
-            if (cached)
-                try {
-                    var value = JSON.parse(cached);
-                    if (value.build == settings.build)
-                        set(store, value);
-                    else
-                        set(store, reserve);
-                }
-                catch (e) {
-                    set(store, reserve);
-                }
-        }
+        cached = session.get(key);
         store.build = settings.build;
         const newValue = JSON.stringify(store);
         if (cached != newValue)
             session.set(key, newValue);
+    }, {
+        delay: 500
     });
-
-    initial = false;
 };

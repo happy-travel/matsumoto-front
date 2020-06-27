@@ -1,6 +1,5 @@
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
-import { StorageUserIdKey } from "core/storage";
 
 const defaultUserSettings = {
     loaded: false,
@@ -25,9 +24,6 @@ class AuthStore {
     @observable isUserDataLoading = true;
 
     @observable settings = defaultUserSettings;
-
-    @observable userCache = null;
-    @observable cachedUserRegistered = false;
 
     constructor() {
         autosave(this, "_auth_store_cache");
@@ -58,30 +54,6 @@ class AuthStore {
 
     setCountryValue(country) {
         this.registration.counterparty.countryCode = country.code;
-    }
-
-    setUserCache(newUserCache) {
-        var rerenderNeeded = this.userCache?.access_token != newUserCache?.access_token;
-
-        if (newUserCache?.profile?.email)
-            window.localStorage.setItem(StorageUserIdKey, btoa(newUserCache.profile?.email));
-        else
-            window.localStorage.removeItem(StorageUserIdKey);
-
-        if (newUserCache?.access_token)
-            this.userCache = {
-                access_token: newUserCache?.access_token
-            };
-        else {
-            this.userCache = null;
-            this.cachedUserRegistered = false;
-        }
-        if (rerenderNeeded && _renderTheApp)
-            _renderTheApp();
-    }
-
-    setCachedUserRegistered(value) {
-        this.cachedUserRegistered = value;
     }
 
     setSettings(value) {

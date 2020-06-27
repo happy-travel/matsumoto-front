@@ -1,10 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import Authorize from "core/auth/authorize";
 import { Link } from "react-router-dom";
 import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
-import { Loader } from "simple";
 
 import AuthStore from "stores/auth-store";
 import UI from "stores/ui-store";
@@ -49,14 +47,10 @@ class UserMenuDropdown extends React.Component {
                         </Link> }
                     <Link to="/settings/admin" class="item">{t("Settings")}</Link>
 
-                    <div class="item" onClick={() => {
-                        UI.dropAllFormCaches();
-                        Authorize.signoutRedirect().then(this.setState({loading: true}));
-                    }}>
+                    <Link to="/logout" class="item">
                         {t("Log out")}
-                    </div>
+                    </Link>
                 </div>}
-                { this.state.loading && <Loader page /> }
             </div>
         );
     }

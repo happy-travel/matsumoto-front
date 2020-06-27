@@ -4,8 +4,6 @@ import { withRouter } from "react-router-dom";
 import init from "core/init";
 import { Loader } from "simple";
 
-import store from "stores/auth-store";
-
 class AuthCallbackComponent extends React.PureComponent {
     componentDidMount() {
         Authorize.removeUser();
@@ -16,8 +14,7 @@ class AuthCallbackComponent extends React.PureComponent {
 
     onRedirectSuccess = (user) => {
         Authorize.clearStaleState();
-        store.setUserCache(user);
-        this.props.history.push("/");
+        this.props.history.push("/"); //todo: direct url before auth
         init(); //todo: rewrite logic where init is after authorization code
     };
 

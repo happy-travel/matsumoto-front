@@ -1,7 +1,7 @@
 import React from "react";
 import settings from "settings";
 import { session, API } from "core";
-import { StorageUserIdKey } from "core/storage";
+import { userAuthSetDirectPayment } from "core/auth";
 import { snare } from "../utils/snare";
 import PaymentPage from "../payment";
 
@@ -50,8 +50,7 @@ class PaymentDirectLinkPage extends PaymentPage {
             }
         });
 
-        if (!window.localStorage.getItem(StorageUserIdKey))
-            window.localStorage.setItem(StorageUserIdKey, "__direct_payment");
+        userAuthSetDirectPayment();
 
         snare();
     }
