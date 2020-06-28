@@ -7,8 +7,8 @@ import { API } from "core";
 
 import { dateFormat, Loader } from "simple";
 import { FieldText } from "components/form";
-import Table from "components/table";
-import UsersPagesHeader from "parts/users-pages-header";
+import Table from "components/external/table";
+import SettingsHeader from "./parts/settings-header";
 
 import UsersStore from "stores/users-store";
 import AuthStore from "stores/auth-store";
@@ -39,7 +39,7 @@ const columns = [
             const { id, agencyId } = AuthStore.activeCounterparty;
             return <Link
                 to={`/settings/users/${item.cell.value}/${id}/${agencyId}`}
-            ><span className={`icon icon-action-pen-orange`}/></Link>;
+            ><span class={`icon icon-action-pen-orange`}/></Link>;
         }
     },
 ];
@@ -69,9 +69,10 @@ class UsersManagement extends React.Component {
         const { t } = useTranslation();
         const { usersCounterparty, usersCounterpartyIsLoading, usersTablePageInfo, usersCounterpartyCount } = UsersStore;
 
-        return (<div>
-            <UsersPagesHeader />
-            <div className="users-management__search-wrapper">
+        return (
+        <div class="settings wide block">
+            <SettingsHeader />
+            <div class="search-wrapper">
                <section>
                    <Formik
                        initialValues={{}}
@@ -79,18 +80,18 @@ class UsersManagement extends React.Component {
                    >
                        {formik => (
                            <form onSubmit={formik.handleSubmit}>
-                               <div className="form">
-                                   <div className="row">
+                               <div class="form">
+                                   <div class="row">
                                        <FieldText formik={formik}
                                                   id="searchField"
                                                   label={t("Username, Name or E-mail")}
                                                   placeholder={t("Choose your Username, Name or E-mail")}
                                                   clearable
                                        />
-                                       <div className="field field-no-grow">
-                                           <div className="label"/>
-                                           <div className="inner">
-                                               <button type="submit" className="button users-management__button-search-user">
+                                       <div class="field">
+                                           <div class="label"/>
+                                           <div class="inner">
+                                               <button type="submit" class="button">
                                                    {t("Search user")}
                                                </button>
                                            </div>
@@ -102,25 +103,24 @@ class UsersManagement extends React.Component {
                    </Formik>
                </section>
             </div>
-            {usersCounterpartyIsLoading && <Loader />}
-            {!usersCounterpartyIsLoading && <section class="users-pages">
-                <div className="users-management__table__title">
-                    <h2><span class="brand">{t("All Users")}</span></h2>
-                    {/*<Link to="/settings/users/add" className="button users-management__button-add-new-user">*/}
-                    {/*    {t("add new user")}*/}
-                    {/*</Link>*/}
-                </div>
-                <Table
-                  data={usersCounterparty}
-                  count={usersCounterpartyCount}
-                  fetchData={this.getUsersCounterparty}
-                  columns={columns}
-                  {...usersTablePageInfo}
-                  className="users-management__table"
-                  manualPagination
-                />
-            </section>}
-        </div>)
+            {usersCounterpartyIsLoading ?
+                <Loader /> :
+                <section>
+                    <div>
+                        <h2><span class="brand">{t("All Users")}</span></h2>
+                    </div>
+                    <Table
+                        data={usersCounterparty}
+                        count={usersCounterpartyCount}
+                        fetchData={this.getUsersCounterparty}
+                        columns={columns}
+                        {...usersTablePageInfo}
+                        manualPagination
+                    />
+                </section>
+            }
+        </div>
+        );
     }
 }
 

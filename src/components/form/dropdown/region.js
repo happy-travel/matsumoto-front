@@ -51,7 +51,11 @@ class RegionDropdown extends React.Component {
         if (!View.countries?.length)
             return null; //todo: change to separated lists for different inputs
 
-        const {connected, formik} = this.props;
+        const {
+            connected,
+            formik
+        } = this.props;
+
         return (
             <div class="cities dropdown">
                 <div class="scroll">
@@ -70,7 +74,7 @@ class RegionDropdown extends React.Component {
                               id={`js-value-${index}`}
                               key={`${country.name}-${country.id}`}
                               onClick={ () => this.props.setValue(country, formik, connected) }
-                              class={"country line" + __class(UI.focusedDropdownIndex === index, "country__focused")}
+                              class={"country line" + __class(UI.focusedDropdownIndex === index, "focused")}
                             >
                                 <Flag code={country.code} />
                                 <Highlighted str={country.name} highlight={this.props.value} />

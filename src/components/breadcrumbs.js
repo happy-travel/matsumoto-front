@@ -15,9 +15,6 @@ const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
                             {item.text}
                         </Link>
                       :
-                      item.onClick ?
-                        <span onClick={item.onClick} class="breadcrumbs--link">{item.text}</span>
-                        :
                         item.text
                     }
                     { index+1 < items.length ? <span class="small-arrow-right" /> : ' '}
@@ -26,8 +23,13 @@ const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
             )) }
             {!noBackButton && (
                 backLink ?
-                <Link to={backLink}><span class="back-button breadcrumbs--link"><span class="small-arrow-left" /> {t('Back')}</span></Link> :
-                <div onClick={() => history.goBack()} class="back-button breadcrumbs--link"><span class="small-arrow-left" /> {t('Back')}</div>
+                    <Link to={backLink}><span class="back-button">
+                        <span class="small-arrow-left" /> {t('Back')}</span>
+                    </Link>
+                :
+                    <div onClick={() => history.goBack()} class="back-button">
+                        <span class="small-arrow-left" /> {t('Back')}
+                    </div>
             )}
         </div>
     );

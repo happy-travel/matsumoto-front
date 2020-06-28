@@ -6,7 +6,7 @@ import { API } from "core";
 
 import { Loader } from "simple";
 import { FieldText, FieldTextarea } from "components/form";
-import UsersPagesHeader from "parts/users-pages-header";
+import SettingsHeader from "./parts/settings-header";
 
 import authStore from "stores/auth-store";
 
@@ -31,10 +31,11 @@ export default class CounterpartySettings extends React.Component {
     render() {
         const { t } = useTranslation();
 
-        return <React.Fragment>
-            <UsersPagesHeader />
+        return (
+        <div class="settings block">
+            <SettingsHeader />
             { this.state.loading && <Loader />}
-            { !this.state.loading && <section className="medium-section users-pages">
+            { !this.state.loading && <section>
                 <Formik
                     initialValues={this.state.settings || {}}
                     enableReinitialize={true}
@@ -47,9 +48,9 @@ export default class CounterpartySettings extends React.Component {
                         disabled: true
                     };
 
-                    return <div className="form">
+                    return <div class="form">
                         <h2><span class="brand">{t("My account supervisor")}</span></h2>
-                        <div className="row">
+                        <div class="row">
                             <FieldText {...params}
                                        id="preferredPaymentMethod"
                                        label={t("Payment method")}
@@ -59,7 +60,7 @@ export default class CounterpartySettings extends React.Component {
                                        label={t("Currency")}
                             />
                         </div>
-                        <div className="row">
+                        <div class="row">
                             <FieldText {...params}
                                        id="phone"
                                        label={t("Telephone")}
@@ -72,13 +73,13 @@ export default class CounterpartySettings extends React.Component {
 
                         <h2><span class="brand">{t("Voucher personalisation")}</span></h2>
 
-                        <div className="row">
+                        <div class="row">
                             <FieldText {...params}
                                        id="name"
                                        label={t("Company Name")}
                             />
                         </div>
-                        <div className="row">
+                        <div class="row">
                             <FieldText {...params}
                                        id="countryCode"
                                        label={t("Country Code")}
@@ -88,7 +89,7 @@ export default class CounterpartySettings extends React.Component {
                                        label={t("City")}
                             />
                         </div>
-                        <div className="row">
+                        <div class="row">
                             <FieldText {...params}
                                        id="postalCode"
                                        label={t("Zip/Postal Code")}
@@ -98,7 +99,7 @@ export default class CounterpartySettings extends React.Component {
                                        label={t("Website")}
                             />
                         </div>
-                        <div className="row">
+                        <div class="row">
                             <FieldTextarea {...params}
                                 id="address"
                                 label={t("Address")}
@@ -108,6 +109,7 @@ export default class CounterpartySettings extends React.Component {
                 }}
             </Formik>
             </section> }
-        </React.Fragment>
+        </div>
+        );
     }
 }

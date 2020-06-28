@@ -1,0 +1,118 @@
+.settings.block
+    section
+        max-width: 886px
+    &.wide
+        section
+            max-width: 1100px
+    h2
+        margin: 70px 0 40px
+        font-size: 20px
+        line-height: 24px
+        letter-spacing: 1px
+        text-transform: uppercase
+        color: #231F20
+    .form
+        .row
+            margin-bottom: 18px
+            &.controls
+                padding: 0 !important
+                margin-top: 9px
+                margin-bottom: 0
+                justify-content: flex-end
+                .button
+                    min-width: 215px
+                .field
+                    flex-grow: 0
+                    width: auto
+        &.user-data
+            flex-direction: row
+            flex-wrap: wrap
+            .row:last-child
+                width: 100%
+            .row
+                width: 50%
+            .row:nth-child(1)
+                order: 1
+                padding-right: 9px
+            .row:nth-child(2)
+                order: 3
+                padding-right: 9px
+            .row:nth-child(3)
+                order: 4
+                padding-left: 9px
+            .row:nth-child(4)
+                order: 2
+                padding-left: 9px
+            .row:nth-child(5)
+                order: 5
+        &.app-settings
+            .field
+                width: 50%
+        .permissions
+            flex-wrap: wrap
+            display: flex
+            flex-direction: row
+            .vertical-label
+                padding-right: 0
+                padding-left: 18px
+            .row
+                width: 50%
+    .search-wrapper
+        padding: 73px 0 82px
+        background: $color-background-light
+        .field:last-child
+            max-width: 330px
+    .breadcrumbs
+        margin: 45px 0 -25px
+    table
+        width: 100%
+        border-collapse: separate
+        border-spacing: 0 5px
+        th
+            color: $color-text-light
+            padding-bottom: 12px
+            padding-left: 15px
+        td
+            padding: 25px 25px 25px 15px
+            border-bottom: 1px solid #EDEDED
+            border-top: 1px solid #EDEDED
+            &:first-child
+                border-left: 1px solid #EDEDED
+            &:last-child
+                border-right: 1px solid #EDEDED
+
+.settings-header
+    section
+        padding: 75px 0
+    h1
+        font-size: 36px
+        line-height: 43px
+        color: #231F20
+        text-align: center
+    & > div
+        display: flex
+        justify-content: center
+        border-bottom: 1px solid $color-usual-gray
+        width: 100%
+        a
+            font-size: 13px
+            line-height: 16px
+            text-align: center
+            text-transform: uppercase
+            color: $color-text-light
+            margin: 0 15px
+            padding: 19px 15px
+            position: relative
+            &:hover, &.active
+                color: $color-text
+            &.active
+                cursor: default
+                &:after
+                    content: ' '
+                    height: 4px
+                    width: 100%
+                    background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+                    border-radius: 6px
+                    position: absolute
+                    bottom: 0
+                    left: 0

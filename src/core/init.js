@@ -3,6 +3,7 @@ import React from "react";
 import { isPageAvailableAuthorizedOnly, userAuthSetToStorage } from "core/auth";
 import { API, getParams } from "core";
 import dropdownToggler from "components/form/dropdown/toggler";
+import { loadUserSettings } from "simple/logic/user-settings";
 
 import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
@@ -39,12 +40,7 @@ const init = () => {
         }
     });
 
-    API.get({
-        url: API.AGENT_SETTINGS,
-        success: (result) => {
-            authStore.setSettings(result);
-        }
-    });
+    loadUserSettings();
 
     if (!UI.isAppInitialized) {
         API.get({

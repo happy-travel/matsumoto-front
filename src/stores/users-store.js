@@ -19,11 +19,12 @@ class UsersStore {
 
     @action.bound
     filterCounterpartyUsers(value) {
-        if (value?.length > 0) {
-            this.usersCounterparty = this.usersCounterpartyBackup.filter((user) => user.name.toLowerCase().includes(value.toLowerCase()));
-        } else {
+        if (!value?.length) {
             this.usersCounterparty = this.usersCounterpartyBackup;
+            return;
         }
+        this.usersCounterparty = this.usersCounterpartyBackup.filter(
+            (user) => user.name.toLowerCase().includes(value.toLowerCase()));
     }
 }
 

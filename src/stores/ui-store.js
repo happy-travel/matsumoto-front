@@ -116,6 +116,7 @@ class UIStore {
     }
 
     getFormCache(formName) {
+        if (!formName) return null;
         if (!this.formCache[formName])
             return null;
         var result = null;
@@ -126,6 +127,7 @@ class UIStore {
     }
 
     setFormCache(formName, values) {
+        if (!formName) return null;
         this.formCache[formName] = values ? JSON.stringify(values) : null;
     }
 

@@ -1,4 +1,3 @@
-import { CancelButton } from "./components/cancel-button";
 import { Dual }         from "./components/dual";
 import { Expandable }   from "./components/expandable";
 import { Flag }         from "./components/flag";
@@ -18,7 +17,6 @@ import { price }        from "./formatters/price";
 import { GroupRoomTypesAndCount } from "./formatters/room-types";
 
 export {
-    CancelButton,
     Dual,
     Expandable,
     Flag,

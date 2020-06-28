@@ -45,7 +45,7 @@ class UserMenuDropdown extends React.Component {
                         <Link to="/user/invite" class="item">
                             {t("Send invitation")}
                         </Link> }
-                    <Link to="/settings/admin" class="item">{t("Settings")}</Link>
+                    <Link to="/settings/personal" class="item">{t("Settings")}</Link>
 
                     <Link to="/logout" class="item">
                         {t("Log out")}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useTable, usePagination, useSortBy } from "react-table";
 
-import Pagination from "components/pagination";
+import Pagination from "./pagination";
 
 function Table(props) {
     const {
@@ -50,18 +50,19 @@ function Table(props) {
     }, [fetchData, pageIndex, pageSize]);
 
     return (
-        <>
+        <React.Fragment>
             <table {...getTableProps()} className={className}>
                 <thead>
                 {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
                             <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                {column.render('Header')}
+                                {column.render("Header")}
                                 <span>
-                                    {column.isSorted ?
-                                    (column.isSortedDesc ? <span className={`icon icon-arrow-expand`} /> : <span className={`icon icon-arrow-expand-rotate`} /> )
-                                    : <span className={`icon icon-arrows-expand`} />}
+                                    {column.isSorted
+                                    ? (column.isSortedDesc ? <span className="icon icon-arrow-expand" />
+                                                           : <span className="icon icon-arrow-expand-rotate" /> )
+                                    : <span className="icon icon-arrows-expand" />}
                                 </span>
                             </th>
                         ))}
@@ -81,7 +82,7 @@ function Table(props) {
                 })}
                 </tbody>
             </table>
-            <Pagination
+            { (pageCount > 1) && <Pagination
                 previousPage={previousPage}
                 canPreviousPage={canPreviousPage}
                 pageCount={pageCount}
@@ -89,8 +90,8 @@ function Table(props) {
                 pageIndex={pageIndex}
                 canNextPage={canNextPage}
                 nextPage={nextPage}
-            />
-        </>
+            /> }
+        </React.Fragment>
     )
 }
 

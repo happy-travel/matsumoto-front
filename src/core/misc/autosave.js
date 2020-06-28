@@ -20,7 +20,7 @@ export default (store, key) => {
             set(store, reserve);
         }
     else
-        set(store, { build: settings.build }); // hack for autorun keep runing
+        set(store, { build: settings.build }); // hack for autorun keep running
 
     autorun(() => {
         cached = session.get(key);
