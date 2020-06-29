@@ -81,11 +81,9 @@ class UserApplicationSettings extends React.Component {
                                 />
                             </div>
                             <div class="row">
-                                <div class="vertical-label">
-                                    {t("Show Available Credit")}
-                                </div>
                                 <FieldSwitch formik={formik}
                                              id="availableCredit"
+                                             label={t("Show Available Credit")}
                                 />
                             </div>
                             <div class="row">

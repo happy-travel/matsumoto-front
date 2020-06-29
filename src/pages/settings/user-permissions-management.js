@@ -121,13 +121,10 @@ export default class UserPermissionsManagement extends React.Component {
                                     <div class="permissions">
                                         {permissionsList.map(key => (
                                             <div class="row">
-                                                <FieldSwitch
-                                                    formik={formik}
-                                                    id={key}
+                                                <FieldSwitch formik={formik}
+                                                             id={key}
+                                                             label={t(PERMISSIONS_LABELS[key]) || key}
                                                 />
-                                                <div class="vertical-label">
-                                                    {t(PERMISSIONS_LABELS[key]) || key}
-                                                </div>
                                             </div>
                                         ))}
                                     </div>
