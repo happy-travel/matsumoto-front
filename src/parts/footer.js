@@ -13,6 +13,7 @@ import { Authorized } from "core/auth";
 class Footer extends React.Component {
 render() {
     const { t } = useTranslation();
+    var ht = UI.ourCompanyInfo;
     return (
         <footer>
             <div class="upper-part">
@@ -60,30 +61,29 @@ render() {
                     </div>
                     <div class="contact">
                         <h3>{t("Contact Us")}</h3>
-                        <div><span>{t("Email")}:</span> <a href="mailto:info@happytravel.com">info@happytravel.com</a></div>
-                        <div><span>{t("Phone")}:</span> +971-4-2999080</div>
+                        <div><span>{t("Email")}:</span> <a href={`mailto:${ht.email}}`}>{ht.email}</a></div>
+                        <div><span>{t("Phone")}:</span> {ht.phone}</div>
                         <div>
-                            <span>{t("Address")}:</span> HappyTravelDotCom<br/> Travel and Tourism LLC,<br/>
-                            {t("footer_address_line_2")}<br/>
-                            {t("footer_address_line_3")}<br/>
-                            {t("footer_address_line_4")}<br/>
-                            {t("footer_address_line_5")}
+                            <span>{t("Address")}:</span> {ht.name}<br/>
+                            {ht.address}<br/>
+                            P.O. {ht.postalCode}<br/>
+                            {ht.city}, {ht.country}
                         </div>
                         <div class="license">
-                            <span>TRN:</span> 100497287100003
+                            <span>TRN:</span> {ht.trn}
                         </div>
                         <div class="license">
-                            <span>IATA: </span> 96-0 4653
+                            <span>IATA: </span> {ht.iata}
                         </div>
                         <div class="license">
-                            <span>Trade License: </span> 828719
+                            <span>Trade License: </span> {ht.tradeLicense}
                         </div>
                     </div>
                 </section>
             </div>
             <div class="copyright">
                 <section>
-                    {t("_copyright")}<br/>
+                    {t("_copyright")} © 2019 — {new Date().getFullYear()} {ht.name} <br/>
                 </section>
             </div>
         </footer>

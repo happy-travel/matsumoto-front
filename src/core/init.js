@@ -55,6 +55,11 @@ const init = () => {
             success: (result) =>
                 UI.setCurrencies(result)
         });
+        API.get({
+            url: API.OUR_COMPANY,
+            success: (result) =>
+                UI.setOurCompanyInfo(result)
+        });
     }
     API.get({
         url: API.BASE_VERSION,

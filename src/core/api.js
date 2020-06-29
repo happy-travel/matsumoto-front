@@ -88,6 +88,8 @@ API_METHODS = {
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
     AGENT_PERMISSIONS    : (agentId, agencyId, counterpartyId = 1) =>
                            v1 + `/counterparties/${counterpartyId}/agencies/${agencyId}/agents/${agentId}/permissions`,
+
+    OUR_COMPANY          : v1 + "/company"
 };
 
 

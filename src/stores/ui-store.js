@@ -15,6 +15,8 @@ export const INVOICE_TYPES = {
     INVOICE: "INVOICE"
 };
 
+const ourCompanyInfoDefault = {"name":"HappyTravelDotCom Travel and Tourism LLC","address":"B105, Saraya Avenue building, Garhoud, Deira","country":"United Arab Emirates","city":"Dubai","phone":"+971-4-2940007","email":"info@happytravel.com","postalCode":"Box 36690","trn":"100497287100003","iata":"96-0 4653","tradeLicense":"828719"};
+
 class UIStore {
     @observable regions = [];
     @observable currencies = [];
@@ -29,6 +31,7 @@ class UIStore {
     @observable modal = null;
     @observable modalData = null;
     @observable advancedSearch = false;
+    @observable ourCompanyInfo = ourCompanyInfoDefault;
 
     @observable formCache = {};
 
@@ -145,6 +148,10 @@ class UIStore {
 
     setSaveCreditCardFlag(value) {
         this.saveCreditCard = value || false;
+    }
+
+    setOurCompanyInfo(value) {
+        this.ourCompanyInfo = value;
     }
 }
 
