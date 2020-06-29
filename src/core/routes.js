@@ -15,9 +15,9 @@ import payment3DSCallback         from "pages/payment/callback3ds";
 import paymentDirectLink          from "pages/payment/external/direct-link-page";
 import paymentDirectLinkConfirm   from "pages/payment/external/direct-link-confirmation";
 
-import accountRegistrationStep2   from "pages/account/registration-step-2";
-import accountRegistrationStep3   from "pages/account/registration-step-3";
-import accountInvite              from "pages/account/accept-invite";
+import registrationAgent          from "pages/account/registration-agent";
+import registrationCounterparty   from "pages/account/registration-counterparty";
+import acceptInvite               from "pages/account/accept-invite";
 
 import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
@@ -48,9 +48,8 @@ export const routesWithHeaderAndFooter = [
     "/accommodation/confirmation*",
     "/contact", "/terms", "/privacy", "/about",
     "/payment/form", "/payment/account",
-    "/user/booking",
-    "/user/payment-history",
-    "/user/invite",
+    "/agent/booking",
+    "/account/statement",
     "/settings/*",
 ];
 export const routesWithFooter = [
@@ -82,13 +81,13 @@ const Routes = () => (
         <Route path="/pay/:code"                  component={paymentDirectLink} />
         <Route path="/payment/confirmation"       component={paymentDirectLinkConfirm} title="Confirmation" />
 
-        <Route path="/signup/user"                component={accountRegistrationStep2} title="Sign Up" />
-        <Route path="/signup/counterparty"        component={accountRegistrationStep3} title="Sign Up" />
-        <Route path="/signup/invite/:email/:code" component={accountInvite} title="Sign Up" />
+        <Route path="/signup/agent"               component={registrationAgent} title="Sign Up" />
+        <Route path="/signup/counterparty"        component={registrationCounterparty} title="Sign Up" />
+        <Route path="/signup/invite/:email/:code" component={acceptInvite} title="Sign Up" />
 
-        <Route path="/user/booking"               component={userBookingManagement} title="Your Bookings" />
-        <Route path="/user/payment-history"       component={accountStatement} title="Your Payments" />
-        <Route path="/user/invite"                component={userInvite} title="Send Invite" />
+        <Route path="/agent/booking"              component={userBookingManagement} title="Booking List" />
+        <Route path="/account/statement"     component={accountStatement} title="Payment History" />
+        <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
 
         <Route path="/settings/agents/:agentId/:counterpartyId/:agencyId/"
                                                   component={agentPermissionsManagement} title="Agent Permissions" />

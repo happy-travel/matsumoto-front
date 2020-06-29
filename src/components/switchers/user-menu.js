@@ -34,15 +34,15 @@ class UserMenuDropdown extends React.Component {
                     <div class="company" {...calcTitleFor(AuthStore.activeCounterparty.name)}>{AuthStore.activeCounterparty.name}</div>
                 </div>
                 {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
-                    <Link to="/user/booking" class="item">
+                    <Link to="/agent/booking" class="item">
                         {t("Booking management")}
                     </Link>
                     { (AuthStore.activeCounterparty.inAgencyPermissions?.indexOf("ViewCounterpartyAllPaymentHistory") != -1) &&
-                        <Link to="/user/payment-history" class="item">
+                        <Link to="/account/statement" class="item">
                             {t("Account statement")}
                         </Link> }
                     { (AuthStore.activeCounterparty.inAgencyPermissions?.indexOf("AgentInvitation") != -1) &&
-                        <Link to="/user/invite" class="item">
+                        <Link to="/settings/invite" class="item">
                             {t("Send invitation")}
                         </Link> }
                     <Link to="/settings/personal" class="item">{t("Settings")}</Link>

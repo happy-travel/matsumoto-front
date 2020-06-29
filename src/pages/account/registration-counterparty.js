@@ -22,7 +22,7 @@ import UI from "stores/ui-store";
 import View from "stores/view-store";
 
 @observer
-class RegistrationStep3 extends React.Component {
+class RegistrationCounterparty extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,7 +97,7 @@ class RegistrationStep3 extends React.Component {
                             }
                         ]}/>
                         <ActionSteps
-                            items={[t("Log In Information"), t("User Information"), t("Company Information")]}
+                            items={[t("Log In Information"), t("Agent Information"), t("Company Information")]}
                             current={2}
                             addClass="action-steps-another-bg"
                         />
@@ -241,4 +241,4 @@ class RegistrationStep3 extends React.Component {
     }
 }
 
-export default RegistrationStep3;
+export default RegistrationCounterparty;

@@ -30,7 +30,7 @@ class SignUp extends Component {
                 </div>
                 <div class="interval"><s></s><u></u><b></b><i></i></div>
                 <div class="step">
-                    User Information
+                    Agent Information
                 </div>
                 <div class="interval"><s></s><u></u><b></b><i></i></div>
                 <div class="step">

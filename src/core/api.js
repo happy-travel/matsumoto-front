@@ -142,9 +142,9 @@ Authorize.getUser().then(user => {
     if ("POST" == method || "PUT" == method)
         request.body = JSON.stringify(body);
     else {
-        var getBody = Object.keys(body).map(function(key) {
-            return [key, body[key]].map(encodeURIComponent).join("=");
-        }).join("&");
+        var getBody = Object.keys(body).map(key =>
+            [key, body[key]].map(encodeURIComponent).join("=")
+        ).join("&");
         finalUrl += (getBody ? "?" + getBody : "");
     }
 

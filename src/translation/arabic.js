@@ -18,7 +18,7 @@ translations: {
     "Password": "كلمة المرور",
     "Don`t have an account?": "هل لديك حساب؟",
     "Log In Information": "معلومات تسجيل الدخول",
-    "User Information": "معلومات المستخدم",
+    "Agent Information": "معلومات المستخدم",
     "Company Information": "معلومات الشركة",
     "Already have an account?": "هل لديك حساباً؟",
     "Log In Here.": "لتسجيل الدخول اضغط هنا",

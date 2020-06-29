@@ -34,7 +34,7 @@ const init = () => {
             }
             if (response.status == 400 && "Could not get agent data" == error?.detail) {
                 if (isPageAvailableAuthorizedOnly())
-                    window.location.href = window.location.origin + "/signup/user";
+                    window.location.href = window.location.origin + "/signup/agent";
             } else
                 userAuthSetToStorage(user);
         }

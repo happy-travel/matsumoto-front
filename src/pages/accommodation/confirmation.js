@@ -113,7 +113,7 @@ render() {
                             ((this.state.fromHistory || !result?.error) ? <ViewFailed
                                 reason={t("Unable to load a booking confirmation")}
                                 button={t("Back to booking management")}
-                                link="/user/booking"
+                                link="/agent/booking"
                             /> : null)
                         : <Loader /> )
                         : <React.Fragment>

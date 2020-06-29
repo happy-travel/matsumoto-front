@@ -16,7 +16,7 @@ import View from "stores/view-store";
 import UI from "stores/ui-store";
 
 @observer
-class RegistrationStep2 extends React.Component {
+class RegistrationAgent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -93,7 +93,7 @@ class RegistrationStep2 extends React.Component {
         if (this.state.redirectToIndexPage)
             return <Redirect push to="/" />;
 
-        var actionSteps = [t("Log In Information"), t("User Information")];
+        var actionSteps = [t("Log In Information"), t("Agent Information")];
         if (!this.state.invitationCode)
             actionSteps.push(t("Company Information"));
 
@@ -113,7 +113,7 @@ class RegistrationStep2 extends React.Component {
                     text: t("Registration"),
                     link: "/logout"
                 }, {
-                    text: t("User Information")
+                    text: t("Agent Information")
                 }
             ]}/>
             <ActionSteps
@@ -122,7 +122,7 @@ class RegistrationStep2 extends React.Component {
                 addClass="action-steps-another-bg"
             />
             <h1>
-                User information
+                Agent Information
             </h1>
             <p>
                 Create a new HappyTravel.com account and start booking.
@@ -149,9 +149,6 @@ class RegistrationStep2 extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div style={{ marginTop: "60px" }}>
-                            <Link to="/logout" class="link">Log out</Link>
-                        </div>
                     </div>
                 </React.Fragment>
             )}
@@ -164,4 +161,4 @@ class RegistrationStep2 extends React.Component {
     }
 }
 
-export default RegistrationStep2;
+export default RegistrationAgent;

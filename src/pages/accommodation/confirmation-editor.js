@@ -248,12 +248,6 @@ render() {
                             onClick={this.showCancellationConfirmation}>
                             {t("Cancel booking")}
                         </button> }
-
-                        { /* <Link to="/user/booking">
-                            <button class="button green">
-                                {t("Booking management")}
-                            </button>
-                        </Link> */ }
                     </div>
                     </React.Fragment> }
 

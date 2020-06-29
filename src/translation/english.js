@@ -25,7 +25,7 @@ translations: {
     "Don`t have an account?": "Don`t have an account?",
     "Create a new one": "Create a new one",
     "Log In Information": "Log In Information",
-    "User Information": "User Information",
+    "Agent Information": "Agent Information",
     "Company Information": "Company Information",
     "Get started with a new account": "Get started with a new account",
     "Create a HappyTravel.com account and start booking.": "Create a HappyTravel.com account and start booking.",
