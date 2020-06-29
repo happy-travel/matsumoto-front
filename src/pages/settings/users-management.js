@@ -98,7 +98,7 @@ class UsersManagement extends React.Component {
         return (
         <div class="settings wide block">
             <SettingsHeader />
-            <div class="search-wrapper">
+            { /* <div class="search-wrapper">
                <section>
                    <Formik
                        initialValues={{}}
@@ -128,7 +128,7 @@ class UsersManagement extends React.Component {
                        )}
                    </Formik>
                </section>
-            </div>
+            </div> */ }
             {this.state.loading ?
                 <Loader /> :
                 <section>
