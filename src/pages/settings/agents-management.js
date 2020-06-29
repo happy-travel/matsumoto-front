@@ -25,7 +25,7 @@ const columns = [
     {
         Header: 'Markup',
         accessor: 'markupSettings',
-        Cell: (item) => item.cell.value || '-'
+        Cell: (item) => item.cell.value || '–'
     },
     {
         Header: 'Actions',
@@ -33,53 +33,53 @@ const columns = [
         Cell: (item) => {
             const { id, agencyId } = AuthStore.activeCounterparty;
             return <Link
-                to={`/settings/users/${item.cell.value}/${id}/${agencyId}`}
+                to={`/settings/agents/${item.cell.value}/${id}/${agencyId}`}
             ><span class={`icon icon-action-pen-orange`}/></Link>;
         }
     },
 ];
 
 @observer
-class UsersManagement extends React.Component {
+class AgentsManagement extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: true,
-            allUsers: null,
-            filteredUsers: null,
-            usersTablePageInfo: {
+            allAgents: null,
+            filteredAgents: null,
+            agentsTablePageInfo: {
                 pageIndex: 0,
                 pageSize: 10
             }
         };
-        this.loadUsers = this.loadUsers.bind(this);
+        this.loadAgents = this.loadAgents.bind(this);
         this.applyFilter = this.applyFilter.bind(this);
     }
 
     componentDidMount() {
-        this.loadUsers();
+        this.loadAgents();
     }
     
     applyFilter(values) {
         var value = values?.text?.trim().replace(/\n/g, ''),
-            users = this.state.allUsers || [];
+            agents = this.state.allAgents || [];
         this.setState({
-            filteredUsers:
+            filteredAgents:
                 (!value?.length)
-                    ? users || []
-                    : users.filter(user =>
-                        user.name.toLowerCase().includes(value.toLowerCase()))
+                    ? agents || []
+                    : agents.filter(agent =>
+                        agent.name.toLowerCase().includes(value.toLowerCase()))
         });
     }
 
-    loadUsers() {
+    loadAgents() {
         if (AuthStore.activeCounterparty) {
             const { agencyId } = AuthStore.activeCounterparty;
             API.get({
                 url: API.AGENCY_AGENTS(agencyId),
                 success: result => this.setState({
-                    allUsers: result,
-                    filteredUsers: result || []
+                    allAgents: result,
+                    filteredAgents: result || []
                 }),
                 after: () => this.setState({
                     loading: false
@@ -96,7 +96,7 @@ class UsersManagement extends React.Component {
         const { t } = useTranslation();
 
         return (
-        <div class="settings wide block">
+        <div class="settings block">
             <SettingsHeader />
             { /* <div class="search-wrapper">
                <section>
@@ -118,7 +118,7 @@ class UsersManagement extends React.Component {
                                            <div class="label"/>
                                            <div class="inner">
                                                <button type="submit" class="button">
-                                                   {t("Find user")}
+                                                   {t("Find agent")}
                                                </button>
                                            </div>
                                        </div>
@@ -133,20 +133,20 @@ class UsersManagement extends React.Component {
                 <Loader /> :
                 <section>
                     <div>
-                        <h2><span class="brand">{t("All Users")}</span></h2>
+                        <h2><span class="brand">{t("All Agents")}</span></h2>
                     </div>
-                    { this.state.allUsers === null && <h3>
+                    { this.state.allAgents === null && <h3>
                         {t("Nothing to show")}
                     </h3> }
-                    { this.state.filteredUsers?.length === 0 && <h3>
+                    { this.state.filteredAgents?.length === 0 && <h3>
                         {t("List is empty")}
                     </h3> }
-                    { !!this.state.filteredUsers.length && <Table
-                        data={this.state.filteredUsers}
-                        count={this.state.filteredUsers.length}
-                        fetchData={this.loadUsers}
+                    { !!this.state.filteredAgents.length && <Table
+                        data={this.state.filteredAgents}
+                        count={this.state.filteredAgents.length}
+                        fetchData={this.loadAgents}
                         columns={columns}
-                        {...this.state.usersTablePageInfo}
+                        {...this.state.agentsTablePageInfo}
                         manualPagination
                     /> }
                 </section>
@@ -156,4 +156,4 @@ class UsersManagement extends React.Component {
     }
 }
 
-export default UsersManagement;
+export default AgentsManagement;

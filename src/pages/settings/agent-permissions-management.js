@@ -3,20 +3,27 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
-import { withRouter } from "react-router";
 import { API } from "core";
 
 import { Loader } from "simple";
-import { PERMISSIONS_LABELS } from "core/enums";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import SettingsHeader from "./parts/settings-header";
 
 import View from "stores/view-store";
 
-@withRouter
+const generateLabel = str => {
+    if (!str)
+        return "Unknown";
+    var split = str.split(/([A-Z])/);
+    for (var i = 0; i < split.length; i++)
+        if (split[i].length > 1)
+            split[i]+= " ";
+    return split.join("");
+};
+
 @observer
-export default class UserPermissionsManagement extends React.Component {
+export default class AgentPermissionsManagement extends React.Component {
     constructor(props) {
         super(props);
 
@@ -70,7 +77,7 @@ export default class UserPermissionsManagement extends React.Component {
             success: () => this.setState({ redirectBack: true }),
             error: () => {
                 this.setState({ loading: false });
-                View.setTopAlertText("Unable to save user permissions, please try later");
+                View.setTopAlertText("Unable to save agent permissions, please try later");
             }
         });
     };
@@ -86,7 +93,7 @@ export default class UserPermissionsManagement extends React.Component {
             return <Loader page />;
 
         if (this.state.redirectBack)
-            return <Redirect push to="/settings/users" />;
+            return <Redirect push to="/settings/agents" />;
 
         return (
         <div class="settings block">
@@ -97,13 +104,13 @@ export default class UserPermissionsManagement extends React.Component {
             <section>
                 <Breadcrumbs items={[
                     {
-                        text: t("Users Management"),
-                        link: "/settings/users"
+                        text: t("Agent Management"),
+                        link: "/settings/agents"
                     }, {
-                        text: t("User permissions")
+                        text: t("Agent Permissions")
                     }
                 ]}/>
-                <h2><span class="brand">{t("Settings")}</span></h2>
+                <h2><span class="brand">{t("Agent permissions")}</span></h2>
 
                 <div>
                     <Formik
@@ -123,7 +130,7 @@ export default class UserPermissionsManagement extends React.Component {
                                             <div class="row">
                                                 <FieldSwitch formik={formik}
                                                              id={key}
-                                                             label={t(PERMISSIONS_LABELS[key]) || key}
+                                                             label={generateLabel(key)}
                                                 />
                                             </div>
                                         ))}

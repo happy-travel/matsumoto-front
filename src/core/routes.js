@@ -23,8 +23,8 @@ import userBookingManagement      from "pages/user/booking-management";
 import accountStatement           from "pages/user/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
-import usersManagement            from "pages/settings/users-management";
-import userPermissionsManagement  from "pages/settings/user-permissions-management";
+import agentsManagement           from "pages/settings/agents-management";
+import agentPermissionsManagement from "pages/settings/agent-permissions-management";
 
 import personalSettings           from "pages/settings/personal-settings";
 import counterpartySettings       from "pages/settings/counterparty-settings";
@@ -90,9 +90,9 @@ const Routes = () => (
         <Route path="/user/payment-history"       component={accountStatement} title="Your Payments" />
         <Route path="/user/invite"                component={userInvite} title="Send Invite" />
 
-        <Route path="/settings/users/:agentId/:counterpartyId/:agencyId/"
-                                                  component={userPermissionsManagement} title="User Permissions" />
-        <Route path="/settings/users"             component={usersManagement} title="User Management" />
+        <Route path="/settings/agents/:agentId/:counterpartyId/:agencyId/"
+                                                  component={agentPermissionsManagement} title="Agent Permissions" />
+        <Route path="/settings/agents"            component={agentsManagement} title="Agent Management" />
 
         <Route path="/settings/personal"          component={personalSettings} title="Personal Settings" />
         <Route path="/settings/counterparty"      component={counterpartySettings} title="Counterparty Settings" />

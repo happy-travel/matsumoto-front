@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Stars } from "simple";
 import Gallery from "components/gallery";
-import { ADDITIONAL_INFO } from "core/enums";
 
 const Amenities = ({ hotel, t }) => {
     if (!hotel.accommodationAmenities?.length)
@@ -104,7 +103,7 @@ class AccommodationCommonDetailsPart extends React.Component {
                                 <ul>
                                     {hotel?.additionalInfo && Object.keys(hotel?.additionalInfo).map((key) => {
                                         if (hotel.additionalInfo[key] != 0 && hotel.additionalInfo[key]) {
-                                            return <li>{t(ADDITIONAL_INFO[key])}: {hotel.additionalInfo[key]}</li>
+                                            return <li>{key}: {hotel.additionalInfo[key]}</li>
                                         }
                                         return null
                                     })}

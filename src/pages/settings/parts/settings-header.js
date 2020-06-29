@@ -16,13 +16,13 @@ class SettingsHeader extends React.Component {
             </section>
             <div>
                 <NavLink to="/settings/personal" activeClassName="active">
-                    {t("Personal settings")}
+                    {t("Personal Settings")}
                 </NavLink>
                 <NavLink to="/settings/counterparty">
-                    {t("Company settings")}
+                    {t("Counterparty Information")}
                 </NavLink>
-                <NavLink to="/settings/users">
-                    {t("Users management")}
+                <NavLink to="/settings/agents">
+                    {t("Agent Management")}
                 </NavLink>
             </div>
         </div>;

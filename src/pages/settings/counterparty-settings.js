@@ -16,14 +16,14 @@ export default class CounterpartySettings extends React.Component {
         super(props);
         this.state = {
             loading: true,
-            settings: {}
+            information: null
         }
     }
 
     componentDidMount() {
         API.get({
             url: API.COUNTERPARTY_INFO(authStore.activeCounterparty.id),
-            success: settings => this.setState({ settings }),
+            success: information => this.setState({ information }),
             after: () => this.setState({ loading: false })
         });
     }
@@ -37,7 +37,7 @@ export default class CounterpartySettings extends React.Component {
             { this.state.loading && <Loader />}
             { !this.state.loading && <section>
                 <Formik
-                    initialValues={this.state.settings || {}}
+                    initialValues={this.state.information || {}}
                     enableReinitialize={true}
                     onSubmit={() => {}}
                 >
@@ -48,8 +48,15 @@ export default class CounterpartySettings extends React.Component {
                         disabled: true
                     };
 
-                    return <div class="form">
-                        <h2><span class="brand">{t("My account supervisor")}</span></h2>
+                    return (
+                    <div class="form">
+                        <h2><span class="brand">{t("Payment Information")}</span></h2>
+                        <div class="row">
+                            <FieldText {...params}
+                                       id="name"
+                                       label={t("Company Name")}
+                            />
+                        </div>
                         <div class="row">
                             <FieldText {...params}
                                        id="preferredPaymentMethod"
@@ -59,7 +66,13 @@ export default class CounterpartySettings extends React.Component {
                                        id="preferredCurrency"
                                        label={t("Currency")}
                             />
+                            <FieldText {...params}
+                                       id="vatNumber"
+                                       label={t("VAT No.")}
+                            />
                         </div>
+
+                        <h2><span class="brand">{t("Counterparty Information")}</span></h2>
                         <div class="row">
                             <FieldText {...params}
                                        id="phone"
@@ -68,15 +81,6 @@ export default class CounterpartySettings extends React.Component {
                             <FieldText {...params}
                                        id="fax"
                                        label={t("Fax")}
-                            />
-                        </div>
-
-                        <h2><span class="brand">{t("Voucher personalisation")}</span></h2>
-
-                        <div class="row">
-                            <FieldText {...params}
-                                       id="name"
-                                       label={t("Company Name")}
                             />
                         </div>
                         <div class="row">
@@ -105,7 +109,8 @@ export default class CounterpartySettings extends React.Component {
                                 label={t("Address")}
                             />
                         </div>
-                    </div>;
+                    </div>
+                    );
                 }}
             </Formik>
             </section> }
