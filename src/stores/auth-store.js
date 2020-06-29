@@ -1,5 +1,6 @@
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
+import { decorate } from "simple";
 
 const defaultUserSettings = {
     loaded: false,
@@ -8,11 +9,6 @@ const defaultUserSettings = {
 };
 
 class AuthStore {
-    @observable registration = {
-        "agent": {},
-        "counterparty": {}
-    };
-
     @observable user = {
         "email": null,
         "lastName": null,
@@ -21,9 +17,12 @@ class AuthStore {
         "position": null
     };
 
-    @observable isUserDataLoading = true;
-
     @observable settings = defaultUserSettings;
+
+    @observable registration = {
+        "agent": {},
+        "counterparty": {}
+    };
 
     constructor() {
         autosave(this, "_auth_store_cache");
@@ -35,30 +34,26 @@ class AuthStore {
 
     setUser(value) {
         this.user = value;
-        this.isUserDataLoading = false;
     }
 
-    setUserForm(form) {
+    setSettings(value = {}) {
+        this.settings = {
+            ...value,
+            ...this.settings,
+            loaded: true
+        };
+    }
+
+    setRegistrationUserForm(form) {
         this.registration.agent = form;
     }
 
-    setCounterpartyForm(form) {
+    setRegistrationCounterpartyForm(form) {
+        form.phone = decorate.removeNonDigits(form.phone);
+        if (form.fax)
+            form.fax = decorate.removeNonDigits(form.fax);
+
         this.registration.counterparty = form;
-        if (this.registration.counterparty.phone) {
-            this.registration.counterparty.phone = this.registration.counterparty.phone.replace(/\D/g,''); //todo: make decorators
-        }
-        if (this.registration.counterparty.fax) {
-            this.registration.counterparty.fax = this.registration.counterparty.fax.replace(/\D/g,'');
-        }
-    }
-
-    setCountryValue(country) {
-        this.registration.counterparty.countryCode = country.code;
-    }
-
-    setSettings(value) {
-        this.settings = value || {};
-        this.settings.loaded = true;
     }
 }
 

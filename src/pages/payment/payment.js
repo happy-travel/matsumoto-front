@@ -5,7 +5,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { Formik } from "formik";
-import { StaticHeader, Loader, price } from "simple";
+import { StaticHeader, Loader, price, decorate } from "simple";
 import { creditCardType } from "card-validator";
 import ReactTooltip from "react-tooltip";
 import {
@@ -106,7 +106,7 @@ class PaymentPage extends BasicPaymentPage {
         var request = {
             card_holder_name: values.card_holder_name,
             card_security_code: values.card_security_code,
-            card_number: values.card_number.replace(/\D/g,''),
+            card_number: decorate.removeNonDigits(values.card_number),
             expiry_date: formatExpiryDate(values),
             remember_me: values.remember_me ? "YES" : "NO"
         };

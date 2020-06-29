@@ -32,7 +32,7 @@ class RegistrationCounterparty extends React.Component {
     }
 
     submit(values) {
-        store.setCounterpartyForm(values);
+        store.setRegistrationCounterpartyForm(values);
 
         API.post({
             url: API.USER_REGISTRATION_M,
@@ -46,8 +46,8 @@ class RegistrationCounterparty extends React.Component {
                         userAuthSetToStorage(user);
                     }
                 });
-                store.setUserForm({});
-                store.setCounterpartyForm({});
+                store.setRegistrationUserForm({});
+                store.setRegistrationCounterpartyForm({});
                 this.setState({ redirectToIndexPage: true });
 
                 UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
@@ -63,8 +63,7 @@ class RegistrationCounterparty extends React.Component {
 
     setCountryValue(country, formik, connected) {
         formik.setFieldValue(connected, country.name);
-        formik.setFieldValue("countryCode", country.code);
-        store.setCountryValue(country);
+        formik.setFieldValue(connected+"Code", country.code);
         View.setCountries([]);
     }
 
@@ -75,9 +74,8 @@ class RegistrationCounterparty extends React.Component {
             return <Redirect push to="/" />;
 
         return (
-
             <div class="account block sign-up-page">
-                <div className="hide">
+                <div class="hide">
                     {'' + View.countries}
                 </div>
                 <section>

@@ -33,7 +33,7 @@ class RegistrationAgent extends React.Component {
     }
 
     submit(values) {
-        store.setUserForm(values);
+        store.setRegistrationUserForm(values);
         if (this.state.invitationCode) {
             API.post({
                 url: API.USER_REGISTRATION,

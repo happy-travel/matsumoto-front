@@ -1,7 +1,8 @@
 import { creditCardType, expirationDate } from "card-validator";
+import { decorate } from "simple";
 
 export const prettyCardNumber = (cardNumber, card) => {
-    cardNumber = cardNumber.replace(/\D/g,'');
+    cardNumber = decorate.removeNonDigits(cardNumber);
     if (card) {
         var offsets = [].concat(0, card.gaps, cardNumber.length);
         var components = [];
