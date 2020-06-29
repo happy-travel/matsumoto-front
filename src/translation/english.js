@@ -59,7 +59,7 @@ translations: {
     "Website": "Website",
     "Enter Website Address": "Enter Website Address",
     "Page not found": "Page not found",
-    "Back to login": "Back to login",
+    "Back to homepage": "Back to homepage",
     "Verify your account": "Verify your account",
     "Session expired, please refresh the web page": "Session expired, please refresh the web page",
     "Back": "Back",

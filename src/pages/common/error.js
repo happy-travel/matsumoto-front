@@ -1,10 +1,15 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 @observer
 class ErrorPage extends React.Component {
+    componentDidMount() {
+        document.querySelectorAll("header, footer").forEach(
+            item => item ? item.style.display = "none" : null
+        );
+    }
+
     render() {
         var { t } = useTranslation();
 
@@ -12,7 +17,7 @@ class ErrorPage extends React.Component {
             <div class="error-page account block sign-up-page">
                 <section>
                     <div class="logo-wrapper">
-                        <Link to="/" class="logo" />
+                        <a href="/" class="logo" />
                     </div>
                     <div class="middle-section">
                         <div class="picture">
@@ -22,11 +27,11 @@ class ErrorPage extends React.Component {
                             </div>
                         </div>
 
-                        <Link to="/">
+                        <a href="/">
                             <span class="button">
-                                {t("Back to login")}
+                                {t("Back to homepage")}
                             </span>
-                        </Link>
+                        </a>
                     </div>
                 </section>
             </div>

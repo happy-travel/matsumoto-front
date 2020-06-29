@@ -48,7 +48,6 @@ translations: {
     "Website": "الموقع الإلكتروني",
     "Enter Website Address": "ادخل عنوان الموقع الإلكتروني",
     "Page not found": "هذه الصفحة غير موجودة",
-    "Back to login": "العودة إلى تسجيل الدخول",
     "Verify your account": "إثبات ملكية حسابك",
     "Session expired, please refresh the web page": "صلاحية جلستك قد انتهت، يرجى تحديث الصفحة",
     "Back": "العودة للوراء",
