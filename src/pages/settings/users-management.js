@@ -10,7 +10,6 @@ import { FieldText } from "components/form";
 import Table from "components/external/table";
 import SettingsHeader from "./parts/settings-header";
 
-import UsersStore from "stores/users-store";
 import AuthStore from "stores/auth-store";
 
 const columns = [
@@ -19,13 +18,9 @@ const columns = [
         accessor: 'name',
     },
     {
-        Header: 'Company Name',
-        accessor: 'companyName',
-    },
-    {
-        Header: 'SignUp Date',
+        Header: 'Sign Up Date',
         accessor: 'created',
-        Cell: (item) => dateFormat.b(item.cell.value *1000)
+        Cell: (item) => dateFormat.b(item.cell.value * 1000)
     },
     {
         Header: 'Markup',
@@ -46,28 +41,59 @@ const columns = [
 
 @observer
 class UsersManagement extends React.Component {
-    componentDidMount() {
-        this.getUsersCounterparty();
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            allUsers: null,
+            filteredUsers: null,
+            usersTablePageInfo: {
+                pageIndex: 0,
+                pageSize: 10
+            }
+        };
+        this.loadUsers = this.loadUsers.bind(this);
+        this.applyFilter = this.applyFilter.bind(this);
     }
 
-    getUsersCounterparty() {
+    componentDidMount() {
+        this.loadUsers();
+    }
+    
+    applyFilter(values) {
+        var value = values?.text?.trim().replace(/\n/g, ''),
+            users = this.state.allUsers || [];
+        this.setState({
+            filteredUsers:
+                (!value?.length)
+                    ? users || []
+                    : users.filter(user =>
+                        user.name.toLowerCase().includes(value.toLowerCase()))
+        });
+    }
+
+    loadUsers() {
         if (AuthStore.activeCounterparty) {
             const { agencyId } = AuthStore.activeCounterparty;
             API.get({
                 url: API.AGENCY_AGENTS(agencyId),
-                success: (result) =>
-                    UsersStore.setCounterpartyUsers(result)
+                success: result => this.setState({
+                    allUsers: result,
+                    filteredUsers: result || []
+                }),
+                after: () => this.setState({
+                    loading: false
+                })
             });
+            return;
         }
-    }
-
-    changeSearchField(values) {
-        UsersStore.filterCounterpartyUsers(values?.searchField?.replace(/\n/g, ''));
+        this.setState({
+            loading: false
+        });
     }
 
     render() {
         const { t } = useTranslation();
-        const { usersCounterparty, usersCounterpartyIsLoading, usersTablePageInfo, usersCounterpartyCount } = UsersStore;
 
         return (
         <div class="settings wide block">
@@ -76,23 +102,23 @@ class UsersManagement extends React.Component {
                <section>
                    <Formik
                        initialValues={{}}
-                       onSubmit={this.changeSearchField}
+                       onSubmit={this.applyFilter}
                    >
                        {formik => (
                            <form onSubmit={formik.handleSubmit}>
                                <div class="form">
                                    <div class="row">
                                        <FieldText formik={formik}
-                                                  id="searchField"
-                                                  label={t("Username, Name or E-mail")}
-                                                  placeholder={t("Choose your Username, Name or E-mail")}
+                                                  id="text"
+                                                  label={t("Name or E-mail")}
+                                                  placeholder={t("Search...")}
                                                   clearable
                                        />
                                        <div class="field">
                                            <div class="label"/>
                                            <div class="inner">
                                                <button type="submit" class="button">
-                                                   {t("Search user")}
+                                                   {t("Find user")}
                                                </button>
                                            </div>
                                        </div>
@@ -103,20 +129,26 @@ class UsersManagement extends React.Component {
                    </Formik>
                </section>
             </div>
-            {usersCounterpartyIsLoading ?
+            {this.state.loading ?
                 <Loader /> :
                 <section>
                     <div>
                         <h2><span class="brand">{t("All Users")}</span></h2>
                     </div>
-                    <Table
-                        data={usersCounterparty}
-                        count={usersCounterpartyCount}
-                        fetchData={this.getUsersCounterparty}
+                    { this.state.allUsers === null && <h3>
+                        {t("Nothing to show")}
+                    </h3> }
+                    { this.state.filteredUsers?.length === 0 && <h3>
+                        {t("List is empty")}
+                    </h3> }
+                    { !!this.state.filteredUsers.length && <Table
+                        data={this.state.filteredUsers}
+                        count={this.state.filteredUsers.length}
+                        fetchData={this.loadUsers}
                         columns={columns}
-                        {...usersTablePageInfo}
+                        {...this.state.usersTablePageInfo}
                         manualPagination
-                    />
+                    /> }
                 </section>
             }
         </div>
