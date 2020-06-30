@@ -1,5 +1,8 @@
 import View from "stores/view-store";
 
+const selfToggleIds = ["LocaleSwitcherDropdown", "UserMenuDropdown"];
+const hideDropdown = () => View.setOpenDropdown(null);
+
 export default () => {
     window.addEventListener("mouseup", event => {
         if (!View.openDropdown)
@@ -7,20 +10,19 @@ export default () => {
 
         var target = event.target;
         for (var i = 0; target && i < 30; i++){
-            if (target?.dataset?.dropdown) {
-                if (!View.isDropdownOpen(target?.dataset?.dropdown)) {
-                    if ("close" != target?.dataset?.dropdown)
-                        View.setOpenDropdown(null);
-                    else
-                        setTimeout(() => View.setOpenDropdown(null), 0);
-                }
+            var dataDropdown = target?.dataset?.dropdown;
+            if (dataDropdown) {
+                if (!View.isDropdownOpen(dataDropdown))
+                    hideDropdown();
+                else if (selfToggleIds.indexOf(target?.dataset?.dropdown) > -1)
+                    setTimeout(hideDropdown, 0);
 
                 return;
             }
             target = target.parentNode;
         }
 
-        View.setOpenDropdown(null);
+        hideDropdown();
     });
 
     window.addEventListener("keyup", event => {

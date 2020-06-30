@@ -23,7 +23,7 @@ class UserMenuDropdown extends React.Component {
 
         return (
             <div class="switcher user-switcher"
-                 data-dropdown="close"
+                 data-dropdown={dropdownId}
                  onClick={() => View.setOpenDropdown(dropdownId)}>
                 <div class="avatar" />
                 <div class="double">

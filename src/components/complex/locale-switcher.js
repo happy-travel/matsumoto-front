@@ -24,7 +24,7 @@ class LocaleSwitcherDropdown extends React.Component {
         return (
             <React.Fragment>
                 <div class="switcher language-switcher"
-                     data-dropdown="close"
+                     data-dropdown={dropdownId}
                      onClick={() => View.setOpenDropdown(dropdownId)}>
                     <div class="flag-holder">
                         {t("current_language_name") == "English" ?

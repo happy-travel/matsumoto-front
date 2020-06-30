@@ -69,7 +69,7 @@ class FieldDestination extends React.Component {
         });
     };
     
-    setValue(item, formik, silent, currentValue) {
+    setValue(item, formik, silent) {
         formik.setFieldValue("predictionResult", {
             "id": item.id,
             "sessionId": session.google.current(),
