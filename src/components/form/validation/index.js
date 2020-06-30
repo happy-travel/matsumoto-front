@@ -1,8 +1,8 @@
-import registrationUserValidator, { registrationUserValidatorWithEmail, emailFormValidator } from "./registration-user";
-import registrationCounterpartyValidator from "./registration-counterparty";
-import accommodationSearchValidator from "./accommodation-search";
-import accommodationBookingValidator from "./accommodation-booking";
-import { creditCardValidator, savedCreditCardValidator } from "./credit-card";
+import registrationUserValidator, { registrationUserValidatorWithEmail, emailFormValidator } from "./validator-registration-agent";
+import registrationCounterpartyValidator from "./validator-registration-counterparty";
+import accommodationSearchValidator from "./validator-accommodation-search";
+import accommodationBookingValidator from "./validator-accommodation-booking";
+import { creditCardValidator, savedCreditCardValidator } from "./validator-credit-card";
 
 export {
     registrationUserValidator,
