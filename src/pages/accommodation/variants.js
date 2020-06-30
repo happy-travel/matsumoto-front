@@ -13,8 +13,9 @@ import Deadline from "components/deadline";
 
 import AccommodationFilters from "parts/accommodation-filters";
 import { loadCurrentSearch } from "parts/search/search-logic";
+import AccommodationTitlePage from "./title";
 
-import store from 'stores/accommodation-store';
+import store from "stores/accommodation-store";
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -61,6 +62,9 @@ class AccommodationVariantsPage extends React.Component {
         if (this.state.redirectToRoomContractSetsPage)
             return <Redirect push to="/search/contract" />;
 
+        if (!store?.search?.request?.destination)
+            return <AccommodationTitlePage />;
+
         return (
 
 <React.Fragment>
@@ -73,7 +77,7 @@ class AccommodationVariantsPage extends React.Component {
                 <div class="head">
                     <div class="title">
                         <h3>
-                            {t("Results for")} <b>{ store?.search?.request?.destination }</b>
+                            {t("Results for")} <b>{ store.search.request.destination }</b>
 
                             {!!store.hotelArray.length &&
                                 <span>&nbsp;({store.hotelArray.length}
@@ -90,7 +94,7 @@ class AccommodationVariantsPage extends React.Component {
                                 text: t("Find Accommodation"),
                                 link: '/'
                             }, {
-                                text: store.search.request?.destination
+                                text: store.search.request.destination
                             }
                         ]}/>
                         { !store.hotelArray.length &&
