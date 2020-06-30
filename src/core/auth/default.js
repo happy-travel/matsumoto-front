@@ -1,6 +1,5 @@
 import React from "react";
 import Authorize from "./authorize";
-import { withRouter } from "react-router-dom";
 import { isPageAvailableAuthorizedOnly, Authorized } from "core/auth";
 import { Loader } from "simple";
 
@@ -19,4 +18,4 @@ class AuthDefaultComponent extends React.PureComponent {
     }
 }
 
-export default (withRouter(AuthDefaultComponent));
+export default AuthDefaultComponent;
