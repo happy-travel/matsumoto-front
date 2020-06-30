@@ -108,6 +108,11 @@ class UserBookingManagementPage extends React.Component {
                     y = b.status;
                 }
 
+                if ("Deadline" == sort) {
+                    x = new Date(a.deadline);
+                    y = new Date(b.deadline);
+                }
+
                 if (x?.toLowerCase) x = x.toLowerCase();
                 if (y?.toLowerCase) y = y.toLowerCase();
                 if (x < y) return order;
@@ -201,6 +206,7 @@ class UserBookingManagementPage extends React.Component {
                         <Sorter text={t("Check In")} value={"Check In"} that={this} />
                         <Sorter text={t("Cost")} value={"Cost"} that={this} />
                         <Sorter text={t("Status")} value={"Status"} that={this} />
+                        <Sorter text={t("Cancellation Deadline")} value={"Deadline"} that={this} />
                     </div>
                     <div>
                         {list === null ? <Loader /> :
