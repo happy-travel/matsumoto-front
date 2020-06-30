@@ -94,7 +94,7 @@ render() {
                             text: t("Booking Confirmation")
                         }
                     ]}
-                        backLink="/accommodation/booking"
+                        backLink="/agent/booking"
                         noBackButton={!this.state.fromHistory}
                     />
                     { !this.state.fromHistory && <ActionSteps
