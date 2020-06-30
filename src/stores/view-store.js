@@ -1,30 +1,25 @@
 import { observable } from "mobx";
+import setter from "core/mobx/setter";
 
 class ViewStore {
-    @observable topAlertText = null;
-    @observable openDropdown = null;
+    @observable
+    @setter(null)
+    topAlertText = null;
 
-    @observable countries = [];
-    @observable destinations = [];
+    @observable
+    @setter(null)
+    openDropdown = null;
+
+    @observable
+    @setter
+    countries = [];
+
+    @observable
+    @setter
+    destinations = [];
 
     isDropdownOpen(id) {
         return this.openDropdown === id;
-    }
-
-    setTopAlertText(value) {
-        this.topAlertText = value || null;
-    }
-
-    setOpenDropdown(id) {
-        this.openDropdown = id || null;
-    }
-
-    setCountries(value) {
-        this.countries = value;
-    }
-
-    setDestinationSuggestions(value) {
-        this.destinations = value;
     }
 }
 

@@ -84,7 +84,6 @@ render() {
 
     return (
         <div class="confirmation nova block">
-            <div class="hide">{''+store.booking}</div>
             <section class="double-sections">
                 <div class="middle-section">
                     <Breadcrumbs items={[

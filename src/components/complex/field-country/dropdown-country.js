@@ -13,7 +13,7 @@ class CountryDropdown extends React.Component {
     }
 
     generateSuggestion = () => {
-        if (!View.countries?.length || !UI.regionList?.length)
+        if (!View.countries?.length || !UI.regions?.length)
             return;
 
         var countries = [...View.countries];
@@ -46,7 +46,7 @@ class CountryDropdown extends React.Component {
                         let region = null;
                         if (index === 0 || View.countries[index]?.regionId !== View.countries[index - 1]?.regionId) {
                             const regionId = +View.countries[index]?.regionId;
-                            const currentRegion = UI.regionList?.find(regionItem => regionItem.id === regionId);
+                            const currentRegion = UI.regions?.find(regionItem => regionItem.id === regionId);
                             region = <div
                                          key={currentRegion?.name}
                                          class="subtitle"

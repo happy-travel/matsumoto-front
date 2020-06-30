@@ -1,5 +1,6 @@
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
+import setter from "core/mobx/setter";
 import { decorate } from "simple";
 
 /* Refactoring possibility: import babel-plugin-objective-enums and make enums */
@@ -18,33 +19,48 @@ export const INVOICE_TYPES = {
 const ourCompanyInfoDefault = {"name":"HappyTravelDotCom Travel and Tourism LLC","address":"B105, Saraya Avenue building, Garhoud, Deira","country":"United Arab Emirates","city":"Dubai","phone":"+971-4-2940007","email":"info@happytravel.com","postalCode":"Box 36690","trn":"100497287100003","iata":"96-0 4653","tradeLicense":"828719"};
 
 class UIStore {
-    @observable regions = [];
-    @observable currencies = [];
-    @observable initialized = false;
-    @observable suggestions = {
+    @observable
+    regions = [];
+
+    @observable
+    @setter([])
+    currencies = [];
+
+    @observable
+    @setter(false)
+    initialized = false;
+
+    @observable
+    suggestions = {
         "destination": null,
         "nationality": null,
         "residency": null
     };
-    @observable modal = null;
-    @observable modalData = null;
-    @observable ourCompanyInfo = ourCompanyInfoDefault;
 
-    @observable formCache = {};
+    @observable
+    modal = null;
 
-    @observable currentAPIVersion = null;
+    @observable
+    @setter(null)
+    modalData = null;
 
-    @observable saveCreditCard = false;
+    @observable
+    @setter
+    ourCompanyInfo = ourCompanyInfoDefault;
+
+    @observable
+    formCache = {};
+
+    @observable
+    @setter
+    currentAPIVersion = null;
+
+    @observable
+    @setter(false)
+    saveCreditCard = false;
 
     constructor() {
         autosave(this, "_ui_store_cache");
-    }
-
-    @computed get regionList() {
-        if (this.initialized)
-            return this.regions;
-
-        return null;
     }
 
     @computed get isAppInitialized() {
@@ -83,18 +99,6 @@ class UIStore {
         });
     }
 
-    setInitialized(value) {
-        this.initialized = value || false;
-    }
-
-    setCurrencies(value) {
-        this.currencies = value || [];
-    }
-
-    setModalData(value) {
-        this.modalData = value || null;
-    }
-
     setModal(id) {
         this.modal = id || null;
         document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
@@ -122,18 +126,6 @@ class UIStore {
 
     dropAllFormCaches() {
         this.formCache = {};
-    }
-
-    setCurrentAPIVersion(value) {
-        this.currentAPIVersion = value;
-    }
-
-    setSaveCreditCardFlag(value) {
-        this.saveCreditCard = value || false;
-    }
-
-    setOurCompanyInfo(value) {
-        this.ourCompanyInfo = value;
     }
 }
 

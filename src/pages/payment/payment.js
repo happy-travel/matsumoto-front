@@ -111,7 +111,7 @@ class PaymentPage extends BasicPaymentPage {
             remember_me: values.remember_me ? "YES" : "NO"
         };
 
-        UI.setSaveCreditCardFlag(values.remember_me);
+        UI.setSaveCreditCard(values.remember_me);
 
         var fingerprint = this.state.direct ? "" : (document.getElementById("device_fingerprint")?.value || "");
         this.setState({
@@ -145,7 +145,7 @@ class PaymentPage extends BasicPaymentPage {
             loading: true
         });
 
-        UI.setSaveCreditCardFlag(false);
+        UI.setSaveCreditCard(false);
 
         API.post({
             url: API.PAYMENTS_CARD_SAVED,

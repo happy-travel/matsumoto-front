@@ -1,5 +1,6 @@
 import { observable, computed } from "mobx";
 import autosave from "core/misc/autosave";
+import setter from "core/mobx/setter";
 import { decorate } from "simple";
 
 const defaultUserSettings = {
@@ -9,7 +10,9 @@ const defaultUserSettings = {
 };
 
 class AuthStore {
-    @observable user = {
+    @observable
+    @setter
+    user = {
         "email": null,
         "lastName": null,
         "firstName": null,
@@ -17,9 +20,11 @@ class AuthStore {
         "position": null
     };
 
-    @observable settings = defaultUserSettings;
+    @observable
+    settings = defaultUserSettings;
 
-    @observable registration = {
+    @observable
+    registration = {
         "agent": {},
         "counterparty": {}
     };
@@ -30,10 +35,6 @@ class AuthStore {
 
     @computed get activeCounterparty() {
         return this.user?.counterparties?.[0] || {};
-    }
-
-    setUser(value) {
-        this.user = value;
     }
 
     setSettings(value = {}) {

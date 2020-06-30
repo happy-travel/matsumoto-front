@@ -1,5 +1,6 @@
-import { observable, computed } from "mobx";
+import { observable, computed } from "mobx"
 import autosave from "core/misc/autosave";
+import setter from "core/mobx/setter";
 import { createFilters, applyFilters } from "./utils/accommodation-filtering";
 
 export const PAYMENT_METHODS = {
@@ -40,18 +41,22 @@ class AccommodationStore {
     filters = null;
 
     @observable
+    @setter
     selectedFilters = null;
 
     @observable
+    @setter
     userBookingList = null;
 
     @observable
+    @setter
     userPaymentsList = null;
 
     @observable
     paymentResult = {};
 
     @observable
+    @setter
     paymentMethod = PAYMENT_METHODS.CARD;
 
     constructor() {
@@ -109,24 +114,12 @@ class AccommodationStore {
         this.search.requestId = requestId;
     }
 
-    setSelectedFilters(filters) {
-        this.selectedFilters = filters;
-    }
-
     setSearchIsLoading(value) {
         this.search.loading = value;
     }
 
     setNewSearchRequest(form) {
         this.search.request = form;
-    }
-
-    setUserBookingList(value) {
-        this.userBookingList = value;
-    }
-
-    setUserPaymentsList(value) {
-        this.userPaymentsList = value;
     }
 
     selectAccommodation(accommodation) {
@@ -175,11 +168,6 @@ class AccommodationStore {
             this.paymentResult.error = true;
         this.paymentResult.params_error = (result.params?.response_message != "Success");
     }
-
-    setPaymentMethod(value) {
-        this.paymentMethod = value;
-    }
-
 }
 
 export default new AccommodationStore();

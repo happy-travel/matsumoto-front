@@ -18,7 +18,7 @@ const setCountrySuggestions = value => {
         return r;
     }, Object.create(null));
     let countries = [];
-    UI.regionList?.forEach(region => {
+    UI.regions?.forEach(region => {
         if (newGroupedCountries[region.id]) {
             countries = countries.concat(newGroupedCountries[region.id].sort((a, b) => {
                 if (a.name > b.name) {
