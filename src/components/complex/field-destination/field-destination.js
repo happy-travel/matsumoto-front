@@ -26,7 +26,7 @@ const setDestinationSuggestions = (value = [], currentValue) => {
         result.forEach((item, index) => result[index].value = item.value);
     }
 
-    View.setDestinationSuggestions(result);
+    View.setDestinations(result);
 };
 
 @observer
@@ -43,7 +43,7 @@ class FieldDestination extends React.Component {
         if (currentValue.trim)
             currentValue = currentValue.trim();
         if (!currentValue)
-            return View.setDestinationSuggestions([]);
+            return View.setDestinations([]);
 
         if (props.formik)
             props.formik.setFieldValue("predictionResult", null);

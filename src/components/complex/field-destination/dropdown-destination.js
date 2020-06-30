@@ -17,7 +17,7 @@ class DestinationDropdown extends React.Component {
             formik
         } = this.props;
 
-        View.setDestinationSuggestions([]);
+        View.setDestinations([]);
         formik.setFieldValue(connected, item.value);
     }
 
