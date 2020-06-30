@@ -18,8 +18,8 @@ const getClassByStatus = status => ({
 
 const Filter = ({ text, value, that }) => (
     <li><div
-        class={"item" + __class(value == that.state.filter_time, "selected")}
-        onClick={() => that.setState({ filter_time: value })}
+        class={"item" + __class(value == that.state.filter_tab, "selected")}
+        onClick={() => that.setState({ filter_tab: value })}
     >{text}</div></li>
 );
 
@@ -44,7 +44,7 @@ class UserBookingManagementPage extends React.Component {
         super(props);
         this.state = {
             redirectToBookingConfirmationId: null,
-            filter_time: null,
+            filter_tab: null,
             sort_by: null,
             sort_order: 1,
             search_query: ""
@@ -64,14 +64,19 @@ class UserBookingManagementPage extends React.Component {
 
         result = result.filter(() => true);
 
-        if (this.state.filter_time)
-            result = result.filter(item => {
-                var isFuture = moment(item.checkInDate).isAfter(new Date());
-                if ("Future" == this.state.filter_time)
-                    return isFuture;
-                else
-                    return !isFuture;
-            });
+        if (this.state.filter_tab) {
+            if ("Future" == this.state.filter_tab ||
+                "Past" == this.state.filter_tab)
+                result = result.filter(item => {
+                    var isFuture = moment(item.checkInDate).isAfter(new Date());
+                    if ("Future" == this.state.filter_tab)
+                        return isFuture;
+                    else
+                        return !isFuture;
+                });
+            if ("Cancelled" == this.state.filter_tab)
+                result = result.filter(item => "Cancelled" == item.status);
+        }
 
         if (sort)
             result.sort((a,b) => {
@@ -143,10 +148,8 @@ class UserBookingManagementPage extends React.Component {
         return result;
     }
 
-    searchChange(e) {
-        this.setState({
-            search_query: e.target.value
-        });
+    searchChange(values) {
+        this.setState({ search_query: values.search });
     }
 
     componentDidMount() {
@@ -176,19 +179,23 @@ class UserBookingManagementPage extends React.Component {
                             <Filter text={t("All")} value={null} that={this} />
                             <Filter text={t("Future")} value="Future" that={this} />
                             <Filter text={t("Complete")} value="Complete" that={this} />
+                            <Filter text={t("Cancelled")} value="Cancelled" that={this} />
                         </nav>
                         <div class="input-wrap">
                             <div class="form">
                                 <Formik
                                     initialValues={{ search: "" }}
-                                    onSubmit={() => {}}
+                                    onSubmit={this.searchChange}
                                 >
                                 {formik => (
                                     <form onSubmit={formik.handleSubmit}>
                                         <FieldText formik={formik}
                                                    id="search"
                                                    placeholder={t("Search...")}
-                                                   onChange={this.searchChange}
+                                                   onChange={formik.handleSubmit}
+                                                   onClear={formik.handleSubmit}
+                                                   addClass={"filter-field"}
+                                                   clearable
                                         />
                                     </form>
                                 )}
@@ -200,13 +207,13 @@ class UserBookingManagementPage extends React.Component {
                 <section class="content">
                     <div class="sorters">
                         <div class="title">Sort by</div>
-                        <Sorter text={t("Accommodations")} value={"Accommodations"} that={this} />
-                        <Sorter text={t("Location")} value={"Location"} that={this} />
-                        <Sorter text={t("Board Basis")} value={"Board Basis"} that={this} />
-                        <Sorter text={t("Check In")} value={"Check In"} that={this} />
-                        <Sorter text={t("Cost")} value={"Cost"} that={this} />
-                        <Sorter text={t("Status")} value={"Status"} that={this} />
-                        <Sorter text={t("Cancellation Deadline")} value={"Deadline"} that={this} />
+                        <Sorter text={t("Accommodations")} value="Accommodations" that={this} />
+                        <Sorter text={t("Location")} value="Location" that={this} />
+                        <Sorter text={t("Board Basis")} value="Board Basis" that={this} />
+                        <Sorter text={t("Check In")} value="Check In" that={this} />
+                        <Sorter text={t("Cost")} value="Cost" that={this} />
+                        <Sorter text={t("Status")} value="Status" that={this} />
+                        <Sorter text={t("Cancellation Deadline")} value="Deadline" that={this} />
                     </div>
                     <div>
                         {list === null ? <Loader /> :

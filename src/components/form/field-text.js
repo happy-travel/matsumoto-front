@@ -26,8 +26,9 @@ class FieldText extends React.Component {
     }
 
     onFocus() {
-        if (this.props.Dropdown) {
-            var newOpenDropdown = this.props.id;
+        const { id, Dropdown } = this.props;
+        if (Dropdown) {
+            var newOpenDropdown = id;
             if (View.isDropdownOpen(newOpenDropdown))
                 newOpenDropdown = null;
             View.setOpenDropdown(newOpenDropdown);
@@ -40,110 +41,101 @@ class FieldText extends React.Component {
     }
 
     onBlur(event) {
-        this.setState({
-            focus: false
-        });
-
-        if (this.props.onBlur)
-            this.props.onBlur(event);
-
-        if (this.props.formik)
-            this.props.formik.handleBlur(event);
-
+        const { formik, onBlur } = this.props;
+        this.setState({ focus: false });
+        if (onBlur)
+            onBlur(event);
+        if (formik)
+            formik.handleBlur(event);
         if (!this.state.everBlured)
             this.setState({ everBlured: true });
     }
 
     onKeyDown(e) {
-        if (this.props.Dropdown && this.props.options) {
-            let value = this.props.options[this.state.ddFocusIndex];
-            let {suggestion} = this.props;
-            const {formik, id} = this.props;
-            switch (e.keyCode) {
-                case 13:
-                case 39: // Enter or Right arrow
-                    // Select first suggestion or selected menu item
-                    if (value && this.props.setValue) {
+        var { formik, Dropdown, id, options, suggestion, setValue, setAutoComplete } = this.props;
+        if ( !Dropdown || !options ) return;
+
+        let value = options[this.state.ddFocusIndex];
+        switch (e.keyCode) {
+            case 13:
+            case 39: // Enter or Right arrow
+                // Select first suggestion or selected menu item
+                if (value && setValue) {
+                    e.preventDefault();
+                    setValue(value, formik, id);
+                }
+                if (!value && setAutoComplete) {
+                    if (formik && !suggestion) {
+                        suggestion = UI.getSuggestion(id, getValue(formik, id));
+                    }
+                    if (suggestion) {
                         e.preventDefault();
-                        this.props.setValue(value, formik, id);
+                        setAutoComplete(formik);
                     }
-                    if (!value && this.props.setAutoComplete) {
-                        if (formik && !suggestion) {
-                            suggestion = UI.getSuggestion(id, getValue(formik, id));
-                        }
-                        if (suggestion) {
-                            e.preventDefault();
-                            this.props.setAutoComplete(this.props.formik);
-                        }
-                    }
-                    break;
-                case 38: // Arrow top
-                    // Move up in suggestion list
-                    if (this.state.ddFocusIndex > 0) {
-                        this.setState({ ddFocusIndex: this.state.ddFocusIndex - 1 });
+                }
+                break;
+            case 38: // Arrow top
+                // Move up in suggestion list
+                if (this.state.ddFocusIndex > 0) {
+                    this.setState({ ddFocusIndex: this.state.ddFocusIndex - 1 });
+                    const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
+                    scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
+                } else {
+                    scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
+                }
+                value = options[this.state.ddFocusIndex];
+                if (setAutoComplete)
+                    setAutoComplete(formik, true, value);
+                break;
+            case 40: // Arrow bottom
+                // Move down in suggestion list
+                if (this.state.ddFocusIndex === null || options.length > this.state.ddFocusIndex + 1) {
+                    this.setState({ddFocusIndex: this.state.ddFocusIndex !== null ? this.state.ddFocusIndex + 1 : 0 });
+                    if (this.state.ddFocusIndex < options.length - 2) { // disable scroll to last element
                         const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
                         scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
-                    } else {
-                        scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
                     }
-                    value = this.props.options[this.state.ddFocusIndex];
-                    if (this.props.setAutoComplete)
-                        this.props.setAutoComplete(this.props.formik, true, value);
-                    break;
-                case 40: // Arrow bottom
-                    // Move down in suggestion list
-                    if (this.state.ddFocusIndex === null || this.props.options.length > this.state.ddFocusIndex + 1) {
-                        this.setState({ddFocusIndex: this.state.ddFocusIndex !== null ? this.state.ddFocusIndex + 1 : 0 });
-                        if (this.state.ddFocusIndex < this.props.options.length - 2) { // disable scroll to last element
-                            const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
-                            scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
-                        }
-                    }
-                    value = this.props.options[this.state.ddFocusIndex];
-                    if (this.props.setAutoComplete)
-                        this.props.setAutoComplete(this.props.formik, true, value);
-                    break;
-                default:
-                    return;
-            }
+                }
+                value = options[this.state.ddFocusIndex];
+                if (setAutoComplete)
+                    setAutoComplete(formik, true, value);
+                break;
+            default:
+                return;
         }
     }
 
     clear() {
-        if (this.props.formik) {
-            this.props.formik.setFieldValue(this.props.id, '\n');
-            this.props.formik.setFieldTouched(this.props.id, false);
-            if (this.props.onClear)
-                this.props.onClear();
-            if (this.props.Dropdown)
+        const { formik, id, onClear, Dropdown, additionalFieldForValidation } = this.props;
+        if (formik) {
+            formik.setFieldValue(id, "");
+            formik.setFieldTouched(id, false);
+            if (onClear)
+                onClear();
+            if (Dropdown)
                 View.setOpenDropdown(null);
-            if (this.props.additionalFieldForValidation) {
-                this.props.formik.setFieldValue(this.props.additionalFieldForValidation, false);
-            }
+            if (additionalFieldForValidation)
+                formik.setFieldValue(additionalFieldForValidation, false);
         }
     }
 
     changing(event) {
-        if (this.props.Dropdown) {
-            View.setOpenDropdown(this.props.id);
+        const { Dropdown, id, numeric, onChange, formik } = this.props;
+        if (Dropdown) {
+            View.setOpenDropdown(id);
             this.setState({ ddFocusIndex: null });
         }
-
-        if (this.props.numeric) {
-            if ("/" == this.props.numeric)
+        if (numeric)
+            if ("/" == numeric)
                 event.target.value = event.target.value.replace(/[^0-9.\/ ]/g, "");
             else
                 event.target.value = event.target.value.replace(/[^0-9.]/g, "");
+        if (onChange)
+            onChange(event, this.props);
+        if (formik) {
+            formik.setFieldTouched(id, true);
+            formik.handleChange(event);
         }
-
-        if (this.props.onChange)
-            this.props.onChange(event, this.props);
-
-        if (this.props.formik) {
-            this.props.formik.setFieldTouched(this.props.id, true);
-            this.props.formik.handleChange(event);
-        }
-
         if (!this.state.everChanged)
             this.setState({ everChanged: true });
     }

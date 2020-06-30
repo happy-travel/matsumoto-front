@@ -296,6 +296,7 @@ translations: {
     "Leisure & Sport Amenities": "Leisure & Sport Amenities",
     "Future": "Future",
     "Complete": "Complete",
+    "Cancelled": "Cancelled",
     "Send Voucher": "Send Voucher",
     "Send Invoice": "Send Invoice",
     "Enter email to receive information about booking": "Enter email to receive information about booking",
