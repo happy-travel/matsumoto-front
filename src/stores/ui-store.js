@@ -28,7 +28,6 @@ class UIStore {
     };
     @observable modal = null;
     @observable modalData = null;
-    @observable advancedSearch = false;
     @observable ourCompanyInfo = ourCompanyInfoDefault;
 
     @observable formCache = {};
@@ -99,13 +98,6 @@ class UIStore {
     setModal(id) {
         this.modal = id || null;
         document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
-    }
-
-    toggleAdvancedSearch(value) {
-        if (typeof value != "undefined")
-            this.advancedSearch = value;
-        else
-            this.advancedSearch = !this.advancedSearch;
     }
 
     getFormCache(formName) {

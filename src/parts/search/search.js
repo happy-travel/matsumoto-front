@@ -2,7 +2,6 @@ import React from "react";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, session } from "core";
 import { Stars } from "simple";
 
 import { Redirect } from "react-router-dom";
@@ -15,62 +14,12 @@ import { accommodationSearchValidator } from "components/form/validation";
 import PeopleDropdown from "components/form/dropdown/room-details";
 
 import store from "stores/accommodation-store";
-import UI from "stores/ui-store";
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
 
-import { loadCurrentSearch } from "./accommodation-search-common-logic";
+import { createSearch } from "./search-logic";
 
-const sum = (values, field) => {
-    var result = 0;
-    for (var i = 0; i < values.roomDetails.length; i++) {
-        if ("childrenNumber" == field)
-            result += values.roomDetails[i].childrenAges.length;
-        else
-            result += values.roomDetails[i][field];
-    }
-    return result;
-};
-
-const formFormatter = (values) => {
-    var roomDetails = [];
-    for (var i = 0; i < values.roomDetails.length; i++) {
-        var room = {
-            adultsNumber: values.roomDetails[i].adultsNumber,
-            childrenNumber: values.roomDetails[i].childrenAges.length
-        };
-        if (values.roomDetails[i].childrenAges.length) {
-            room.childrenAges = [];
-            for (var j = 0; j < values.roomDetails[i].childrenAges.length; j++)
-                room.childrenAges.push(values.roomDetails[i].childrenAges[j] || 12);
-        }
-        roomDetails.push(room);
-    }
-
-    var body = {
-        filters: "Default",
-        checkInDate: moment(values.checkInDate).utc(true).format(),
-        checkOutDate: moment(values.checkOutDate).utc(true).format(),
-        roomDetails: roomDetails,
-        location: {
-            predictionResult: values.predictionResult,
-            coordinates: {
-                latitude: 0,
-                longitude: 0
-            },
-            distance: (parseInt(values.radius) || 0) * 1000
-        },
-        nationality: values.nationalityCode,
-        residency: values.residencyCode
-    };
-
-    if (UI.advancedSearch) {
-        body.ratings = values.ratings;
-        body.propertyTypes = values.propertyTypes;
-    }
-
-    return body;
-};
+import { countPassengers } from "./search-ui-helpers";
 
 @observer
 class AccommodationSearch extends React.Component {
@@ -87,66 +36,7 @@ class AccommodationSearch extends React.Component {
         if (values.predictionDestination != values.destination)
             formik.setFieldValue("destination", values.predictionDestination);
 
-        store.setSearchResultLength(0, undefined);
-
-        store.setSearchResult(null);
-        session.google.clear();
-
-        var body = formFormatter(values);
-
-        store.setSearchIsLoading(true);
-        API.post({
-            url: API.A_SEARCH_ONE_CREATE,
-            body: body,
-            success: result => {
-                var status = "Unknown";
-                store.setSearchRequestId(result);
-
-                const loader = (data) => {
-                    if ("Failed" == data.taskState) {
-                        store.setSearchIsLoading(false);
-                        return;
-                    }
-                    if (store.search?.length !== data.resultCount || store.search?.status !== data.taskState) {
-                        loadCurrentSearch(0, () => {
-                            store.setSearchResultLength(data.resultCount, data.taskState);
-                        });
-                    }
-                };
-
-                const getter = (deep) => {
-                    if (deep > 180) {
-                        store.setSearchIsLoading(false);
-                        return;
-                    }
-                    setTimeout(() => API.get({
-                        url: API.A_SEARCH_ONE_CHECK(store.search.requestId),
-                        success: data => {
-                            status = data.taskState;
-                            if ("PartiallyCompleted" == status || "Completed" == status || "Failed" == status)
-                                loader(data);
-                            if ("Pending" == status || "Running" == status || "PartiallyCompleted" == status)
-                                getter(deep+1);
-                        },
-                        error: () => {
-                            store.setSearchIsLoading(false);
-                        }
-                    }), 1000);
-                };
-                getter();
-
-            },
-            error: () => {
-                store.setSearchIsLoading(false);
-            }
-        });
-
-        store.setNewSearchRequest({
-            ...body,
-            destination: values.predictionDestination,
-            adultsTotal: sum(values, "adultsNumber"),
-            childrenTotal: sum(values, "childrenNumber")
-        });
+        createSearch(values);
 
         this.setState({
             redirectToVariantsPage: true
@@ -157,7 +47,7 @@ class AccommodationSearch extends React.Component {
         if (this.state.redirectToVariantsPage)
             this.setState({
                 redirectToVariantsPage: false
-            });
+            }); // prevent redirection circle
     }
 
     render() {
@@ -167,7 +57,7 @@ class AccommodationSearch extends React.Component {
             <div class="search block">
                 { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
                 <section>
-                    <div class="hide">{'' + UI.advancedSearch}{JSON.stringify(store.suggestion)}</div>
+                    <div class="hide">{JSON.stringify(store.suggestion)}</div>
                     <CachedForm
                         id={ FORM_NAMES.SearchForm }
                         initialValues={{
@@ -190,7 +80,9 @@ class AccommodationSearch extends React.Component {
                             radius: "",
                             order: "room",
                             predictionResult: null,
-                            predictionDestination: ""
+                            predictionDestination: "",
+
+                            advancedSearch: false
                         }}
                         valuesOverwrite={searchFormSetDefaultCountries}
                         validationSchema={accommodationSearchValidator}
@@ -220,13 +112,13 @@ class AccommodationSearch extends React.Component {
                                                    addClass="size-medium"
                                                    Dropdown={PeopleDropdown}
                                                    value={
-                                                          [__plural(t, sum(formik.values, "adultsNumber"), "Adult"),
-                                                           __plural(t, sum(formik.values, "childrenNumber"), "Children"),
+                                                          [__plural(t, countPassengers(formik.values, "adultsNumber"), "Adult"),
+                                                           __plural(t, countPassengers(formik.values, "childrenNumber"), "Children"),
                                                            __plural(t, formik.values.roomDetails.length, "Room")].join(" • ")
                                                    }
                                         />
                                     </div>
-                                    <div class={"row advanced" + __class(!UI.advancedSearch, "invisible")}>
+                                    <div class={"row advanced" + __class(!formik.values.advancedSearch, "invisible")}>
                                         <FieldSelect formik={formik}
                                                      id="propertyTypes"
                                                      label={t("Property Type")}
@@ -293,11 +185,11 @@ class AccommodationSearch extends React.Component {
                                     </div>
                                 </div>
                                 <div class="additionals">
-                                    {UI.advancedSearch ?
-                                        <button type="button" class="button-expand reverse" onClick={() => UI.toggleAdvancedSearch()}>
+                                    {formik.values.advancedSearch ?
+                                        <button type="button" class="button-expand reverse" onClick={() => formik.setFieldValue("advancedSearch", false)}>
                                             {t("Simple Search")}
                                         </button> :
-                                        <button type="button" class="button-expand" onClick={() => UI.toggleAdvancedSearch()}>
+                                        <button type="button" class="button-expand" onClick={() => formik.setFieldValue("advancedSearch", true)}>
                                             {t("Advanced Search")}
                                         </button>
                                     }

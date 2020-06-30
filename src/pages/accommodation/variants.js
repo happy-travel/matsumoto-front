@@ -12,7 +12,7 @@ import Breadcrumbs from "components/breadcrumbs";
 import Deadline from "components/deadline";
 
 import AccommodationFilters from "parts/accommodation-filters";
-import { loadCurrentSearch } from "parts/accommodation-search-common-logic";
+import { loadCurrentSearch } from "parts/search/search-logic";
 
 import store from 'stores/accommodation-store';
 
