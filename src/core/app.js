@@ -14,7 +14,7 @@ import Header    from "parts/header";
 import Footer    from "parts/footer";
 import TopAlert  from "parts/top-alert";
 import Modal     from "parts/modal";
-import Search    from "parts/search";
+import Search    from "parts/search/search";
 
 import Routes, {
     routesWithHeaderAndFooter,
