@@ -11,6 +11,7 @@ import { CachedForm, FORM_NAMES } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 
 import FormUserData from "parts/form-user-data";
+
 import store from "stores/auth-store";
 import View from "stores/view-store";
 import UI from "stores/ui-store";

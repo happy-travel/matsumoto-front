@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 import { API } from "core";
 
 import { dateFormat, Loader } from "simple";
-import { FieldText } from "components/form";
 import Table from "components/external/table";
 import SettingsHeader from "./parts/settings-header";
 
-import AuthStore from "stores/auth-store";
+import authStore from "stores/auth-store";
 
 const columns = [
     {
@@ -31,7 +30,7 @@ const columns = [
         Header: 'Actions',
         accessor: 'agentId',
         Cell: (item) => {
-            const { id, agencyId } = AuthStore.activeCounterparty;
+            const { id, agencyId } = authStore.activeCounterparty;
             return <Link
                 to={`/settings/agents/${item.cell.value}/${id}/${agencyId}`}
             ><span class={`icon icon-action-pen-orange`}/></Link>;
@@ -73,8 +72,8 @@ class AgentsManagement extends React.Component {
     }
 
     loadAgents() {
-        if (AuthStore.activeCounterparty) {
-            const { agencyId } = AuthStore.activeCounterparty;
+        if (authStore.activeCounterparty) {
+            const { agencyId } = authStore.activeCounterparty;
             API.get({
                 url: API.AGENCY_AGENTS(agencyId),
                 success: result => this.setState({
