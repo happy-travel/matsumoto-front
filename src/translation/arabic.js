@@ -204,7 +204,7 @@ translations: {
     "Visas": "التأشيرات",
     "Privacy Policy": "سياسة الخصوصية",
     "Create a new one": "إنشاء واحدة جديدة",
-    "Create a HappyTravel.com account and start booking.": "قم بإنشاء حساب HappyTravel.com وابدأ الحجز",
+    "Create a Happytravel.com account and start booking.": "قم بإنشاء حساب Happytravel.com وابدأ الحجز",
     "10 characters minimum": "10 أحرف كحد أدنى",
     "Available Accommodations": "أماكن الإقامة المتاحة",
     "Accommodation Amenities": "وسائل الراحة ",

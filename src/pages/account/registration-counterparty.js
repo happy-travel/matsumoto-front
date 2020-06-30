@@ -94,7 +94,7 @@ class RegistrationCounterparty extends React.Component {
                             Company Information
                         </h1>
                         <p>
-                            Create a free HappyTravel.com account and start booking today.<br/>
+                            Create a free Happytravel.com account and start booking today.<br/>
                             Already have an account? <Link to="/logout" class="link">Log In Here.</Link>
                         </p>
 

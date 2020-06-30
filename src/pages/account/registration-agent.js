@@ -126,7 +126,7 @@ class RegistrationAgent extends React.Component {
                 Agent Information
             </h1>
             <p>
-                Create a new HappyTravel.com account and start booking.
+                Create a new Happytravel.com account and start booking.
             </p>
 
         <CachedForm
