@@ -8,16 +8,16 @@ import authStore from "stores/auth-store";
 const stateDefinitions = {
     available: {
         color: null,
-        label: 'Available'
+        label: "Available"
     },
     enquire: {
-        color: '#ffd200',
-        label: 'Enquire'
+        color: "#ffd200",
+        label: "Enquire"
     },
     unavailable: {
         selectable: false,
-        color: '#78818b',
-        label: 'Unavailable'
+        color: "#78818b",
+        label: "Unavailable"
     }
 };
 
@@ -28,7 +28,7 @@ const PaginationArrowComponent = (props) => {
         onClick={(e) => {e.preventDefault(); onTrigger(e)}}
         disabled={disabled}
     >
-        {direction === 'previous' ? <span>&#8249;</span> : <span>&#8250;</span>}
+        {direction === "previous" ? <span>&#8249;</span> : <span>&#8250;</span>}
     </button>;
 };
 
@@ -44,7 +44,12 @@ class DateDropdown extends React.Component {
             <div class="date dropdown">
                 <DateRangePicker
                     className={"calendar-style"}
-                    firstOfWeek={authStore.settings.weekStarts ? (authStore.settings.weekStarts % 7) : ("rtl" == window.localStorage.getItem('direction') ? 0 : 1)}
+                    firstOfWeek={authStore.settings.weekStarts
+                                    ? (authStore.settings.weekStarts % 7)
+                                    : ("rtl" == window.localStorage.getItem("direction")
+                                        ? 0
+                                        : 1
+                                    )}
                     numberOfCalendars={2}
                     selectionType="range"
                     minimumDate={"dates" == connected ? new Date() : null}
@@ -53,7 +58,12 @@ class DateDropdown extends React.Component {
                     showLegend={false}
                     paginationArrowComponent={PaginationArrowComponent}
                     value={options}
-                    onSelect={(...args) => {setValue(...args); View.setOpenDropdown(null);}}
+                    onSelect={
+                        (...args) => {
+                            setValue(...args); 
+                            View.setOpenDropdown(null);
+                        }
+                    }
                 />
             </div>
         );

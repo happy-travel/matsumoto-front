@@ -6,31 +6,33 @@ import { Formik } from "formik";
 import { API } from "core";
 
 import { Loader, dateFormat, price } from "simple";
-import { FieldText } from "components/form";
-import DateDropdown from "components/form/dropdown/date";
+import FieldDatepicker from "components/complex/field-datepicker";
 
 import AuthStore from "stores/auth-store";
 import store from "stores/accommodation-store";
+
+const initialValues = {
+    start: moment().startOf("day").add(-1, "M"),
+    end: moment().startOf("day")
+};
 
 @observer
 class AccountStatementPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            start: moment().startOf("day").add(-1, "M"),
-            end: moment().startOf("day")
-        };
-        this.getData = this.getData.bind(this);
     }
 
-    getData() {
+    submit(values) {
         if (!AuthStore.user?.counterparties?.length)
             return;
+
+        values = {...initialValues, ...values};
+
         API.post({
             url: API.BILLING_HISTORY(AuthStore.activeCounterparty.id),
             body: {
-                "fromDate": moment(this.state.start).utc(true).format(),
-                "toDate": moment(this.state.end).add(1,"d").utc(true).format()
+                "fromDate": moment(values.start).utc(true).format(),
+                "toDate": moment(values.end).add(1,"d").utc(true).format()
             },
             after: data => store.setUserPaymentsList(data)
         });
@@ -38,7 +40,7 @@ class AccountStatementPage extends React.Component {
 
     componentDidMount() {
         store.setUserPaymentsList(null);
-        this.getData();
+        this.submit();
     }
 
     render() {
@@ -57,33 +59,17 @@ class AccountStatementPage extends React.Component {
                         <div class="input-wrap">
                             <div class="form">
                                 <Formik
-                                    initialValues={{}}
-                                    onSubmit={() => {}}
+                                    initialValues={initialValues}
+                                    onSubmit={this.submit}
                                 >
                                     {formik => (
                                         <form onSubmit={formik.handleSubmit}>
-                                            <FieldText formik={formik}
-                                                id="range"
-                                                placeholder={t("Choose date")}
-                                                Icon={<span class="icon icon-calendar"/>}
-                                                addClass="size-medium"
-                                                Dropdown={DateDropdown}
-                                                value={
-                                                    dateFormat.b(this.state.start)
-                                                    + " – " +
-                                                    dateFormat.b(this.state.end)
-                                                }
-                                                setValue={range => {
-                                                    this.setState({
-                                                        start: range.start,
-                                                        end: range.end
-                                                    });
-                                                    this.getData();
-                                                }}
-                                                options={moment.range(
-                                                    moment(this.state.start),
-                                                    moment(this.state.end)
-                                                )}
+                                            <FieldDatepicker formik={formik}
+                                                             id="range"
+                                                             first="start"
+                                                             second="end"
+                                                             placeholder={t("Choose date")}
+                                                             onChange={formik.handleSubmit}
                                             />
                                         </form>
                                     )}
@@ -96,7 +82,9 @@ class AccountStatementPage extends React.Component {
                     <div>
                         {list === null ? <Loader /> :
                         (!list.length ?
-                            <div style={{marginTop: "30px"}}>{t("You don`t have any payment history for this dates")}</div> :
+                            <div style={{ marginTop: "30px" }}>
+                                {t("You don`t have any payment history for this dates")}
+                            </div> :
                             <table class="table">
                                 {list.map(item => item && (
                                     <React.Fragment>

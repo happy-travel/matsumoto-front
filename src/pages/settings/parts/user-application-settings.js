@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { Loader } from "simple";
 import { CachedForm, FieldSelect, FieldSwitch } from "components/form";
-import FieldCountry from "components/active/field-country";
+import FieldCountry from "components/complex/field-country";
 import {
     loadUserSettings,
     saveUserSettings

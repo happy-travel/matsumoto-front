@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import settings from "settings";
 import { observer } from "mobx-react";
-import LocaleSwitcher from "components/active/locale-switcher";
-import CurrencySwitcher from "components/active/currency-switcher";
+import LocaleSwitcher from "components/complex/locale-switcher";
+import CurrencySwitcher from "components/complex/currency-switcher";
 
 import UI from "stores/ui-store";
 import { Authorized } from "core/auth";

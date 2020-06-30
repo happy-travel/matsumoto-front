@@ -14,7 +14,7 @@ import {
     FieldTextarea,
     FieldSelect
 } from "components/form";
-import FieldCountry from "components/active/field-country";
+import FieldCountry from "components/complex/field-country";
 import { registrationCounterpartyValidator } from "components/form/validation";
 
 import store from "stores/auth-store";

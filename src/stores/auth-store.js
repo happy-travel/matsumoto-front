@@ -29,7 +29,7 @@ class AuthStore {
     }
 
     @computed get activeCounterparty() {
-        return this.user?.counterparties && this.user?.counterparties[0] || {};
+        return this.user?.counterparties?.[0] || {};
     }
 
     setUser(value) {

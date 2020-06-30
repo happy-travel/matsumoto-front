@@ -3,14 +3,15 @@ import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, session } from "core";
-import { dateFormat, Stars } from "simple";
+import { Stars } from "simple";
 
 import { Redirect } from "react-router-dom";
 import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";
-import FieldCountry, { searchFormSetDefaultCountries } from "components/active/field-country";
+import FieldCountry, { searchFormSetDefaultCountries } from "components/complex/field-country";
+import FieldDestination from "components/complex/field-destination";
+import FieldDatepicker from "components/complex/field-datepicker";
 import { accommodationSearchValidator } from "components/form/validation";
 
-import DateDropdown from "components/form/dropdown/date";
 import PeopleDropdown from "components/form/dropdown/room-details";
 
 import store from "stores/accommodation-store";
@@ -19,7 +20,6 @@ import View from "stores/view-store";
 import authStore from "stores/auth-store";
 
 import { loadCurrentSearch } from "./accommodation-search-common-logic";
-import FieldDestination from "../components/active/field-destination";
 
 const sum = (values, field) => {
     var result = 0;
@@ -205,26 +205,12 @@ class AccommodationSearch extends React.Component {
                                                           label={t("Destination, Hotel name, Location or Landmark")}
                                                           placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                         />
-                                        <FieldText formik={formik}
-                                                   id="dates"
-                                                   label={t("Check In - Check Out")}
-                                                   placeholder={t("Choose date")}
-                                                   Icon={<span class="icon icon-calendar"/>}
-                                                   addClass="size-medium"
-                                                   Dropdown={DateDropdown}
-                                                   value={
-                                                       dateFormat.b(formik.values.checkInDate)
-                                                       + " – " +
-                                                       dateFormat.b(formik.values.checkOutDate)
-                                                   }
-                                                   setValue={range => {
-                                                       formik.setFieldValue("checkInDate", range.start);
-                                                       formik.setFieldValue("checkOutDate", range.end);
-                                                   }}
-                                                   options={moment.range(
-                                                       moment(formik.values.checkInDate),
-                                                       moment(formik.values.checkOutDate)
-                                                   )}
+                                        <FieldDatepicker formik={formik}
+                                                         id="dates"
+                                                         first="checkInDate"
+                                                         second="checkOutDate"
+                                                         label={t("Check In - Check Out")}
+                                                         placeholder={t("Choose date")}
                                         />
                                         <FieldText formik={formik}
                                                    id="room"
