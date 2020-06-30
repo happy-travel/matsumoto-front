@@ -9,7 +9,7 @@ import { registrationUserValidatorWithEmail } from "components/form/validation";
 import FormUserData from "parts/form-user-data";
 
 import UI from "stores/ui-store";
-import AuthStore from "stores/auth-store";
+import authStore from "stores/auth-store";
 import View from "stores/view-store";
 
 const copyToClipboard = text => {
@@ -49,7 +49,7 @@ class UserInvitePage extends React.Component {
             url: values.send ? API.USER_INVITE_SEND : API.USER_INVITE_GET_LINK,
             body: {
                 email: values.email,
-                agencyId: AuthStore.activeCounterparty.agencyId,
+                agencyId: authStore.activeCounterparty.agencyId,
                 registrationInfo: {
                     firstName: values.firstName,
                     lastName: values.lastName,

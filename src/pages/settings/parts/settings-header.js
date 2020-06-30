@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-import AuthStore from "stores/auth-store";
 import { observer } from "mobx-react";
+
+import authStore from "stores/auth-store";
 
 @observer
 class SettingsHeader extends React.Component {
@@ -12,7 +12,7 @@ class SettingsHeader extends React.Component {
 
         return <div class="settings-header">
             <section>
-                <h1>{AuthStore.activeCounterparty.name}</h1>
+                <h1>{authStore.activeCounterparty.name}</h1>
             </section>
             <div>
                 <NavLink to="/settings/personal" activeClassName="active">

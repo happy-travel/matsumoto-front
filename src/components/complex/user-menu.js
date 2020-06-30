@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 
-import AuthStore from "stores/auth-store";
+import authStore from "stores/auth-store";
 import View from "stores/view-store";
 
 const dropdownId = "UserMenuDropdown",
@@ -27,18 +27,18 @@ class UserMenuDropdown extends React.Component {
                  onClick={() => View.setOpenDropdown(dropdownId)}>
                 <div class="avatar" />
                 <div class="double">
-                    <div class="name" {...calcTitleFor(AuthStore.user?.firstName + AuthStore.user?.lastName)}>{AuthStore.user?.firstName} {AuthStore.user?.lastName}</div>
-                    <div class="company" {...calcTitleFor(AuthStore.activeCounterparty.name)}>{AuthStore.activeCounterparty.name}</div>
+                    <div class="name" {...calcTitleFor(authStore.user?.firstName + authStore.user?.lastName)}>{authStore.user?.firstName} {authStore.user?.lastName}</div>
+                    <div class="company" {...calcTitleFor(authStore.activeCounterparty.name)}>{authStore.activeCounterparty.name}</div>
                 </div>
                 {View.isDropdownOpen(dropdownId) && <div class="user-menu dropdown">
                     <Link to="/agent/booking" class="item">
                         {t("Booking management")}
                     </Link>
-                    { (AuthStore.activeCounterparty.inAgencyPermissions?.indexOf("ViewCounterpartyAllPaymentHistory") != -1) &&
+                    { (authStore.activeCounterparty.inAgencyPermissions?.indexOf("ViewCounterpartyAllPaymentHistory") != -1) &&
                         <Link to="/account/statement" class="item">
                             {t("Account statement")}
                         </Link> }
-                    { (AuthStore.activeCounterparty.inAgencyPermissions?.indexOf("AgentInvitation") != -1) &&
+                    { (authStore.activeCounterparty.inAgencyPermissions?.indexOf("AgentInvitation") != -1) &&
                         <Link to="/settings/invite" class="item">
                             {t("Send invitation")}
                         </Link> }

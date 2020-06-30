@@ -8,7 +8,7 @@ import { API } from "core";
 import { Loader, dateFormat, price } from "simple";
 import FieldDatepicker from "components/complex/field-datepicker";
 
-import AuthStore from "stores/auth-store";
+import authStore from "stores/auth-store";
 import store from "stores/accommodation-store";
 
 const initialValues = {
@@ -23,13 +23,13 @@ class AccountStatementPage extends React.Component {
     }
 
     submit(values) {
-        if (!AuthStore.user?.counterparties?.length)
+        if (!authStore.user?.counterparties?.length)
             return;
 
         values = {...initialValues, ...values};
 
         API.post({
-            url: API.BILLING_HISTORY(AuthStore.activeCounterparty.id),
+            url: API.BILLING_HISTORY(authStore.activeCounterparty.id),
             body: {
                 "fromDate": moment(values.start).utc(true).format(),
                 "toDate": moment(values.end).add(1,"d").utc(true).format()
