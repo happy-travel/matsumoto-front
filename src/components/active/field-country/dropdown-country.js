@@ -1,30 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { API } from "core";
 import { Flag, Highlighted, decorate } from "simple";
 
 import UI from "stores/ui-store";
 import View from "stores/view-store";
 
-export const regionInputChanged = (event, props) => {
-    if (props.formik)
-        props.formik.setFieldValue(`${props.id}Code`, "");
-
-    var query = event.target.value;
-    if (!query)
-        return View.setCountries([]);
-
-    API.get({
-        url: API.COUNTRIES_PREDICTION,
-        body: { query },
-        after: (data) => {
-            View.setCountries(data || []);
-        }
-    });
-};
-
 @observer
-class RegionDropdown extends React.Component {
+class CountryDropdown extends React.Component {
     constructor(props) {
         super(props);
         this.generateSuggestion = this.generateSuggestion.bind(this);
@@ -49,7 +31,7 @@ class RegionDropdown extends React.Component {
 
     render() {
         if (!View.countries?.length)
-            return null; //todo: change to separated lists for different inputs
+            return null;
 
         const {
             connected,
@@ -87,4 +69,4 @@ class RegionDropdown extends React.Component {
     }
 }
 
-export default RegionDropdown;
+export default CountryDropdown;

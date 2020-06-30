@@ -14,8 +14,8 @@ import {
     FieldTextarea,
     FieldSelect
 } from "components/form";
+import FieldCountry from "components/active/field-country";
 import { registrationCounterpartyValidator } from "components/form/validation";
-import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 
 import store from "stores/auth-store";
 import UI from "stores/ui-store";
@@ -61,12 +61,6 @@ class RegistrationCounterparty extends React.Component {
         });
     }
 
-    setCountryValue(country, formik, connected) {
-        formik.setFieldValue(connected, country.name);
-        formik.setFieldValue(connected+"Code", country.code);
-        View.setCountries([]);
-    }
-
     render() {
         var { t } = useTranslation();
 
@@ -75,9 +69,6 @@ class RegistrationCounterparty extends React.Component {
 
         return (
             <div class="account block sign-up-page">
-                <div class="hide">
-                    {'' + View.countries}
-                </div>
                 <section>
                     <div class="logo-wrapper">
                         <div class="logo" />
@@ -151,16 +142,11 @@ class RegistrationCounterparty extends React.Component {
                                             />
                                         </div>
                                         <div class="row">
-                                            <FieldText formik={formik}
-                                                       id="country"
-                                                       additionalFieldForValidation="countryCode"
-                                                       label={t("Country")}
-                                                       placeholder={t("Country")}
-                                                       Dropdown={RegionDropdown}
-                                                       onChange={regionInputChanged}
-                                                       options={View.countries}
-                                                       setValue={this.setCountryValue}
-                                                       required
+                                            <FieldCountry formik={formik}
+                                                          id="country"
+                                                          label={t("Country")}
+                                                          placeholder={t("Country")}
+                                                          required
                                             />
                                         </div>
                                         <div class="row">

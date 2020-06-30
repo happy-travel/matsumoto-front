@@ -2,17 +2,15 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 
-import { Flag, Loader } from "simple";
-import { CachedForm, FieldText, FieldSelect, FieldSwitch } from "components/form";
-import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
+import { Loader } from "simple";
+import { CachedForm, FieldSelect, FieldSwitch } from "components/form";
+import FieldCountry from "components/active/field-country";
 import {
     loadUserSettings,
     saveUserSettings
 } from "simple/logic/user-settings";
 
 import authStore from "stores/auth-store";
-import UI from "stores/ui-store";
-import View from "stores/view-store";
 
 @observer
 class UserApplicationSettings extends React.Component {
@@ -33,12 +31,6 @@ class UserApplicationSettings extends React.Component {
             () => this.setState({ loading: false })
         );
     }
-
-    setCountryValue(country, formik, connected) {
-        View.setCountries([]);
-        formik.setFieldValue(connected, country.name);
-        formik.setFieldValue(connected+"Code", country.code);
-    };
 
     render() {
         const { t } = useTranslation();
@@ -87,29 +79,19 @@ class UserApplicationSettings extends React.Component {
                                 />
                             </div>
                             <div class="row">
-                                <FieldText formik={formik}
-                                           id="nationality"
-                                           label={t("Predefined Nationality")}
-                                           placeholder={t("Choose nationality")}
-                                           clearable
-                                           Flag={<Flag code={formik.values.nationalityCode} />}
-                                           Dropdown={RegionDropdown}
-                                           onChange={regionInputChanged}
-                                           options={UI.countries}
-                                           setValue={this.setCountryValue}
-                                           onClear={() => formik.setFieldValue("nationalityCode", "")}
+                                <FieldCountry formik={formik}
+                                              id="nationality"
+                                              anotherField="residency"
+                                              label={t("Nationality")}
+                                              placeholder={t("Choose your nationality")}
+                                              clearable
                                 />
-                                <FieldText formik={formik}
-                                           id="residency"
-                                           label={t("Predefined Residency")}
-                                           placeholder={t("Choose residency")}
-                                           clearable
-                                           Flag={<Flag code={formik.values.residencyCode} />}
-                                           Dropdown={RegionDropdown}
-                                           onChange={regionInputChanged}
-                                           options={UI.countries}
-                                           setValue={this.setCountryValue}
-                                           onClear={() => formik.setFieldValue("residencyCode", "")}
+                                <FieldCountry formik={formik}
+                                              id="residency"
+                                              anotherField="nationality"
+                                              label={t("Residency")}
+                                              placeholder={t("Choose your residency")}
+                                              clearable
                                 />
                             </div>
                             <div class="row controls">

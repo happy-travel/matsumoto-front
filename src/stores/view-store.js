@@ -8,26 +8,7 @@ class ViewStore {
     @observable topAlertText = null;
 
     setCountries(value) {
-        const newGroupedCountries = value.reduce(function (r, a) {
-            r[a.regionId] = r[a.regionId] || [];
-            r[a.regionId].push(a);
-            return r;
-        }, Object.create(null));
-        let countries = [];
-        UI.regionList?.forEach(region => {
-            if (newGroupedCountries[region.id]) {
-                countries = countries.concat(newGroupedCountries[region.id].sort((a, b) => {
-                    if (a.name > b.name) {
-                        return 1;
-                    }
-                    if (a.name < b.name) {
-                        return -1;
-                    }
-                    return 0;
-                }));
-            }
-        });
-        this.countries = countries;
+        this.countries = value;
     }
 
     setDestinationSuggestions(value = [], currentValue) {

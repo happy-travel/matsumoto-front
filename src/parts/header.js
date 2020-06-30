@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import UserMenu from "components/switchers/user-menu";
+import UserMenu from "components/active/user-menu";
 
 import { Authorized } from "core/auth";
 

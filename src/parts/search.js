@@ -3,13 +3,13 @@ import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, session } from "core";
-import { dateFormat, Flag, Stars } from "simple";
+import { dateFormat, Stars } from "simple";
 
 import { Redirect } from "react-router-dom";
 import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";
+import FieldCountry, { searchFormSetDefaultCountries } from "components/active/field-country";
 import { accommodationSearchValidator } from "components/form/validation";
 
-import RegionDropdown, { regionInputChanged } from "components/form/dropdown/region";
 import DateDropdown from "components/form/dropdown/date";
 import PeopleDropdown from "components/form/dropdown/room-details";
 import DestinationDropdown from "../components/form/dropdown/destination";
@@ -160,7 +160,7 @@ class AccommodationSearch extends React.Component {
         if (currentValue.trim)
             currentValue = currentValue.trim();
         if (!currentValue)
-            return View.setCountries([]);
+            return View.setDestinationSuggestions([]);
 
         if (props.formik)
             props.formik.setFieldValue("predictionResult", null);
@@ -186,22 +186,6 @@ class AccommodationSearch extends React.Component {
             this.setState({
                 redirectToVariantsPage: false
             });
-    }
-
-    setCountryValue(country, formik, connected) {
-        View.setCountries([]);
-
-        const anotherField = {
-            "residency": "nationality",
-            "nationality": "residency"
-        };
-        formik.setFieldValue(connected, country.name);
-        formik.setFieldValue(`${connected}Code`, country.code);
-
-        if (!formik.values[`${anotherField[connected]}Code`]) {
-            formik.setFieldValue(anotherField[connected], country.name);
-            formik.setFieldValue(`${anotherField[connected]}Code`, country.code);
-        }
     }
 
     setDestinationValue(item, formik, silent, currentValue) {
@@ -240,7 +224,6 @@ class AccommodationSearch extends React.Component {
                 <section>
                     <div class="hide">
                         {'' + UI.advancedSearch}
-                        {'' + View.countries}
                         {'' + View.destinations}
                         {JSON.stringify(store.suggestion)}
                     </div>
@@ -270,17 +253,7 @@ class AccommodationSearch extends React.Component {
                             predictionResult: null,
                             predictionDestination: ""
                         }}
-                        valuesOverwrite={values => {
-                            if (!values.residency || !values.residencyCode) {
-                                values.residency = authStore.settings.residency || "";
-                                values.residencyCode = authStore.settings.residencyCode || "";
-                            }
-                            if (!values.nationality || !values.nationalityCode) {
-                                values.nationality = authStore.settings.nationality || "";
-                                values.nationalityCode = authStore.settings.nationalityCode || "";
-                            }
-                            return values;
-                        }}
+                        valuesOverwrite={searchFormSetDefaultCountries}
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
                         enableReinitialize={!authStore.settings.loaded}
@@ -377,33 +350,21 @@ class AccommodationSearch extends React.Component {
                                         />
                                     </div>
                                     <div class="row">
-                                        <FieldText formik={formik}
-                                                   id="nationality"
-                                                   additionalFieldForValidation="nationalityCode"
-                                                   label={t("Nationality")}
-                                                   placeholder={t("Choose your nationality")}
-                                                   clearable
-                                                   Flag={<Flag code={formik.values.nationalityCode} />}
-                                                   Dropdown={RegionDropdown}
-                                                   onChange={regionInputChanged}
-                                                   options={View.countries}
-                                                   setValue={this.setCountryValue}
-                                                   addClass="size-large"
-                                                   onClear={() => formik.setFieldValue("nationalityCode", '')}
+                                        <FieldCountry formik={formik}
+                                                      id="nationality"
+                                                      anotherField="residency"
+                                                      label={t("Nationality")}
+                                                      placeholder={t("Choose your nationality")}
+                                                      addClass="size-large"
+                                                      clearable
                                         />
-                                        <FieldText formik={formik}
-                                                   id="residency"
-                                                   additionalFieldForValidation="residencyCode"
-                                                   label={t("Residency")}
-                                                   placeholder={t("Choose your residency")}
-                                                   clearable
-                                                   Flag={<Flag code={formik.values.residencyCode} />}
-                                                   Dropdown={RegionDropdown}
-                                                   options={View.countries}
-                                                   setValue={this.setCountryValue}
-                                                   onChange={regionInputChanged}
-                                                   addClass="size-large"
-                                                   onClear={() => formik.setFieldValue("residencyCode", '')}
+                                        <FieldCountry formik={formik}
+                                                      id="residency"
+                                                      anotherField="nationality"
+                                                      label={t("Residency")}
+                                                      placeholder={t("Choose your residency")}
+                                                      addClass="size-large"
+                                                      clearable
                                         />
                                         <div class="field">
                                             <div class="label"/>
