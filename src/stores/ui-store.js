@@ -21,8 +21,6 @@ class UIStore {
     @observable regions = [];
     @observable currencies = [];
     @observable initialized = false;
-    @observable openDropdown = null;
-    @observable focusedDropdownIndex = null;
     @observable suggestions = {
         "destination": null,
         "nationality": null,
@@ -85,21 +83,13 @@ class UIStore {
             return 0;
         });
     }
+
     setInitialized(value) {
         this.initialized = value || false;
     }
 
     setCurrencies(value) {
         this.currencies = value || [];
-    }
-
-    setOpenDropdown(id) {
-        this.openDropdown = id || null;
-        this.focusedDropdownIndex = null;
-    }
-
-    setFocusedDropdownIndex(index) {
-        this.focusedDropdownIndex = index;
     }
 
     setModalData(value) {

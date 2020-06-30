@@ -56,7 +56,7 @@ class CountryDropdown extends React.Component {
                               id={`js-value-${index}`}
                               key={`${country.name}-${country.id}`}
                               onClick={ () => this.props.setValue(country, formik, connected) }
-                              class={"country line" + __class(UI.focusedDropdownIndex === index, "focused")}
+                              class={"country line" + __class(View.lineFocusedInDropdownIndex === index, "focused")}
                             >
                                 <Flag code={country.code} />
                                 <Highlighted str={country.name} highlight={this.props.value} />

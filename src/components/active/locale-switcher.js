@@ -5,7 +5,7 @@ import { localStorage } from "core";
 import { windowLocalStorage } from "core/misc/window-storage";
 import { Flag } from "simple";
 
-import UI from "stores/ui-store";
+import View from "stores/ui-store";
 
 const dropdownId = "LocaleSwitcherDropdown";
 
@@ -25,7 +25,7 @@ class LocaleSwitcherDropdown extends React.Component {
             <React.Fragment>
                 <div class="switcher language-switcher"
                      data-dropdown="close"
-                     onClick={() => UI.setOpenDropdown(dropdownId)}>
+                     onClick={() => View.setOpenDropdown(dropdownId)}>
                     <div class="flag-holder">
                         {t("current_language_name") == "English" ?
                             <Flag code={"gb"} /> :
@@ -35,7 +35,7 @@ class LocaleSwitcherDropdown extends React.Component {
                     <div class="name">{t("current_language_name")}</div>
                     <div class="switch-arrow" />
 
-                    {dropdownId == UI.openDropdown && <div class="locale dropdown">
+                    {dropdownId == View.openDropdown && <div class="locale dropdown">
                         <div class="item" onClick={this.changeLanguage.bind(null, i18n, "ar")}>
                             <Flag code={"ae"} />
                             <span>اللغة الحالية</span>

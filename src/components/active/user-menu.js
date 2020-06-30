@@ -2,10 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { ReactComponent as NoAvatar } from "./images/no-avatar.svg";
 
 import AuthStore from "stores/auth-store";
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 const dropdownId = "UserMenuDropdown",
       calcTitleFor = (value) => (value?.length > 14 ? { title: value } : {});
@@ -25,15 +24,13 @@ class UserMenuDropdown extends React.Component {
         return (
             <div class="switcher user-switcher"
                  data-dropdown="close"
-                 onClick={() => UI.setOpenDropdown(dropdownId)}>
-                <div class="avatar">
-                    <NoAvatar />
-                </div>
+                 onClick={() => View.setOpenDropdown(dropdownId)}>
+                <div class="avatar" />
                 <div class="double">
                     <div class="name" {...calcTitleFor(AuthStore.user?.firstName + AuthStore.user?.lastName)}>{AuthStore.user?.firstName} {AuthStore.user?.lastName}</div>
                     <div class="company" {...calcTitleFor(AuthStore.activeCounterparty.name)}>{AuthStore.activeCounterparty.name}</div>
                 </div>
-                {dropdownId == UI.openDropdown && <div class="user-menu dropdown">
+                {dropdownId == View.openDropdown && <div class="user-menu dropdown">
                     <Link to="/agent/booking" class="item">
                         {t("Booking management")}
                     </Link>

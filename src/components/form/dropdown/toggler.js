@@ -1,18 +1,18 @@
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 export default () => {
     window.addEventListener("mouseup", event => {
-        if (!UI.openDropdown)
+        if (!View.openDropdown)
             return;
 
         var target = event.target;
         for (var i = 0; target && i < 30; i++){
             if (target?.dataset?.dropdown) {
-                if (UI.openDropdown != target?.dataset?.dropdown) {
+                if (View.openDropdown != target?.dataset?.dropdown) {
                     if ("close" != target?.dataset?.dropdown)
-                        UI.setOpenDropdown(null);
+                        View.setOpenDropdown(null);
                     else
-                        setTimeout(() => UI.setOpenDropdown(null), 0);
+                        setTimeout(() => View.setOpenDropdown(null), 0);
                 }
 
                 return;
@@ -20,11 +20,11 @@ export default () => {
             target = target.parentNode;
         }
 
-        UI.setOpenDropdown(null);
+        View.setOpenDropdown(null);
     });
 
     window.addEventListener("keyup", event => {
         if (event?.keyCode == 27) // Escape
-            UI.setOpenDropdown(null);
+            View.setOpenDropdown(null);
     });
 };

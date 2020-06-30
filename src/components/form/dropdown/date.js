@@ -53,7 +53,7 @@ class DateDropdown extends React.Component {
                     showLegend={false}
                     paginationArrowComponent={PaginationArrowComponent}
                     value={options}
-                    onSelect={(...args) => {setValue(...args); UI.setOpenDropdown(null);}}
+                    onSelect={(...args) => {setValue(...args); View.setOpenDropdown(null);}}
                 />
             </div>
         );

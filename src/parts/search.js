@@ -82,7 +82,7 @@ class AccommodationSearch extends React.Component {
     }
 
     submit(values, formik) {
-        UI.setOpenDropdown(null);
+        View.setOpenDropdown(null);
         if (values.predictionDestination != values.destination)
             formik.setFieldValue("destination", values.predictionDestination);
 

@@ -43,7 +43,7 @@ class SelectDropdown extends React.Component {
         if (!formik) return;
 
         formik.setFieldValue(connected, item.value);
-        UI.setOpenDropdown(null);
+        View.setOpenDropdown(null);
     }
 
     render() {

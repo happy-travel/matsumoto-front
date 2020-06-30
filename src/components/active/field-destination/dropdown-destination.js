@@ -42,7 +42,7 @@ class DestinationDropdown extends React.Component {
                         return (
                             <React.Fragment>
                                 {destinationType}
-                                <div class={"country line" + __class(UI.focusedDropdownIndex === index, "focused")}
+                                <div class={"country line" + __class(View.lineFocusedInDropdownIndex === index, "focused")}
                                      onClick={() => this.props.setValue(item, formik, connected)}>
                                     <Highlighted str={item.value} highlight={this.props.value} />
                                 </div>
