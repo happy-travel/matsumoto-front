@@ -13,13 +13,11 @@ import { accommodationSearchValidator } from "components/form/validation";
 
 import PeopleDropdown from "components/form/dropdown/room-details";
 
-import store from "stores/accommodation-store";
+import { createSearch } from "./search-logic";
+import { countPassengers } from "./search-ui-helpers";
+
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
-
-import { createSearch } from "./search-logic";
-
-import { countPassengers } from "./search-ui-helpers";
 
 @observer
 class AccommodationSearch extends React.Component {
@@ -57,6 +55,7 @@ class AccommodationSearch extends React.Component {
             <div class="search block">
                 { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
                 <section>
+                    <div class="hide">{JSON.stringify(authStore.settings)}</div>
                     <CachedForm
                         id={ FORM_NAMES.SearchForm }
                         initialValues={{
