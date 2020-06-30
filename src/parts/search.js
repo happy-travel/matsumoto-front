@@ -12,14 +12,13 @@ import { accommodationSearchValidator } from "components/form/validation";
 
 import DateDropdown from "components/form/dropdown/date";
 import PeopleDropdown from "components/form/dropdown/room-details";
-import DestinationDropdown from "../components/form/dropdown/destination";
 
 import store from "stores/accommodation-store";
 import UI from "stores/ui-store";
-import View from "stores/view-store";
 import authStore from "stores/auth-store";
 
 import { loadCurrentSearch } from "./accommodation-search-common-logic";
+import FieldDestination from "../components/active/field-destination";
 
 const sum = (values, field) => {
     var result = 0;
@@ -80,8 +79,6 @@ class AccommodationSearch extends React.Component {
             redirectToVariantsPage: false
         };
         this.submit = this.submit.bind(this);
-        this.setDestinationAutoComplete = this.setDestinationAutoComplete.bind(this);
-        this.destinationInputChanged = this.destinationInputChanged.bind(this);
     }
 
     submit(values, formik) {
@@ -155,64 +152,11 @@ class AccommodationSearch extends React.Component {
         });
     }
 
-    destinationInputChanged(e, props) {
-        var currentValue = e.target.value;
-        if (currentValue.trim)
-            currentValue = currentValue.trim();
-        if (!currentValue)
-            return View.setDestinationSuggestions([]);
-
-        if (props.formik)
-            props.formik.setFieldValue("predictionResult", null);
-
-        API.get({
-            url: API.LOCATION_PREDICTION,
-            body: {
-                query: currentValue,
-                sessionId: session.google.create()
-            },
-            after: (data) => {
-                if (currentValue != e.target.value)
-                    return;
-                View.setDestinationSuggestions(data, currentValue);
-                UI.setSuggestion("destination", currentValue, View?.destinations?.length ? View.destinations[0] : "");
-                this.setDestinationAutoComplete(props.formik, true);
-            }
-        });
-    }
-
     componentDidUpdate() {
         if (this.state.redirectToVariantsPage)
             this.setState({
                 redirectToVariantsPage: false
             });
-    }
-
-    setDestinationValue(item, formik, silent, currentValue) {
-        formik.setFieldValue("predictionResult", {
-            "id": item.id,
-            "sessionId": session.google.current(),
-            "source": item.source,
-            "type": item.type
-        });
-        formik.setFieldValue("predictionDestination", item.value);
-
-        if (currentValue)
-            UI.setSuggestion("destination", currentValue, item);
-
-        if (silent !== true) {
-            View.setDestinationSuggestions([]);
-            UI.setSuggestion('destination');
-            formik.setFieldValue('destination', item.value);
-        }
-    }
-
-    setDestinationAutoComplete(formik, silent, suggestion) {
-        var item = UI.suggestions.destination;
-        if (suggestion)
-            item = { value: formik.values.destination, suggestion: suggestion.value, suggestionExtendInfo: suggestion };
-        if (item)
-            this.setDestinationValue(item?.suggestionExtendInfo, formik, silent, item?.value);
     }
 
     render() {
@@ -222,19 +166,13 @@ class AccommodationSearch extends React.Component {
             <div class="search block">
                 { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
                 <section>
-                    <div class="hide">
-                        {'' + UI.advancedSearch}
-                        {'' + View.destinations}
-                        {JSON.stringify(store.suggestion)}
-                    </div>
+                    <div class="hide">{'' + UI.advancedSearch}{JSON.stringify(store.suggestion)}</div>
                     <CachedForm
                         id={ FORM_NAMES.SearchForm }
                         initialValues={{
                             destination: "",
-                            residency: "",
-                            residencyCode: authStore.settings.residencyCode || "",
-                            nationality: "",
-                            nationalityCode: authStore.settings.nationalityCode || "",
+                            residency: "", residencyCode: "",
+                            nationality: "", nationalityCode: "",
                             checkInDate: moment().startOf("day"),
                             checkOutDate: moment().startOf("day").add(1, "d"),
                             roomDetails: [
@@ -261,19 +199,10 @@ class AccommodationSearch extends React.Component {
                             <React.Fragment>
                                 <div class="form">
                                     <div class="row">
-                                        <FieldText formik={formik}
-                                                   id="destination"
-                                                   additionalFieldForValidation="predictionResult"
-                                                   label={t("Destination, Hotel name, Location or Landmark")}
-                                                   placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
-                                                   Icon={<span class="icon icon-hotel" />}
-                                                   Flag={false}
-                                                   Dropdown={DestinationDropdown}
-                                                   options={View.destinations}
-                                                   setValue={this.setDestinationValue}
-                                                   onChange={this.destinationInputChanged}
-                                                   setAutoComplete={this.setDestinationAutoComplete}
-                                                   clearable
+                                        <FieldDestination formik={formik}
+                                                          id="destination"
+                                                          label={t("Destination, Hotel name, Location or Landmark")}
+                                                          placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
                                         />
                                         <FieldText formik={formik}
                                                    id="dates"

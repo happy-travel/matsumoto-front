@@ -11,7 +11,7 @@ import UI from "stores/ui-store";
 
 const codeField = field => field+"Code";
 
-const setCountries = value => {
+const setCountrySuggestions = value => {
     const newGroupedCountries = value.reduce(function (r, a) {
         r[a.regionId] = r[a.regionId] || [];
         r[a.regionId].push(a);
@@ -46,19 +46,19 @@ class FieldCountry extends React.Component {
 
         var query = event.target.value;
         if (!query)
-            return setCountries([]);
+            return setCountrySuggestions([]);
 
         API.get({
             url: API.COUNTRIES_PREDICTION,
             body: { query },
             after: data => {
-                setCountries(data || []);
+                setCountrySuggestions(data || []);
             }
         });
     };
     
     setValue(country, formik, connected) {
-        setCountries([]);
+        setCountrySuggestions([]);
 
         formik.setFieldValue(connected, country.name);
         formik.setFieldValue(codeField(connected), country.code);
