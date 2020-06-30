@@ -32,6 +32,16 @@ class AccommodationVariantsPage extends React.Component {
         this.setState({
             loading: true
         });
+
+        store.setSelectedAccommodationFullDetails(null);
+        API.get({
+            url: API.ACCOMMODATION_DETAILS(
+                accommodation.accommodationDetails.id,
+                accommodation.source
+            ),
+            success: result => store.setSelectedAccommodationFullDetails(result)
+        });
+
         API.post({
             url: API.A_SEARCH_STEP_TWO(
                 accommodation.availabilityId,

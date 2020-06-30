@@ -24,6 +24,7 @@ class AccommodationStore {
     selected = {
         roomContractSet: null,
         accommodation: null,
+        accommodationFullDetails: null,
         accommodationFinal: null,
         deadlineDetails: null,
         availabilityId: null
@@ -127,6 +128,10 @@ class AccommodationStore {
             ...accommodation.data,
             source: accommodation.source
         };
+    }
+
+    setSelectedAccommodationFullDetails(details) {
+        this.selected.accommodationFullDetails = details;
     }
 
     selectRoomContractSet(result, preloaded) {

@@ -86,7 +86,9 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         if (this.state.redirectToVariantsPage)
             return <Redirect push to="/search" />;
 
-        if (!item?.accommodationDetails)
+        const details = store.selected.accommodationFullDetails || item?.accommodationDetails;
+
+        if (!details)
             return null;
 
         return (
@@ -114,7 +116,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                             text: store.search.request?.destination,
                             link: "/search"
                         }, {
-                            text: item.accommodationDetails.name
+                            text: details.name
                         }
                     ]}
                         backLink="/search"
@@ -123,7 +125,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 { this.state.loading && <Loader page /> }
 
                 <AccommodationCommonDetails
-                    accommodation={item.accommodationDetails}
+                    accommodation={details}
                     fromPage
                 />
 
@@ -134,8 +136,8 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                         <div class="subpart">
                             <div class="h1">{t("Check In Date")}</div>
                             <div class="h2">{dateFormat.d(store.search.request.checkInDate)}</div>
-                            { item.accommodationDetails?.schedule?.checkInTime &&
-                              <div class="h3">{t("From")} {item.accommodationDetails.schedule.checkInTime}</div> }
+                            { details?.schedule?.checkInTime &&
+                              <div class="h3">{t("From")} {details.schedule.checkInTime}</div> }
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Check Out Date")}</div>
@@ -170,7 +172,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                             { item?.roomContractSets?.map(roomContractSet =>
                                 <tr>
                                     <td class="room-contract-set">
-                                        <span onClick={() => this.roomContractSetSelect(roomContractSet, item.accommodationDetails)}>
+                                        <span onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
                                             <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
                                         </span>
                                     </td>
@@ -197,7 +199,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        <button class="button small" onClick={() => this.roomContractSetSelect(roomContractSet, item.accommodationDetails)}>
+                                        <button class="button small" onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
                                             {t("Book it")}
                                         </button>
                                     </td>
