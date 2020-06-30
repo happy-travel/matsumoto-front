@@ -28,11 +28,12 @@ class DestinationDropdown extends React.Component {
 
         const {
             connected,
-            formik
+            formik,
+            focusIndex
         } = this.props;
 
         return (
-            <div class="cities dropdown">
+            <div class="region dropdown">
                 <div class="scroll">
                     {View?.destinations?.map?.((item, index) => {
                         let destinationType = null;
@@ -42,7 +43,8 @@ class DestinationDropdown extends React.Component {
                         return (
                             <React.Fragment>
                                 {destinationType}
-                                <div class={"country line" + __class(View.lineFocusedInDropdownIndex === index, "focused")}
+                                <div id={`js-value-${index}`}
+                                     class={"country line" + __class(focusIndex === index, "focused")}
                                      onClick={() => this.props.setValue(item, formik, connected)}>
                                     <Highlighted str={item.value} highlight={this.props.value} />
                                 </div>

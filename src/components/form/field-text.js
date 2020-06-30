@@ -14,6 +14,7 @@ class FieldText extends React.Component {
         super(props);
         this.state = {
             focus: false,
+            ddFocusIndex: null,
             everBlured: false,
             everChanged: false
         };
@@ -27,9 +28,10 @@ class FieldText extends React.Component {
     onFocus() {
         if (this.props.Dropdown) {
             var newOpenDropdown = this.props.id;
-            if (View.openDropdown == newOpenDropdown)
+            if (View.isDropdownOpen(newOpenDropdown))
                 newOpenDropdown = null;
             View.setOpenDropdown(newOpenDropdown);
+            this.setState({ ddFocusIndex: null });
         }
 
         this.setState({
@@ -54,7 +56,7 @@ class FieldText extends React.Component {
 
     onKeyDown(e) {
         if (this.props.Dropdown && this.props.options) {
-            let value = this.props.options[View.lineFocusedInDropdownIndex];
+            let value = this.props.options[this.state.ddFocusIndex];
             let {suggestion} = this.props;
             const {formik, id} = this.props;
             switch (e.keyCode) {
@@ -77,27 +79,27 @@ class FieldText extends React.Component {
                     break;
                 case 38: // Arrow top
                     // Move up in suggestion list
-                    if (View.lineFocusedInDropdownIndex > 0) {
-                        View.setLineFocusedInDropdownIndex(View.lineFocusedInDropdownIndex - 1);
-                        const focusedElement = document.getElementById(`js-value-${View.lineFocusedInDropdownIndex}`);
+                    if (this.state.ddFocusIndex > 0) {
+                        this.setState({ ddFocusIndex: this.state.ddFocusIndex - 1 });
+                        const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
                         scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
                     } else {
                         scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
                     }
-                    value = this.props.options[View.lineFocusedInDropdownIndex];
+                    value = this.props.options[this.state.ddFocusIndex];
                     if (this.props.setAutoComplete)
                         this.props.setAutoComplete(this.props.formik, true, value);
                     break;
                 case 40: // Arrow bottom
                     // Move down in suggestion list
-                    if (View.lineFocusedInDropdownIndex === null || this.props.options.length > View.lineFocusedInDropdownIndex + 1) {
-                        View.setLineFocusedInDropdownIndex(View.lineFocusedInDropdownIndex !== null ? View.lineFocusedInDropdownIndex + 1 : 0);
-                        if (View.lineFocusedInDropdownIndex < this.props.options.length - 2) { // disable scroll to last element
-                            const focusedElement = document.getElementById(`js-value-${View.lineFocusedInDropdownIndex}`);
+                    if (this.state.ddFocusIndex === null || this.props.options.length > this.state.ddFocusIndex + 1) {
+                        this.setState({ddFocusIndex: this.state.ddFocusIndex !== null ? this.state.ddFocusIndex + 1 : 0 });
+                        if (this.state.ddFocusIndex < this.props.options.length - 2) { // disable scroll to last element
+                            const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
                             scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
                         }
                     }
-                    value = this.props.options[View.lineFocusedInDropdownIndex];
+                    value = this.props.options[this.state.ddFocusIndex];
                     if (this.props.setAutoComplete)
                         this.props.setAutoComplete(this.props.formik, true, value);
                     break;
@@ -122,8 +124,10 @@ class FieldText extends React.Component {
     }
 
     changing(event) {
-        if (this.props.Dropdown)
+        if (this.props.Dropdown) {
             View.setOpenDropdown(this.props.id);
+            this.setState({ ddFocusIndex: null });
+        }
 
         if (this.props.numeric) {
             if ("/" == this.props.numeric)
@@ -232,18 +236,19 @@ class FieldText extends React.Component {
                             <div class="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>
-                    {((formik?.errors[id]?.length > 1) && formik?.touched[id] && (View.openDropdown != id)) ?
+                    {((formik?.errors[id]?.length > 1) && formik?.touched[id] && (!View.isDropdownOpen(id))) ?
                         <div class={"error-holder" +
                                     __class(!this.state.everBlured || !this.state.everChanged || this.state.focus, "possible-hide") //possible-hide
                         }>{formik.errors[id]}</div>
                     : null}
                 </label>
-                { Dropdown ? <div class={__class(View.openDropdown != id, "hide")}>
+                { Dropdown ? <div class={__class(!View.isDropdownOpen(id), "hide")}>
                     <Dropdown formik={formik}
                               connected={id}
                               setValue={setValue}
                               value={getValue(formik, id)}
                               options={options}
+                              focusIndex={this.state.ddFocusIndex}
                     />
                 </div> : null }
             </div>

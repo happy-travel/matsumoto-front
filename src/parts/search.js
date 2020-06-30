@@ -15,6 +15,7 @@ import PeopleDropdown from "components/form/dropdown/room-details";
 
 import store from "stores/accommodation-store";
 import UI from "stores/ui-store";
+import View from "stores/view-store";
 import authStore from "stores/auth-store";
 
 import { loadCurrentSearch } from "./accommodation-search-common-logic";

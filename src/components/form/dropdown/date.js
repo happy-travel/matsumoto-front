@@ -2,7 +2,7 @@ import React from "react";
 import DateRangePicker from "react-daterange-picker";
 import { observer } from "mobx-react";
 
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 import authStore from "stores/auth-store";
 
 const stateDefinitions = {

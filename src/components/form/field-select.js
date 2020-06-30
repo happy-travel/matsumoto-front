@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import FieldText from "./field-text";
 
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 const getDeepValue = (obj, path) => {
     if (!obj || !path)

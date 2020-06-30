@@ -3,10 +3,13 @@ import { observable } from "mobx";
 class ViewStore {
     @observable topAlertText = null;
     @observable openDropdown = null;
-    @observable lineFocusedInDropdownIndex = null;
 
     @observable countries = [];
     @observable destinations = [];
+
+    isDropdownOpen(id) {
+        return this.openDropdown === id;
+    }
 
     setTopAlertText(value) {
         this.topAlertText = value || null;
@@ -14,11 +17,6 @@ class ViewStore {
 
     setOpenDropdown(id) {
         this.openDropdown = id || null;
-        this.lineFocusedInDropdownIndex = null;
-    }
-
-    setLineFocusedInDropdownIndex(index) {
-        this.lineFocusedInDropdownIndex = index;
     }
 
     setCountries(value) {

@@ -8,7 +8,7 @@ export default () => {
         var target = event.target;
         for (var i = 0; target && i < 30; i++){
             if (target?.dataset?.dropdown) {
-                if (View.openDropdown != target?.dataset?.dropdown) {
+                if (!View.isDropdownOpen(target?.dataset?.dropdown)) {
                     if ("close" != target?.dataset?.dropdown)
                         View.setOpenDropdown(null);
                     else
