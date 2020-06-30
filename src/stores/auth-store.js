@@ -23,6 +23,10 @@ class AuthStore {
     settings = defaultUserSettings;
 
     @observable
+    @setter
+    counterpartyInfo = null;
+
+    @observable
     registration = {
         "agent": {},
         "counterparty": {}

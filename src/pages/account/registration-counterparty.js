@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Redirect, Link } from "react-router-dom";
 import { API } from "core";
-import { userAuthSetToStorage } from "core/auth";
+import { finishAgentRegistration } from "./registration-agent";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -18,7 +18,6 @@ import FieldCountry from "components/complex/field-country";
 import { registrationCounterpartyValidator } from "components/form/validation";
 
 import store from "stores/auth-store";
-import UI from "stores/ui-store";
 import View from "stores/view-store";
 
 @observer
@@ -38,22 +37,10 @@ class RegistrationCounterparty extends React.Component {
             url: API.USER_REGISTRATION_M,
             body: store.registration,
             success: () => {
-                API.get({
-                    url: API.USER,
-                    success: (user) => {
-                        if (user?.email)
-                            store.setUser(user);
-                        userAuthSetToStorage(user);
-                    }
-                });
-                store.setRegistrationUserForm({});
-                store.setRegistrationCounterpartyForm({});
+                finishAgentRegistration();
                 this.setState({ redirectToIndexPage: true });
-
-                UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
-                UI.dropFormCache(FORM_NAMES.RegistrationStepThreeForm);
             },
-            error: (error) => {
+            error: error => {
                 View.setTopAlertText(error?.title || error?.detail);
                 if (error && !(error?.title || error?.detail))
                     this.setState({ redirectToIndexPage: true });

@@ -2,11 +2,12 @@ import React from "react";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { API } from "core";
 
 import { Loader } from "simple";
 import { FieldText, FieldTextarea } from "components/form";
 import SettingsHeader from "./parts/settings-header";
+
+import { loadCounterpartyInfo } from "simple/logic/user-settings";
 
 import authStore from "stores/auth-store";
 
@@ -15,17 +16,14 @@ export default class CounterpartySettings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true,
-            information: null
+            loading: true
         }
     }
 
     componentDidMount() {
-        API.get({
-            url: API.COUNTERPARTY_INFO(authStore.activeCounterparty.id),
-            success: information => this.setState({ information }),
-            after: () => this.setState({ loading: false })
-        });
+        loadCounterpartyInfo(
+            () => this.setState({ loading: false })
+        );
     }
 
     render() {
@@ -37,7 +35,7 @@ export default class CounterpartySettings extends React.Component {
             { this.state.loading && <Loader />}
             { !this.state.loading && <section>
                 <Formik
-                    initialValues={this.state.information || {}}
+                    initialValues={authStore.counterpartyInfo || {}}
                     enableReinitialize={true}
                     onSubmit={() => {}}
                 >

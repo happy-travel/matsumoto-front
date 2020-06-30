@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { API } from "core";
 import { userAuthSetToStorage } from "core/auth";
 
@@ -9,12 +9,31 @@ import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { CachedForm, FORM_NAMES } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
+import { fillEmptyUserSettings } from "simple/logic/user-settings";
 
 import FormUserData from "parts/form-user-data";
 
 import store from "stores/auth-store";
 import View from "stores/view-store";
 import UI from "stores/ui-store";
+
+export const finishAgentRegistration = () => {
+    API.get({
+        url: API.USER,
+        success: (user) => {
+            if (user?.email)
+                store.setUser(user);
+            userAuthSetToStorage(user);
+            fillEmptyUserSettings();
+        }
+    });
+
+    window.sessionStorage.removeItem("_auth__invCode");
+    store.setRegistrationUserForm({});
+    store.setRegistrationCounterpartyForm({});
+    UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
+    UI.dropFormCache(FORM_NAMES.RegistrationStepThreeForm);
+};
 
 @observer
 class RegistrationAgent extends React.Component {
@@ -46,20 +65,10 @@ class RegistrationAgent extends React.Component {
                     invitationCode: this.state.invitationCode
                 },
                 success: () => {
-                    API.get({
-                        url: API.USER,
-                        success: (user) => {
-                            if (user?.email)
-                                store.setUser(user);
-                            userAuthSetToStorage(user);
-                        }
-                    });
-                    UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
-                    window.sessionStorage.removeItem("_auth__invCode");
-
+                    finishAgentRegistration();
                     this.setState({ redirectToIndexPage: true });
                 },
-                error: (error) => {
+                error: error => {
                     View.setTopAlertText(error?.title || error?.detail);
                     if (error && !(error?.title || error?.detail))
                         this.setState({ redirectToIndexPage: true });
