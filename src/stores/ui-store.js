@@ -67,8 +67,9 @@ class UIStore {
         return (this.initialized && this.regions.length && this.currencies.length);
     }
 
-    getSuggestion(field, value) {
-        if (this.suggestions[field] && this.suggestions[field].suggestion && value == this.suggestions[field].value)
+    getSuggestion(field, value = "") {
+        if (this.suggestions?.[field]?.suggestion &&
+            value.trim() == (this.suggestions[field]?.value || "").trim())
             return decorate.cutFirstPart(this.suggestions[field].suggestion, value);
 
         return null;

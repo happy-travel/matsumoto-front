@@ -57,7 +57,6 @@ class AccommodationSearch extends React.Component {
             <div class="search block">
                 { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
                 <section>
-                    <div class="hide">{JSON.stringify(store.suggestion)}{JSON.stringify(authStore.settings)}</div>
                     <CachedForm
                         id={ FORM_NAMES.SearchForm }
                         initialValues={{
@@ -87,7 +86,7 @@ class AccommodationSearch extends React.Component {
                         valuesOverwrite={searchFormSetDefaultCountries}
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
-                        enableReinitialize={!authStore.settings.loaded}
+                        enableReinitialize={true}
                         render={(formik, reset) => (
                             <React.Fragment>
                                 <div class="form">

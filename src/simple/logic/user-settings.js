@@ -2,17 +2,15 @@ import { API } from "core";
 
 import authStore from "stores/auth-store";
 
-const settingsCleaner = values => {
-    return {
-        nationality: values.nationality,
-        residency: values.residency,
-        nationalityCode: values.nationalityCode,
-        residencyCode: values.residencyCode,
-        weekStarts: values.weekStarts,
-        preferredLanguage: values.preferredLanguage,
-        availableCredit: values.availableCredit
-    };
-};
+const settingsCleaner = values => ({
+    nationality: values.nationality,
+    residency: values.residency,
+    nationalityCode: values.nationalityCode,
+    residencyCode: values.residencyCode,
+    weekStarts: values.weekStarts,
+    preferredLanguage: values.preferredLanguage,
+    availableCredit: values.availableCredit
+});
 
 export const loadUserSettings = () => {
     API.get({

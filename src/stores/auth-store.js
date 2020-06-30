@@ -4,7 +4,6 @@ import setter from "core/mobx/setter";
 import { decorate } from "simple";
 
 const defaultUserSettings = {
-    loaded: false,
     weekStarts: 0,
     availableCredit: true
 };
@@ -40,8 +39,7 @@ class AuthStore {
     setSettings(value = {}) {
         this.settings = {
             ...value,
-            ...this.settings,
-            loaded: true
+            ...this.settings
         };
     }
 

@@ -38,10 +38,15 @@ class FieldDestination extends React.Component {
         this.setDestinationAutoComplete = this.setDestinationAutoComplete.bind(this);
     }
 
+    setSuggestion(value) {
+        UI.setSuggestion("destination", value, View?.destinations?.length ? View.destinations[0] : "");
+    }
+
     inputChanged(event, props) {
         var currentValue = event.target.value;
         if (currentValue.trim)
             currentValue = currentValue.trim();
+        this.setSuggestion(currentValue);
         if (!currentValue)
             return View.setDestinations([]);
 
@@ -72,13 +77,8 @@ class FieldDestination extends React.Component {
             "type": item.type
         });
         formik.setFieldValue("predictionDestination", item.value);
-
-        if (currentValue)
-            UI.setSuggestion("destination", currentValue, item);
-
         if (silent !== true) {
             setDestinationSuggestions([]);
-            UI.setSuggestion("destination");
             formik.setFieldValue('destination', item.value);
         }
     }
