@@ -1,6 +1,6 @@
 import settings from "settings";
 import Authorize from "core/auth/authorize";
-import { userAuthRemoveFromStorage, isPageAvailableAuthorizedOnly } from "core/auth";
+import { isPageAvailableAuthorizedOnly } from "core/auth";
 import View from "stores/view-store";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
@@ -100,11 +100,6 @@ API_METHODS = {
 
 let _ = API_METHODS;
 
-_.methods_with_cache = [
-    _.BASE_REGIONS,
-    _.BASE_CURRENCIES
-];
-
 _.methods_dont_show_error = [
     _.USER,
     _.PAYMENTS_CARD_NEW
@@ -121,10 +116,8 @@ _.request = ({
 }) => {
 Authorize.getUser().then(user => {
     if (!external_url && !user?.access_token) {
-        if (isPageAvailableAuthorizedOnly()) {
-            userAuthRemoveFromStorage();
+        if (isPageAvailableAuthorizedOnly())
             Authorize.signinRedirect();
-        }
         return;
     }
 
@@ -147,8 +140,6 @@ Authorize.getUser().then(user => {
         ).join("&");
         finalUrl += (getBody ? "?" + getBody : "");
     }
-
-    // todo: cache
 
     var rawResponse = null,
         failed = false;

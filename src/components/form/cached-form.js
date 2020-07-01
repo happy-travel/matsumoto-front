@@ -12,7 +12,6 @@ class CachedForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            initialized: false,
             initialValues: this.getInitialValues(),
             everSubmitted: false
         };

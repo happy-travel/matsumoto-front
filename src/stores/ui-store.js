@@ -1,4 +1,4 @@
-import { observable, computed } from "mobx";
+import { observable } from "mobx";
 import autosave from "core/misc/autosave";
 import setter from "core/mobx/setter";
 import { decorate } from "simple";
@@ -25,10 +25,6 @@ class UIStore {
     @observable
     @setter([])
     currencies = [];
-
-    @observable
-    @setter(false)
-    initialized = false;
 
     @observable
     suggestions = {
@@ -61,10 +57,6 @@ class UIStore {
 
     constructor() {
         autosave(this, "_ui_store_cache");
-    }
-
-    @computed get isAppInitialized() {
-        return (this.initialized && this.regions.length && this.currencies.length);
     }
 
     getSuggestion(field, value = "") {

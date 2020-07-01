@@ -8,7 +8,7 @@ import { loadUserSettings } from "simple/logic/user-settings";
 import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
 
-const init = () => {
+export const initApplication = () => {
     if (window.location.href.indexOf("/auth/") > 0)
         return;
 
@@ -18,6 +18,10 @@ const init = () => {
             window.sessionStorage.setItem("_auth__invCode", getParams().invCode);
     }
 
+    dropdownToggler();
+};
+
+export const initUser = () => {
     API.get({
         url: API.USER,
         success: (result) => {
@@ -42,32 +46,24 @@ const init = () => {
 
     loadUserSettings();
 
-    if (!UI.isAppInitialized) {
-        API.get({
-            url: API.BASE_REGIONS,
-            success: (result) =>
-                UI.setRegions(result),
-            after: () =>
-                UI.setInitialized(true)
-        });
-        API.get({
-            url: API.BASE_CURRENCIES,
-            success: (result) =>
-                UI.setCurrencies(result)
-        });
-        API.get({
-            url: API.OUR_COMPANY,
-            success: (result) =>
-                UI.setOurCompanyInfo(result)
-        });
-    }
     API.get({
         url: API.BASE_VERSION,
-        success: (result) =>
+        success: (result) => {
+            if (UI.currentAPIVersion != result) {
+                API.get({
+                    url: API.BASE_REGIONS,
+                    success: (result) => UI.setRegions(result)
+                });
+                API.get({
+                    url: API.BASE_CURRENCIES,
+                    success: (result) => UI.setCurrencies(result)
+                });
+                API.get({
+                    url: API.OUR_COMPANY,
+                    success: (result) => UI.setOurCompanyInfo(result)
+                });
+            }
             UI.setCurrentAPIVersion(result)
+        }
     });
-
-    dropdownToggler();
 };
-
-export default init;

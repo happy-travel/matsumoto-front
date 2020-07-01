@@ -1,7 +1,9 @@
 import React from "react";
 import Authorize from "./authorize";
-import init from "core/init";
+import { initUser } from "core/init";
 import { Loader } from "simple";
+import { userAuthSetToStorage } from "./index";
+import { lastPage } from "core/misc/tracker";
 
 class AuthCallbackComponent extends React.PureComponent {
     componentDidMount() {
@@ -13,8 +15,9 @@ class AuthCallbackComponent extends React.PureComponent {
 
     onRedirectSuccess = user => {
         Authorize.clearStaleState();
-        this.props.history.push("/"); //todo: direct url before auth
-        init(); //todo: rewrite logic where init is after authorization code
+        userAuthSetToStorage(user);
+        initUser();
+        this.props.history.push(lastPage());
     };
 
     onRedirectError = error => {

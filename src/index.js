@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
-import init from "core/init";
+import { initApplication } from "core/init";
 import App from "core/app";
 import settings from "settings";
+import tracker from "core/misc/tracker";
 
 if (!__localhost)
     Sentry.init({ dsn: settings.sentry_dsn });
+
+tracker();
 
 window.setPageDirectionFromLS = () => {
     var dir = window.localStorage.getItem('direction');
@@ -18,4 +21,4 @@ window.setPageDirectionFromLS();
 window._renderTheApp = () => ReactDOM.render(<App />, document.getElementById('app'));
 window._renderTheApp();
 
-init();
+initApplication();

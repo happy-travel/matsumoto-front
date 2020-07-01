@@ -86,7 +86,7 @@ const Routes = () => (
         <Route path="/signup/invite/:email/:code" component={acceptInvite} title="Sign Up" />
 
         <Route path="/agent/booking"              component={userBookingManagement} title="Booking List" />
-        <Route path="/account/statement"     component={accountStatement} title="Payment History" />
+        <Route path="/account/statement"          component={accountStatement} title="Payment History" />
         <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
 
         <Route path="/settings/agents/:agentId/:counterpartyId/:agencyId/"

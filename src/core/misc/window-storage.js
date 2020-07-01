@@ -12,7 +12,13 @@ export const windowLocalStorage = {
         } catch (e) {
         }
         return result;
-    }
+    },
+    remove: (key) => {
+        try {
+            window.localStorage.removeItem(key);
+        } catch (e) {
+        }
+    },
 };
 
 const checkWindowSessionAvailability = () => {

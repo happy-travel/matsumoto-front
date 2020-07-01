@@ -9,7 +9,8 @@ const userKey = (key) => {
 
 export const localStorage = {
     set: (key, item) => windowLocalStorage.set(userKey(key), item),
-    get: (key) => windowLocalStorage.get(userKey(key))
+    get: (key) => windowLocalStorage.get(userKey(key)),
+    remove: (key) => windowLocalStorage.remove(userKey(key))
 };
 
 export const session = {
