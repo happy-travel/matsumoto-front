@@ -83,9 +83,7 @@ module.exports = function(webpackEnv) {
           ident: 'postcss',
           plugins: () => [
             require('postcss-flexbugs-fixes'),
-            require('postcss-rtl')({
-              // todo: onlyDirection: "rtl" // split rtl css to separate file
-            }),
+            require('postcss-rtl')(),
             require('postcss-preset-env')({
               autoprefixer: {
                 flexbox: 'no-2009',
