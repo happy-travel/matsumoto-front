@@ -1,7 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { API, session } from "core";
+import { API } from "core";
+import { windowSessionStorage } from "core/misc/window-storage";
 import { Dual, StaticHeader, price } from "simple";
 import ViewFailed from "parts/view-failed";
 
@@ -24,7 +25,7 @@ class DirectLinkConfirmationPage extends React.Component {
             return;
         }
 
-        var code = session.get(store.paymentResult.params.merchant_reference);
+        var code = windowSessionStorage.get(store.paymentResult.params.merchant_reference);
         if (!code)
             this.setState({ booking: { error: "error" } });
         API.get({
@@ -53,7 +54,6 @@ return (
     <div class="confirmation block">
         <section class="double-sections">
             { !!result && "Success" == result.status ?
-
             <div class="middle-section">
                 <h2>{t("Your order has been paid successfully")}</h2>
 
@@ -75,7 +75,7 @@ return (
 
                 <Dual addClass="line"
                     a={t('Amount')}
-                    b={ price(booking.currency, booking.amount || 0) }
+                    b={ price(booking.currency, booking.amount || 0) || "" }
                 />
 
                 { booking.paymentStatus && <Dual addClass="line"
@@ -108,7 +108,7 @@ return (
                     reason={
                         <React.Fragment>
                             {t("Payment failed")}<br/>
-                            {result.error}
+                            {result?.error}
                         </React.Fragment>
                     }
                 />

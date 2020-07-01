@@ -1,6 +1,7 @@
 import React from "react";
 import settings from "settings";
-import { session, API } from "core";
+import { API } from "core";
+import { windowSessionStorage } from "core/misc/window-storage";
 import { userAuthSetDirectPayment } from "core/auth";
 import { snare } from "../utils/snare";
 import PaymentPage from "../payment";
@@ -35,7 +36,7 @@ class PaymentDirectLinkPage extends PaymentPage {
         API.get({
             external_url: API.DIRECT_LINK_PAY.GET_INFO(orderCode),
             after: result => {
-                session.set(result.referenceCode, orderCode);
+                windowSessionStorage.set(result.referenceCode, orderCode);
                 this.setState({
                     loading: false,
                     amount: result.amount,

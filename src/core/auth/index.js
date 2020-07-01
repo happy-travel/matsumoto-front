@@ -26,7 +26,7 @@ const userAuthSetToStorage = (user) => {
 
 const userAuthSetDirectPayment = () => {
     if (!userAuthGetFromStorage())
-        userAuthSetToStorage(DIRECT_PAYMENT_ID);
+        windowSessionStorage.set(STORAGE_KEY, DIRECT_PAYMENT_ID);
 };
 
 const Authorized = () =>

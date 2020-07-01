@@ -3,9 +3,7 @@ import { session } from "../storage";
 import settings from "settings";
 
 export default (store, key) => {
-
     var cached = session.get(key);
-
     const reserve = JSON.parse(JSON.stringify(store));
 
     if (cached)
@@ -20,7 +18,7 @@ export default (store, key) => {
             set(store, reserve);
         }
     else
-        set(store, { build: settings.build }); // hack for autorun keep running
+        set(store, { build: settings.build }); // hack for autorun keep running over empty store
 
     autorun(() => {
         cached = session.get(key);

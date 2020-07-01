@@ -1,6 +1,7 @@
 import React from "react";
 import BasicPaymentPage from "./utils/processing";
-import { getParams, API, session } from "core";
+import { getParams, API } from "core";
+import { windowSessionStorage } from "core/misc/window-storage";
 
 class Payment3DSecureCallbackPage extends BasicPaymentPage {
     constructor(props) {
@@ -9,7 +10,7 @@ class Payment3DSecureCallbackPage extends BasicPaymentPage {
     }
     componentDidMount() {
         var params = getParams(),
-            directLinkCode = session.get(params.merchant_reference);
+            directLinkCode = windowSessionStorage.get(params.merchant_reference);
 
         if (directLinkCode)
             this.setState({ directLinkCode });

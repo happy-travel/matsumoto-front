@@ -326,7 +326,7 @@ render() {
                                     autocomplete="cc-csc"
                                 />
                             </div>
-                            <div class="row">
+                            { !this.state.direct && <div class="row">
                                 <FieldCheckbox formik={formik}
                                     label={
                                         <span>
@@ -339,7 +339,7 @@ render() {
                                     }
                                     id={"remember_me"}
                                 />
-                            </div>
+                            </div> }
                             <button class="button">
                                 <span class="icon icon-white-lock" />
                                 { t("Pay") + price(this.state.currency, this.state.amount || 0) }

@@ -1,12 +1,14 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { getParams, API, session } from "core";
+import { getParams, API } from "core";
 import { Redirect } from "react-router-dom";
 import { Loader } from "simple";
 import { FORM_NAMES } from "components/form";
 
 import store from "stores/accommodation-store";
 import UI from "stores/ui-store";
+
+import { windowSessionStorage } from "core/misc/window-storage";
 
 @observer
 class BasicPaymentPage extends React.Component {
@@ -52,7 +54,7 @@ class BasicPaymentPage extends React.Component {
 
     callback(data, error, after3ds) {
         var params = getParams(),
-            directLinkCode = session.get(params.merchant_reference);
+            directLinkCode = windowSessionStorage.get(params.merchant_reference);
 
         if (!after3ds && ("Secure3d" == data?.status)) {
             window.location.href = data.secure3d;

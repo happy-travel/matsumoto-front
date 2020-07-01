@@ -1,6 +1,7 @@
 import React from "react";
 import BasicPaymentPage from "./utils/processing";
-import { getParams, API, session } from "core";
+import { getParams, API } from "core";
+import { windowSessionStorage } from "core/misc/window-storage";
 
 class PaymentResultPage extends BasicPaymentPage {
     constructor(props) {
@@ -10,7 +11,7 @@ class PaymentResultPage extends BasicPaymentPage {
     componentDidMount() {
         var bookingReference = this.props.match.params.ref,
             params = getParams(),
-            directLinkCode = session.get(bookingReference);
+            directLinkCode = windowSessionStorage.get(bookingReference);
 
         if (directLinkCode) {
             this.setState({ directLinkCode });
