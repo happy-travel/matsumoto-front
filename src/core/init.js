@@ -1,6 +1,6 @@
 import Authorize from "./auth/authorize";
 import React from "react";
-import { isPageAvailableAuthorizedOnly, userAuthSetToStorage } from "core/auth";
+import { isPageAvailableAuthorizedOnly, userAuthSetToStorage, isSignUpRoutes } from "core/auth";
 import { API } from "core";
 import { initInvite } from "core/auth/invite";
 import dropdownToggler from "components/form/dropdown/toggler";
@@ -10,41 +10,40 @@ import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
 
 export const initApplication = () => {
-    if (window.location.href.indexOf("/auth/") > 0)
-        return;
-
     initInvite();
     dropdownToggler();
 };
 
 export const initUser = () => {
-    API.get({
-        url: API.USER,
-        success: (result) => {
-            if (result?.email)
-                authStore.setUser(result);
-        },
-        after: (user, error, response) => {
-            if (!response)
-                return;
-            if (response.status == 401 || response.status == 403) {
-                if (isPageAvailableAuthorizedOnly())
-                    Authorize.signinRedirect();
-                return;
+    if (!isSignUpRoutes()) {
+        API.get({
+            url: API.USER,
+            success: (result) => {
+                if (result?.email)
+                    authStore.setUser(result);
+            },
+            after: (user, error, response) => {
+                if (!response)
+                    return;
+                if (response.status == 401 || response.status == 403) {
+                    if (isPageAvailableAuthorizedOnly())
+                        Authorize.signinRedirect();
+                    return;
+                }
+                if (response.status == 400 && "Could not get agent data" == error?.detail) {
+                    if (isPageAvailableAuthorizedOnly())
+                        window.location.href = window.location.origin + "/signup/agent";
+                } else
+                    userAuthSetToStorage(user);
             }
-            if (response.status == 400 && "Could not get agent data" == error?.detail) {
-                if (isPageAvailableAuthorizedOnly())
-                    window.location.href = window.location.origin + "/signup/agent";
-            } else
-                userAuthSetToStorage(user);
-        }
-    });
+        });
 
-    loadUserSettings();
+        loadUserSettings();
+    }
 
     API.get({
         url: API.BASE_VERSION,
-        success: (result) => {
+        success: result => {
             if (UI.currentAPIVersion != result) {
                 API.get({
                     url: API.BASE_REGIONS,

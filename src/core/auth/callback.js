@@ -1,6 +1,5 @@
 import React from "react";
 import Authorize from "./authorize";
-import { initUser } from "core/init";
 import { Loader } from "simple";
 import { userAuthSetToStorage } from "./index";
 import { lastPage } from "core/misc/tracker";
@@ -16,7 +15,6 @@ class AuthCallbackComponent extends React.PureComponent {
     onRedirectSuccess = user => {
         Authorize.clearStaleState();
         userAuthSetToStorage(user);
-        initUser();
         this.props.history.push(lastPage());
     };
 

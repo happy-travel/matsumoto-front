@@ -2,11 +2,17 @@ import React from 'react';
 import Tiles from 'components/tiles';
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import { Loader } from "simple";
+
+import authStore from "stores/auth-store";
 
 @observer
 class AccommodationTitlePage extends React.Component {
 render () {
     var { t } = useTranslation();
+    if (!authStore?.user?.email) // workaround for loader within registration process
+        return <Loader white page />;
+
     return (
     <React.Fragment>
         <div class="tiles block">

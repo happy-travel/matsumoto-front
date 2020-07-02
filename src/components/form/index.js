@@ -9,8 +9,7 @@ import FieldSelect from "./field-select";
 const FORM_NAMES = {
     CreateInviteForm: "CreateInviteForm",
     AccommodationFiltersForm: "AccommodationFiltersForm",
-    RegistrationStepTwoForm: "RegistrationStepTwoForm",
-    RegistrationStepThreeForm: "RegistrationStepThreeForm",
+    RegistrationCounterpartyForm: "RegistrationCounterpartyForm",
     SearchForm: "SearchForm",
     BookingForm: "BookingForm", //todo: google token can be expired, need a validation in future
     SendInvoiceForm: "SendInvoiceForm"

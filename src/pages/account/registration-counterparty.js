@@ -19,6 +19,7 @@ import { registrationCounterpartyValidator } from "components/form/validation";
 
 import store from "stores/auth-store";
 import View from "stores/view-store";
+import UI from "stores/ui-store";
 
 @observer
 class RegistrationCounterparty extends React.Component {
@@ -38,6 +39,7 @@ class RegistrationCounterparty extends React.Component {
             body: store.registration,
             success: () => {
                 finishAgentRegistration();
+                UI.dropFormCache(FORM_NAMES.RegistrationStepThreeForm);
                 this.setState({ redirectToIndexPage: true });
             },
             error: error => {
@@ -86,7 +88,7 @@ class RegistrationCounterparty extends React.Component {
                         </p>
 
                         <CachedForm
-                            id={ FORM_NAMES.RegistrationStepThreeForm }
+                            id={ FORM_NAMES.RegistrationCounterpartyForm }
                             initialValues={{
                                 "name": "",
                                 "address": "",

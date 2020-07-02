@@ -8,7 +8,7 @@ import { getInvite, forgetInvite } from "core/auth/invite";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { CachedForm, FORM_NAMES } from "components/form";
+import { CachedForm } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 import { fillEmptyUserSettings } from "simple/logic/user-settings";
 
@@ -16,15 +16,14 @@ import FormUserData from "parts/form-user-data";
 
 import store from "stores/auth-store";
 import View from "stores/view-store";
-import UI from "stores/ui-store";
 
 export const finishAgentRegistration = () => {
     API.get({
         url: API.USER,
         success: (user) => {
+            userAuthSetToStorage(user);
             if (user?.email)
                 store.setUser(user);
-            userAuthSetToStorage(user);
             fillEmptyUserSettings();
         }
     });
@@ -32,8 +31,6 @@ export const finishAgentRegistration = () => {
     forgetInvite();
     store.setRegistrationUserForm({});
     store.setRegistrationCounterpartyForm({});
-    UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
-    UI.dropFormCache(FORM_NAMES.RegistrationStepThreeForm);
 };
 
 @observer
@@ -141,7 +138,7 @@ class RegistrationAgent extends React.Component {
 
         <CachedForm
             initialValues={this.state.initialValues}
-            enableReinitialize={true}
+            enableReinitialize
             validationSchema={registrationUserValidator}
             onSubmit={this.submit}
             render={formik => (
