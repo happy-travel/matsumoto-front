@@ -12,6 +12,7 @@ const dropdownId = "LocaleSwitcherDropdown";
 @observer
 class LocaleSwitcherDropdown extends React.Component {
     changeLanguage(i18n, lng) {
+        View.setOpenDropdown(null);
         i18n.changeLanguage(lng);
         localStorage.set("locale", lng);
         windowLocalStorage.set("direction", i18n.dir(lng));

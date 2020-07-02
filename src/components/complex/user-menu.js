@@ -30,7 +30,7 @@ class UserMenuDropdown extends React.Component {
                     <div class="name" {...calcTitleFor(authStore.user?.firstName + authStore.user?.lastName)}>{authStore.user?.firstName} {authStore.user?.lastName}</div>
                     <div class="company" {...calcTitleFor(authStore.activeCounterparty.name)}>{authStore.activeCounterparty.name}</div>
                 </div>
-                {View.isDropdownOpen(dropdownId) && <div class="user-menu dropdown">
+                {View.isDropdownOpen(dropdownId) && <div class="user-menu dropdown" onClick={() => View.setOpenDropdown(null)}>
                     <Link to="/agent/booking" class="item">
                         {t("Booking management")}
                     </Link>

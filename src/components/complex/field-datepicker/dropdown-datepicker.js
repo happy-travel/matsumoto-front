@@ -1,6 +1,7 @@
 import React from "react";
 import DateRangePicker from "react-daterange-picker";
 import { observer } from "mobx-react";
+import { windowLocalStorage } from "core/misc/window-storage";
 
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
@@ -46,7 +47,7 @@ class DateDropdown extends React.Component {
                     className={"calendar-style"}
                     firstOfWeek={authStore.settings.weekStarts
                                     ? (authStore.settings.weekStarts % 7)
-                                    : ("rtl" == window.localStorage.getItem("direction")
+                                    : ("rtl" == windowLocalStorage.get("direction")
                                         ? 0
                                         : 1
                                     )}

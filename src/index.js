@@ -5,6 +5,7 @@ import { initApplication } from "core/init";
 import App from "core/app";
 import settings from "settings";
 import tracker from "core/misc/tracker";
+import { windowLocalStorage } from "core/misc/window-storage";
 
 if (!__localhost)
     Sentry.init({ dsn: settings.sentry_dsn });
@@ -12,13 +13,13 @@ if (!__localhost)
 tracker();
 
 window.setPageDirectionFromLS = () => {
-    var dir = window.localStorage.getItem('direction');
+    var dir = windowLocalStorage.get("direction");
     if (dir == "ltr" || dir == "rtl")
         document.getElementsByTagName("html")[0].setAttribute("dir", dir);
 };
 window.setPageDirectionFromLS();
 
-window._renderTheApp = () => ReactDOM.render(<App />, document.getElementById('app'));
+window._renderTheApp = () => ReactDOM.render(<App />, document.getElementById("app"));
 window._renderTheApp();
 
 initApplication();
