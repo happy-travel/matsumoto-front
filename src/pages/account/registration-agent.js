@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { API } from "core";
 import { userAuthSetToStorage } from "core/auth";
+import { getInvite, forgetInvite } from "core/auth/invite";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -28,7 +29,7 @@ export const finishAgentRegistration = () => {
         }
     });
 
-    window.sessionStorage.removeItem("_auth__invCode");
+    forgetInvite();
     store.setRegistrationUserForm({});
     store.setRegistrationCounterpartyForm({});
     UI.dropFormCache(FORM_NAMES.RegistrationStepTwoForm);
@@ -81,7 +82,7 @@ class RegistrationAgent extends React.Component {
     }
 
     componentDidMount() {
-        var invitationCode = window.sessionStorage.getItem("_auth__invCode");
+        var invitationCode = getInvite();
         if (invitationCode)
             API.get({
                 url: API.USER_INVITE_DATA(invitationCode),
@@ -139,7 +140,6 @@ class RegistrationAgent extends React.Component {
             </p>
 
         <CachedForm
-            id={ FORM_NAMES.RegistrationStepTwoForm }
             initialValues={this.state.initialValues}
             enableReinitialize={true}
             validationSchema={registrationUserValidator}
@@ -166,7 +166,6 @@ class RegistrationAgent extends React.Component {
         </div>
     </section>
 </div>
-
         );
     }
 }

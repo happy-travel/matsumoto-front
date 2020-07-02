@@ -1,7 +1,8 @@
 import Authorize from "./auth/authorize";
 import React from "react";
 import { isPageAvailableAuthorizedOnly, userAuthSetToStorage } from "core/auth";
-import { API, getParams } from "core";
+import { API } from "core";
+import { initInvite } from "core/auth/invite";
 import dropdownToggler from "components/form/dropdown/toggler";
 import { loadUserSettings } from "simple/logic/user-settings";
 
@@ -12,12 +13,7 @@ export const initApplication = () => {
     if (window.location.href.indexOf("/auth/") > 0)
         return;
 
-    if (window.location.pathname.length < 2 && // index page
-        getParams().code) { // and auth
-        if (getParams().invCode)
-            window.sessionStorage.setItem("_auth__invCode", getParams().invCode);
-    }
-
+    initInvite();
     dropdownToggler();
 };
 
