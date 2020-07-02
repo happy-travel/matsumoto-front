@@ -64,7 +64,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 });
             },
             error: (error) => {
-                View.setTopAlertText("Sorry, this room is not available now, try again later");
+                View.setTopAlertText(error?.detail || error?.message);
                 if (error)
                     console.log("error: " + error);
             },
