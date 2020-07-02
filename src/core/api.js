@@ -101,9 +101,12 @@ API_METHODS = {
 let _ = API_METHODS;
 
 _.methods_dont_show_error = [
-    _.USER,
-    _.PAYMENTS_CARD_NEW
+    _.USER, _.AGENT_SETTINGS,
+    _.PAYMENTS_CARD_NEW,
+    _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
 ];
+
+const setAlert = (text, url) => ((_.methods_dont_show_error.indexOf(url) < 0) && View.setTopAlertText(text));
 
 _.request = ({
     url, external_url,
@@ -155,17 +158,25 @@ Authorize.getUser().then(user => {
         })
         .then(
             (result) => {
-                if ((rawResponse.status == 401 || rawResponse.status == 403) && isPageAvailableAuthorizedOnly()) {
+                if ((rawResponse.status == 401) && isPageAvailableAuthorizedOnly()) {
                     Authorize.signinRedirect();
                     return;
                 }
+                if (rawResponse.status == 403) {
+                    setAlert("Sorry, you don`t have enough permissions", url);
+                    if (error)
+                        error(result);
+                    if (after)
+                        after(null, null, rawResponse);
+                    return;
+                }
                 if (failed) {
-                    if (_.methods_dont_show_error.indexOf(url) < 0 && result && result.status >= 400 && result.detail)
-                        View.setTopAlertText(result.detail);
+                    if (result && result.status >= 400 && result.detail)
+                        setAlert(result.detail, url);
                     if (error)
                         error(result);
                 } else {
-                    View.setTopAlertText(null);
+                    setAlert(null, url);
                     if (success)
                         success(result);
                 }

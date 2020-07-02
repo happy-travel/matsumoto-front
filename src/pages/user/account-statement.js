@@ -34,7 +34,7 @@ class AccountStatementPage extends React.Component {
                 "fromDate": moment(values.start).utc(true).format(),
                 "toDate": moment(values.end).add(1,"d").utc(true).format()
             },
-            after: data => store.setUserPaymentsList(data)
+            after: data => store.setUserPaymentsList(data || [])
         });
     }
 
