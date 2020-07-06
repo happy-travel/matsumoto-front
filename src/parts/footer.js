@@ -22,14 +22,14 @@ render() {
                         <div class="logo-wrapper">
                             <a href="/" class="logo" />
                         </div>
-                        { /* <div class="social">
-                            <a href="#">
+                        <div class="social">
+                            <a href="https://facebook.com/HappyTraveldotcom/" target="_blank">
                                 <span class="icon icon-snet-1-f" />
                             </a>
-                            <a href="#">
+                            { /* <a href="#">
                                 <span class="icon icon-snet-2-t" />
-                            </a>
-                        </div> */ }
+                            </a> */ }
+                        </div>
                     </div>
                     <div class="middle">
                         <div class="links">
