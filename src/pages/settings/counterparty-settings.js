@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 
-import { Loader } from "simple";
+import { Loader, Flag } from "simple";
 import { FieldText, FieldTextarea } from "components/form";
 import SettingsHeader from "./parts/settings-header";
 
@@ -83,8 +83,9 @@ export default class CounterpartySettings extends React.Component {
                         </div>
                         <div class="row">
                             <FieldText {...params}
-                                       id="countryCode"
-                                       label={t("Country Code")}
+                                       id="countryName"
+                                       label={t("Country")}
+                                       Flag={<Flag code={formik.values.countryCode} />}
                             />
                             <FieldText {...params}
                                        id="city"
