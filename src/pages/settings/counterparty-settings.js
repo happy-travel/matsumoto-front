@@ -85,11 +85,13 @@ export default class CounterpartySettings extends React.Component {
                             <FieldText {...params}
                                        id="countryName"
                                        label={t("Country")}
+                                       addClass={"size-half"}
                                        Flag={<Flag code={formik.values.countryCode} />}
                             />
                             <FieldText {...params}
                                        id="city"
                                        label={t("City")}
+                                       addClass={"size-half"}
                             />
                         </div>
                         <div class="row">
