@@ -13,8 +13,11 @@ const settingsCleaner = values => ({
 });
 
 export const loadCounterpartyInfo = (callback = () => {}) => {
+    var id = authStore.activeCounterparty.id;
+    if (id === undefined)
+        return;
     API.get({
-        url: API.COUNTERPARTY_INFO(authStore.activeCounterparty.id),
+        url: API.COUNTERPARTY_INFO(id),
         success: information => {
             authStore.setCounterpartyInfo(information);
             callback(information);
@@ -24,12 +27,12 @@ export const loadCounterpartyInfo = (callback = () => {}) => {
 
 export const fillEmptyUserSettings = () => {
     loadCounterpartyInfo(information => {
-        if (!information?.country || !information?.countryCode)
+        if (!information?.countryName || !information?.countryCode)
             return;
         saveUserSettings({
-            residency: information.country,
+            residency: information.countryName,
             residencyCode: information.countryCode,
-            nationality: information.country,
+            nationality: information.countryName,
             nationalityCode: information.countryCode
         });
     });
