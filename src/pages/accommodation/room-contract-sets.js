@@ -55,7 +55,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
             ),
             success: (result) => {
                 if (!result?.data) {
-                    View.setTopAlertText("Sorry, this room is not available now (#2), try again later");
+                    View.setTopAlertText("Sorry, this room is not available now, try again later");
                     return;
                 }
                 store.selectRoomContractSet(result, roomContractSet);

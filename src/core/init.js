@@ -44,7 +44,10 @@ export const initUser = () => {
     API.get({
         url: API.BASE_VERSION,
         success: result => {
-            if (UI.currentAPIVersion != result) {
+            if (UI.currentAPIVersion != result ||
+                !UI.regions?.length ||
+                !UI.currencies?.length
+            ) {
                 API.get({
                     url: API.BASE_REGIONS,
                     success: (result) => UI.setRegions(result)
