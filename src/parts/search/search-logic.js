@@ -51,8 +51,8 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
     API.get({
         url: API.A_SEARCH_ONE_RESULT(store.search.requestId),
         body: {
-            top: PAGE_SIZE,
-            skip: page*PAGE_SIZE,
+            $top: PAGE_SIZE,
+            $skip: page*PAGE_SIZE,
         },
         success: result => {
             callback();

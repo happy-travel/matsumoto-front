@@ -26,8 +26,7 @@ class AccommodationFiltersPart extends React.Component {
                     store.setSelectedFilters(formik.values);
                     return (
                             <div class="left-section filters">
-                                { (store.filters.price.max - store.filters.price.min > 1) &&
-                                  store.filters.price.max < Infinity && <Expandable
+                                <Expandable
                                     open
                                     header={t("Price Range")}
                                     content={
@@ -41,7 +40,7 @@ class AccommodationFiltersPart extends React.Component {
                                             />
                                         </div>
                                     }
-                                /> }
+                                />
                                 { store.filters.ratings.length && <Expandable
                                     open
                                     header={t("Rating")}

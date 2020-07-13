@@ -19,7 +19,7 @@ class SettingsHeader extends React.Component {
                     {t("Personal Settings")}
                 </NavLink>
                 <NavLink to="/settings/counterparty">
-                    {t("Counterparty Information")}
+                    {t("Agency Information")}
                 </NavLink>
                 <NavLink to="/settings/agents">
                     {t("Agent Management")}

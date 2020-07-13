@@ -142,7 +142,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                         <div class="subpart">
                             <div class="h1">{t("Check Out Date")}</div>
                             <div class="h2">{dateFormat.d(store.search.request.checkOutDate)}</div>
-                            <div class="h3">{__plural(t, store.search?.result?.numberOfNights, "Night")}</div>
+                            <div class="h3">{__plural(t, store.search?.numberOfNights, "Night")}</div>
                         </div>
                         <div class="subpart">
                             <div class="h1">{t("Guests")}</div>
@@ -163,7 +163,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                             <thead>
                                 <tr>
                                     <th>{t("Room Type")}</th>
-                                    <th class="price">{t("Price for")} {__plural(t, store.search?.result?.numberOfNights, "Night")}</th>
+                                    <th class="price">{t("Price for")} {__plural(t, store.search?.numberOfNights, "Night")}</th>
                                     <th class="pros" />
                                     <th />
                                 </tr>

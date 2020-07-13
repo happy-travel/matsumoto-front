@@ -140,7 +140,7 @@ class AgentsManagement extends React.Component {
                     { this.state.filteredAgents?.length === 0 && <h3>
                         {t("List is empty")}
                     </h3> }
-                    { !!this.state.filteredAgents.length && <Table
+                    { !!this.state.filteredAgents?.length && <Table
                         data={this.state.filteredAgents}
                         count={this.state.filteredAgents.length}
                         fetchData={this.loadAgents}

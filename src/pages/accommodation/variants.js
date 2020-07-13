@@ -190,7 +190,7 @@ class AccommodationVariantsPage extends React.Component {
                         </div>
                         <div class="billet">
                             <div class="count">
-                                {__plural(t, store.search.result.numberOfNights, "Night")}
+                                {__plural(t, store.search.numberOfNights, "Night")}
                                 , <PassengersCount t={t}
                                                    adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
                                                    children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}

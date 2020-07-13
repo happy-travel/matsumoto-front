@@ -17,7 +17,8 @@ class AccommodationStore {
         length: 0, status: "",
         requestId: null,
         hasMoreVariants: false,
-        page: 0
+        page: 0,
+        numberOfNights: 0
     };
 
     @observable
@@ -65,25 +66,23 @@ class AccommodationStore {
     }
 
     @computed get hotelArray() {
-        return applyFilters(this.search?.result?.results, this.selectedFilters) || [];
+        return applyFilters(this.search?.result, this.selectedFilters) || [];
     }
 
-    setSearchResult(value, page = 0) {
-        if (value?.results) {
-            for (var i = 0; i < value.results.length; i++) {
-                var source = value.results[i].source;
-                value.results[i] = value.results[i].data;
-                value.results[i].source = source;
+    setSearchResult(results, page = 0) {
+        if (results?.length) {
+            for (var i = 0; i < results.length; i++) {
+                var source = results[i].source;
+                results[i] = results[i].data;
+                results[i].source = source;
             }
-            if (value.results?.length) {
-                value.results.forEach(item => {
-                    item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
-                });
-            }
+            results.forEach(item => {
+                item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
+            });
             if (page != 0)
-                this.search.result.results.push(...value.results);
+                this.search.result.push(...results);
             else
-                this.search.result = value;
+                this.search.result = results;
         } else {
             this.search.length = 0;
             this.search.result = [];
@@ -91,7 +90,7 @@ class AccommodationStore {
 
         this.search.page = page;
 
-        this.search.hasMoreVariants = !!value?.results?.length;
+        this.search.hasMoreVariants = !!results?.length;
         if (this.search.status == "PartiallyCompleted")
             this.search.hasMoreVariants = this.search.result?.results?.length < this.search.length;
 
@@ -121,6 +120,7 @@ class AccommodationStore {
 
     setNewSearchRequest(form) {
         this.search.request = form;
+        this.search.numberOfNights = Math.round(Math.abs(new Date(form.checkOutDate) - new Date(form.checkInDate))/24/60/60/1000);
     }
 
     selectAccommodation(accommodation) {

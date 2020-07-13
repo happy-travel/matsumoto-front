@@ -1,3 +1,5 @@
+import { hotelStars } from "simple";
+
 const atLeastOne = (obj) => {
     if (!obj)
         return false;
@@ -10,19 +12,19 @@ const atLeastOne = (obj) => {
     return result;
 };
 
-export const createFilters = (response) => {
+const TEMPORARY_MAX_PRICE = 2500;
+
+export const createFilters = hotels => {
     var filters = {
             price: {
-                min: Infinity,
-                max: 0,
-                currency: ""
+                min: 0,
+                max: TEMPORARY_MAX_PRICE,
+                currency: "USD"
             },
-            mealPlans: new Set(),
-            ratings: new Set(),
+            mealPlans: [],
+            ratings: hotelStars.filter(v=>v),
             __source: new Set()
-        },
-        hotels = response?.results,
-        mapPoints = [];
+        };
 
     if (!hotels?.length)
         return null;
@@ -30,30 +32,17 @@ export const createFilters = (response) => {
     for (var i = 0; i < hotels.length; i++) {
         var hotel = hotels[i];
 
+        /* todo: when we create a map, use this array
         mapPoints.push({
             lat: hotel?.accommodationDetails?.location?.coordinates.latitude,
             lng: hotel?.accommodationDetails?.location?.coordinates.longitude,
             id: hotel?.accommodationDetails?.id
         });
-        //todo: when we create a map, use this array
+        */
 
-        filters.ratings.add(hotel?.accommodationDetails?.rating);
         filters.__source.add("" + hotel?.source);
-
-        for (var j=0; j < hotel.roomContractSets.length; j++) {
-            var item = hotel.roomContractSets[j];
-            filters.price.min = Math.min(filters.price.min, item.price.netTotal);
-            filters.price.max = Math.max(filters.price.max, item.price.netTotal);
-            filters.price.currency = item.price.currency;
-
-            filters.mealPlans.add(item.boardBasisCode);
-        }
     }
 
-    filters.price.min = Math.trunc(filters.price.min);
-    filters.price.max = Math.ceil(filters.price.max);
-    filters.mealPlans = [...filters.mealPlans];
-    filters.ratings = [...filters.ratings];
     filters.__source = [...filters.__source];
 
     return filters;
@@ -73,7 +62,7 @@ export const applyFilters = (hotels, filters) => {
 
     result = JSON.parse(JSON.stringify(result));
 
-    if (atLeastOne(filters.price) && filters.price.min > 0 && filters.price.max < Infinity)
+    if (atLeastOne(filters.price) && (filters.price.min > 0 || filters.price.max < TEMPORARY_MAX_PRICE))
         for (var i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => (

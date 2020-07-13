@@ -70,7 +70,7 @@ export default class CounterpartySettings extends React.Component {
                             />
                         </div>
 
-                        <h2><span class="brand">{t("Counterparty Information")}</span></h2>
+                        <h2><span class="brand">{t("Agency Information")}</span></h2>
                         <div class="row">
                             <FieldText {...params}
                                        id="phone"

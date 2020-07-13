@@ -183,6 +183,7 @@ class AccommodationSearch extends React.Component {
                                     </div>
                                 </div>
                                 <div class="additionals">
+                                    { /*
                                     {formik.values.advancedSearch ?
                                         <button type="button" class="button-expand reverse" onClick={() => formik.setFieldValue("advancedSearch", false)}>
                                             {t("Simple Search")}
@@ -191,6 +192,7 @@ class AccommodationSearch extends React.Component {
                                             {t("Advanced Search")}
                                         </button>
                                     }
+                                    */ }
                                     <button type="button" class="button-clear" onClick={reset}>
                                         {t("Clear")}
                                     </button>
