@@ -9,6 +9,7 @@ import internationalization from "./internationalization";
 import AuthCallback from "core/auth/callback";
 import AuthSilent   from "core/auth/silent";
 import AuthDefault  from "core/auth/default";
+import AuthLogout   from "core/auth/logout";
 
 import Header    from "parts/header";
 import Footer    from "parts/footer";
@@ -33,7 +34,8 @@ const App = () => {
             <div class="body-wrapper">
                 <Switch>
                     <Route exact path="/auth/callback" component={ AuthCallback } />
-                    <Route exact path="/auth/silent" component={ AuthSilent } />
+                    <Route exact path="/auth/silent"   component={ AuthSilent } />
+                    <Route exact path="/logout"        component={ AuthLogout } />
                     <Route>
                         <Route component={ AuthDefault } />
                         { canShowContent ? <React.Fragment>

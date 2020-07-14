@@ -34,7 +34,6 @@ import termsPage                  from "pages/common/terms";
 import privacyPage                from "pages/common/privacy";
 import aboutUsPage                from "pages/common/about";
 
-import logoutPage                 from "core/auth/logout";
 import errorPage                  from "pages/common/error";
 
 export const routesWithSearch = [
@@ -101,8 +100,6 @@ const Routes = () => (
         <Route path="/privacy"                    component={privacyPage} title="Privacy Policy" />
         <Route path="/about"                      component={aboutUsPage} title="About Us" />
 
-        <Route path="/logout" component={logoutPage} />
-        <Route path="/auth" component={null} />
         <Route component={errorPage} />
     </Switch>
 );

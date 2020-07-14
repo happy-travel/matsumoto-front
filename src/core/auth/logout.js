@@ -11,7 +11,6 @@ class AuthLogoutComponent extends React.PureComponent {
         UI.dropAllFormCaches();
         authStore.setUser({ email: null });
         userAuthRemoveFromStorage();
-        Authorize.removeUser();
         Authorize.signoutRedirect();
     }
 
