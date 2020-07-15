@@ -52,7 +52,7 @@ class AccommodationSearch extends React.Component {
         var { t } = useTranslation();
 
         return (
-            <div class="search block">
+            <div class="search block" style={{paddingBottom: "58px"}}>
                 { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
                 <section>
                     <div class="hide">{JSON.stringify(authStore.settings)}</div>
@@ -192,10 +192,10 @@ class AccommodationSearch extends React.Component {
                                             {t("Advanced Search")}
                                         </button>
                                     }
-                                    */ }
                                     <button type="button" class="button-clear" onClick={reset}>
                                         {t("Clear")}
                                     </button>
+                                    */ }
                                 </div>
                             </React.Fragment>
                         )}
