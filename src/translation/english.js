@@ -103,7 +103,7 @@ translations: {
     "Unrated": "Unrated",
     "Map": "Map",
     "Price Range": "Price Range",
-    "Drag the slider to choose the minimum and maximum prices": "Drag the slider to choose the minimum and maximum prices",
+    "Drag the slider to choose minimum and maximum prices": "Drag the slider to choose minimum and maximum prices",
     "Property Type": "Property Type",
     "Rating": "Rating",
     "Preferred": "Preferred",

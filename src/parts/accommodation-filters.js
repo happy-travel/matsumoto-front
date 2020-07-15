@@ -36,7 +36,7 @@ class AccommodationFiltersPart extends React.Component {
                                 header={t("Price Range")}
                                 content={
                                     <div class="expanded price-range">
-                                        <h4>{t("Drag the slider to choose the minimum and maximum prices")}</h4>
+                                        <h4>{t("Drag the slider to choose minimum and maximum prices")}</h4>
                                         <FieldRange formik={formik}
                                             min={store.filters.price.min}
                                             max={store.filters.price.max}
