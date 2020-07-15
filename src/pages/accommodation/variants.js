@@ -91,8 +91,8 @@ class AccommodationVariantsPage extends React.Component {
 
                             {!!store.hotelArray.length &&
                                 <span>&nbsp;({store.hotelArray.length}
-                                    { !!store.search.result?.numberOfProcessedResults && <React.Fragment>
-                                        &nbsp;{t("out of")} {store.search.result?.numberOfProcessedResults}{
+                                    { !!store.search.length && <React.Fragment>
+                                        &nbsp;{t("out of")} {store.search.length}{
                                         store.search.status == "PartiallyCompleted" ? "+" : ""
                                         } {t("available")}
                                     </React.Fragment> })
