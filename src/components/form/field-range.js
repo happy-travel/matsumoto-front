@@ -12,6 +12,7 @@ class FieldRangeSlider extends React.Component {
             value: getValue(this.props.formik, this.props.id) || { min: props.min, max: props.max }
         };
         this.changing = this.changing.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     changing(value) {
@@ -20,6 +21,11 @@ class FieldRangeSlider extends React.Component {
 
         if (formik)
             formik.setFieldValue(id, value);
+    }
+
+    onChange() {
+        if (this.props.onChange)
+            this.props.onChange();
     }
 
     render() {
@@ -40,6 +46,7 @@ class FieldRangeSlider extends React.Component {
                 }
                 value={this.state.value}
                 onChange={this.changing}
+                onChangeComplete={this.onChange}
             />
         );
     }

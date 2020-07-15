@@ -42,6 +42,7 @@ class AccommodationFiltersPart extends React.Component {
                                             max={store.filters.price.max}
                                             currency={store.filters.price.currency}
                                             id="price"
+                                            onChange={formik.handleSubmit}
                                         />
                                     </div>
                                 }
@@ -55,6 +56,7 @@ class AccommodationFiltersPart extends React.Component {
                                             <FieldCheckbox formik={formik}
                                                 label={<Stars count={i+1} />}
                                                 id={ "ratings." + item }
+                                                onChange={formik.handleSubmit}
                                             />
                                         )) }
                                     </div>
@@ -69,14 +71,12 @@ class AccommodationFiltersPart extends React.Component {
                                             <FieldCheckbox formik={formik}
                                                 label={t(item)}
                                                 id={ "boardBasis." + item }
+                                                onChange={formik.handleSubmit}
                                             />
                                         )) }
                                     </div>
                                 }
                             /> }
-                            <div class="submit-holder">
-                                <button type="submit" class="button">{t("Apply filters")}</button>
-                            </div>
                             { ( (__localhost || __devEnv) &&
                                 (!!store.filters.__source.length)) && <Expandable
                                 open
@@ -87,6 +87,7 @@ class AccommodationFiltersPart extends React.Component {
                                             <FieldCheckbox formik={formik}
                                                            label={ "source=" + item }
                                                            id={ "source." + item }
+                                                           onChange={formik.handleSubmit}
                                             />
                                         )) }
                                     </div>

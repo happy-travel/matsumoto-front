@@ -22,6 +22,9 @@ class FieldCheckbox extends React.Component {
             formik.setFieldValue(id, newValue);
             formik.setFieldTouched(id, true);
         }
+
+        if (this.props.onChange)
+            this.props.onChange();
     }
 
     render() {
