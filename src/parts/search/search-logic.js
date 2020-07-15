@@ -2,6 +2,9 @@ import store from "stores/accommodation-store";
 import { API, session } from "core";
 import moment from "moment";
 import { countPassengers } from "./search-ui-helpers";
+import { FORM_NAMES } from "components/form";
+
+import UI from "stores/ui-store";
 
 const searchFormFormatter = values => {
     var roomDetails = [];
@@ -53,6 +56,7 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
         body: {
             $top: PAGE_SIZE,
             $skip: page*PAGE_SIZE,
+            ...(store.filtersLine ? {$filter: store.filtersLine} : {})
         },
         success: result => {
             callback();
@@ -64,6 +68,12 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
     });
 };
 
+export const loadCurrentSearchWithNewFilters = values => {
+    store.setSelectedFilters(values);
+    loadCurrentSearch();
+    store.setSearchIsLoading("__filter_tmp");
+};
+
 export const createSearch = values => {
     store.setSearchResultLength(0, undefined);
 
@@ -72,6 +82,8 @@ export const createSearch = values => {
 
     var body = searchFormFormatter(values);
 
+    UI.dropFormCache(FORM_NAMES.AccommodationFiltersForm);
+    store.setSelectedFilters(null);
     store.setSearchIsLoading(true);
     API.post({
         url: API.A_SEARCH_ONE_CREATE,

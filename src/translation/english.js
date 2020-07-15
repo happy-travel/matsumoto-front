@@ -337,7 +337,11 @@ translations: {
     "It's safe, only a part of your card data will be stored": "It's safe, only a part of your card data will be stored",
     "Pay using saved cards": "Pay using saved cards",
     "using saved card": "using saved card",
+    "Apply filters": "Apply filters",
+    "Reset filters": "Reset filters",
     "No Breakfast": "No Breakfast",
+
+    "RoomOnly": "No Breakfast",
     "SelfCatering": "Self Catering",
     "BedAndBreakfast": "Bed And Breakfast",
     "HalfBoard": "Half Board",

@@ -14,6 +14,30 @@ const atLeastOne = (obj) => {
 
 const TEMPORARY_MAX_PRICE = 2500;
 
+const enabledFiltersForList = obj => Object.keys(obj).filter(v=>obj[v]).map(i=>"'"+i+"'").join(", ");
+
+export const generateFiltersLine = filters => {
+    if (!atLeastOne(filters))
+        return "";
+
+    var list = [];
+
+    if (atLeastOne(filters.price) && (filters.price.min > 0 || filters.price.max < TEMPORARY_MAX_PRICE))
+        list.push(`Data/RoomContractSets/any(d: d/Price/NetTotal lt ${filters.price.max} and d/Price/NetTotal gt ${filters.price.min})`);
+
+    if (atLeastOne(filters.boardBasis))
+        list.push("Data/RoomContractSets/any(rs: rs/roomContracts/any(r: r/BoardBasis in ("
+            + enabledFiltersForList(filters.boardBasis) +
+        ")))");
+
+    if (atLeastOne(filters.ratings))
+        list.push("Data/AccommodationDetails/Rating in ("
+            + enabledFiltersForList(filters.ratings) +
+        ")");
+
+    return list.join(" and ");
+};
+
 export const createFilters = hotels => {
     var filters = {
             price: {
@@ -21,13 +45,17 @@ export const createFilters = hotels => {
                 max: TEMPORARY_MAX_PRICE,
                 currency: "USD"
             },
-            mealPlans: [],
+            boardBasis: [
+                "RoomOnly",
+                "SelfCatering",
+                "BedAndBreakfast",
+                "HalfBoard",
+                "FullBoard",
+                "AllInclusive"
+            ],
             ratings: hotelStars.filter(v=>v),
             __source: new Set()
         };
-
-    if (!hotels?.length)
-        return null;
 
     for (var i = 0; i < hotels.length; i++) {
         var hotel = hotels[i];
@@ -57,8 +85,8 @@ export const applyFilters = (hotels, filters) => {
 
     var result = hotels;
 
-    if (atLeastOne(filters.ratings))
-        result = result.filter(hotel => filters.ratings[hotel?.accommodationDetails?.rating]);
+    // if (atLeastOne(filters.ratings))
+    //    result = result.filter(hotel => filters.ratings[hotel?.accommodationDetails?.rating]);
 
     result = JSON.parse(JSON.stringify(result));
 
@@ -70,10 +98,10 @@ export const applyFilters = (hotels, filters) => {
                     item.price.netTotal <= filters.price.max
                 ));
 
-    if (atLeastOne(filters.mealPlans))
+    if (atLeastOne(filters.boardBasis))
         for (i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
-                result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.mealPlans[item.boardBasisCode]);
+                result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.roomContracts?.[0]?.boardBasis]);
 
     if (atLeastOne(filters.source))
         result = result.filter(item => filters.source[item.source]);

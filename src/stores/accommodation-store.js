@@ -1,7 +1,7 @@
 import { observable, computed } from "mobx"
 import autosave from "core/misc/autosave";
 import setter from "core/mobx/setter";
-import { createFilters, applyFilters } from "./utils/accommodation-filtering";
+import { createFilters, applyFilters, generateFiltersLine } from "./utils/accommodation-filtering";
 
 export const PAYMENT_METHODS = {
     CARD: "CreditCard",
@@ -84,8 +84,10 @@ class AccommodationStore {
             else
                 this.search.result = results;
         } else {
-            this.search.length = 0;
-            this.search.result = [];
+            if (0 == page) {
+                this.search.length = 0;
+                this.search.result = [];
+            }
         }
 
         this.search.page = page;
@@ -94,15 +96,16 @@ class AccommodationStore {
         if (this.search.status == "PartiallyCompleted")
             this.search.hasMoreVariants = this.search.result?.results?.length < this.search.length;
 
-        if ((this.search.status != "PartiallyCompleted") || this.search.result?.results?.length)
+        if ((this.search.status != "PartiallyCompleted") || this.search.result?.results?.length || (this.search.loading == "__filter_tmp"))
             this.search.loading = false;
 
         this.filters = createFilters(this.search.result);
 
-        this.selectedFilters = null;
-        this.booking.request = null;
-        this.booking.result = {};
-        this.paymentResult = {};
+        if (0 == page) {
+            this.booking.request = null;
+            this.booking.result = {};
+            this.paymentResult = {};
+        }
     }
 
     setSearchResultLength(length, status) {
@@ -172,6 +175,10 @@ class AccommodationStore {
         if (this.paymentResult.result == "Failed")
             this.paymentResult.error = true;
         this.paymentResult.params_error = (result.params?.response_message != "Success");
+    }
+
+    @computed get filtersLine() {
+        return generateFiltersLine(this.selectedFilters);
     }
 }
 

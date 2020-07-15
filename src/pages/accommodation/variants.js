@@ -79,7 +79,7 @@ class AccommodationVariantsPage extends React.Component {
 
 <React.Fragment>
     <div class="variants block">
-        { store?.search?.loading ?
+        { store?.search?.loading === true ?
         <Loader /> :
         <section class="double-sections">
             <AccommodationFilters />
@@ -107,7 +107,7 @@ class AccommodationVariantsPage extends React.Component {
                                 text: store.search.request.destination
                             }
                         ]}/>
-                        { !store.hotelArray.length &&
+                        { !store.hotelArray.length && !store?.search?.loading &&
                             <h3>
                                 <span>
                                     {t("No accommodations available")}
@@ -131,7 +131,9 @@ class AccommodationVariantsPage extends React.Component {
                     */ }
                 </div>
 
-                { !store.hotelArray.length &&
+                { (store.search?.loading == "__filter_tmp") && <Loader page /> }
+
+                { (!store.hotelArray.length && !store?.search?.loading && !store.filtersLine) &&
                     <div style={{ paddingTop: "50px" }}>
                         <div class="head">
                             <div class="title">
@@ -151,7 +153,7 @@ class AccommodationVariantsPage extends React.Component {
                     dataLength={store.hotelArray.length}
                     next={this.loadNextPage}
                     hasMore={store.search.hasMoreVariants}
-                    loader={<Loader />}
+                    loader={(store.search?.loading !== "__filter_tmp") ? <Loader /> : null}
                 >
                 { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
