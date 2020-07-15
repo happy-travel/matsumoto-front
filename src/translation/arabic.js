@@ -91,7 +91,7 @@ translations: {
     "Unrated": "غير مصنفة",
     "Map": "خريطة",
     "Price Range": "نطاق السعر",
-    "Drag the slider to choose the minimum and maximum price": "قم بسحب شريط التمرير لتحديد قيمة الحد الأدنى والأقصى للسعر",
+    "Drag the slider to choose the minimum and maximum prices": "قم بسحب شريط التمرير لتحديد قيمة الحد الأدنى والأقصى للسعر",
     "Property Type": "نوع السكن",
     "Rating": "التصنيف",
     "Preferred": "المفضل",
