@@ -1,6 +1,6 @@
 import View from "stores/view-store";
 
-const selfToggleIds = ["LocaleSwitcherDropdown", "UserMenuDropdown"];
+const selfToggleIds = ["LocaleSwitcherDropdown", "UserMenuDropdown", "SorterDropdown"];
 const hideDropdown = () => View.setOpenDropdown(null);
 
 export default () => {

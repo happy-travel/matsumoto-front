@@ -10,6 +10,7 @@ import {
 } from "simple";
 import Breadcrumbs from "components/breadcrumbs";
 import Deadline from "components/deadline";
+import SorterDropdown from "components/complex/sorter";
 
 import AccommodationFilters from "parts/accommodation-filters";
 import { loadCurrentSearch } from "parts/search/search-logic";
@@ -109,12 +110,8 @@ class AccommodationVariantsPage extends React.Component {
                             </h3>
                         }
                     </div>
+                    <SorterDropdown />
                     { /* todo:
-                    <div class="sorter">
-                        <button class="button-expand">
-                            {t("Sort by")}
-                        </button>
-                    </div>
                     <div class="input-wrap">
                         <div class="form">
                             <FieldText

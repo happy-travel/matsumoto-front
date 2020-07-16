@@ -1,7 +1,12 @@
 import { observable, computed } from "mobx"
 import autosave from "core/misc/autosave";
 import setter from "core/mobx/setter";
-import { createFilters, applyFilters, generateFiltersLine } from "./utils/accommodation-filtering";
+import {
+    createFilters,
+    applyFilters,
+    generateFiltersLine,
+    generateSorterLine
+} from "./utils/accommodation-filtering";
 
 export const PAYMENT_METHODS = {
     CARD: "CreditCard",
@@ -45,6 +50,10 @@ class AccommodationStore {
     @observable
     @setter
     selectedFilters = null;
+
+    @observable
+    @setter
+    sorter = null;
 
     @observable
     @setter
@@ -179,6 +188,10 @@ class AccommodationStore {
 
     @computed get filtersLine() {
         return generateFiltersLine(this.selectedFilters);
+    }
+
+    @computed get sorterLine() {
+        return generateSorterLine(this.sorter);
     }
 }
 

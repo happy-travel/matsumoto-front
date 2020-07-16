@@ -129,10 +129,12 @@ translations: {
     "Actions": "Actions",
     "Total Price": "Total Price",
     "None": "None",
+    "Usual": "Usual",
     "Within deadline": "Within deadline",
     "Book now": "Book now",
     "Date": "Date",
     "Price": "Price",
+    "price": "price",
     "Room Available": "Room Available",
     "Show all rooms": "Show all rooms",
     "Search accommodation": "Search accommodation",
@@ -369,6 +371,9 @@ translations: {
     "Back to booking management": "Back to booking management",
 
     "Please note the booking price has changed.": "Please note the booking price has changed.",
-    "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.": "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final."
+    "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.": "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.",
+
+    "High price first": "High price first",
+    "Low price first": "Low price first"
 }
 };

@@ -38,6 +38,12 @@ export const generateFiltersLine = filters => {
     return list.join(" and ");
 };
 
+export const generateSorterLine = sorter => {
+    if (sorter?.price)
+        return "Data/" + (sorter.price > 0 ? "MinPrice desc" : "MaxPrice asc");
+    return "";
+};
+
 export const createFilters = hotels => {
     var filters = {
             price: {

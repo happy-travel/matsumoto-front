@@ -103,11 +103,13 @@
                 margin-right: 10px
             b
                 font-weight: 700
-    &.locale, &.currency, &.user-menu
+    &.usual
+        margin-right: 30px
+        .item
+            cursor: pointer
+    &.usual, &.locale, &.currency, &.user-menu
         min-width: 136px
         padding: 6px 0 3px
-        top: 47px
-        right: -27px
         line-height: 0
         .item
             line-height: 17px
@@ -121,6 +123,9 @@
             .flag
                 margin-left: 12px
                 display: inline-block
+    &.locale, &.currency, &.user-menu
+        top: 47px
+        right: -27px
     &.user-menu
         .item
             padding-right: 16px

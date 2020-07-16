@@ -56,7 +56,8 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
         body: {
             $top: PAGE_SIZE,
             $skip: page*PAGE_SIZE,
-            ...(store.filtersLine ? {$filter: store.filtersLine} : {})
+            ...(store.filtersLine ? {$filter: store.filtersLine} : {}),
+            ...(store.sorterLine ? {$orderBy: store.sorterLine} : {})
         },
         success: result => {
             callback();
@@ -70,6 +71,12 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
 
 export const loadCurrentSearchWithNewFilters = values => {
     store.setSelectedFilters(values);
+    loadCurrentSearch();
+    store.setSearchIsLoading("__filter_tmp");
+};
+
+export const loadCurrentSearchWithNewOrder = values => {
+    store.setSorter(values);
     loadCurrentSearch();
     store.setSearchIsLoading("__filter_tmp");
 };
