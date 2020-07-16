@@ -180,7 +180,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         {price(roomContractSet.price)}
                                     </td>
                                     <td class="pros">
-                                        {roomContractSet.isDynamic === true &&
+                                        {roomContractSet.roomContracts[0]?.isDynamic === true &&
                                             <div class="one">
                                                 <strong>
                                                     {t("Dynamic offer")}

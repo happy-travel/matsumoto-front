@@ -211,7 +211,7 @@ class AccommodationVariantsPage extends React.Component {
                                     <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
                                 </h3>
                                 <div>
-                                    {roomContractSet.isDynamic === true &&
+                                    {roomContractSet.roomContracts[0]?.isDynamic === true &&
                                         <strong>
                                             {t("Dynamic offer")}
                                         </strong>
