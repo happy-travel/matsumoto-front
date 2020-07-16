@@ -90,13 +90,7 @@ class AccommodationVariantsPage extends React.Component {
                             {t("Results for")} <b>{ store.search.request.destination }</b>
 
                             {!!store.hotelArray.length &&
-                                <span>&nbsp;({store.hotelArray.length}
-                                    { !!store.search.length && <React.Fragment>
-                                        &nbsp;{t("out of")} {store.search.length}{
-                                        store.search.status == "PartiallyCompleted" ? "+" : ""
-                                        } {t("available")}
-                                    </React.Fragment> })
-                                </span>
+                                <span>&nbsp;({store.search.length})</span>
                             }
                         </h3>
                         <Breadcrumbs noBackButton items={[
