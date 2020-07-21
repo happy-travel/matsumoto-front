@@ -169,14 +169,10 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                             */ }
                         </div>
-                        <div class="prices">
-                            <div class="from">{t("From")}</div>
-                            <div class="value">{price(item.roomContractSets?.[0]?.price.currency, item.fromPrice)}</div>
-                        </div>
                     </div>
                     <div class="table">
                         <div class="title">
-                            {t("Recommended option for")
+                            {__plural(t, item.roomContractSets.length, "option")} {t("available for")
                             } <PassengersCount t={t}
                                                adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
                                                children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}/>
@@ -190,8 +186,8 @@ class AccommodationVariantsPage extends React.Component {
                                                    separator={", "} />
                             </div>
                             <div class="price">
-                                <span>{store.sorter?.price > 0 ? null : t("From")}</span>
-                                {price(item.roomContractSets?.[0]?.price)}
+                                <span>{t("From")}</span>
+                                {price(item.roomContractSets?.[0]?.price.currency, item.fromPrice)}
                             </div>
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}

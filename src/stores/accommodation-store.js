@@ -139,6 +139,7 @@ class AccommodationStore {
     }
 
     selectAccommodation(accommodation) {
+        accommodation.data?.roomContractSets?.sort((a,b) => a.price.netTotal - b.price.netTotal);
         this.selected.accommodation = {
             ...accommodation.data,
             source: accommodation.source
