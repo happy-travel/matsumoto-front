@@ -92,8 +92,8 @@ class AccommodationSearch extends React.Component {
                                     <div class="row">
                                         <FieldDestination formik={formik}
                                                           id="destination"
-                                                          label={t("Destination, Hotel name, Location or Landmark")}
-                                                          placeholder={t("Choose your Destination, Hotel name, Location or Landmark")}
+                                                          label={t("Destination, Hotel Name, Location or Landmark")}
+                                                          placeholder={t("Choose your Destination, Hotel Name, Location or Landmark")}
                                         />
                                         <FieldDatepicker formik={formik}
                                                          id="dates"
