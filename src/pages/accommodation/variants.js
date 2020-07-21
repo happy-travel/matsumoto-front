@@ -190,7 +190,8 @@ class AccommodationVariantsPage extends React.Component {
                                                    separator={", "} />
                             </div>
                             <div class="price">
-                                <span>{t("From")}</span> {price(item.roomContractSets?.[0]?.price)}
+                                <span>{store.sorter?.price > 0 ? null : t("From")}</span>
+                                {price(item.roomContractSets?.[0]?.price)}
                             </div>
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}

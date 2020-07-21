@@ -40,7 +40,7 @@ export const generateFiltersLine = filters => {
 
 export const generateSorterLine = sorter => {
     if (sorter?.price)
-        return "Data/" + (sorter.price > 0 ? "MinPrice desc" : "MaxPrice asc");
+        return "Data/" + (sorter.price > 0 ? "MinPrice desc" : "MinPrice asc");
     return "";
 };
 
