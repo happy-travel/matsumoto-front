@@ -204,6 +204,10 @@ render() {
                 {t("You are not able to pay this order anymore")}
             </h2> }
 
+            {!this.state.direct && <p class="remark">
+                <strong>Please note:</strong> when paying by card, we hold funds on your account until the deadline date approach. In case of cancellation, funds will be released in accordance with the service cancellation policy as soon as possible.
+            </p>}
+
             { !this.state.direct && !!this.state.savedCards.length && <React.Fragment>
                 <h2 class="payment-title">
                     {t("Pay using saved cards")}
