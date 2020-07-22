@@ -20,15 +20,13 @@ class AccommodationFiltersPart extends React.Component {
 
     render() {
         const { t } = useTranslation();
-
-        if (!store.filters || (!store.hotelArray?.length && !store.filtersLine && !store.search.loading))
-            return <div class="left-section filters" />;
-
         return (
             <CachedForm
                 id={ FORM_NAMES.AccommodationFiltersForm }
                 onSubmit={this.submit}
                 render={(formik, reset) => {
+                    if (!store.filters || (!store.hotelArray?.length && !store.filtersLine && !store.search.loading))
+                        return <div class="left-section filters" />;
                     return (
                         <div class="left-section filters">
                             <Expandable
@@ -78,7 +76,7 @@ class AccommodationFiltersPart extends React.Component {
                                 }
                             /> }
                             { ( (__localhost || __devEnv) &&
-                                (!!store.filters.__source.length)) && <Expandable
+                                !!store.filters.__source.length) && <Expandable
                                 open
                                 header="Source"
                                 content={

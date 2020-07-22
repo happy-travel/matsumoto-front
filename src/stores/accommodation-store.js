@@ -95,12 +95,8 @@ class AccommodationStore {
                 this.search.result.push(...results);
             else
                 this.search.result = results;
-        } else {
-            if (0 == page) {
-                this.search.length = 0;
-                this.search.result = [];
-            }
-        }
+        } else if (0 == page)
+            this.search.result = [];
 
         this.search.page = page;
 

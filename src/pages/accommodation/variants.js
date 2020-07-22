@@ -29,6 +29,11 @@ class AccommodationVariantsPage extends React.Component {
         this.loadNextPage = this.loadNextPage.bind(this);
     }
 
+    componentDidMount() {
+        if (store.search?.loading == "__filter_tmp")
+            store.setSearchIsLoading(null);
+    }
+
     accommodationSelect(accommodation) {
         this.setState({
             loading: true
@@ -83,16 +88,14 @@ class AccommodationVariantsPage extends React.Component {
         { store?.search?.loading === true ?
         <Loader /> :
         <section class="double-sections">
+            { (store.search?.loading == "__filter_tmp") && <Loader segment /> }
             <AccommodationFilters />
             <div class="right-section">
                 <div class="head">
                     <div class="title">
                         <h3>
                             {t("Results for")} <b>{ store.search.request.destination }</b>
-
-                            {!!store.hotelArray.length &&
-                                <span>&nbsp;({store.search.length})</span>
-                            }
+                            <span>&nbsp;({store.search.length})</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
@@ -121,8 +124,6 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                     */ }
                 </div>
-
-                { (store.search?.loading == "__filter_tmp") && <Loader page /> }
 
                 { (!store.hotelArray.length && !store?.search?.loading && !store.filtersLine) &&
                     <div style={{ paddingTop: "50px" }}>
