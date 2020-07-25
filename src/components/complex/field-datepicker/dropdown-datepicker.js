@@ -47,7 +47,7 @@ class DateDropdown extends React.Component {
                     className={"calendar-style"}
                     firstOfWeek={authStore.settings.weekStarts
                                     ? (authStore.settings.weekStarts % 7)
-                                    : ("rtl" == windowLocalStorage.get("direction")
+                                    : ("ar" == windowLocalStorage.get("locale")
                                         ? 0
                                         : 1
                                     )}

@@ -42,8 +42,8 @@ class AuthStore {
 
     setSettings(value = {}) {
         this.settings = {
-            ...value,
-            ...this.settings
+            ...this.settings,
+            ...value
         };
     }
 

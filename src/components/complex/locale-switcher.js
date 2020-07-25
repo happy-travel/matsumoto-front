@@ -1,8 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { localStorage } from "core";
-import { windowLocalStorage } from "core/misc/window-storage";
 import { Flag } from "simple";
 
 import View from "stores/view-store";
@@ -11,16 +9,8 @@ const dropdownId = "LocaleSwitcherDropdown";
 
 @observer
 class LocaleSwitcherDropdown extends React.Component {
-    changeLanguage(i18n, lng) {
-        View.setOpenDropdown(null);
-        i18n.changeLanguage(lng);
-        localStorage.set("locale", lng);
-        windowLocalStorage.set("direction", i18n.dir(lng));
-        window.setPageDirectionFromLS();
-    };
-
     render() {
-        const { t, i18n } = useTranslation();
+        const { t } = useTranslation();
 
         return (
             <React.Fragment>
@@ -37,11 +27,11 @@ class LocaleSwitcherDropdown extends React.Component {
                     <div class="switch-arrow" />
 
                     {View.isDropdownOpen(dropdownId) && <div class="locale dropdown">
-                        <div class="item" onClick={this.changeLanguage.bind(null, i18n, "ar")}>
+                        <div class="item" onClick={switchLocale.bind(null, "ar")}>
                             <Flag code={"ae"} />
                             <span>اللغة الحالية</span>
                         </div>
-                        <div class="item" onClick={this.changeLanguage.bind(null, i18n, "en")}>
+                        <div class="item" onClick={switchLocale.bind(null, "en")}>
                             <Flag code={"gb"} />
                             <span>English</span>
                         </div>

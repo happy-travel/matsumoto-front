@@ -1,15 +1,23 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 import { Loader } from "simple";
-import { CachedForm, FieldSelect, FieldSwitch } from "components/form";
+import {
+    CachedForm,
+    FieldSelect,
+    FieldSwitch,
+    FORM_NAMES
+} from "components/form";
 import FieldCountry from "components/complex/field-country";
 import {
     loadUserSettings,
     saveUserSettings
 } from "simple/logic/user-settings";
+import { switchLocale } from "core/misc/switch-locale";
 
+import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
 
 @observer
@@ -25,19 +33,31 @@ class UserApplicationSettings extends React.Component {
     }
 
     submitUserSettings(values) {
+        var shouldDropSearchCache =
+            values.nationality != authStore.settings.nationality ||
+            values.residency != authStore.settings.residency;
+
         this.setState({ loading: true });
         saveUserSettings(
             values,
-            () => this.setState({ loading: false })
+            () => {
+                if (values.preferredLanguage != i18n.language)
+                    switchLocale(values.preferredLanguage);{
+                    if (shouldDropSearchCache)
+                        UI.dropFormCache(FORM_NAMES.SearchForm);
+                }
+                this.setState({ loading: false });
+            }
         );
     }
 
     render() {
         const { t } = useTranslation();
+        if (this.state.loading)
+            return <Loader page />;
+
         return (
             <React.Fragment>
-                {this.state.loading && <Loader page />}
-
                 <h2><span class="brand">{t("Application Settings")}</span></h2>
 
                 <CachedForm

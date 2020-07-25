@@ -1,5 +1,6 @@
 import { API } from "core";
-
+import { windowLocalStorage } from "core/misc/window-storage";
+import { switchLocale } from "core/misc/switch-locale";
 import authStore from "stores/auth-store";
 
 const settingsCleaner = values => ({
@@ -45,6 +46,8 @@ export const loadUserSettings = () => {
             authStore.setSettings(result);
             if (!Object.keys(result || {}).length)
                 fillEmptyUserSettings();
+            if ("ar" == result.preferredLanguage && "ar" != windowLocalStorage.get("locale"))
+                switchLocale("ar");
         }
     });
 };

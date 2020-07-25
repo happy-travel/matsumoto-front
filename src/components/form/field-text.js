@@ -171,7 +171,7 @@ class FieldText extends React.Component {
             suggestion = decorate.cutFirstPart(suggestion, getValue(formik, id));
 
         /* todo: Remove this workaround when server rtl suggestions works correct */
-        var isSuggestionVisible = windowLocalStorage.get("direction") != "rtl";
+        var isSuggestionVisible = windowLocalStorage.get("locale") != "ar";
 
         if (ValueObject !== undefined) {
             if (ValueObject)

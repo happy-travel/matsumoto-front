@@ -13,9 +13,8 @@ if (!__localhost)
 tracker();
 
 window.setPageDirectionFromLS = () => {
-    var dir = windowLocalStorage.get("direction");
-    if (dir == "ltr" || dir == "rtl")
-        document.getElementsByTagName("html")[0].setAttribute("dir", dir);
+    var dir = "ar" == windowLocalStorage.get("locale") ? "rtl" : "ltr";
+    document.getElementsByTagName("html")[0].setAttribute("dir", dir);
 };
 window.setPageDirectionFromLS();
 
