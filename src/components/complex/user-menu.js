@@ -34,7 +34,7 @@ class UserMenuDropdown extends React.Component {
                     <Link to="/agent/booking" class="item">
                         {t("Booking management")}
                     </Link>
-                    { (authStore.activeCounterparty.inAgencyPermissions?.indexOf("ViewCounterpartyAllPaymentHistory") != -1) &&
+                    { (authStore.activeCounterparty.inAgencyPermissions?.indexOf("ObservePaymentHistory") != -1) &&
                         <Link to="/account/statement" class="item">
                             {t("Account statement")}
                         </Link> }

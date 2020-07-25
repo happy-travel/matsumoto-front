@@ -66,7 +66,7 @@ API_METHODS = {
 
 
     BILLING_HISTORY       : counterpartyId =>
-                            v1 + `/payments/history/${counterpartyId}`,
+                            v1 + `/payments/history/${counterpartyId}/agent`,
 
     BASE_VERSION          : v1 + "/versions",
 
