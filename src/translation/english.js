@@ -340,6 +340,8 @@ translations: {
     "Security code on your credit card": "Security code on your credit card",
     "It's safe, only a part of your card data will be stored": "It's safe, only a part of your card data will be stored",
     "Pay using saved cards": "Pay using saved cards",
+    "Back to saved cards": "Back to saved cards",
+    "Use another card": "Use another card",
     "using saved card": "using saved card",
     "Reset filters": "Reset filters",
     "No Breakfast": "No Breakfast",

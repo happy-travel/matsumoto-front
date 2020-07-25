@@ -36,6 +36,12 @@ class PaymentDirectLinkPage extends PaymentPage {
         API.get({
             external_url: API.DIRECT_LINK_PAY.GET_INFO(orderCode),
             after: result => {
+                if (!result) {
+                    this.setState({
+                        loading: false
+                    });
+                    return;
+                }
                 windowSessionStorage.set(result.referenceCode, orderCode);
                 this.setState({
                     loading: false,

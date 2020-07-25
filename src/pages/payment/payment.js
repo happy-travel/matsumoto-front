@@ -49,8 +49,9 @@ class PaymentPage extends BasicPaymentPage {
             },
             savedCards: [],
             selectedCardId: null,
-            loading: false,
-            everSubmitted: false
+            loading: true,
+            everSubmitted: false,
+            addNew: false
         };
         this.submit = this.submit.bind(this);
         this.detectCardType = this.detectCardType.bind(this);
@@ -78,7 +79,9 @@ class PaymentPage extends BasicPaymentPage {
         API.get({
             url: API.CARDS_SAVED,
             success: data => this.setState({
-                savedCards: data || []
+                savedCards: data || [],
+                loading: false,
+                addNew: !data?.length
             })
         });
         snare();
@@ -167,10 +170,12 @@ class PaymentPage extends BasicPaymentPage {
 render() {
     const { t } = useTranslation();
 
+    if (this.state.loading)
+        return <Loader />;
+
     return (
         <React.Fragment>
             { this.state.direct && <StaticHeader /> }
-            { this.state.loading && <Loader page /> }
 
 <div class="confirmation block payment">
     <section class="double-sections">
@@ -208,7 +213,8 @@ render() {
                 <strong>Please note:</strong> when paying by card, we hold funds on your account until the deadline date approach. In case of cancellation, funds will be released in accordance with the service cancellation policy as soon as possible.
             </p>}
 
-            { !this.state.direct && !!this.state.savedCards.length && <React.Fragment>
+            { !this.state.direct && !!this.state.savedCards.length && !this.state.addNew &&
+            <React.Fragment>
                 <h2 class="payment-title">
                     {t("Pay using saved cards")}
                 </h2>
@@ -246,7 +252,11 @@ render() {
                                     </div>
                                 </div>
                                 <button class={"no-margin button" + __class(!this.state.selectedCardId, "disabled")}>
+                                    <span class="icon icon-white-lock" />
                                     { t("Pay") + price(this.state.currency, this.state.amount || 0) + t("using saved card")}
+                                </button>
+                                <button onClick={() => this.setState({ addNew: true })} class="button transparent-with-border">
+                                    {t("Use another card")}
                                 </button>
                             </div>
                         </form>
@@ -254,7 +264,15 @@ render() {
                 </Formik>
             </React.Fragment>}
 
-            { (!this.state.direct || ("Created" == this.state.status)) && <React.Fragment>
+            { ((!this.state.direct && this.state.addNew) || ("Created" == this.state.status)) &&
+            <React.Fragment>
+                {!!this.state.savedCards.length &&
+                    <div class="form" style={{paddingTop: "40px"}}>
+                        <button onClick={() => this.setState({ addNew: false })} class="button transparent-with-border">
+                            {t("Back to saved cards")}
+                        </button>
+                    </div>
+                }
                 <h2 class="payment-title">
                     {t("Please Enter Your Card Details")}
                 </h2>

@@ -352,7 +352,7 @@ class AccommodationBookingPage extends React.Component {
 
                                 <div class="part" style={{ margin: "-10px 0 5px" }}>
                                     <div class="row">
-                                        <div class="vertical-label">{t("Itinerary number")}</div>
+                                        <div class="vertical-label left">{t("Itinerary number")}</div>
                                         <FieldText formik={formik}
                                                    id={"itineraryNumber"}
                                                    placeholder={t("Please enter itinerary number")}
