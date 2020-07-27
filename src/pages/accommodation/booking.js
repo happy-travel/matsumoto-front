@@ -25,7 +25,7 @@ import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
 
-const isPaymentAvailable = balance => ( balance?.currency && balance.balance );
+const isPaymentAvailable = balance => ( balance?.currency && (balance.balance >= 0) );
 
 @observer
 class AccommodationBookingPage extends React.Component {
