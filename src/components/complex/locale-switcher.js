@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { Flag } from "simple";
+import { switchLocale } from "core/misc/switch-locale";
 
 import View from "stores/view-store";
 
