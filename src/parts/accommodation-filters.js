@@ -21,6 +21,8 @@ class AccommodationFiltersPart extends React.Component {
     render() {
         const { t } = useTranslation();
         return (
+        <React.Fragment>
+            <div class="hide">{store.filters.__source}</div>
             <CachedForm
                 id={ FORM_NAMES.AccommodationFiltersForm }
                 onSubmit={this.submit}
@@ -94,7 +96,7 @@ class AccommodationFiltersPart extends React.Component {
                     </div>
                 );
             }} />
-
+        </React.Fragment>
         );
     }
 }
