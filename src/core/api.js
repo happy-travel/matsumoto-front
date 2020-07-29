@@ -89,6 +89,8 @@ API_METHODS = {
     AGENT_PERMISSIONS    : (agentId, agencyId) =>
                            v1 + `/agencies/${agencyId}/agents/${agentId}/permissions`,
 
+    REPORT_DUPLICATE     : v1 + "/accommodations-mapping/duplicate-reports",
+
     OUR_COMPANY          : v1 + "/company"
 };
 

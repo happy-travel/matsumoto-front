@@ -17,6 +17,7 @@ import { loadCurrentSearch } from "parts/search/search-logic";
 import AccommodationTitlePage from "./title";
 
 import store from "stores/accommodation-store";
+import UI, { MODALS } from "stores/ui-store";
 
 @observer
 class AccommodationVariantsPage extends React.Component {
@@ -95,7 +96,10 @@ class AccommodationVariantsPage extends React.Component {
                     <div class="title">
                         <h3>
                             {t("Results for")} <b>{ store.search.request.destination }</b>
-                            <span>&nbsp;({store.search.length})</span>
+                            <span>&nbsp;(
+                                {store.search.length}
+                                { store.search.status == "PartiallyCompleted" ? "+" : "" }
+                            )</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
@@ -149,16 +153,16 @@ class AccommodationVariantsPage extends React.Component {
                 >
                 { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodationDetails.id}>
-                    <div class="summary" onClick={() => this.accommodationSelect(item)}>
-                        { item.accommodationDetails.picture.source && <div class="photo">
+                    <div class="summary">
+                        { item.accommodationDetails.picture.source && <div class="photo" onClick={() => this.accommodationSelect(item)}>
                             <img src={item.accommodationDetails.picture.source} alt="" />
                         </div> }
                         <div class="title">
-                            <h2>
+                            <h2 onClick={() => this.accommodationSelect(item)}>
                                 <u>{item.accommodationDetails.name}</u>
                                 <Stars count={item.accommodationDetails.rating} />
                             </h2>
-                            <div class="category">
+                            <div class="category" onClick={() => this.accommodationSelect(item)}>
                                 {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.locality}<br/>
                                 {item.accommodationDetails.location.address}
                             </div>
@@ -169,6 +173,15 @@ class AccommodationVariantsPage extends React.Component {
                                 <span class="button pink mini-label">{t("Preferred")}</span>
                             </div>
                             */ }
+                            <div class="features" id={item.source + "." + item.accommodationDetails.id}>
+                                <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
+                                        onClick={() => {
+                                            UI.setModal(MODALS.REPORT_DUPLICATE);
+                                            UI.setModalData(item);
+                                        }}>
+                                    {item.hasDuplicate ? t("Marked as Duplicate") : t("Mark as duplicate")}
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="table">

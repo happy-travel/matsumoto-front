@@ -1,4 +1,4 @@
-.variants.block
+.variants
     position: relative
     .head
         margin-bottom: 30px
@@ -31,42 +31,6 @@
 
     .variant
         margin-bottom: 90px
-        .summary
-            margin-bottom: 17px
-            display: flex
-            flex-direction: row
-            justify-content: space-between
-            cursor: pointer
-            .photo
-                margin-right: 17px
-                &, & img
-                    width: 125px
-                    height: 80px
-                    border-radius: 2px
-            .title
-                flex-grow: 1
-                h2
-                    margin-bottom: 6px
-                    u
-                        margin-right: 15px
-                        text-decoration: none
-                    .stars
-                        display: inline-block
-                        position: relative
-                        top: -1px
-                        i
-                            margin-right: 1px
-                .category
-                    margin-bottom: 13px
-                    font-size: 13px
-                    line-height: 16px
-                    color: $color-text-light
-                .features
-                    .icon
-                        margin-right: 12px
-                        cursor: pointer
-                    .mini-label
-                        vertical-align: bottom
 
         .table
             font-size: 11px
@@ -132,6 +96,52 @@
                 .button
                     width: 172px
                     height: 36px
+
+    .summary
+        margin-bottom: 17px
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        .photo, h2, .category
+            cursor: pointer
+            max-width: 550px
+        .photo
+            margin-right: 17px
+            &, & img
+                width: 125px
+                height: 80px
+                border-radius: 2px
+        .title
+            flex-grow: 1
+            h2
+                margin-bottom: 6px
+                u
+                    margin-right: 15px
+                    text-decoration: none
+                .stars
+                    display: inline-block
+                    position: relative
+                    top: -1px
+                    i
+                        margin-right: 1px
+            .category
+                margin-bottom: 13px
+                font-size: 13px
+                line-height: 16px
+                color: $color-text-light
+            .features
+                .icon
+                    margin-right: 12px
+                    cursor: pointer
+                .mini-label
+                    vertical-align: bottom
+            .features
+                float: right
+                margin-top: -10px
+                margin-bottom: -20px
+                button
+                    cursor: pointer
+
 
     .table
         margin-bottom: 40px

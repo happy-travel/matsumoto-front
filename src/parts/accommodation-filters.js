@@ -22,7 +22,7 @@ class AccommodationFiltersPart extends React.Component {
         const { t } = useTranslation();
         return (
         <React.Fragment>
-            <div class="hide">{store.filters.__source}</div>
+            <div class="hide">{store.filters?.__source}</div>
             <CachedForm
                 id={ FORM_NAMES.AccommodationFiltersForm }
                 onSubmit={this.submit}
