@@ -158,6 +158,16 @@ class AccommodationVariantsPage extends React.Component {
                             <img src={item.accommodationDetails.picture.source} alt="" />
                         </div> }
                         <div class="title">
+                            <div class="features">
+                                <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
+                                        id={item.source + "." + item.accommodationDetails.id}
+                                        onClick={() => {
+                                            UI.setModal(MODALS.REPORT_DUPLICATE);
+                                            UI.setModalData(item);
+                                        }}>
+                                    {item.hasDuplicate ? t("Marked as Duplicate") : t("Mark as duplicate")}
+                                </button>
+                            </div>
                             <h2 onClick={() => this.accommodationSelect(item)}>
                                 <u>{item.accommodationDetails.name}</u>
                                 <Stars count={item.accommodationDetails.rating} />
@@ -173,15 +183,6 @@ class AccommodationVariantsPage extends React.Component {
                                 <span class="button pink mini-label">{t("Preferred")}</span>
                             </div>
                             */ }
-                            <div class="features" id={item.source + "." + item.accommodationDetails.id}>
-                                <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
-                                        onClick={() => {
-                                            UI.setModal(MODALS.REPORT_DUPLICATE);
-                                            UI.setModalData(item);
-                                        }}>
-                                    {item.hasDuplicate ? t("Marked as Duplicate") : t("Mark as duplicate")}
-                                </button>
-                            </div>
                         </div>
                     </div>
                     <div class="table">

@@ -46,8 +46,10 @@ class ReportDuplicateModal extends React.Component {
             },
             success: () => {
                 var temporary_duplicate_element = document.getElementById(dataProvider + "." + id);
-                if (temporary_duplicate_element)
+                if (temporary_duplicate_element) {
                     temporary_duplicate_element.innerHTML = "Marked as Duplicate";
+                    temporary_duplicate_element.className = "button mini-label gray";
+                }
             }
         });
 
