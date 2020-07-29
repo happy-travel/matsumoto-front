@@ -65,7 +65,7 @@ class ReportDuplicateModal extends React.Component {
                     <span class="icon icon-close" />
                 </div>}
 
-                <h2>Mark an accommodation as duplicate</h2>
+                <h2>Mark the accommodation as a duplicate</h2>
                 <p style={{marginBottom: "20px"}}>
                     If you have seen “{data?.accommodationDetails?.name || ""}“ previously in the current accommodations list,
                     you could link it with a duplicate one, and we will join both results to show them as one next time.
@@ -80,11 +80,9 @@ class ReportDuplicateModal extends React.Component {
                                                 label={t("Accommodation Name")}
                                                 clearable
                             />
-                            <div style={{ marginTop: "20px" }}>
-                                <button type="submit" class="button blue">
-                                    {t("Confirm")}
-                                </button>
-                            </div>
+                            <button type="submit" class="button" style={{ marginTop: "20px" }}>
+                                {t("Confirm")}
+                            </button>
                         </div>
                     )}
                 />
