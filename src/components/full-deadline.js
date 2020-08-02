@@ -40,7 +40,7 @@ class FullDeadline extends React.Component {
                         <i class="icon icon-hotel-information" />
                     </div>
                     <div class="data">
-                        <b>{t("Hotel Information")}</b>
+                        <b>{t("Accommodation Information")}</b>
                         { remarks.map(item => (
                             <div>
                                 {!!item.key && <span>{item.key}:</span>} {item.value}

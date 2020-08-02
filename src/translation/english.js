@@ -373,7 +373,7 @@ translations: {
     "Payment failed": "Payment failed",
     "Your order has been paid successfully": "Your order has been paid successfully",
     "Try to pay again": "Try to pay again",
-    "Hotel Information": "Hotel Information",
+    "Accommodation Information": "Accommodation Information",
     "Unable to load a booking confirmation": "Unable to load a booking confirmation",
     "Back to booking management": "Back to booking management",
 

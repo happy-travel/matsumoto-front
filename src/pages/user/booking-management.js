@@ -16,6 +16,10 @@ const getClassByStatus = status => ({
     "Cancelled": "gray"
 }[status] || "");
 
+const remapStatus = (status = "") => ({
+    "WaitingForResponse" : "Awaiting Final Confirmation",
+}[status] || status.replace(/([A-Z])/g, " $1"));
+
 const Filter = ({ text, value, that }) => (
     <li><div
         class={"item" + __class(value == that.state.filter_tab, "selected")}
@@ -254,7 +258,7 @@ class UserBookingManagementPage extends React.Component {
                                         <td>
                                             <strong>{t("Status")}</strong>
                                             <span class={getClassByStatus(item.status)}>
-                                                {item.status}
+                                                {remapStatus(item.status)}
                                             </span>
                                         </td>
                                     </tr>
