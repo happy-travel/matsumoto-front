@@ -13,17 +13,6 @@ export default function () {
                 Call +971 4 294 000 7 (UAE)<br/>
                 <br/>
                 Please note, all calls may be recorded for training purposes.<br/>
-                <br/>
-                <br/>
-                <br/>
-                <h2>Our Office Address</h2>
-                <p>
-                    HappyTravelDotCom Travel and Tourism LLC,<br/>
-                    {t('footer_address_line_2')}<br/>
-                    {t('footer_address_line_3')}<br/>
-                    {t('footer_address_line_4')}<br/>
-                    {t('footer_address_line_5')}
-                </p>
             </section>
         </div>
     );

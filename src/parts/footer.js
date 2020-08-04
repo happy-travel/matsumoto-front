@@ -22,14 +22,14 @@ render() {
                         <div class="logo-wrapper">
                             <a href="/" class="logo" />
                         </div>
-                        <div class="social">
+                        { /* <div class="social">
                             <a href="https://facebook.com/HappyTraveldotcom/" target="_blank">
                                 <span class="icon icon-snet-1-f" />
                             </a>
-                            { /* <a href="#">
+                            <a href="#">
                                 <span class="icon icon-snet-2-t" />
-                            </a> */ }
-                        </div>
+                            </a>
+                        </div> */ }
                     </div>
                     <div class="middle">
                         <div class="links">
@@ -43,10 +43,10 @@ render() {
                                 <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
                             </menu>
                             <div class="payments">
-                                <img src="/images/other/visa.png" />
-                                <img src="/images/other/visa-sec.png" class="interval"/>
                                 <img src="/images/other/mc-on-dark.png" class="near transparent" />
                                 <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" />
+                                <img src="/images/other/visa.png" />
+                                <img src="/images/other/visa-sec.png" class="interval"/>
                                 <img src="/images/other/amex.png" />
                             </div>
                             <div class="service-info">

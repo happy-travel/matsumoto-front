@@ -308,7 +308,6 @@ class PrivacyPolicyPage extends React.Component {
                     <p>
                         HappyTravelDotCom Travel and Tourism LLC<br/>
                         B106, Saraya Avenue Building<br/>
-                        Garhoud, Deira<br/>
                         P.O. Box 36366<br/>
                         Dubai, United Arab Emirates<br/>
                         Email: <a class="link" href="mailto:info@happytravel.com">info@happytravel.com</a><br/>
