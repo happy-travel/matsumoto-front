@@ -20,7 +20,7 @@ export default function () {
                 <h3>Russia</h3>
                 <p>2, Enthusiastov boulevard, Moscow</p>
                 <h3>Saudi Arabia</h3>
-                <p>Al Daeiri Al Shamali, Al Riyadh</p>
+                <p>2659, Al Daeiri Al Shamali, Al Riyadh</p>
             </section>
         </div>
     );
