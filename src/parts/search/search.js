@@ -183,19 +183,21 @@ class AccommodationSearch extends React.Component {
                                     </div>
                                 </div>
                                 <div class="additionals">
-                                    { /*
-                                    {formik.values.advancedSearch ?
-                                        <button type="button" class="button-expand reverse" onClick={() => formik.setFieldValue("advancedSearch", false)}>
-                                            {t("Simple Search")}
-                                        </button> :
-                                        <button type="button" class="button-expand" onClick={() => formik.setFieldValue("advancedSearch", true)}>
-                                            {t("Advanced Search")}
-                                        </button>
+                                    {(__devEnv || __localhost) &&
+                                        <React.Fragment>
+                                            {formik.values.advancedSearch ?
+                                                <button type="button" class="button-expand reverse" onClick={() => formik.setFieldValue("advancedSearch", false)}>
+                                                    {t("Simple Search")}
+                                                </button> :
+                                                <button type="button" class="button-expand" onClick={() => formik.setFieldValue("advancedSearch", true)}>
+                                                    {t("Advanced Search")}
+                                                </button>
+                                            }
+                                            <button type="button" class="button-clear" onClick={reset}>
+                                                {t("Clear")}
+                                            </button>
+                                        </React.Fragment>
                                     }
-                                    <button type="button" class="button-clear" onClick={reset}>
-                                        {t("Clear")}
-                                    </button>
-                                    */ }
                                 </div>
                             </React.Fragment>
                         )}
