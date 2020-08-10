@@ -21,8 +21,8 @@ steps:
       from_secret: SENTRY_DEV_DSN
     BUILD_VERSION: ${DRONE_COMMIT_SHA:0:7}
   settings:
-    registry: registry.dev.happytravel.com
-    repo: registry.dev.happytravel.com/matsumoto
+    registry: registry.happytravel.com
+    repo: registry.happytravel.com/matsumoto
     tags:
       - ${DRONE_COMMIT_SHA:0:7}
       - ${DRONE_COMMIT_BRANCH}
@@ -93,8 +93,8 @@ steps:
       from_secret: SENTRY_STAGING_DSN
     BUILD_VERSION: ${DRONE_COMMIT_SHA:0:7}
   settings:
-    registry: registry.dev.happytravel.com
-    repo: registry.dev.happytravel.com/matsumoto
+    registry: registry.happytravel.com
+    repo: registry.happytravel.com/matsumoto
     tags:
       - ${DRONE_COMMIT_SHA:0:7}
       - ${DRONE_COMMIT_BRANCH}
@@ -165,8 +165,8 @@ steps:
       from_secret: SENTRY_PROD_DSN
     BUILD_VERSION: ${DRONE_COMMIT_SHA:0:7}
   settings:
-    registry: registry.dev.happytravel.com
-    repo: registry.dev.happytravel.com/matsumoto
+    registry: registry.happytravel.com
+    repo: registry.happytravel.com/matsumoto
     tags:
       - ${DRONE_COMMIT_SHA:0:7}
       - ${DRONE_COMMIT_BRANCH}
