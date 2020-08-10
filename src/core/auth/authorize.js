@@ -10,7 +10,7 @@ const config = {
     post_logout_redirect_uri: host,
     redirect_uri: host + "/auth/callback",
     silent_redirect_uri: host + "/auth/silent",
-    client_id: "client",
+    client_id: settings.auth_client_id,
     response_type: "code",
     scope: "edo openid email",
     automaticSilentRenew: true,
