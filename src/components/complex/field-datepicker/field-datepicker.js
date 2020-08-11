@@ -28,9 +28,12 @@ class FieldCountry extends React.Component {
                        addClass="size-medium"
                        Dropdown={DateDropdown}
                        value={
-                           dateFormat.b(formik.values[first])
-                           + " – " +
-                           dateFormat.b(formik.values[second])
+                           (formik.values[first] || formik.values[second]) ?
+                               (
+                                   dateFormat.b(formik.values[first])
+                                   + " – " +
+                                   dateFormat.b(formik.values[second])
+                               ) : ''
                        }
                        setValue={range => {
                            formik.setFieldValue(first, range.start);
