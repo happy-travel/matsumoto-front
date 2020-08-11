@@ -220,4 +220,11 @@ _.put = (params) => {
     })
 };
 
+_.delete = (params) => {
+    _.request({
+        method: "DELETE",
+        ...params
+    })
+};
+
 export default _;
