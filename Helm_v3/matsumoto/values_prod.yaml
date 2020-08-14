@@ -48,10 +48,14 @@ ingress:
     - host: happytravel.com
       paths:
         - /
+    - host: www.happytravel.com
+      paths:
+        - /        
   tls:
    - secretName: happytravel-tls
      hosts:
        - happytravel.com
+       - www.happytravel.com
 
 resources:
   limits:
