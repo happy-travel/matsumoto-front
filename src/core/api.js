@@ -137,7 +137,7 @@ Authorize.getUser().then(user => {
             })
         };
 
-    if ("POST" == method || "PUT" == method)
+    if (["POST", "PUT", "DELETE"].includes(method))
         request.body = JSON.stringify(body);
     else {
         var getBody = Object.keys(body).map(key =>
