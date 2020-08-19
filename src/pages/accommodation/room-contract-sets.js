@@ -54,7 +54,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 roomContractSet.id
             ),
             success: (result) => {
-                if (!result?.data) {
+                if (!result?.availabilityId) {
                     View.setTopAlertText("Sorry, this room is not available now, try again later");
                     return;
                 }
@@ -195,9 +195,9 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         </div>
                                         <div class="one">
                                             <Deadline t={t}
+                                                searchId={store.search.id}
+                                                resultId={store.selected.accommodation.id}
                                                 roomContractSet={roomContractSet}
-                                                availabilityId={store.selected.accommodation.availabilityId}
-                                                source={store.selected.accommodation.source}
                                             />
                                         </div>
                                     </td>

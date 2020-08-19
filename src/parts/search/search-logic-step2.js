@@ -19,7 +19,7 @@ export const runSearchSecondStep = accommodation => {
                 accommodation.id
             ),
             success: result => {
-                store.setRoomContractsSet(accommodation.id, result);
+                store.setRoomContractsSets(accommodation.id, result);
             }
         });
     };

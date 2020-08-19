@@ -138,7 +138,7 @@ class AccommodationStore {
         this.search.numberOfNights = Math.round(Math.abs(new Date(form.checkOutDate) - new Date(form.checkInDate))/24/60/60/1000);
     }
 
-    setRoomContractsSet(id, roomContractSets = []) {
+    setRoomContractsSets(id, roomContractSets = []) {
         roomContractSets?.sort((a,b) => a.price.netTotal - b.price.netTotal);
         this.selected.accommodation = {
             id,
@@ -151,8 +151,6 @@ class AccommodationStore {
     }
 
     selectRoomContractSet(result, preloaded) {
-        result = result?.data || null;
-
         if (result?.roomContractSet?.price.currency != preloaded?.price?.currency ||
             result?.roomContractSet?.price.netTotal !== preloaded?.price?.netTotal)
             result.roomContractSet.priceChangedAlert = true;

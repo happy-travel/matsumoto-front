@@ -191,9 +191,9 @@ class AccommodationVariantsPage extends React.Component {
                                         </strong>
                                     }
                                     <Deadline t={t}
-                                        roomContractSet={roomContractSet}
-                                        availabilityId={item.availabilityId}
-                                        source={item.source}
+                                         searchId={store.search.id}
+                                         resultId={item.id}
+                                         roomContractSet={roomContractSet}
                                     />
                                 </div>
                                 <div class="info green">

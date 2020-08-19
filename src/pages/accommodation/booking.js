@@ -85,12 +85,13 @@ class AccommodationBookingPage extends React.Component {
         }
 
         var request = {
-            "availabilityId": store.selected.availabilityId,
+            "searchId": store.search.id,
+            "resultId": store.selected.roomContractSet.id,
+            "roomContractSetId": variant.id,
             "nationality": search.nationality,
             "paymentMethod": store.paymentMethod,
             "residency": search.residency,
             "mainPassengerName": roomDetails[0].passengers[0].firstName + " " + roomDetails[0].passengers[0].lastName,
-            "roomContractSetId": variant.id,
             "agentReference": values.agentReference,
             "roomDetails": roomDetails,
             "features": [],

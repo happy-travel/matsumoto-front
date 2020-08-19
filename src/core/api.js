@@ -63,8 +63,8 @@ API_METHODS = {
                             v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}`,
     A_SEARCH_STEP_THREE   : (searchId, resultId, roomContractSetId) =>
                             v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}`,
-    REQUEST_DEADLINE      : (availabilityId, roomContractSetId, source) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
+    REQUEST_DEADLINE      : (searchId, resultId, roomContractSetId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}/deadline`,
 
 
     BILLING_HISTORY       : counterpartyId =>

@@ -15,9 +15,9 @@ class Deadline extends React.Component {
     request() {
         API.get({
             url: API.REQUEST_DEADLINE(
-                this.props.availabilityId,
-                this.props.roomContractSet.id,
-                this.props.source
+                this.props.searchId,
+                this.props.resultId,
+                this.props.roomContractSet.id
             ),
             success: data => {
                 this.setState({
@@ -28,9 +28,9 @@ class Deadline extends React.Component {
     }
 
     render() {
-        var { roomContractSet, t, source } = this.props,
+        var { roomContractSet, t, searchId, resultId } = this.props,
             date = this.state.result?.date || roomContractSet.deadlineDate,
-            isRequestPossible = ((2 == source) && !this.state.result);
+            isRequestPossible = (false && !this.state.result); //todo: when API flag is available, change false to real condition
 
         if (!date && isRequestPossible)
             return (
