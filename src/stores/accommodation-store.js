@@ -20,7 +20,7 @@ class AccommodationStore {
         request: null,
         result: null,
         length: 0, status: "",
-        requestId: null,
+        id: null,
         hasMoreVariants: false,
         page: 0,
         numberOfNights: 0
@@ -70,6 +70,10 @@ class AccommodationStore {
     @setter
     paymentMethod = PAYMENT_METHODS.CARD;
 
+    @observable
+    @setter
+    secondStepState = null;
+
     constructor() {
         autosave(this, "_accommodation_store_cache");
     }
@@ -80,11 +84,11 @@ class AccommodationStore {
 
     setSearchResult(results, page = 0) {
         if (results?.length) {
-            for (var i = 0; i < results.length; i++) {
-                var source = results[i].source;
-                results[i] = results[i].data;
-                results[i].source = source;
-            }
+          //  for (var i = 0; i < results.length; i++) {
+          //      var source = results[i].source;
+          //      results[i] = results[i].data;
+          //      results[i].source = source;
+          //  }
             results.forEach(item => {
                 item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
                 if (item.roomContractSets?.sort)
@@ -121,8 +125,8 @@ class AccommodationStore {
         this.search.status = status;
     }
 
-    setSearchRequestId(requestId) {
-        this.search.requestId = requestId;
+    setSearchId(searchId) {
+        this.search.id = searchId;
     }
 
     setSearchIsLoading(value) {
@@ -134,11 +138,11 @@ class AccommodationStore {
         this.search.numberOfNights = Math.round(Math.abs(new Date(form.checkOutDate) - new Date(form.checkInDate))/24/60/60/1000);
     }
 
-    selectAccommodation(accommodation) {
-        accommodation.data?.roomContractSets?.sort((a,b) => a.price.netTotal - b.price.netTotal);
+    setRoomContractsSet(id, roomContractSets = []) {
+        roomContractSets?.sort((a,b) => a.price.netTotal - b.price.netTotal);
         this.selected.accommodation = {
-            ...accommodation.data,
-            source: accommodation.source
+            id,
+            roomContractSets
         };
     }
 

@@ -60,7 +60,7 @@ export const createFilters = hotels => {
                 "AllInclusive"
             ],
             ratings: hotelStars.filter(v=>v),
-            __source: new Set()
+            // __source: new Set() //todo: remove source filtering
         };
 
     for (var i = 0; i < hotels.length; i++) {
@@ -74,10 +74,10 @@ export const createFilters = hotels => {
         });
         */
 
-        filters.__source.add("" + hotel?.source);
+        // filters.__source.add("" + hotel?.source);
     }
 
-    filters.__source = [...filters.__source];
+    // filters.__source = [...filters.__source];
 
     return filters;
 };
@@ -109,8 +109,8 @@ export const applyFilters = (hotels, filters) => {
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.roomContracts?.[0]?.boardBasis]);
 
-    if (atLeastOne(filters.source))
-        result = result.filter(item => filters.source[item.source]);
+    // if (atLeastOne(filters.source))
+    //     result = result.filter(item => filters.source[item.source]);
 
     result = result.filter(hotel => hotel.roomContractSets.length);
 

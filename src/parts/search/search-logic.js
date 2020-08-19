@@ -52,7 +52,7 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
     const PAGE_SIZE = 10;
 
     API.get({
-        url: API.A_SEARCH_ONE_RESULT(store.search.requestId),
+        url: API.A_SEARCH_ONE_RESULT(store.search.id),
         body: {
             $top: PAGE_SIZE,
             $skip: page*PAGE_SIZE,
@@ -97,7 +97,7 @@ export const createSearch = values => {
         body: body,
         success: result => {
             var status = "Unknown";
-            store.setSearchRequestId(result);
+            store.setSearchId(result);
 
             const loader = (data) => {
                 if ("Failed" == data.taskState) {
@@ -117,7 +117,7 @@ export const createSearch = values => {
                     return;
                 }
                 setTimeout(() => API.get({
-                    url: API.A_SEARCH_ONE_CHECK(store.search.requestId),
+                    url: API.A_SEARCH_ONE_CHECK(store.search.id),
                     success: data => {
                         status = data.taskState;
                         if ("PartiallyCompleted" == status || "Completed" == status || "Failed" == status)

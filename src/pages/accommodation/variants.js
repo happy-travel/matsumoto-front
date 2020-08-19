@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { API } from "core";
+import { runSearchSecondStep } from "parts/search/search-logic-step2";
 
 import {
     GroupRoomTypesAndCount, MealPlan, Stars, Loader, PassengersCount, price
@@ -24,8 +24,7 @@ class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToRoomContractSetsPage: false,
-            loading: false
+            redirectToRoomContractSetsPage: false
         };
         this.loadNextPage = this.loadNextPage.bind(this);
     }
@@ -35,38 +34,12 @@ class AccommodationVariantsPage extends React.Component {
             store.setSearchIsLoading(null);
     }
 
-    accommodationSelect(accommodation) {
+    accommodationSelect(result) {
         this.setState({
-            loading: true
+            redirectToRoomContractSetsPage: true
         });
 
-        store.setSelectedAccommodationFullDetails(null);
-        API.get({
-            url: API.ACCOMMODATION_DETAILS(
-                accommodation.accommodationDetails.id,
-                accommodation.source
-            ),
-            success: result => store.setSelectedAccommodationFullDetails(result)
-        });
-
-        API.post({
-            url: API.A_SEARCH_STEP_TWO(
-                accommodation.availabilityId,
-                accommodation.accommodationDetails.id,
-                accommodation.source
-            ),
-            success: result => {
-                store.selectAccommodation(result);
-                this.setState({
-                    redirectToRoomContractSetsPage: true
-                });
-            },
-            after: () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        });
+        runSearchSecondStep(result);
     }
 
     loadNextPage() {
@@ -142,8 +115,6 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                         </div>
                     </div> }
-
-                { this.state.loading && <Loader page /> }
 
                 <InfiniteScroll
                     dataLength={store.hotelArray.length}

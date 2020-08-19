@@ -50,17 +50,19 @@ API_METHODS = {
     BOOKING_GET_BY_CODE   : referenceCode =>
                             v1 + `/accommodations/bookings/refcode/${referenceCode}`,
 
-    ACCOMMODATION_DETAILS : (accommodationId, source) =>
-                            v1 + `/${source}/accommodations/${accommodationId}`,
-    A_SEARCH_ONE_CREATE   : v1 + "/availabilities/accommodations/searches",
+    ACCOMMODATION_DETAILS : (searchId, resultId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/accommodation `,
+    A_SEARCH_ONE_CREATE   : v1 + "/accommodations/availabilities/searches",
     A_SEARCH_ONE_CHECK    : searchId =>
-                            v1 + `/availabilities/accommodations/searches/${searchId}/state`,
+                            v1 + `/accommodations/availabilities/searches/${searchId}/state`,
     A_SEARCH_ONE_RESULT   : searchId =>
-                            v1 + `/availabilities/accommodations/searches/${searchId}`,
-    A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
-                            v1 + `/${source}/accommodations/${accommodationId}/availabilities/${availabilityId}`,
-    A_SEARCH_STEP_THREE   : (availabilityId, roomContractSetId, source) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}`,
+                            v1 + `/accommodations/availabilities/searches/${searchId}`,
+    A_SEARCH_TWO_CHECK    : (searchId, resultId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/state`,
+    A_SEARCH_TWO_RESULT   : (searchId, resultId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}`,
+    A_SEARCH_STEP_THREE   : (searchId, resultId, roomContractSetId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}`,
     REQUEST_DEADLINE      : (availabilityId, roomContractSetId, source) =>
                             v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
 

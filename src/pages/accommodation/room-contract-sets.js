@@ -47,11 +47,11 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         this.setState({
             loading: true
         });
-        API.post({
+        API.get({
             url: API.A_SEARCH_STEP_THREE(
-                store.selected.accommodation.availabilityId,
-                roomContractSet.id,
-                store.selected.accommodation.source
+                store.search.id,
+                store.selected.accommodation.id,
+                roomContractSet.id
             ),
             success: (result) => {
                 if (!result?.data) {
@@ -85,6 +85,9 @@ class AccommodationRoomContractsSetsPage extends React.Component {
 
         if (this.state.redirectToVariantsPage)
             return <Redirect push to="/search" />;
+
+        if (store.secondStepState === null)
+            return <Loader />;
 
         const details = store.selected.accommodationFullDetails || item?.accommodationDetails;
 
@@ -207,6 +210,9 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                             )}
                             </tbody>
                         </table>
+                        { store.secondStepState != "Completed" &&
+                            <Loader/>
+                        }
                     </div>
                 </div>
 

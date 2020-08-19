@@ -78,7 +78,7 @@ class AccommodationFiltersPart extends React.Component {
                                 }
                             /> }
                             { ( (__localhost || __devEnv) &&
-                                !!store.filters.__source.length) && <Expandable
+                                !!store.filters?.__source?.length) && <Expandable
                                 open
                                 header="Source"
                                 content={
