@@ -30,9 +30,9 @@ class Deadline extends React.Component {
     render() {
         var { roomContractSet, t, searchId, resultId } = this.props,
             date = this.state.result?.date || roomContractSet.deadlineDate,
-            isRequestPossible = (false && !this.state.result); //todo: when API flag is available, change false to real condition
+            isRequestPossible = !this.state.result;
 
-        if (!date && isRequestPossible)
+        if ((date === null) && isRequestPossible)
             return (
                 <div class="info">
                     <div
