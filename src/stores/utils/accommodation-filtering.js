@@ -60,7 +60,7 @@ export const createFilters = hotels => {
                 "AllInclusive"
             ],
             ratings: hotelStars.filter(v=>v),
-            // __source: new Set() //todo: remove source filtering
+            __source: new Set()
         };
 
     for (var i = 0; i < hotels.length; i++) {
@@ -74,10 +74,10 @@ export const createFilters = hotels => {
         });
         */
 
-        // filters.__source.add("" + hotel?.source);
+        filters.__source.add("" + hotel?.dataProvider);
     }
 
-    // filters.__source = [...filters.__source];
+    filters.__source = [...filters.__source];
 
     return filters;
 };

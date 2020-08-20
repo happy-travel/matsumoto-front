@@ -85,7 +85,7 @@ class AccommodationFiltersPart extends React.Component {
                                     <div class="expanded">
                                         { store.filters.__source.map((item, i) => (
                                             <FieldCheckbox formik={formik}
-                                                           label={ "source=" + item }
+                                                           label={ item }
                                                            id={ "source." + item }
                                                            onChange={formik.handleSubmit}
                                             />
