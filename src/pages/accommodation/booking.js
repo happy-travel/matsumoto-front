@@ -86,7 +86,7 @@ class AccommodationBookingPage extends React.Component {
 
         var request = {
             "searchId": store.search.id,
-            "resultId": store.selected.roomContractSet.id,
+            "resultId": store.selected.accommodation.id,
             "roomContractSetId": variant.id,
             "nationality": search.nationality,
             "paymentMethod": store.paymentMethod,
@@ -103,9 +103,11 @@ class AccommodationBookingPage extends React.Component {
         API.post({
             url: API.ACCOMMODATION_BOOKING,
             body: request,
-            after: result => {
+            success: result => {
                 store.setBookingReferenceCode(result);
                 this.setState({ redirectToPayment: true });
+            },
+            after: () => {
                 setSubmitting(false);
             },
             error: (error) => View.setTopAlertText(error?.title || error?.detail || error?.message)

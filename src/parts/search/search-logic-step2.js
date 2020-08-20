@@ -2,6 +2,7 @@ import store from "stores/accommodation-store";
 import { API } from "core";
 
 export const runSearchSecondStep = accommodation => {
+    store.setRoomContractsSets(null, []);
     store.setSecondStepState(null);
     store.setSelectedAccommodationFullDetails(null);
     API.get({

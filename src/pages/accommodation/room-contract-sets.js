@@ -160,6 +160,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                     </div>
                 </div>
 
+                { !item?.roomContractSets?.length ? <Loader /> :
                 <div class="variant">
                     <div class="table">
                         <table class="table agt">
@@ -215,7 +216,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                         }
                     </div>
                 </div>
-
+                }
             </div>
         </section>
     </div>
