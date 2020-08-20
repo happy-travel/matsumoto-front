@@ -23,15 +23,15 @@ export const generateFiltersLine = filters => {
     var list = [];
 
     if (atLeastOne(filters.price) && (filters.price.min > 0 || filters.price.max < TEMPORARY_MAX_PRICE))
-        list.push(`Data/RoomContractSets/any(d: d/Price/NetTotal lt ${filters.price.max} and d/Price/NetTotal gt ${filters.price.min})`);
+        list.push(`RoomContractSets/any(d: d/Price/NetTotal lt ${filters.price.max} and d/Price/NetTotal gt ${filters.price.min})`);
 
     if (atLeastOne(filters.boardBasis))
-        list.push("Data/RoomContractSets/any(rs: rs/roomContracts/any(r: r/BoardBasis in ("
+        list.push("RoomContractSets/any(rs: rs/roomContracts/any(r: r/BoardBasis in ("
             + enabledFiltersForList(filters.boardBasis) +
         ")))");
 
     if (atLeastOne(filters.ratings))
-        list.push("Data/AccommodationDetails/Rating in ("
+        list.push("AccommodationDetails/Rating in ("
             + enabledFiltersForList(filters.ratings) +
         ")");
 
