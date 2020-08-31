@@ -29,7 +29,7 @@ class Deadline extends React.Component {
 
     render() {
         var { roomContractSet, t, searchId, resultId } = this.props,
-            date = this.state.result?.date || roomContractSet.deadlineDate,
+            date = this.state.result?.date || roomContractSet.deadline.date,
             isRequestPossible = !this.state.result;
 
         if ((date === null) && isRequestPossible)
