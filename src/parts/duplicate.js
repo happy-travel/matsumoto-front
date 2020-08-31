@@ -24,7 +24,7 @@ class ReportDuplicateModal extends React.Component {
     }
 
     submit(values) {
-        var id = UI.modalData?.accommodationDetails?.id,
+        var id = UI.modalData?.accommodation?.id,
             dataProvider = UI.modalData?.source;
 
         if (!id)
@@ -69,7 +69,7 @@ class ReportDuplicateModal extends React.Component {
 
                 <h2>Mark the accommodation as a duplicate</h2>
                 <p style={{marginBottom: "20px"}}>
-                    If you have seen “{data?.accommodationDetails?.name || ""}“ previously in the current accommodations list,
+                    If you have seen “{data?.accommodation?.name || ""}“ previously in the current accommodations list,
                     you could link it with a duplicate one, and we will join both results to show them as one next time.
                 </p>
                 <CachedForm

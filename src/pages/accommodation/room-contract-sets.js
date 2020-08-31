@@ -89,7 +89,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         if (store.secondStepState === null)
             return <Loader />;
 
-        const details = store.selected.accommodationFullDetails || item?.accommodationDetails;
+        const details = store.selected.accommodationFullDetails || item?.accommodation;
 
         if (!details)
             return null;
