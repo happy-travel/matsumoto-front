@@ -17,8 +17,8 @@ class DestinationDropdown extends React.Component {
         View.setDestinations([]);
         setTimeout(() => {
             formik.setFieldValue("source", item.source);
-            formik.setFieldValue("name", item.accommodationDetails.name);
-            formik.setFieldValue("id", item.accommodationDetails.id);
+            formik.setFieldValue("name", item.accommodation.name);
+            formik.setFieldValue("id", item.accommodation.id);
         }, 1);
     }
 
@@ -33,17 +33,17 @@ class DestinationDropdown extends React.Component {
                             <div id={`js-value-${index}`}
                                  class={"country line summary" + __class(focusIndex === index, "focused")}
                                  onClick={() => this.setValue(item)}>
-                                { item.accommodationDetails.picture.source && <div class="photo">
-                                    <img src={item.accommodationDetails.picture.source} alt="" />
+                                { item.accommodation.picture.source && <div class="photo">
+                                    <img src={item.accommodation.picture.source} alt="" />
                                 </div> }
                                 <div class="title">
                                     <h2>
-                                        <Highlighted str={item.accommodationDetails.name} highlight={this.props.value} />
-                                        <Stars count={item.accommodationDetails.rating} />
+                                        <Highlighted str={item.accommodation.name} highlight={this.props.value} />
+                                        <Stars count={item.accommodation.rating} />
                                     </h2>
                                     <div class="category">
                                         <Highlighted str={
-                                            item.accommodationDetails.location.locality + ", " + item.accommodationDetails.location.address
+                                            item.accommodation.location.locality + ", " + item.accommodation.location.address
                                         } highlight={this.props.value} />
                                     </div>
                                 </div>

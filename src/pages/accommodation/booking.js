@@ -53,7 +53,7 @@ class AccommodationBookingPage extends React.Component {
     }
 
     submit(values, { setSubmitting }) {
-        if (!store.selected?.accommodationFinal?.accommodationDetails?.id) {
+        if (!store.selected?.accommodationFinal?.accommodation?.id) {
             setSubmitting(false);
             View.setTopAlertText("Booking unsuccessful, please try again later or contact us for help.");
             return null;
@@ -117,10 +117,10 @@ class AccommodationBookingPage extends React.Component {
     render() {
         const { t } = useTranslation();
 
-        if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
+        if (!store.selected?.accommodationFinal?.accommodation?.id)
             return null; //todo: another answer
 
-        var hotel = store.selected.accommodationFinal.accommodationDetails,
+        var hotel = store.selected.accommodationFinal.accommodation,
             baseInfo = store.selected.accommodationFinal,
             variant = store.selected.roomContractSet,
 

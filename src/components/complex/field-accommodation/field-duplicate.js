@@ -9,9 +9,9 @@ import store from "stores/accommodation-store";
 
 const checkMatch = (accommodation , value) => {
     var str = [
-        accommodation.accommodationDetails.name,
-        accommodation.accommodationDetails.location.locality,
-        accommodation.accommodationDetails.location.address
+        accommodation.accommodation.name,
+        accommodation.accommodation.location.locality,
+        accommodation.accommodation.location.address
     ].join(" ");
 
     var highlight = value.trim().replace(/[\W_]+/g," ").split(' ');
@@ -25,7 +25,7 @@ const checkMatch = (accommodation , value) => {
 };
 
 const setList = event => {
-    var result = store.hotelArray.filter(item => item.accommodationDetails.id != UI.modalData?.accommodationDetails?.id);
+    var result = store.hotelArray.filter(item => item.accommodation.id != UI.modalData?.accommodation?.id);
     if (event?.target?.value)
         result = result.filter(item => checkMatch(item, event.target.value));
     View.setDestinations(result);

@@ -123,15 +123,15 @@ class AccommodationVariantsPage extends React.Component {
                     loader={(store.search?.loading !== "__filter_tmp") ? <Loader /> : null}
                 >
                 { store.hotelArray.map(item =>
-                <div class="variant" key={item.accommodationDetails.id}>
+                <div class="variant" key={item.accommodation.id}>
                     <div class="summary">
-                        { item.accommodationDetails.picture.source && <div class="photo" onClick={() => this.accommodationSelect(item)}>
-                            <img src={item.accommodationDetails.picture.source} alt="" />
+                        { item.accommodation.picture.source && <div class="photo" onClick={() => this.accommodationSelect(item)}>
+                            <img src={item.accommodation.picture.source} alt="" />
                         </div> }
                         <div class="title">
                             <div class="features">
                                 <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
-                                        id={item.source + "." + item.accommodationDetails.id}
+                                        id={item.source + "." + item.accommodation.id}
                                         onClick={() => {
                                             UI.setModal(MODALS.REPORT_DUPLICATE);
                                             UI.setModalData(item);
@@ -140,12 +140,12 @@ class AccommodationVariantsPage extends React.Component {
                                 </button>
                             </div>
                             <h2 onClick={() => this.accommodationSelect(item)}>
-                                <u>{item.accommodationDetails.name}</u>
-                                <Stars count={item.accommodationDetails.rating} />
+                                <u>{item.accommodation.name}</u>
+                                <Stars count={item.accommodation.rating} />
                             </h2>
                             <div class="category" onClick={() => this.accommodationSelect(item)}>
                                 {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.locality}<br/>
-                                {item.accommodationDetails.location.address}
+                                {item.accommodation.location.address}
                             </div>
                             { /*
                             <div class="features">
