@@ -144,7 +144,7 @@ class AccommodationVariantsPage extends React.Component {
                                 <Stars count={item.accommodation.rating} />
                             </h2>
                             <div class="category" onClick={() => this.accommodationSelect(item)}>
-                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.locality}<br/>
+                                    {t("Accommodation in")} {item.accommodation.location.country}, {item.accommodation.location.locality}<br/>
                                 {item.accommodation.location.address}
                             </div>
                             { /*
