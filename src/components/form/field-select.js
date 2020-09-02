@@ -1,27 +1,12 @@
 import React from "react";
+import {getIn} from "formik";
 import { observer } from "mobx-react";
 import FieldText from "./field-text";
 
 import View from "stores/view-store";
 
-const getDeepValue = (obj, path) => {
-    if (!obj || !path)
-        return null;
-
-    if (path.indexOf(".") == -1)
-        return obj[path];
-
-    var i, length;
-    for (i=0, path=path.split("."), length=path.length; i < length; i++) {
-        if (!obj) return null;
-        obj = obj[path[i]];
-    }
-
-    return obj;
-};
-
 const getTextByValue = (formik, id, options) => {
-    var value = getDeepValue(formik.values, id);
+    var value = getIn(formik.values, id);
 
     if (formik && typeof value != "undefined")
         for (var i = 0; i < options.length; i++)
