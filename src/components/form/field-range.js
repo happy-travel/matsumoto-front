@@ -1,15 +1,15 @@
 import React from "react";
+import {getIn} from "formik";
 import { observer } from "mobx-react";
 import InputRange from "react-input-range";
 import { price } from "simple";
-import { getValue } from "./utils";
 
 @observer
 class FieldRangeSlider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: getValue(this.props.formik, this.props.id) || { min: props.min, max: props.max }
+            value: getIn(this.props.formik.values, this.props.id) || { min: props.min, max: props.max }
         };
         this.changing = this.changing.bind(this);
         this.onChange = this.onChange.bind(this);

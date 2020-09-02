@@ -1,4 +1,5 @@
 import React from "react";
+import {getIn} from "formik";
 import FieldText from "./field-text"
 import { observer } from "mobx-react";
 
@@ -24,6 +25,8 @@ class FieldTextarea extends FieldText {
             required,
             disabled,
         } = this.props;
+        const errorText = getIn(formik?.errors, id);
+        const isFieldTouched = getIn(formik?.touched, id);
 
         return (
             <div class={"field" + __class(addClass)}>
@@ -33,7 +36,7 @@ class FieldTextarea extends FieldText {
                     </div> }
                     <div class={"input textarea" +
                         __class(this.state.focus, "focus") +
-                        __class((formik?.errors[id] && formik?.touched[id]), "error") +
+                        __class((errorText && isFieldTouched), "error") +
                         __class(disabled, "disabled")}
                     >
                         { !disabled ? <div class="inner">
@@ -45,10 +48,10 @@ class FieldTextarea extends FieldText {
                                 onBlur={ this.onBlur }
                                 onKeyUp={ this.onKeyUp }
                             />
-                        </div> : formik?.values[id] }
+                        </div> : getIn(formik?.values, id) }
                     </div>
-                    {(formik?.errors[id]?.length && formik?.touched[id]) ?
-                        <div class="error-holder">{formik.errors[id]}</div>
+                    {(errorText && isFieldTouched) ?
+                        <div class="error-holder">{errorText}</div>
                     : null}
                 </label>
             </div>

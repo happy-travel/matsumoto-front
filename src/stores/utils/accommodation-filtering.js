@@ -31,7 +31,7 @@ export const generateFiltersLine = filters => {
         ")))");
 
     if (atLeastOne(filters.ratings))
-        list.push("AccommodationDetails/Rating in ("
+        list.push("Accommodation/Rating in ("
             + enabledFiltersForList(filters.ratings) +
         ")");
 
@@ -68,9 +68,9 @@ export const createFilters = hotels => {
 
         /* todo: when we create a map, use this array
         mapPoints.push({
-            lat: hotel?.accommodationDetails?.location?.coordinates.latitude,
-            lng: hotel?.accommodationDetails?.location?.coordinates.longitude,
-            id: hotel?.accommodationDetails?.id
+            lat: hotel?.accommodation?.location?.coordinates.latitude,
+            lng: hotel?.accommodation?.location?.coordinates.longitude,
+            id: hotel?.accommodation?.id
         });
         */
 
@@ -92,7 +92,7 @@ export const applyFilters = (hotels, filters) => {
     var result = hotels;
 
     // if (atLeastOne(filters.ratings))
-    //    result = result.filter(hotel => filters.ratings[hotel?.accommodationDetails?.rating]);
+    //    result = result.filter(hotel => filters.ratings[hotel?.accommodation?.rating]);
 
     result = JSON.parse(JSON.stringify(result));
 
