@@ -32,8 +32,13 @@ class FieldRangeSlider extends React.Component {
         var {
             min,
             max,
-            currency
+            currency,
+            formatLabel
         } = this.props;
+
+        if (!formatLabel)
+            formatLabel = (v, label) =>
+                ("max" == label && this.state.value[label] == 2500) ? "Any" : price(currency, this.state.value[label]);
 
         return (
             <InputRange
@@ -41,9 +46,7 @@ class FieldRangeSlider extends React.Component {
                 minValue={min}
                 step={1}
                 allowSameValues={true}
-                formatLabel={(v, label) =>
-                    ("max" == label && this.state.value[label] == 2500) ? "Any" : price(currency, this.state.value[label])
-                }
+                formatLabel={formatLabel}
                 value={this.state.value}
                 onChange={this.changing}
                 onChangeComplete={this.onChange}
