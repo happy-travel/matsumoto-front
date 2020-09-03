@@ -67,8 +67,8 @@ API_METHODS = {
                             v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}/deadline`,
 
 
-    BILLING_HISTORY       : counterpartyId =>
-                            v1 + `/payments/history/${counterpartyId}/agent`,
+    BILLING_HISTORY       : agencyId =>
+                            v1 + `/payments/history/agencies/${agencyId}/agent`,
 
     BASE_VERSION          : v1 + "/versions",
 
