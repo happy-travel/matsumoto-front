@@ -21,7 +21,7 @@ class Deadline extends React.Component {
             ),
             success: data => {
                 this.setState({
-                    result: data?.data || {}
+                    result: data || {}
                 });
             }
         });
