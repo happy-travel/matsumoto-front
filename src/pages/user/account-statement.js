@@ -29,7 +29,7 @@ class AccountStatementPage extends React.Component {
         values = {...initialValues, ...values};
 
         API.post({
-            url: API.BILLING_HISTORY(authStore.activeCounterparty.id),
+            url: API.BILLING_HISTORY(authStore.activeCounterparty.agencyId),
             body: {
                 "fromDate": moment(values.start).utc(true).format(),
                 "toDate": moment(values.end).add(1,"d").utc(true).format()
