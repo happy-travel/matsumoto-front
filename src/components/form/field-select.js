@@ -1,5 +1,5 @@
 import React from "react";
-import {getIn} from "formik";
+import { getIn } from "formik";
 import { observer } from "mobx-react";
 import FieldText from "./field-text";
 
@@ -38,11 +38,13 @@ class SelectDropdown extends React.Component {
 
         return (
             <div class="dropdown select">
-                {options?.map(item => (
-                    <div class="item line" onClick={ () => this.setValue(item) }>
-                        {item.text}
-                    </div>
-                ))}
+                <div class="scroll">
+                    {options?.map(item => (
+                        <div class="item line" onClick={ () => this.setValue(item) }>
+                            {item.text}
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }
