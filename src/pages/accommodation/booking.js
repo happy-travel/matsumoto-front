@@ -284,7 +284,7 @@ class AccommodationBookingPage extends React.Component {
                                     </p>
 
                                     <FullDeadline t={t}
-                                                  deadlineDetails={item.deadlineDetails}
+                                                  deadline={item.deadline}
                                                   remarks={item.remarks}
                                     />
                                 </div>
