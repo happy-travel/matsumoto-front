@@ -6,7 +6,7 @@ import FieldText from "./field-text";
 import View from "stores/view-store";
 
 const getTextByValue = (formik, id, options) => {
-    var value = getIn(formik.values, id);
+    var value = getIn(formik?.values, id);
 
     if (formik && typeof value != "undefined")
         for (var i = 0; i < options.length; i++)

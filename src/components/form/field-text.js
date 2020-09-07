@@ -1,4 +1,5 @@
 import React from "react";
+import { getIn } from "formik";
 import { observer } from "mobx-react";
 import { scrollTo } from "core";
 import { decorate } from "simple";
@@ -6,7 +7,6 @@ import { windowLocalStorage } from "core/misc/window-storage";
 
 import UI from "stores/ui-store";
 import View from "stores/view-store";
-import {getIn} from "formik";
 
 @observer
 class FieldText extends React.Component {
@@ -168,7 +168,7 @@ class FieldText extends React.Component {
         } = this.props;
         const errorText = getIn(formik?.errors, id);
         const isFieldTouched = getIn(formik?.touched, id);
-        const fieldValue = getIn(formik.values, id);
+        const fieldValue = getIn(formik?.values, id);
 
         if (suggestion)
             suggestion = decorate.cutFirstPart(suggestion, fieldValue);
