@@ -25,7 +25,7 @@ class ReportDuplicateModal extends React.Component {
 
     submit(values) {
         var id = UI.modalData?.accommodation?.id,
-            dataProvider = UI.modalData?.source;
+            dataProvider = UI.modalData?.dataProvider;
 
         if (!id)
             return;
