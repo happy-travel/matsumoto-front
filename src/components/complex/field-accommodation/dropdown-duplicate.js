@@ -16,7 +16,7 @@ class DestinationDropdown extends React.Component {
 
         View.setDestinations([]);
         setTimeout(() => {
-            formik.setFieldValue("source", item.source);
+            formik.setFieldValue("source", item.dataProvider);
             formik.setFieldValue("name", item.accommodation.name);
             formik.setFieldValue("id", item.accommodation.id);
         }, 1);
