@@ -19,8 +19,8 @@ API_METHODS = {
     CARDS_SIGN            : v1 + "/cards/signatures",
     PAYMENTS_CARD_NEW     : v1 + "/payments/bookings/card/new",
     PAYMENTS_CARD_SAVED   : v1 + "/payments/bookings/card/saved",
-    PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
+    BOOK_BY_ACCOUNT       : v1 + "/accommodations/bookings/book-by-account",
 
     ACCOUNT_BALANCE       : currencyCode =>
                             v1 + `/payments/accounts/balance/${currencyCode}`,

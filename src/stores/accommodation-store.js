@@ -116,7 +116,6 @@ class AccommodationStore {
         if (0 == page) {
             this.booking.request = null;
             this.booking.result = {};
-            this.paymentResult = {};
         }
     }
 
@@ -164,6 +163,7 @@ class AccommodationStore {
         };
         this.booking.request = null;
         this.booking.result = null;
+        this.paymentResult = {};
     }
 
     setBookingRequest(request) {
@@ -185,7 +185,8 @@ class AccommodationStore {
         this.paymentResult = result;
         if (this.paymentResult.result == "Failed")
             this.paymentResult.error = true;
-        this.paymentResult.params_error = (result.params?.response_message != "Success");
+        if (result.params.response_message)
+            this.paymentResult.params_error = (result.params.response_message != "Success");
     }
 
     @computed get filtersLine() {

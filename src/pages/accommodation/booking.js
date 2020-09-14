@@ -100,18 +100,44 @@ class AccommodationBookingPage extends React.Component {
         };
         store.setBookingRequest(request);
 
-        API.post({
-            url: API.ACCOMMODATION_BOOKING,
-            body: request,
-            success: result => {
-                store.setBookingReferenceCode(result);
-                this.setState({ redirectToPayment: true });
-            },
-            after: () => {
-                setSubmitting(false);
-            },
-            error: (error) => View.setTopAlertText(error?.title || error?.detail || error?.message)
-        });
+        var error = err => View.setTopAlertText(err?.title || err?.detail || err?.message),
+            after = () => setSubmitting(false);
+
+        if (store.paymentMethod == PAYMENT_METHODS.ACCOUNT)
+            API.post({
+                url: API.BOOK_BY_ACCOUNT,
+                body: request,
+                success: result => {
+                    store.setBookingReferenceCode(result);
+                    if (result?.bookingDetails?.referenceCode) {
+                        store.setPaymentResult({
+                            params: {
+                                referenceCode: result.bookingDetails.referenceCode
+                            },
+                            result: {
+                                status: result.paymentStatus
+                            }
+                        });
+                        this.setState({ redirect: "/accommodation/confirmation" });
+                    }
+                    else
+                        View.setTopAlertText("Error occurred during account payment")
+                },
+                after,
+                error
+            });
+
+        if (store.paymentMethod == PAYMENT_METHODS.CARD)
+            API.post({
+                url: API.ACCOMMODATION_BOOKING,
+                body: request,
+                success: result => {
+                    store.setBookingReferenceCode(result);
+                    this.setState({ redirect: "/payment/form" });
+                },
+                after,
+                error
+            });
     }
 
     render() {
@@ -137,6 +163,10 @@ class AccommodationBookingPage extends React.Component {
 
         if (!variant)
             return null;
+
+
+        if (this.state.redirect)
+            return <Redirect push to={this.state.redirect}/>;
 
         return (
 
@@ -290,69 +320,6 @@ class AccommodationBookingPage extends React.Component {
                                 </div>
                                 </React.Fragment>))} />
 
-                                { /* todo
-                                <div class="part">
-                                    <div class="row no-margin">
-                                        <div class="vertical-label">{t("Agent Reference")}</div>
-                                        <FieldText formik={formik}
-                                            id={"agent-reference"}
-                                            placeholder={t("Please enter here")}
-                                            clearable
-                                        />
-                                    </div>
-                                    <div class="row">
-                                        <div class="vertical-label">
-                                            <div>{t("Extra Meal")} <span class="icon icon-info" /></div>
-                                        </div>
-                                        <FieldSwitch formik={formik}
-                                            id={"extra-meal"}
-                                        />
-                                    </div>
-                                    <div class="row">
-                                        <div class="vertical-label">
-                                            <div>{t("Special Request")} <span class="icon icon-info" /></div>
-                                        </div>
-                                        <FieldSwitch formik={formik}
-                                            id={"special-request"}
-                                        />
-                                    </div>
-
-                                    <FieldTextarea formik={formik}
-                                        id="agentReference"
-                                        placeholder={"Please enter your message"}
-                                        label={t("Special Request")}
-                                    />
-                                </div>
-
-                                <div class="part">
-                                    <table class="checkboxes"><tbody>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Interconnecting Rooms"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Request for an Early Check In"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Smoking Room"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Request for a Late Check Out"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Non Smoking Room"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Please note that Guest is a VIP"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a Low Floor"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Please note that Guests are a Honeymoon Couple"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a High Floor"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Request for a Baby Cot"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request for Late Check-In"} /></td>
-                                            <td />
-                                        </tr>
-                                    </tbody></table>
-                                </div> */ }
-
                                 <div class="part" style={{ margin: "-10px 0 5px" }}>
                                     <div class="row">
                                         <div class="vertical-label left">{t("Itinerary number")}</div>
@@ -429,15 +396,8 @@ class AccommodationBookingPage extends React.Component {
                                     </div>
                                 </div>
 
-                                { formik.isSubmitting && !this.state.redirectToPayment &&
+                                { formik.isSubmitting && !this.state.redirect &&
                                     <Loader page /> }
-
-                                { this.state.redirectToPayment && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
-                                    <Redirect push to="/payment/form" /> }
-
-                                { this.state.redirectToPayment && (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) &&
-                                    <Redirect push to="/payment/account" /> }
-
                             </div>
                         </React.Fragment>
                     )}

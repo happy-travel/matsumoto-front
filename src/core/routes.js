@@ -9,7 +9,6 @@ import accommodationConfirmation  from "pages/accommodation/confirmation";
 import accommodationContractsSets from "pages/accommodation/room-contract-sets";
 
 import paymentPage                from "pages/payment/payment";
-import paymentAccountPage         from "pages/payment/account";
 import paymentResult              from "pages/payment/result";
 import payment3DSCallback         from "pages/payment/callback3ds";
 import paymentDirectLink          from "pages/payment/external/direct-link-page";
@@ -46,7 +45,7 @@ export const routesWithHeaderAndFooter = [
     "/accommodation/booking",
     "/accommodation/confirmation*",
     "/contact", "/terms", "/privacy", "/about",
-    "/payment/form", "/payment/account",
+    "/payment/form",
     "/agent/booking",
     "/account/statement",
     "/settings/*",
@@ -70,7 +69,6 @@ const Routes = () => (
                     ]}                            component={accommodationConfirmation} title="Your Booking Confirmation" />
 
         <Route path="/payment/form"               component={paymentPage} title="Payment" />
-        <Route path="/payment/account"            component={paymentAccountPage} title="Account" />
         <Route path={[
                     "/payment/result/:ref",
                     "/payment/result"
