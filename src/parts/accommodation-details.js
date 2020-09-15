@@ -48,14 +48,11 @@ class AccommodationCommonDetailsPart extends React.Component {
             description = decodeHtml(description);
 
             if (this.state.fullDescription)
-                return <div class="text">{description}</div>;
-
-            description = description.substr(0, descriptionLength);
-            description = description.substr(0,
-                Math.min(description.length, Math.max(description.lastIndexOf(" "), description.lastIndexOf("."))));
+                return <div class="text" dangerouslySetInnerHTML={{__html: description}} />;
 
             return <div class="text">
-                {description} <span class="expand"
+                <div class="cut" dangerouslySetInnerHTML={{__html: description}} />
+                <span class="expand"
                       onClick={() => this.setState({ fullDescription: true })}>
                     {t("more...")}
                 </span>
