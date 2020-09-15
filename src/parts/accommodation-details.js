@@ -38,8 +38,7 @@ class AccommodationCommonDetailsPart extends React.Component {
 
     render() {
         const { t } = useTranslation(),
-              hotel = this.props.accommodation,
-              { fromModal, fromPage } = this.props;
+              hotel = this.props.accommodation;
 
         const Text = () => {
             var description = hotel.textualDescriptions?.[0]?.description || hotel.textualDescriptions?.[1]?.description;
@@ -64,18 +63,12 @@ class AccommodationCommonDetailsPart extends React.Component {
         };
 
         return (
-            <div class={"details" + __class(fromModal, "from-modal") + __class(fromPage, "from-page")}>
+            <div class="details">
                 <div class="top">
-                    {fromModal && hotel?.pictures?.[0]?.source && <div class="photo">
-                        <img src={hotel.pictures[0].source} alt={hotel.pictures[0].caption} class="round" />
-                    </div>}
                     <div class="info">
                         <div class="name">
-                            {hotel.name} { fromPage && <Stars count={hotel.rating} /> }
+                            {hotel.name} <Stars count={hotel.rating} />
                         </div>
-                        { fromModal && <div>
-                            <Stars count={hotel.rating} />
-                        </div> }
                         <div class="line">
                             <span class="icon icon-small-pin" />
                             <span class="subline">{hotel.location.address}, {hotel.location.locality}, {hotel.location.country}</span>
@@ -87,46 +80,11 @@ class AccommodationCommonDetailsPart extends React.Component {
                     </div>
                 </div>
 
-                { fromModal && <Text /> }
-
                 <h2>{t("Accommodation Photos")}</h2>
 
                 { !!hotel.pictures?.length && <Gallery pictures={hotel.pictures} /> }
 
-                { fromPage && <Text /> }
-
-                { fromModal &&
-                    <table><tbody>
-                        <tr>
-                            <td>
-                                <h2>{t("Additional Information")}</h2>
-                                <ul>
-                                    {hotel?.additionalInfo && Object.keys(hotel?.additionalInfo).map((key) => {
-                                        if (hotel.additionalInfo[key] != 0 && hotel.additionalInfo[key]) {
-                                            return <li>{key}: {hotel.additionalInfo[key]}</li>
-                                        }
-                                        return null
-                                    })}
-                                </ul>
-                            </td>
-                            <Amenities t={t} hotel={hotel} />
-                        </tr>
-                        {/*<tr>*/}
-                        {/*    <td>*/}
-                        {/*        <h2>{t("Business Features & Amenities")}</h2>*/}
-                        {/*        <ul>*/}
-                        {/*            <li>{t("Conference Rooms")}</li>*/}
-                        {/*            <li>{t("Meeting Rooms")}</li>*/}
-                        {/*        </ul>*/}
-                        {/*    </td>*/}
-                        {/*    <td>*/}
-                        {/*        <h2>{t("Transportation & Directions To The Hotel")}</h2>*/}
-                        {/*        <div>{t("No Information")}</div>*/}
-                        {/*    </td>*/}
-                        {/*    <td />*/}
-                        {/*</tr>*/}
-                    </tbody></table>
-                }
+                <Text />
 
                 { this.state.fullDescription && <Amenities t={t} hotel={hotel} /> }
             </div>
