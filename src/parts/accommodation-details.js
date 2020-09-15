@@ -51,7 +51,9 @@ class AccommodationCommonDetailsPart extends React.Component {
                 return <div class="text" dangerouslySetInnerHTML={{__html: description}} />;
 
             return <div class="text">
-                <div class="cut" dangerouslySetInnerHTML={{__html: description}} />
+                <div class="cut">
+                    <div dangerouslySetInnerHTML={{__html: description}} />
+                </div>
                 <span class="expand"
                       onClick={() => this.setState({ fullDescription: true })}>
                     {t("more...")}
