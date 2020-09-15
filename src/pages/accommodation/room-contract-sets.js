@@ -127,10 +127,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 </div>
                 { this.state.loading && <Loader page /> }
 
-                <AccommodationCommonDetails
-                    accommodation={details}
-                    fromPage
-                />
+                <AccommodationCommonDetails accommodation={details} />
 
                 <h2>{t("Room Availability")}</h2>
 

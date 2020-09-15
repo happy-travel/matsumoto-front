@@ -5,7 +5,6 @@ import { decorate } from "simple";
 
 /* Refactoring possibility: import babel-plugin-objective-enums and make enums */
 export const MODALS = {
-    ACCOMMODATION_DETAILS: "ACCOMMODATION_DETAILS",
     CANCELLATION_CONFIRMATION: "CANCELLATION_CONFIRMATION",
     SEND_INVOICE: "SEND_INVOICE",
     SEARCH_OVERLOAD: "SEARCH_OVERLOAD",
