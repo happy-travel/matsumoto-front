@@ -201,7 +201,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                     </td>
                                     <td class="holder">
                                         <button class="button small" onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
-                                            {t("Book it")}
+                                            {t("Book")}
                                         </button>
                                     </td>
                                 </tr>

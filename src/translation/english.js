@@ -268,7 +268,7 @@ translations: {
     "Accommodates": "Accommodates",
     "Price for": "Price for",
     "Pros": "Pros",
-    "Book it": "Book it",
+    "Book": "Book",
     "Similar accommodations": "Similar accommodations",
     "Like, but are you not sure?": "Like, but are you not sure?",
 
