@@ -4,11 +4,11 @@ export default Yup.object().shape({
     room: Yup.array().of(Yup.object().shape({
         passengers: Yup.array().of(Yup.object().shape({
             title: Yup.string()
-                .required('Required'),
+                .required('*'),
             firstName: Yup.string()
-                .required('Required'),
+                .required('*'),
             lastName: Yup.string()
-                .required('Required'),
+                .required('*'),
         }))
         .required('Not enough passengers')
     })),
