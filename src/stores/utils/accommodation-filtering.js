@@ -109,8 +109,8 @@ export const applyFilters = (hotels, filters) => {
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.roomContracts?.[0]?.boardBasis]);
 
-     if (atLeastOne(filters.source))
-         result = result.filter(item => filters.source.indexOf(item.dataProvider) > -1);
+    if (atLeastOne(filters.source))
+        result = result.filter(item => filters.source[item.dataProvider]);
 
     result = result.filter(hotel => hotel.roomContractSets.length);
 

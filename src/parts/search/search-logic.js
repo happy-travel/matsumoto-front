@@ -70,9 +70,12 @@ export const loadCurrentSearch = (page = 0, callback = () => {}) => {
 };
 
 export const loadCurrentSearchWithNewFilters = values => {
+    var filters = store.filtersLine;
     store.setSelectedFilters(values);
-    loadCurrentSearch();
-    store.setSearchIsLoading("__filter_tmp");
+    if (filters != store.filtersLine) {
+        loadCurrentSearch();
+        store.setSearchIsLoading("__filter_tmp");
+    }
 };
 
 export const loadCurrentSearchWithNewOrder = values => {

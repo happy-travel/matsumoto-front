@@ -59,6 +59,7 @@ class AccommodationVariantsPage extends React.Component {
 
 <React.Fragment>
     <div class="variants block">
+        {__devEnv && <div class="hide">{JSON.stringify(store.filters?.source)}</div> }
         { store?.search?.loading === true ?
         <Loader /> :
         <section class="double-sections">
