@@ -23,7 +23,8 @@ class AccommodationConfirmationPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fromGetter: false
+            fromGetter: false,
+            statusLoading: false
         };
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
     }
@@ -43,6 +44,15 @@ class AccommodationConfirmationPage extends React.Component {
             ...store.booking.result.bookingDetails
         });
         UI.setModal(MODALS.SEND_INVOICE);
+    }
+
+    updateBookingStatus() {
+        this.setState({ statusLoading: true });
+        API.post({
+            url: API.BOOKING_STATUS(store.booking.result.bookingId),
+            success: (data = {}) => store.setUpdatedBookingStatus(data.status),
+            after: () => this.setState({ statusLoading: false })
+        });
     }
 
     componentDidMount() {
@@ -125,9 +135,19 @@ render() {
                             <div class="first">
                                 {t("Booking Reference number")}: <strong class="green">{booking.referenceCode}</strong>
                             </div>
-                            <div class="second">
-                                {t("Status")}: <strong class={booking.status}>{booking.status}</strong>
-                            </div>
+                            {!this.state.statusLoading ?
+                                <div class="second">
+                                    {t("Status")}: <strong class={booking.status}>{booking.status}</strong>
+                                    <div class="status-updater">
+                                        <button class="small button transparent-with-border" onClick={() => this.updateBookingStatus()}>
+                                            ⟳
+                                        </button>
+                                    </div>
+                                </div> :
+                                <div class="second">
+                                    Updating...
+                                </div>
+                            }
                         </div>
                     </div>
 

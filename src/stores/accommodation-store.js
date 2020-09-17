@@ -181,6 +181,10 @@ class AccommodationStore {
                 : result;
     }
 
+    setUpdatedBookingStatus(value) {
+        this.booking.result.bookingDetails.status = value;
+    }
+
     setPaymentResult(result) {
         this.paymentResult = result;
         if (this.paymentResult.result == "Failed")
