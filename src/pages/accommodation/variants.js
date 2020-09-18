@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { loadCurrentSearchWithNewOrder } from "parts/search/search-logic";
 import { runSearchSecondStep } from "parts/search/search-logic-step2";
 
 import {
@@ -91,7 +92,16 @@ class AccommodationVariantsPage extends React.Component {
                             </h3>
                         }
                     </div>
-                    <SorterDropdown />
+                    <SorterDropdown
+                        text={t("Sort by") + " " + (store.sorter?.price ? t("price") : "")}
+                        addClass={__class(store.sorter?.price < 0, "reverse")}
+                        sorter={value => loadCurrentSearchWithNewOrder(value)}
+                        options={[
+                            { title: t("Usual"), order: {} },
+                            { title: t("High price first"), order: { price: 1 } },
+                            { title: t("Low price first"), order: { price: -1 } },
+                        ]}
+                    />
                     { /* todo:
                     <div class="input-wrap">
                         <div class="form">

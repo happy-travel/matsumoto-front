@@ -1,5 +1,52 @@
-table
-    border-collapse: collapse
-tr, th, td
-    text-align: left
-    font-weight: 400
+.table
+    table
+        border-collapse: collapse
+        width: 100%
+        font-size: 13px
+        line-height: 16px
+        tr
+            border-top: 1px solid $color-usual-gray
+            cursor: pointer
+            &:last-child
+                border-bottom: 1px solid $color-usual-gray
+            &:hover
+                td
+                    background: #F3F4F6
+            td
+                vertical-align: top
+                padding: 35px 30px 35px 0
+                &:first-child
+                    padding-left: 40px
+                &:last-child
+                    padding-right: 25px
+
+        strong
+            font-size: 11px
+            line-height: 13px
+            color: $color-text-light
+            display: block
+            font-weight: 400
+            margin-bottom: 12px
+
+    .empty
+        border: solid $color-usual-gray
+        font-size: 17px
+        font-weight: 300
+        border-width: 1px 0
+        text-align: center
+        padding: 120px 0
+        background: #fcfcfc
+
+    .icon-search
+        background-position: 0 3px
+        margin-right: 7px
+
+    .controls
+        display: flex
+        justify-content: space-between
+        .form
+            padding: 30px 0
+            margin-right: 16px
+            width: 240px
+        .search-wrap
+            margin-right: 0

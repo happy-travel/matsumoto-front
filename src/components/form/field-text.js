@@ -110,13 +110,13 @@ class FieldText extends React.Component {
         if (formik) {
             formik.setFieldValue(id, "");
             formik.setFieldTouched(id, false);
-            if (onClear)
-                onClear();
             if (Dropdown)
                 View.setOpenDropdown(null);
             if (additionalFieldForValidation)
                 formik.setFieldValue(additionalFieldForValidation, false);
         }
+        if (onClear)
+            onClear();
     }
 
     changing(event) {
@@ -201,7 +201,7 @@ class FieldText extends React.Component {
                                           "error") +
                         __class(!errorText && finalValue, "valid")}
                     >
-                        { !!Flag && !!finalValue && <div>
+                        { !!Flag && <div>
                             { Flag }
                         </div> }
                         <div class="inner">
@@ -227,7 +227,7 @@ class FieldText extends React.Component {
                         { Icon && <div class="icon-wrap">
                             { Icon }
                         </div> }
-                        { (clearable && fieldValue) ? <div>
+                        { (clearable && finalValue) ? <div>
                             <div class="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>

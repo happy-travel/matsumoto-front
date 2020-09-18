@@ -70,6 +70,7 @@ translations: {
     "Choose your Destination, Hotel Name, Location or Landmark": "Choose your Destination, Hotel Name, Location or Landmark",
     "Choose your Destination": "Choose your Destination",
     "Check In - Check Out": "Check In – Check Out",
+    "Dates": "Dates",
     "Choose date": "Choose date",
     "Adults, Children, Rooms": "Adults • Children • Rooms",
     "Choose options": "Choose options",
@@ -375,6 +376,8 @@ translations: {
     "Please note the booking price has changed.": "Please note the booking price has changed.",
     "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.": "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.",
     "High price first": "High price first",
-    "Low price first": "Low price first"
+    "Low price first": "Low price first",
+    "Creation Date": "Creation Date",
+    "Creation (old first)": "Creation (old first)",
 }
 };

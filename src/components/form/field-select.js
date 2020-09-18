@@ -24,10 +24,11 @@ class SelectDropdown extends React.Component {
     }
 
     setValue(item) {
-        var { formik, connected } = this.props;
-        if (!formik) return;
-
-        formik.setFieldValue(connected, item.value);
+        var { formik, connected, setValue } = this.props;
+        if (setValue)
+            setValue(item.value);
+        if (formik)
+            formik.setFieldValue(connected, item.value);
         View.setOpenDropdown(null);
     }
 
@@ -40,7 +41,7 @@ class SelectDropdown extends React.Component {
             <div class="dropdown select">
                 <div class="scroll">
                     {options?.map(item => (
-                        <div class="item line" onClick={ () => this.setValue(item) }>
+                        <div class="item line" onClick={() => this.setValue(item)}>
                             {item.text}
                         </div>
                     ))}
@@ -58,9 +59,11 @@ class FieldSelect extends React.Component {
             id,
             options,
             addClass,
+            value,
+            setValue
         } = this.props,
 
-            ValueObject = getTextByValue(formik, id, options);
+            ValueObject = value || getTextByValue(formik, id, options);
 
         return (
             <FieldText

@@ -4,9 +4,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 
-import {
-    Dual, Loader, MealPlan, dateFormat, price
-} from "simple";
+import { Dual, Loader, MealPlan, dateFormat, price, PassengerName } from "simple";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -19,7 +17,7 @@ import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 const Passenger = ({ passenger }) => (
     passenger ? <Dual addClass="line"
         a={"Passenger Name"}
-        b={passenger.title + ". " + passenger.firstName + " " + passenger.lastName}
+        b={<PassengerName passenger={passenger} />}
     /> : null
 );
 
