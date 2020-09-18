@@ -197,7 +197,7 @@ translations: {
     "About Us": "About Us",
     "Booking management": "Booking management",
     "Your Booking": "Your Booking",
-    "Cost": "Cost",
+    "Your Bookings": "Your Bookings",
     "Cancel": "Cancel",
     "Booking Confirmation": "Booking Confirmation",
     "Other Passengers": "Other Passengers",
@@ -271,7 +271,6 @@ translations: {
     "Book": "Book",
     "Similar accommodations": "Similar accommodations",
     "Like, but are you not sure?": "Like, but are you not sure?",
-
     "amenities_bar": "Bar",
     "amenities_gym" : "Gym",
     "amenities_mic" : "Mic",
@@ -348,7 +347,6 @@ translations: {
     "using saved card": "using saved card",
     "Reset filters": "Reset filters",
     "No Breakfast": "No Breakfast",
-
     "RoomOnly": "No Breakfast",
     "SelfCatering": "Self Catering",
     "BedAndBreakfast": "Bed And Breakfast",
@@ -360,7 +358,6 @@ translations: {
     "Default": "Default",
     "Contact": "Contact",
     "Room Details": "Room Details",
-
     "Single" : "Single",
     "TwinOrSingle": "Twin Or Single",
     "Twin": "Twin",
@@ -368,7 +365,6 @@ translations: {
     "Triple": "Triple",
     "Quadruple": "Quadruple",
     "Family": "Family Room",
-
     "Oppps! Something wrong": "Oppps! Something wrong",
     "Payment failed": "Payment failed",
     "Your order has been paid successfully": "Your order has been paid successfully",
@@ -376,10 +372,8 @@ translations: {
     "Accommodation Information": "Accommodation Information",
     "Unable to load a booking confirmation": "Unable to load a booking confirmation",
     "Back to booking management": "Back to booking management",
-
     "Please note the booking price has changed.": "Please note the booking price has changed.",
     "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.": "To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.",
-
     "High price first": "High price first",
     "Low price first": "Low price first"
 }

@@ -180,7 +180,6 @@ translations: {
     "About Us": "معلومات عنا",
     "Booking management": "إدارة الحجز",
     "Your Booking": "حجزك",
-    "Cost": "الكلفة",
     "Cancel": "إلغاء",
     "Other Passengers": "الركاب الآخرين",
     "Pay now by Card": "ادفع الآن عن طريق البطاقة",

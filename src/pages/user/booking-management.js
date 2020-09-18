@@ -86,7 +86,7 @@ class UserBookingManagementPage extends React.Component {
             result.sort((a,b) => {
                 var x, y;
 
-                if ("Accommodations" == sort) {
+                if ("Accommodation" == sort) {
                     x = a.accommodationName;
                     y = b.accommodationName;
                 }
@@ -107,7 +107,7 @@ class UserBookingManagementPage extends React.Component {
                     if (moment(b.checkInDate).isAfter(a.checkInDate)) { x = 0; y = 1; }
                 }
 
-                if ("Cost" == sort) {
+                if ("Amount" == sort) {
                     x = a.price.netTotal;
                     y = b.price.netTotal;
                 }
@@ -174,7 +174,7 @@ class UserBookingManagementPage extends React.Component {
             <div class="management block">
                 <section>
                     <h2>
-                        {t("Your Booking")}
+                        {t("Your Bookings")}
                     </h2>
                 </section>
                 <div class="head-nav">
@@ -211,13 +211,13 @@ class UserBookingManagementPage extends React.Component {
                 <section class="content">
                     <div class="sorters">
                         <div class="title">Sort by</div>
-                        <Sorter text={t("Accommodations")} value="Accommodations" that={this} />
+                        <Sorter text={t("Accommodation")} value="Accommodation" that={this} />
                         <Sorter text={t("Location")} value="Location" that={this} />
                         <Sorter text={t("Board Basis")} value="Board Basis" that={this} />
                         <Sorter text={t("Check In")} value="Check In" that={this} />
-                        <Sorter text={t("Cost")} value="Cost" that={this} />
+                        <Sorter text={t("Amount")} value="Amount" that={this} />
                         <Sorter text={t("Status")} value="Status" that={this} />
-                        <Sorter text={t("Cancellation Deadline")} value="Deadline" that={this} />
+                        <Sorter text={t("Deadline")} value="Deadline" that={this} />
                     </div>
                     <div>
                         {list === null ? <Loader /> :
@@ -232,7 +232,7 @@ class UserBookingManagementPage extends React.Component {
                                         class={__class(getClassByStatus(item.status) == "gray", "gray")}
                                     >
                                         <td>
-                                            <strong>{t("Accommodations")}</strong>
+                                            <strong>{t("Accommodation")}</strong>
                                             {item.accommodationName}
                                         </td>
                                         <td>
@@ -248,11 +248,11 @@ class UserBookingManagementPage extends React.Component {
                                             {dateFormat.c(item.checkOutDate)}
                                         </td>
                                         <td>
-                                            <strong>{t("Cost")}</strong>
+                                            <strong>{t("Amount")}</strong>
                                             {price(item.price)}
                                         </td>
                                         <td>
-                                            <strong>{t("Cancellation Deadline")}</strong>
+                                            <strong>{t("Deadline")}</strong>
                                             {item.deadline ? dateFormat.c(item.deadline) : t("None")}
                                         </td>
                                         <td>
