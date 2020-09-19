@@ -18,8 +18,8 @@ import registrationAgent          from "pages/account/registration-agent";
 import registrationCounterparty   from "pages/account/registration-counterparty";
 import acceptInvite               from "pages/account/accept-invite";
 
-import userBookingManagement      from "pages/user/booking-management";
-import accountStatement           from "pages/user/account-statement";
+import userBookingManagement      from "pages/user/booking-management/booking-management";
+import accountStatement           from "pages/user/account-statement/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
 import agentsManagement           from "pages/settings/agents-management";

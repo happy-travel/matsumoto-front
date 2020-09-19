@@ -27,14 +27,18 @@ class BookingManagementPage extends React.Component {
 
     render() {
         var { t } = useTranslation();
+        var {
+            filter_tab,
+            redirectToBookingConfirmationId
+        } = this.state;
 
-        if (this.state.redirectToBookingConfirmationId !== null)
-            return <Redirect push to={"/accommodation/confirmation/" + this.state.redirectToBookingConfirmationId} />;
+        if (redirectToBookingConfirmationId !== null)
+            return <Redirect push to={"/accommodation/confirmation/" + redirectToBookingConfirmationId} />;
 
         var Tab = ({ text, value }) => (
             <li>
                 <div
-                    class={"item" + __class(value == this.state.filter_tab, "selected")}
+                    class={"item" + __class(value == filter_tab, "selected")}
                     onClick={() => this.setState({ filter_tab: value })}
                 >
                     {text}
@@ -43,17 +47,13 @@ class BookingManagementPage extends React.Component {
         );
 
         var filter = result => {
-            if (this.state.filter_tab) {
-                if ("Future" == this.state.filter_tab ||
-                    "Past" == this.state.filter_tab)
+            if (filter_tab) {
+                if ("Future" == filter_tab || "Complete" == filter_tab)
                     result = result.filter(item => {
                         var isFuture = moment(item.checkInDate).isAfter(new Date());
-                        if ("Future" == this.state.filter_tab)
-                            return isFuture;
-                        else
-                            return !isFuture;
+                        return ("Future" == filter_tab) ? isFuture: !isFuture;
                     });
-                if ("Cancelled" == this.state.filter_tab)
+                if ("Cancelled" == filter_tab)
                     result = result.filter(item => "Cancelled" == item.status);
             }
             return result;

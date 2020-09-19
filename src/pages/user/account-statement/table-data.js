@@ -33,7 +33,7 @@ export const Columns = t => [
         cell: row => PassengerName({passenger: row.rooms?.[0]?.passengers?.[0]}) || t("None")
     },
     {
-        header: t("Lead passenger name"),
+        header: t("Leading Passenger"),
         cell: () => "Unknown"
     }
 ];

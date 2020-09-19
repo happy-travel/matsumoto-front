@@ -57,7 +57,7 @@ export const Sorters = t => [
     },
     {
         title: t("Deadline"),
-        sorter: v => -new Date(v.deadline)
+        sorter: v => new Date(v.deadline)
     },
     {
         title: t("Check In Date"),

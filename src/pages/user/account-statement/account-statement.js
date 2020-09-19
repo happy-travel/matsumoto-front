@@ -71,7 +71,7 @@ class AccountStatementPage extends React.Component {
         };
 
         return (
-            <div class="management block">
+            <div class="management block payments-history">
                 <section>
                     <h2>
                         {t("Account statement")}
@@ -82,7 +82,6 @@ class AccountStatementPage extends React.Component {
                         columns={Columns(t)}
                         list={store.userPaymentsList}
                         textEmptyResult={t("You don`t have any payment history for this dates")}
-                        onRowClick={item => this.setState({ redirectToBookingConfirmationId: item.id })}
                         rowClassName={item => __class(getClassByStatus(item.status) == "gray", "gray")}
                         filter={filter}
                         sorters={Sorters(t)}

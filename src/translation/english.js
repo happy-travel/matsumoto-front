@@ -379,5 +379,6 @@ translations: {
     "Low price first": "Low price first",
     "Creation Date": "Creation Date",
     "Creation (old first)": "Creation (old first)",
+    "Reference code": "Reference code",
 }
 };
