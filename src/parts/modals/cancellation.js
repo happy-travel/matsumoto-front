@@ -4,11 +4,12 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { dateFormat } from "simple";
+import { Redirect } from "react-router-dom";
 import UI from "stores/ui-store";
+import store from "stores/accommodation-store";
 
 @observer
 class CancellationConfirmationModal extends React.Component {
-
     constructor(props) {
         super(props);
         this.bookingCancel = this.bookingCancel.bind(this);
@@ -16,11 +17,16 @@ class CancellationConfirmationModal extends React.Component {
 
     bookingCancel() {
         var { bookingId } = UI.modalData;
-        this.props.closeModal();
         API.post({
             url: API.BOOKING_CANCEL(bookingId),
             success: () => {
-                window.location.reload(); //todo: temporary unsmart decision
+                this.props.closeModal();
+                window.scrollTo(0, 0);
+                store.setBookingResult(null);
+                API.get({
+                    url: API.BOOKING_GET_BY_ID(bookingId),
+                    after: (result, err, data) => store.setBookingResult(result || {}, data, err)
+                });
             }
         });
     }
@@ -57,12 +63,17 @@ class CancellationConfirmationModal extends React.Component {
                     {t("Cancellation Deadline")} {dateFormat.a(data.deadline)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
                 </p> }
 
+                { !moment().isAfter(data.deadline) &&
+                <p class="green">
+                    {t("FREE Cancellation - Without Prepayment")}
+                </p> }
+
                 <div class="bottom">
-                    <button class="button pink" onClick={this.bookingCancel}>
-                        {t("Confirm")}
-                    </button>
-                    <button class="button green" onClick={closeModal}>
-                        {t("Decline")}
+                    <button
+                        class={"button" + __class(!moment().isAfter(data.deadline), "green")}
+                        onClick={this.bookingCancel}
+                    >
+                        {t("Cancel booking")}
                     </button>
                 </div>
             </React.Fragment>

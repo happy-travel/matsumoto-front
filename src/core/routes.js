@@ -46,7 +46,7 @@ export const routesWithHeaderAndFooter = [
     "/accommodation/confirmation*",
     "/contact", "/terms", "/privacy", "/about",
     "/payment/form",
-    "/agent/booking",
+    "/agent/bookings",
     "/account/statement",
     "/settings/*",
 ];
@@ -82,7 +82,7 @@ const Routes = () => (
         <Route path="/signup/counterparty"        component={registrationCounterparty} title="Sign Up" />
         <Route path="/signup/invite/:email/:code" component={acceptInvite} title="Sign Up" />
 
-        <Route path="/agent/booking"              component={userBookingManagement} title="Booking List" />
+        <Route path="/agent/bookings"             component={userBookingManagement} title="Your Bookings" />
         <Route path="/account/statement"          component={accountStatement} title="Payment History" />
         <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
 

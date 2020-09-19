@@ -19,6 +19,7 @@ class BookingManagementPage extends React.Component {
     }
 
     componentDidMount() {
+        store.setUserBookingList(null); // todo : make mini-loader updater and remove this
         API.get({
             url: API.BOOKING_LIST,
             after: data => store.setUserBookingList(data)

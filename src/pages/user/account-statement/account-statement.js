@@ -43,7 +43,7 @@ class AccountStatementPage extends React.Component {
     }
 
     componentDidMount() {
-        store.setUserPaymentsList(null);
+        store.setUserPaymentsList(null); // todo : make mini-loader updater and remove this
         this.submit();
     }
 

@@ -104,7 +104,7 @@ render() {
                             text: t("Booking Confirmation")
                         }
                     ]}
-                        backLink="/agent/booking"
+                        backLink="/agent/bookings"
                         noBackButton={!this.state.fromHistory}
                     />
                     { !this.state.fromHistory && <ActionSteps
@@ -122,7 +122,7 @@ render() {
                             ((this.state.fromHistory || !result?.error) ? <ViewFailed
                                 reason={t("Unable to load a booking confirmation")}
                                 button={t("Back to booking management")}
-                                link="/agent/booking"
+                                link="/agent/bookings"
                             /> : null)
                         : <Loader /> )
                         : <React.Fragment>
@@ -273,8 +273,13 @@ render() {
 
                         { this.state.fromHistory &&
                           "Cancelled" != booking.status &&
-                        <button class={"button" + __class(moment().isBefore(booking.checkInDate), "pink", "gray")}
-                                onClick={this.showCancellationConfirmation}>
+                        <button
+                            class={
+                                "button" +
+                                __class(moment().isBefore(booking.checkInDate), "transparent-with-border", "gray")
+                            }
+                            onClick={this.showCancellationConfirmation}
+                        >
                             {t("Cancel booking")}
                         </button> }
 

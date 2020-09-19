@@ -31,7 +31,7 @@ class UserMenuDropdown extends React.Component {
                     <div class="company" {...calcTitleFor(authStore.activeCounterparty.name)}>{authStore.activeCounterparty.name}</div>
                 </div>
                 {View.isDropdownOpen(dropdownId) && <div class="user-menu dropdown" onClick={() => View.setOpenDropdown(null)}>
-                    <Link to="/agent/booking" class="item">
+                    <Link to="/agent/bookings" class="item">
                         {t("Booking management")}
                     </Link>
                     { (authStore.activeCounterparty.inAgencyPermissions?.indexOf("ObservePaymentHistory") != -1) &&

@@ -90,7 +90,7 @@ class SendInvoiceModal extends React.Component {
                                         />
                                     </div>
                                     <div class="bottom">
-                                        <button class="button green" type="submit">
+                                        <button class="button" type="submit">
                                             {t("Confirm")}
                                         </button>
                                     </div>

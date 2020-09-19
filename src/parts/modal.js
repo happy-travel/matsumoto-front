@@ -1,10 +1,10 @@
 import React from 'react';
 import { observer } from "mobx-react";
 
-import CancellationConfirmationModal from "parts/cancellation";
-import SendInvoiceModal from "parts/send-invoice";
-import SearchOverloadModal from "parts/search/search-overload";
-import ReportDuplicateModal from "parts/duplicate";
+import CancellationConfirmationModal from "parts/modals/cancellation";
+import SendInvoiceModal from "parts/modals/send-invoice";
+import SearchOverloadModal from "parts/modals/search-overload";
+import ReportDuplicateModal from "parts/modals/duplicate";
 
 import UI, { MODALS } from "stores/ui-store";
 
@@ -20,10 +20,7 @@ const closeModal = () => UI.setModal(null);
 @observer
 class Modal extends React.Component {
     render() {
-        var Content = modalComponent[UI.modal],
-            {
-                hideCloseButton = false
-            } = this.props;
+        var Content = modalComponent[UI.modal];
 
         if (!Content)
             return null;
