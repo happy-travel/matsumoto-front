@@ -94,7 +94,7 @@ class Table extends React.Component {
             <div class="table">
                 <section class="content">
                     <div class="controls">
-                        <div>
+                        <div class="left">
                             { sorters && <div class="form">
                                 <FieldSelect
                                     id="sorter"
@@ -123,7 +123,7 @@ class Table extends React.Component {
                     {list === null ? <Loader /> :
                         (!result?.length ?
                             <div class="empty">{list?.length ? textEmptyResult : textEmptyList || textEmptyResult}</div> :
-                            <table>
+                            <table class="the-table">
                                 {result.map(row => row && (
                                     <tr
                                         onClick={onRowClick ? () => onRowClick(row) : null}

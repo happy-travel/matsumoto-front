@@ -22,7 +22,7 @@
             &.selected
                 color: $color-brand
 
-    table
+    .the-table
         tr
             $cols: (1: 170px, 2: 110px, 3: 130px, 4: 90px, 5: 80px, 6: 80px, 7: 110px)
             @each $id, $col in $cols
@@ -31,7 +31,7 @@
                     max-width: $col !important
 
     &.payments-history
-        table
+        .the-table
             tr
                 td
                     min-width: 100px !important

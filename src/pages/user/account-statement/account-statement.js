@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { API } from "core";
+import { Formik } from "formik";
 import Table from "components/table";
 import FieldDatepicker from "components/complex/field-datepicker";
 import { Columns, Sorters, Searches } from "./table-data";
@@ -29,6 +30,8 @@ class AccountStatementPage extends React.Component {
     submit(values) {
         if (!authStore.user?.counterparties?.length)
             return;
+
+        store.setUserPaymentsList(null);
 
         values = {...initialValues, ...values};
 
@@ -86,13 +89,26 @@ class AccountStatementPage extends React.Component {
                         filter={filter}
                         sorters={Sorters(t)}
                         searches={Searches}
-                        CustomFilter={null /* todo: <FieldDatepicker
-                            id="range"
-                            first="start"
-                            second="end"
-                            placeholder={t("Choose date")}
-                            onChange={this.submit}
-                        /> */}
+                        CustomFilter={
+                            <div class="form">
+                                <Formik
+                                    initialValues={initialValues}
+                                    onSubmit={this.submit}
+                                >
+                                    {formik => (
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <FieldDatepicker formik={formik}
+                                                             id="range"
+                                                             first="start"
+                                                             second="end"
+                                                             placeholder={t("Choose date")}
+                                                             onChange={formik.handleSubmit}
+                                            />
+                                        </form>
+                                    )}
+                                </Formik>
+                            </div>
+                        }
                     />
                 </section>
             </div>
