@@ -17,24 +17,20 @@ export const Columns = t => [
         cell: row => <>{price(row.currency, row.amount)}</>
     },
     {
-        header: t("Status"),
-        cell: row => (
-            <span class={getClassByStatus(row.status)}>
-                {remapStatus(row.status) || "Unknown"}
-            </span>
-        )
+        header: t("Event Type"),
+        cell: "eventType"
     },
     {
         header: t("Reference code"),
-        cell: "eventData.reason"
+        cell: "referenceCode"
     },
     {
         header: t("Accommodation"),
-        cell: row => PassengerName({passenger: row.rooms?.[0]?.passengers?.[0]}) || t("None")
+        cell: "accommodationName"
     },
     {
         header: t("Leading Passenger"),
-        cell: () => "Unknown"
+        cell: "leadingPassenger"
     }
 ];
 
@@ -48,8 +44,8 @@ export const Sorters = t => [
         sorter: v => new Date(v.created)
     },
     {
-        title: t("Status"),
-        sorter: v => v.status
+        title: t("Event Type"),
+        sorter: v => v.eventType
     },
     {
         title: t("Amount"),
@@ -58,7 +54,8 @@ export const Sorters = t => [
 ];
 
 export const Searches = v => [
-    v.eventData.reason,
-    v.eventType,
+    v.referenceCode,
+    v.accommodationName,
+    v.leadingPassenger,
     v.paymentMethod
 ];
