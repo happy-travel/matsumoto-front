@@ -8,7 +8,9 @@ export const Highlighted = ({ str, highlight }) => {
 
     for (var i = 0; i < highlight.length; i++)
         if (highlight[i])
-            str = str.replace(new RegExp(highlight[i], 'gi'), (s) => ("<b>" + s + "</b>"));
+            str = str.replace(new RegExp(highlight[i], 'gi'), (s) => ("<>" + s + "</>"));
+    str = str.replace(new RegExp("<>", 'gi'), "<b>");
+    str = str.replace(new RegExp("</>", 'gi'), "</b>");
 
     return <span dangerouslySetInnerHTML={{__html: str}} />;
 };
