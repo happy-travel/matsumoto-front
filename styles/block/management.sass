@@ -33,6 +33,8 @@
     &.payments-history
         .the-table
             tr
-                td
-                    min-width: 100px !important
-                    max-width: 100px !important
+                $cols: (1: 90px, 2: 90px, 3: 80px, 4: 120px, 5: 140px, 6: 140px)
+                @each $id, $col in $cols
+                    td:nth-child(#{$id})
+                        min-width: $col !important
+                        max-width: $col !important

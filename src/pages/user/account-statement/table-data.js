@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { dateFormat, price, PassengerName } from "simple";
 
 const getClassByStatus = status => ({
@@ -22,7 +23,9 @@ export const Columns = t => [
     },
     {
         header: t("Reference code"),
-        cell: "referenceCode"
+        cell: row => <Link class="link" to={`/accommodation/confirmation/${row.bookingId}`}>
+                         {row.referenceCode}
+                     </Link>
     },
     {
         header: t("Accommodation"),
