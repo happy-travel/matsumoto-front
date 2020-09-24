@@ -12,11 +12,11 @@ class AuthStore {
     @observable
     @setter
     user = {
-        "email": null,
-        "lastName": null,
-        "firstName": null,
-        "title": null,
-        "position": null
+        email: null,
+        lastName: null,
+        firstName: null,
+        title: null,
+        position: null
     };
 
     @observable
@@ -27,9 +27,13 @@ class AuthStore {
     counterpartyInfo = null;
 
     @observable
+    @setter
+    balance = null;
+
+    @observable
     registration = {
-        "agent": {},
-        "counterparty": {}
+        agent: {},
+        counterparty: {}
     };
 
     constructor() {

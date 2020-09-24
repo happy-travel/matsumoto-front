@@ -178,7 +178,6 @@ translations: {
     "Booking Confirmation": "تأكيد الحجز",
     "Accommodation Photos": "صور الإقامة",
     "About Us": "معلومات عنا",
-    "Booking management": "إدارة الحجز",
     "Your Booking": "حجزك",
     "Cancel": "إلغاء",
     "Other Passengers": "الركاب الآخرين",

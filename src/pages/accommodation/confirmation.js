@@ -121,7 +121,7 @@ render() {
                         ? ( (data?.error || result?.error) ?
                             ((this.state.fromHistory || !result?.error) ? <ViewFailed
                                 reason={t("Unable to load a booking confirmation")}
-                                button={t("Back to booking management")}
+                                button={t("Back to Your Bookings")}
                                 link="/agent/bookings"
                             /> : null)
                         : <Loader /> )

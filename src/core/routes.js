@@ -47,7 +47,6 @@ export const routesWithHeaderAndFooter = [
     "/contact", "/terms", "/privacy", "/about",
     "/payment/form",
     "/agent/bookings",
-    "/account/statement",
     "/settings/*",
 ];
 export const routesWithFooter = [
@@ -83,7 +82,7 @@ const Routes = () => (
         <Route path="/signup/invite/:email/:code" component={acceptInvite} title="Sign Up" />
 
         <Route path="/agent/bookings"             component={userBookingManagement} title="Your Bookings" />
-        <Route path="/account/statement"          component={accountStatement} title="Account statement" />
+        <Route path="/settings/account"          component={accountStatement} title="Account statement" />
         <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
 
         <Route path="/settings/agents/:agentId/:counterpartyId/:agencyId/"

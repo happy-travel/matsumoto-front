@@ -97,40 +97,17 @@ class AgentsManagement extends React.Component {
         return (
         <div class="settings block">
             <SettingsHeader />
-            { /* <div class="search-wrapper">
-               <section>
-                   <Formik
-                       initialValues={{}}
-                       onSubmit={this.applyFilter}
-                   >
-                       {formik => (
-                           <form onSubmit={formik.handleSubmit}>
-                               <div class="form">
-                                   <div class="row">
-                                       <FieldText formik={formik}
-                                                  id="text"
-                                                  label={t("Name or E-mail")}
-                                                  placeholder={t("Search...")}
-                                                  clearable
-                                       />
-                                       <div class="field">
-                                           <div class="label"/>
-                                           <div class="inner">
-                                               <button type="submit" class="button">
-                                                   {t("Find agent")}
-                                               </button>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-                           </form>
-                       )}
-                   </Formik>
-               </section>
-            </div> */ }
             {this.state.loading ?
                 <Loader /> :
                 <section>
+                    { authStore.activeCounterparty.inAgencyPermissions?.indexOf("AgentInvitation") != -1 &&
+                        <Link to="/settings/invite" class="item">
+                            <button class="button small" style={{ float: "right" }}>
+                                {t("Send invitation")}
+                            </button>
+                        </Link>
+                        // todo: temporary
+                    }
                     <div>
                         <h2><span class="brand">{t("All Agents")}</span></h2>
                     </div>

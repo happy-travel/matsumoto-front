@@ -32,7 +32,6 @@ class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            balance: false,
             redirectToPayment: false
         };
         this.submit = this.submit.bind(this);
@@ -45,10 +44,7 @@ class AccommodationBookingPage extends React.Component {
 
         API.get({
             url: API.ACCOUNT_BALANCE("USD"),
-            success: result =>
-                this.setState({
-                    balance: result
-                })
+            success: balance => authStore.setBalance(balance)
         });
     }
 
@@ -353,16 +349,16 @@ class AccommodationBookingPage extends React.Component {
                                     <div class="list">
                                         <div
                                             class={"item" +
-                                                __class(!isPaymentAvailable(this.state.balance), "disabled") +
+                                                __class(!isPaymentAvailable(authStore.balance), "disabled") +
                                                 __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
                                             }
-                                            onClick={isPaymentAvailable(this.state.balance)
+                                            onClick={isPaymentAvailable(authStore.balance)
                                                 ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
                                                 : () => {}}
                                         >
                                             <span class="icon icon-radio" />
                                             {t("Account balance")} {(authStore.settings.availableCredit === true) &&
-                                                <span>{"(" + price(this.state.balance.currency, this.state.balance.balance).trim() + ")"}</span>}
+                                                <span>{"(" + price(authStore.balance?.currency, authStore.balance?.balance).trim() + ")"}</span>}
                                         </div>
                                         <div
                                             class={"item" +
