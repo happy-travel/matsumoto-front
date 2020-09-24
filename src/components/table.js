@@ -21,10 +21,15 @@ class Table extends React.Component {
 
         if (search_query) {
             result = result.filter(item => {
+                if (typeof item != "object")
+                    return false;
                 var found = values => {
                     var queries = search_query.toLowerCase().split(" ").filter(v => v.length);
                     for (var i = 0; i < queries.length; i++)
-                        if (!values.some((v = "") => v.toLowerCase().indexOf(queries[i]) >= 0))
+                        if (!values.some((v = "") =>
+                            typeof v == "string" &&
+                            v.toLowerCase().indexOf(queries[i]) >= 0)
+                        )
                             return false;
                     return true;
                 };
