@@ -86,6 +86,7 @@ class Table extends React.Component {
             textEmptyList,
 
             onRowClick,
+            rowClassName,
 
             filter,
             sorters,
