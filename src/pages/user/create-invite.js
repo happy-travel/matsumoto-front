@@ -7,6 +7,7 @@ import { Loader } from "simple";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationUserValidatorWithEmail } from "components/form/validation";
 import FormUserData from "parts/form-user-data";
+import SettingsHeader from "pages/settings/parts/settings-header";
 
 import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
@@ -87,16 +88,11 @@ class UserInvitePage extends React.Component {
         var { t } = useTranslation();
 
         return (
-
-<div class="confirmation management block">
-    <section class="double-sections">
-        <div class="middle-section">
-            <h2 class="underline">
-                {t("Invite a user to your company")}
-            </h2>
-            { this.state.success === null &&
-                <Loader />
-            }
+    <div class="settings block">
+        <SettingsHeader />
+        <section>
+            <h2><span class="brand">{t("Invite a user to your company")}</span></h2>
+            { this.state.success === null && <Loader /> }
             { this.state.success && <div>
                 {this.state.success === true ?
                 <div>
@@ -156,7 +152,7 @@ class UserInvitePage extends React.Component {
                                     <div class="inner">
                                         <button onClick={() => this.submitButtonClick(true, formik)}
                                                 class={"button" + __class(!formik.isValid, "disabled")}>
-                                            {t("Send invitation")}
+                                            {t("Send Invitation")}
                                         </button>
                                     </div>
                                 </div>
@@ -173,10 +169,8 @@ class UserInvitePage extends React.Component {
                     </React.Fragment>
                 )}
             /> }
-        </div>
-    </section>
-</div>
-
+        </section>
+    </div>
         );
     }
 }

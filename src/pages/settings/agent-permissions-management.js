@@ -29,12 +29,10 @@ export default class AgentPermissionsManagement extends React.Component {
 
         this.state = {
             inAgencyPermissions: [],
-            loadingCounterpartyInfo: true,
             permissionsList: [],
-            loadingPermissions: true,
 
             redirectBack: false,
-            loading: false
+            loading: true
         };
 
         this.submit = this.submit.bind(this);
@@ -46,17 +44,11 @@ export default class AgentPermissionsManagement extends React.Component {
 
             API.get({
                 url: API.AGENCY_AGENT(agencyId, agentId),
-                success: result => this.setState({
-                    inAgencyPermissions: result.inAgencyPermissions || [],
-                    loadingCounterpartyInfo: false
-                })
+                success: ({ inAgencyPermissions }) => this.setState({ inAgencyPermissions, loading: false })
             });
             API.get({
                 url: API.ALL_PERMISSIONS,
-                success: result => this.setState({
-                    permissionsList: result,
-                    loadingPermissions: false
-                })
+                success: permissionsList => this.setState({ permissionsList })
             });
         }
     }
@@ -83,24 +75,16 @@ export default class AgentPermissionsManagement extends React.Component {
     };
 
     render() {
-        const { t } = useTranslation();
+        var { t } = useTranslation(),
+            { inAgencyPermissions, permissionsList, loading } = this.state;
 
-        const {
-            inAgencyPermissions, loadingCounterpartyInfo, loadingPermissions, permissionsList
-        } = this.state;
-
-        if (loadingCounterpartyInfo || loadingPermissions)
-            return <Loader page />;
 
         if (this.state.redirectBack)
             return <Redirect push to="/settings/agents" />;
 
         return (
         <div class="settings block">
-            { this.state.loading && <Loader page /> }
-
             <SettingsHeader />
-
             <section>
                 <Breadcrumbs items={[
                     {
@@ -112,6 +96,8 @@ export default class AgentPermissionsManagement extends React.Component {
                 ]}/>
                 <h2><span class="brand">{t("Agent permissions")}</span></h2>
 
+                { loading ?
+                    <Loader /> :
                 <div>
                     <Formik
                         onSubmit={this.submit}
@@ -162,6 +148,7 @@ export default class AgentPermissionsManagement extends React.Component {
                         )}
                     </Formik>
                 </div>
+                }
             </section>
         </div>
         );

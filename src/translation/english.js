@@ -311,7 +311,7 @@ translations: {
     "Booking invoice has been sent": "Booking invoice has been sent",
     "Itinerary number": "Itinerary number",
     "Search...": "Search...",
-    "Send invitation": "Send invitation",
+    "Send Invitation": "Send Invitation",
     "Invite a user to your company": "Invite a user to your company",
     "Your invitation sent": "Your invitation sent",
     "Your invitation sent to": "Your invitation sent to",
