@@ -46,6 +46,9 @@ class Table extends React.Component {
         var { sort_by } = this.state,
             { sorters } = this.props;
 
+        if (!sorters)
+            return result;
+
         result.sort((a,b) => {
             var func = sorters[sort_by].sorter,
                 x = func(a),
