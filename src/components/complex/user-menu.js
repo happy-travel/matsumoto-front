@@ -11,6 +11,7 @@ class UserMenuDropdown extends React.Component {
     render() {
         const { t } = useTranslation();
 
+        var userName = (authStore.user?.firstName || "") + " " + (authStore.user?.lastName || "");
         return (
             <React.Fragment>
                 <Link to="/agent/bookings" class="button transparent-with-border">
@@ -21,9 +22,11 @@ class UserMenuDropdown extends React.Component {
                     <div class="double">
                         <div
                             class="name"
-                            {...calcTitleFor(authStore.user?.firstName + " " + authStore.user?.lastName)}
+                            {...calcTitleFor(userName)}
                         >
-                            {authStore.user?.firstName} {authStore.user?.lastName}
+                            <span>
+                                {userName}
+                            </span>
                             <i class="icon icon-gear" />
                         </div>
                         <div
