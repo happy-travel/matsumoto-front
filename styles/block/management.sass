@@ -24,7 +24,7 @@
 
     .the-table
         tr
-            $cols: (1: 170px, 2: 110px, 3: 130px, 4: 90px, 5: 80px, 6: 80px, 7: 110px)
+            $cols: (1: 130px, 2: 170px, 3: 110px, 4: 130px, 5: 90px, 6: 80px, 7: 80px, 8: 110px)
             @each $id, $col in $cols
                 td:nth-child(#{$id})
                     min-width: $col !important

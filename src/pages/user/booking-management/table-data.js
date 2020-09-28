@@ -12,6 +12,10 @@ const remapStatus = (status = "") => ({
 
 export const Columns = t => [
     {
+        header: t("Reference code"),
+        cell: "referenceCode",
+    },
+    {
         header: t("Accommodation"),
         cell: "accommodationName",
     },
