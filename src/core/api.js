@@ -112,7 +112,10 @@ _.methods_dont_show_error = [
     _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
 ];
 
-const setAlert = (text, url) => ((_.methods_dont_show_error.indexOf(url) < 0) && View.setTopAlertText(text));
+const setAlert = (text, url = "") => ((
+    _.methods_dont_show_error.indexOf(url) < 0 &&
+    url.indexOf("/state") < 0
+) && View.setTopAlertText(text));
 
 _.request = ({
     url, external_url,
