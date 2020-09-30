@@ -201,6 +201,11 @@ class AccommodationVariantsPage extends React.Component {
                                             {t("Dynamic offer")}
                                         </strong>
                                     }
+                                    {roomContractSet.roomContracts[0]?.isAdvancedPurchaseRate &&
+                                        <span class="restricted-rate">
+                                            {t("Restricted Rate")}
+                                        </span>
+                                    }
                                     <Deadline t={t}
                                          searchId={store.search.id}
                                          resultId={item.id}

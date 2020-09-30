@@ -7,7 +7,7 @@ import dropdownToggler from "components/form/dropdown/toggler";
 import { loadUserSettings } from "simple/logic/user-settings";
 
 import UI from "stores/ui-store";
-import authStore from "stores/auth-store";
+import authStore, { APR_VALUES } from "stores/auth-store";
 
 export const initApplication = () => {
     initInvite();
@@ -19,8 +19,15 @@ export const initUser = () => {
         API.get({
             url: API.USER,
             success: (result) => {
-                if (result?.email)
+                if (result?.email) {
                     authStore.setUser(result);
+
+                    var { agencyId } = authStore.activeCounterparty;
+                    API.get({
+                        url: API.AGENCY_APR_SETTINGS(agencyId),
+                        success: result => authStore.setAgencyAPR(APR_VALUES[result])
+                    });
+                }
             },
             after: (user, error, response) => {
                 if (!response)

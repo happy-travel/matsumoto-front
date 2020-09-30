@@ -23,9 +23,11 @@ import transliterate from "components/external/transliterate";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
-import authStore from "stores/auth-store";
+import authStore, { APR_VALUES } from "stores/auth-store";
 
-const isPaymentAvailable = balance => ( balance?.currency && (balance.balance >= 0) );
+const isPaymentAvailable = (balance, APR) => (
+    balance?.currency && (balance.balance >= 0) && !(APR && (authStore.agencyAPR < APR_VALUES.CardAndAccountPurchases))
+);
 
 @observer
 class AccommodationBookingPage extends React.Component {
@@ -346,13 +348,20 @@ class AccommodationBookingPage extends React.Component {
                                     <p>{t("You need to pay")}:
                                         <span class="value"><b>{price(variant.price)}</b></span>
                                     </p>
+                                    { variant?.roomContracts?.[0].isAdvancedPurchaseRate &&
+                                        <h3 style={{margin: "20px 0 -20px"}}>
+                                            <span class="restricted-rate">
+                                                {t("Restricted Rate")}
+                                            </span>
+                                        </h3>
+                                    }
                                     <div class="list">
                                         <div
                                             class={"item" +
-                                                __class(!isPaymentAvailable(authStore.balance), "disabled") +
+                                                __class(!isPaymentAvailable(authStore.balance, variant?.roomContracts?.[0].isAdvancedPurchaseRate), "disabled") +
                                                 __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
                                             }
-                                            onClick={isPaymentAvailable(authStore.balance)
+                                            onClick={isPaymentAvailable(authStore.balance, variant?.roomContracts?.[0].isAdvancedPurchaseRate)
                                                 ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
                                                 : () => {}}
                                         >
@@ -384,11 +393,14 @@ class AccommodationBookingPage extends React.Component {
                                                 </div>}
                                             />
                                         </div>
-                                        <div class="second">
-                                            <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
-                                                {t("Confirm booking")}
-                                            </button>
-                                        </div>
+                                        {!(variant?.roomContracts[0].isAdvancedPurchaseRate &&
+                                            (authStore.agencyAPR < APR_VALUES.CardPurchasesOnly)) &&
+                                            <div class="second">
+                                                <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
+                                                    {t("Confirm booking")}
+                                                </button>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
 

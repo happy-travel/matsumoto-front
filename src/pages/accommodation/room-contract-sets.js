@@ -15,6 +15,7 @@ import AccommodationCommonDetails from "parts/accommodation-details";
 
 import store from 'stores/accommodation-store';
 import View from "stores/view-store";
+import authStore, { APR_VALUES } from "stores/auth-store";
 
 @observer
 class AccommodationRoomContractsSetsPage extends React.Component {
@@ -188,6 +189,14 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                                 </strong>
                                             </div>
                                         }
+                                        {roomContractSet.roomContracts[0]?.isAdvancedPurchaseRate &&
+                                         (authStore.agencyAPR > APR_VALUES.DisplayOnly) &&
+                                            <div class="one">
+                                                <span class="restricted-rate">
+                                                    {t("Restricted Rate")}
+                                                </span>
+                                            </div>
+                                        }
                                         <div class="one green">
                                             <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
                                         </div>
@@ -200,9 +209,16 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        <button class="button small" onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
-                                            {t("Book")}
-                                        </button>
+                                        {(roomContractSet.roomContracts[0]?.isAdvancedPurchaseRate &&
+                                         authStore.agencyAPR <= APR_VALUES.DisplayOnly) ?
+                                            <button class="button small disabled">
+                                                {t("Restricted Rate")}
+                                            </button> :
+                                            <button class="button small"
+                                                    onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
+                                                {t("Book")}
+                                            </button>
+                                        }
                                     </td>
                                 </tr>
                             )}

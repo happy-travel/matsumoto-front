@@ -92,6 +92,8 @@ API_METHODS = {
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
     AGENT_PERMISSIONS    : (agentId, agencyId) =>
                            v1 + `/agencies/${agencyId}/agents/${agentId}/permissions`,
+    AGENCY_APR_SETTINGS  : agencyId =>
+                           v1 + `/agencies/${agencyId}/system-settings/apr-settings`,
 
     REPORT_DUPLICATE     : v1 + "/accommodations-mapping/duplicate-reports",
 
