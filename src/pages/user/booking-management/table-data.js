@@ -3,6 +3,7 @@ import { dateFormat, price, PassengerName } from "simple";
 
 const getClassByStatus = status => ({
     "Confirmed": "green",
+    "Captured": "green",
     "Cancelled": "gray"
 }[status] || "");
 
@@ -33,8 +34,16 @@ export const Columns = t => [
             <>{dateFormat.c(row.checkInDate)}&nbsp;—<br/> {dateFormat.c(row.checkOutDate)}</>
     },
     {
-        header: t("Amount"),
-        cell: row => <>{price(row.price)}</>
+        header: t("Payment"),
+        cell: row => <>
+            <span class={getClassByStatus(row.paymentStatus)}>
+                {remapStatus(row.paymentStatus)}
+            </span>
+            <br/>
+            <span class="payment-amount">
+                {price(row.price)}
+            </span>
+        </>
     },
     {
         header: t("Deadline"),

@@ -48,15 +48,17 @@ class BookingManagementPage extends React.Component {
         );
 
         var filter = result => {
-            if (filter_tab) {
-                if ("Future" == filter_tab || "Complete" == filter_tab)
-                    result = result.filter(item => {
-                        var isFuture = moment(item.checkInDate).isAfter(new Date());
-                        return ("Future" == filter_tab) ? isFuture: !isFuture;
-                    });
-                if ("Cancelled" == filter_tab)
-                    result = result.filter(item => "Cancelled" == item.status);
-            }
+            if ("Cancelled" == filter_tab)
+                return result.filter(item => "Cancelled" == item.status);
+
+            result = result.filter(item => "Cancelled" != item.status);
+
+            if ("Future" == filter_tab || "Complete" == filter_tab)
+                return result.filter(item => {
+                    var isFuture = moment(item.checkInDate).isAfter(new Date());
+                    return ("Future" == filter_tab) ? isFuture: !isFuture;
+                });
+
             return result;
         };
 

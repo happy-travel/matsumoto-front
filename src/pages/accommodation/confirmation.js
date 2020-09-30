@@ -212,6 +212,10 @@ render() {
                                 a={t("Total Cost")}
                                 b={<b class="green">{price(data.totalPrice)}</b>}
                             />
+                            { data.paymentStatus && <Dual addClass="grow"
+                                a={t("Payment Status")}
+                                b={data.paymentStatus.replace(/([A-Z])/g, " $1")}
+                            /> }
                         </div>
                     </div>
 
