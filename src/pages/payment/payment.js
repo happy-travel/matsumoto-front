@@ -53,6 +53,10 @@ class PaymentPage extends BasicPaymentPage {
             everSubmitted: false,
             addNew: false
         };
+        if (store?.bookingToPay) {
+            this.state.currency = store.bookingToPay.totalPrice.currency;
+            this.state.amount = store.bookingToPay.totalPrice.amount;
+        }
         this.submit = this.submit.bind(this);
         this.detectCardType = this.detectCardType.bind(this);
         this.payBySavedCard = this.payBySavedCard.bind(this);
@@ -180,21 +184,35 @@ render() {
 <div class="confirmation block payment">
     <section class="double-sections">
         <div class="middle-section">
-            { !this.state.direct &&
-            <Breadcrumbs items={[
-                {
-                    text: t("Search accommodation"),
-                    link: "/search"
-                }, {
-                    text: t("Your Booking"),
-                    link: "/accommodation/booking",
-                }, {
-                    text: t("Payment")
-                }
-            ]}
-                backLink="/accommodation/booking"
-            />
-            }
+            { !this.state.direct && (
+                !store.bookingToPay ?
+                    <Breadcrumbs items={[
+                        {
+                            text: t("Search accommodation"),
+                            link: "/search"
+                        }, {
+                            text: t("Your Booking"),
+                            link: "/accommodation/booking",
+                        }, {
+                            text: t("Payment")
+                        }
+                    ]}
+                        backLink="/accommodation/booking"
+                    /> :
+                    <Breadcrumbs items={[
+                        {
+                            text: t("Your Bookings"),
+                            link: "/agent/bookings"
+                        }, {
+                            text: store.booking?.referenceCode,
+                            link: `/accommodation/confirmation/${store.bookingToPay.bookingId}`,
+                        }, {
+                            text: t("Payment")
+                        }
+                    ]}
+                        backLink={`/accommodation/confirmation/${store.bookingToPay.bookingId}`}
+                    />
+            )}
 
             { this.state.comment && <p>
                 { this.state.comment }

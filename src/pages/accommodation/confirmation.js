@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
@@ -24,9 +25,11 @@ class AccommodationConfirmationPage extends React.Component {
         super(props);
         this.state = {
             fromGetter: false,
-            statusLoading: false
+            statusLoading: false,
+            redirect: null
         };
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
+        this.payNowByCard = this.payNowByCard.bind(this);
     }
 
     showCancellationConfirmation() {
@@ -55,6 +58,12 @@ class AccommodationConfirmationPage extends React.Component {
         });
     }
 
+    payNowByCard() {
+        store.setBookingReferenceCode(store.booking.result?.bookingDetails?.referenceCode);
+        store.setBookingToPay(store.booking.result);
+        this.setState({ redirect: "/payment/form" });
+    }
+
     componentDidMount() {
         store.setBookingResult(null);
 
@@ -67,6 +76,9 @@ class AccommodationConfirmationPage extends React.Component {
             referenceCode = tryOfRef;
             fromHistory = false;
         }
+
+        if (fromHistory)
+            store.setPaymentResult(null);
 
         if ( bookingId || referenceCode ) {
             this.setState({
@@ -84,6 +96,9 @@ render() {
     var { t } = useTranslation(),
         booking = store.booking.result?.bookingDetails || {},
         data = store.booking.result || {};
+
+    if (this.state.redirect)
+        return <Redirect push to={this.state.redirect}/>;
 
     if (store.paymentResult?.result)
         var {
@@ -268,6 +283,12 @@ render() {
                     ))}
 
                     <div class="actions">
+                        { "NotPaid" == data.paymentStatus &&
+                          "Cancelled" != booking.status &&
+                            <button class="button" onClick={this.payNowByCard}>
+                                {t("Pay now by Card")}
+                            </button>
+                        }
                         <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
                             {t("Send Voucher")}
                         </button>

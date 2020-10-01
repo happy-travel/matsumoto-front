@@ -74,6 +74,10 @@ class AccommodationStore {
     @setter
     secondStepState = null;
 
+    @observable
+    @setter
+    bookingToPay = null; // todo: refactor, it's temporary decision
+
     constructor() {
         autosave(this, "_accommodation_store_cache");
     }
@@ -187,6 +191,8 @@ class AccommodationStore {
 
     setPaymentResult(result) {
         this.paymentResult = result;
+        if (!result)
+            return;
         if (this.paymentResult.result == "Failed")
             this.paymentResult.error = true;
         if (result.params.response_message)

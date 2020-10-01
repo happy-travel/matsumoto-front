@@ -95,5 +95,6 @@ export const Searches = v => [
     v.status,
     v.mealPlan,
     v.contractType,
-    PassengerName({passenger: v.rooms?.[0]?.passengers?.[0]})
+    PassengerName({passenger: v.rooms?.[0]?.passengers?.[0]}),
+    remapStatus(v.paymentStatus)
 ];
