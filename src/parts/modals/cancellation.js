@@ -47,7 +47,7 @@ class CancellationConfirmationModal extends React.Component {
 
                 <h2>{t("Cancellation Deadline")}</h2>
                 <p>
-                    {t("Cancellation is not possible furthermore, out of deadline")}.
+                    {t("Cancellation is not possible furthermore, Check In date passed")}.
                 </p>
 
             </React.Fragment>
