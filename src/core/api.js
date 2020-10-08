@@ -116,7 +116,7 @@ _.methods_dont_show_error = [
 
 const setAlert = (text, url = "") => ((
     _.methods_dont_show_error.indexOf(url) < 0 &&
-    url?.indexOf("/state") < 0
+    (!url || (url?.indexOf("/state") < 0))
 ) && View.setTopAlertText(text));
 
 _.request = ({

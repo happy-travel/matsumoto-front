@@ -30,6 +30,7 @@ class AccommodationConfirmationPage extends React.Component {
         };
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
         this.payNowByCard = this.payNowByCard.bind(this);
+        this.loadBooking = this.loadBooking.bind(this);
     }
 
     showCancellationConfirmation() {
@@ -54,7 +55,10 @@ class AccommodationConfirmationPage extends React.Component {
         API.post({
             url: API.BOOKING_STATUS(store.booking.result.bookingId),
             success: (data = {}) => store.setUpdatedBookingStatus(data.status),
-            after: () => this.setState({ statusLoading: false })
+            after: () => {
+                this.setState({ statusLoading: false });
+                this.loadBooking();
+            }
         });
     }
 
@@ -64,7 +68,7 @@ class AccommodationConfirmationPage extends React.Component {
         this.setState({ redirect: "/payment/form" });
     }
 
-    componentDidMount() {
+    loadBooking() {
         store.setBookingResult(null);
 
         var bookingId = this.props?.match?.params?.id,
@@ -90,6 +94,10 @@ class AccommodationConfirmationPage extends React.Component {
                 after: (result, err, data) => store.setBookingResult(result || {}, data, err)
             });
         }
+    }
+
+    componentDidMount() {
+        this.loadBooking();
     }
 
 render() {
