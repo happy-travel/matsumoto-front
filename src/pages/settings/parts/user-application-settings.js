@@ -67,6 +67,12 @@ class UserApplicationSettings extends React.Component {
                     render={formik => (
                         <div class="form app-settings">
                             <div class="row">
+                                <FieldSwitch formik={formik}
+                                             id="availableCredit"
+                                             label={t("Show Available Credit")}
+                                />
+                            </div>
+                            <div class="row">
                                 <FieldSelect formik={formik}
                                              id="preferredLanguage"
                                              label={t("Preferred language")}
@@ -91,12 +97,6 @@ class UserApplicationSettings extends React.Component {
                                                  { value: 5, text: "Friday"},
                                                  { value: 6, text: "Saturday"},
                                              ]}
-                                />
-                            </div>
-                            <div class="row">
-                                <FieldSwitch formik={formik}
-                                             id="availableCredit"
-                                             label={t("Show Available Credit")}
                                 />
                             </div>
                             <div class="row">
