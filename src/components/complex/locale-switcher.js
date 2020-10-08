@@ -11,7 +11,7 @@ const dropdownId = "LocaleSwitcherDropdown";
 @observer
 class LocaleSwitcherDropdown extends React.Component {
     render() {
-        const { t } = useTranslation();
+        const { t, i18n } = useTranslation();
 
         return (
             <React.Fragment>
@@ -19,21 +19,18 @@ class LocaleSwitcherDropdown extends React.Component {
                      data-dropdown={dropdownId}
                      onClick={() => View.setOpenDropdown(dropdownId)}>
                     <div class="flag-holder">
-                        {t("current_language_name") == "English" ?
-                            <Flag code={"gb"} /> :
-                            <Flag code={"ae"} />
-                        }
+                        <Flag language={i18n.language} />
                     </div>
                     <div class="name">{t("current_language_name")}</div>
                     <div class="switch-arrow" />
 
                     {View.isDropdownOpen(dropdownId) && <div class="locale dropdown">
                         <div class="item" onClick={switchLocale.bind(null, "ar")}>
-                            <Flag code={"ae"} />
+                            <Flag language="ar" />
                             <span>اللغة الحالية</span>
                         </div>
                         <div class="item" onClick={switchLocale.bind(null, "en")}>
-                            <Flag code={"gb"} />
+                            <Flag language="en" />
                             <span>English</span>
                         </div>
                     </div>}

@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import i18n from 'i18next';
 
-import { Loader } from "simple";
+import { Loader, Flag } from "simple";
 import {
     CachedForm,
     FieldSelect,
@@ -72,9 +72,10 @@ class UserApplicationSettings extends React.Component {
                                              label={t("Preferred language")}
                                              placeholder={t("Preferred language")}
                                              options={[
-                                                 { value: "en", text: "English"},
-                                                 { value: "ar", text: "اللغة الحالية"}
+                                                 { value: "en", text: "English", flag: "gb"},
+                                                 { value: "ar", text: "اللغة الحالية", flag: "ae"}
                                              ]}
+                                             Flag={<Flag language={formik.values.preferredLanguage} />}
                                 />
                                 <FieldSelect formik={formik}
                                              id="weekStarts"

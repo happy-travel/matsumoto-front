@@ -1,6 +1,7 @@
 import React from "react";
 import { getIn } from "formik";
 import { observer } from "mobx-react";
+import { Flag } from "simple";
 import FieldText from "./field-text";
 
 import View from "stores/view-store";
@@ -42,6 +43,7 @@ class SelectDropdown extends React.Component {
                 <div class="scroll">
                     {options?.map(item => (
                         <div class="item line" onClick={() => this.setValue(item)}>
+                            {item.flag && <Flag code={item.flag} /> }
                             {item.text}
                         </div>
                     ))}
