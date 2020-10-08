@@ -171,7 +171,7 @@ class AccommodationBookingPage extends React.Component {
 
 <React.Fragment>
     <div class="booking block">
-        <div class="hide">{store.paymentMethod}</div>
+        <div class="hide">{store.paymentMethod}{authStore.balance?.balance}</div>
         <section class="double-sections">
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
