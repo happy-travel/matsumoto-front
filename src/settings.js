@@ -6,12 +6,13 @@ const dev = {
 
 let settings = {
     default_culture       : "en",
-    auth_client_id        : "matsumoto",
 
     edo_url               : process.env.EDO_URL || dev.EDO_URL,
     edo_v1                : "/api/1.0",
 
     identity_url          : process.env.IDENTITY_URL || dev.IDENTITY_URL,
+    identity_scope        : "edo openid email",
+    identity_client_id    : "matsumoto",
 
     auth_callback_host    : window.location.origin,
     payment_callback_host : window.location.origin,
