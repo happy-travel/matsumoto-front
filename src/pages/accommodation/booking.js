@@ -63,9 +63,9 @@ class AccommodationBookingPage extends React.Component {
 
         var roomDetails = [];
 
-        for (var r = 0; r < variant?.roomContracts?.length; r++) {
-            var adults = variant?.roomContracts[r]?.adultsNumber,
-                total = adults + variant?.roomContracts[r]?.childrenAges.length,
+        for (var r = 0; r < variant?.rooms?.length; r++) {
+            var adults = variant?.rooms[r]?.adultsNumber,
+                total = adults + variant?.rooms[r]?.childrenAges.length,
                 passengers = [];
 
             for (var i = 0; i < total; i++)
@@ -78,7 +78,7 @@ class AccommodationBookingPage extends React.Component {
                 });
 
             roomDetails.push({
-                type: variant.roomContracts[r]?.type,
+                type: variant.rooms[r]?.type,
                 passengers
             })
         }
@@ -150,7 +150,7 @@ class AccommodationBookingPage extends React.Component {
             variant = store.selected.roomContractSet,
 
             initialValues = {
-                room: variant?.roomContracts?.map(item => ({
+                room: variant?.rooms?.map(item => ({
                     passengers: [
                         ...Array(item?.adultsNumber),
                         ...Array(item?.childrenAges.length),
@@ -200,15 +200,15 @@ class AccommodationBookingPage extends React.Component {
                 />
                 <div class="dual" style={{display: "inline-block"}}>
                     <span class="first">{t("Number of Rooms")}</span>
-                    <span class="second">{variant.roomContracts.length}</span>
+                    <span class="second">{variant.rooms.length}</span>
                 </div>
 
                 <div class="static item">{t("Room & Total Cost")}</div>
-                    {variant?.roomContracts?.map((rc,i) => (
+                    {variant?.rooms?.map((rc,i) => (
                         (rc.roomPrices?.[0].netTotal !== undefined) ?
                         <Dual addClass={__class(rc.roomPrices.length > 1, "column")}
-                            a={t("Room Cost") + (variant?.roomContracts?.length > 1 ? (" " + (i+1)) : '')}
-                            b={ <RoomPrices t={t} prices={variant.roomContracts[i].roomPrices} /> }
+                            a={t("Room Cost") + (variant?.rooms?.length > 1 ? (" " + (i+1)) : '')}
+                            b={ <RoomPrices t={t} prices={variant.rooms[i].roomPrices} /> }
                         /> : null
                     ))}
                 <div class="total-cost">
@@ -254,7 +254,7 @@ class AccommodationBookingPage extends React.Component {
                             <div class="form">
                                 <FieldArray
                                     render={() => (
-                                variant?.roomContracts.map((item, r) => <React.Fragment>
+                                variant?.rooms.map((item, r) => <React.Fragment>
                                 <h2>
                                     <span>
                                         Room {r+1}:
@@ -309,7 +309,7 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
 
                                     <p class="remark">
-                                        {t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} />
+                                        {t("Board Basis")}: <MealPlan t={t} room={variant.rooms[0]} />
                                     </p>
 
                                     <FullDeadline t={t}
@@ -349,7 +349,7 @@ class AccommodationBookingPage extends React.Component {
                                     <p>{t("You need to pay")}:
                                         <span class="value"><b>{price(variant.price)}</b></span>
                                     </p>
-                                    { variant?.roomContracts?.[0].isAdvancedPurchaseRate &&
+                                    { variant?.rooms?.[0].isAdvancedPurchaseRate &&
                                         <h3 style={{margin: "20px 0 -20px"}}>
                                             <span class="restricted-rate">
                                                 {t("Restricted Rate")}
@@ -359,10 +359,10 @@ class AccommodationBookingPage extends React.Component {
                                     <div class="list">
                                         <div
                                             class={"item" +
-                                                __class(!isPaymentAvailable(authStore.balance, variant?.roomContracts?.[0].isAdvancedPurchaseRate), "disabled") +
+                                                __class(!isPaymentAvailable(authStore.balance, variant?.rooms?.[0].isAdvancedPurchaseRate), "disabled") +
                                                 __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
                                             }
-                                            onClick={isPaymentAvailable(authStore.balance, variant?.roomContracts?.[0].isAdvancedPurchaseRate)
+                                            onClick={isPaymentAvailable(authStore.balance, variant?.rooms?.[0].isAdvancedPurchaseRate)
                                                 ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
                                                 : () => {}}
                                         >
@@ -394,7 +394,7 @@ class AccommodationBookingPage extends React.Component {
                                                 </div>}
                                             />
                                         </div>
-                                        {!(variant?.roomContracts[0].isAdvancedPurchaseRate &&
+                                        {!(variant?.rooms[0].isAdvancedPurchaseRate &&
                                             (authStore.agencyAPR < APR_VALUES.CardPurchasesOnly)) &&
                                             <div class="second">
                                                 <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>

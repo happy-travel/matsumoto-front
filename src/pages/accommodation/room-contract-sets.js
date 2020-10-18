@@ -175,21 +175,21 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                 <tr>
                                     <td class="room-contract-set">
                                         <span onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
-                                            <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
+                                            <GroupRoomTypesAndCount t={t} contracts={roomContractSet.rooms} />
                                         </span>
                                     </td>
                                     <td class="price">
                                         {price(roomContractSet.price)}
                                     </td>
                                     <td class="pros">
-                                        {roomContractSet.roomContracts[0]?.isDynamic === true &&
+                                        {roomContractSet.rooms[0]?.isDynamic === true &&
                                             <div class="one">
                                                 <strong>
                                                     {t("Dynamic offer")}
                                                 </strong>
                                             </div>
                                         }
-                                        {roomContractSet.roomContracts[0]?.isAdvancedPurchaseRate &&
+                                        {roomContractSet.rooms[0]?.isAdvancedPurchaseRate &&
                                          (authStore.agencyAPR > APR_VALUES.DisplayOnly) &&
                                             <div class="one">
                                                 <span class="restricted-rate">
@@ -198,7 +198,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                             </div>
                                         }
                                         <div class="one green">
-                                            <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
+                                            <MealPlan t={t} room={roomContractSet.rooms[0]} />
                                         </div>
                                         <div class="one">
                                             <Deadline t={t}
@@ -209,7 +209,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        {(roomContractSet.roomContracts[0]?.isAdvancedPurchaseRate &&
+                                        {(roomContractSet.rooms[0]?.isAdvancedPurchaseRate &&
                                          authStore.agencyAPR <= APR_VALUES.DisplayOnly) ?
                                             <button class="button small disabled">
                                                 {t("Restricted Rate")}
