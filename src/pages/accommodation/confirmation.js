@@ -246,10 +246,12 @@ render() {
                     { booking.roomDetails.map((room, index) => (
                         <div class="room-part">
                             <div class="part">
-                                <div class="icon-holder circle">
-                                    { booking.roomDetails.length > 1 ?
-                                        index+1 :
-                                        <span class="icon icon-confirmation-passenger"/> }
+                                <div class="icon-holder">
+                                    <div class="icon icon-confirmation-circle">
+                                        { booking.roomDetails.length > 1 ?
+                                            index+1 :
+                                            <span class="icon icon-confirmation-passenger"/> }
+                                    </div>
                                 </div>
                                 <div class="line">
                                     <Dual
