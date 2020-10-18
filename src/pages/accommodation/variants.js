@@ -158,6 +158,9 @@ class AccommodationVariantsPage extends React.Component {
                                     {t("Accommodation in")} {item.accommodation.location.country}, {item.accommodation.location.locality}<br/>
                                 {item.accommodation.location.address}
                             </div>
+                            {item.dataProvider && <div>
+                                Data provider: {" " + item.dataProvider}
+                            </div>}
                             { /*
                             <div class="features">
                                 <span class="icon icon-info-big"/>

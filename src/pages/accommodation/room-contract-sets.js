@@ -177,6 +177,9 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         <span onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
                                             <GroupRoomTypesAndCount t={t} contracts={roomContractSet.rooms} />
                                         </span>
+                                        {roomContractSet.dataProvider && <div class="black">
+                                            Data provider: {" " + roomContractSet.dataProvider}
+                                        </div>}
                                     </td>
                                     <td class="price">
                                         {price(roomContractSet.price)}

@@ -73,8 +73,8 @@ export const createFilters = hotels => {
             id: hotel?.accommodation?.id
         });
         */
-
-        filters.__source.add("" + hotel?.dataProvider);
+        if (hotel?.dataProvider)
+            filters.__source.add("" + hotel?.dataProvider);
     }
 
     filters.__source = [...filters.__source];

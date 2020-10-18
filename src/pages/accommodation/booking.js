@@ -186,6 +186,9 @@ class AccommodationBookingPage extends React.Component {
                     , {hotel.location.locality}
                     , {hotel.location.country}
                 </div>
+                {variant.dataProvider && <div class="subtitle">
+                    Data provider: {" " + variant.dataProvider}
+                </div>}
 
                 <div class="static item">
                     {t("Your Reservation")}
