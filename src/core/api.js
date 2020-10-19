@@ -52,6 +52,8 @@ API_METHODS = {
     BOOKING_GET_BY_CODE   : referenceCode =>
                             v1 + `/accommodations/bookings/refcode/${referenceCode}`,
 
+    AGENCY_BOOKINGS_LIST  : v1 + "/accommodations/bookings/agency",
+
     ACCOMMODATION_DETAILS : (searchId, resultId) =>
                             v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/accommodation `,
     A_SEARCH_ONE_CREATE   : v1 + "/accommodations/availabilities/searches",

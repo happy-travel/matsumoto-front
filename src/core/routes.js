@@ -19,6 +19,7 @@ import registrationCounterparty   from "pages/account/registration-counterparty"
 import acceptInvite               from "pages/account/accept-invite";
 
 import userBookingManagement      from "pages/user/booking-management/booking-management";
+import agencyBookingsManagement   from "pages/user/agency-bookings-management/agency-bookings-management";
 import accountStatement           from "pages/user/account-statement/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
@@ -47,6 +48,7 @@ export const routesWithHeaderAndFooter = [
     "/contact", "/terms", "/privacy", "/about",
     "/payment/form",
     "/agent/bookings",
+    "/agency/bookings",
     "/settings/*",
 ];
 export const routesWithFooter = [
@@ -82,7 +84,8 @@ const Routes = () => (
         <Route path="/signup/invite/:email/:code" component={acceptInvite} title="Sign Up" />
 
         <Route path="/agent/bookings"             component={userBookingManagement} title="Your Bookings" />
-        <Route path="/settings/account"          component={accountStatement} title="Account statement" />
+        <Route path="/agency/bookings"            component={agencyBookingsManagement} title="Agency Bookings" />
+        <Route path="/settings/account"           component={accountStatement} title="Account statement" />
         <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
 
         <Route path="/settings/agents/:agentId/:counterpartyId/:agencyId/"

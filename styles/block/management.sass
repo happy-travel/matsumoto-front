@@ -33,6 +33,21 @@
                     min-width: $col !important
                     max-width: $col !important
 
+    .agency
+        .the-table
+            tr
+                $cols: (1: 150px, 2: 130px, 3: 160px, 4: 100px, 5: 120px, 6: 90px, 7: 80px, 8: 80px, 9: 110px)
+                @each $id, $col in $cols
+                    td:nth-child(#{$id})
+                        min-width: $col !important
+                        max-width: $col !important
+        .user-filter
+            div
+                margin-top: 44px
+                margin-left: 15px
+                cursor: pointer
+                color: $color-blue
+
     &.payments-history
         .the-table
             tr

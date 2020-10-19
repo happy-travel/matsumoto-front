@@ -14,7 +14,11 @@ class UserMenuDropdown extends React.Component {
         var userName = (authStore.user?.firstName || "") + " " + (authStore.user?.lastName || "");
         return (
             <React.Fragment>
-                <Link to="/agent/bookings" class="button transparent-with-border">
+                <Link to={
+                    authStore.activeCounterparty?.inAgencyPermissions.includes("AgencyBookingsManagement") ?
+                        "/agency/bookings" :
+                        "/agent/bookings"
+                } class="button transparent-with-border">
                     {t("Bookings")}
                 </Link>
                 <Link to="/settings/personal" class="switcher user-switcher">
