@@ -10,6 +10,7 @@ class FieldCountry extends React.Component {
     render() {
         const {
             formik,
+            disabled,
             id,
             label,
             placeholder,
@@ -24,6 +25,7 @@ class FieldCountry extends React.Component {
                        id={id}
                        label={label}
                        placeholder={placeholder}
+                       disabled={disabled}
                        Icon={<span class="icon icon-calendar"/>}
                        addClass="size-medium"
                        Dropdown={DateDropdown}
