@@ -112,10 +112,13 @@ class AgencyBookingsManagementPage extends React.Component {
                         searches={Searches}
                         CustomFilter={
                             <div class="user-filter">
-                                {agentIdFilter &&
-                                    <div onClick={
+                                {agentIdFilter ?
+                                    <div class="button-clear" onClick={
                                         () => this.setAgentIdFilter(null)
-                                    }>{t("Show all agents bookings")}</div>
+                                    }>{t("Show all agents bookings")}</div> :
+                                    <div class="blue" onClick={
+                                        () => this.setAgentIdFilter(authStore.user.id)
+                                    }>{t("Show only my bookings")}</div>
                                 }
                             </div>
                         }
