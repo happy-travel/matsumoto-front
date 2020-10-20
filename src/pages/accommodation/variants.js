@@ -199,15 +199,19 @@ class AccommodationVariantsPage extends React.Component {
                                     <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
                                 </h3>
                                 <div>
-                                    {roomContractSet.roomContracts[0]?.isDynamic === true &&
-                                        <strong>
-                                            {t("Dynamic offer")}
-                                        </strong>
+                                    {!roomContractSet.roomContracts[0]?.isDynamic === true &&
+                                        <div>
+                                            <strong>
+                                                {t("Dynamic offer")}
+                                            </strong>
+                                        </div>
                                     }
-                                    {roomContractSet.roomContracts[0]?.isAdvancedPurchaseRate &&
-                                        <span class="restricted-rate">
-                                            {t("Restricted Rate")}
-                                        </span>
+                                    {!roomContractSet.roomContracts[0]?.isAdvancedPurchaseRate &&
+                                        <div>
+                                            <span class="restricted-rate">
+                                                {t("Restricted Rate")}
+                                            </span>
+                                        </div>
                                     }
                                     <Deadline t={t}
                                          searchId={store.search.id}
