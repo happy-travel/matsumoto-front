@@ -77,7 +77,7 @@ class AgencyBookingsManagementPage extends React.Component {
                 });
 
             if (agentIdFilter)
-                result.filter(item => item.agent.id == agentIdFilter);
+                return result.filter(item => item.agent.id == agentIdFilter);
 
             return result;
         };

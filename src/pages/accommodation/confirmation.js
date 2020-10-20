@@ -17,6 +17,7 @@ import PaymentInformation from "parts/payment-information";
 import ViewFailed from "parts/view-failed";
 
 import store from "stores/accommodation-store";
+import authStore from "stores/auth-store";
 import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 @observer
@@ -127,7 +128,11 @@ render() {
                             text: t("Booking Confirmation")
                         }
                     ]}
-                        backLink="/agent/bookings"
+                        backLink={
+                            authStore.activeCounterparty?.inAgencyPermissions?.includes("AgencyBookingsManagement") ?
+                                "/agency/bookings" :
+                                "/agent/bookings"
+                        }
                         noBackButton={!this.state.fromHistory}
                     />
                     { !this.state.fromHistory && <ActionSteps
