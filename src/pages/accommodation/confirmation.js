@@ -185,6 +185,12 @@ render() {
                             <span class="icon icon-confirmation-price" />
                         </div>
                         <div>
+                            { !!data.dataProvider &&
+                                <Dual addClass="grow"
+                                            a={"Data provider"}
+                                            b={data.dataProvider}
+                                />
+                            }
                             <Dual
                                 a={t("Booked Service")}
                                 b={booking.accommodationName}
