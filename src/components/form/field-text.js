@@ -186,7 +186,14 @@ class FieldText extends React.Component {
         if (formik && !suggestion)
             suggestion = UI.getSuggestion(id, fieldValue);
 
-        var finalValue = ValueObject ? '' : (value || (formik?.values ? fieldValue : '') || '');
+        var finalValue = "";
+        if (!ValueObject) {
+            finalValue = value || (formik?.values ? fieldValue : "");
+            if (finalValue === 0)
+                finalValue = "0";
+            if (!finalValue)
+                finalValue = "";
+        }
 
         return (
             <div class={"field" + __class(addClass)} data-dropdown={this.props["data-dropdown"] || id}>
