@@ -18,7 +18,7 @@ class PaymentResultPage extends BasicPaymentPage {
             API.post({
                 external_url: API.DIRECT_LINK_PAY.PAY(directLinkCode),
                 body: params.token_name,
-                after: (data, error) => this.callback(data, error)
+                after: (data, error) => this.callback(data, error, null, directLinkCode)
             });
 
             return;

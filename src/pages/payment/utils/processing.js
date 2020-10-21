@@ -21,11 +21,14 @@ class BasicPaymentPage extends React.Component {
     }
 
     setResult(data, error, params) {
+        var errorLine = error?.detail || error?.title;
+        if (data?.status == "Failed")
+            errorLine = data.message;
         store.setPaymentResult({
             params: params,
             result: {
                 status: data?.status,
-                error: error?.detail || error?.title
+                error: errorLine
             }
         });
     }
@@ -52,28 +55,28 @@ class BasicPaymentPage extends React.Component {
             });
     }
 
-    callback(data, error, after3ds) {
-        var params = getParams(),
-            directLinkCode = windowSessionStorage.get(params.merchant_reference);
+    callback(data, error, after3ds, directLinkCode) {
+        var params = getParams();
 
         if (!after3ds && ("Secure3d" == data?.status)) {
             window.location.href = data.secure3d;
             return;
         }
 
-        if (!directLinkCode)
-            this.finalize(
-                params.merchant_reference,
-                data,
-                error,
-                params
-            );
-        else {
+        if (directLinkCode) {
             this.setResult(data, error, params);
             this.setState({
                 redirectToConfirmationPage: true
             });
+            return;
         }
+
+        this.finalize(
+            params.merchant_reference,
+            data,
+            error,
+            params
+        );
     }
 
     render() {
