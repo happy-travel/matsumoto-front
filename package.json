@@ -8,7 +8,7 @@
     "formik": "2.1.4",
     "moment": "2.26.0",
     "moment-range": "3.0.3",
-    "oidc-client": "1.9.0",
+    "oidc-client": "1.10.1",
     "react": "16.8.6",
     "react-app-polyfill": "1.0.0",
     "react-daterange-picker": "2.0.1",
