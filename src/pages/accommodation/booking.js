@@ -175,8 +175,8 @@ class AccommodationBookingPage extends React.Component {
         <section class="double-sections">
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
-                { hotel.pictures?.[0]?.source && <div class="expanded">
-                    <img src={hotel.pictures[0].source} alt={hotel.pictures[0].caption} class="round" />
+                { hotel.photo.sourceUrl && <div class="expanded">
+                    <img src={hotel.photo.sourceUrl} alt={hotel.photo.caption} class="round" />
                 </div> }
                 <div class="static item no-border">
                     {hotel.name}
@@ -216,7 +216,7 @@ class AccommodationBookingPage extends React.Component {
                     ))}
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
-                    <div>{price(variant.price)}</div>
+                    <div>{price(variant.price.netTotal)}</div>
                 </div>
             </div>
             <div class="right-section">
@@ -350,7 +350,7 @@ class AccommodationBookingPage extends React.Component {
                                         </div>
                                     </div>}
                                     <p>{t("You need to pay")}:
-                                        <span class="value"><b>{price(variant.price)}</b></span>
+                                        <span class="value"><b>{price(variant.price.netTotal)}</b></span>
                                     </p>
                                     { variant?.rooms?.[0].isAdvancedPurchaseRate &&
                                         <h3 style={{margin: "20px 0 -20px"}}>

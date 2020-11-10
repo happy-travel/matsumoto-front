@@ -33,8 +33,8 @@ class DestinationDropdown extends React.Component {
                             <div id={`js-value-${index}`}
                                  class={"country line summary" + __class(focusIndex === index, "focused")}
                                  onClick={() => this.setValue(item)}>
-                                { item.accommodation.picture.source && <div class="photo">
-                                    <img src={item.accommodation.picture.source} alt="" />
+                                { item.accommodation.photo.sourceUrl && <div class="photo">
+                                    <img src={item.accommodation.photo.sourceUrl} alt={item.accommodation.photo.caption} />
                                 </div> }
                                 <div class="title">
                                     <h2>

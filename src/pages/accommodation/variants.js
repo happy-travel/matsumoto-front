@@ -136,8 +136,8 @@ class AccommodationVariantsPage extends React.Component {
                 { store.hotelArray.map(item =>
                 <div class="variant" key={item.accommodation.id}>
                     <div class="summary">
-                        { item.accommodation.picture.source && <div class="photo" onClick={() => this.accommodationSelect(item)}>
-                            <img src={item.accommodation.picture.source} alt="" />
+                        { item.accommodation.photo.sourceUrl && <div class="photo" onClick={() => this.accommodationSelect(item)}>
+                            <img src={item.accommodation.photo.sourceUrl} alt={item.accommodation.photo.caption}  />
                         </div> }
                         <div class="title">
                             <div class="features">
@@ -187,7 +187,7 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                             <div class="price">
                                 <span>{t("From")}</span>
-                                {price(item.roomContractSets?.[0]?.price.currency, item.fromPrice)}
+                                {price(item.roomContractSets?.[0]?.price.currency, item.minPrice)}
                             </div>
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}

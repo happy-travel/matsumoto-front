@@ -1,13 +1,13 @@
 import React from "react";
 
 const Picture = ({ item, big }) => {
-    if (!item?.source)
+    if (!item?.sourceUrl)
         return null;
 
     if (big) {
         var cover = false,
             img = new Image();
-        img.src = item.source;
+        img.src = item.sourceUrl;
 
         if (img.width && img.height && (img.width > img.height) && (img.width < 3 * img.height))
             cover = true;
@@ -15,7 +15,7 @@ const Picture = ({ item, big }) => {
 
     return (
         <div class={"sizer" + __class(big, "big") + __class(cover, "cover")}>
-            <img src={item.source} alt={item.caption || ""} />
+            <img src={item.sourceUrl} alt={item.caption || ""} />
         </div>
     );
 };

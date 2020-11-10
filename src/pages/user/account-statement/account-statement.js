@@ -85,7 +85,6 @@ class AccountStatementPage extends React.Component {
                             columns={Columns(t)}
                             list={store.userPaymentsList}
                             textEmptyResult={t("You don`t have any payment history for this dates")}
-                            rowClassName={item => __class(getClassByStatus(item.status) == "gray", "gray")}
                             filter={filter}
                             sorters={Sorters(t)}
                             searches={Searches}

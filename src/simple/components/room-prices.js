@@ -7,13 +7,13 @@ export const RoomPrices = ({ t, prices }) => {
 
     if (prices.length == 1 || !prices[0].fromDate)
         return <React.Fragment>
-            {price(prices[0])}
+            {price(prices[0].netTotal)}
         </React.Fragment>;
 
     return <React.Fragment>
         {prices.map(item => (
             <div>
-                {dateFormat.c(item.fromDate)} – {dateFormat.c(item.toDate)}: {price(item)}
+                {dateFormat.c(item.fromDate)} – {dateFormat.c(item.toDate)}: {price(item.netTotal)}
             </div>
         ))}
     </React.Fragment>;

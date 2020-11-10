@@ -86,7 +86,6 @@ class BookingManagementPage extends React.Component {
                         textEmptyResult={t("No reservations found")}
                         textEmptyList={t("You don`t have any reservations")}
                         onRowClick={item => this.setState({ redirectToBookingConfirmationId: item.id })}
-                        rowClassName={item => __class(getClassByStatus(item.status) == "gray", "gray")}
                         filter={filter}
                         sorters={Sorters(t)}
                         searches={Searches}

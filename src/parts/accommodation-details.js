@@ -81,7 +81,7 @@ class AccommodationCommonDetailsPart extends React.Component {
 
                 <h2>{t("Accommodation Photos")}</h2>
 
-                { !!hotel.pictures?.length && <Gallery pictures={hotel.pictures} /> }
+                { !!hotel.photos?.length && <Gallery pictures={hotel.photos} /> }
 
                 <Text />
 

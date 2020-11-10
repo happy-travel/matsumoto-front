@@ -93,11 +93,10 @@ class AccommodationStore {
           //      results[i] = results[i].data;
           //      results[i].source = source;
           //  }
-            results.forEach(item => {
-                item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
-                if (item.roomContractSets?.sort)
-                    item.roomContractSets.sort((a,b) => this.sorter?.price * (b.price.netTotal - a.price.netTotal));
-            });
+          //  results.forEach(item => {
+          //      if (item.roomContractSets?.sort)
+          //          item.roomContractSets.sort((a,b) => this.sorter?.price * (b.price.netTotal - a.price.netTotal));
+          //  });
 
             if (page != 0)
                 this.search.result.push(...results);

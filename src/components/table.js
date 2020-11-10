@@ -86,7 +86,6 @@ class Table extends React.Component {
             textEmptyList,
 
             onRowClick,
-            rowClassName,
 
             filter,
             sorters,
@@ -139,10 +138,7 @@ class Table extends React.Component {
                                 {result.map(row => row && (
                                     <tr
                                         onClick={onRowClick ? () => onRowClick(row) : null}
-                                        class={
-                                            __class(onRowClick, "clickable ") +
-                                            (() => rowClassName(row))
-                                        }
+                                        class={__class(onRowClick, "clickable")}
                                     >
                                         {columns.map(column =>
                                             <td>

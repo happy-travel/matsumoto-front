@@ -182,7 +182,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         </div>}
                                     </td>
                                     <td class="price">
-                                        {price(roomContractSet.price)}
+                                        {price(roomContractSet.price.netTotal)}
                                     </td>
                                     <td class="pros">
                                         {roomContractSet.rooms[0]?.isDynamic === true &&
