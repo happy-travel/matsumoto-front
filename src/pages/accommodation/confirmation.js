@@ -296,6 +296,12 @@ render() {
                                         ))}
                                     />}
                             </div>
+                            { room.supplierRoomReferenceCode && <div class="part no-icon">
+                                <Dual
+                                    a={t("Supplier Reference Code")}
+                                    b={room.supplierRoomReferenceCode}
+                                />
+                            </div> }
                             <FullDeadline t={t}
                                           deadlineDetails={room.deadlineDetails}
                                           remarks={room?.remarks}
