@@ -303,7 +303,7 @@ render() {
                                 />
                             </div> }
                             <FullDeadline t={t}
-                                          deadlineDetails={room.deadlineDetails}
+                                          deadline={room.deadlineDetails}
                                           remarks={room?.remarks}
                             />
                         </div>
