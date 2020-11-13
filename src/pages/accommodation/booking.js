@@ -95,7 +95,7 @@ class AccommodationBookingPage extends React.Component {
             "roomDetails": roomDetails,
             "features": [],
             "itineraryNumber": values.itineraryNumber,
-            "dataProvider": store.selected.accommodation.source
+            "supplier": store.selected.accommodation.source
         };
         store.setBookingRequest(request);
 
@@ -186,8 +186,8 @@ class AccommodationBookingPage extends React.Component {
                     , {hotel.location.locality}
                     , {hotel.location.country}
                 </div>
-                {variant.dataProvider && <div class="subtitle">
-                    Data provider: {" " + variant.dataProvider}
+                {variant.supplier && <div class="subtitle">
+                    Supplier: {" " + variant.supplier}
                 </div>}
 
                 <div class="static item">

@@ -25,7 +25,7 @@ class ReportDuplicateModal extends React.Component {
 
     submit(values) {
         var id = UI.modalData?.accommodation?.id,
-            dataProvider = UI.modalData?.dataProvider;
+            supplier = UI.modalData?.supplier;
 
         if (!id)
             return;
@@ -34,18 +34,18 @@ class ReportDuplicateModal extends React.Component {
             url: API.REPORT_DUPLICATE,
             body: {
                 "accommodation": {
-                    "dataProvider": dataProvider,
+                    "supplier": supplier,
                     "id": id
                 },
                 "duplicates": [
                     {
-                        "dataProvider": values.source,
+                        "supplier": values.source,
                         "id": values.id
                     },
                 ]
             },
             success: () => {
-                var temporary_duplicate_element = document.getElementById(dataProvider + "." + id);
+                var temporary_duplicate_element = document.getElementById(supplier + "." + id);
                 if (temporary_duplicate_element) {
                     temporary_duplicate_element.innerHTML = "Marked as Duplicate";
                     temporary_duplicate_element.className = "button mini-label gray";

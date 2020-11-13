@@ -185,12 +185,6 @@ render() {
                             <span class="icon icon-confirmation-price" />
                         </div>
                         <div>
-                            { !!data.dataProvider &&
-                                <Dual addClass="grow"
-                                            a={"Data provider"}
-                                            b={data.dataProvider}
-                                />
-                            }
                             <Dual
                                 a={t("Booked Service")}
                                 b={booking.accommodationName}
@@ -211,6 +205,12 @@ render() {
                                 a={t("Agent Reference")}
                                 b={booking.agentReference}
                             /> }
+                            { !!data.supplier &&
+                            <Dual addClass="grow"
+                                  a={"Supplier"}
+                                  b={data.supplier}
+                            />
+                            }
                         </div>
                     </div>
 

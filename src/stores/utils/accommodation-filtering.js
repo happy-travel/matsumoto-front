@@ -73,8 +73,8 @@ export const createFilters = hotels => {
             id: hotel?.accommodation?.id
         });
         */
-        if (hotel?.dataProvider)
-            filters.__source.add("" + hotel?.dataProvider);
+        if (hotel?.supplier)
+            filters.__source.add("" + hotel?.supplier);
     }
 
     filters.__source = [...filters.__source];
@@ -110,7 +110,7 @@ export const applyFilters = (hotels, filters) => {
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.roomContracts?.[0]?.boardBasis]);
 
     if (atLeastOne(filters.source))
-        result = result.filter(item => filters.source[item.dataProvider]);
+        result = result.filter(item => filters.source[item.supplier]);
 
     result = result.filter(hotel => hotel.roomContractSets.length);
 

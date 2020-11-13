@@ -158,8 +158,8 @@ class AccommodationVariantsPage extends React.Component {
                                     {t("Accommodation in")} {item.accommodation.location.country}, {item.accommodation.location.locality}<br/>
                                 {item.accommodation.location.address}
                             </div>
-                            {item.dataProvider && <div>
-                                Data provider: {" " + item.dataProvider}
+                            {item.supplier && <div>
+                                Supplier: {" " + item.supplier}
                             </div>}
                             { /*
                             <div class="features">
