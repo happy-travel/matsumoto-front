@@ -62,6 +62,7 @@ class PaymentPage extends BasicPaymentPage {
         this.payBySavedCard = this.payBySavedCard.bind(this);
         this.selectCard = this.selectCard.bind(this);
         this.callback = this.callback.bind(this);
+        this.removeCard = this.removeCard.bind(this);
     }
 
     componentDidMount() {
@@ -89,6 +90,18 @@ class PaymentPage extends BasicPaymentPage {
             })
         });
         snare();
+    }
+
+    removeCard(cardId) {
+        var { savedCards } = this.state;
+        API.delete({
+            url: API.CARDS_REMOVE(cardId),
+            success: () => {
+                this.setState({
+                    savedCards: savedCards.filter(item => item.id != cardId)
+                })
+            }
+        });
     }
 
     detectCardType(e) {
@@ -259,12 +272,18 @@ render() {
                                             <FieldText formik={formik}
                                                 id="card_security_code"
                                                 placeholder={this.state.code.name}
-                                                addClass={__class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
+                                                addClass={"only-when-selected" + __class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
                                                 required
                                                 password
                                                 numeric
                                                 maxLength={this.state.code.size}
                                             />
+                                            <b
+                                                className="only-when-selected link"
+                                                onClick={() => this.removeCard(item.id)}
+                                            >
+                                                Forget
+                                            </b>
                                         </div>);
                                     })}
                                     </div>
