@@ -88,6 +88,10 @@ API_METHODS = {
                            v1 + `/agencies/${agencyId}/agents`,
     AGENCY_AGENT         : (agencyId, agentId) =>
                            v1 + `/agencies/${agencyId}/agents/${agentId}`,
+    AGENT_ENABLE         : agentId =>
+                           v1 + `/agents/${agentId}/enable`,
+    AGENT_DISABLE        : agentId =>
+                           v1 + `/agents/${agentId}/disable`,
     COUNTERPARTY_INFO    : counterpartyId =>
                            v1 + `/counterparties/${counterpartyId}`,
     AGENT_SETTINGS       : v1 + `/agents/settings/application`,
