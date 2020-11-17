@@ -142,7 +142,7 @@ class AccommodationSearch extends React.Component {
                                         />
                                         <FieldText formik={formik}
                                                    id="radius"
-                                                   label={t("Radius (Km)")}
+                                                   label={t("Radius (km)")}
                                                    placeholder="1"
                                                    numeric
                                         />
@@ -176,7 +176,7 @@ class AccommodationSearch extends React.Component {
                                             <div class="label"/>
                                             <div class="inner">
                                                 <button type="submit" class="button">
-                                                    {t("Search accommodation")}
+                                                    {t("Search Accommodations")}
                                                 </button>
                                             </div>
                                         </div>

@@ -75,7 +75,7 @@ class RegistrationCounterparty extends React.Component {
                             }
                         ]}/>
                         <ActionSteps
-                            items={[t("Log In Information"), t("Agent Information"), t("Company Information")]}
+                            items={[t("Login Information"), t("Agent Information"), t("Company Information")]}
                             current={2}
                             addClass="action-steps-another-bg"
                         />

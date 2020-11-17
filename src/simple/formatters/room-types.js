@@ -20,7 +20,7 @@ export const GroupRoomTypesAndCount = ({ t, contracts, solo }) => {
             return item;
 
     for (let item in count)
-        result.push(count[item] + " x " + item);
+        result.push((count[item] > 1 ? (count[item] + " x ") : "") + item);
 
     return <React.Fragment>{
         result.map(item => <div>{item}</div>)

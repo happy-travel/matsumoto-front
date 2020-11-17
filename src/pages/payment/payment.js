@@ -188,7 +188,7 @@ render() {
                 !store.bookingToPay ?
                     <Breadcrumbs items={[
                         {
-                            text: t("Search accommodation"),
+                            text: t("Search Accommodations"),
                             link: "/search"
                         }, {
                             text: t("Your Booking"),
@@ -219,12 +219,12 @@ render() {
             </p> }
 
             { "Success" == this.state.status && <h2 class="payment-title">
-                {t("This order was successfully paid already")}
+                {t("This order has already been successfully paid")}
             </h2> }
 
             { this.state.direct && !this.state.loading && ("Success" != this.state.status) &&
               ("Created" != this.state.status) && <h2 class="payment-title">
-                {t("You are not able to pay this order anymore")}
+                {t("This order is no longer available for payment")}
             </h2> }
 
             {!this.state.direct && <p class="remark">
@@ -373,7 +373,7 @@ render() {
                                             {t("Save my card for faster checkout")}
                                             <span
                                                 class="icon icon-info"
-                                                data-tip={t("It's safe, only a part of your card data will be stored")}
+                                                data-tip={t("Your information is secure; only a part of you card's data will be stored")}
                                             />
                                         </span>
                                     }

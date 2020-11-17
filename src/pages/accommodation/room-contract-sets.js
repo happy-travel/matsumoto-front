@@ -114,7 +114,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 <div class="title">
                     <Breadcrumbs items={[
                         {
-                            text: t("Find Accommodation"),
+                            text: t("Search Accommodations"),
                             link: "/"
                         }, {
                             text: store.search.request?.destination,

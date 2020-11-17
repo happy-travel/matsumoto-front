@@ -58,7 +58,7 @@ class SettingsHeader extends React.Component {
                     </NavLink>
                     {authStore.activeCounterparty.inAgencyPermissions?.indexOf("AgentInvitation") != -1 &&
                         <NavLink to="/settings/invite">
-                            {t("Send Invitation")}
+                            {t("Send invitation")}
                         </NavLink>
                     }
                     { authStore.activeCounterparty.inAgencyPermissions?.indexOf("ObservePaymentHistory") != -1 &&

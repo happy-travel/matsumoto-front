@@ -78,7 +78,7 @@ class AccommodationVariantsPage extends React.Component {
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
-                                text: t("Find Accommodation"),
+                                text: t("Search Accommodations"),
                                 link: '/'
                             }, {
                                 text: store.search.request.destination
@@ -98,15 +98,15 @@ class AccommodationVariantsPage extends React.Component {
                         sorter={value => loadCurrentSearchWithNewOrder(value)}
                         options={[
                             { title: t("Usual"), order: {} },
-                            { title: t("High price first"), order: { price: 1 } },
-                            { title: t("Low price first"), order: { price: -1 } },
+                            { title: t("Price: high to low"), order: { price: 1 } },
+                            { title: t("Price: low to high"), order: { price: -1 } },
                         ]}
                     />
                     { /* todo:
                     <div class="input-wrap">
                         <div class="form">
                             <FieldText
-                                placeholder={t("Search by a hotel name...")}
+                                placeholder={t("Search by hotel name...")}
                             />
                         </div>
                     </div>
@@ -117,7 +117,7 @@ class AccommodationVariantsPage extends React.Component {
                     <div style={{ paddingTop: "50px" }}>
                         <div class="head">
                             <div class="title">
-                                <h3>{t("Found nothing?")}</h3>
+                                <h3>{t("Can't find what you're looking for?")}</h3>
                                 <br/>
                                 {t("You could reach our Operations team directly, and we pick an accommodation for you.")}
                                 <br/>

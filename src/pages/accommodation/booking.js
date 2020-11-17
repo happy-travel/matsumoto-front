@@ -222,7 +222,7 @@ class AccommodationBookingPage extends React.Component {
             <div class="right-section">
                 <Breadcrumbs items={[
                     {
-                        text: t("Search accommodation"),
+                        text: t("Search Accommodations"),
                         link: "/"
                     }, {
                         text: hotel.location.locality + ", " + hotel.location.country,
@@ -235,7 +235,7 @@ class AccommodationBookingPage extends React.Component {
                     }
                 ]}/>
                 <ActionSteps
-                    items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
+                    items={[t("Search Accommodations"), t("Guest Details"), t("Booking Confirmation")]}
                     current={1}
                 />
 
@@ -345,7 +345,7 @@ class AccommodationBookingPage extends React.Component {
                                                 {t("Please note the booking price has changed.")}
                                             </b>
                                             <div>
-                                                {t("To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.")}
+                                                {t("To speed up a search on a large number of accommodations, we use preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you may see a change in price or in cancellation policies on this screen. The last shown price is final.")}
                                             </div>
                                         </div>
                                     </div>}

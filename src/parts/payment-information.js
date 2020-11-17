@@ -38,7 +38,9 @@ class PaymentInformation extends React.Component {
                     reason={
                         <React.Fragment>
                             {t("Payment failed")}<br/>
-                            {result.error}
+                            {result.error}<br/>
+                            <br/>
+                            {t("Your payment did not go through")}
                         </React.Fragment>
                     }
                     button={t("Try to pay again")}

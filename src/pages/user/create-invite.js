@@ -91,7 +91,7 @@ class UserInvitePage extends React.Component {
     <div class="settings block">
         <SettingsHeader />
         <section>
-            <h2><span class="brand">{t("Invite a user to your company")}</span></h2>
+            <h2><span class="brand">{t("Invite an agent to your company")}</span></h2>
             { this.state.success === null && <Loader /> }
             { this.state.success && <div>
                 {this.state.success === true ?
@@ -103,7 +103,7 @@ class UserInvitePage extends React.Component {
                 </div> :
                 <div>
                     <div class="form">
-                        <h2>{t("Send this link as invite")}</h2>
+                        <h2>{t("Send this link as an invitation")}</h2>
                         <FieldText
                             value={this.state.success}
                         />
@@ -152,7 +152,7 @@ class UserInvitePage extends React.Component {
                                     <div class="inner">
                                         <button onClick={() => this.submitButtonClick(true, formik)}
                                                 class={"button" + __class(!formik.isValid, "disabled")}>
-                                            {t("Send Invitation")}
+                                            {t("Send invitation")}
                                         </button>
                                     </div>
                                 </div>

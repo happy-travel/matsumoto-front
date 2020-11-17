@@ -122,7 +122,7 @@ render() {
                 <div class="middle-section">
                     <Breadcrumbs items={[
                         {
-                            text: t("Search accommodation"),
+                            text: t("Search Accommodations"),
                             link: "/search"
                         }, {
                             text: t("Booking Confirmation")
@@ -136,7 +136,7 @@ render() {
                         noBackButton={!this.state.fromHistory}
                     />
                     { !this.state.fromHistory && <ActionSteps
-                        items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
+                        items={[t("Search Accommodations"), t("Guest Details"), t("Booking Confirmation")]}
                         current={2}
                     /> }
 
@@ -149,7 +149,7 @@ render() {
                         ? ( (data?.error || result?.error) ?
                             ((this.state.fromHistory || !result?.error) ? <ViewFailed
                                 reason={t("Unable to load a booking confirmation")}
-                                button={t("Back to Your Bookings")}
+                                button={t("Back to booking management")}
                                 link="/agent/bookings"
                             /> : null)
                         : <Loader /> )

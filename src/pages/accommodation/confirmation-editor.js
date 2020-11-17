@@ -91,14 +91,14 @@ render() {
                 <div class="middle-section">
                     <Breadcrumbs items={[
                         {
-                            text: t("Search accommodation"),
+                            text: t("Search Accommodations"),
                             link: "/search"
                         }, {
                             text: t("Booking Confirmation")
                         }
                     ]}/>
                     { !this.state.fromHistory && <ActionSteps
-                        items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
+                        items={[t("Search Accommodations"), t("Guest Details"), t("Booking Confirmation")]}
                         current={2}
                     /> }
 
