@@ -34,8 +34,10 @@ class SettingsHeader extends React.Component {
                         <div class="data">
                             <h1>{authStore.user?.firstName} {authStore.user?.lastName}</h1>
                             <h3>
-                                <div class="status" />
-                                {authStore.activeCounterparty.name}
+                                <div class={"status " + authStore.activeCounterparty.counterpartyState} />
+                                {authStore.activeCounterparty.name} (
+                                    {authStore.activeCounterparty.counterpartyState?.replace(/([A-Z])/g, " $1").trim()}
+                                )
                             </h3>
                             <div class="balance">
                                 <div><i class="icon icon-wallet" /></div>

@@ -94,8 +94,6 @@
                     line-height: 16px
                     color: #797F89
                 .status
-                    background: #1cbe69
-                    border: 3px solid #bbecd2
                     width: 14px
                     height: 14px
                     display: inline-block
@@ -103,6 +101,18 @@
                     margin-top: 1px
                     float: left
                     border-radius: 7px
+                    &.PendingVerification
+                        background: lightyellow
+                        border: 3px solid yellow
+                    &.FullAccess
+                        background: #1cbe69
+                        border: 3px solid #bbecd2
+                    &.DeclinedVerification
+                        background: red
+                        border: 3px solid lightcoral
+                    &.ReadOnly
+                        background: blue
+                        border: 3px solid skyblue
                 .balance
                     margin-top: 5px
                     margin-left: -2px
