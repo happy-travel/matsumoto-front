@@ -377,6 +377,7 @@ translations: {
     "Creation (old first)": "Creation (old first)",
     "Reference code": "Reference code",
     "Event Type": "Event Type",
-    "Payment Status": "Payment Status"
+    "Payment Status": "Payment Status",
+    "At least": "At least"
 }
 };

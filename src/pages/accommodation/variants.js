@@ -172,7 +172,16 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                     <div class="table">
                         <div class="title">
-                            {__plural(t, item.roomContractSets.length, "option")} {t("available for")
+                            {
+                                t("At least")
+                            } {__plural(
+                                t,
+                                item.roomContractSets.length > 2 ?
+                                    item.roomContractSets.length-1 :
+                                    item.roomContractSets.length,
+                                "option"
+                            )} {
+                                t("available for")
                             } <PassengersCount t={t}
                                                adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
                                                children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}/>
