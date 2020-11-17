@@ -7,7 +7,7 @@ const getClassByStatus = status => ({
     "Cancelled": "gray"
 }[status] || "");
 
-const remapStatus = (status = "") => ({
+export const remapStatus = (status = "") => ({
     "WaitingForResponse" : "Awaiting Final Confirmation"
 }[status] || status.replace(/([A-Z])/g, " $1"));
 

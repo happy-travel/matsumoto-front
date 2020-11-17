@@ -9,6 +9,8 @@ import {
     Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat, price
 } from "simple";
 
+import { remapStatus } from "../user/booking-management/table-data";
+
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import FullDeadline from "components/full-deadline";
@@ -165,7 +167,7 @@ render() {
                             </div>
                             {!this.state.statusLoading ?
                                 <div class="second">
-                                    {t("Status")}: <strong class={booking.status}>{booking.status}</strong>
+                                    {t("Status")}: <strong class={booking.status}>{remapStatus(booking.status)}</strong>
                                     <div class="status-updater">
                                         <button class="small button transparent-with-border" onClick={() => this.updateBookingStatus()}>
                                             ⟳
