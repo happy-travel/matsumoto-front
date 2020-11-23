@@ -41,7 +41,7 @@ export const Columns = t => [
             </span>
             <br/>
             <span class="payment-amount">
-                {price(row.price)}
+                {price(row.rate)}
             </span>
         </>
     },
@@ -82,7 +82,7 @@ export const Sorters = t => [
     },
     {
         title: t("Amount"),
-        sorter: v => v.price.amount
+        sorter: v => v.rate.amount
     }
 ];
 

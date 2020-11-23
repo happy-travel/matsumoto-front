@@ -34,8 +34,8 @@ class PaymentPage extends BasicPaymentPage {
         super(props);
         this.state = {
             request_url: null,
-            currency: store.selected?.roomContractSet?.price.netTotal.currency,
-            amount: store.selected?.roomContractSet?.price.netTotal.amount,
+            currency: store.selected?.roomContractSet?.rate.finalPrice.currency,
+            amount: store.selected?.roomContractSet?.rate.finalPrice.amount,
             comment: null,
             service: {
                 service_command     : "TOKENIZATION",

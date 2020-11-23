@@ -196,7 +196,7 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                             <div class="price">
                                 <span>{t("From")}</span>
-                                {price(item.roomContractSets?.[0]?.price.currency, item.minPrice)}
+                                {price(item.roomContractSets?.[0]?.rate.currency, item.minPrice)}
                             </div>
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}

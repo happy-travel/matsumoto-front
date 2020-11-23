@@ -88,16 +88,6 @@ class AccommodationStore {
 
     setSearchResult(results, page = 0) {
         if (results?.length) {
-          //  for (var i = 0; i < results.length; i++) {
-          //      var source = results[i].source;
-          //      results[i] = results[i].data;
-          //      results[i].source = source;
-          //  }
-          //  results.forEach(item => {
-          //      if (item.roomContractSets?.sort)
-          //          item.roomContractSets.sort((a,b) => this.sorter?.price * (b.price.netTotal - a.price.netTotal));
-          //  });
-
             if (page != 0)
                 this.search.result.push(...results);
             else
@@ -141,7 +131,7 @@ class AccommodationStore {
     }
 
     setRoomContractsSets(id, roomContractSets = []) {
-        roomContractSets?.sort((a,b) => a.price.netTotal - b.price.netTotal);
+        roomContractSets?.sort((a,b) => a.rate.finalPrice - b.rate.finalPrice);
         this.selected.accommodation = {
             id,
             roomContractSets
@@ -153,8 +143,8 @@ class AccommodationStore {
     }
 
     selectRoomContractSet(result, preloaded) {
-        if (result?.roomContractSet?.price.currency != preloaded?.price?.currency ||
-            result?.roomContractSet?.price.netTotal !== preloaded?.price?.netTotal)
+        if (result?.roomContractSet?.rate.currency != preloaded?.rate?.currency ||
+            result?.roomContractSet?.rate.finalPrice !== preloaded?.rate?.finalPrice)
             result.roomContractSet.priceChangedAlert = true;
 
         this.selected = {

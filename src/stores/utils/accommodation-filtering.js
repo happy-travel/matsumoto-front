@@ -23,7 +23,7 @@ export const generateFiltersLine = filters => {
     var list = [];
 
     if (atLeastOne(filters.price) && (filters.price.min > 0 || filters.price.max < TEMPORARY_MAX_PRICE))
-        list.push(`RoomContractSets/any(d: d/Price/NetTotal/Amount lt ${filters.price.max} and d/Price/NetTotal/Amount gt ${filters.price.min})`);
+        list.push(`RoomContractSets/any(d: d/Rate/FinalPrice/Amount lt ${filters.price.max} and d/Rate/FinalPrice/Amount gt ${filters.price.min})`);
 
     if (atLeastOne(filters.boardBasis))
         list.push("RoomContractSets/any(rs: rs/roomContracts/any(r: r/BoardBasis in ("
@@ -100,8 +100,8 @@ export const applyFilters = (hotels, filters) => {
         for (var i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => (
-                    item.price.netTotal >= filters.price.min &&
-                    item.price.netTotal <= filters.price.max
+                    item.rate.finalPrice >= filters.price.min &&
+                    item.rate.finalPrice <= filters.price.max
                 ));
 
     if (atLeastOne(filters.boardBasis))

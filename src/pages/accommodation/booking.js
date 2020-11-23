@@ -211,7 +211,7 @@ class AccommodationBookingPage extends React.Component {
 
                 <div class="static item">{t("Room & Total Cost")}</div>
                     {variant?.rooms?.map((rc,i) => (
-                        (rc.roomPrices?.[0].netTotal !== undefined) ?
+                        (rc.roomPrices?.[0].finalPrice !== undefined) ?
                         <Dual addClass={__class(rc.roomPrices.length > 1, "column")}
                             a={t("Room Cost") + (variant?.rooms?.length > 1 ? (" " + (i+1)) : '')}
                             b={ <RoomPrices t={t} prices={variant.rooms[i].roomPrices} /> }
@@ -219,7 +219,7 @@ class AccommodationBookingPage extends React.Component {
                     ))}
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
-                    <div>{price(variant.price.netTotal)}</div>
+                    <div>{price(variant.rate.finalPrice)}</div>
                 </div>
             </div>
             <div class="right-section">
@@ -353,7 +353,7 @@ class AccommodationBookingPage extends React.Component {
                                         </div>
                                     </div>}
                                     <p>{t("You need to pay")}:
-                                        <span class="value"><b>{price(variant.price.netTotal)}</b></span>
+                                        <span class="value"><b>{price(variant.rate.finalPrice)}</b></span>
                                     </p>
                                     { variant?.rooms?.[0].isAdvancedPurchaseRate &&
                                         <h3 style={{margin: "20px 0 -20px"}}>

@@ -103,7 +103,7 @@ API_METHODS = {
     AGENCY_APR_SETTINGS  : agencyId =>
                            v1 + `/agencies/${agencyId}/system-settings/apr-settings`,
     AGENCY_PAYMENT_OPTION: agencyId =>
-                           v1 + `/admin/agencies/${agencyId}/system-settings/displayed-payment-options`,
+                           v1 + `/agencies/${agencyId}/system-settings/displayed-payment-options`,
 
     REPORT_DUPLICATE     : v1 + "/accommodations-mapping/duplicate-reports",
 

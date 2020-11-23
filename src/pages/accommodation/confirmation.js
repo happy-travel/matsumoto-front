@@ -277,7 +277,7 @@ render() {
                                     />
                                     <Dual
                                         a={t("Room Cost")}
-                                        b={<b class="green">{price(room.price)}</b>}
+                                        b={<b class="green">{price(room.rate)}</b>}
                                     />
                                 </div>
                             </div>

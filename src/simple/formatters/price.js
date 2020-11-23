@@ -1,6 +1,6 @@
 export const price = (currencyOrObject, value) => {
     if (undefined === value && currencyOrObject)
-        return price(currencyOrObject.currency, currencyOrObject.netTotal || currencyOrObject.amount);
+        return price(currencyOrObject.currency, currencyOrObject.finalPrice || currencyOrObject.amount);
 
     var result = (value || 0).toLocaleString(undefined, {
         style: "currency",

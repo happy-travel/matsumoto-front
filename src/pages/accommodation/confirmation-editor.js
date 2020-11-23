@@ -192,7 +192,7 @@ render() {
                             />
                             <Dual addClass="line"
                                 a={t("Room Cost")}
-                                b={price(room.price)}
+                                b={price(room.rate)}
                             />
                             <Dual addClass="line"
                                 a={t("Accommodates")}
