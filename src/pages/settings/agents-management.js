@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import { API } from "core";
 
 import { dateFormat } from "simple";
@@ -12,16 +12,20 @@ import authStore from "stores/auth-store";
 
 const columns = t => [
     {
-        header: t('Name'),
-        cell: 'name',
+        header: t("Name"),
+        cell: "name",
     },
     {
-        header: 'Sign Up Date',
+        header: "Sign Up Date",
         cell: (item) => dateFormat.b(item.created * 1000)
     },
     {
-        header: 'Markup',
-        cell: (item) => item.markupSettings || '–'
+        header: "Status",
+        cell: (item) => item.isActive ? "Active" : "Inactive"
+    },
+    {
+        header: "Markup",
+        cell: (item) => item.markupSettings || "None"
     }
 ];
 

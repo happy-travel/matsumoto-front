@@ -45,7 +45,12 @@ export default class AgentPermissionsManagement extends React.Component {
         const { agentId } = this.props.match.params;
         API.post({
             url: API.AGENT_ENABLE(agentId),
-            success: () => View.setTopAlertText("Enabled")
+            success: () => this.setState({
+                agent: {
+                    ...this.state.agent,
+                    isActive: true
+                }
+            })
         });
     }
 
@@ -53,7 +58,12 @@ export default class AgentPermissionsManagement extends React.Component {
         const { agentId } = this.props.match.params;
         API.post({
             url: API.AGENT_DISABLE(agentId),
-            success: () => View.setTopAlertText("Disabled")
+            success: () => this.setState({
+                agent: {
+                    ...this.state.agent,
+                    isActive: false
+                }
+            })
         });
     }
 
@@ -128,26 +138,30 @@ export default class AgentPermissionsManagement extends React.Component {
                     <b>{t("Position")}</b>:{" "}
                     {agent.position}
                 </div>
+                <div class="row">
+                    <b>{t("Status")}</b>:{" "}
+                    {agent.isActive ? "Active" : "Inactive"}
+                </div>
                 { agent.isMaster ? <div class="row">
                     <b>{t("Main agent")}</b>
                 </div> : "" }
 
                 { authStore.activeCounterparty?.inAgencyPermissions?.includes("AgentStatusManagement") &&
                 <div>
-                    <button
+                    {!agent.isActive ? <button
                         class="button transparent-with-border"
                         onClick={this.enable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >
-                        {t("Enable agent")}
-                    </button>
+                        {t("Activate agent")}
+                    </button> :
                     <button
                         class="button transparent-with-border"
                         onClick={this.disable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >
-                        {t("Disable agent")}
-                    </button>
+                        {t("Deactivate agent")}
+                    </button>}
                 </div> }
 
                 <h2><span class="brand">{t("Permissions")}</span></h2>
