@@ -26,7 +26,7 @@ export const generateFiltersLine = filters => {
         list.push(`RoomContractSets/any(d: d/Rate/FinalPrice/Amount lt ${filters.price.max} and d/Rate/FinalPrice/Amount gt ${filters.price.min})`);
 
     if (atLeastOne(filters.boardBasis))
-        list.push("RoomContractSets/any(rs: rs/roomContracts/any(r: r/BoardBasis in ("
+        list.push("RoomContractSets/any(rs: rs/rooms/any(r: r/BoardBasis in ("
             + enabledFiltersForList(filters.boardBasis) +
         ")))");
 
@@ -107,7 +107,7 @@ export const applyFilters = (hotels, filters) => {
     if (atLeastOne(filters.boardBasis))
         for (i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
-                result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.roomContracts?.[0]?.boardBasis]);
+                result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.rooms?.[0]?.boardBasis]);
 
     if (atLeastOne(filters.source))
         result = result.filter(item => filters.source[item.supplier]);

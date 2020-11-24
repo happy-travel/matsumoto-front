@@ -205,17 +205,17 @@ class AccommodationVariantsPage extends React.Component {
                         { item.roomContractSets.slice(0, 2).map(roomContractSet => <div class="row">
                             <div class="main">
                                 <h3 onClick={() => this.accommodationSelect(item)}>
-                                    <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
+                                    <GroupRoomTypesAndCount t={t} contracts={roomContractSet.rooms} />
                                 </h3>
                                 <div>
-                                    {roomContractSet.roomContracts[0]?.isDynamic === true &&
+                                    {roomContractSet.rooms[0]?.isDynamic === true &&
                                         <div>
                                             <strong>
                                                 {t("Dynamic offer")}
                                             </strong>
                                         </div>
                                     }
-                                    {roomContractSet.roomContracts[0]?.IsAdvancePurchaseRate &&
+                                    {roomContractSet.rooms[0]?.IsAdvancePurchaseRate &&
                                         <div>
                                             <span class="restricted-rate">
                                                 {t("Restricted Rate")}
@@ -229,7 +229,7 @@ class AccommodationVariantsPage extends React.Component {
                                     />
                                 </div>
                                 <div class="info green">
-                                    <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
+                                    <MealPlan t={t} room={roomContractSet.rooms[0]} />
                                 </div>
                             </div>
                         </div>) }
