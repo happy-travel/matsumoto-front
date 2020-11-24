@@ -355,7 +355,7 @@ class AccommodationBookingPage extends React.Component {
                                     <p>{t("You need to pay")}:
                                         <span class="value"><b>{price(variant.rate.finalPrice)}</b></span>
                                     </p>
-                                    { variant?.rooms?.[0].isAdvancedPurchaseRate &&
+                                    { variant?.rooms?.[0].IsAdvancePurchaseRate &&
                                         <h3 style={{margin: "20px 0 -20px"}}>
                                             <span class="restricted-rate">
                                                 {t("Restricted Rate")}
@@ -365,10 +365,10 @@ class AccommodationBookingPage extends React.Component {
                                     <div class="list">
                                         <div
                                             class={"item" +
-                                                __class(!isPaymentAvailable(authStore.balance, variant?.rooms?.[0].isAdvancedPurchaseRate), "disabled") +
+                                                __class(!isPaymentAvailable(authStore.balance, variant?.rooms?.[0].IsAdvancePurchaseRate), "disabled") +
                                                 __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
                                             }
-                                            onClick={isPaymentAvailable(authStore.balance, variant?.rooms?.[0].isAdvancedPurchaseRate)
+                                            onClick={isPaymentAvailable(authStore.balance, variant?.rooms?.[0].IsAdvancePurchaseRate)
                                                 ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
                                                 : () => {}}
                                         >
@@ -400,7 +400,7 @@ class AccommodationBookingPage extends React.Component {
                                                 </div>}
                                             />
                                         </div>
-                                        {!(variant?.rooms[0].isAdvancedPurchaseRate &&
+                                        {!(variant?.rooms[0].IsAdvancePurchaseRate &&
                                             (authStore.agencyAPR < APR_VALUES.CardPurchasesOnly)) &&
                                             <div class="second">
                                                 <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>

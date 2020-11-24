@@ -192,7 +192,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                                 </strong>
                                             </div>
                                         }
-                                        {roomContractSet.rooms[0]?.isAdvancedPurchaseRate &&
+                                        {roomContractSet.rooms[0]?.IsAdvancePurchaseRate &&
                                          (authStore.agencyAPR > APR_VALUES.DisplayOnly) &&
                                             <div class="one">
                                                 <span class="restricted-rate">
@@ -212,7 +212,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        {(roomContractSet.rooms[0]?.isAdvancedPurchaseRate &&
+                                        {(roomContractSet.rooms[0]?.IsAdvancePurchaseRate &&
                                          authStore.agencyAPR <= APR_VALUES.DisplayOnly) ?
                                             <button class="button small disabled">
                                                 {t("Restricted Rate")}
