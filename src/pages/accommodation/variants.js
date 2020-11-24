@@ -215,7 +215,7 @@ class AccommodationVariantsPage extends React.Component {
                                             </strong>
                                         </div>
                                     }
-                                    {roomContractSet.rooms[0]?.IsAdvancePurchaseRate &&
+                                    {roomContractSet.isAdvancePurchaseRate &&
                                         <div>
                                             <span class="restricted-rate">
                                                 {t("Restricted Rate")}
