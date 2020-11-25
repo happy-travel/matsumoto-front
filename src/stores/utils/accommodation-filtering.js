@@ -100,8 +100,8 @@ export const applyFilters = (hotels, filters) => {
         for (var i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => (
-                    item.rate.finalPrice >= filters.price.min &&
-                    item.rate.finalPrice <= filters.price.max
+                    item.rate.finalPrice.amount >= filters.price.min &&
+                    item.rate.finalPrice.amount <= filters.price.max
                 ));
 
     if (atLeastOne(filters.boardBasis))
