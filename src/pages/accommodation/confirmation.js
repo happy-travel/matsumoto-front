@@ -318,9 +318,11 @@ render() {
                                 {t("Pay now by Card")}
                             </button>
                         }
-                        <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
-                            {t("Send Voucher")}
-                        </button>
+                        { "Paid" == data.paymentStatus &&
+                            <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
+                                {t("Send Voucher")}
+                            </button>
+                        }
                         <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)}>
                             {t("Send Invoice")}
                         </button>
