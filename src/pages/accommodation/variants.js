@@ -142,7 +142,7 @@ class AccommodationVariantsPage extends React.Component {
                         <div class="title">
                             <div class="features">
                                 <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
-                                        id={item.source + "." + item.accommodation.id}
+                                        id={item.supplier + "." + item.accommodation.id}
                                         onClick={() => {
                                             UI.setModal(MODALS.REPORT_DUPLICATE);
                                             UI.setModalData(item);
