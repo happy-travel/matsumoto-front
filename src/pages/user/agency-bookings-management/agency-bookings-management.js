@@ -64,20 +64,23 @@ class AgencyBookingsManagementPage extends React.Component {
             </li>
         );
 
-        var filter = result => {
+        var filter = list => {
+            var result;
+
             if ("Cancelled" == filter_tab)
-                return result.filter(item => "Cancelled" == item.status);
+                result = list.filter(item => "Cancelled" == item.status);
+            else {
+                result = list.filter(item => "Cancelled" != item.status);
 
-            result = result.filter(item => "Cancelled" != item.status);
-
-            if ("Future" == filter_tab || "Complete" == filter_tab)
-                return result.filter(item => {
-                    var isFuture = moment(item.checkInDate).isAfter(new Date());
-                    return ("Future" == filter_tab) ? isFuture: !isFuture;
-                });
+                if ("Future" == filter_tab || "Complete" == filter_tab)
+                    result = result.filter(item => {
+                        var isFuture = moment(item.checkInDate).isAfter(new Date());
+                        return ("Future" == filter_tab) ? isFuture : !isFuture;
+                    });
+            }
 
             if (agentIdFilter)
-                return result.filter(item => item.agent.id == agentIdFilter);
+                result = result.filter(item => item.agent.id == agentIdFilter);
 
             return result;
         };
