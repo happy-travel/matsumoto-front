@@ -45,7 +45,7 @@ class AgentsManagement extends React.Component {
 
         var { agencyId } = authStore.activeCounterparty;
         API.get({
-            url: API.AGENCY_AGENTS(agencyId),
+            url: API.AGENCY_AGENTS,
             success: result => this.setState({
                 agents: result
             })

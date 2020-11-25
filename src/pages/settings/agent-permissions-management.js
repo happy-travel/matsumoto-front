@@ -69,10 +69,10 @@ export default class AgentPermissionsManagement extends React.Component {
 
     componentDidMount() {
         if (this.props.match?.params) {
-            const { agencyId, agentId } = this.props.match.params;
+            const { agentId } = this.props.match.params;
 
             API.get({
-                url: API.AGENCY_AGENT(agencyId, agentId),
+                url: API.AGENCY_AGENT(agentId),
                 success: (agent) => this.setState({
                     agent,
                     loading: false
@@ -88,8 +88,8 @@ export default class AgentPermissionsManagement extends React.Component {
     submit(values) {
         this.setState({ loading: true });
 
-        var { agencyId, agentId } = this.props.match.params,
-            url = API.AGENT_PERMISSIONS(agentId, agencyId),
+        var { agentId } = this.props.match.params,
+            url = API.AGENT_PERMISSIONS(agentId),
             body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
 
         if (!body.length)

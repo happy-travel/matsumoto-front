@@ -72,9 +72,7 @@ API_METHODS = {
     REQUEST_DEADLINE      : (searchId, resultId, roomContractSetId) =>
                             v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}/deadline`,
 
-
-    BILLING_HISTORY       : agencyId =>
-                            v1 + `/payments/history/agencies/${agencyId}/agent`,
+    BILLING_HISTORY       : v1 + `/payments/history/agent`,
 
     BASE_VERSION          : v1 + "/versions",
 
@@ -86,24 +84,20 @@ API_METHODS = {
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
     },
 
-    AGENCY_AGENTS        : agencyId =>
-                           v1 + `/agencies/${agencyId}/agents`,
-    AGENCY_AGENT         : (agencyId, agentId) =>
-                           v1 + `/agencies/${agencyId}/agents/${agentId}`,
+    AGENCY_AGENTS        : v1 + `/agency/agents`,
+    AGENCY_AGENT         : agentId =>
+                           v1 + `/agency/agents/${agentId}`,
     AGENT_ENABLE         : agentId =>
                            v1 + `/agents/${agentId}/enable`,
     AGENT_DISABLE        : agentId =>
                            v1 + `/agents/${agentId}/disable`,
-    COUNTERPARTY_INFO    : counterpartyId =>
-                           v1 + `/counterparties/${counterpartyId}`,
+    COUNTERPARTY_INFO    : v1 + `/counterparty`,
     AGENT_SETTINGS       : v1 + `/agents/settings/application`,
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
-    AGENT_PERMISSIONS    : (agentId, agencyId) =>
-                           v1 + `/agencies/${agencyId}/agents/${agentId}/permissions`,
-    AGENCY_APR_SETTINGS  : agencyId =>
-                           v1 + `/agencies/${agencyId}/system-settings/apr-settings`,
-    AGENCY_PAYMENT_OPTION: agencyId =>
-                           v1 + `/agencies/${agencyId}/system-settings/displayed-payment-options`,
+    AGENT_PERMISSIONS    : agentId =>
+                           v1 + `/agency/agents/${agentId}/permissions`,
+    AGENCY_APR_SETTINGS  : v1 + `/agency/system-settings/apr-settings`,
+    AGENCY_PAYMENT_OPTION: v1 + `/agency/system-settings/displayed-payment-options`,
 
     REPORT_DUPLICATE     : v1 + "/accommodations-mapping/duplicate-reports",
 

@@ -21,10 +21,8 @@ export const initUser = () => {
             success: (result) => {
                 if (result?.email) {
                     authStore.setUser(result);
-
-                    var { agencyId } = authStore.activeCounterparty;
                     API.get({
-                        url: API.AGENCY_APR_SETTINGS(agencyId),
+                        url: API.AGENCY_APR_SETTINGS,
                         success: result => authStore.setAgencyAPR(APR_VALUES[result])
                     });
                 }
