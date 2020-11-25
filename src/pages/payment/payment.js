@@ -94,12 +94,14 @@ class PaymentPage extends BasicPaymentPage {
 
     removeCard(cardId) {
         var { savedCards } = this.state;
+        savedCards = savedCards.filter(item => item.id != cardId);
         API.delete({
             url: API.CARDS_REMOVE(cardId),
             success: () => {
                 this.setState({
-                    savedCards: savedCards.filter(item => item.id != cardId)
-                })
+                    savedCards,
+                    addNew: !savedCards.length
+                });
             }
         });
     }
