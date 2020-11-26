@@ -48,26 +48,23 @@ export default class CounterpartySettings extends React.Component {
 
                     return (
                     <div class="form">
-                        <h2><span class="brand">{t("Payment Information")}</span></h2>
+                        <h2><span class="brand">{t("Legal Information")}</span></h2>
                         <div class="row">
-                            <FieldText {...params}
-                                       id="name"
-                                       label={t("Company Name")}
-                            />
+                            <b>{t("Company Name")}</b>:{" "}
+                            {formik.values.name}
                         </div>
                         <div class="row">
-                            <FieldText {...params}
-                                       id="preferredPaymentMethod"
-                                       label={t("Payment method")}
-                            />
-                            <FieldText {...params}
-                                       id="preferredCurrency"
-                                       label={t("Currency")}
-                            />
-                            <FieldText {...params}
-                                       id="vatNumber"
-                                       label={t("VAT No.")}
-                            />
+                            <b>{t("VAT No.")}</b>
+                            &nbsp;
+                            {formik.values.vatNumber || t("Not provided")}
+                        </div>
+                        <div class="row">
+                            <b>{t("Payment method")}</b>:{" "}
+                            {formik.values.preferredPaymentMethod}
+                        </div>
+                        <div class="row">
+                            <b>{t("Currency")}</b>:{" "}
+                            {formik.values.preferredCurrency}
                         </div>
 
                         <h2><span class="brand">{t("Agency Information")}</span></h2>

@@ -43,11 +43,11 @@ render() {
                                 <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
                             </menu>
                             <div class="payments">
-                                <img src="/images/other/mc-on-dark.png" class="near transparent" />
-                                <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" />
-                                <img src="/images/other/visa.png" />
-                                <img src="/images/other/visa-sec.png" class="interval"/>
-                                <img src="/images/other/amex.png" />
+                                <img src="/images/other/mc-on-dark.png" class="near transparent" alt="Mastercard" />
+                                <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" alt="Mastercard Id Check" />
+                                <img src="/images/other/visa.png" alt="Visa" />
+                                <img src="/images/other/visa-sec.png" class="interval" alt="Visa Secure" />
+                                <img src="/images/other/amex.png" alt="American Express" />
                             </div>
                             <div class="service-info">
                                 Web – {settings.build || 0}<br/>

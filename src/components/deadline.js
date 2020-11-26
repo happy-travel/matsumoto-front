@@ -15,24 +15,24 @@ class Deadline extends React.Component {
     request() {
         API.get({
             url: API.REQUEST_DEADLINE(
-                this.props.availabilityId,
-                this.props.roomContractSet.id,
-                this.props.source
+                this.props.searchId,
+                this.props.resultId,
+                this.props.roomContractSet.id
             ),
             success: data => {
                 this.setState({
-                    result: data?.data || {}
+                    result: data || {}
                 });
             }
         });
     }
 
     render() {
-        var { roomContractSet, t, source } = this.props,
-            date = this.state.result?.date || roomContractSet.deadlineDate,
-            isRequestPossible = ((2 == source) && !this.state.result);
+        var { roomContractSet, t, searchId, resultId } = this.props,
+            date = this.state.result?.date || roomContractSet.deadline.date,
+            isRequestPossible = !this.state.result;
 
-        if (!date && isRequestPossible)
+        if (isRequestPossible && roomContractSet.deadline?.isFinal !== true)
             return (
                 <div class="info">
                     <div

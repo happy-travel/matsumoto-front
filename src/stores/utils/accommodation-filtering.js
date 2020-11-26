@@ -23,15 +23,15 @@ export const generateFiltersLine = filters => {
     var list = [];
 
     if (atLeastOne(filters.price) && (filters.price.min > 0 || filters.price.max < TEMPORARY_MAX_PRICE))
-        list.push(`Data/RoomContractSets/any(d: d/Price/NetTotal lt ${filters.price.max} and d/Price/NetTotal gt ${filters.price.min})`);
+        list.push(`RoomContractSets/any(d: d/Rate/FinalPrice/Amount lt ${filters.price.max} and d/Rate/FinalPrice/Amount gt ${filters.price.min})`);
 
     if (atLeastOne(filters.boardBasis))
-        list.push("Data/RoomContractSets/any(rs: rs/roomContracts/any(r: r/BoardBasis in ("
+        list.push("RoomContractSets/any(rs: rs/rooms/any(r: r/BoardBasis in ("
             + enabledFiltersForList(filters.boardBasis) +
         ")))");
 
     if (atLeastOne(filters.ratings))
-        list.push("Data/AccommodationDetails/Rating in ("
+        list.push("Accommodation/Rating in ("
             + enabledFiltersForList(filters.ratings) +
         ")");
 
@@ -40,7 +40,7 @@ export const generateFiltersLine = filters => {
 
 export const generateSorterLine = sorter => {
     if (sorter?.price)
-        return "Data/" + (sorter.price > 0 ? "MinPrice desc" : "MinPrice asc");
+        return sorter.price > 0 ? "MinPrice desc" : "MinPrice asc";
     return "";
 };
 
@@ -68,13 +68,13 @@ export const createFilters = hotels => {
 
         /* todo: when we create a map, use this array
         mapPoints.push({
-            lat: hotel?.accommodationDetails?.location?.coordinates.latitude,
-            lng: hotel?.accommodationDetails?.location?.coordinates.longitude,
-            id: hotel?.accommodationDetails?.id
+            lat: hotel?.accommodation?.location?.coordinates.latitude,
+            lng: hotel?.accommodation?.location?.coordinates.longitude,
+            id: hotel?.accommodation?.id
         });
         */
-
-        filters.__source.add("" + hotel?.source);
+        if (hotel?.supplier)
+            filters.__source.add("" + hotel?.supplier);
     }
 
     filters.__source = [...filters.__source];
@@ -92,7 +92,7 @@ export const applyFilters = (hotels, filters) => {
     var result = hotels;
 
     // if (atLeastOne(filters.ratings))
-    //    result = result.filter(hotel => filters.ratings[hotel?.accommodationDetails?.rating]);
+    //    result = result.filter(hotel => filters.ratings[hotel?.accommodation?.rating]);
 
     result = JSON.parse(JSON.stringify(result));
 
@@ -100,17 +100,17 @@ export const applyFilters = (hotels, filters) => {
         for (var i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => (
-                    item.price.netTotal >= filters.price.min &&
-                    item.price.netTotal <= filters.price.max
+                    item.rate.finalPrice.amount >= filters.price.min &&
+                    item.rate.finalPrice.amount <= filters.price.max
                 ));
 
     if (atLeastOne(filters.boardBasis))
         for (i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
-                result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.roomContracts?.[0]?.boardBasis]);
+                result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.rooms?.[0]?.boardBasis]);
 
     if (atLeastOne(filters.source))
-        result = result.filter(item => filters.source[item.source]);
+        result = result.filter(item => filters.source[item.supplier]);
 
     result = result.filter(hotel => hotel.roomContractSets.length);
 

@@ -4,11 +4,11 @@ import moment from "moment";
 
 class FullDeadline extends React.Component {
     render() {
-        var { deadlineDetails = {}, remarks, t } = this.props,
+        var { deadline = {}, remarks, t } = this.props,
             warnAboutDeadlineIsNear = false;
 
-        if (deadlineDetails.date) {
-            if (moment().add(7, "d").isAfter(deadlineDetails.date))
+        if (deadline.date) {
+            if (moment().add(7, "d").isAfter(deadline.date))
                 warnAboutDeadlineIsNear = true;
         }
 
@@ -21,16 +21,16 @@ class FullDeadline extends React.Component {
                             <span class="icon icon-warning-green" /> }
                     </div>
                     <div class="data">
-                        {deadlineDetails.date ?
+                        {deadline.date ?
                             <b>
-                                {t("Cancellation Deadline")}: {dateFormat.a(deadlineDetails.date)}
+                                {t("Cancellation Deadline")}: {dateFormat.a(deadline.date)}
                             </b>
                         :
                             <span className="info green">
                                 {t("FREE Cancellation - Without Prepayment")}
                             </span>
                         }
-                        { !!deadlineDetails?.policies?.length && deadlineDetails.policies.map(item => (<div>
+                        {!!deadline?.policies?.length && deadline.policies.map(item => (<div>
                             {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
                         </div>))}
                     </div>

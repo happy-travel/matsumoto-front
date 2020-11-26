@@ -24,8 +24,8 @@ class ReportDuplicateModal extends React.Component {
     }
 
     submit(values) {
-        var id = UI.modalData?.accommodationDetails?.id,
-            dataProvider = UI.modalData?.source;
+        var id = UI.modalData?.accommodation?.id,
+            supplier = UI.modalData?.supplier;
 
         if (!id)
             return;
@@ -34,18 +34,18 @@ class ReportDuplicateModal extends React.Component {
             url: API.REPORT_DUPLICATE,
             body: {
                 "accommodation": {
-                    "dataProvider": dataProvider,
+                    "supplier": supplier,
                     "id": id
                 },
                 "duplicates": [
                     {
-                        "dataProvider": values.source,
+                        "supplier": values.source,
                         "id": values.id
                     },
                 ]
             },
             success: () => {
-                var temporary_duplicate_element = document.getElementById(dataProvider + "." + id);
+                var temporary_duplicate_element = document.getElementById(supplier + "." + id);
                 if (temporary_duplicate_element) {
                     temporary_duplicate_element.innerHTML = "Marked as Duplicate";
                     temporary_duplicate_element.className = "button mini-label gray";
@@ -69,7 +69,7 @@ class ReportDuplicateModal extends React.Component {
 
                 <h2>Mark the accommodation as a duplicate</h2>
                 <p style={{marginBottom: "20px"}}>
-                    If you have seen “{data?.accommodationDetails?.name || ""}“ previously in the current accommodations list,
+                    If you have seen “{data?.accommodation?.name || ""}“ previously in the current accommodations list,
                     you could link it with a duplicate one, and we will join both results to show them as one next time.
                 </p>
                 <CachedForm

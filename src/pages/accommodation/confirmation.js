@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +9,8 @@ import {
     Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat, price
 } from "simple";
 
+import { remapStatus } from "../user/booking-management/table-data";
+
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import FullDeadline from "components/full-deadline";
@@ -16,6 +19,7 @@ import PaymentInformation from "parts/payment-information";
 import ViewFailed from "parts/view-failed";
 
 import store from "stores/accommodation-store";
+import authStore from "stores/auth-store";
 import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
 @observer
@@ -23,9 +27,13 @@ class AccommodationConfirmationPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fromGetter: false
+            fromGetter: false,
+            statusLoading: false,
+            redirect: null
         };
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
+        this.payNowByCard = this.payNowByCard.bind(this);
+        this.loadBooking = this.loadBooking.bind(this);
     }
 
     showCancellationConfirmation() {
@@ -45,7 +53,25 @@ class AccommodationConfirmationPage extends React.Component {
         UI.setModal(MODALS.SEND_INVOICE);
     }
 
-    componentDidMount() {
+    updateBookingStatus() {
+        this.setState({ statusLoading: true });
+        API.post({
+            url: API.BOOKING_STATUS(store.booking.result.bookingId),
+            success: (data = {}) => store.setUpdatedBookingStatus(data.status),
+            after: () => {
+                this.setState({ statusLoading: false });
+                this.loadBooking();
+            }
+        });
+    }
+
+    payNowByCard() {
+        store.setBookingReferenceCode(store.booking.result?.bookingDetails?.referenceCode);
+        store.setBookingToPay(store.booking.result);
+        this.setState({ redirect: "/payment/form" });
+    }
+
+    loadBooking() {
         store.setBookingResult(null);
 
         var bookingId = this.props?.match?.params?.id,
@@ -57,6 +83,9 @@ class AccommodationConfirmationPage extends React.Component {
             referenceCode = tryOfRef;
             fromHistory = false;
         }
+
+        if (fromHistory)
+            store.setPaymentResult(null);
 
         if ( bookingId || referenceCode ) {
             this.setState({
@@ -70,10 +99,17 @@ class AccommodationConfirmationPage extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.loadBooking();
+    }
+
 render() {
     var { t } = useTranslation(),
         booking = store.booking.result?.bookingDetails || {},
         data = store.booking.result || {};
+
+    if (this.state.redirect)
+        return <Redirect push to={this.state.redirect}/>;
 
     if (store.paymentResult?.result)
         var {
@@ -88,17 +124,21 @@ render() {
                 <div class="middle-section">
                     <Breadcrumbs items={[
                         {
-                            text: t("Search accommodation"),
+                            text: t("Search Accommodations"),
                             link: "/search"
                         }, {
                             text: t("Booking Confirmation")
                         }
                     ]}
-                        backLink="/agent/booking"
+                        backLink={
+                            authStore.activeCounterparty?.inAgencyPermissions?.includes("AgencyBookingsManagement") ?
+                                "/agency/bookings" :
+                                "/agent/bookings"
+                        }
                         noBackButton={!this.state.fromHistory}
                     />
                     { !this.state.fromHistory && <ActionSteps
-                        items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
+                        items={[t("Search Accommodations"), t("Guest Details"), t("Booking Confirmation")]}
                         current={2}
                     /> }
 
@@ -112,7 +152,7 @@ render() {
                             ((this.state.fromHistory || !result?.error) ? <ViewFailed
                                 reason={t("Unable to load a booking confirmation")}
                                 button={t("Back to booking management")}
-                                link="/agent/booking"
+                                link="/agent/bookings"
                             /> : null)
                         : <Loader /> )
                         : <React.Fragment>
@@ -125,9 +165,19 @@ render() {
                             <div class="first">
                                 {t("Booking Reference number")}: <strong class="green">{booking.referenceCode}</strong>
                             </div>
-                            <div class="second">
-                                {t("Status")}: <strong class={booking.status}>{booking.status}</strong>
-                            </div>
+                            {!this.state.statusLoading ?
+                                <div class="second">
+                                    {t("Status")}: <strong class={booking.status}>{remapStatus(booking.status)}</strong>
+                                    <div class="status-updater">
+                                        <button class="small button transparent-with-border" onClick={() => this.updateBookingStatus()}>
+                                            ⟳
+                                        </button>
+                                    </div>
+                                </div> :
+                                <div class="second">
+                                    Updating...
+                                </div>
+                            }
                         </div>
                     </div>
 
@@ -157,6 +207,12 @@ render() {
                                 a={t("Agent Reference")}
                                 b={booking.agentReference}
                             /> }
+                            { !!data.supplier &&
+                            <Dual addClass="grow"
+                                  a={"Supplier"}
+                                  b={data.supplier}
+                            />
+                            }
                         </div>
                     </div>
 
@@ -192,6 +248,10 @@ render() {
                                 a={t("Total Cost")}
                                 b={<b class="green">{price(data.totalPrice)}</b>}
                             />
+                            { data.paymentStatus && <Dual addClass="grow"
+                                a={t("Payment Status")}
+                                b={data.paymentStatus.replace(/([A-Z])/g, " $1")}
+                            /> }
                         </div>
                     </div>
 
@@ -199,10 +259,12 @@ render() {
                     { booking.roomDetails.map((room, index) => (
                         <div class="room-part">
                             <div class="part">
-                                <div class="icon-holder circle">
-                                    { booking.roomDetails.length > 1 ?
-                                        index+1 :
-                                        <span class="icon icon-confirmation-passenger"/> }
+                                <div class="icon-holder">
+                                    <div class="icon icon-confirmation-circle">
+                                        { booking.roomDetails.length > 1 ?
+                                            index+1 :
+                                            <span class="icon icon-confirmation-passenger"/> }
+                                    </div>
                                 </div>
                                 <div class="line">
                                     <Dual
@@ -236,25 +298,44 @@ render() {
                                         ))}
                                     />}
                             </div>
+                            { room.supplierRoomReferenceCode && <div class="part no-icon">
+                                <Dual
+                                    a={t("Supplier Reference Code")}
+                                    b={room.supplierRoomReferenceCode}
+                                />
+                            </div> }
                             <FullDeadline t={t}
-                                          deadlineDetails={room.deadlineDetails}
+                                          deadline={room.deadlineDetails}
                                           remarks={room?.remarks}
                             />
                         </div>
                     ))}
 
                     <div class="actions">
-                        <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
-                            {t("Send Voucher")}
-                        </button>
+                        { "NotPaid" == data.paymentStatus &&
+                          "Cancelled" != booking.status &&
+                            <button class="button" onClick={this.payNowByCard}>
+                                {t("Pay now by Card")}
+                            </button>
+                        }
+                        { "Paid" == data.paymentStatus &&
+                            <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
+                                {t("Send Voucher")}
+                            </button>
+                        }
                         <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)}>
                             {t("Send Invoice")}
                         </button>
 
                         { this.state.fromHistory &&
                           "Cancelled" != booking.status &&
-                        <button class={"button" + __class(moment().isBefore(booking.checkInDate), "pink", "gray")}
-                                onClick={this.showCancellationConfirmation}>
+                        <button
+                            class={
+                                "button" +
+                                __class(moment().isBefore(booking.checkInDate), "transparent-with-border", "gray")
+                            }
+                            onClick={this.showCancellationConfirmation}
+                        >
                             {t("Cancel booking")}
                         </button> }
 

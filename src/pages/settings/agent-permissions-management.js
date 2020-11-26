@@ -5,12 +5,13 @@ import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import { API } from "core";
 
-import { Loader } from "simple";
+import { Loader, PassengerName } from "simple";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import SettingsHeader from "./parts/settings-header";
 
 import View from "stores/view-store";
+import authStore from "stores/auth-store";
 
 const generateLabel = str => {
     if (!str)
@@ -28,35 +29,58 @@ export default class AgentPermissionsManagement extends React.Component {
         super(props);
 
         this.state = {
-            inAgencyPermissions: [],
-            loadingCounterpartyInfo: true,
+            agent: {},
             permissionsList: [],
-            loadingPermissions: true,
 
             redirectBack: false,
-            loading: false
+            loading: true
         };
 
         this.submit = this.submit.bind(this);
+        this.enable = this.enable.bind(this);
+        this.disable = this.disable.bind(this);
+    }
+
+    enable() {
+        const { agentId } = this.props.match.params;
+        API.post({
+            url: API.AGENT_ENABLE(agentId),
+            success: () => this.setState({
+                agent: {
+                    ...this.state.agent,
+                    isActive: true
+                }
+            })
+        });
+    }
+
+    disable() {
+        const { agentId } = this.props.match.params;
+        API.post({
+            url: API.AGENT_DISABLE(agentId),
+            success: () => this.setState({
+                agent: {
+                    ...this.state.agent,
+                    isActive: false
+                }
+            })
+        });
     }
 
     componentDidMount() {
         if (this.props.match?.params) {
-            const { agencyId, agentId } = this.props.match.params;
+            const { agentId } = this.props.match.params;
 
             API.get({
-                url: API.AGENCY_AGENT(agencyId, agentId),
-                success: result => this.setState({
-                    inAgencyPermissions: result.inAgencyPermissions || [],
-                    loadingCounterpartyInfo: false
+                url: API.AGENCY_AGENT(agentId),
+                success: (agent) => this.setState({
+                    agent,
+                    loading: false
                 })
             });
             API.get({
                 url: API.ALL_PERMISSIONS,
-                success: result => this.setState({
-                    permissionsList: result,
-                    loadingPermissions: false
-                })
+                success: permissionsList => this.setState({ permissionsList })
             });
         }
     }
@@ -64,8 +88,8 @@ export default class AgentPermissionsManagement extends React.Component {
     submit(values) {
         this.setState({ loading: true });
 
-        var { agencyId, agentId } = this.props.match.params,
-            url = API.AGENT_PERMISSIONS(agentId, agencyId),
+        var { agentId } = this.props.match.params,
+            url = API.AGENT_PERMISSIONS(agentId),
             body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
 
         if (!body.length)
@@ -83,34 +107,64 @@ export default class AgentPermissionsManagement extends React.Component {
     };
 
     render() {
-        const { t } = useTranslation();
-
-        const {
-            inAgencyPermissions, loadingCounterpartyInfo, loadingPermissions, permissionsList
-        } = this.state;
-
-        if (loadingCounterpartyInfo || loadingPermissions)
-            return <Loader page />;
+        var { t } = useTranslation(),
+            { agent, permissionsList, loading } = this.state,
+            { inAgencyPermissions } = agent;
 
         if (this.state.redirectBack)
             return <Redirect push to="/settings/agents" />;
 
         return (
         <div class="settings block">
-            { this.state.loading && <Loader page /> }
-
             <SettingsHeader />
 
+            { loading ?
+                <Loader /> :
             <section>
                 <Breadcrumbs items={[
                     {
                         text: t("Agent Management"),
                         link: "/settings/agents"
                     }, {
-                        text: t("Agent Permissions")
+                        text: loading ? t("Agent Permissions") : PassengerName({ passenger: agent })
                     }
                 ]}/>
-                <h2><span class="brand">{t("Agent permissions")}</span></h2>
+                <h2><span class="brand">{t("Information")}</span></h2>
+                <div class="row">
+                    <b>{t("Agent")}</b>:{" "}
+                    {PassengerName({ passenger: agent })}
+                </div>
+                <div class="row">
+                    <b>{t("Position")}</b>:{" "}
+                    {agent.position}
+                </div>
+                <div class="row">
+                    <b>{t("Status")}</b>:{" "}
+                    {agent.isActive ? "Active" : "Inactive"}
+                </div>
+                { agent.isMaster ? <div class="row">
+                    <b>{t("Main agent")}</b>
+                </div> : "" }
+
+                { authStore.activeCounterparty?.inAgencyPermissions?.includes("AgentStatusManagement") &&
+                <div>
+                    {!agent.isActive ? <button
+                        class="button transparent-with-border"
+                        onClick={this.enable}
+                        style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
+                    >
+                        {t("Activate agent")}
+                    </button> :
+                    <button
+                        class="button transparent-with-border"
+                        onClick={this.disable}
+                        style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
+                    >
+                        {t("Deactivate agent")}
+                    </button>}
+                </div> }
+
+                <h2><span class="brand">{t("Permissions")}</span></h2>
 
                 <div>
                     <Formik
@@ -163,6 +217,7 @@ export default class AgentPermissionsManagement extends React.Component {
                     </Formik>
                 </div>
             </section>
+            }
         </div>
         );
     }

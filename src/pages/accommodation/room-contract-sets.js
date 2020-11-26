@@ -15,6 +15,7 @@ import AccommodationCommonDetails from "parts/accommodation-details";
 
 import store from 'stores/accommodation-store';
 import View from "stores/view-store";
+import authStore, { APR_VALUES } from "stores/auth-store";
 
 @observer
 class AccommodationRoomContractsSetsPage extends React.Component {
@@ -47,14 +48,14 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         this.setState({
             loading: true
         });
-        API.post({
+        API.get({
             url: API.A_SEARCH_STEP_THREE(
-                store.selected.accommodation.availabilityId,
-                roomContractSet.id,
-                store.selected.accommodation.source
+                store.search.id,
+                store.selected.accommodation.id,
+                roomContractSet.id
             ),
             success: (result) => {
-                if (!result?.data) {
+                if (!result?.availabilityId) {
                     View.setTopAlertText("Sorry, this room is not available now, try again later");
                     return;
                 }
@@ -86,7 +87,10 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         if (this.state.redirectToVariantsPage)
             return <Redirect push to="/search" />;
 
-        const details = store.selected.accommodationFullDetails || item?.accommodationDetails;
+        if (store.secondStepState === null)
+            return <Loader />;
+
+        const details = store.selected.accommodationFullDetails || item?.accommodation;
 
         if (!details)
             return null;
@@ -110,7 +114,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 <div class="title">
                     <Breadcrumbs items={[
                         {
-                            text: t("Find Accommodation"),
+                            text: t("Search Accommodations"),
                             link: "/"
                         }, {
                             text: store.search.request?.destination,
@@ -124,10 +128,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 </div>
                 { this.state.loading && <Loader page /> }
 
-                <AccommodationCommonDetails
-                    accommodation={details}
-                    fromPage
-                />
+                <AccommodationCommonDetails accommodation={details} />
 
                 <h2>{t("Room Availability")}</h2>
 
@@ -157,6 +158,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                     </div>
                 </div>
 
+                { !item?.roomContractSets?.length ? <Loader /> :
                 <div class="variant">
                     <div class="table">
                         <table class="table agt">
@@ -173,43 +175,64 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                 <tr>
                                     <td class="room-contract-set">
                                         <span onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
-                                            <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
+                                            <GroupRoomTypesAndCount t={t} contracts={roomContractSet.rooms} />
                                         </span>
+                                        {roomContractSet.supplier && <div class="black">
+                                            Supplier: {" " + roomContractSet.supplier}
+                                        </div>}
                                     </td>
                                     <td class="price">
-                                        {price(roomContractSet.price)}
+                                        {price(roomContractSet.rate.finalPrice)}
                                     </td>
                                     <td class="pros">
-                                        {roomContractSet.roomContracts[0]?.isDynamic === true &&
+                                        {roomContractSet.rooms[0]?.isDynamic === true &&
                                             <div class="one">
                                                 <strong>
                                                     {t("Dynamic offer")}
                                                 </strong>
                                             </div>
                                         }
+                                        {roomContractSet.isAdvancePurchaseRate &&
+                                         (authStore.agencyAPR > APR_VALUES.DisplayOnly) &&
+                                            <div class="one">
+                                                <span class="restricted-rate">
+                                                    {t("Restricted Rate")}
+                                                </span>
+                                            </div>
+                                        }
                                         <div class="one green">
-                                            <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
+                                            <MealPlan t={t} room={roomContractSet.rooms[0]} />
                                         </div>
                                         <div class="one">
                                             <Deadline t={t}
+                                                searchId={store.search.id}
+                                                resultId={store.selected.accommodation.id}
                                                 roomContractSet={roomContractSet}
-                                                availabilityId={store.selected.accommodation.availabilityId}
-                                                source={store.selected.accommodation.source}
                                             />
                                         </div>
                                     </td>
                                     <td class="holder">
-                                        <button class="button small" onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
-                                            {t("Book it")}
-                                        </button>
+                                        {(roomContractSet.isAdvancePurchaseRate &&
+                                         authStore.agencyAPR <= APR_VALUES.DisplayOnly) ?
+                                            <button class="button small disabled">
+                                                {t("Restricted Rate")}
+                                            </button> :
+                                            <button class="button small"
+                                                    onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
+                                                {t("Book")}
+                                            </button>
+                                        }
                                     </td>
                                 </tr>
                             )}
                             </tbody>
                         </table>
+                        { store.secondStepState != "Completed" &&
+                            <Loader/>
+                        }
                     </div>
                 </div>
-
+                }
             </div>
         </section>
     </div>

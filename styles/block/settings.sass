@@ -8,19 +8,19 @@
         letter-spacing: 1px
         text-transform: uppercase
         color: #231F20
+    .row
+        margin-bottom: 18px
     .form
-        .row
-            margin-bottom: 18px
-            &.controls
-                padding: 0 !important
-                margin-top: 9px
-                margin-bottom: 0
-                justify-content: flex-end
-                .button
-                    min-width: 215px
-                .field
-                    flex-grow: 0
-                    width: auto
+        .row.controls
+            padding: 0 !important
+            margin-top: 9px
+            margin-bottom: 0
+            justify-content: flex-end
+            .button
+                min-width: 215px
+            .field
+                flex-grow: 0
+                width: auto
         &.user-data
             flex-direction: row
             flex-wrap: wrap
@@ -58,31 +58,90 @@
             max-width: 330px
     .breadcrumbs
         margin: 45px 0 -25px
-    table
-        width: 100%
-        border-collapse: separate
-        border-spacing: 0 5px
-        th
-            color: $color-text-light
-            padding-bottom: 12px
-            padding-left: 15px
-        td
-            padding: 25px 25px 25px 15px
-            border-bottom: 1px solid #EDEDED
-            border-top: 1px solid #EDEDED
-            &:first-child
-                border-left: 1px solid #EDEDED
-            &:last-child
-                border-right: 1px solid #EDEDED
 
 .settings-header
     section
-        padding: 75px 0
-    h1
-        font-size: 36px
-        line-height: 43px
-        color: #231F20
-        text-align: center
+        padding: 50px 0
+        .user
+            display: flex
+            flex-direction: row
+            .photo
+                width: 150px
+                height: 150px
+                position: relative
+                border-radius: 80px
+                margin: 0 30px 0 15px
+                overflow: hidden
+                .no-avatar, img
+                    width: 100%
+                    height: 100%
+                .no-avatar
+                    background: url("../images/no-avatar.svg") center center no-repeat
+                    background-size: cover
+            .data
+                display: flex
+                flex-direction: column
+                justify-content: center
+                h1
+                    font-size: 36px
+                    line-height: 43px
+                    font-weight: 500
+                    color: #231F20
+                h3
+                    margin: 7px 0
+                    font-weight: 500
+                    font-size: 13px
+                    line-height: 16px
+                    color: #797F89
+                .status
+                    width: 14px
+                    height: 14px
+                    display: inline-block
+                    margin-right: 7px
+                    margin-top: 1px
+                    float: left
+                    border-radius: 7px
+                    &.PendingVerification
+                        background: lightyellow
+                        border: 3px solid yellow
+                    &.FullAccess
+                        background: #1cbe69
+                        border: 3px solid #bbecd2
+                    &.DeclinedVerification
+                        background: red
+                        border: 3px solid lightcoral
+                    &.ReadOnly
+                        background: blue
+                        border: 3px solid skyblue
+                .balance
+                    margin-top: 5px
+                    margin-left: -2px
+                    div
+                        width: 30px
+                        height: 40px
+                        margin-right: 5px
+                        padding-top: 9px
+                        float: left
+                    .text
+                        font-size: 15px
+                        line-height: 40px
+                        font-weight: 500
+                        letter-spacing: 1px
+                        text-transform: uppercase
+                        color: #FF9D19
+    .logout-wrapper
+        float: right
+        .button
+            display: block
+            height: 34px
+            line-height: 34px
+            padding: 0 16px
+            .icon
+                margin: 3px 12px -3px 0
+                filter: grayscale(1)
+            &:hover
+                .icon
+                    filter: none
     & > div
         display: flex
         justify-content: center
@@ -94,8 +153,8 @@
             text-align: center
             text-transform: uppercase
             color: $color-text-light
-            margin: 0 15px
-            padding: 19px 15px
+            margin: 0 10px
+            padding: 19px 14px
             position: relative
             &:hover, &.active
                 color: $color-text

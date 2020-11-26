@@ -19,7 +19,7 @@ class SearchOverloadModal extends React.Component {
                     {t("You could reach our Operations team directly, and we pick an accommodation for you.")}
                     <br/>
                     <br/>
-                    {t("Email")}: <a href="mailto:info@happytravel.com" class="link">info@happytravel.com</a>
+                    {t("Email")}: <a href="mailto:reservations@happytravel.com" class="link">reservations@happytravel.com</a>
                 </div>
             </div>
         );

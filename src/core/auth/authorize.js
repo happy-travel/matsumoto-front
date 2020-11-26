@@ -7,12 +7,12 @@ window.auth_host = host;
 
 const config = {
     authority: settings.identity_url,
+    client_id: settings.identity_client_id,
+    scope: settings.identity_scope,
     post_logout_redirect_uri: host,
     redirect_uri: host + "/auth/callback",
     silent_redirect_uri: host + "/auth/silent",
-    client_id: settings.auth_client_id,
     response_type: "code",
-    scope: "edo openid email",
     automaticSilentRenew: true,
     loadUserInfo: true,
     filterProtocolClaims: true,

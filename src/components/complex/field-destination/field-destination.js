@@ -43,9 +43,7 @@ class FieldDestination extends React.Component {
     }
 
     inputChanged(event, props) {
-        var currentValue = event.target.value;
-        if (currentValue.trim)
-            currentValue = currentValue.trim();
+        var currentValue = event.target.value.trim();
         this.setSuggestion(currentValue);
         if (!currentValue)
             return View.setDestinations([]);
@@ -60,7 +58,7 @@ class FieldDestination extends React.Component {
                 sessionId: session.google.create()
             },
             after: (data) => {
-                if (currentValue != event.target.value)
+                if (currentValue != event.target.value.trim())
                     return;
                 setDestinationSuggestions(data, currentValue);
                 UI.setSuggestion("destination", currentValue, View?.destinations?.length ? View.destinations[0] : "");

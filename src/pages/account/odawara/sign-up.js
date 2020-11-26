@@ -26,7 +26,7 @@ class SignUp extends Component {
 
             <div class="action-steps action-steps-another-bg">
                 <div class="step current">
-                    Log In Information
+                    Login Information
                 </div>
                 <div class="interval"><s></s><u></u><b></b><i></i></div>
                 <div class="step">

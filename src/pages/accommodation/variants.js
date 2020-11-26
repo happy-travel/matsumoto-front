@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { API } from "core";
+import { loadCurrentSearchWithNewOrder } from "parts/search/search-logic";
+import { runSearchSecondStep } from "parts/search/search-logic-step2";
 
 import {
     GroupRoomTypesAndCount, MealPlan, Stars, Loader, PassengersCount, price
@@ -24,8 +25,7 @@ class AccommodationVariantsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToRoomContractSetsPage: false,
-            loading: false
+            redirectToRoomContractSetsPage: false
         };
         this.loadNextPage = this.loadNextPage.bind(this);
     }
@@ -35,38 +35,12 @@ class AccommodationVariantsPage extends React.Component {
             store.setSearchIsLoading(null);
     }
 
-    accommodationSelect(accommodation) {
+    accommodationSelect(result) {
         this.setState({
-            loading: true
+            redirectToRoomContractSetsPage: true
         });
 
-        store.setSelectedAccommodationFullDetails(null);
-        API.get({
-            url: API.ACCOMMODATION_DETAILS(
-                accommodation.accommodationDetails.id,
-                accommodation.source
-            ),
-            success: result => store.setSelectedAccommodationFullDetails(result)
-        });
-
-        API.post({
-            url: API.A_SEARCH_STEP_TWO(
-                accommodation.availabilityId,
-                accommodation.accommodationDetails.id,
-                accommodation.source
-            ),
-            success: result => {
-                store.selectAccommodation(result);
-                this.setState({
-                    redirectToRoomContractSetsPage: true
-                });
-            },
-            after: () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        });
+        runSearchSecondStep(result);
     }
 
     loadNextPage() {
@@ -86,6 +60,7 @@ class AccommodationVariantsPage extends React.Component {
 
 <React.Fragment>
     <div class="variants block">
+        {__devEnv && <div class="hide">{JSON.stringify(store.filters?.source)}</div> }
         { store?.search?.loading === true ?
         <Loader /> :
         <section class="double-sections">
@@ -103,7 +78,7 @@ class AccommodationVariantsPage extends React.Component {
                         </h3>
                         <Breadcrumbs noBackButton items={[
                             {
-                                text: t("Find Accommodation"),
+                                text: t("Search Accommodations"),
                                 link: '/'
                             }, {
                                 text: store.search.request.destination
@@ -117,12 +92,21 @@ class AccommodationVariantsPage extends React.Component {
                             </h3>
                         }
                     </div>
-                    <SorterDropdown />
+                    <SorterDropdown
+                        text={t("Sort by") + " " + (store.sorter?.price ? t("price") : "")}
+                        addClass={__class(store.sorter?.price < 0, "reverse")}
+                        sorter={value => loadCurrentSearchWithNewOrder(value)}
+                        options={[
+                            { title: t("Usual"), order: {} },
+                            { title: t("Price: high to low"), order: { price: 1 } },
+                            { title: t("Price: low to high"), order: { price: -1 } },
+                        ]}
+                    />
                     { /* todo:
                     <div class="input-wrap">
                         <div class="form">
                             <FieldText
-                                placeholder={t("Search by a hotel name...")}
+                                placeholder={t("Search by hotel name...")}
                             />
                         </div>
                     </div>
@@ -133,17 +117,15 @@ class AccommodationVariantsPage extends React.Component {
                     <div style={{ paddingTop: "50px" }}>
                         <div class="head">
                             <div class="title">
-                                <h3>{t("Found nothing?")}</h3>
+                                <h3>{t("Can't find what you're looking for?")}</h3>
                                 <br/>
                                 {t("You could reach our Operations team directly, and we pick an accommodation for you.")}
                                 <br/>
                                 <br/>
-                                {t("Email")}: <a href="mailto:info@happytravel.com" class="link">info@happytravel.com</a>
+                                {t("Email")}: <a href="mailto:reservations@happytravel.com" class="link">reservations@happytravel.com</a>
                             </div>
                         </div>
                     </div> }
-
-                { this.state.loading && <Loader page /> }
 
                 <InfiniteScroll
                     dataLength={store.hotelArray.length}
@@ -152,15 +134,15 @@ class AccommodationVariantsPage extends React.Component {
                     loader={(store.search?.loading !== "__filter_tmp") ? <Loader /> : null}
                 >
                 { store.hotelArray.map(item =>
-                <div class="variant" key={item.accommodationDetails.id}>
+                <div class="variant" key={item.accommodation.id}>
                     <div class="summary">
-                        { item.accommodationDetails.picture.source && <div class="photo" onClick={() => this.accommodationSelect(item)}>
-                            <img src={item.accommodationDetails.picture.source} alt="" />
+                        { item.accommodation.photo.sourceUrl && <div class="photo" onClick={() => this.accommodationSelect(item)}>
+                            <img src={item.accommodation.photo.sourceUrl} alt={item.accommodation.photo.caption}  />
                         </div> }
                         <div class="title">
                             <div class="features">
                                 <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
-                                        id={item.source + "." + item.accommodationDetails.id}
+                                        id={item.supplier + "." + item.accommodation.id}
                                         onClick={() => {
                                             UI.setModal(MODALS.REPORT_DUPLICATE);
                                             UI.setModalData(item);
@@ -169,13 +151,16 @@ class AccommodationVariantsPage extends React.Component {
                                 </button>
                             </div>
                             <h2 onClick={() => this.accommodationSelect(item)}>
-                                <u>{item.accommodationDetails.name}</u>
-                                <Stars count={item.accommodationDetails.rating} />
+                                <u>{item.accommodation.name}</u>
+                                <Stars count={item.accommodation.rating} />
                             </h2>
                             <div class="category" onClick={() => this.accommodationSelect(item)}>
-                                {t("Accommodation in")} {item.accommodationDetails.location.country}, {item.accommodationDetails.location.locality}<br/>
-                                {item.accommodationDetails.location.address}
+                                    {t("Accommodation in")} {item.accommodation.location.country}, {item.accommodation.location.locality}<br/>
+                                {item.accommodation.location.address}
                             </div>
+                            {item.supplier && <div>
+                                Supplier: {" " + item.supplier}
+                            </div>}
                             { /*
                             <div class="features">
                                 <span class="icon icon-info-big"/>
@@ -187,7 +172,16 @@ class AccommodationVariantsPage extends React.Component {
                     </div>
                     <div class="table">
                         <div class="title">
-                            {__plural(t, item.roomContractSets.length, "option")} {t("available for")
+                            {
+                                t("At least")
+                            } {__plural(
+                                t,
+                                item.roomContractSets.length > 2 ?
+                                    item.roomContractSets.length-1 :
+                                    item.roomContractSets.length,
+                                "option"
+                            )} {
+                                t("available for")
                             } <PassengersCount t={t}
                                                adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
                                                children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}/>
@@ -202,7 +196,7 @@ class AccommodationVariantsPage extends React.Component {
                             </div>
                             <div class="price">
                                 <span>{t("From")}</span>
-                                {price(item.roomContractSets?.[0]?.price.currency, item.fromPrice)}
+                                {price(item.roomContractSets?.[0]?.rate.currency, item.minPrice)}
                             </div>
                             <button class="button small" onClick={() => this.accommodationSelect(item)}>
                                 {t("Choose Room")}
@@ -211,22 +205,31 @@ class AccommodationVariantsPage extends React.Component {
                         { item.roomContractSets.slice(0, 2).map(roomContractSet => <div class="row">
                             <div class="main">
                                 <h3 onClick={() => this.accommodationSelect(item)}>
-                                    <GroupRoomTypesAndCount t={t} contracts={roomContractSet.roomContracts} />
+                                    <GroupRoomTypesAndCount t={t} contracts={roomContractSet.rooms} />
                                 </h3>
                                 <div>
-                                    {roomContractSet.roomContracts[0]?.isDynamic === true &&
-                                        <strong>
-                                            {t("Dynamic offer")}
-                                        </strong>
+                                    {roomContractSet.rooms[0]?.isDynamic === true &&
+                                        <div>
+                                            <strong>
+                                                {t("Dynamic offer")}
+                                            </strong>
+                                        </div>
+                                    }
+                                    {roomContractSet.isAdvancePurchaseRate &&
+                                        <div>
+                                            <span class="restricted-rate">
+                                                {t("Restricted Rate")}
+                                            </span>
+                                        </div>
                                     }
                                     <Deadline t={t}
-                                        roomContractSet={roomContractSet}
-                                        availabilityId={item.availabilityId}
-                                        source={item.source}
+                                         searchId={store.search.id}
+                                         resultId={item.id}
+                                         roomContractSet={roomContractSet}
                                     />
                                 </div>
                                 <div class="info green">
-                                    <MealPlan t={t} room={roomContractSet.roomContracts[0]} />
+                                    <MealPlan t={t} room={roomContractSet.rooms[0]} />
                                 </div>
                             </div>
                         </div>) }

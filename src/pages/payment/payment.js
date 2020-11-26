@@ -34,8 +34,8 @@ class PaymentPage extends BasicPaymentPage {
         super(props);
         this.state = {
             request_url: null,
-            currency: store.selected?.roomContractSet?.price.currency,
-            amount: store.selected?.roomContractSet?.price.netTotal,
+            currency: store.selected?.roomContractSet?.rate.finalPrice.currency,
+            amount: store.selected?.roomContractSet?.rate.finalPrice.amount,
             comment: null,
             service: {
                 service_command     : "TOKENIZATION",
@@ -53,11 +53,16 @@ class PaymentPage extends BasicPaymentPage {
             everSubmitted: false,
             addNew: false
         };
+        if (store?.bookingToPay) {
+            this.state.currency = store.bookingToPay.totalPrice.currency;
+            this.state.amount = store.bookingToPay.totalPrice.amount;
+        }
         this.submit = this.submit.bind(this);
         this.detectCardType = this.detectCardType.bind(this);
         this.payBySavedCard = this.payBySavedCard.bind(this);
         this.selectCard = this.selectCard.bind(this);
         this.callback = this.callback.bind(this);
+        this.removeCard = this.removeCard.bind(this);
     }
 
     componentDidMount() {
@@ -85,6 +90,20 @@ class PaymentPage extends BasicPaymentPage {
             })
         });
         snare();
+    }
+
+    removeCard(cardId) {
+        var { savedCards } = this.state;
+        savedCards = savedCards.filter(item => item.id != cardId);
+        API.delete({
+            url: API.CARDS_REMOVE(cardId),
+            success: () => {
+                this.setState({
+                    savedCards,
+                    addNew: !savedCards.length
+                });
+            }
+        });
     }
 
     detectCardType(e) {
@@ -180,33 +199,47 @@ render() {
 <div class="confirmation block payment">
     <section class="double-sections">
         <div class="middle-section">
-            { !this.state.direct &&
-            <Breadcrumbs items={[
-                {
-                    text: t("Search accommodation"),
-                    link: "/search"
-                }, {
-                    text: t("Your Booking"),
-                    link: "/accommodation/booking",
-                }, {
-                    text: t("Payment")
-                }
-            ]}
-                backLink="/accommodation/booking"
-            />
-            }
+            { !this.state.direct && (
+                !store.bookingToPay ?
+                    <Breadcrumbs items={[
+                        {
+                            text: t("Search Accommodations"),
+                            link: "/search"
+                        }, {
+                            text: t("Your Booking"),
+                            link: "/accommodation/booking",
+                        }, {
+                            text: t("Payment")
+                        }
+                    ]}
+                        backLink="/accommodation/booking"
+                    /> :
+                    <Breadcrumbs items={[
+                        {
+                            text: t("Your Bookings"),
+                            link: "/agent/bookings"
+                        }, {
+                            text: store.booking?.referenceCode,
+                            link: `/accommodation/confirmation/${store.bookingToPay.bookingId}`,
+                        }, {
+                            text: t("Payment")
+                        }
+                    ]}
+                        backLink={`/accommodation/confirmation/${store.bookingToPay.bookingId}`}
+                    />
+            )}
 
             { this.state.comment && <p>
                 { this.state.comment }
             </p> }
 
             { "Success" == this.state.status && <h2 class="payment-title">
-                {t("This order was successfully paid already")}
+                {t("This order has already been successfully paid")}
             </h2> }
 
             { this.state.direct && !this.state.loading && ("Success" != this.state.status) &&
               ("Created" != this.state.status) && <h2 class="payment-title">
-                {t("You are not able to pay this order anymore")}
+                {t("This order is no longer available for payment")}
             </h2> }
 
             {!this.state.direct && <p class="remark">
@@ -241,12 +274,18 @@ render() {
                                             <FieldText formik={formik}
                                                 id="card_security_code"
                                                 placeholder={this.state.code.name}
-                                                addClass={__class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
+                                                addClass={"only-when-selected" + __class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
                                                 required
                                                 password
                                                 numeric
                                                 maxLength={this.state.code.size}
                                             />
+                                            <b
+                                                className="only-when-selected link"
+                                                onClick={() => this.removeCard(item.id)}
+                                            >
+                                                Forget
+                                            </b>
                                         </div>);
                                     })}
                                     </div>
@@ -355,7 +394,7 @@ render() {
                                             {t("Save my card for faster checkout")}
                                             <span
                                                 class="icon icon-info"
-                                                data-tip={t("It's safe, only a part of your card data will be stored")}
+                                                data-tip={t("Your information is secure; only a part of you card's data will be stored")}
                                             />
                                         </span>
                                     }

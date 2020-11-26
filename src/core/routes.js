@@ -9,7 +9,6 @@ import accommodationConfirmation  from "pages/accommodation/confirmation";
 import accommodationContractsSets from "pages/accommodation/room-contract-sets";
 
 import paymentPage                from "pages/payment/payment";
-import paymentAccountPage         from "pages/payment/account";
 import paymentResult              from "pages/payment/result";
 import payment3DSCallback         from "pages/payment/callback3ds";
 import paymentDirectLink          from "pages/payment/external/direct-link-page";
@@ -19,8 +18,9 @@ import registrationAgent          from "pages/account/registration-agent";
 import registrationCounterparty   from "pages/account/registration-counterparty";
 import acceptInvite               from "pages/account/accept-invite";
 
-import userBookingManagement      from "pages/user/booking-management";
-import accountStatement           from "pages/user/account-statement";
+import userBookingManagement      from "pages/user/booking-management/booking-management";
+import agencyBookingsManagement   from "pages/user/agency-bookings-management/agency-bookings-management";
+import accountStatement           from "pages/user/account-statement/account-statement";
 import userInvite                 from "pages/user/create-invite";
 
 import agentsManagement           from "pages/settings/agents-management";
@@ -46,9 +46,9 @@ export const routesWithHeaderAndFooter = [
     "/accommodation/booking",
     "/accommodation/confirmation*",
     "/contact", "/terms", "/privacy", "/about",
-    "/payment/form", "/payment/account",
-    "/agent/booking",
-    "/account/statement",
+    "/payment/form",
+    "/agent/bookings",
+    "/agency/bookings",
     "/settings/*",
 ];
 export const routesWithFooter = [
@@ -70,7 +70,6 @@ const Routes = () => (
                     ]}                            component={accommodationConfirmation} title="Your Booking Confirmation" />
 
         <Route path="/payment/form"               component={paymentPage} title="Payment" />
-        <Route path="/payment/account"            component={paymentAccountPage} title="Account" />
         <Route path={[
                     "/payment/result/:ref",
                     "/payment/result"
@@ -84,8 +83,9 @@ const Routes = () => (
         <Route path="/signup/counterparty"        component={registrationCounterparty} title="Sign Up" />
         <Route path="/signup/invite/:email/:code" component={acceptInvite} title="Sign Up" />
 
-        <Route path="/agent/booking"              component={userBookingManagement} title="Booking List" />
-        <Route path="/account/statement"          component={accountStatement} title="Payment History" />
+        <Route path="/agent/bookings"             component={userBookingManagement} title="Your Bookings" />
+        <Route path="/agency/bookings"            component={agencyBookingsManagement} title="Agency Bookings" />
+        <Route path="/settings/account"           component={accountStatement} title="Account statement" />
         <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
 
         <Route path="/settings/agents/:agentId/:counterpartyId/:agencyId/"

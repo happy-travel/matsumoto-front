@@ -14,11 +14,8 @@ const settingsCleaner = values => ({
 });
 
 export const loadCounterpartyInfo = (callback = () => {}) => {
-    var id = authStore.activeCounterparty.id;
-    if (id === undefined)
-        return;
     API.get({
-        url: API.COUNTERPARTY_INFO(id),
+        url: API.COUNTERPARTY_INFO,
         success: information => {
             authStore.setCounterpartyInfo(information);
             callback(information);

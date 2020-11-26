@@ -51,7 +51,7 @@ return (
 <React.Fragment>
     <StaticHeader />
 
-    <div class="confirmation block">
+    <div class="confirmation nova block">
         <section class="double-sections">
             { !!result && "Success" == result.status ?
             <div class="middle-section">
@@ -63,30 +63,41 @@ return (
                     </div>
                     <div class="dual">
                         <div class="first">
-                            {t("Payment result")}: <strong>{result.status}</strong>
+                            {t("Order reference number")}: <strong class="green">{booking.referenceCode}</strong>
+                        </div>
+                        <div class="second">
+                            {t("Payment result")}: <strong class={result.status}>{result.status}</strong>
                         </div>
                     </div>
                 </div>
 
-                <Dual addClass="line"
-                    a={t('Order reference number')}
-                    b={booking.referenceCode}
-                />
+                <div class="part">
+                    <div class="icon-holder">
+                        <span class="icon icon-confirmation-price"/>
+                    </div>
+                    <div class="line">
+                        <Dual
+                            a={t("Amount")}
+                            b={ price(booking.currency, booking.amount || 0) || "" }
+                        />
+                        { booking.paymentStatus && <Dual addClass="grow"
+                                                         a={t('Order status')}
+                                                         b={booking.paymentStatus}
+                        /> }
+                    </div>
+                </div>
 
-                <Dual addClass="line"
-                    a={t('Amount')}
-                    b={ price(booking.currency, booking.amount || 0) || "" }
-                />
-
-                { booking.paymentStatus && <Dual addClass="line"
-                    a={t('Order status')}
-                    b={booking.paymentStatus}
-                /> }
-
-                { booking.comment && <Dual addClass="line"
-                    a={t('Additional Information')}
-                    b={booking.comment}
-                /> }
+                { booking.comment && <div class="part">
+                    <div class="line">
+                        <div class="icon-holder">
+                            <span class="icon icon-confirmation-hotel"/>
+                        </div>
+                        <Dual addClass="line"
+                              a={t('Additional Information')}
+                              b={booking.comment}
+                        />
+                    </div>
+                </div> }
 
             </div>
             :

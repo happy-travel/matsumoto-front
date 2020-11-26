@@ -1,8 +1,8 @@
 import React from "react";
+import { getIn } from "formik";
 import { observer } from "mobx-react";
 import { scrollTo } from "core";
 import { decorate } from "simple";
-import { getValue } from "./utils";
 import { windowLocalStorage } from "core/misc/window-storage";
 
 import UI from "stores/ui-store";
@@ -66,7 +66,7 @@ class FieldText extends React.Component {
                 }
                 if (!value && setAutoComplete) {
                     if (formik && !suggestion) {
-                        suggestion = UI.getSuggestion(id, getValue(formik, id));
+                        suggestion = UI.getSuggestion(id, getIn(formik, id));
                     }
                     if (suggestion) {
                         e.preventDefault();
@@ -110,13 +110,13 @@ class FieldText extends React.Component {
         if (formik) {
             formik.setFieldValue(id, "");
             formik.setFieldTouched(id, false);
-            if (onClear)
-                onClear();
             if (Dropdown)
                 View.setOpenDropdown(null);
             if (additionalFieldForValidation)
                 formik.setFieldValue(additionalFieldForValidation, false);
         }
+        if (onClear)
+            onClear();
     }
 
     changing(event) {
@@ -166,9 +166,12 @@ class FieldText extends React.Component {
             autocomplete,
             //onChange
         } = this.props;
+        const errorText = getIn(formik?.errors, id);
+        const isFieldTouched = getIn(formik?.touched, id);
+        const fieldValue = getIn(formik?.values, id);
 
         if (suggestion)
-            suggestion = decorate.cutFirstPart(suggestion, getValue(formik, id));
+            suggestion = decorate.cutFirstPart(suggestion, fieldValue);
 
         /* todo: Remove this workaround when server rtl suggestions works correct */
         var isSuggestionVisible = windowLocalStorage.get("locale") != "ar";
@@ -181,9 +184,16 @@ class FieldText extends React.Component {
         }
 
         if (formik && !suggestion)
-            suggestion = UI.getSuggestion(id, getValue(formik, id));
+            suggestion = UI.getSuggestion(id, fieldValue);
 
-        var finalValue = ValueObject ? '' : (value || (formik?.values ? getValue(formik, id) : '') || '');
+        var finalValue = "";
+        if (!ValueObject) {
+            finalValue = value || (formik?.values ? fieldValue : "");
+            if (finalValue === 0)
+                finalValue = "0";
+            if (!finalValue)
+                finalValue = "";
+        }
 
         return (
             <div class={"field" + __class(addClass)} data-dropdown={this.props["data-dropdown"] || id}>
@@ -194,11 +204,11 @@ class FieldText extends React.Component {
                     <div class={"input" +
                         __class(this.state.focus, "focus") +
                         __class(disabled, "disabled") +
-                        __class(((formik?.errors[id] || (additionalFieldForValidation && formik?.errors[additionalFieldForValidation])) && formik?.touched[id]),
+                        __class(((errorText || (additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation))) && isFieldTouched),
                                           "error") +
-                        __class(!formik?.errors[id] && finalValue, "valid")}
+                        __class(!errorText && finalValue, "valid")}
                     >
-                        { !!Flag && !!finalValue && <div>
+                        { !!Flag && <div>
                             { Flag }
                         </div> }
                         <div class="inner">
@@ -218,27 +228,27 @@ class FieldText extends React.Component {
                             />
                             { ValueObject }
                             { isSuggestionVisible && suggestion && <div class={"suggestion" + __class(numeric, "solid")}>
-                                <span>{ getValue(formik, id) || value }</span>{ suggestion }
+                                <span>{ fieldValue || value }</span>{ suggestion }
                             </div> }
                         </div>
                         { Icon && <div class="icon-wrap">
                             { Icon }
                         </div> }
-                        { (clearable && getValue(formik, id)) ? <div>
+                        { (clearable && finalValue) ? <div>
                             <div class="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>
-                    {((formik?.errors[id]?.length > 1) && formik?.touched[id] && (!View.isDropdownOpen(id))) ?
+                    {(errorText?.length > 1 && isFieldTouched && (!View.isDropdownOpen(id))) ?
                         <div class={"error-holder" +
                                     __class(!this.state.everBlured || !this.state.everChanged || this.state.focus, "possible-hide") //possible-hide
-                        }>{formik.errors[id]}</div>
+                        }>{errorText}</div>
                     : null}
                 </label>
                 { Dropdown ? <div class={__class(!View.isDropdownOpen(id), "hide")}>
                     <Dropdown formik={formik}
                               connected={id}
                               setValue={setValue}
-                              value={getValue(formik, id)}
+                              value={fieldValue}
                               options={options}
                               focusIndex={this.state.ddFocusIndex}
                     />

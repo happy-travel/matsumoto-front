@@ -20,7 +20,7 @@ class AccommodationStore {
         request: null,
         result: null,
         length: 0, status: "",
-        requestId: null,
+        id: null,
         hasMoreVariants: false,
         page: 0,
         numberOfNights: 0
@@ -70,6 +70,14 @@ class AccommodationStore {
     @setter
     paymentMethod = PAYMENT_METHODS.CARD;
 
+    @observable
+    @setter
+    secondStepState = null;
+
+    @observable
+    @setter
+    bookingToPay = null; // todo: refactor, it's temporary decision
+
     constructor() {
         autosave(this, "_accommodation_store_cache");
     }
@@ -80,17 +88,6 @@ class AccommodationStore {
 
     setSearchResult(results, page = 0) {
         if (results?.length) {
-            for (var i = 0; i < results.length; i++) {
-                var source = results[i].source;
-                results[i] = results[i].data;
-                results[i].source = source;
-            }
-            results.forEach(item => {
-                item.fromPrice = Math.min(...item.roomContractSets.map(x => x.price.netTotal));
-                if (item.roomContractSets?.sort)
-                    item.roomContractSets.sort((a,b) => this.sorter?.price * (b.price.netTotal - a.price.netTotal));
-            });
-
             if (page != 0)
                 this.search.result.push(...results);
             else
@@ -112,7 +109,6 @@ class AccommodationStore {
         if (0 == page) {
             this.booking.request = null;
             this.booking.result = {};
-            this.paymentResult = {};
         }
     }
 
@@ -121,8 +117,8 @@ class AccommodationStore {
         this.search.status = status;
     }
 
-    setSearchRequestId(requestId) {
-        this.search.requestId = requestId;
+    setSearchId(searchId) {
+        this.search.id = searchId;
     }
 
     setSearchIsLoading(value) {
@@ -134,11 +130,11 @@ class AccommodationStore {
         this.search.numberOfNights = Math.round(Math.abs(new Date(form.checkOutDate) - new Date(form.checkInDate))/24/60/60/1000);
     }
 
-    selectAccommodation(accommodation) {
-        accommodation.data?.roomContractSets?.sort((a,b) => a.price.netTotal - b.price.netTotal);
+    setRoomContractsSets(id, roomContractSets = []) {
+        roomContractSets?.sort((a,b) => a.rate.finalPrice - b.rate.finalPrice);
         this.selected.accommodation = {
-            ...accommodation.data,
-            source: accommodation.source
+            id,
+            roomContractSets
         };
     }
 
@@ -147,10 +143,8 @@ class AccommodationStore {
     }
 
     selectRoomContractSet(result, preloaded) {
-        result = result?.data || null;
-
-        if (result?.roomContractSet?.price.currency != preloaded?.price?.currency ||
-            result?.roomContractSet?.price.netTotal !== preloaded?.price?.netTotal)
+        if (result?.roomContractSet?.rate.currency != preloaded?.rate?.currency ||
+            result?.roomContractSet?.rate.finalPrice !== preloaded?.rate?.finalPrice)
             result.roomContractSet.priceChangedAlert = true;
 
         this.selected = {
@@ -162,6 +156,7 @@ class AccommodationStore {
         };
         this.booking.request = null;
         this.booking.result = null;
+        this.paymentResult = {};
     }
 
     setBookingRequest(request) {
@@ -179,11 +174,18 @@ class AccommodationStore {
                 : result;
     }
 
+    setUpdatedBookingStatus(value) {
+        this.booking.result.bookingDetails.status = value;
+    }
+
     setPaymentResult(result) {
         this.paymentResult = result;
+        if (!result)
+            return;
         if (this.paymentResult.result == "Failed")
             this.paymentResult.error = true;
-        this.paymentResult.params_error = (result.params?.response_message != "Success");
+        if (result.params.response_message)
+            this.paymentResult.params_error = (result.params.response_message != "Success");
     }
 
     @computed get filtersLine() {

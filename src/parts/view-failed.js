@@ -13,7 +13,7 @@ class ViewFailed extends React.Component {
             <div class="error-page inside">
                 <div class="middle-section">
                     <div class="text">
-                        <h1>{t("Oppps! Something wrong")}</h1>
+                        <h1>{t("Oops! Something went wrong!")}</h1>
                         <p>{reason}</p>
                     </div>
 

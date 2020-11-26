@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import i18n from 'i18next';
 
-import { Loader } from "simple";
+import { Loader, Flag } from "simple";
 import {
     CachedForm,
     FieldSelect,
@@ -67,14 +67,21 @@ class UserApplicationSettings extends React.Component {
                     render={formik => (
                         <div class="form app-settings">
                             <div class="row">
+                                <FieldSwitch formik={formik}
+                                             id="availableCredit"
+                                             label={t("Show Available Credit")}
+                                />
+                            </div>
+                            <div class="row">
                                 <FieldSelect formik={formik}
                                              id="preferredLanguage"
                                              label={t("Preferred language")}
                                              placeholder={t("Preferred language")}
                                              options={[
-                                                 { value: "en", text: "English"},
-                                                 { value: "ar", text: "اللغة الحالية"}
+                                                 { value: "en", text: "English", flag: "gb"},
+                                                 { value: "ar", text: "اللغة الحالية", flag: "ae"}
                                              ]}
+                                             Flag={<Flag language={formik.values.preferredLanguage} />}
                                 />
                                 <FieldSelect formik={formik}
                                              id="weekStarts"
@@ -90,12 +97,6 @@ class UserApplicationSettings extends React.Component {
                                                  { value: 5, text: "Friday"},
                                                  { value: 6, text: "Saturday"},
                                              ]}
-                                />
-                            </div>
-                            <div class="row">
-                                <FieldSwitch formik={formik}
-                                             id="availableCredit"
-                                             label={t("Show Available Credit")}
                                 />
                             </div>
                             <div class="row">

@@ -1,27 +1,13 @@
 import React from "react";
+import { getIn } from "formik";
 import { observer } from "mobx-react";
+import { Flag } from "simple";
 import FieldText from "./field-text";
 
 import View from "stores/view-store";
 
-const getDeepValue = (obj, path) => {
-    if (!obj || !path)
-        return null;
-
-    if (path.indexOf(".") == -1)
-        return obj[path];
-
-    var i, length;
-    for (i=0, path=path.split("."), length=path.length; i < length; i++) {
-        if (!obj) return null;
-        obj = obj[path[i]];
-    }
-
-    return obj;
-};
-
 const getTextByValue = (formik, id, options) => {
-    var value = getDeepValue(formik.values, id);
+    var value = getIn(formik?.values, id);
 
     if (formik && typeof value != "undefined")
         for (var i = 0; i < options.length; i++)
@@ -39,10 +25,11 @@ class SelectDropdown extends React.Component {
     }
 
     setValue(item) {
-        var { formik, connected } = this.props;
-        if (!formik) return;
-
-        formik.setFieldValue(connected, item.value);
+        var { formik, connected, setValue } = this.props;
+        if (setValue)
+            setValue(item.value);
+        if (formik)
+            formik.setFieldValue(connected, item.value);
         View.setOpenDropdown(null);
     }
 
@@ -53,11 +40,14 @@ class SelectDropdown extends React.Component {
 
         return (
             <div class="dropdown select">
-                {options?.map(item => (
-                    <div class="item line" onClick={ () => this.setValue(item) }>
-                        {item.text}
-                    </div>
-                ))}
+                <div class="scroll">
+                    {options?.map(item => (
+                        <div class="item line" onClick={() => this.setValue(item)}>
+                            {item.flag && <Flag code={item.flag} /> }
+                            {item.text}
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }
@@ -71,9 +61,11 @@ class FieldSelect extends React.Component {
             id,
             options,
             addClass,
+            value,
+            setValue
         } = this.props,
 
-            ValueObject = getTextByValue(formik, id, options);
+            ValueObject = value || getTextByValue(formik, id, options);
 
         return (
             <FieldText

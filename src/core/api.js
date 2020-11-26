@@ -19,8 +19,10 @@ API_METHODS = {
     CARDS_SIGN            : v1 + "/cards/signatures",
     PAYMENTS_CARD_NEW     : v1 + "/payments/bookings/card/new",
     PAYMENTS_CARD_SAVED   : v1 + "/payments/bookings/card/saved",
-    PAYMENTS_ACC_COMMON   : v1 + "/payments/bookings/account",
     PAYMENTS_CALLBACK     : v1 + "/payments/callback",
+    BOOK_BY_ACCOUNT       : v1 + "/accommodations/bookings/book-by-account",
+    CARDS_REMOVE          : cardId =>
+                            v1 + `/cards/${cardId}`,
 
     ACCOUNT_BALANCE       : currencyCode =>
                             v1 + `/payments/accounts/balance/${currencyCode}`,
@@ -41,6 +43,10 @@ API_METHODS = {
     BOOKING_LIST          : v1 + "/accommodations/bookings/agent",
     BOOKING_CANCEL        : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}/cancel`,
+    BOOKING_PENALTY       : bookingId =>
+                            v1 + `/accommodations/bookings/${bookingId}/cancellation-penalty`,
+    BOOKING_STATUS        : bookingId =>
+                            v1 + `/accommodations/bookings/${bookingId}/refresh-status`,
     BOOKING_VOUCHER       : bookingId =>
                             v1 + `/accommodations/supporting-documentation/${bookingId}/voucher/send`,
     BOOKING_INVOICE       : bookingId =>
@@ -50,23 +56,25 @@ API_METHODS = {
     BOOKING_GET_BY_CODE   : referenceCode =>
                             v1 + `/accommodations/bookings/refcode/${referenceCode}`,
 
-    ACCOMMODATION_DETAILS : (accommodationId, source) =>
-                            v1 + `/${source}/accommodations/${accommodationId}`,
-    A_SEARCH_ONE_CREATE   : v1 + "/availabilities/accommodations/searches",
+    AGENCY_BOOKINGS_LIST  : v1 + "/accommodations/bookings/agency",
+
+    ACCOMMODATION_DETAILS : (searchId, resultId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/accommodation `,
+    A_SEARCH_ONE_CREATE   : v1 + "/accommodations/availabilities/searches",
     A_SEARCH_ONE_CHECK    : searchId =>
-                            v1 + `/availabilities/accommodations/searches/${searchId}/state`,
+                            v1 + `/accommodations/availabilities/searches/${searchId}/state`,
     A_SEARCH_ONE_RESULT   : searchId =>
-                            v1 + `/availabilities/accommodations/searches/${searchId}`,
-    A_SEARCH_STEP_TWO     : (availabilityId, accommodationId, source) =>
-                            v1 + `/${source}/accommodations/${accommodationId}/availabilities/${availabilityId}`,
-    A_SEARCH_STEP_THREE   : (availabilityId, roomContractSetId, source) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}`,
-    REQUEST_DEADLINE      : (availabilityId, roomContractSetId, source) =>
-                            v1 + `/${source}/accommodations/availabilities/${availabilityId}/room-contract-sets/${roomContractSetId}/deadline`,
+                            v1 + `/accommodations/availabilities/searches/${searchId}`,
+    A_SEARCH_TWO_CHECK    : (searchId, resultId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/state`,
+    A_SEARCH_TWO_RESULT   : (searchId, resultId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}`,
+    A_SEARCH_STEP_THREE   : (searchId, resultId, roomContractSetId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}`,
+    REQUEST_DEADLINE      : (searchId, resultId, roomContractSetId) =>
+                            v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}/deadline`,
 
-
-    BILLING_HISTORY       : counterpartyId =>
-                            v1 + `/payments/history/${counterpartyId}/agent`,
+    BILLING_HISTORY       : v1 + `/payments/history/agent`,
 
     BASE_VERSION          : v1 + "/versions",
 
@@ -78,16 +86,20 @@ API_METHODS = {
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
     },
 
-    AGENCY_AGENTS        : agencyId =>
-                           v1 + `/agencies/${agencyId}/agents`,
-    AGENCY_AGENT         : (agencyId, agentId) =>
-                           v1 + `/agencies/${agencyId}/agents/${agentId}`,
-    COUNTERPARTY_INFO    : counterpartyId =>
-                           v1 + `/counterparties/${counterpartyId}`,
+    AGENCY_AGENTS        : v1 + `/agency/agents`,
+    AGENCY_AGENT         : agentId =>
+                           v1 + `/agency/agents/${agentId}`,
+    AGENT_ENABLE         : agentId =>
+                           v1 + `/agents/${agentId}/enable`,
+    AGENT_DISABLE        : agentId =>
+                           v1 + `/agents/${agentId}/disable`,
+    COUNTERPARTY_INFO    : v1 + `/counterparty`,
     AGENT_SETTINGS       : v1 + `/agents/settings/application`,
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
-    AGENT_PERMISSIONS    : (agentId, agencyId) =>
-                           v1 + `/agencies/${agencyId}/agents/${agentId}/permissions`,
+    AGENT_PERMISSIONS    : agentId =>
+                           v1 + `/agency/agents/${agentId}/permissions`,
+    AGENCY_APR_SETTINGS  : v1 + `/agency/system-settings/apr-settings`,
+    AGENCY_PAYMENT_OPTION: v1 + `/agency/system-settings/displayed-payment-options`,
 
     REPORT_DUPLICATE     : v1 + "/accommodations-mapping/duplicate-reports",
 
@@ -108,7 +120,10 @@ _.methods_dont_show_error = [
     _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
 ];
 
-const setAlert = (text, url) => ((_.methods_dont_show_error.indexOf(url) < 0) && View.setTopAlertText(text));
+const setAlert = (text, url = "") => ((
+    _.methods_dont_show_error.indexOf(url) < 0 &&
+    (!url || (url?.indexOf("/state") < 0))
+) && View.setTopAlertText(text));
 
 _.request = ({
     url, external_url,
@@ -137,7 +152,7 @@ Authorize.getUser().then(user => {
             })
         };
 
-    if ("POST" == method || "PUT" == method)
+    if (["POST", "PUT", "DELETE"].includes(method))
         request.body = JSON.stringify(body);
     else {
         var getBody = Object.keys(body).map(key =>

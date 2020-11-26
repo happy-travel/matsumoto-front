@@ -3,6 +3,13 @@ import autosave from "core/misc/autosave";
 import setter from "core/mobx/setter";
 import { decorate } from "simple";
 
+export const APR_VALUES = {
+    NotDisplay: 1,
+    DisplayOnly: 2,
+    CardPurchasesOnly: 3,
+    CardAndAccountPurchases: 4
+};
+
 const defaultUserSettings = {
     weekStarts: 0,
     availableCredit: true
@@ -12,11 +19,11 @@ class AuthStore {
     @observable
     @setter
     user = {
-        "email": null,
-        "lastName": null,
-        "firstName": null,
-        "title": null,
-        "position": null
+        email: null,
+        lastName: null,
+        firstName: null,
+        title: null,
+        position: null
     };
 
     @observable
@@ -27,9 +34,17 @@ class AuthStore {
     counterpartyInfo = null;
 
     @observable
+    @setter
+    balance = null;
+
+    @observable
+    @setter
+    agencyAPR = APR_VALUES.NotDisplay;
+
+    @observable
     registration = {
-        "agent": {},
-        "counterparty": {}
+        agent: {},
+        counterparty: {}
     };
 
     constructor() {

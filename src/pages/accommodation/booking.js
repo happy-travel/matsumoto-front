@@ -23,16 +23,17 @@ import transliterate from "components/external/transliterate";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
-import authStore from "stores/auth-store";
+import authStore, { APR_VALUES } from "stores/auth-store";
 
-const isPaymentAvailable = balance => ( balance?.currency && (balance.balance >= 0) );
+const isPaymentAvailable = (balance, APR) => (
+    balance?.currency && (balance.balance >= 0) && !(APR && (authStore.agencyAPR < APR_VALUES.CardAndAccountPurchases))
+);
 
 @observer
 class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            balance: false,
             redirectToPayment: false
         };
         this.submit = this.submit.bind(this);
@@ -42,18 +43,19 @@ class AccommodationBookingPage extends React.Component {
         store.setBookingRequest(null);
         store.setBookingReferenceCode(null);
         store.setPaymentMethod(PAYMENT_METHODS.CARD);
+        API.get({
+            url: API.AGENCY_PAYMENT_OPTION
+        });
+        store.setBookingToPay(null);
 
         API.get({
             url: API.ACCOUNT_BALANCE("USD"),
-            success: result =>
-                this.setState({
-                    balance: result
-                })
+            success: balance => authStore.setBalance(balance)
         });
     }
 
     submit(values, { setSubmitting }) {
-        if (!store.selected?.accommodationFinal?.accommodationDetails?.id) {
+        if (!store.selected?.accommodationFinal?.accommodation?.id) {
             setSubmitting(false);
             View.setTopAlertText("Booking unsuccessful, please try again later or contact us for help.");
             return null;
@@ -64,9 +66,9 @@ class AccommodationBookingPage extends React.Component {
 
         var roomDetails = [];
 
-        for (var r = 0; r < variant?.roomContracts?.length; r++) {
-            var adults = variant?.roomContracts[r]?.adultsNumber,
-                total = adults + variant?.roomContracts[r]?.childrenAges.length,
+        for (var r = 0; r < variant?.rooms?.length; r++) {
+            var adults = variant?.rooms[r]?.adultsNumber,
+                total = adults + variant?.rooms[r]?.childrenAges.length,
                 passengers = [];
 
             for (var i = 0; i < total; i++)
@@ -79,50 +81,79 @@ class AccommodationBookingPage extends React.Component {
                 });
 
             roomDetails.push({
-                type: variant.roomContracts[r]?.type,
+                type: variant.rooms[r]?.type,
                 passengers
             })
         }
 
         var request = {
-            "availabilityId": store.selected.availabilityId,
+            "searchId": store.search.id,
+            "resultId": store.selected.accommodation.id,
+            "roomContractSetId": variant.id,
             "nationality": search.nationality,
             "paymentMethod": store.paymentMethod,
             "residency": search.residency,
             "mainPassengerName": roomDetails[0].passengers[0].firstName + " " + roomDetails[0].passengers[0].lastName,
-            "roomContractSetId": variant.id,
             "agentReference": values.agentReference,
             "roomDetails": roomDetails,
             "features": [],
             "itineraryNumber": values.itineraryNumber,
-            "dataProvider": store.selected.accommodation.source
+            "supplier": store.selected.accommodation.source
         };
         store.setBookingRequest(request);
 
-        API.post({
-            url: API.ACCOMMODATION_BOOKING,
-            body: request,
-            after: result => {
-                store.setBookingReferenceCode(result);
-                this.setState({ redirectToPayment: true });
-                setSubmitting(false);
-            },
-            error: (error) => View.setTopAlertText(error?.title || error?.detail || error?.message)
-        });
+        var error = err => View.setTopAlertText(err?.title || err?.detail || err?.message),
+            after = () => setSubmitting(false);
+
+        if (store.paymentMethod == PAYMENT_METHODS.ACCOUNT)
+            API.post({
+                url: API.BOOK_BY_ACCOUNT,
+                body: request,
+                success: result => {
+                    store.setBookingReferenceCode(result);
+                    if (result?.bookingDetails?.referenceCode) {
+                        store.setPaymentResult({
+                            params: {
+                                referenceCode: result.bookingDetails.referenceCode
+                            },
+                            result: {
+                                status: result.paymentStatus
+                            }
+                        });
+                        this.setState({ redirect: "/accommodation/confirmation" });
+                    }
+                    else
+                        View.setTopAlertText("Error occurred during account payment")
+                },
+                after,
+                error
+            });
+
+        if (store.paymentMethod == PAYMENT_METHODS.CARD)
+            API.post({
+                url: API.ACCOMMODATION_BOOKING,
+                body: request,
+                success: result => {
+                    store.setBookingReferenceCode(result);
+                    this.setState({ redirect: "/payment/form" });
+                },
+                after,
+                error
+            });
     }
 
     render() {
         const { t } = useTranslation();
 
-        if (!store.selected?.accommodationFinal?.accommodationDetails?.id)
+        if (!store.selected?.accommodationFinal?.accommodation?.id)
             return null; //todo: another answer
 
-        var hotel = store.selected.accommodationFinal.accommodationDetails,
+        var hotel = store.selected.accommodationFinal.accommodation,
             baseInfo = store.selected.accommodationFinal,
             variant = store.selected.roomContractSet,
 
             initialValues = {
-                room: variant?.roomContracts?.map(item => ({
+                room: variant?.rooms?.map(item => ({
                     passengers: [
                         ...Array(item?.adultsNumber),
                         ...Array(item?.childrenAges.length),
@@ -135,16 +166,20 @@ class AccommodationBookingPage extends React.Component {
         if (!variant)
             return null;
 
+
+        if (this.state.redirect)
+            return <Redirect push to={this.state.redirect}/>;
+
         return (
 
 <React.Fragment>
     <div class="booking block">
-        <div class="hide">{store.paymentMethod}</div>
+        <div class="hide">{store.paymentMethod}{authStore.balance?.balance}</div>
         <section class="double-sections">
             <div class="left-section filters">
                 <div class="static item">{t("Booking Summary")}</div>
-                { hotel.pictures?.[0]?.source && <div class="expanded">
-                    <img src={hotel.pictures[0].source} alt={hotel.pictures[0].caption} class="round" />
+                { hotel.photo.sourceUrl && <div class="expanded">
+                    <img src={hotel.photo.sourceUrl} alt={hotel.photo.caption} class="round" />
                 </div> }
                 <div class="static item no-border">
                     {hotel.name}
@@ -154,6 +189,9 @@ class AccommodationBookingPage extends React.Component {
                     , {hotel.location.locality}
                     , {hotel.location.country}
                 </div>
+                {variant.supplier && <div class="subtitle">
+                    Supplier: {" " + variant.supplier}
+                </div>}
 
                 <div class="static item">
                     {t("Your Reservation")}
@@ -168,26 +206,26 @@ class AccommodationBookingPage extends React.Component {
                 />
                 <div class="dual" style={{display: "inline-block"}}>
                     <span class="first">{t("Number of Rooms")}</span>
-                    <span class="second">{variant.roomContracts.length}</span>
+                    <span class="second">{variant.rooms.length}</span>
                 </div>
 
                 <div class="static item">{t("Room & Total Cost")}</div>
-                    {variant?.roomContracts?.map((rc,i) => (
-                        (rc.roomPrices?.[0].netTotal !== undefined) ?
+                    {variant?.rooms?.map((rc,i) => (
+                        (rc.roomPrices?.[0].finalPrice !== undefined) ?
                         <Dual addClass={__class(rc.roomPrices.length > 1, "column")}
-                            a={t("Room Cost") + (variant?.roomContracts?.length > 1 ? (" " + (i+1)) : '')}
-                            b={ <RoomPrices t={t} prices={variant.roomContracts[i].roomPrices} /> }
+                            a={t("Room Cost") + (variant?.rooms?.length > 1 ? (" " + (i+1)) : '')}
+                            b={ <RoomPrices t={t} prices={variant.rooms[i].roomPrices} /> }
                         /> : null
                     ))}
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
-                    <div>{price(variant.price)}</div>
+                    <div>{price(variant.rate.finalPrice)}</div>
                 </div>
             </div>
             <div class="right-section">
                 <Breadcrumbs items={[
                     {
-                        text: t("Search accommodation"),
+                        text: t("Search Accommodations"),
                         link: "/"
                     }, {
                         text: hotel.location.locality + ", " + hotel.location.country,
@@ -200,7 +238,7 @@ class AccommodationBookingPage extends React.Component {
                     }
                 ]}/>
                 <ActionSteps
-                    items={[t("Search accommodation"), t("Guest Details"), t("Booking Confirmation")]}
+                    items={[t("Search Accommodations"), t("Guest Details"), t("Booking Confirmation")]}
                     current={1}
                 />
 
@@ -222,7 +260,7 @@ class AccommodationBookingPage extends React.Component {
                             <div class="form">
                                 <FieldArray
                                     render={() => (
-                                variant?.roomContracts.map((item, r) => <React.Fragment>
+                                variant?.rooms.map((item, r) => <React.Fragment>
                                 <h2>
                                     <span>
                                         Room {r+1}:
@@ -277,78 +315,15 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
 
                                     <p class="remark">
-                                        {t("Board Basis")}: <MealPlan t={t} room={variant.roomContracts[0]} />
+                                        {t("Board Basis")}: <MealPlan t={t} room={variant.rooms[0]} />
                                     </p>
 
                                     <FullDeadline t={t}
-                                                  deadlineDetails={item.deadlineDetails}
+                                                  deadline={item.deadline}
                                                   remarks={item.remarks}
                                     />
                                 </div>
                                 </React.Fragment>))} />
-
-                                { /* todo
-                                <div class="part">
-                                    <div class="row no-margin">
-                                        <div class="vertical-label">{t("Agent Reference")}</div>
-                                        <FieldText formik={formik}
-                                            id={"agent-reference"}
-                                            placeholder={t("Please enter here")}
-                                            clearable
-                                        />
-                                    </div>
-                                    <div class="row">
-                                        <div class="vertical-label">
-                                            <div>{t("Extra Meal")} <span class="icon icon-info" /></div>
-                                        </div>
-                                        <FieldSwitch formik={formik}
-                                            id={"extra-meal"}
-                                        />
-                                    </div>
-                                    <div class="row">
-                                        <div class="vertical-label">
-                                            <div>{t("Special Request")} <span class="icon icon-info" /></div>
-                                        </div>
-                                        <FieldSwitch formik={formik}
-                                            id={"special-request"}
-                                        />
-                                    </div>
-
-                                    <FieldTextarea formik={formik}
-                                        id="agentReference"
-                                        placeholder={"Please enter your message"}
-                                        label={t("Special Request")}
-                                    />
-                                </div>
-
-                                <div class="part">
-                                    <table class="checkboxes"><tbody>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Interconnecting Rooms"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Request for an Early Check In"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Smoking Room"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Request for a Late Check Out"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Require a Non Smoking Room"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Please note that Guest is a VIP"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a Low Floor"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Please note that Guests are a Honeymoon Couple"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request Room on a High Floor"} /></td>
-                                            <td><FieldCheckbox formik={formik} label={"Request for a Baby Cot"} /></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="bigger"><FieldCheckbox formik={formik} label={"Request for Late Check-In"} /></td>
-                                            <td />
-                                        </tr>
-                                    </tbody></table>
-                                </div> */ }
 
                                 <div class="part" style={{ margin: "-10px 0 5px" }}>
                                     <div class="row">
@@ -373,26 +348,33 @@ class AccommodationBookingPage extends React.Component {
                                                 {t("Please note the booking price has changed.")}
                                             </b>
                                             <div>
-                                                {t("To speed up a search on a large number of accommodations, we use a preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you can see a change in price or in cancellation policies on this screen. The shown price is final.")}
+                                                {t("To speed up a search on a large number of accommodations, we use preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you may see a change in price or in cancellation policies on this screen. The last shown price is final.")}
                                             </div>
                                         </div>
                                     </div>}
                                     <p>{t("You need to pay")}:
-                                        <span class="value"><b>{price(variant.price)}</b></span>
+                                        <span class="value"><b>{price(variant.rate.finalPrice)}</b></span>
                                     </p>
+                                    { variant?.isAdvancePurchaseRate &&
+                                        <h3 style={{margin: "20px 0 -20px"}}>
+                                            <span class="restricted-rate">
+                                                {t("Restricted Rate")}
+                                            </span>
+                                        </h3>
+                                    }
                                     <div class="list">
                                         <div
                                             class={"item" +
-                                                __class(!isPaymentAvailable(this.state.balance), "disabled") +
+                                                __class(!isPaymentAvailable(authStore.balance, variant?.isAdvancePurchaseRate), "disabled") +
                                                 __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
                                             }
-                                            onClick={isPaymentAvailable(this.state.balance)
+                                            onClick={isPaymentAvailable(authStore.balance, variant?.isAdvancePurchaseRate)
                                                 ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
                                                 : () => {}}
                                         >
                                             <span class="icon icon-radio" />
                                             {t("Account balance")} {(authStore.settings.availableCredit === true) &&
-                                                <span>{"(" + price(this.state.balance.currency, this.state.balance.balance).trim() + ")"}</span>}
+                                                <span>{"(" + price(authStore.balance?.currency, authStore.balance?.balance).trim() + ")"}</span>}
                                         </div>
                                         <div
                                             class={"item" +
@@ -418,23 +400,19 @@ class AccommodationBookingPage extends React.Component {
                                                 </div>}
                                             />
                                         </div>
-                                        <div class="second">
-                                            <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
-                                                {t("Confirm booking")}
-                                            </button>
-                                        </div>
+                                        {!(variant?.isAdvancePurchaseRate &&
+                                            (authStore.agencyAPR < APR_VALUES.CardPurchasesOnly)) &&
+                                            <div class="second">
+                                                <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
+                                                    {t("Confirm booking")}
+                                                </button>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
 
-                                { formik.isSubmitting && !this.state.redirectToPayment &&
+                                { formik.isSubmitting && !this.state.redirect &&
                                     <Loader page /> }
-
-                                { this.state.redirectToPayment && (store.paymentMethod == PAYMENT_METHODS.CARD) &&
-                                    <Redirect push to="/payment/form" /> }
-
-                                { this.state.redirectToPayment && (store.paymentMethod == PAYMENT_METHODS.ACCOUNT) &&
-                                    <Redirect push to="/payment/account" /> }
-
                             </div>
                         </React.Fragment>
                     )}

@@ -78,14 +78,14 @@ class AccommodationFiltersPart extends React.Component {
                                 }
                             /> }
                             { ( (__localhost || __devEnv) &&
-                                !!store.filters.__source.length) && <Expandable
+                                !!store.filters?.__source?.length) && <Expandable
                                 open
                                 header="Source"
                                 content={
                                     <div class="expanded">
                                         { store.filters.__source.map((item, i) => (
                                             <FieldCheckbox formik={formik}
-                                                           label={ "source=" + item }
+                                                           label={ item }
                                                            id={ "source." + item }
                                                            onChange={formik.handleSubmit}
                                             />

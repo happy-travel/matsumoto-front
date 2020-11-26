@@ -101,7 +101,7 @@ class RegistrationAgent extends React.Component {
         if (this.state.redirectToIndexPage)
             return <Redirect push to="/" />;
 
-        var actionSteps = [t("Log In Information"), t("Agent Information")];
+        var actionSteps = [t("Login Information"), t("Agent Information")];
         if (!this.state.invitationCode)
             actionSteps.push(t("Company Information"));
 

@@ -6,6 +6,17 @@
     font-size: 14px
     position: relative
 
+    &.user-switcher
+        .icon
+            margin: 3px 0 0 6px
+            vertical-align: top
+            filter: grayscale(1)
+        &:hover
+            .name
+                color: #074BC5
+            .icon
+                filter: none
+
     .avatar
         background: url("../images/no-avatar.svg") center center no-repeat
         background-size: contain
@@ -23,12 +34,14 @@
     .double
         margin-top: 17px
         line-height: 19px
-        .name, .company
+        .name span, .company
             max-width: 140px
             height: 19px
             overflow: hidden
             text-overflow: ellipsis
             white-space: nowrap
+        .name span
+            display: inline-block
 
     &.currency-switcher
         cursor: default
