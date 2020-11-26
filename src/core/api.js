@@ -43,6 +43,8 @@ API_METHODS = {
     BOOKING_LIST          : v1 + "/accommodations/bookings/agent",
     BOOKING_CANCEL        : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}/cancel`,
+    BOOKING_PENALTY       : bookingId =>
+                            v1 + `/accommodations/bookings/${bookingId}/cancellation-penalty`,
     BOOKING_STATUS        : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}/refresh-status`,
     BOOKING_VOUCHER       : bookingId =>

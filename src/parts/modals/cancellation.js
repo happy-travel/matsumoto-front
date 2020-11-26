@@ -3,7 +3,7 @@ import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { dateFormat } from "simple";
+import { dateFormat, price } from "simple";
 import { Redirect } from "react-router-dom";
 import UI from "stores/ui-store";
 import store from "stores/accommodation-store";
@@ -13,6 +13,17 @@ class CancellationConfirmationModal extends React.Component {
     constructor(props) {
         super(props);
         this.bookingCancel = this.bookingCancel.bind(this);
+        this.state = {
+            penalty: null
+        };
+    }
+
+    componentDidMount() {
+        var { bookingId } = UI.modalData;
+        API.get({
+            url: API.BOOKING_PENALTY(bookingId),
+            success: (penalty) => this.setState({ penalty })
+        });
     }
 
     bookingCancel() {
@@ -34,7 +45,8 @@ class CancellationConfirmationModal extends React.Component {
     render() {
         var { t } = useTranslation(),
             data = UI.modalData,
-            { closeModal } = this.props;
+            { closeModal } = this.props,
+            { penalty } = this.state;
 
         return (
             <div class="confirm modal">
@@ -59,9 +71,19 @@ class CancellationConfirmationModal extends React.Component {
                 </p>
 
                 { moment().isAfter(data.deadlineDate) &&
-                <p class="danger">
-                    {t("Cancellation Deadline")} {dateFormat.a(data.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
-                </p> }
+                    <React.Fragment>
+                        <p>
+                            {t("Cancellation Deadline")} {dateFormat.a(data.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
+                        </p>
+                        <p class="danger">
+                            { penalty?.amount ?
+                                <>
+                                    {t("Cancellation cost")}: {price(penalty)}
+                                </> :
+                                <br />
+                            }
+                        </p>
+                    </React.Fragment>}
 
                 { !moment().isAfter(data.deadlineDate) &&
                 <p class="green">

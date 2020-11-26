@@ -378,6 +378,7 @@ translations: {
     "Reference code": "Reference code",
     "Event Type": "Event Type",
     "Payment Status": "Payment Status",
-    "At least": "At least"
+    "At least": "At least",
+    "Cancellation cost": "Cancellation cost"
 }
 };
