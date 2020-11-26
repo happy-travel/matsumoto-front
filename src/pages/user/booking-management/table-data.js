@@ -41,7 +41,7 @@ export const Columns = t => [
             </span>
             <br/>
             <span class="payment-amount">
-                {price(row.rate)}
+                {price(row.price)}
             </span>
         </>
     },

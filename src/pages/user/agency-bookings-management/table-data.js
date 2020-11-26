@@ -53,7 +53,7 @@ export const Columns = (t, setAgentIdFilter) => [
             </span>
             <br/>
             <span class="payment-amount">
-                {price(row.rate)}
+                {price(row.price)}
             </span>
         </>
     },
