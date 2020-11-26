@@ -36,6 +36,7 @@ service:
 ingress:
   enabled: true
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     projectcontour.io/ingress.class: "contour"
     projectcontour.io/retry-on: "5xx"
     projectcontour.io/num-retries: "3"
@@ -52,7 +53,7 @@ ingress:
       paths:
         - /        
   tls:
-   - secretName: happytravel-tls
+   - secretName: happytravel-tls-le
      hosts:
        - happytravel.com
        - www.happytravel.com
