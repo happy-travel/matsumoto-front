@@ -70,7 +70,7 @@ class CancellationConfirmationModal extends React.Component {
 
                 <div class="bottom">
                     <button
-                        class={"button" + __class(!moment().isAfter(data.deadline), "green")}
+                        class={"button" + __class(!moment().isAfter(data.deadlineDate), "green")}
                         onClick={this.bookingCancel}
                     >
                         {t("Cancel booking")}
