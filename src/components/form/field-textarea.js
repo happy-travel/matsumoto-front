@@ -47,7 +47,9 @@ class FieldTextarea extends FieldText {
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
                                 onKeyUp={ this.onKeyUp }
-                            />
+                            >
+                                {getIn(formik?.values, id)}
+                            </textarea>
                         </div> : getIn(formik?.values, id) }
                     </div>
                     {(errorText && isFieldTouched) ?
