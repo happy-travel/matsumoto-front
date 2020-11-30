@@ -55,6 +55,10 @@ class AuthStore {
         return this.user?.counterparties?.[0] || {};
     }
 
+    permitted(permission) {
+        return this.activeCounterparty?.inAgencyPermissions?.includes(permission) || false;
+    }
+
     setSettings(value = {}) {
         this.settings = {
             ...this.settings,

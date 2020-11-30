@@ -146,7 +146,7 @@ export default class AgentPermissionsManagement extends React.Component {
                     <b>{t("Main agent")}</b>
                 </div> : "" }
 
-                { authStore.activeCounterparty?.inAgencyPermissions?.includes("AgentStatusManagement") &&
+                { authStore.permitted("AgentStatusManagement") &&
                 <div>
                     {!agent.isActive ? <button
                         class="button transparent-with-border"

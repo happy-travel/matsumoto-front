@@ -94,7 +94,7 @@ class AgentsManagement extends React.Component {
 
                     {
                         (!!invitations?.length ||
-                        authStore.activeCounterparty?.inAgencyPermissions?.includes("ObserveAgencyInvitations")) &&
+                        authStore.permitted("ObserveAgencyInvitations")) &&
                         <React.Fragment>
                             <h2><span class="brand">{t("Unaccepted Invitations")}</span></h2>
                             <Table

@@ -15,7 +15,7 @@ class UserMenuDropdown extends React.Component {
         return (
             <React.Fragment>
                 <Link to={
-                    authStore.activeCounterparty?.inAgencyPermissions?.includes("AgencyBookingsManagement") ?
+                    authStore.permitted("AgencyBookingsManagement") ?
                         "/agency/bookings" :
                         "/agent/bookings"
                 } class="button transparent-with-border">

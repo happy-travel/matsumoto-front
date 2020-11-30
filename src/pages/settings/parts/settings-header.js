@@ -9,10 +9,11 @@ import authStore from "stores/auth-store";
 @observer
 class SettingsHeader extends React.Component {
     componentDidMount() {
-        API.get({
-            url: API.ACCOUNT_BALANCE("USD"),
-            success: balance => authStore.setBalance(balance)
-        });
+        if (authStore.permitted("ObserveBalance"))
+            API.get({
+                url: API.ACCOUNT_BALANCE("USD"),
+                success: balance => authStore.setBalance(balance)
+            });
     }
 
     render() {
@@ -39,12 +40,14 @@ class SettingsHeader extends React.Component {
                                     {authStore.activeCounterparty.counterpartyState?.replace(/([A-Z])/g, " $1").trim()}
                                 )
                             </h3>
-                            <div class="balance">
-                                <div><i class="icon icon-wallet" /></div>
-                                <span class="text">
-                                    {t("Balance")}: {price(authStore.balance?.currency, authStore.balance?.balance)}
-                                </span>
-                            </div>
+                            { authStore.permitted("ObserveBalance") &&
+                                <div class="balance">
+                                    <div><i class="icon icon-wallet"/></div>
+                                    <span class="text">
+                                        {t("Balance")}: {price(authStore.balance?.currency, authStore.balance?.balance)}
+                                    </span>
+                                </div>
+                            }
                         </div>
                     </div>
                 </section>
@@ -55,15 +58,17 @@ class SettingsHeader extends React.Component {
                     <NavLink to="/settings/counterparty">
                         {t("Agency Information")}
                     </NavLink>
-                    <NavLink to="/settings/agents">
-                        {t("Agent Management")}
-                    </NavLink>
-                    {authStore.activeCounterparty.inAgencyPermissions?.indexOf("AgentInvitation") != -1 &&
+                    {authStore.permitted("ObserveAgents") &&
+                        <NavLink to="/settings/agents">
+                            {t("Agent Management")}
+                        </NavLink>
+                    }
+                    {authStore.permitted("AgentInvitation") &&
                         <NavLink to="/settings/invite">
                             {t("Send invitation")}
                         </NavLink>
                     }
-                    { authStore.activeCounterparty.inAgencyPermissions?.indexOf("ObservePaymentHistory") != -1 &&
+                    { authStore.permitted("ObservePaymentHistory") &&
                         <NavLink to="/settings/account">
                             {t("Account statement")}
                         </NavLink>

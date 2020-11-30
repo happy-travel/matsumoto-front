@@ -131,7 +131,7 @@ render() {
                         }
                     ]}
                         backLink={
-                            authStore.activeCounterparty?.inAgencyPermissions?.includes("AgencyBookingsManagement") ?
+                            authStore.permitted("AgencyBookingsManagement") ?
                                 "/agency/bookings" :
                                 "/agent/bookings"
                         }
