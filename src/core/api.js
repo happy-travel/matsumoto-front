@@ -27,14 +27,14 @@ API_METHODS = {
     ACCOUNT_BALANCE       : currencyCode =>
                             v1 + `/payments/accounts/balance/${currencyCode}`,
 
-    USER                  : v1 + "/agents",
-    USER_REGISTRATION     : v1 + "/agents/register",
-    USER_REGISTRATION_M   : v1 + "/agents/register/master",
+    AGENT                 : v1 + "/agents",
+    AGENT_REGISTER        : v1 + "/agents/register",
+    AGENT_REGISTER_MASTER : v1 + "/agents/register/master",
 
-    USER_INVITE_DATA      : invitationCode =>
+    AGENT_INVITE_DATA     : invitationCode =>
                             v1 + "/agents/invitations/" + invitationCode,
-    USER_INVITE_SEND      : v1 + "/agents/invitations/send",
-    USER_INVITE_GET_LINK  : v1 + "/agents/invitations",
+    AGENT_INVITE_SEND     : v1 + "/agents/invitations/send",
+    AGENTS_INVITATIONS    : v1 + "/agents/invitations",
 
     ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
     A_BOOKING_FINALIZE    : referenceCode =>
@@ -115,7 +115,7 @@ API_METHODS = {
 let _ = API_METHODS;
 
 _.methods_dont_show_error = [
-    _.USER, _.AGENT_SETTINGS,
+    _.AGENT, _.AGENT_SETTINGS,
     _.PAYMENTS_CARD_NEW,
     _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
 ];

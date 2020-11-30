@@ -35,7 +35,7 @@ class RegistrationCounterparty extends React.Component {
         store.setRegistrationCounterpartyForm(values);
 
         API.post({
-            url: API.USER_REGISTRATION_M,
+            url: API.AGENT_REGISTER_MASTER,
             body: store.registration,
             success: () => {
                 finishAgentRegistration();

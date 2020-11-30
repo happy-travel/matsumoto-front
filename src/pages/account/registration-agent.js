@@ -19,7 +19,7 @@ import View from "stores/view-store";
 
 export const finishAgentRegistration = () => {
     API.get({
-        url: API.USER,
+        url: API.AGENT,
         success: (user) => {
             userAuthSetToStorage(user);
             if (user?.email)
@@ -54,7 +54,7 @@ class RegistrationAgent extends React.Component {
         store.setRegistrationUserForm(values);
         if (this.state.invitationCode) {
             API.post({
-                url: API.USER_REGISTRATION,
+                url: API.AGENT_REGISTER,
                 body: {
                     registrationInfo: {
                         ...values,
@@ -82,7 +82,7 @@ class RegistrationAgent extends React.Component {
         var invitationCode = getInvite();
         if (invitationCode)
             API.get({
-                url: API.USER_INVITE_DATA(invitationCode),
+                url: API.AGENT_INVITE_DATA(invitationCode),
                 success: data => {
                     this.setState({
                         invitationCode: invitationCode,

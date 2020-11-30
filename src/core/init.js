@@ -17,7 +17,7 @@ export const initApplication = () => {
 export const initUser = () => {
     if (!isSignUpRoutes()) {
         API.get({
-            url: API.USER,
+            url: API.AGENT,
             success: (result) => {
                 if (result?.email) {
                     authStore.setUser(result);

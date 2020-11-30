@@ -24,7 +24,7 @@ class UserInformation extends React.Component {
     submitUserData(values) {
         this.setState({ loading: true });
         API.put({
-            url: API.USER,
+            url: API.AGENT,
             body: values,
             success: (result) => {
                 authStore.setUser({

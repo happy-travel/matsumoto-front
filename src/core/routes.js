@@ -88,7 +88,7 @@ const Routes = () => (
         <Route path="/settings/account"           component={accountStatement} title="Account statement" />
         <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
 
-        <Route path="/settings/agents/:agentId/:counterpartyId/:agencyId/"
+        <Route path="/settings/agents/:agentId/"
                                                   component={agentPermissionsManagement} title="Agent Permissions" />
         <Route path="/settings/agents"            component={agentsManagement} title="Agent Management" />
 
