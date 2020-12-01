@@ -22,7 +22,6 @@ const searchFormFormatter = values => {
     }
 
     var body = {
-        filters: "Default",
         checkInDate: moment(values.checkInDate).utc(true).format(),
         checkOutDate: moment(values.checkOutDate).utc(true).format(),
         roomDetails: roomDetails,
