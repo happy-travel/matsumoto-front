@@ -43,7 +43,7 @@ class AccommodationBookingPage extends React.Component {
         store.setBookingToPay(null);
         API.get({
             url: API.AGENCY_PAYMENT_OPTION,
-            success: availablePayments => this.setState({ availablePayments: 'CreditCard' })
+            success: availablePayments => this.setState({ availablePayments })
         });
         API.get({
             url: API.ACCOUNT_BALANCE("USD"),

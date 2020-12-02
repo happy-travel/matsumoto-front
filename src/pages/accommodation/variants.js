@@ -98,8 +98,8 @@ class AccommodationVariantsPage extends React.Component {
                         sorter={value => loadCurrentSearchWithNewOrder(value)}
                         options={[
                             { title: t("Usual"), order: {} },
-                            { title: t("Price: high to low"), order: { price: 1 } },
-                            { title: t("Price: low to high"), order: { price: -1 } },
+                            { title: t("Price (high to low)"), order: { price: 1 } },
+                            { title: t("Price (low to high)"), order: { price: -1 } },
                         ]}
                     />
                     { /* todo:
