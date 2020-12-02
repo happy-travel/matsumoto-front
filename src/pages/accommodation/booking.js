@@ -25,32 +25,33 @@ import store, { PAYMENT_METHODS } from "stores/accommodation-store";
 import View from "stores/view-store";
 import authStore, { APR_VALUES } from "stores/auth-store";
 
-const isPaymentAvailable = (balance, APR) => (
-    balance?.currency && (balance.balance >= 0) && !(APR && (authStore.agencyAPR < APR_VALUES.CardAndAccountPurchases))
-);
-
 @observer
 class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToPayment: false
+            redirectToPayment: false,
+            availablePayments: 'CreditCardAndBankTransfer'
         };
         this.submit = this.submit.bind(this);
+        this.isAccountPaymentAvailable = this.isAccountPaymentAvailable.bind(this);
     }
 
     componentDidMount() {
         store.setBookingRequest(null);
         store.setBookingReferenceCode(null);
-        store.setPaymentMethod(PAYMENT_METHODS.CARD);
-        API.get({
-            url: API.AGENCY_PAYMENT_OPTION
-        });
         store.setBookingToPay(null);
-
+        API.get({
+            url: API.AGENCY_PAYMENT_OPTION,
+            success: availablePayments => this.setState({ availablePayments: 'CreditCard' })
+        });
         API.get({
             url: API.ACCOUNT_BALANCE("USD"),
             success: balance => authStore.setBalance(balance)
+        });
+        API.get({
+            url: API.COUNTERPARTY_INFO,
+            success: counterparty => store.setPaymentMethod(counterparty.preferredPaymentMethod)
         });
     }
 
@@ -87,18 +88,18 @@ class AccommodationBookingPage extends React.Component {
         }
 
         var request = {
-            "searchId": store.search.id,
-            "resultId": store.selected.accommodation.id,
-            "roomContractSetId": variant.id,
-            "nationality": search.nationality,
-            "paymentMethod": store.paymentMethod,
-            "residency": search.residency,
-            "mainPassengerName": roomDetails[0].passengers[0].firstName + " " + roomDetails[0].passengers[0].lastName,
-            "agentReference": values.agentReference,
-            "roomDetails": roomDetails,
-            "features": [],
-            "itineraryNumber": values.itineraryNumber,
-            "supplier": store.selected.accommodation.source
+            searchId: store.search.id,
+            resultId: store.selected.accommodation.id,
+            roomContractSetId: variant.id,
+            nationality: search.nationality,
+            paymentMethod: store.paymentMethod,
+            residency: search.residency,
+            mainPassengerName: roomDetails[0].passengers[0].firstName + " " + roomDetails[0].passengers[0].lastName,
+            agentReference: values.agentReference,
+            roomDetails: roomDetails,
+            features: [],
+            itineraryNumber: values.itineraryNumber,
+            supplier: store.selected.accommodation.source
         };
         store.setBookingRequest(request);
 
@@ -140,6 +141,23 @@ class AccommodationBookingPage extends React.Component {
                 after,
                 error
             });
+    }
+
+    isAccountPaymentAvailable() {
+        var balance = authStore.balance,
+            APR = store.selected.roomContractSet?.isAdvancePurchaseRate;
+
+        var result = (
+            balance?.currency &&
+            (balance.balance >= 0) &&
+            !(APR && (authStore.agencyAPR < APR_VALUES.CardAndAccountPurchases)) &&
+            (this.state.availablePayments != 'CreditCard')
+        );
+
+        if (!result && (PAYMENT_METHODS.ACCOUNT == store.paymentMethod))
+            store.setPaymentMethod(PAYMENT_METHODS.CARD);
+
+        return result;
     }
 
     render() {
@@ -363,19 +381,18 @@ class AccommodationBookingPage extends React.Component {
                                         </h3>
                                     }
                                     <div class="list">
-                                        <div
-                                            class={"item" +
-                                                __class(!isPaymentAvailable(authStore.balance, variant?.isAdvancePurchaseRate), "disabled") +
-                                                __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
-                                            }
-                                            onClick={isPaymentAvailable(authStore.balance, variant?.isAdvancePurchaseRate)
-                                                ? () => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)
-                                                : () => {}}
-                                        >
-                                            <span class="icon icon-radio" />
-                                            {t("Account balance")} {(authStore.settings.availableCredit === true) &&
-                                                <span>{"(" + price(authStore.balance?.currency, authStore.balance?.balance).trim() + ")"}</span>}
-                                        </div>
+                                        { this.isAccountPaymentAvailable() &&
+                                            <div
+                                                class={"item" +
+                                                    __class(PAYMENT_METHODS.ACCOUNT == store.paymentMethod, "selected")
+                                                }
+                                                onClick={() => store.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)}
+                                            >
+                                                <span class="icon icon-radio" />
+                                                {t("Account balance")} {(authStore.settings.availableCredit === true) &&
+                                                    <span>{"(" + price(authStore.balance?.currency, authStore.balance?.balance).trim() + ")"}</span>}
+                                            </div>
+                                        }
                                         <div
                                             class={"item" +
                                                 __class(PAYMENT_METHODS.CARD == store.paymentMethod, "selected")

@@ -57,36 +57,24 @@
             padding: 50px 0
             display: flex
             flex-direction: row
+            justify-content: space-between
             .icon
                 margin-right: 23px
             .item
-                margin-right: 22px
                 height: 109px
+                width: 400px
                 border: 1px solid $color-text-light
                 border-radius: 4px
-                padding: 42px 30px
+                padding: 42px 30px 0
                 line-height: 24px
                 font-size: 18px
-                flex-grow: 1
-                flex-basis: 0
                 color: $color-text-light
                 cursor: pointer
-                &:last-child
-                    margin-right: 0
-                    margin-left: 22px
-                    padding-right: 0
                 span
                     color: $color-text-light
                 &:hover
                     color: $color-text
                     border-color: $color-text
-                &.disabled
-                    cursor: default
-                    border: 1px solid $color-usual-gray
-                    color: $color-usual-gray
-                    &:hover, & span
-                        color: $color-usual-gray
-                        border-color: $color-usual-gray
                 &.selected
                     color: $color-text
                     border-color: $color-brand
