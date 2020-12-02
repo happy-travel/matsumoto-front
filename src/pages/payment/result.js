@@ -25,6 +25,9 @@ class PaymentResultPage extends BasicPaymentPage {
         }
 
         if (!params.token_name) {
+            var message = "Payment processing error: No token received from payment system. ";
+            if (params.response_message)
+                message += "Details: " + params.response_message;
             this.callback(null, {"status":400,"detail":"Payment processing error: No token received from payment system"});
             return;
         }
