@@ -24,6 +24,11 @@ class PaymentResultPage extends BasicPaymentPage {
             return;
         }
 
+        if (!params.token_name) {
+            this.callback(null, {"status":400,"detail":"Payment processing error: No token received from payment system"});
+            return;
+        }
+
         var request = {
             referenceCode: bookingReference,
             token: params.token_name,
