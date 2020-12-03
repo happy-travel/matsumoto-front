@@ -21,7 +21,7 @@ class UserMenuDropdown extends React.Component {
                 } class="button transparent-with-border">
                     {t("Bookings")}
                 </Link>
-                <Link to="/settings/personal" class="switcher user-switcher">
+                <Link to="/settings" class="switcher user-switcher">
                     <div class="avatar" />
                     <div class="double">
                         <div

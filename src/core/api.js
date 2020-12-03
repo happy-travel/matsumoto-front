@@ -35,6 +35,8 @@ API_METHODS = {
                             v1 + "/agents/invitations/" + invitationCode,
     AGENT_INVITE_SEND     : v1 + "/agents/invitations/send",
     AGENTS_INVITATIONS    : v1 + "/agents/invitations",
+    AGENCY_INVITATIONS    : v1 + "/agency/invitations",
+    AGENT_INVITATIONS     : v1 + "/agent/invitations", // temporary route duplicate
 
     ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
     A_BOOKING_FINALIZE    : referenceCode =>

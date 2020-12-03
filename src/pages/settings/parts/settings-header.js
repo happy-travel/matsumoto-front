@@ -52,7 +52,7 @@ class SettingsHeader extends React.Component {
                     </div>
                 </section>
                 <div>
-                    <NavLink to="/settings/personal" activeClassName="active">
+                    <NavLink exact to="/settings">
                         {t("Personal Settings")}
                     </NavLink>
                     <NavLink to="/settings/counterparty">
@@ -64,8 +64,8 @@ class SettingsHeader extends React.Component {
                         </NavLink>
                     }
                     {authStore.permitted("AgentInvitation") &&
-                        <NavLink to="/settings/invite">
-                            {t("Send invitation")}
+                        <NavLink to="/settings/invitations">
+                            {t("Invitations")}
                         </NavLink>
                     }
                     { authStore.permitted("ObservePaymentHistory") &&

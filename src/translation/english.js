@@ -309,7 +309,7 @@ translations: {
     "Search...": "Search...",
     "Send invitation": "Send invitation",
     "Invitations": "Invitations",
-    "Invite an agent to your company": "Invite an agent to your company",
+    "Invite an agent": "Invite an agent",
     "Your invitation sent": "Your invitation sent",
     "Your invitation sent to": "Your invitation sent to",
     "Send one more invite": "Send one more invite",

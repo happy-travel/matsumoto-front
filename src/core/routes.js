@@ -21,7 +21,8 @@ import acceptInvite               from "pages/account/accept-invite";
 import userBookingManagement      from "pages/user/booking-management/booking-management";
 import agencyBookingsManagement   from "pages/user/agency-bookings-management/agency-bookings-management";
 import accountStatement           from "pages/user/account-statement/account-statement";
-import userInvite                 from "pages/user/create-invite";
+import invitationsManagement      from "pages/settings/invitations";
+import invitationCreate           from "pages/settings/create-invite";
 
 import agentsManagement           from "pages/settings/agents-management";
 import agentPermissionsManagement from "pages/settings/agent-permissions-management";
@@ -49,7 +50,7 @@ export const routesWithHeaderAndFooter = [
     "/payment/form",
     "/agent/bookings",
     "/agency/bookings",
-    "/settings/*",
+    "/settings*",
 ];
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
@@ -86,13 +87,14 @@ const Routes = () => (
         <Route path="/agent/bookings"             component={userBookingManagement} title="Your Bookings" />
         <Route path="/agency/bookings"            component={agencyBookingsManagement} title="Agency Bookings" />
         <Route path="/settings/account"           component={accountStatement} title="Account statement" />
-        <Route path="/settings/invite"            component={userInvite} title="Send Invite" />
+        <Route path="/settings/invite"            component={invitationCreate} title="Agency Invitations" />
+        <Route path="/settings/invitations"       component={invitationsManagement} title="Agency Invitations" />
 
         <Route path="/settings/agents/:agentId/"
                                                   component={agentPermissionsManagement} title="Agent Permissions" />
         <Route path="/settings/agents"            component={agentsManagement} title="Agent Management" />
 
-        <Route path="/settings/personal"          component={personalSettings} title="Personal Settings" />
+        <Route path="/settings"                   component={personalSettings} title="Personal Settings" />
         <Route path="/settings/counterparty"      component={counterpartySettings} title="Counterparty Settings" />
 
         <Route path="/contact"                    component={contactUsPage} title="Contact Us" />

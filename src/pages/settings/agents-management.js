@@ -29,29 +29,13 @@ const agentsColumns = t => [
     }
 ];
 
-const invitationsColumns = t => [
-    {
-        header: "Email",
-        cell: "email"
-    },
-    {
-        header: t("Name"),
-        cell: (passenger) => PassengerName({ passenger })
-    },
-    {
-        header: "Position",
-        cell: "position"
-    }
-];
-
 @observer
 class AgentsManagement extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             redirect: null,
-            agents: null,
-            invitations: null
+            agents: null
         };
     }
 
@@ -63,16 +47,11 @@ class AgentsManagement extends React.Component {
             url: API.AGENCY_AGENTS,
             success: agents => this.setState({ agents })
         });
-
-        API.get({
-            url: API.AGENTS_INVITATIONS,
-            success: invitations => this.setState({ invitations })
-        });
     }
 
     render() {
         var { t } = useTranslation(),
-            { redirect, agents, invitations } = this.state;
+            { redirect, agents } = this.state;
 
         if (redirect)
             return <Redirect push to={redirect} />;
@@ -91,19 +70,6 @@ class AgentsManagement extends React.Component {
                         textEmptyResult={t("No agents found")}
                         textEmptyList={t("The agents list is empty")}
                     />
-
-                    {
-                        (!!invitations?.length ||
-                        authStore.permitted("ObserveAgencyInvitations")) &&
-                        <React.Fragment>
-                            <h2><span class="brand">{t("Unaccepted Invitations")}</span></h2>
-                            <Table
-                                list={invitations}
-                                columns={invitationsColumns(t)}
-                                textEmptyList={t("There are no available invitations")}
-                            />
-                        </React.Fragment>
-                    }
                 </section>
             </div>
         );

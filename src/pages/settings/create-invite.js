@@ -91,19 +91,20 @@ class UserInvitePage extends React.Component {
     <div class="settings block">
         <SettingsHeader />
         <section>
-            <h2><span class="brand">{t("Invite an agent to your company")}</span></h2>
+            <h2><span class="brand">{t("Invite an agent")}</span></h2>
             { this.state.success === null && <Loader /> }
             { this.state.success && <div>
                 {this.state.success === true ?
                 <div>
                     { this.state.name ?
-                        <h2>{t("Your invitation sent to")} {this.state.name}</h2> :
-                        <h2>{t("Your invitation sent")}</h2> }
+                        <h3>{t("Your invitation sent to")} {this.state.name}</h3> :
+                        <h3>{t("Your invitation sent")}</h3> }
                     <br/>
                 </div> :
                 <div>
                     <div class="form">
-                        <h2>{t("Send this link as an invitation")}</h2>
+                        <h3>{t("Send this link as an invitation")}</h3>
+                        <br/>
                         <FieldText
                             value={this.state.success}
                         />
@@ -113,11 +114,9 @@ class UserInvitePage extends React.Component {
                         {t("Copy to clipboard")}
                     </button>
                 </div>}
-                <div style={{ marginTop: "100px" }}>
-                    <button class="button payment-back" onClick={this.reset}>
-                        {t("Send one more invite")}
-                    </button>
-                </div>
+                <button class="button payment-back" onClick={this.reset}>
+                    {t("Send one more invite")}
+                </button>
             </div> }
             { false === this.state.success && <p>
                 {t("Invite someone to create a free Happytravel.com account and start booking today.")}<br/>
