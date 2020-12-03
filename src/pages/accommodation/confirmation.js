@@ -74,15 +74,18 @@ class AccommodationConfirmationPage extends React.Component {
     loadBooking() {
         store.setBookingResult(null);
 
-        var bookingId = this.props?.match?.params?.id;
-        if (bookingId) {
-            store.setPaymentResult(null);
+        var bookingId = this.props?.match?.params?.id,
+            referenceCode = store.paymentResult?.params?.settlement_reference || store.paymentResult?.params?.referenceCode;
+
+        if (bookingId || referenceCode) {
+            if (bookingId)
+                store.setPaymentResult(null);
             this.setState({
                 fromGetter: true,
                 fromHistory: !!bookingId
             });
             API.get({
-                url: API.BOOKING_GET_BY_ID(bookingId),
+                url: referenceCode ? API.BOOKING_GET_BY_CODE(referenceCode) : API.BOOKING_GET_BY_ID(bookingId),
                 after: (result, err, data) => store.setBookingResult(result || {}, data, err)
             });
         }
