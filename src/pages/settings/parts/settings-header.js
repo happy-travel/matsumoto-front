@@ -64,7 +64,7 @@ class SettingsHeader extends React.Component {
                         </NavLink>
                     }
                     {authStore.permitted("AgentInvitation") &&
-                        <NavLink to="/settings/invitations">
+                        <NavLink to="/settings/invitations" >
                             {t("Invitations")}
                         </NavLink>
                     }

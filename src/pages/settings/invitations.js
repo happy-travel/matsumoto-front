@@ -46,7 +46,10 @@ class InvitationsManagement extends React.Component {
 
         API.get({
             url,
-            success: invitations => this.setState({ invitations })
+            success: invitations => this.setState({
+                invitations,
+                redirect: invitations.length ? '/settings/invitations/create' : null
+            })
         });
     }
 
@@ -78,7 +81,7 @@ class InvitationsManagement extends React.Component {
                                     />
                                 </React.Fragment>
                             }
-                            <Link to="/settings/invite">
+                            <Link to="/settings/invitations/create">
                                 <button class="button payment-back">
                                     {t("Invite an agent")}
                                 </button>

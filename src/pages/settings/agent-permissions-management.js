@@ -18,8 +18,8 @@ const generateLabel = str => {
         return "Unknown";
     var split = str.split(/([A-Z])/);
     for (var i = 0; i < split.length; i++)
-        if (split[i].length > 1)
-            split[i]+= " ";
+        if (split[i].match(/([A-Z])/))
+            split[i]= " " + split[i];
     return split.join("");
 };
 
@@ -147,6 +147,7 @@ export default class AgentPermissionsManagement extends React.Component {
                 </div> : "" }
 
                 { authStore.permitted("AgentStatusManagement") &&
+                  authStore.user.id != agent.agentId &&
                 <div>
                     {!agent.isActive ? <button
                         class="button transparent-with-border"

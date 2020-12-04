@@ -87,7 +87,7 @@ const Routes = () => (
         <Route path="/agent/bookings"             component={userBookingManagement} title="Your Bookings" />
         <Route path="/agency/bookings"            component={agencyBookingsManagement} title="Agency Bookings" />
         <Route path="/settings/account"           component={accountStatement} title="Account statement" />
-        <Route path="/settings/invite"            component={invitationCreate} title="Agency Invitations" />
+        <Route path="/settings/invitations/create"            component={invitationCreate} title="Agency Invitations" />
         <Route path="/settings/invitations"       component={invitationsManagement} title="Agency Invitations" />
 
         <Route path="/settings/agents/:agentId/"
