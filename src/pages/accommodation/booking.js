@@ -77,7 +77,7 @@ class AccommodationBookingPage extends React.Component {
                     "title": values.room[r].passengers[i].title,
                     "firstName": values.room[r].passengers[i].firstName,
                     "lastName": values.room[r].passengers[i].lastName,
-                    "age": i < adults ? 33 : (store.search.request.roomDetails[r].childrenAges[i-adults] || 12),
+                    "age": i < adults ? 33 : (variant?.rooms[r]?.childrenAges[i-adults] || 12),
                     ...( i == 0 ? {"isLeader": true} : {} )
                 });
 
