@@ -27,16 +27,18 @@ API_METHODS = {
     ACCOUNT_BALANCE       : currencyCode =>
                             v1 + `/payments/accounts/balance/${currencyCode}`,
 
-    AGENT                 : v1 + "/agents",
-    AGENT_REGISTER        : v1 + "/agents/register",
-    AGENT_REGISTER_MASTER : v1 + "/agents/register/master",
-
+    AGENT                 : v1 + "/agent",
+    AGENT_REGISTER        : v1 + "/agent/register",
+    AGENT_REGISTER_MASTER : v1 + "/agent/register-master",
+    AGENT_PROPERTIES      : v1 + "/agent/properties",
     AGENT_INVITE_DATA     : invitationCode =>
-                            v1 + "/agents/invitations/" + invitationCode,
-    AGENT_INVITE_SEND     : v1 + "/agents/invitations/send",
-    AGENTS_INVITATIONS    : v1 + "/agents/invitations",
+                            v1 + "/agent/invitations/" + invitationCode,
+    AGENT_INVITE_SEND     : v1 + "/agent/invitations/send",
+    AGENT_INVITE_GENERATE : v1 + "/agent/invitations/generate",
+    AGENT_INVITE_RESEND   : invitationId =>
+                            v1 + `/agent/invitations/${invitationId}/resend`,
+    AGENT_INVITATIONS     : v1 + "/agent/invitations",
     AGENCY_INVITATIONS    : v1 + "/agency/invitations",
-    AGENT_INVITATIONS     : v1 + "/agent/invitations", // temporary route duplicate
 
     ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
     A_BOOKING_FINALIZE    : referenceCode =>
@@ -92,11 +94,11 @@ API_METHODS = {
     AGENCY_AGENT         : agentId =>
                            v1 + `/agency/agents/${agentId}`,
     AGENT_ENABLE         : agentId =>
-                           v1 + `/agents/${agentId}/enable`,
+                           v1 + `/agency/agents/${agentId}/enable`,
     AGENT_DISABLE        : agentId =>
-                           v1 + `/agents/${agentId}/disable`,
+                           v1 + `/agency/agents/${agentId}/disable`,
     COUNTERPARTY_INFO    : v1 + `/counterparty`,
-    AGENT_SETTINGS       : v1 + `/agents/settings/application`,
+    AGENT_SETTINGS       : v1 + `/agent/settings/application`,
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
     AGENT_PERMISSIONS    : agentId =>
                            v1 + `/agency/agents/${agentId}/permissions`,

@@ -47,7 +47,7 @@ class UserInvitePage extends React.Component {
     submit(values) {
         this.setState({ success: null });
         API.post({
-            url: values.send ? API.AGENT_INVITE_SEND : API.AGENTS_INVITATIONS,
+            url: values.send ? API.AGENT_INVITE_SEND : API.AGENT_INVITE_GENERATE,
             body: {
                 email: values.email,
                 agencyId: authStore.activeCounterparty.agencyId,
