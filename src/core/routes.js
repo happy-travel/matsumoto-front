@@ -93,9 +93,8 @@ const Routes = () => (
         <Route path="/settings/agents/:agentId/"
                                                   component={agentPermissionsManagement} title="Agent Permissions" />
         <Route path="/settings/agents"            component={agentsManagement} title="Agent Management" />
-
-        <Route path="/settings"                   component={personalSettings} title="Personal Settings" />
         <Route path="/settings/counterparty"      component={counterpartySettings} title="Counterparty Settings" />
+        <Route path="/settings"                   component={personalSettings} title="Personal Settings" />
 
         <Route path="/contact"                    component={contactUsPage} title="Contact Us" />
         <Route path="/terms"                      component={termsPage} title="Terms & Conditions" />

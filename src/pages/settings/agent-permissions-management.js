@@ -195,16 +195,6 @@ export default class AgentPermissionsManagement extends React.Component {
                                         <div class="field">
                                             <div class="label"/>
                                             <div class="inner">
-                                                {formik.dirty &&
-                                                <button type="submit" class="button transparent-with-border"
-                                                        onClick={() => this.setState({ redirectBack: true })}>
-                                                    {t("Exit, no changes")}
-                                                </button>}
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="label"/>
-                                            <div class="inner">
                                                 <button type="submit" class={"button button-controls" +
                                                 __class(!formik.dirty, "disabled")}>
                                                     {t("Save changes")}
