@@ -310,7 +310,7 @@ render() {
                                 {t("Pay now by Card")}
                             </button>
                         }
-                        { "Paid" == data.paymentStatus &&
+                        { "Captured" == data.paymentStatus &&
                             <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
                                 {t("Send Voucher")}
                             </button>
