@@ -92,9 +92,6 @@ export default class AgentPermissionsManagement extends React.Component {
             url = API.AGENT_PERMISSIONS(agentId),
             body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
 
-        if (!body.length)
-            body = ["NONE"];
-
         API.put({
             url,
             body,
