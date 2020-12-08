@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 
-import { Loader } from "simple";
+import { Loader, copyToClipboard } from "simple";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationUserValidatorWithEmail } from "components/form/validation";
 import FormUserData from "parts/form-user-data";
@@ -13,27 +13,8 @@ import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
 import View from "stores/view-store";
 
-const copyToClipboard = text => {
-    if (window.clipboardData && window.clipboardData.setData) {
-        return clipboardData.setData("Text", text);
-    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
-        var textarea = document.createElement("textarea");
-        textarea.textContent = text;
-        textarea.style.position = "fixed";
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            return document.execCommand("copy");
-        } catch (ex) {
-            return false;
-        } finally {
-            document.body.removeChild(textarea);
-        }
-    }
-};
-
 @observer
-class UserInvitePage extends React.Component {
+class InvitationSendPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -111,7 +92,7 @@ class UserInvitePage extends React.Component {
                     </div>
                     <br/>
                     <button class="button small" onClick={() => copyToClipboard(this.state.success)}>
-                        {t("Copy to clipboard")}
+                        {t("Copy to Clipboard")}
                     </button>
                 </div>}
                 <button class="button payment-back" onClick={this.reset}>
@@ -151,7 +132,7 @@ class UserInvitePage extends React.Component {
                                     <div class="inner">
                                         <button onClick={() => this.submitButtonClick(true, formik)}
                                                 class={"button" + __class(!formik.isValid, "disabled")}>
-                                            {t("Send invitation")}
+                                            {t("Send Invitation")}
                                         </button>
                                     </div>
                                 </div>
@@ -159,7 +140,7 @@ class UserInvitePage extends React.Component {
                                     <div class="inner">
                                         <button onClick={() => this.submitButtonClick(false, formik)}
                                                 class={"button" + __class(!formik.isValid, "disabled")}>
-                                            {t("Generate invitation link")}
+                                            {t("Generate Invitation Link")}
                                         </button>
                                     </div>
                                 </div>
@@ -174,4 +155,4 @@ class UserInvitePage extends React.Component {
     }
 }
 
-export default UserInvitePage;
+export default InvitationSendPage;

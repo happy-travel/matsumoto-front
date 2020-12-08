@@ -48,7 +48,7 @@ class InvitationsManagement extends React.Component {
             url,
             success: invitations => this.setState({
                 invitations,
-                redirect: invitations.length ? '/settings/invitations/create' : null
+                redirect: invitations.length ? null : '/settings/invitations/send'
             })
         });
     }
@@ -78,10 +78,13 @@ class InvitationsManagement extends React.Component {
                                         list={invitations}
                                         columns={invitationsColumns(t)}
                                         textEmptyList={t("There are no available invitations")}
+                                        onRowClick={item => this.setState({
+                                            redirect: `/settings/invitations/${item.id}`
+                                        })}
                                     />
                                 </React.Fragment>
                             }
-                            <Link to="/settings/invitations/create">
+                            <Link to="/settings/invitations/send">
                                 <button class="button payment-back">
                                     {t("Invite an agent")}
                                 </button>

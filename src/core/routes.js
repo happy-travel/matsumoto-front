@@ -22,7 +22,8 @@ import userBookingManagement      from "pages/user/booking-management/booking-ma
 import agencyBookingsManagement   from "pages/user/agency-bookings-management/agency-bookings-management";
 import accountStatement           from "pages/user/account-statement/account-statement";
 import invitationsManagement      from "pages/settings/invitations";
-import invitationCreate           from "pages/settings/create-invite";
+import invitationSend             from "pages/settings/invitation-send";
+import invitationResend           from "pages/settings/invitation-resend";
 
 import agentsManagement           from "pages/settings/agents-management";
 import agentPermissionsManagement from "pages/settings/agent-permissions-management";
@@ -86,9 +87,10 @@ const Routes = () => (
 
         <Route path="/agent/bookings"             component={userBookingManagement} title="Your Bookings" />
         <Route path="/agency/bookings"            component={agencyBookingsManagement} title="Agency Bookings" />
-        <Route path="/settings/account"           component={accountStatement} title="Account statement" />
-        <Route path="/settings/invitations/create"            component={invitationCreate} title="Agency Invitations" />
-        <Route path="/settings/invitations"       component={invitationsManagement} title="Agency Invitations" />
+        <Route path="/settings/account"           component={accountStatement} title="Account Statement" />
+        <Route path="/settings/invitations/send"  component={invitationSend} title="Invite an Agent" />
+        <Route path="/settings/invitations/:id"   component={invitationResend} title="Invitation" />
+        <Route path="/settings/invitations"       component={invitationsManagement} title="Invitations" />
 
         <Route path="/settings/agents/:agentId/"
                                                   component={agentPermissionsManagement} title="Agent Permissions" />
