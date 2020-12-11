@@ -5,7 +5,6 @@ import View from "stores/view-store";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
-
 API_METHODS = {
 
     BASE_REGIONS          : v1 + "/locations/regions",
@@ -97,8 +96,9 @@ API_METHODS = {
                            v1 + `/agency/agents/${agentId}/enable`,
     AGENT_DISABLE        : agentId =>
                            v1 + `/agency/agents/${agentId}/disable`,
-    COUNTERPARTY_INFO    : v1 + `/counterparty`,
-    AGENT_SETTINGS       : v1 + `/agent/settings/application`,
+    COUNTERPARTY_INFO    : v1 + "/counterparty",
+    COUNTERPARTY_FILE    : v1 + "/counterparty/contract-file",
+    AGENT_SETTINGS       : v1 + "/agent/settings/application",
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
     AGENT_PERMISSIONS    : agentId =>
                            v1 + `/agency/agents/${agentId}/permissions`,
@@ -136,7 +136,8 @@ _.request = ({
     response, // function(response)                - Fires first
     success,  // function(result)                  - Fires second on success
     error,    // function(error)                   - Fires second on error,
-    after     // function(result, error, response) - Fires the last
+    after,    // function(result, error, response) - Fires the last
+    isFile = false
 }) => {
 Authorize.getUser().then(user => {
     if (!external_url && !user?.access_token) {
@@ -171,10 +172,21 @@ Authorize.getUser().then(user => {
         .then(res => {
             rawResponse = res;
             failed = !res || (res && res.status >= 300);
-            if (response)
+            if (response) {
                 response(res);
+                return;
+            }
             return res.text().then(text => {
-                return text ? JSON.parse(text) : {}
+                var value = null;
+                if (text) {
+                    try {
+                        value = JSON.parse(text);
+                    }
+                    catch (e) {
+                        value = text;
+                    }
+                }
+                return value;
             });
         })
         .then(

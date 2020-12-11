@@ -1,4 +1,5 @@
 import React from "react";
+import { API } from "core";
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
@@ -10,6 +11,7 @@ import SettingsHeader from "./parts/settings-header";
 import { loadCounterpartyInfo } from "simple/logic/user-settings";
 
 import authStore from "stores/auth-store";
+import View from "stores/view-store";
 
 @observer
 export default class CounterpartySettings extends React.Component {
@@ -24,6 +26,28 @@ export default class CounterpartySettings extends React.Component {
         loadCounterpartyInfo(
             () => this.setState({ loading: false })
         );
+    }
+
+    downloadContract() {
+        API.get({
+            url: API.COUNTERPARTY_FILE,
+            response: res => {
+                if (res.status == 400)
+                    View.setTopAlertText("Couldn't get a contract file");
+                if (res.status == 200)
+                    res.blob().then(blobby => {
+                        var anchor = document.createElement("a");
+                        document.body.appendChild(anchor);
+
+                        var objectUrl = window.URL.createObjectURL(blobby);
+                        anchor.href = objectUrl;
+                        anchor.download = 'contract.pdf';
+                        anchor.click();
+
+                        window.URL.revokeObjectURL(objectUrl);
+                    });
+            }
+        })
     }
 
     render() {
@@ -66,6 +90,14 @@ export default class CounterpartySettings extends React.Component {
                             <b>{t("Currency")}</b>:{" "}
                             {formik.values.preferredCurrency}
                         </div>
+
+                        {authStore.permitted("ObserveCounterpartyContract") &&
+                            <div class="row">
+                                <button class="button small" onClick={this.downloadContract}>
+                                    Download contract file
+                                </button>
+                            </div>
+                        }
 
                         <h2><span class="brand">{t("Agency Information")}</span></h2>
                         <div class="row">
