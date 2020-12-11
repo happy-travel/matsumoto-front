@@ -311,6 +311,7 @@ render() {
                             </button>
                         }
                         { "Captured" == data.paymentStatus &&
+                          "Confirmed" == booking.status &&
                             <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
                                 {t("Send Voucher")}
                             </button>
