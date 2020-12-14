@@ -119,7 +119,7 @@ API_METHODS = {
 let _ = API_METHODS;
 
 _.methods_dont_show_error = [
-    _.AGENT, _.AGENT_SETTINGS,
+    _.AGENT_SETTINGS,
     _.PAYMENTS_CARD_NEW,
     _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
 ];
@@ -136,8 +136,7 @@ _.request = ({
     response, // function(response)                - Fires first
     success,  // function(result)                  - Fires second on success
     error,    // function(error)                   - Fires second on error,
-    after,    // function(result, error, response) - Fires the last
-    isFile = false
+    after     // function(result, error, response) - Fires the last
 }) => {
 Authorize.getUser().then(user => {
     if (!external_url && !user?.access_token) {

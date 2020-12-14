@@ -96,10 +96,7 @@ export default class AgentPermissionsManagement extends React.Component {
             url,
             body,
             success: () => this.setState({ redirectBack: true }),
-            error: () => {
-                this.setState({ loading: false });
-                Notifications.addNotification("Unable to save agent permissions, please try later");
-            }
+            after: () => this.setState({ loading: false })
         });
     };
 
