@@ -7,7 +7,7 @@
     h2
         font-size: 20px
         line-height: 24px
-        margin: 45px 0 37px
+        margin: 10px 0 37px
         &.underline
             padding: 0 0 25px
             margin-bottom: 33px
@@ -15,6 +15,15 @@
             border-bottom: 1px solid $color-usual-gray
         &.payment-title
             margin-bottom: 15px
+
+    .line
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        flex-grow: 1
+
+    .room-part
+        margin-bottom: 90px
 
     .actions
         margin-top: 90px
@@ -35,58 +44,49 @@
                 margin-left: 0
                 margin-bottom: 6px
 
-    &.nova
-        h2
-            margin-top: 10px
-        .line
-            display: flex
-            flex-direction: row
-            justify-content: space-between
-            flex-grow: 1
-        .room-part
-            margin-bottom: 90px
-        .part
-            display: flex
-            flex-direction: row
-            margin-bottom: 30px
-            &.no-icon
-                padding-left: 74px
-                margin-top: -15px
-            &.remarks
-                flex-direction: column
-                margin-bottom: 50px
-                div
-                    margin-bottom: 15px
-                    line-height: 22px
-            .dual
-                padding: 2px 45px 18px 0
-                flex-direction: column
-                justify-content: flex-start
-                &.grow
-                    flex-basis: 218%
-                .first
-                    font-size: 13px
-                    line-height: 16px
-                    margin-bottom: 3px
-                    color: $color-dark-gray
-                .second
-                    font-size: 15px
-                    line-height: 26px
-                    text-align: left
-        .icon-holder
-            margin-right: 28px
+    .part
+        display: flex
+        flex-direction: row
+        margin-bottom: 30px
+        &.no-icon
+            padding-left: 74px
+            margin-top: -15px
+        &.remarks
+            flex-direction: column
+            margin-bottom: 50px
+            div
+                margin-bottom: 15px
+                line-height: 22px
+        .dual
+            padding: 2px 45px 18px 0
+            flex-direction: column
+            justify-content: flex-start
+            &.grow
+                flex-basis: 218%
+            .first
+                font-size: 13px
+                line-height: 16px
+                margin-bottom: 3px
+                color: $color-dark-gray
+            .second
+                font-size: 15px
+                line-height: 26px
+                text-align: left
+
+    .icon-holder
+        margin-right: 28px
+        width: 46px
+        height: 46px
+        display: block
+        .icon-confirmation-circle
+            color: #FBAA1C
+            text-align: center
             width: 46px
-            height: 46px
-            display: block
-            .icon-confirmation-circle
-                color: #FBAA1C
-                text-align: center
-                width: 46px
-                line-height: 44px
-                font-size: 24px
-                .icon
-                    position: relative
-                    top: -2px
+            line-height: 44px
+            font-size: 24px
+            .icon
+                position: relative
+                top: -2px
 
 .status-updater
     margin: -20px 0 -20px 15px

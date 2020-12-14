@@ -331,7 +331,14 @@ render() {
                         >
                             {t("Cancel booking")}
                         </button> }
-
+                        { /*
+                            <a>
+                                <span class="icon icon-action-time-left" />
+                                <span class="icon icon-action-pen" />
+                                <span class="icon icon-action-print" />
+                                <span class="icon icon-action-writing" />
+                            </a>
+                        */ }
                     </div>
                     </React.Fragment> }
 
