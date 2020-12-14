@@ -18,9 +18,12 @@ export const creditCardValidator = Yup.object().shape({
             'Credit Card expiry date is not valid',
              value => valid.expirationDate(value).isValid),
     card_security_code: Yup.string()
+        .required("*")
         .min(3, "Credit Card secure code is not valid")
 });
 
 export const savedCreditCardValidator = Yup.object().shape({
-    card_security_code: Yup.string().min(3, "*")
+    card_security_code: Yup.string()
+        .required("*")
+        .min(3, "*")
 });

@@ -120,7 +120,6 @@ let _ = API_METHODS;
 
 _.methods_dont_show_error = [
     _.AGENT_SETTINGS,
-    _.PAYMENTS_CARD_NEW,
     _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
 ];
 

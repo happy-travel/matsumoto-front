@@ -266,27 +266,30 @@ render() {
                                     <div class="list">
                                     {this.state.savedCards.map(item => {
                                         var type = creditCardType(item.number)?.[0];
-                                        return (<div
-                                            onClick={() => this.selectCard(item.id)}
-                                            class={"item" + __class(item.id == this.state.selectedCardId, "selected")}>
-                                            {allowedTypes[type.type] ? <img src={allowedTypes[type.type]} /> : null}
-                                            {item.number} <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
-                                            <FieldText formik={formik}
-                                                id="card_security_code"
-                                                placeholder={this.state.code.name}
-                                                addClass={"only-when-selected" + __class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
-                                                required
-                                                password
-                                                numeric
-                                                maxLength={this.state.code.size}
-                                            />
-                                            <b
-                                                className="only-when-selected link"
-                                                onClick={() => this.removeCard(item.id)}
+                                        return (
+                                            <div
+                                                onClick={() => this.selectCard(item.id)}
+                                                class={"item" + __class(item.id == this.state.selectedCardId, "selected")}
                                             >
-                                                Forget
-                                            </b>
-                                        </div>);
+                                                {allowedTypes[type.type] ? <img src={allowedTypes[type.type]} alt="" /> : null}
+                                                {item.number} <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
+                                                <FieldText formik={formik}
+                                                    id="card_security_code"
+                                                    placeholder={this.state.code.name}
+                                                    addClass={"only-when-selected" + __class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
+                                                    required
+                                                    password
+                                                    numeric
+                                                    maxLength={this.state.code.size}
+                                                />
+                                                <b
+                                                    className="only-when-selected link"
+                                                    onClick={() => this.removeCard(item.id)}
+                                                >
+                                                    Forget
+                                                </b>
+                                            </div>
+                                        );
                                     })}
                                     </div>
                                 </div>
@@ -350,7 +353,7 @@ render() {
                                     numeric={"/"}
                                     maxLength={22}
                                     onChange={this.detectCardType}
-                                    Icon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} /> : null}
+                                    Icon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} alt="" /> : null}
                                     autocomplete="cc-number"
                                 />
                             </div>
