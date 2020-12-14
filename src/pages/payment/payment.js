@@ -4,6 +4,7 @@ import BasicPaymentPage from "./utils/processing";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
+import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import { StaticHeader, Loader, price, decorate } from "simple";
 import { creditCardType } from "card-validator";
@@ -188,6 +189,9 @@ class PaymentPage extends BasicPaymentPage {
 
 render() {
     const { t } = useTranslation();
+
+    if (this.state.redirectToConfirmationPage)
+        return <Redirect push to="/accommodation/confirmation"/>;
 
     if (this.state.loading)
         return <Loader />;
