@@ -57,7 +57,7 @@ class AccommodationConfirmationPage extends React.Component {
         this.setState({ statusLoading: true });
         API.post({
             url: API.BOOKING_STATUS(store.booking.result.bookingId),
-            success: (data = {}) => store.setUpdatedBookingStatus(data.status),
+            success: data => store.setUpdatedBookingStatus(data?.status),
             after: () => {
                 this.setState({ statusLoading: false });
                 this.loadBooking();
