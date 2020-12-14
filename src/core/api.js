@@ -1,7 +1,7 @@
 import settings from "settings";
 import Authorize from "core/auth/authorize";
 import { isPageAvailableAuthorizedOnly } from "core/auth";
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
@@ -124,10 +124,10 @@ _.methods_dont_show_error = [
     _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
 ];
 
-const setAlert = (text, url = "") => ((
+const showError = (text, url = "") => ((
     _.methods_dont_show_error.indexOf(url) < 0 &&
     (!url || (url?.indexOf("/state") < 0))
-) && View.setTopAlertText(text));
+) && Notifications.addNotification(text));
 
 _.request = ({
     url, external_url,
@@ -196,7 +196,7 @@ Authorize.getUser().then(user => {
                     return;
                 }
                 if (rawResponse.status == 403) {
-                    setAlert("Sorry, you don`t have enough permissions", url);
+                    showError("Sorry, you don`t have enough permissions", url);
                     if (error)
                         error(result);
                     if (after)
@@ -205,11 +205,11 @@ Authorize.getUser().then(user => {
                 }
                 if (failed) {
                     if (result && result.status >= 400 && result.detail)
-                        setAlert(result.detail, url);
+                        showError(result.detail, url);
                     if (error)
                         error(result);
                 } else {
-                    setAlert(null, url);
+                    showError(null, url);
                     if (success)
                         success(result);
                 }

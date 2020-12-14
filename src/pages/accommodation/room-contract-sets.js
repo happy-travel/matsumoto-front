@@ -14,7 +14,7 @@ import Deadline from "components/deadline";
 import AccommodationCommonDetails from "parts/accommodation-details";
 
 import store from 'stores/accommodation-store';
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 import authStore, { APR_VALUES } from "stores/auth-store";
 
 @observer
@@ -56,7 +56,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
             ),
             success: (result) => {
                 if (!result?.availabilityId) {
-                    View.setTopAlertText("Sorry, this room is not available now, try again later");
+                    Notifications.addNotification("Sorry, this room is not available now, try again later");
                     return;
                 }
                 store.selectRoomContractSet(result, roomContractSet);
@@ -65,7 +65,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 });
             },
             error: (error) => {
-                View.setTopAlertText(error?.detail || error?.message);
+                Notifications.addNotification(error?.detail || error?.message);
                 if (error)
                     console.log("error: " + error);
             },

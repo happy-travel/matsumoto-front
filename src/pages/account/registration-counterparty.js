@@ -18,7 +18,7 @@ import FieldCountry from "components/complex/field-country";
 import { registrationCounterpartyValidator } from "components/form/validation";
 
 import store from "stores/auth-store";
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 import UI from "stores/ui-store";
 
 @observer
@@ -43,7 +43,7 @@ class RegistrationCounterparty extends React.Component {
                 this.setState({ redirectToIndexPage: true });
             },
             error: error => {
-                View.setTopAlertText(error?.title || error?.detail);
+                Notifications.addNotification(error?.title || error?.detail);
                 if (error && !(error?.title || error?.detail))
                     this.setState({ redirectToIndexPage: true });
             }

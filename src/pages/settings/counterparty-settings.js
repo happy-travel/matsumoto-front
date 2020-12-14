@@ -11,7 +11,7 @@ import SettingsHeader from "./parts/settings-header";
 import { loadCounterpartyInfo } from "simple/logic/user-settings";
 
 import authStore from "stores/auth-store";
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 
 @observer
 export default class CounterpartySettings extends React.Component {
@@ -33,7 +33,7 @@ export default class CounterpartySettings extends React.Component {
             url: API.COUNTERPARTY_FILE,
             response: res => {
                 if (res.status == 400)
-                    View.setTopAlertText("Couldn't get a contract file");
+                    Notifications.addNotification("Couldn't get a contract file");
                 if (res.status == 200)
                     res.blob().then(blobby => {
                         var anchor = document.createElement("a");

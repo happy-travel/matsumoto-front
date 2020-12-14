@@ -4,7 +4,7 @@ import setter from "core/mobx/setter";
 class ViewStore {
     @observable
     @setter(null)
-    topAlertText = null;
+    topAlertText = null; // todo: remove legacy
 
     @observable
     @setter(null)

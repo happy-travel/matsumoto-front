@@ -11,7 +11,7 @@ import SettingsHeader from "pages/settings/parts/settings-header";
 
 import UI from "stores/ui-store";
 import authStore from "stores/auth-store";
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 
 @observer
 class InvitationSendPage extends React.Component {
@@ -51,7 +51,7 @@ class InvitationSendPage extends React.Component {
             },
             error: (error) => {
                 this.setState({ success: false });
-                View.setTopAlertText(error?.title || error?.detail);
+                Notifications.addNotification(error?.title || error?.detail);
             }
         });
     }

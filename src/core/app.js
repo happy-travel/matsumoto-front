@@ -17,6 +17,8 @@ import TopAlert  from "parts/top-alert";
 import Modal     from "parts/modal";
 import Search    from "parts/search/search";
 
+import NotificationList from "parts/notifications/list";
+
 import Routes, {
     routesWithHeaderAndFooter,
     routesWithSearch,
@@ -41,6 +43,7 @@ const App = () => {
                         { canShowContent ? <React.Fragment>
                             <div class="block-wrapper">
                                 <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
+                                <NotificationList />
                                 <TopAlert />
                                 <Route exact path={ routesWithSearch } component={ Search } />
                                 <Routes />

@@ -9,7 +9,7 @@ import { Loader, copyToClipboard, PassengerName } from "simple";
 import SettingsHeader from "pages/settings/parts/settings-header";
 
 import authStore from "stores/auth-store";
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 
 @observer
 class InvitationResendPage extends React.Component {
@@ -50,7 +50,7 @@ class InvitationResendPage extends React.Component {
             success: () => this.setState({ success: true }),
             error: (error) => {
                 this.setState({ success: false });
-                View.setTopAlertText(error?.title || error?.detail || error);
+                Notifications.addNotification(error?.title || error?.detail || error);
             }
         });
     }

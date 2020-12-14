@@ -15,7 +15,7 @@ import { fillEmptyUserSettings } from "simple/logic/user-settings";
 import FormUserData from "parts/form-user-data";
 
 import store from "stores/auth-store";
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 
 export const finishAgentRegistration = () => {
     API.get({
@@ -67,7 +67,7 @@ class RegistrationAgent extends React.Component {
                     this.setState({ redirectToIndexPage: true });
                 },
                 error: error => {
-                    View.setTopAlertText(error?.title || error?.detail);
+                    Notifications.addNotification(error?.title || error?.detail);
                     if (error && !(error?.title || error?.detail))
                         this.setState({ redirectToIndexPage: true });
                 }

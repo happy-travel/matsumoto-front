@@ -10,8 +10,8 @@ import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import SettingsHeader from "./parts/settings-header";
 
-import View from "stores/view-store";
 import authStore from "stores/auth-store";
+import Notifications from "stores/notifications-store";
 
 const generateLabel = str => {
     if (!str)
@@ -98,7 +98,7 @@ export default class AgentPermissionsManagement extends React.Component {
             success: () => this.setState({ redirectBack: true }),
             error: () => {
                 this.setState({ loading: false });
-                View.setTopAlertText("Unable to save agent permissions, please try later");
+                Notifications.addNotification("Unable to save agent permissions, please try later");
             }
         });
     };

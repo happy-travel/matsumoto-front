@@ -22,7 +22,7 @@ import FullDeadline from "components/full-deadline";
 import transliterate from "components/external/transliterate";
 
 import store, { PAYMENT_METHODS } from "stores/accommodation-store";
-import View from "stores/view-store";
+import Notifications from "stores/notifications-store";
 import authStore, { APR_VALUES } from "stores/auth-store";
 
 @observer
@@ -58,7 +58,7 @@ class AccommodationBookingPage extends React.Component {
     submit(values, { setSubmitting }) {
         if (!store.selected?.accommodationFinal?.accommodation?.id) {
             setSubmitting(false);
-            View.setTopAlertText("Booking unsuccessful, please try again later or contact us for help.");
+            Notifications.addNotification("Booking unsuccessful, please try again later or contact us for help.");
             return null;
         }
 
@@ -103,7 +103,7 @@ class AccommodationBookingPage extends React.Component {
         };
         store.setBookingRequest(request);
 
-        var error = err => View.setTopAlertText(err?.title || err?.detail || err?.message),
+        var error = err => Notifications.addNotification(err?.title || err?.detail || err?.message),
             after = () => setSubmitting(false);
 
         if (store.paymentMethod == PAYMENT_METHODS.ACCOUNT)
@@ -124,7 +124,7 @@ class AccommodationBookingPage extends React.Component {
                         this.setState({ redirect: "/accommodation/confirmation" });
                     }
                     else
-                        View.setTopAlertText("Error occurred during account payment")
+                        Notifications.addNotification("Error occurred during account payment")
                 },
                 after,
                 error
