@@ -14,7 +14,7 @@ import FieldCountry from "components/complex/field-country";
 import {
     loadUserSettings,
     saveUserSettings
-} from "simple/logic/user-settings";
+} from "simple/logic";
 import { switchLocale } from "core/misc/switch-locale";
 
 import UI from "stores/ui-store";

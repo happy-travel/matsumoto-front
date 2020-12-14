@@ -64,11 +64,6 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                     redirectToBookingPage: true
                 });
             },
-            error: (error) => {
-                Notifications.addNotification(error?.detail || error?.message);
-                if (error)
-                    console.log("error: " + error);
-            },
             after: () => {
                 this.setState({
                     loading: false

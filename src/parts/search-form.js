@@ -2,10 +2,9 @@ import React from "react";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Stars } from "simple";
 
 import { Redirect } from "react-router-dom";
-import { CachedForm, FORM_NAMES, FieldText, FieldSelect } from "components/form";
+import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import FieldCountry, { searchFormSetDefaultCountries } from "components/complex/field-country";
 import FieldDestination from "components/complex/field-destination";
 import FieldDatepicker from "components/complex/field-datepicker";
@@ -13,8 +12,8 @@ import { accommodationSearchValidator } from "components/form/validation";
 
 import PeopleDropdown from "components/form/dropdown/room-details";
 
-import { createSearch } from "./search-logic";
-import { countPassengers } from "./search-ui-helpers";
+import { searchCreate } from "tasks/accommodation/search-create";
+import { countPassengers } from "simple/logic";
 
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
@@ -34,7 +33,7 @@ class AccommodationSearch extends React.Component {
         if (values.predictionDestination != values.destination)
             formik.setFieldValue("destination", values.predictionDestination);
 
-        createSearch(values);
+        searchCreate(values);
 
         this.setState({
             redirectToVariantsPage: true
@@ -75,7 +74,7 @@ class AccommodationSearch extends React.Component {
                         validationSchema={accommodationSearchValidator}
                         onSubmit={this.submit}
                         enableReinitialize={true}
-                        render={(formik, reset) => (
+                        render={formik => (
                             <React.Fragment>
                                 <div class="form">
                                     <div class="row">
@@ -98,11 +97,11 @@ class AccommodationSearch extends React.Component {
                                                    Icon={<span class="icon icon-arrows-expand"/>}
                                                    addClass="size-medium"
                                                    Dropdown={PeopleDropdown}
-                                                   value={
-                                                          [__plural(t, countPassengers(formik.values, "adultsNumber"), "Adult"),
-                                                           __plural(t, countPassengers(formik.values, "childrenNumber"), "Children"),
-                                                           __plural(t, formik.values.roomDetails.length, "Room")].join(" • ")
-                                                   }
+                                                   value={[
+                                                       __plural(t, countPassengers(formik.values, "adultsNumber"), "Adult"),
+                                                       __plural(t, countPassengers(formik.values, "childrenNumber"), "Children"),
+                                                       __plural(t, formik.values.roomDetails.length, "Room")
+                                                   ].join(" • ")}
                                         />
                                     </div>
                                     <div class="row">

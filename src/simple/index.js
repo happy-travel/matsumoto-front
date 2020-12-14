@@ -16,8 +16,6 @@ import { PassengersCount, PassengerName } from "./formatters/passengers";
 import { price }        from "./formatters/price";
 import { GroupRoomTypesAndCount } from "./formatters/room-types";
 
-import { copyToClipboard } from "./logic/copy-to-clipboard";
-
 export {
     Dual,
     Expandable,
@@ -36,7 +34,5 @@ export {
     price,
     GroupRoomTypesAndCount,
     PassengersCount,
-    PassengerName,
-
-    copyToClipboard
+    PassengerName
 };

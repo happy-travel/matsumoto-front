@@ -3,7 +3,8 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 
-import { Loader, copyToClipboard } from "simple";
+import { Loader } from "simple";
+import { copyToClipboard } from "simple/logic";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationUserValidatorWithEmail } from "components/form/validation";
 import FormUserData from "parts/form-user-data";

@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { loadCurrentSearchWithNewOrder } from "parts/search/search-logic";
-import { runSearchSecondStep } from "parts/search/search-logic-step2";
+import { searchLoaderWithNewOrder } from "tasks/accommodation/search-loaders";
+import { searchGetRooms } from "tasks/accommodation/search-get-rooms";
 
 import {
     GroupRoomTypesAndCount, MealPlan, Stars, Loader, PassengersCount, price
@@ -14,7 +14,7 @@ import Deadline from "components/deadline";
 import SorterDropdown from "components/complex/sorter";
 
 import AccommodationFilters from "parts/accommodation-filters";
-import { loadCurrentSearch } from "parts/search/search-logic";
+import { searchLoader } from "tasks/accommodation/search-loaders";
 import AccommodationTitlePage from "./title";
 
 import store from "stores/accommodation-store";
@@ -40,11 +40,11 @@ class AccommodationVariantsPage extends React.Component {
             redirectToRoomContractSetsPage: true
         });
 
-        runSearchSecondStep(result);
+        searchGetRooms(result);
     }
 
     loadNextPage() {
-        loadCurrentSearch((store.search.page || 0) + 1);
+        searchLoader((store.search.page || 0) + 1);
     }
 
     render() {
@@ -95,7 +95,7 @@ class AccommodationVariantsPage extends React.Component {
                     <SorterDropdown
                         text={t("Sort by") + " " + (store.sorter?.price ? t("price") : "")}
                         addClass={__class(store.sorter?.price < 0, "reverse")}
-                        sorter={value => loadCurrentSearchWithNewOrder(value)}
+                        sorter={value => searchLoaderWithNewOrder(value)}
                         options={[
                             { title: t("Usual"), order: {} },
                             { title: t("Price (high to low)"), order: { price: 1 } },
@@ -161,13 +161,6 @@ class AccommodationVariantsPage extends React.Component {
                             {item.supplier && <div>
                                 Supplier: {" " + item.supplier}
                             </div>}
-                            { /*
-                            <div class="features">
-                                <span class="icon icon-info-big"/>
-                                <span class="icon icon-map" />
-                                <span class="button pink mini-label">{t("Preferred")}</span>
-                            </div>
-                            */ }
                         </div>
                     </div>
                     <div class="table">

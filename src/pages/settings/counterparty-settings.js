@@ -8,7 +8,7 @@ import { Loader, Flag } from "simple";
 import { FieldText, FieldTextarea } from "components/form";
 import SettingsHeader from "./parts/settings-header";
 
-import { loadCounterpartyInfo } from "simple/logic/user-settings";
+import { loadCounterpartyInfo } from "simple/logic";
 
 import authStore from "stores/auth-store";
 import Notifications from "stores/notifications-store";

@@ -4,7 +4,7 @@ import { isPageAvailableAuthorizedOnly, userAuthSetToStorage, isSignUpRoutes } f
 import { API } from "core";
 import { initInvite } from "core/auth/invite";
 import dropdownToggler from "components/form/dropdown/toggler";
-import { loadUserSettings } from "simple/logic/user-settings";
+import { loadUserSettings } from "simple/logic";
 
 import UI from "stores/ui-store";
 import authStore, { APR_VALUES } from "stores/auth-store";

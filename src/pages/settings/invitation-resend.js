@@ -5,7 +5,8 @@ import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { FieldText } from "components/form";
 
-import { Loader, copyToClipboard, PassengerName } from "simple";
+import { Loader, PassengerName } from "simple";
+import { copyToClipboard } from "simple/logic";
 import SettingsHeader from "pages/settings/parts/settings-header";
 
 import authStore from "stores/auth-store";

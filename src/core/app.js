@@ -15,7 +15,7 @@ import Header    from "parts/header";
 import Footer    from "parts/footer";
 import TopAlert  from "parts/top-alert";
 import Modal     from "parts/modal";
-import Search    from "parts/search/search";
+import Search    from "parts/search-form";
 
 import NotificationList from "parts/notifications/list";
 

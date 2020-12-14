@@ -8,14 +8,14 @@ import {
     FieldRange
 } from "components/form";
 import { Expandable, Stars } from "simple";
-import { loadCurrentSearchWithNewFilters } from "parts/search/search-logic";
+import { searchLoaderWithNewFilters } from "tasks/accommodation/search-loaders";
 
 import store from "stores/accommodation-store";
 
 @observer
 class AccommodationFiltersPart extends React.Component {
     submit(values) {
-        loadCurrentSearchWithNewFilters(values);
+        searchLoaderWithNewFilters(values);
     }
 
     render() {

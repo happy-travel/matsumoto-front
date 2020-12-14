@@ -10,7 +10,7 @@ import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { CachedForm } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
-import { fillEmptyUserSettings } from "simple/logic/user-settings";
+import { fillEmptyUserSettings } from "simple/logic";
 
 import FormUserData from "parts/form-user-data";
 
