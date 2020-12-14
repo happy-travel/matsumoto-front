@@ -198,7 +198,6 @@ translations: {
     "Available Accommodations": "أماكن الإقامة المتاحة",
     "Accommodation Amenities": "وسائل الراحة ",
     "Accommodation Chain": "سلسلة الإقامة",
-    "Search by hotel name...": "البحث عن طريق اسم الفندق ...",
     "Accommodation in": "الإقامة في",
     "Ms.": "الآنسة",
     "Miss": "الآنسة",

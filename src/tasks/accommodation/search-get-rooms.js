@@ -1,5 +1,11 @@
 import store from "stores/accommodation-store";
 import { API } from "core";
+import {
+    READY_STATUSES,
+    PENDING_STATUSES,
+    MAXIMUM_ITERATIONS_DEPTH,
+    ITERATION_TIMEOUT
+} from "./search-create";
 
 export const searchGetRooms = accommodation => {
     store.setRoomContractsSets(null, []);
@@ -13,7 +19,7 @@ export const searchGetRooms = accommodation => {
         success: result => store.setSelectedAccommodationFullDetails(result)
     });
 
-    const loader = (data) => {
+    const loader = () => {
         API.get({
             url: API.A_SEARCH_TWO_RESULT(
                 store.search.id,
@@ -26,7 +32,7 @@ export const searchGetRooms = accommodation => {
     };
 
     const getter = (deep) => {
-        if (deep > 180) {
+        if (deep > MAXIMUM_ITERATIONS_DEPTH) {
             store.setSecondStepState(true);
             return;
         }
@@ -35,18 +41,17 @@ export const searchGetRooms = accommodation => {
                 store.search.id,
                 accommodation.id
             ),
-            success: data => {
-                store.setSecondStepState(data);
-                var status = data;
-                if ("PartiallyCompleted" == status || "Completed" == status || "Failed" == status)
-                    loader(data);
-                if ("Pending" == status || "Running" == status || "PartiallyCompleted" == status)
+            success: status => {
+                store.setSecondStepState(status);
+                if (READY_STATUSES.includes(status))
+                    loader();
+                if (PENDING_STATUSES.includes(status))
                     getter(deep+1);
             },
             error: () => {
                 store.setSecondStepState(true);
             }
-        }), 1000);
+        }), ITERATION_TIMEOUT);
     };
     getter();
 };

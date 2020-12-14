@@ -112,7 +112,6 @@ translations: {
     "You could reach our Operations team directly, and we pick an accommodation for you.": "You can contact our Operations team directly, and they can help you with your accommodations.",
     "Results for": "Results for",
     "Sort by": "Sort by",
-    "Search by hotel name...": "Search by hotel name…",
     "Accommodation in": "Accommodation in",
     "Accommodation Name": "Accommodation Name",
     "Mark as duplicate": "Mark as duplicate",

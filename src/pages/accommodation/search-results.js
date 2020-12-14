@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { FINISH_STATUSES, STATUSES } from "tasks/accommodation/search-create"
 import { searchLoaderWithNewOrder } from "tasks/accommodation/search-loaders";
 import { searchGetRooms } from "tasks/accommodation/search-get-rooms";
 
@@ -73,7 +74,7 @@ class AccommodationSearchResultsPage extends React.Component {
                             {t("Results for")} <b>{ store.search.request.destination }</b>
                             <span>&nbsp;(
                                 {store.search.length}
-                                { store.search.status == "PartiallyCompleted" ? "+" : "" }
+                                { store.search.status == STATUSES.PARTIALLY_COMPLETED ? "+" : "" }
                             )</span>
                         </h3>
                         <Breadcrumbs noBackButton items={[
@@ -102,15 +103,6 @@ class AccommodationSearchResultsPage extends React.Component {
                             { title: t("Price (low to high)"), order: { price: -1 } },
                         ]}
                     />
-                    { /* todo:
-                    <div class="input-wrap">
-                        <div class="form">
-                            <FieldText
-                                placeholder={t("Search by hotel name...")}
-                            />
-                        </div>
-                    </div>
-                    */ }
                 </div>
 
                 { (!store.hotelArray.length && !store?.search?.loading && !store.filtersLine) &&
@@ -131,7 +123,7 @@ class AccommodationSearchResultsPage extends React.Component {
                     dataLength={store.hotelArray.length}
                     next={this.loadNextPage}
                     hasMore={store.search.hasMoreSearchResults}
-                    loader={(store.search?.loading !== "__filter_tmp") ? <Loader /> : null}
+                    loader={(store.search?.loading && (store.search?.loading !== "__filter_tmp")) ? <Loader /> : null}
                 >
                 { store.hotelArray.map(item =>
                 <div class="contract" key={item.accommodation.id}>
@@ -229,7 +221,7 @@ class AccommodationSearchResultsPage extends React.Component {
                     </div>
                 </div>) }
                 </InfiniteScroll>
-                {(store.search.status != "Completed") && <Loader />}
+                {!FINISH_STATUSES.includes(store.search.status) && <Loader />}
             </div>
         </section> }
     </div>

@@ -7,6 +7,21 @@ import { searchLoader } from "./search-loaders";
 import store from "stores/accommodation-store";
 import UI from "stores/ui-store";
 
+export const STATUSES = {
+    COMPLETED: "Completed",
+    FAILED: "Failed",
+    PARTIALLY_COMPLETED: "PartiallyCompleted",
+    PENDING: "Pending",
+    RUNNING: "Running"
+};
+
+export const FINISH_STATUSES = [STATUSES.COMPLETED, STATUSES.FAILED];
+export const READY_STATUSES = [STATUSES.PARTIALLY_COMPLETED, ...FINISH_STATUSES];
+export const PENDING_STATUSES = [STATUSES.PENDING, STATUSES.RUNNING, STATUSES.PARTIALLY_COMPLETED];
+
+export const MAXIMUM_ITERATIONS_DEPTH = 180;
+export const ITERATION_TIMEOUT = 1000;
+
 export const searchCreate = values => {
     store.setSearchResultLength(0, undefined);
 
@@ -26,8 +41,9 @@ export const searchCreate = values => {
             store.setSearchId(result);
 
             const loader = (data) => {
-                if ("Failed" == data.taskState) {
+                if (STATUSES.FAILED == data.taskState) {
                     store.setSearchIsLoading(false);
+                    store.setSearchResultLength(data.resultCount, data.taskState);
                     return;
                 }
                 if (store.search?.length !== data.resultCount || store.search?.status !== data.taskState) {
@@ -38,7 +54,7 @@ export const searchCreate = values => {
             };
 
             const getter = (deep) => {
-                if (deep > 180) {
+                if (deep > MAXIMUM_ITERATIONS_DEPTH) {
                     store.setSearchIsLoading(false);
                     return;
                 }
@@ -46,15 +62,15 @@ export const searchCreate = values => {
                     url: API.A_SEARCH_ONE_CHECK(store.search.id),
                     success: data => {
                         status = data.taskState;
-                        if ("PartiallyCompleted" == status || "Completed" == status || "Failed" == status)
+                        if (READY_STATUSES.includes(status))
                             loader(data);
-                        if ("Pending" == status || "Running" == status || "PartiallyCompleted" == status)
+                        if (PENDING_STATUSES.includes(status))
                             getter(deep+1);
                     },
                     error: () => {
                         store.setSearchIsLoading(false);
                     }
-                }), 1000);
+                }), ITERATION_TIMEOUT);
             };
             getter();
 
