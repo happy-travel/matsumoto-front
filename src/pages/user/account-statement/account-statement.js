@@ -24,15 +24,14 @@ class AccountStatementPage extends React.Component {
         super(props);
         this.state = {
             redirectToBookingConfirmationId: null,
-            filter_tab: null
+            filter_tab: null,
+            payments: null
         };
     }
 
-    fetchBillingHistory(values) {
+    fetchBillingHistory = (values) => {
         if (!authStore.user?.counterparties?.length)
             return;
-
-        store.setUserPaymentsList(null);
 
         values = {...initialValues, ...values};
 
@@ -45,12 +44,11 @@ class AccountStatementPage extends React.Component {
                     moment(values.end).add(1,"d").utc(true).format()
                 }`
             },
-            after: data => store.setUserPaymentsList(data || [])
+            success: payments => this.setState({ payments })
         });
     }
 
     componentDidMount() {
-        store.setUserPaymentsList(null); // todo : make mini-loader updater and remove this
         this.fetchBillingHistory();
     }
 
@@ -86,7 +84,7 @@ class AccountStatementPage extends React.Component {
                     <section class="content">
                         <Table
                             columns={Columns(t)}
-                            list={store.userPaymentsList}
+                            list={this.state.payments}
                             textEmptyResult={t("You don`t have any payment history for this dates")}
                             filter={filter}
                             sorters={Sorters(t)}
@@ -95,16 +93,16 @@ class AccountStatementPage extends React.Component {
                                 <div class="form">
                                     <Formik
                                         initialValues={initialValues}
-                                        onfetchBillingHistory={this.fetchBillingHistory}
+                                        onSubmit={this.fetchBillingHistory}
                                     >
                                         {formik => (
-                                            <form onfetchBillingHistory={formik.handlefetchBillingHistory}>
+                                            <form>
                                                 <FieldDatepicker formik={formik}
                                                                  id="range"
                                                                  first="start"
                                                                  second="end"
                                                                  placeholder={t("Choose date")}
-                                                                 onChange={formik.handlefetchBillingHistory}
+                                                                 onChange={formik.handleSubmit}
                                                 />
                                             </form>
                                         )}

@@ -60,10 +60,6 @@ class AccommodationStore {
     userBookingList = null;
 
     @observable
-    @setter
-    userPaymentsList = null;
-
-    @observable
     paymentResult = {};
 
     @observable
