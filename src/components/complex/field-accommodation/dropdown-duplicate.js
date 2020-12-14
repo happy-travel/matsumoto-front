@@ -29,7 +29,7 @@ class DestinationDropdown extends React.Component {
             <div class="region dropdown">
                 <div class="scroll">
                     {View?.destinations?.map((item, index) => (
-                        <div class="variants">
+                        <div class="search-results">
                             <div id={`js-value-${index}`}
                                  class={"country line summary" + __class(focusIndex === index, "focused")}
                                  onClick={() => this.setValue(item)}>

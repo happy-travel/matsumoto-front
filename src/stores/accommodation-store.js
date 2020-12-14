@@ -21,7 +21,7 @@ class AccommodationStore {
         result: null,
         length: 0, status: "",
         id: null,
-        hasMoreVariants: false,
+        hasMoreSearchResults: false,
         page: 0,
         numberOfNights: 0
     };
@@ -93,9 +93,9 @@ class AccommodationStore {
 
         this.search.page = page;
 
-        this.search.hasMoreVariants = !!results?.length;
+        this.search.hasMoreSearchResults = !!results?.length;
         if (this.search.status == "PartiallyCompleted")
-            this.search.hasMoreVariants = this.search.result?.results?.length < this.search.length;
+            this.search.hasMoreSearchResults = this.search.result?.results?.length < this.search.length;
 
         if ((this.search.status != "PartiallyCompleted") || this.search.result?.length || (this.search.loading == "__filter_tmp"))
             this.search.loading = false;

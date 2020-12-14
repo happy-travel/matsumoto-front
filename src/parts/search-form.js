@@ -23,7 +23,7 @@ class AccommodationSearch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToVariantsPage: false
+            redirectToSearchResultsPage: false
         };
         this.submit = this.submit.bind(this);
     }
@@ -36,14 +36,14 @@ class AccommodationSearch extends React.Component {
         searchCreate(values);
 
         this.setState({
-            redirectToVariantsPage: true
+            redirectToSearchResultsPage: true
         });
     }
 
     componentDidUpdate() {
-        if (this.state.redirectToVariantsPage)
+        if (this.state.redirectToSearchResultsPage)
             this.setState({
-                redirectToVariantsPage: false
+                redirectToSearchResultsPage: false
             }); // prevent redirection circle
     }
 
@@ -52,7 +52,7 @@ class AccommodationSearch extends React.Component {
 
         return (
             <div class="search block" style={{paddingBottom: "58px"}}>
-                { this.state.redirectToVariantsPage && <Redirect to="/search"/> }
+                { this.state.redirectToSearchResultsPage && <Redirect to="/search"/> }
                 <section>
                     <div class="hide">{JSON.stringify(authStore.settings)}</div>
                     <CachedForm

@@ -21,7 +21,7 @@ import store from "stores/accommodation-store";
 import UI, { MODALS } from "stores/ui-store";
 
 @observer
-class AccommodationVariantsPage extends React.Component {
+class AccommodationSearchResultsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,7 +59,7 @@ class AccommodationVariantsPage extends React.Component {
         return (
 
 <React.Fragment>
-    <div class="variants block">
+    <div class="search-results block">
         {__devEnv && <div class="hide">{JSON.stringify(store.filters?.source)}</div> }
         { store?.search?.loading === true ?
         <Loader /> :
@@ -130,11 +130,11 @@ class AccommodationVariantsPage extends React.Component {
                 <InfiniteScroll
                     dataLength={store.hotelArray.length}
                     next={this.loadNextPage}
-                    hasMore={store.search.hasMoreVariants}
+                    hasMore={store.search.hasMoreSearchResults}
                     loader={(store.search?.loading !== "__filter_tmp") ? <Loader /> : null}
                 >
                 { store.hotelArray.map(item =>
-                <div class="variant" key={item.accommodation.id}>
+                <div class="contract" key={item.accommodation.id}>
                     <div class="summary">
                         { item.accommodation.photo.sourceUrl && <div class="photo" onClick={() => this.accommodationSelect(item)}>
                             <img src={item.accommodation.photo.sourceUrl} alt={item.accommodation.photo.caption}  />
@@ -238,4 +238,4 @@ class AccommodationVariantsPage extends React.Component {
     }
 }
 
-export default AccommodationVariantsPage;
+export default AccommodationSearchResultsPage;

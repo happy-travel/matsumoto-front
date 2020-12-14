@@ -23,7 +23,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         super(props);
         this.state = {
             redirectToBookingPage: false,
-            redirectToVariantsPage: false,
+            redirectToSearchResultsPage: false,
             loading: false
         };
         this.roomContractSetSelect = this.roomContractSetSelect.bind(this);
@@ -36,7 +36,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
 
     back() {
         this.setState({
-            redirectToVariantsPage: true
+            redirectToSearchResultsPage: true
         });
     }
 
@@ -79,7 +79,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         if (this.state.redirectToBookingPage)
             return <Redirect push to="/accommodation/booking" />;
 
-        if (this.state.redirectToVariantsPage)
+        if (this.state.redirectToSearchResultsPage)
             return <Redirect push to="/search" />;
 
         if (store.secondStepState === null)
@@ -93,7 +93,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
         return (
 
 <React.Fragment>
-    <div class="variants block room-contract-sets">
+    <div class="search-results block room-contract-sets">
         <section class="double-sections">
             <div class="left-section filters">
                 <div class="billet">
@@ -154,7 +154,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 </div>
 
                 { !item?.roomContractSets?.length ? <Loader /> :
-                <div class="variant">
+                <div class="contract">
                     <div class="table">
                         <table class="table agt">
                             <thead>

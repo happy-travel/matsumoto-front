@@ -62,14 +62,14 @@ class AccommodationBookingPage extends React.Component {
             return null;
         }
 
-        var variant = store.selected.roomContractSet,
+        var contract = store.selected.roomContractSet,
             search = store.search.request;
 
         var roomDetails = [];
 
-        for (var r = 0; r < variant?.rooms?.length; r++) {
-            var adults = variant?.rooms[r]?.adultsNumber,
-                total = adults + variant?.rooms[r]?.childrenAges.length,
+        for (var r = 0; r < contract?.rooms?.length; r++) {
+            var adults = contract?.rooms[r]?.adultsNumber,
+                total = adults + contract?.rooms[r]?.childrenAges.length,
                 passengers = [];
 
             for (var i = 0; i < total; i++)
@@ -77,12 +77,12 @@ class AccommodationBookingPage extends React.Component {
                     "title": values.room[r].passengers[i].title,
                     "firstName": values.room[r].passengers[i].firstName,
                     "lastName": values.room[r].passengers[i].lastName,
-                    "age": i < adults ? 33 : (variant?.rooms[r]?.childrenAges[i-adults] || 12),
+                    "age": i < adults ? 33 : (contract?.rooms[r]?.childrenAges[i-adults] || 12),
                     ...( i == 0 ? {"isLeader": true} : {} )
                 });
 
             roomDetails.push({
-                type: variant.rooms[r]?.type,
+                type: contract.rooms[r]?.type,
                 passengers
             })
         }
@@ -90,7 +90,7 @@ class AccommodationBookingPage extends React.Component {
         var request = {
             searchId: store.search.id,
             resultId: store.selected.accommodation.id,
-            roomContractSetId: variant.id,
+            roomContractSetId: contract.id,
             nationality: search.nationality,
             paymentMethod: store.paymentMethod,
             residency: search.residency,
@@ -168,10 +168,10 @@ class AccommodationBookingPage extends React.Component {
 
         var hotel = store.selected.accommodationFinal.accommodation,
             baseInfo = store.selected.accommodationFinal,
-            variant = store.selected.roomContractSet,
+            contract = store.selected.roomContractSet,
 
             initialValues = {
-                room: variant?.rooms?.map(item => ({
+                room: contract?.rooms?.map(item => ({
                     passengers: [
                         ...Array(item?.adultsNumber),
                         ...Array(item?.childrenAges.length),
@@ -181,7 +181,7 @@ class AccommodationBookingPage extends React.Component {
                 itineraryNumber: '',
             };
 
-        if (!variant)
+        if (!contract)
             return null;
 
 
@@ -207,8 +207,8 @@ class AccommodationBookingPage extends React.Component {
                     , {hotel.location.locality}
                     , {hotel.location.country}
                 </div>
-                {variant.supplier && <div class="subtitle">
-                    Supplier: {" " + variant.supplier}
+                {contract.supplier && <div class="subtitle">
+                    Supplier: {" " + contract.supplier}
                 </div>}
 
                 <div class="static item">
@@ -224,20 +224,20 @@ class AccommodationBookingPage extends React.Component {
                 />
                 <div class="dual" style={{display: "inline-block"}}>
                     <span class="first">{t("Number of Rooms")}</span>
-                    <span class="second">{variant.rooms.length}</span>
+                    <span class="second">{contract.rooms.length}</span>
                 </div>
 
                 <div class="static item">{t("Room & Total Cost")}</div>
-                    {variant?.rooms?.map((rc,i) => (
+                    {contract?.rooms?.map((rc,i) => (
                         (rc.roomPrices?.[0].finalPrice !== undefined) ?
                         <Dual addClass={__class(rc.roomPrices.length > 1, "column")}
-                            a={t("Room Cost") + (variant?.rooms?.length > 1 ? (" " + (i+1)) : '')}
-                            b={ <RoomPrices t={t} prices={variant.rooms[i].roomPrices} /> }
+                            a={t("Room Cost") + (contract?.rooms?.length > 1 ? (" " + (i+1)) : '')}
+                            b={ <RoomPrices t={t} prices={contract.rooms[i].roomPrices} /> }
                         /> : null
                     ))}
                 <div class="total-cost">
                     <div>{t("Reservation Total Cost")}</div>
-                    <div>{price(variant.rate.finalPrice)}</div>
+                    <div>{price(contract.rate.finalPrice)}</div>
                 </div>
             </div>
             <div class="right-section">
@@ -278,7 +278,7 @@ class AccommodationBookingPage extends React.Component {
                             <div class="form">
                                 <FieldArray
                                     render={() => (
-                                variant?.rooms.map((item, r) => <React.Fragment>
+                                contract?.rooms.map((item, r) => <React.Fragment>
                                 <h2>
                                     <span>
                                         Room {r+1}:
@@ -333,7 +333,7 @@ class AccommodationBookingPage extends React.Component {
                                     </tbody></table>
 
                                     <p class="remark">
-                                        {t("Board Basis")}: <MealPlan t={t} room={variant.rooms[0]} />
+                                        {t("Board Basis")}: <MealPlan t={t} room={contract.rooms[0]} />
                                     </p>
 
                                     <FullDeadline t={t}
@@ -357,7 +357,7 @@ class AccommodationBookingPage extends React.Component {
 
                                 <div class="payment method">
                                     <h2>{t("Please Select Payment Method")}</h2>
-                                    { !!variant.priceChangedAlert && <div class="accent-frame information warn alternative-margin">
+                                    { !!contract.priceChangedAlert && <div class="accent-frame information warn alternative-margin">
                                         <div class="before">
                                             <span class="icon icon-warning-yellow" />
                                         </div>
@@ -371,9 +371,9 @@ class AccommodationBookingPage extends React.Component {
                                         </div>
                                     </div>}
                                     <p>{t("You need to pay")}:
-                                        <span class="value"><b>{price(variant.rate.finalPrice)}</b></span>
+                                        <span class="value"><b>{price(contract.rate.finalPrice)}</b></span>
                                     </p>
-                                    { variant?.isAdvancePurchaseRate &&
+                                    { contract?.isAdvancePurchaseRate &&
                                         <h3 style={{margin: "20px 0 -20px"}}>
                                             <span class="restricted-rate">
                                                 {t("Restricted Rate")}
@@ -401,8 +401,8 @@ class AccommodationBookingPage extends React.Component {
                                         >
                                             <span class="icon icon-radio" />
                                             {t("Credit or Debit Card")}
-                                            <img src="/images/other/visa.png" />
-                                            <img src="/images/other/mc.png" />
+                                            <img src="/images/other/visa.png" alt="" />
+                                            <img src="/images/other/mc.png" alt="" />
                                         </div>
                                     </div>
                                 </div>
@@ -417,7 +417,7 @@ class AccommodationBookingPage extends React.Component {
                                                 </div>}
                                             />
                                         </div>
-                                        {!(variant?.isAdvancePurchaseRate &&
+                                        {!(contract?.isAdvancePurchaseRate &&
                                             (authStore.agencyAPR < APR_VALUES.CardPurchasesOnly)) &&
                                             <div class="second">
                                                 <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>

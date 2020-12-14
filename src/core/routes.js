@@ -3,7 +3,7 @@ import { Switch } from "react-router-dom";
 import Route from "./misc/route";
 
 import accommodationTitle         from "pages/accommodation/title";
-import accommodationVariants      from "pages/accommodation/variants";
+import accommodationSearchResults from "pages/accommodation/search-results";
 import accommodationBooking       from "pages/accommodation/booking";
 import accommodationConfirmation  from "pages/accommodation/confirmation";
 import accommodationContractsSets from "pages/accommodation/room-contract-sets";
@@ -63,7 +63,7 @@ export const routesWithFooter = [
 const Routes = () => (
     <Switch>
         <Route exact path="/"                     component={accommodationTitle} />
-        <Route exact path="/search"               component={accommodationVariants} title="Search Results" />
+        <Route exact path="/search"               component={accommodationSearchResults} title="Search Results" />
         <Route exact path="/search/contract"      component={accommodationContractsSets} title="Select An Accommodation" />
         <Route path="/accommodation/booking"      component={accommodationBooking} title="Accommodation Booking" />
         <Route path={[
