@@ -21,28 +21,16 @@ const searchFormFormatter = values => {
         roomDetails.push(room);
     }
 
-    var body = {
+    return {
         checkInDate: moment(values.checkInDate).utc(true).format(),
         checkOutDate: moment(values.checkOutDate).utc(true).format(),
         roomDetails: roomDetails,
         location: {
-            predictionResult: values.predictionResult,
-            coordinates: {
-                latitude: 0,
-                longitude: 0
-            },
-            distance: (parseInt(values.radius) || 0) * 1000
+            predictionResult: values.predictionResult
         },
         nationality: values.nationalityCode,
         residency: values.residencyCode
     };
-
-    if (values.advancedSearch) {
-        body.ratings = values.ratings;
-        body.propertyTypes = values.propertyTypes;
-    }
-
-    return body;
 };
 
 export const loadCurrentSearch = (page = 0, callback = () => {}) => {

@@ -69,18 +69,7 @@ class AccommodationSearch extends React.Component {
                                     adultsNumber: 2,
                                     childrenAges: []
                                 }
-                            ],
-                            // Advanced search:
-                            propertyTypes: "Any",
-                            ratings: "Unknown",
-                            availability: "all",
-                            address: "",
-                            radius: "",
-                            order: "room",
-                            predictionResult: null,
-                            predictionDestination: "",
-
-                            advancedSearch: false
+                            ]
                         }}
                         valuesOverwrite={searchFormSetDefaultCountries}
                         validationSchema={accommodationSearchValidator}
@@ -116,45 +105,6 @@ class AccommodationSearch extends React.Component {
                                                    }
                                         />
                                     </div>
-                                    <div class={"row advanced" + __class(!formik.values.advancedSearch, "invisible")}>
-                                        <FieldSelect formik={formik}
-                                                     id="propertyTypes"
-                                                     label={t("Property Type")}
-                                                     options={[
-                                                         {value: "Any", text: t("All")},
-                                                         {value: "Hotels", text: t("Hotel")},
-                                                         {value: "Apartments", text: t("Serviced Apartment")}
-                                                     ]}
-                                        />
-                                        <FieldSelect formik={formik}
-                                                     id="ratings"
-                                                     label={t("Star Rating")}
-                                                     addClass="size-large"
-                                                     options={[
-                                                         {value: "Unknown",    text: t("All")},
-                                                         {value: "OneStar",    text: <span>{t("Economy")}  <Stars count="1" /></span>},
-                                                         {value: "TwoStars",   text: <span>{t("Budget")}   <Stars count="2" /></span>},
-                                                         {value: "ThreeStars", text: <span>{t("Standard")} <Stars count="3" /></span>},
-                                                         {value: "FourStars",  text: <span>{t("Superior")} <Stars count="4" /></span>},
-                                                         {value: "FiveStars",  text: <span>{t("Luxury")}   <Stars count="5" /></span>},
-                                                         {value: "NotRated",   text: "Unrated"}
-                                                     ]}
-                                        />
-                                        <FieldText formik={formik}
-                                                   id="radius"
-                                                   label={t("Radius (km)")}
-                                                   placeholder="1"
-                                                   numeric
-                                        />
-                                        <FieldSelect formik={formik}
-                                                     id="order"
-                                                     label={t("Order Rates")}
-                                                     options={[
-                                                         {value: "room", text: t("By Room")},
-                                                         {value: "rate", text: t("By Rate")}
-                                                     ]}
-                                        />
-                                    </div>
                                     <div class="row">
                                         <FieldCountry formik={formik}
                                                       id="nationality"
@@ -181,23 +131,6 @@ class AccommodationSearch extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="additionals">
-                                    {(__devEnv || __localhost) &&
-                                        <React.Fragment>
-                                            {formik.values.advancedSearch ?
-                                                <button type="button" class="button-expand reverse" onClick={() => formik.setFieldValue("advancedSearch", false)}>
-                                                    {t("Simple Search")}
-                                                </button> :
-                                                <button type="button" class="button-expand" onClick={() => formik.setFieldValue("advancedSearch", true)}>
-                                                    {t("Advanced Search")}
-                                                </button>
-                                            }
-                                            <button type="button" class="button-clear" onClick={reset}>
-                                                {t("Clear")}
-                                            </button>
-                                        </React.Fragment>
-                                    }
                                 </div>
                             </React.Fragment>
                         )}
