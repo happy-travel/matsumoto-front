@@ -5,6 +5,7 @@ import CancellationConfirmationModal from "parts/modals/cancellation";
 import SendInvoiceModal from "parts/modals/send-invoice";
 import SearchOverloadModal from "parts/modals/search-overload";
 import ReportDuplicateModal from "parts/modals/duplicate";
+import ReadOnlyModal from "parts/modals/read-only";
 
 import UI, { MODALS } from "stores/ui-store";
 
@@ -12,13 +13,14 @@ const modalComponent = {
     [MODALS.CANCELLATION_CONFIRMATION]: CancellationConfirmationModal,
     [MODALS.SEND_INVOICE]: SendInvoiceModal,
     [MODALS.SEARCH_OVERLOAD]: SearchOverloadModal,
-    [MODALS.REPORT_DUPLICATE]: ReportDuplicateModal
+    [MODALS.REPORT_DUPLICATE]: ReportDuplicateModal,
+    [MODALS.READ_ONLY]: ReadOnlyModal
 };
 
-const closeModal = () => UI.setModal(null);
-
 @observer
-class Modal extends React.Component {
+class Index extends React.Component {
+    closeModal = () => UI.setModal(null)
+
     render() {
         var Content = modalComponent[UI.modal];
 
@@ -27,10 +29,10 @@ class Modal extends React.Component {
 
         return (
             <div class="modal-wrapper">
-                <div class="overlay" onClick={closeModal} />
+                <div class="overlay" onClick={this.closeModal} />
                 <div class="modal-scroll">
                     <Content
-                        closeModal={closeModal}
+                        closeModal={this.closeModal}
                     />
                 </div>
             </div>
@@ -38,4 +40,4 @@ class Modal extends React.Component {
     }
 }
 
-export default Modal;
+export default Index;

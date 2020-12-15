@@ -16,6 +16,7 @@ import { searchCreate } from "tasks/accommodation/search-create";
 import { countPassengers } from "simple/logic";
 
 import View from "stores/view-store";
+import UI, { MODALS } from "stores/ui-store";
 import authStore from "stores/auth-store";
 
 @observer
@@ -32,6 +33,9 @@ class AccommodationSearch extends React.Component {
         View.setOpenDropdown(null);
         if (values.predictionDestination != values.destination)
             formik.setFieldValue("destination", values.predictionDestination);
+
+        if (!authStore.permitted("AccommodationAvailabilitySearch"))
+            return UI.setModal(MODALS.READ_ONLY);
 
         searchCreate(values);
 

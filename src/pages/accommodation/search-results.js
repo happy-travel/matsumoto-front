@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { observer } from "mobx-react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { FINISH_STATUSES, STATUSES } from "tasks/accommodation/search-create"
+import { STATUSES } from "tasks/accommodation/search-create"
 import { searchLoaderWithNewOrder } from "tasks/accommodation/search-loaders";
 import { searchGetRooms } from "tasks/accommodation/search-get-rooms";
 
@@ -123,7 +123,7 @@ class AccommodationSearchResultsPage extends React.Component {
                     dataLength={store.hotelArray.length}
                     next={this.loadNextPage}
                     hasMore={store.search.hasMoreSearchResults}
-                    loader={(store.search?.loading && (store.search?.loading !== "__filter_tmp")) ? <Loader /> : null}
+                    loader={(store.search?.loading !== "__filter_tmp") ? <Loader /> : null}
                 >
                 { store.hotelArray.map(item =>
                 <div class="contract" key={item.accommodation.id}>
@@ -221,7 +221,7 @@ class AccommodationSearchResultsPage extends React.Component {
                     </div>
                 </div>) }
                 </InfiniteScroll>
-                {!FINISH_STATUSES.includes(store.search.status) && <Loader />}
+                {store.search?.loading && <Loader />}
             </div>
         </section> }
     </div>

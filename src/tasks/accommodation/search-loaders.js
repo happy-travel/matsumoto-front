@@ -18,7 +18,7 @@ export const searchLoader = (page = 0, callback = () => {}) => {
             callback();
             store.setSearchResult(result, page);
         },
-        error: () => {
+        after: () => {
             store.setSearchIsLoading(false);
         }
     });
