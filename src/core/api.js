@@ -1,7 +1,5 @@
 import settings from "settings";
-import Authorize from "core/auth/authorize";
-import { isPageAvailableAuthorizedOnly } from "core/auth";
-import Notifications from "stores/notifications-store";
+import fetch from "./misc/fetch";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
 
@@ -110,150 +108,12 @@ API_METHODS = {
     OUR_COMPANY          : v1 + "/company"
 };
 
-
-
-/*^~^~^~^~^~^~^~^~^~^~^~~^~^~^~^~^*/
-
-
-
-let _ = API_METHODS;
-
-_.methods_dont_show_error = [
-    _.AGENT_SETTINGS,
-    _.BASE_VERSION, _.BASE_REGIONS, _.BASE_CURRENCIES, _.OUR_COMPANY
+API_METHODS.methods_dont_show_error = [
+    API_METHODS.AGENT_SETTINGS,
+    API_METHODS.BASE_VERSION,
+    API_METHODS.BASE_REGIONS,
+    API_METHODS.BASE_CURRENCIES,
+    API_METHODS.OUR_COMPANY
 ];
 
-const showError = (text, url = "") => ((
-    _.methods_dont_show_error.indexOf(url) < 0 &&
-    (!url || (url?.indexOf("/state") < 0))
-) && Notifications.addNotification(text));
-
-_.request = ({
-    url, external_url,
-    body = {},
-    method = "GET",
-    response, // function(response)                - Fires first
-    success,  // function(result)                  - Fires second on success
-    error,    // function(error)                   - Fires second on error,
-    after     // function(result, error, response) - Fires the last
-}) => {
-Authorize.getUser().then(user => {
-    if (!external_url && !user?.access_token) {
-        if (isPageAvailableAuthorizedOnly())
-            Authorize.signinRedirect();
-        return;
-    }
-
-    var finalUrl = url || external_url,
-        request = {
-            method: method,
-            headers: new Headers({
-                ...(external_url ? {} : {
-                    'Authorization': `Bearer ${user.access_token}`
-                }),
-                'Content-Type': 'application/json'
-            })
-        };
-
-    if (["POST", "PUT", "DELETE"].includes(method))
-        request.body = JSON.stringify(body);
-    else {
-        var getBody = Object.keys(body).map(key =>
-            [key, body[key]].map(encodeURIComponent).join("=")
-        ).join("&");
-        finalUrl += (getBody ? "?" + getBody : "");
-    }
-
-    var rawResponse = null,
-        failed = false;
-    fetch(finalUrl, request)
-        .then(res => {
-            rawResponse = res;
-            failed = !res || (res && res.status >= 300);
-            if (response) {
-                response(res);
-                return;
-            }
-            return res.text().then(text => {
-                var value = null;
-                if (text) {
-                    try {
-                        value = JSON.parse(text);
-                    }
-                    catch (e) {
-                        value = text;
-                    }
-                }
-                return value;
-            });
-        })
-        .then(
-            (result) => {
-                if ((rawResponse.status == 401) && isPageAvailableAuthorizedOnly()) {
-                    Authorize.signinRedirect();
-                    return;
-                }
-                if (rawResponse.status == 403) {
-                    showError("Sorry, you don`t have enough permissions", url);
-                    if (error)
-                        error(result);
-                    if (after)
-                        after(null, null, rawResponse);
-                    return;
-                }
-                if (failed) {
-                    if (result && result.status >= 400 && result.detail)
-                        showError(result.detail, url);
-                    if (error)
-                        error(result);
-                } else {
-                    showError(null, url);
-                    if (success)
-                        success(result);
-                }
-                if (after)
-                    after(
-                        failed ? null : result,
-                        failed ? result :  null,
-                        rawResponse
-                    );
-            },
-            (err) => {
-                if (error)
-                    error(err);
-                if (after)
-                    after(null, err, rawResponse);
-            }
-        );
-});
-};
-
-_.get = (params) => {
-    _.request({
-        method: "GET",
-        ...params
-    })
-};
-
-_.post = (params) => {
-    _.request({
-        method: "POST",
-        ...params
-    })
-};
-
-_.put = (params) => {
-    _.request({
-        method: "PUT",
-        ...params
-    })
-};
-
-_.delete = (params) => {
-    _.request({
-        method: "DELETE",
-        ...params
-    })
-};
-
-export default _;
+export default fetch(API_METHODS);
