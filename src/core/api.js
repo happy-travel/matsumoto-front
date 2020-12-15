@@ -75,7 +75,7 @@ API_METHODS = {
     REQUEST_DEADLINE      : (searchId, resultId, roomContractSetId) =>
                             v1 + `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}/deadline`,
 
-    BILLING_HISTORY       : v1 + `/payments/history/agent`,
+    PAYMENTS_HISTORY      : v1 + `/agent/payments-history`,
 
     BASE_VERSION          : v1 + "/versions",
 

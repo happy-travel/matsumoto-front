@@ -36,7 +36,7 @@ class AccountStatementPage extends React.Component {
         values = {...initialValues, ...values};
 
         API.get({
-            url: API.BILLING_HISTORY,
+            url: API.PAYMENTS_HISTORY,
             body: {
                 $filter: `created gt ${
                     moment(values.start).utc(true).format()
