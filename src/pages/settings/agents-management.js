@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { API } from "core";
 
-import { dateFormat, PassengerName } from "simple";
+import { dateFormat } from "simple";
 import Table from "components/table";
 import SettingsHeader from "./parts/settings-header";
 
@@ -28,6 +28,11 @@ const agentsColumns = t => [
         cell: (item) => item.markupSettings || "None"
     }
 ];
+
+export const Searches = v => [
+    v.name
+];
+
 
 @observer
 class AgentsManagement extends React.Component {
@@ -61,15 +66,18 @@ class AgentsManagement extends React.Component {
                 <SettingsHeader />
                 <section>
                     <h2><span class="brand">{t("All Agents")}</span></h2>
-                    <Table
-                        list={agents}
-                        columns={agentsColumns(t)}
-                        onRowClick={item => this.setState({
-                            redirect: `/settings/agents/${item.agentId}`
-                        })}
-                        textEmptyResult={t("No agents found")}
-                        textEmptyList={t("The agents list is empty")}
-                    />
+                    <div style={{ marginTop: "-105px" }}>
+                        <Table
+                            list={agents}
+                            columns={agentsColumns(t)}
+                            onRowClick={item => this.setState({
+                                redirect: `/settings/agents/${item.agentId}`
+                            })}
+                            textEmptyResult={t("No agents found")}
+                            textEmptyList={t("The agents list is empty")}
+                            searches={Searches}
+                        />
+                    </div>
                 </section>
             </div>
         );
