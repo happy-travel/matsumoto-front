@@ -304,12 +304,14 @@ render() {
                     ))}
 
                     <div class="actions">
+                    { /*
                         { "NotPaid" == data.paymentStatus &&
                           "Cancelled" != booking.status &&
                             <button class="button" onClick={this.payNowByCard}>
                                 {t("Pay now by Card")}
                             </button>
                         }
+                    */ }
                         { "Captured" == data.paymentStatus &&
                           "Confirmed" == booking.status &&
                             <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
