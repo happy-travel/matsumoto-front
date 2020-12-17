@@ -97,7 +97,6 @@ class RegistrationCounterparty extends React.Component {
                                 "city": "",
                                 "phone": "",
                                 "fax": "",
-                                "preferredCurrency": "USD",
                                 "preferredPaymentMethod": "",
                                 "website": "",
                                 "postalCode": ""
@@ -155,17 +154,6 @@ class RegistrationCounterparty extends React.Component {
                                                          options={[
                                                              { value: "BankTransfer", text: "Bank transfer"},
                                                              { value: "CreditCard", text: "Credit card"}
-                                                         ]}
-                                            />
-                                        </div>
-                                        <div class="row">
-                                            <FieldSelect formik={formik}
-                                                         id="preferredCurrency"
-                                                         label={t("Company account currency")}
-                                                         required
-                                                         placeholder={t("Company account currency")}
-                                                         options={[
-                                                             { value: "USD", text: "US Dollars"}
                                                          ]}
                                             />
                                         </div>

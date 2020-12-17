@@ -86,10 +86,6 @@ export default class CounterpartySettings extends React.Component {
                             <b>{t("Payment method")}</b>:{" "}
                             {formik.values.preferredPaymentMethod}
                         </div>
-                        <div class="row">
-                            <b>{t("Currency")}</b>:{" "}
-                            {formik.values.preferredCurrency}
-                        </div>
 
                         {authStore.permitted("ObserveCounterpartyContract") &&
                             <div class="row">

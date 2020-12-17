@@ -16,8 +16,6 @@ export default Yup.object().shape({
         .required("Required"),
     preferredPaymentMethod: Yup.string()
         .required("Required"),
-    preferredCurrency: Yup.string()
-        .required("Required"),
     phone: Yup.string()
         .max(30, "Too long")
         .required("Required"),

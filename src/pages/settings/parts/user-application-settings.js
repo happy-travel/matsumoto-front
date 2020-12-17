@@ -86,9 +86,9 @@ class UserApplicationSettings extends React.Component {
                                 <FieldSelect formik={formik}
                                              id="weekStarts"
                                              label={t("Week starts on")}
-                                             placeholder={t("Default")}
+                                             placeholder={t("Automatic")}
                                              options={[
-                                                 { value: 0, text: "Default"},
+                                                 { value: 0, text: "Automatic"},
                                                  { value: 7, text: "Sunday"},
                                                  { value: 1, text: "Monday"},
                                                  { value: 2, text: "Tuesday"},

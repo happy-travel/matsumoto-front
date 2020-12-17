@@ -36,7 +36,6 @@ translations: {
     "Zip/Postal Code": "الرمز البريدي",
     "Select Country": "اختر البلد",
     "Preferred Payment Method": "طريقة الدفع المفضلة",
-    "Preferred currency": "العملة المفضلة",
     "Telephone": "رقم الهاتف",
     "Fax": "رقم الفاكس",
     "Prefix": " رمز الهاتف الدولي",
