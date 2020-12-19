@@ -100,6 +100,9 @@ class AccommodationStore {
         if ((this.search.status != "PartiallyCompleted") || this.search.result?.length || (this.search.loading == "__filter_tmp"))
             this.search.loading = false;
 
+        if (this.search.status == "Completed") 
+            this.search.loading = false;
+
         this.filters = createFilters(this.search.result);
 
         if (0 == page) {
