@@ -46,8 +46,9 @@ export const searchCreate = values => {
                     store.setSearchResultLength(data.resultCount, data.taskState);
                     return;
                 }
-                if (!data.resultCount)
+                if (!data.resultCount && (STATUSES.COMPLETED != data.taskState))
                     return;
+
                 if (store.search?.length != data.resultCount || store.search?.status !== data.taskState) {
                     searchLoader(0, () => {
                         store.setSearchResultLength(data.resultCount, data.taskState);
