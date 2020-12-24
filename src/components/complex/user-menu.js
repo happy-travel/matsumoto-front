@@ -7,7 +7,7 @@ import authStore from "stores/auth-store";
 const calcTitleFor = (value) => (value?.length > 14 ? { title: value } : {});
 
 @observer
-class UserMenuDropdown extends React.Component {
+class UserMenu extends React.Component {
     render() {
         const { t } = useTranslation();
 
@@ -46,4 +46,4 @@ class UserMenuDropdown extends React.Component {
     }
 }
 
-export default UserMenuDropdown;
+export default UserMenu;
