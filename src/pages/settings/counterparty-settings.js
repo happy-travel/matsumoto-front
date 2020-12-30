@@ -7,6 +7,7 @@ import { observer } from "mobx-react";
 import { Loader, Flag } from "simple";
 import { FieldText, FieldTextarea } from "components/form";
 import SettingsHeader from "./parts/settings-header";
+import VoucherImage from "./parts/voucher-image";
 
 import { loadCounterpartyInfo } from "simple/logic";
 
@@ -138,7 +139,20 @@ export default class CounterpartySettings extends React.Component {
                     </div>
                     );
                 }}
-            </Formik>
+                </Formik>
+                <h2><span class="brand">{t("Voucher Personalisation")}</span></h2>
+                <div>
+                    <VoucherImage
+                        route={API.AGENCY_LOGO}
+                        title={t("Logo")}
+                        text="Recommended size: 226 x 114 pixels"
+                    />
+                    <VoucherImage
+                        route={API.AGENCY_BANNER}
+                        title={t("Banner")}
+                        text="Recommended size: 726 x 111 pixels"
+                    />
+                </div>
             </section> }
         </div>
         );

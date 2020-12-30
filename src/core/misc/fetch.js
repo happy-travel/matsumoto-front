@@ -10,7 +10,7 @@ export default api => {
 
     api.request = ({
         url, external_url,
-        body = {},
+        body = {}, formDataBody,
         method = "GET",
         response, // function(response)                - Fires first
         success,  // function(result)                  - Fires second on success
@@ -31,7 +31,7 @@ export default api => {
                         ...(external_url ? {} : {
                             'Authorization': `Bearer ${user.access_token}`
                         }),
-                        'Content-Type': 'application/json'
+                      //  'Content-Type': formDataBody ? 'multipart/form-data' : 'application/json'
                     })
                 };
 
@@ -43,6 +43,9 @@ export default api => {
                 ).join("&");
                 finalUrl += (getBody ? "?" + getBody : "");
             }
+
+            if (formDataBody)
+                request.body = formDataBody;
 
             var rawResponse = null,
                 failed = false;

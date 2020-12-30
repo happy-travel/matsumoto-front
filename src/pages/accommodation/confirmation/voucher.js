@@ -25,6 +25,12 @@ class AccommodationConfirmationVoucherPage extends React.Component {
 
         return (
             <div class="invoice">
+                {voucher.logoUrl &&
+                    <div class="personal-logo">
+                        <img src={voucher.logoUrl} alt="" />
+                    </div>
+                }
+
                 <h4>Booking reference code: {voucher.referenceCode}</h4>
 
                 <div class="information">
@@ -99,11 +105,18 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                         </div>
                     </div>
                 </div>
+
+                {voucher.bannerUrl &&
+                    <div class="personal-b">
+                        <img src={voucher.bannerUrl} alt="" />
+                    </div>
+                }
+
                 {!voucher.deadlineDate &&
-                <div class="deadline-notify">
-                    <span class="icon icon-info-green"/>
-                    FREE Cancellation
-                </div>
+                    <div class="deadline-notify">
+                        <span class="icon icon-info-green"/>
+                        FREE Cancellation
+                    </div>
                 }
                 {moment().isBefore(voucher.deadlineDate) &&
                     <div class="deadline-notify">
