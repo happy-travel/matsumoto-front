@@ -48,10 +48,14 @@ API_METHODS = {
                             v1 + `/accommodations/bookings/${bookingId}/cancellation-penalty`,
     BOOKING_STATUS        : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}/refresh-status`,
-    BOOKING_VOUCHER       : bookingId =>
-                            v1 + `/accommodations/supporting-documentation/${bookingId}/voucher/send`,
     BOOKING_INVOICE       : bookingId =>
+                            v1 + `/accommodations/supporting-documentation/${bookingId}/invoice`,
+    BOOKING_INVOICE_SEND  : bookingId =>
                             v1 + `/accommodations/supporting-documentation/${bookingId}/invoice/send`,
+    BOOKING_VOUCHER       : bookingId =>
+                            v1 + `/accommodations/supporting-documentation/${bookingId}/voucher`,
+    BOOKING_VOUCHER_SEND  : bookingId =>
+                            v1 + `/accommodations/supporting-documentation/${bookingId}/voucher/send`,
     BOOKING_GET_BY_ID     : bookingId =>
                             v1 + `/accommodations/bookings/${bookingId}`,
     BOOKING_GET_BY_CODE   : referenceCode =>

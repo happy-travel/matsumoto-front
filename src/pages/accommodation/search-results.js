@@ -136,8 +136,7 @@ class AccommodationSearchResultsPage extends React.Component {
                                 <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
                                         id={item.supplier + "." + item.accommodation.id}
                                         onClick={() => {
-                                            UI.setModal(MODALS.REPORT_DUPLICATE);
-                                            UI.setModalData(item);
+                                            UI.setModal(MODALS.REPORT_DUPLICATE, item);
                                         }}>
                                     {item.hasDuplicate ? t("Marked as Duplicate") : t("Mark as duplicate")}
                                 </button>

@@ -9,17 +9,22 @@ const Header = () => {
     const { t } = useTranslation();
 
     return (
-        <header>
-            <section>
-                <div class="logo-wrapper">
-                    <Link to="/" class="logo" />
-                </div>
-                <nav>
-                    { Authorized() && <li><Link class="selected" to="/">{t("Accommodations")}</Link></li> }
-                </nav>
-                { Authorized() && <UserMenu /> }
-            </section>
-        </header>
+        <>
+            <header>
+                <section>
+                    <div class="logo-wrapper">
+                        <Link to="/" class="logo" />
+                    </div>
+                    <nav>
+                        { Authorized() && <li><Link class="selected" to="/">{t("Accommodations")}</Link></li> }
+                    </nav>
+                    { Authorized() && <UserMenu /> }
+                </section>
+            </header>
+            <div class="print">
+                <img class="print-logo" src="/images/logo/logo.png" alt="" />
+            </div>
+        </>
     );
 };
 

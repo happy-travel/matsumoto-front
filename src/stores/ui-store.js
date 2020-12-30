@@ -38,7 +38,6 @@ class UIStore {
     modal = null;
 
     @observable
-    @setter(null)
     modalData = null;
 
     @observable
@@ -93,8 +92,9 @@ class UIStore {
         });
     }
 
-    setModal(id) {
+    setModal(id, data) {
         this.modal = id || null;
+        this.modalData = data;
         document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
     }
 

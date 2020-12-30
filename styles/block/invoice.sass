@@ -1,0 +1,146 @@
+.invoice
+    width: 1000px
+    margin: auto
+    color: #212121
+    -webkit-print-color-adjust: exact
+    print-color-adjust: exact
+    padding-top: 100px
+    h4
+        font-size: 22px
+        margin: 0 0 38px
+        font-weight: 300
+    .dual
+        flex-wrap: wrap
+        margin-bottom: 20px
+    .details
+        width: 50%
+        margin-bottom: 40px
+        div
+            margin-bottom: 5px
+        &:nth-child(2)
+            padding-left: 40px
+        h5
+            font-weight: 500
+            font-size: 15px
+            margin-bottom: 10px
+    .data
+        width: 100%
+        border-collapse: collapse
+        th
+            font-weight: bold
+            font-size: 10px
+            text-transform: uppercase
+            color: #A4AAB3
+            padding-bottom: 20px
+        th
+            text-align: left
+        td
+            font-size: 14px
+            padding: 28px 0
+        td, th
+            &:nth-child(1),
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6)
+                text-align: right
+        td, th
+            &:nth-child(1)
+                padding-left: 20px
+                padding-right: 20px
+                text-align: right
+            &:nth-child(6)
+                padding-right: 40px
+        tr
+            &:nth-child(2n+1)
+                td
+                    background: #FFF7EB
+
+    .total
+        padding: 24px 0
+        border-bottom: 2px solid #EBE9E9
+        display: flex
+        justify-content: flex-end
+        div
+            font-weight: 600
+            font-size: 18px
+            &:first-child
+                padding-left: 10px
+            &:last-child
+                margin-left: 15px
+                padding-right: 40px
+
+    .information
+        margin: 40px 0
+        & > div:nth-child(2)
+            font-size: 20px
+            margin: 24px 0
+        .points
+            display: flex
+            flex-wrap: wrap
+            margin-bottom: 32px
+            & > div
+                width: 50%
+                margin-bottom: 24px
+                display: flex
+                align-items: center
+                a
+                    color: #548EF5
+                    &:hover
+                        text-decoration: underline
+            .item
+                background: #F9A51B
+                border-radius: 100px
+                width: 18px
+                height: 18px
+                display: flex
+                align-items: center
+                justify-content: center
+                margin-right: 10px
+                span.icon
+                    width: 14px
+                    height: 14px
+                    background-size: contain
+    .box
+        flex: 1
+        background: #FFF7EB
+        width: 100%
+        padding: 32px 50px 44px
+        .title
+            margin-bottom: 30px
+            color: #F9A51B
+            font-size: 28px
+            text-align: center
+            font-weight: 500
+        .columns
+            display: flex
+            .one
+                width: 300px
+                padding-right: 30px
+                font-size: 14px
+                .text
+                    margin-top: 28px
+                    margin-bottom: 3px
+                    font-weight: 500
+                    font-size: 16px
+                    &:first-child
+                        margin-top: 0
+            .two
+                width: 600px
+        @media print
+            background: #ffffff
+            border: 5px solid #FFF7EB
+            border-radius: 25px
+
+    .deadline-notify
+        width: 100%
+        display: flex
+        align-items: center
+        justify-content: center
+        margin: 35px 0
+        font-weight: 500
+        font-size: 20px
+        color: #1CBE69
+        span
+            margin-right: 20px
+            width: 32px
+            height: 32px

@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +9,7 @@ import {
     Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat, price
 } from "simple";
 
-import { remapStatus } from "../user/booking-management/table-data";
+import { remapStatus } from "../../user/booking-management/table-data";
 
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -29,7 +29,8 @@ class AccommodationConfirmationPage extends React.Component {
         this.state = {
             fromGetter: false,
             statusLoading: false,
-            redirect: null
+            redirect: null,
+            id: props?.match?.params?.id
         };
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
         this.payNowByCard = this.payNowByCard.bind(this);
@@ -37,20 +38,26 @@ class AccommodationConfirmationPage extends React.Component {
     }
 
     showCancellationConfirmation() {
-        UI.setModalData({
-            bookingId: store.booking.result.bookingId,
-            ...store.booking.result.bookingDetails
-        });
-        UI.setModal(MODALS.CANCELLATION_CONFIRMATION);
+        UI.setModal(
+            MODALS.CANCELLATION_CONFIRMATION,
+            {
+                bookingId: store.booking.result.bookingId,
+                ...store.booking.result.bookingDetails
+            }
+        );
     }
 
     showSendInvoiceModal(type) {
-        UI.setModalData({
-            type,
-            bookingId: store.booking.result.bookingId,
-            ...store.booking.result.bookingDetails
-        });
-        UI.setModal(MODALS.SEND_INVOICE);
+        UI.setModal(
+            MODALS.SEND_INVOICE,
+            {
+                type,
+                bookingId: store.booking.result.bookingId,
+                ...store.booking.result.bookingDetails
+            }
+        );
+        // this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)
+        // this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)
     }
 
     updateBookingStatus() {
@@ -74,7 +81,7 @@ class AccommodationConfirmationPage extends React.Component {
     loadBooking() {
         store.setBookingResult(null);
 
-        var bookingId = this.props?.match?.params?.id,
+        var bookingId = this.state.id,
             referenceCode = store.paymentResult?.params?.settlement_reference || store.paymentResult?.params?.referenceCode;
 
         if (bookingId || referenceCode) {
@@ -296,12 +303,19 @@ render() {
                                     b={room.supplierRoomReferenceCode}
                                 />
                             </div> }
-                            <FullDeadline t={t}
-                                          deadline={room.deadlineDetails}
-                                          remarks={room?.remarks}
-                            />
+                            {room.deadlineDetails.date &&
+                                <FullDeadline t={t}
+                                              deadline={room.deadlineDetails}
+                                              remarks={room?.remarks}
+                                />
+                            }
                         </div>
                     ))}
+                    { !booking.roomDetails[0].deadlineDetails.date && !!booking.deadlineDate &&
+                        <FullDeadline t={t}
+                                      deadline={{ date: booking.deadlineDate }}
+                        />
+                    }{ /* temporary workaround: deadline dates conflict */ }
 
                     <div class="actions">
                     { /*
@@ -312,15 +326,15 @@ render() {
                             </button>
                         }
                     */ }
-                        { "Captured" == data.paymentStatus &&
+                        { ("Captured" == data.paymentStatus || "Authorized" == data.paymentStatus) &&
                           "Confirmed" == booking.status &&
-                            <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)}>
-                                {t("Send Voucher")}
-                            </button>
+                            <Link to={`/accommodation/confirmation/${this.state.id}/voucher`} class="button">
+                                {t("Voucher")}
+                            </Link>
                         }
-                        <button class="button" onClick={() => this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)}>
-                            {t("Send Invoice")}
-                        </button>
+                        <Link to={`/accommodation/confirmation/${this.state.id}/invoice`} class="button">
+                            {t("Invoice")}
+                        </Link>
 
                         { this.state.fromHistory &&
                           "Cancelled" != booking.status &&

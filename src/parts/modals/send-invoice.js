@@ -26,8 +26,8 @@ class SendInvoiceModal extends React.Component {
         });
         API.post({
             url: type == INVOICE_TYPES.VOUCHER
-                    ? API.BOOKING_VOUCHER(bookingId)
-                    : API.BOOKING_INVOICE(bookingId),
+                    ? API.BOOKING_VOUCHER_SEND(bookingId)
+                    : API.BOOKING_INVOICE_SEND(bookingId),
             body: values,
             success: () => {
                 this.setState({

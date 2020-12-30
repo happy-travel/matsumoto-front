@@ -5,8 +5,11 @@ import Route from "./misc/route";
 import accommodationTitle         from "pages/accommodation/title";
 import accommodationSearchResults from "pages/accommodation/search-results";
 import accommodationBooking       from "pages/accommodation/booking";
-import accommodationConfirmation  from "pages/accommodation/confirmation";
 import accommodationContractsSets from "pages/accommodation/room-contract-sets";
+
+import accommodationConfirmation        from "pages/accommodation/confirmation/confirmation";
+import accommodationConfirmationInvoice from "pages/accommodation/confirmation/invoice";
+import accommodationConfirmationVoucher from "pages/accommodation/confirmation/voucher";
 
 import paymentPage                from "pages/payment/payment";
 import paymentResult              from "pages/payment/result";
@@ -66,6 +69,8 @@ const Routes = () => (
         <Route exact path="/search"               component={accommodationSearchResults} title="Search Results" />
         <Route exact path="/search/contract"      component={accommodationContractsSets} title="Select An Accommodation" />
         <Route path="/accommodation/booking"      component={accommodationBooking} title="Accommodation Booking" />
+        <Route path="/accommodation/confirmation/:id/invoice" component={accommodationConfirmationInvoice} title="Invoice" />
+        <Route path="/accommodation/confirmation/:id/voucher" component={accommodationConfirmationVoucher} title="Voucher" />
         <Route path={[
                     "/accommodation/confirmation/:id",
                     "/accommodation/confirmation"

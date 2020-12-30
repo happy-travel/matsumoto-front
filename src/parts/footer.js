@@ -61,7 +61,7 @@ render() {
                     </div>
                     <div class="contact">
                         <h3>{t("Contact Us")}</h3>
-                        <div><span>{t("Email")}:</span> <a href={`mailto:${ht.email}}`}>{ht.email}</a></div>
+                        <div><span>{t("Email")}:</span> <a href={`mailto:${ht.email}`}>{ht.email}</a></div>
                         <div><span>{t("Phone")}:</span> {ht.phone}</div>
                         <div>
                             <span>{t("Address")}:</span> {ht.name}<br/>
