@@ -332,9 +332,11 @@ render() {
                                 {t("Voucher")}
                             </Link>
                         }
-                        <Link to={`/accommodation/confirmation/${this.state.id}/invoice`} class="button">
-                            {t("Invoice")}
-                        </Link>
+                        { "Cancelled" != booking.status &&
+                            <Link to={`/accommodation/confirmation/${this.state.id}/invoice`} class="button">
+                                {t("Invoice")}
+                            </Link>
+                        }
 
                         { this.state.fromHistory &&
                           "Cancelled" != booking.status &&
