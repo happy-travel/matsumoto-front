@@ -5,9 +5,12 @@ import 'leaflet/dist/leaflet.css';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
 
+
 let DefaultIcon = L.icon({
     iconUrl: icon,
-    shadowUrl: null
+    shadowUrl: null,
+    iconSize: [24,36],
+    iconAnchor: [12,36]
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
