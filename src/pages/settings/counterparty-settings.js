@@ -140,19 +140,23 @@ export default class CounterpartySettings extends React.Component {
                     );
                 }}
                 </Formik>
-                <h2><span class="brand">{t("Voucher Personalisation")}</span></h2>
-                <div>
-                    <VoucherImage
-                        route={API.AGENCY_LOGO}
-                        title={t("Logo")}
-                        text="Recommended size: 226 x 114 pixels"
-                    />
-                    <VoucherImage
-                        route={API.AGENCY_BANNER}
-                        title={t("Banner")}
-                        text="Recommended size: 726 x 111 pixels"
-                    />
-                </div>
+                { authStore.permitted("AgencyImagesManagement") &&
+                    <>
+                        <h2><span class="brand">{t("Voucher Personalisation")}</span></h2>
+                        <div>
+                            <VoucherImage
+                                route={API.AGENCY_LOGO}
+                                title={t("Logo")}
+                                text="Recommended size: 226 x 114 pixels"
+                            />
+                            <VoucherImage
+                                route={API.AGENCY_BANNER}
+                                title={t("Banner")}
+                                text="Recommended size: 726 x 111 pixels"
+                            />
+                        </div>
+                    </>
+                }
             </section> }
         </div>
         );
