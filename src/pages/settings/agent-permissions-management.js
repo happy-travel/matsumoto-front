@@ -9,9 +9,9 @@ import { Loader, PassengerName } from "simple";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import SettingsHeader from "./parts/settings-header";
+import AgentMarkup from "./parts/agent-markup";
 
 import authStore from "stores/auth-store";
-import Notifications from "stores/notifications-store";
 
 const generateLabel = str => {
     if (!str)
@@ -201,6 +201,10 @@ export default class AgentPermissionsManagement extends React.Component {
                         )}
                     </Formik>
                 </div>
+
+                <AgentMarkup
+                    agentId={agent.agentId}
+                />
             </section>
             }
         </div>

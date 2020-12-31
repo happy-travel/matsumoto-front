@@ -108,6 +108,11 @@ API_METHODS = {
                            v1 + `/agency/agents/${agentId}/permissions`,
     AGENCY_APR_SETTINGS  : v1 + `/agency/system-settings/apr-settings`,
     AGENCY_PAYMENT_OPTION: v1 + `/agency/system-settings/displayed-payment-options`,
+    MARKUP_TEMPLATES     : v1 + "/markup-templates",
+    AGENT_MARKUPS        : agentId =>
+                           v1 + `/agency/agents/${agentId}/markups`,
+    AGENT_MARKUP         : (agentId, policyId) =>
+                           v1 + `/agency/agents/${agentId}/markups/${policyId}`,
 
     REPORT_DUPLICATE     : v1 + "/accommodations-mapping/duplicate-reports",
 
