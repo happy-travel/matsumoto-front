@@ -20,7 +20,7 @@ import ViewFailed from "parts/view-failed";
 
 import store from "stores/accommodation-store";
 import authStore from "stores/auth-store";
-import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
+import UI, { MODALS } from "stores/ui-store";
 
 @observer
 class AccommodationConfirmationPage extends React.Component {
@@ -45,19 +45,6 @@ class AccommodationConfirmationPage extends React.Component {
                 ...store.booking.result.bookingDetails
             }
         );
-    }
-
-    showSendInvoiceModal(type) {
-        UI.setModal(
-            MODALS.SEND_INVOICE,
-            {
-                type,
-                bookingId: store.booking.result.bookingId,
-                ...store.booking.result.bookingDetails
-            }
-        );
-        // this.showSendInvoiceModal(INVOICE_TYPES.VOUCHER)
-        // this.showSendInvoiceModal(INVOICE_TYPES.INVOICE)
     }
 
     updateBookingStatus() {

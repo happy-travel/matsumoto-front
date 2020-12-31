@@ -7,6 +7,8 @@ import { API } from "core";
 import { Loader, dateFormat } from "simple";
 import Map from "components/map";
 
+import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
+
 @observer
 class AccommodationConfirmationVoucherPage extends React.Component {
     componentDidMount() {
@@ -14,6 +16,16 @@ class AccommodationConfirmationVoucherPage extends React.Component {
             url: API.BOOKING_VOUCHER(this.props.match?.params?.id),
             success: voucher => this.setState({ voucher })
         });
+    }
+
+    showSendModal = () => {
+        UI.setModal(
+            MODALS.SEND_INVOICE,
+            {
+                type: INVOICE_TYPES.VOUCHER,
+                bookingId: this.props.match?.params?.id
+            }
+        );
     }
 
     render() {
@@ -25,6 +37,11 @@ class AccommodationConfirmationVoucherPage extends React.Component {
 
         return (
             <div class="invoice">
+                <div class="buttons no-print">
+                    <button class="button" onClick={window.print}>{t("Print")}</button>
+                    <button class="button" onClick={this.showSendModal}>{t("Send Voucher")}</button>
+                </div>
+
                 {voucher.logoUrl &&
                     <div class="personal-logo">
                         <img src={voucher.logoUrl} alt="" />

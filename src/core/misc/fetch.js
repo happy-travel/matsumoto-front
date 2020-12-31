@@ -31,7 +31,9 @@ export default api => {
                         ...(external_url ? {} : {
                             'Authorization': `Bearer ${user.access_token}`
                         }),
-                      //  'Content-Type': formDataBody ? 'multipart/form-data' : 'application/json'
+                        ...(formDataBody ? {} : {
+                            'Content-Type': 'application/json'
+                        })
                     })
                 };
 

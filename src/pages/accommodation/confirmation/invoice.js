@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { Loader, dateFormat, price } from "simple";
 
+import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
+
 @observer
 class AccommodationConfirmationInvoicePage extends React.Component {
     componentDidMount() {
@@ -11,6 +13,16 @@ class AccommodationConfirmationInvoicePage extends React.Component {
             url: API.BOOKING_INVOICE(this.props.match?.params?.id),
             success: invoice => this.setState({ invoice })
         });
+    }
+
+    showSendModal = () => {
+        UI.setModal(
+            MODALS.SEND_INVOICE,
+            {
+                type: INVOICE_TYPES.INVOICE,
+                bookingId: this.props.match?.params?.id
+            }
+        );
     }
 
     render() {
@@ -24,6 +36,11 @@ class AccommodationConfirmationInvoicePage extends React.Component {
 
         return (
             <div class="invoice">
+                <div class="buttons no-print">
+                    <button class="button" onClick={window.print}>{t("Print")}</button>
+                    <button class="button" onClick={this.showSendModal}>{t("Send Invoice")}</button>
+                </div>
+
                 <h4>Final invoice for {dateFormat.c(registration.date)}</h4>
                 <div class="dual">
                     <div class="details">

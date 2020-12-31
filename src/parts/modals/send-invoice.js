@@ -14,9 +14,17 @@ class SendInvoiceModal extends React.Component {
         this.state = {
             success: null,
             error: null,
-            loading: false
+            loading: false,
+            booking: {}
         };
         this.submit = this.submit.bind(this);
+    }
+
+    componentDidMount() {
+        API.get({
+            url: API.BOOKING_GET_BY_ID(UI.modalData.bookingId),
+            success: booking => this.setState({ booking })
+        });
     }
 
     submit(values) {
@@ -47,9 +55,9 @@ class SendInvoiceModal extends React.Component {
 
     render() {
         var { t } = useTranslation(),
-            { referenceCode, type } = UI.modalData,
+            { type } = UI.modalData,
             { closeModal } = this.props,
-            { error, success, loading } = this.state;
+            { error, success, loading, booking } = this.state;
 
         return (
             <div class="confirm modal">
@@ -81,7 +89,7 @@ class SendInvoiceModal extends React.Component {
                                 <div class="form">
                                     <p>
                                         {t("Enter email to receive information about booking")} <br/>
-                                        { referenceCode }.
+                                        { booking?.bookingDetails?.referenceCode }.
                                     </p>
                                     <div class="row">
                                         <FieldText formik={formik}
