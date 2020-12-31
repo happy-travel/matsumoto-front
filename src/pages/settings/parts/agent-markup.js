@@ -49,14 +49,18 @@ class AgentMarkup extends React.Component {
 
     create = (values, formik) => {
         var { agentId } = this.props,
-            { templates } = this.state;
+            { templates } = this.state,
+            amount = values.amount;
+
+        amount = amount.replaceAll(",", ".");
+
         API.post({
             url: API.AGENT_MARKUPS(agentId),
             body: {
                 description: values.description,
                 templateId: templates[values.templateIndex].id,
                 templateSettings: {
-                    [templates[values.templateIndex].parameterNames[0]]: values.amount
+                    [templates[values.templateIndex].parameterNames[0]]: amount
                 },
                 order: values.order,
                 currency: "USD"
