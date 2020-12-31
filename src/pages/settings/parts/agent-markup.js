@@ -78,18 +78,21 @@ class AgentMarkup extends React.Component {
         return (
             <div class="markup-management">
                 <h2><span class="brand">{t("Markup Management")}</span></h2>
+                {!markups?.length && <div style={{ margin: "30px 0 60px" }}>Agent has no markups</div>}
                 {markups
-                    .sort((a,b) => a.order - b.order)
+                    .sort((a,b) => (a.settings.order - b.settings.order))
                     .map((markup, index) => (
-                    <div class="item">
-                        <i>{index + 1}.</i>{" "}
-                        <strong>
-                            { markup.settings.templateSettings.factor ?
-                                "*" + markup.settings.templateSettings.factor :
-                                "+" + markup.settings.templateSettings.addition + " USD" }
-                        </strong>{" "}
-                        ({markup.settings.description}){" "}
-                        (#{markup.settings.order}){" "}
+                    <div class="markup">
+                        <div>
+                            <i>{index + 1}.</i>{" "}
+                            <strong>
+                                { markup.settings.templateSettings.factor ?
+                                    "x " + markup.settings.templateSettings.factor :
+                                    "+ " + markup.settings.templateSettings.addition + " USD" }
+                            </strong>{" "}
+                            ({markup.settings.description}){" "}
+                            <i>#{markup.settings.order}</i>
+                        </div>
                         <span class="link" onClick={() => this.remove(markup.id)}>Remove</span>
                     </div>
                 ))}
