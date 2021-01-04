@@ -119,6 +119,16 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                             { room.supplierRoomReferenceCode &&
                                 <div>Room reference code: room.supplierRoomReferenceCode</div>
                             }
+                            {(room.passengers.length > 1) &&
+                                <div>
+                                    Other Guests:<br/>
+                                    {room.passengers.map( (item, index) => ( !!index &&
+                                        <>
+                                            <PassengerName passenger={ item } /><br/>
+                                        </>
+                                    ))}
+                                </div>
+                            }
                             <div>Board basis: <MealPlan t={t} room={room} /></div>
                             { room?.remarks.map(item => (
                                 <div>
