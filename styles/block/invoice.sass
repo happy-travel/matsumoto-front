@@ -6,24 +6,26 @@
     print-color-adjust: exact
     padding-top: 100px
     font-size: 14px
+    @media print
+        padding-top: 50px
     h4
         font-size: 22px
         margin: 0 0 38px
         font-weight: 300
-    .dual
-        flex-wrap: wrap
-        margin-bottom: 20px
+        line-height: 30px
+        text-align: center
     .details
         width: 50%
-        margin-bottom: 40px
+        margin-bottom: 50px
+        line-height: 23px
         div
-            margin-bottom: 5px
+            margin-bottom: 3px
         &:nth-child(2)
             padding-left: 40px
         h5
             font-weight: 500
             font-size: 15px
-            margin-bottom: 10px
+            margin-bottom: 5px
     .data
         width: 100%
         border-collapse: collapse
@@ -39,35 +41,38 @@
             font-size: 14px
             padding: 28px 0
         td, th
-            &:nth-child(1),
             &:nth-child(4),
             &:nth-child(5),
             &:nth-child(6)
                 text-align: right
         td, th
             &:nth-child(1)
-                padding-left: 20px
-                padding-right: 20px
-                text-align: right
+                padding-left: 40px
+                padding-right: 10px
             &:nth-child(6)
                 padding-right: 40px
         tr
             &:nth-child(2n+1)
                 td
                     background: #FFF7EB
+    .signature
+        float: right
+        margin-right: 100px
 
     .total
         padding: 24px 0
         border-bottom: 2px solid #EBE9E9
         display: flex
         justify-content: flex-end
+        overflow: hidden
+        margin-bottom: 40px
+        font-weight: 500
         div
-            font-weight: 600
             font-size: 18px
             &:first-child
-                padding-left: 10px
+                padding-left: 30px
             &:last-child
-                margin-left: 15px
+                margin-left: 25px
                 padding-right: 40px
 
     .information

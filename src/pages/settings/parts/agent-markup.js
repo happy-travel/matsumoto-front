@@ -108,7 +108,7 @@ class AgentMarkup extends React.Component {
                     <button
                         class="button"
                         onClick={() => this.setState({ isExpanded: true })}
-                        style={{ padding: "0 25px" }}
+                        style={{ padding: "0 25px", margin: "20px 0 0" }}
                     >
                         Add Markup
                     </button>

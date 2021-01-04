@@ -49,42 +49,34 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                     <button class="button" onClick={this.showSendModal}>{t("Send Invoice")}</button>
                 </div>
 
-                <h4>Final invoice for {dateFormat.c(registration.date)}</h4>
-                <div class="dual">
-                    <div class="details">
-                        <h5>From</h5>
-                         <div>{data.sellerDetails.companyName}</div>
-                         <div>Bank Name: {data.sellerDetails.bankName}</div>
-                         <div>Bank Address: {data.sellerDetails.bankAddress}</div>
-                         <div>Account: {data.sellerDetails.accountNumber}</div>
-                         <div>IBAN: {data.sellerDetails.iban}</div>
-                         <div>Routing Code: {data.sellerDetails.routingCode}</div>
-                         <div>Swift Code: {data.sellerDetails.swiftCode}</div>
-                    </div>
-                    <div class="details">
-                        <h5>Details</h5>
-                        <div>Invoice number: {registration.number}</div>
-                        <div>Date of issue: {dateFormat.a(registration.date)}</div>
-                    </div>
-                    <div class="details">
-                        <h5>For</h5>
-                        <div>{data.buyerDetails.address}</div>
-                        <div>{data.buyerDetails.name}</div>
-                        {data.buyerDetails.email &&
-                            <div><a href={`mailto:${data.buyerDetails.email}`}>{data.buyerDetails.email}</a></div>
-                        }
-                        {!!data.buyerDetails.contactPhone &&
-                            <div>{data.buyerDetails.contactPhone}</div>
-                        }
-                    </div>
+                <h4>
+                    <strong>PROFORMA INVOICE</strong><br/>
+                    {registration.number}<br/>
+                    {dateFormat.e(registration.date)}
+                </h4>
+                <div class="details">
+                    <div>Bill to: {data.buyerDetails.name}</div>
+                    <div>Address: {data.buyerDetails.address}</div>
+                    {!!data.buyerDetails.contactPhone &&
+                        <div>Contact phone: {data.buyerDetails.contactPhone}</div>
+                    }
+                    {data.buyerDetails.email &&
+                        <div>Email: <a href={`mailto:${data.buyerDetails.email}`}>{data.buyerDetails.email}</a></div>
+                    }
                 </div>
-                <div>
-                    <h4>Purchase Summary</h4>
 
+                <div class="details">
+                    <div>Booking Reference number: {data.referenceCode}</div>
+                    <div>Arrival Date: {dateFormat.e(data.checkInDate)}</div>
+                    <div>Departure Date: {dateFormat.e(data.checkOutDate)}</div>
+                    <div>Deadline Date: {dateFormat.e(data.deadlineDate)}</div>
+                </div>
+
+                <div>
                     <table class="data">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Leading passenger</th>
                                 <th>Accommodation</th>
                                 <th>Room</th>
                                 <th>Quantity</th>
@@ -95,9 +87,14 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                         <tbody>
                             {data.invoiceItems?.map((item, index) => (
                                 <tr>
-                                    <td>{index+1}</td>
+                                    <td>
+                                        {item.mainPassengerFirstName} {item.mainPassengerLastName}
+                                    </td>
                                     <td>{item.accommodationName}</td>
-                                    <td>{item.roomDescription}</td>
+                                    <td>
+                                        {item.roomDescription}<br/>
+                                        {item.roomType}
+                                    </td>
                                     <td>{item.number}</td>
                                     <td>{price(item.price)}</td>
                                     <td>{price(item.total)}</td>
@@ -106,8 +103,37 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                         </tbody>
                     </table>
                     <div class="total">
-                        <div>Total:</div>
-                        <div>{price(data.totalPrice)}</div>
+                        <div>TOTAL:</div>
+                        <div>{price(data.totalPrice)} ({data.paymentStatus})</div>
+                    </div>
+                </div>
+
+                <div class="signature">
+                    <img src="/images/other/signature.png" alt="Signature" />
+                </div>
+
+                <div class="details">
+                    <div>PAYMENT DUE DATE: {dateFormat.e(data.payDueDate)}</div>
+                </div>
+
+                <div class="details">
+                    <h5>BANK ACCOUNT DETAILS:</h5>
+                    <div>{data.sellerDetails.companyName}</div>
+                    <div>Bank Name: {data.sellerDetails.bankName}</div>
+                    <div>SWIFT: {data.sellerDetails.swiftCode}</div>
+                    <div>Routing Code: {data.sellerDetails.routingCode}</div>
+                    <div>Bank Address: {data.sellerDetails.bankAddress}</div>
+                    <div>IBAN: {data.sellerDetails.iban}</div>
+                    <div>Account No.: {data.sellerDetails.accountNumber}</div>
+                </div>
+
+                <div class="details">
+                    <div>
+                        <strong>
+                            Note:<br/>
+                            Please note that the remitter must bear all bank charges including corresponding bank commission.
+                            Please send the bank transfer swift copy/payment details to <a href="mailto:accounts@happytravel.com">accounts@happytravel.com</a>
+                        </strong>
                     </div>
                 </div>
             </div>
