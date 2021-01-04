@@ -4,7 +4,10 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { Loader, dateFormat } from "simple";
+import {
+    Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat
+} from "simple";
+
 import Map from "components/map";
 
 import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
@@ -106,6 +109,24 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                             />
                         </div>
                     </div>
+
+                    { voucher.roomDetails.map(room => (
+                        <div class="room-part">
+                            <div><GroupRoomTypesAndCount solo t={t} contracts={[room]} /></div>
+                            <div class="main-passenger">
+                                <PassengerName passenger={room.passengers[0]} />
+                            </div>
+                            { room.supplierRoomReferenceCode &&
+                                <div>Room reference code: room.supplierRoomReferenceCode</div>
+                            }
+                            <div>Board basis: <MealPlan t={t} room={room} /></div>
+                            { room?.remarks.map(item => (
+                                <div>
+                                    {!!item.key && <span>{item.key}:</span>} {item.value}
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
 
                 {voucher.bannerUrl &&

@@ -7,6 +7,8 @@ import { Loader, dateFormat, price } from "simple";
 
 import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
 
+const remapStatus = (status = "") => status.replace(/([A-Z])/g, " $1").trim();
+
 @observer
 class AccommodationConfirmationInvoicePage extends React.Component {
     componentDidMount() {
@@ -104,7 +106,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                     </table>
                     <div class="total">
                         <div>TOTAL:</div>
-                        <div>{price(data.totalPrice)} ({data.paymentStatus})</div>
+                        <div>{price(data.totalPrice)} ({remapStatus(data.paymentStatus)})</div>
                     </div>
                 </div>
 
