@@ -32,11 +32,18 @@ class AccommodationConfirmationVoucherPage extends React.Component {
         var { t } = useTranslation(),
             voucher = this?.state?.voucher;
 
+        document.title = (voucher?.referenceCode || "") + " Voucher Happytravel.com";
+
         if (!voucher)
             return <Loader />;
 
         return (
             <div class="invoice">
+                <div class="breadcrumbs no-print">
+                    <Link to={`/accommodation/confirmation/${voucher.bookingId}`}>
+                        <span class="small-arrow-left" /> Back to Booking Confirmation
+                    </Link>
+                </div>
                 <div class="buttons no-print">
                     <button class="button" onClick={window.print}>{t("Print")}</button>
                     <button class="button" onClick={this.showSendModal}>{t("Send Voucher")}</button>
@@ -76,14 +83,6 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                                 <span class="icon icon-white-check"/>
                             </div>
                             Address: {voucher.accommodation.location.address}
-                        </div>
-                        <div class="no-print">
-                            <div class="item">
-                                <span class="icon icon-white-check"/>
-                            </div>
-                            <Link to={`/accommodation/confirmation/${voucher.bookingId}`}>
-                                More information about booking
-                            </Link>
                         </div>
                     </div>
                 </div>

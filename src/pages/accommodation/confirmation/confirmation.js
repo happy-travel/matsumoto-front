@@ -29,8 +29,7 @@ class AccommodationConfirmationPage extends React.Component {
         this.state = {
             fromGetter: false,
             statusLoading: false,
-            redirect: null,
-            id: props?.match?.params?.id
+            redirect: null
         };
         this.showCancellationConfirmation = this.showCancellationConfirmation.bind(this);
         this.payNowByCard = this.payNowByCard.bind(this);
@@ -68,7 +67,7 @@ class AccommodationConfirmationPage extends React.Component {
     loadBooking() {
         store.setBookingResult(null);
 
-        var bookingId = this.state.id,
+        var bookingId = this.props?.match?.params?.id,
             referenceCode = store.paymentResult?.params?.settlement_reference || store.paymentResult?.params?.referenceCode;
 
         if (bookingId || referenceCode) {
@@ -315,14 +314,14 @@ render() {
                     */ }
                         { ("Captured" == data.paymentStatus || "Authorized" == data.paymentStatus) &&
                           "Confirmed" == booking.status &&
-                            <Link to={`/accommodation/confirmation/${this.state.id}/voucher`} class="button">
+                            <Link to={`/accommodation/confirmation/${store.booking.result.bookingId}/voucher`} class="button">
                                 {t("Voucher")}
                             </Link>
                         }
                         { "Cancelled" != booking.status &&
                           "InternalProcessing" != booking.status &&
                           "ManualCorrectionNeeded" != booking.status &&
-                            <Link to={`/accommodation/confirmation/${this.state.id}/invoice`} class="button">
+                            <Link to={`/accommodation/confirmation/${store.booking.result.bookingId}/invoice`} class="button">
                                 {t("Invoice")}
                             </Link>
                         }

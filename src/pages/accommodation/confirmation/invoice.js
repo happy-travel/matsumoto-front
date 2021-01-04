@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { Loader, dateFormat, price } from "simple";
@@ -31,11 +32,18 @@ class AccommodationConfirmationInvoicePage extends React.Component {
             registration = invoice?.item1,
             data = invoice?.item2;
 
+        document.title = (registration?.number || "") + " Invoice Happytravel.com";
+
         if (!invoice)
             return <Loader />;
 
         return (
             <div class="invoice">
+                <div class="breadcrumbs no-print">
+                    <Link to={`/accommodation/confirmation/${this.props.match?.params?.id}`}>
+                        <span class="small-arrow-left" /> Back to Booking Confirmation
+                    </Link>
+                </div>
                 <div class="buttons no-print">
                     <button class="button" onClick={window.print}>{t("Print")}</button>
                     <button class="button" onClick={this.showSendModal}>{t("Send Invoice")}</button>
