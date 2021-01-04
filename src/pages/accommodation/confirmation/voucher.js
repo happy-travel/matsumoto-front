@@ -55,40 +55,24 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                     </div>
                 }
 
-                <h4>Booking reference code: {voucher.referenceCode}</h4>
-
                 <div class="information">
-                    <div>Thank you{voucher.agentName ? ", " + voucher.agentName : ""}!</div>
+                    <div>Thank you{voucher.agentName ? ", " + voucher.agentName : ""}</div>
+                </div>
+                <div class="information">
+                    <div>We look forward to welcoming you at</div>
+                    <div>{voucher.accommodation.name}</div>
                     <div>
-                        Waiting for you in{" "}
+                        {voucher.accommodation.location.address},{" "}
                         {voucher.accommodation.location.locality},{" "}
-                        {voucher.accommodation.location.country}{" "}
-                        {dateFormat.c(voucher.checkInDate)}{" "}
+                        {voucher.accommodation.location.country}
                     </div>
-                    <div class="points">
-                        <div>
-                            <div class="item">
-                                <span class="icon icon-white-check"/>
-                            </div>
-                            Accommodation: {voucher.accommodation.name}
-                        </div>
-                        <div>
-                            <div class="item">
-                                <span class="icon icon-white-check"/>
-                            </div>
-                            Phone Number: {voucher.accommodation.contactInfo.phones.join(", ")}
-                        </div>
-                        <div>
-                            <div class="item">
-                                <span class="icon icon-white-check"/>
-                            </div>
-                            Address: {voucher.accommodation.location.address}
-                        </div>
-                    </div>
+                </div>
+                <div class="information">
+                    <div>Booking reference code: {voucher.referenceCode}</div>
                 </div>
 
                 <div class="box">
-                    <div class="title">Information About Your Booking</div>
+                    <div class="title">Information About Your Stay</div>
                     <div class="columns">
                         <div class="one">
                             <div class="text">{voucher.accommodation.name}</div>
@@ -99,20 +83,22 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                                 {voucher.accommodation.contactInfo.phones.join(", ")}
                             </div>
 
-                            <div class="text">Your Booking:</div>
-                            <div>{
-                                __plural(t, voucher.nightCount, "Night") + ", " +
-                                __plural(t, voucher.roomDetails.length, "Room")
-                            }</div>
+                            <div class="text">Length of stay:</div>
+                            <div>{__plural(t, voucher.nightCount, "Night")}</div>
 
-                            <div class="text">Check In:</div>
+                            <div class="text">Arrival Date:</div>
                             <div>{dateFormat.c(voucher.checkInDate)}</div>
 
-                            <div class="text">Check Out:</div>
+                            <div class="text">Departure Date:</div>
                             <div>{dateFormat.c(voucher.checkOutDate)}</div>
 
-                            <div class="text">Room Type:</div>
-                            <div>Classic</div>
+                            <div class="text">Deadline Date:</div>
+                            <div>{dateFormat.c(voucher.deadlineDate)}</div>
+
+                            { !!voucher.roomDetails?.length && <>
+                                <div class="text">Rooms Number:</div>
+                                <div>{__plural(t, voucher.roomDetails.length, "Room")}</div>
+                            </> }
                         </div>
                         <div class="two">
                             <Map
