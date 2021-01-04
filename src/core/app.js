@@ -33,6 +33,7 @@ const App = () => {
     return (
     <I18nextProvider i18n={internationalization}>
         <BrowserRouter>
+            <NotificationList />
             <div class="body-wrapper">
                 <Switch>
                     <Route exact path="/auth/callback" component={ AuthCallback } />
@@ -43,7 +44,6 @@ const App = () => {
                         { canShowContent ? <React.Fragment>
                             <div class="block-wrapper">
                                 <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
-                                <NotificationList />
                                 <TopAlert />
                                 <Route exact path={ routesWithSearch } component={ Search } />
                                 <Routes />

@@ -290,7 +290,7 @@ render() {
                                     b={room.supplierRoomReferenceCode}
                                 />
                             </div> }
-                            {room.deadlineDetails.date &&
+                            {room?.deadlineDetails.date &&
                                 <FullDeadline t={t}
                                               deadline={room.deadlineDetails}
                                               remarks={room?.remarks}
@@ -298,7 +298,7 @@ render() {
                             }
                         </div>
                     ))}
-                    { !booking.roomDetails[0].deadlineDetails.date && !!booking.deadlineDate &&
+                    { !booking.roomDetails[0]?.deadlineDetails.date && !!booking.deadlineDate &&
                         <FullDeadline t={t}
                                       deadline={{ date: booking.deadlineDate }}
                         />
@@ -320,6 +320,8 @@ render() {
                             </Link>
                         }
                         { "Cancelled" != booking.status &&
+                          "InternalProcessing" != booking.status &&
+                          "ManualCorrectionNeeded" != booking.status &&
                             <Link to={`/accommodation/confirmation/${this.state.id}/invoice`} class="button">
                                 {t("Invoice")}
                             </Link>
