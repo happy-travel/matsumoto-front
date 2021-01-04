@@ -16,7 +16,8 @@ class AgentMarkup extends React.Component {
         super(props);
         this.state = {
             markups: [],
-            templates: []
+            templates: [],
+            isExpanded: false
         }
     }
 
@@ -35,7 +36,10 @@ class AgentMarkup extends React.Component {
         var { agentId } = this.props;
         API.get({
             url: API.AGENT_MARKUPS(agentId),
-            success: markups => this.setState({ markups })
+            success: markups => this.setState({
+                markups,
+                isExpanded: !markups?.length
+            })
         });
     }
 
@@ -43,7 +47,7 @@ class AgentMarkup extends React.Component {
         var { agentId } = this.props;
         API.delete({
             url: API.AGENT_MARKUP(agentId, id),
-            success: () =>  this.load()
+            success: () => this.load()
         });
     }
 
@@ -100,53 +104,65 @@ class AgentMarkup extends React.Component {
                         <span class="link" onClick={() => this.remove(markup.id)}>Remove</span>
                     </div>
                 ))}
-                <h3>Add Markup</h3>
+                {!this.state.isExpanded ?
+                    <button
+                        class="button"
+                        onClick={() => this.setState({ isExpanded: true })}
+                        style={{ padding: "0 25px" }}
+                    >
+                        Add Markup
+                    </button>
+                :
+                    <>
+                        <h3>Add Markup</h3>
 
-                <CachedForm
-                    enableReinitialize
-                    onSubmit={this.create}
-                    initialValues={{
-                        templateIndex: 0
-                    }}
-                    render={formik => (
-                        <div class="form">
-                            <FieldSelect formik={formik}
-                                         id="templateIndex"
-                                         label="Markup Type"
-                                         options={
-                                             templates.map((template, index) => (
-                                                 {value: index, text: template.title}
-                                             ))
-                                         }
-                            />
-                            <FieldText formik={formik}
-                                       id="order"
-                                       label="Order"
-                                       maxLength={4}
-                                       numeric
-                            />
-                            <FieldText formik={formik}
-                                       id="description"
-                                       label="Description"
-                                       placeholder="Description"
-                            />
-                            <FieldText formik={formik}
-                                       id="amount"
-                                       label="Amount"
-                                       placeholder="Amount"
-                            />
-                            <div class="row submit-holder">
-                                <div class="field">
-                                    <div class="inner">
-                                        <button type="submit" class="button">
-                                            {t("Create Markup")}
-                                        </button>
+                        <CachedForm
+                            enableReinitialize
+                            onSubmit={this.create}
+                            initialValues={{
+                                templateIndex: 0
+                            }}
+                            render={formik => (
+                                <div class="form">
+                                    <FieldSelect formik={formik}
+                                                 id="templateIndex"
+                                                 label="Markup Type"
+                                                 options={
+                                                     templates.map((template, index) => (
+                                                         {value: index, text: template.title}
+                                                     ))
+                                                 }
+                                    />
+                                    <FieldText formik={formik}
+                                               id="order"
+                                               label="Order"
+                                               maxLength={4}
+                                               numeric
+                                    />
+                                    <FieldText formik={formik}
+                                               id="description"
+                                               label="Description"
+                                               placeholder="Description"
+                                    />
+                                    <FieldText formik={formik}
+                                               id="amount"
+                                               label="Amount"
+                                               placeholder="Amount"
+                                    />
+                                    <div class="row submit-holder">
+                                        <div class="field">
+                                            <div class="inner">
+                                                <button type="submit" class="button">
+                                                    {t("Create Markup")}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    )}
-                />
+                            )}
+                        />
+                    </>
+                }
             </div>
         );
     }
