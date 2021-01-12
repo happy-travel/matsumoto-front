@@ -31,10 +31,11 @@ class AccommodationConfirmationInvoicePage extends React.Component {
     render() {
         var { t } = useTranslation(),
             invoice = this?.state?.invoice,
-            registration = invoice?.item1,
-            data = invoice?.item2;
+            number = invoice?.number,
+            date = invoice?.date,
+            data = invoice?.data;
 
-        document.title = (registration?.number || "") + " Invoice Happytravel.com";
+        document.title = (number || "") + " Invoice Happytravel.com";
 
         if (!invoice)
             return <Loader />;
@@ -53,8 +54,8 @@ class AccommodationConfirmationInvoicePage extends React.Component {
 
                 <h4>
                     <strong>PROFORMA INVOICE</strong><br/>
-                    {registration.number}<br/>
-                    {dateFormat.e(registration.date)}
+                    {number}<br/>
+                    {dateFormat.e(date)}
                 </h4>
                 <div class="details">
                     <div>Bill to: {data.buyerDetails.name}</div>
