@@ -90,9 +90,13 @@ export default class CounterpartySettings extends React.Component {
 
                         {authStore.permitted("ObserveCounterpartyContract") &&
                             <div class="row">
-                                <button class="button small" onClick={this.downloadContract}>
-                                    Download contract file
-                                </button>
+                                {
+                                    formik.values.isContractUploaded ?
+                                    <button class="button small" onClick={this.downloadContract}>
+                                        Download contract file
+                                    </button> :
+                                    <span>No Contract Uploaded</span>
+                                }
                             </div>
                         }
 

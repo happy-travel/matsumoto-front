@@ -16,7 +16,7 @@ const Header = () => {
                         <Link to="/" class="logo" />
                     </div>
                     <nav>
-                        { Authorized() && <li><Link class="selected" to="/">{t("Accommodations")}</Link></li> }
+                        { Authorized() && <li><Link class="active" to="/">{t("Accommodations")}</Link></li> }
                     </nav>
                     { Authorized() && <UserMenu /> }
                 </section>
