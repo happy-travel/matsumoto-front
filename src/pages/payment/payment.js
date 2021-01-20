@@ -136,11 +136,12 @@ class PaymentPage extends BasicPaymentPage {
 
         UI.setSaveCreditCard(values.remember_me);
 
-        var fingerprint = this.state.direct ? "" : (document.getElementById("device_fingerprint")?.value || "");
+        var fingerprint = this.state.direct ? "" : (document.getElementById("device_fingerprint")?.value || ""),
+            safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
         this.setState({
             service: {
                 ...this.state.service,
-                ...(fingerprint ? { device_fingerprint: fingerprint } : {})
+                ...((!safari && fingerprint) ? { device_fingerprint: fingerprint } : {})
             },
             loading: true,
             everSubmitted: true
