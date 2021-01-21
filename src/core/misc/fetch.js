@@ -10,7 +10,7 @@ export default api => {
 
     api.request = ({
         url, external_url,
-        body = {}, formDataBody,
+        body = {}, formDataBody, rawBody,
         method = "GET",
         response, // function(response)                - Fires first
         success,  // function(result)                  - Fires second on success
@@ -48,6 +48,9 @@ export default api => {
 
             if (formDataBody)
                 request.body = formDataBody;
+
+            if (rawBody)
+                request.body = rawBody;
 
             var rawResponse = null,
                 failed = false;
