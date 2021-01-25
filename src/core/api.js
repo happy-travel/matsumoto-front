@@ -60,6 +60,8 @@ API_METHODS = {
                             v1 + `/accommodations/bookings/${bookingId}`,
     BOOKING_GET_BY_CODE   : referenceCode =>
                             v1 + `/accommodations/bookings/refcode/${referenceCode}`,
+    BOOKING_PAY_WITH_CARD : referenceCode =>
+                            v1 + `/accommodations/bookings/refcode/${referenceCode}/pay-with-credit-card`,
 
     AGENCY_BOOKINGS_LIST  : v1 + "/accommodations/bookings/agency",
 

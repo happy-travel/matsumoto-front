@@ -59,6 +59,10 @@ class AccommodationConfirmationPage extends React.Component {
     }
 
     payNowByCard() {
+        API.post({
+            url: API.BOOKING_PAY_WITH_CARD(store.booking.result?.bookingDetails?.referenceCode)
+        }); // todo: temporary. maybe we don't need this request
+
         store.setBookingReferenceCode(store.booking.result?.bookingDetails?.referenceCode);
         store.setBookingToPay(store.booking.result);
         this.setState({ redirect: "/payment/form" });
@@ -304,14 +308,12 @@ render() {
                     }{ /* temporary workaround: deadline dates conflict */ }
 
                     <div class="actions">
-                    { /*
                         { "NotPaid" == data.paymentStatus &&
                           "Cancelled" != booking.status &&
                             <button class="button" onClick={this.payNowByCard}>
                                 {t("Pay now by Card")}
                             </button>
                         }
-                    */ }
                         { ("Captured" == data.paymentStatus || "Authorized" == data.paymentStatus) &&
                           "Confirmed" == booking.status &&
                             <Link to={`/accommodation/confirmation/${store.booking.result.bookingId}/voucher`} class="button">
