@@ -56,7 +56,7 @@ class AgencyBookingsManagementPage extends React.Component {
         var Tab = ({ text, value }) => (
             <li>
                 <div
-                    class={"item" + __class(value == filter_tab, "selected")}
+                    class={"item" + __class(value == filter_tab, "active")}
                     onClick={() => this.setState({ filter_tab: value })}
                 >
                     {text}

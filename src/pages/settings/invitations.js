@@ -22,6 +22,14 @@ const invitationsColumns = t => [
     {
         header: "Position",
         cell: "position"
+    },
+    {
+        header: "Inviter",
+        cell: "createdBy"
+    },
+    {
+        header: "Created",
+        cell: "created"
     }
 ];
 

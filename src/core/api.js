@@ -34,8 +34,12 @@ API_METHODS = {
     AGENT_INVITE_GENERATE : v1 + "/agent/invitations/generate",
     AGENT_INVITE_RESEND   : invitationId =>
                             v1 + `/agent/invitations/${invitationId}/resend`,
+    AGENT_INVITE_DISABLE  : invitationId =>
+                            v1 + `/agent/invitations/${invitationId}/disable`,
     AGENT_INVITATIONS     : v1 + "/agent/invitations",
+    AGENT_ACCEPTED_INVITES: v1 + "/agent/invitations/accepted",
     AGENCY_INVITATIONS    : v1 + "/agency/invitations",
+    AGENCY_ACCEPTED_INVITES: v1 + "/agency/invitations/accepted",
 
     ACCOMMODATION_BOOKING : v1 + "/accommodations/bookings",
     A_BOOKING_FINALIZE    : referenceCode =>

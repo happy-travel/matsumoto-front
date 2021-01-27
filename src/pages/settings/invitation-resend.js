@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { FieldText } from "components/form";
@@ -21,8 +21,6 @@ class InvitationResendPage extends React.Component {
             id: this.props.match.params.id,
             invitation: null
         };
-        this.resend = this.resend.bind(this);
-        this.generate = this.generate.bind(this);
     }
 
     componentDidMount() {
@@ -43,7 +41,7 @@ class InvitationResendPage extends React.Component {
         });
     }
 
-    resend() {
+    resend = () => {
         var { id } = this.state;
 
         API.post({
@@ -56,7 +54,16 @@ class InvitationResendPage extends React.Component {
         });
     }
 
-    generate() {
+    disable = () => {
+        var { id } = this.state;
+
+        API.post({
+            url: API.AGENT_INVITE_DISABLE(id),
+            success: () => this.setState({ redirect: "/settings/invitations" })
+        });
+    }
+
+    generate = () => {
         var { invitation, id } = this.state;
 
         this.setState({
@@ -67,6 +74,9 @@ class InvitationResendPage extends React.Component {
     render() {
         var { t } = useTranslation(),
             { invitation } = this.state;
+
+        if (this.state.redirect)
+            return <Redirect push to={this.state.redirect}/>;
 
         return (
     <div class="settings block">
@@ -86,9 +96,20 @@ class InvitationResendPage extends React.Component {
                     <b>{t("Email")}</b>:{" "}
                     {invitation.email}
                 </div>
+                <div class="row">
+                    <b>{t("Inviter")}</b>:{" "}
+                    {invitation.createdBy}
+                </div>
+                <div class="row">
+                    <b>{t("Created")}</b>:{" "}
+                    {invitation.created}
+                </div>
 
                 { false === this.state.success && <React.Fragment>
                     <div class="row submit-holder">
+                        <button onClick={this.disable} class="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
+                            {t("Disable Invitation")}
+                        </button>
                         <button onClick={this.resend} class="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
                             {t("Resend Invitation")}
                         </button>
