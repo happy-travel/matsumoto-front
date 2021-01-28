@@ -11,7 +11,7 @@ let settings = {
     edo_v1                : "/api/1.0",
 
     identity_url          : process.env.IDENTITY_URL || dev.IDENTITY_URL,
-    identity_scope        : "edo openid email",
+    identity_scope        : "edo openid email predictions",
     identity_client_id    : "matsumoto",
 
     auth_callback_host    : window.location.origin,
