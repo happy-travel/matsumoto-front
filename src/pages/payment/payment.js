@@ -242,11 +242,6 @@ render() {
                 {t("This order has already been successfully paid")}
             </h2> }
 
-            { this.state.direct && !this.state.loading && ("Success" != this.state.status) &&
-              ("Created" != this.state.status) && <h2 class="payment-title">
-                {t("This order is no longer available for payment")}
-            </h2> }
-
             {!this.state.direct && <p class="remark">
                 <strong>Please note:</strong> when paying by card, we hold funds on your account until the deadline date approach. In case of cancellation, funds will be released in accordance with the service cancellation policy as soon as possible.
             </p>}
@@ -311,7 +306,7 @@ render() {
                 </Formik>
             </React.Fragment>}
 
-            { ((!this.state.direct && this.state.addNew) || ("Created" == this.state.status)) &&
+            { ((!this.state.direct && this.state.addNew) || ("Success" != this.state.status)) &&
             <React.Fragment>
                 {!!this.state.savedCards.length &&
                     <div class="form" style={{paddingTop: "40px"}}>
