@@ -330,7 +330,6 @@ translations: {
     "Generate Invitation Link": "Generate Invitation Link",
     "Send this link as an invitation": "Send this link as an invitation",
     "This order has already been successfully paid": "This order has already been successfully paid",
-    "This order is no longer available for payment": "This order is no longer available for payment",
     "Security code on your credit card": "Security code on your credit card",
     "Your information is secure; only a part of you card's data will be stored": "Your information is secure; only a part of you card's data will be stored",
     "Pay using saved cards": "Pay using saved cards",
