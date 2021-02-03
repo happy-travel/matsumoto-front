@@ -32,24 +32,30 @@ class BasicPaymentPage extends React.Component {
 
     finalize(reference, data, error, params) {
         this.setResult(data, error, params);
-        if (!error) {
-            API.post({
-                url: API.A_BOOKING_FINALIZE(reference),
-                after: (data, error) => {
-                    if (error?.detail)
-                        this.setResult(data, error, params);
-                    else
-                        UI.dropFormCache(FORM_NAMES.BookingForm);
-
-                    this.setState({
-                        redirectToConfirmationPage: true
-                    });
-                }
-            });
-        } else
+        if (error) {
             this.setState({
                 redirectToConfirmationPage: true
             });
+            return;
+        }
+
+        var url = API.A_BOOKING_FINALIZE(reference);
+        if (store?.bookingToPay && (store.bookingToPay?.paymentMethod == "BankTransfer"))
+            url = API.BOOKING_PAY_WITH_CARD(store.bookingToPay?.bookingDetails?.referenceCode);
+
+        API.post({
+            url,
+            after: (data, error) => {
+                if (error?.detail)
+                    this.setResult(data, error, params);
+                else
+                    UI.dropFormCache(FORM_NAMES.BookingForm);
+
+                this.setState({
+                    redirectToConfirmationPage: true
+                });
+            }
+        });
     }
 
     callback(data, error, after3ds) {

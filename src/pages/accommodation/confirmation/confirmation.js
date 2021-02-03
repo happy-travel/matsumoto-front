@@ -59,18 +59,9 @@ class AccommodationConfirmationPage extends React.Component {
     }
 
     payNowByCard() {
-        const after = () => {
-            store.setBookingReferenceCode(store.booking.result?.bookingDetails?.referenceCode);
-            store.setBookingToPay(store.booking.result);
-            this.setState({ redirect: "/payment/form" });
-        };
-        if (store.booking.result?.paymentMethod == "BankTransfer")
-            API.post({
-                url: API.BOOKING_PAY_WITH_CARD(store.booking.result?.bookingDetails?.referenceCode),
-                after
-            });
-        else
-            after();
+        store.setBookingReferenceCode(store.booking.result?.bookingDetails?.referenceCode);
+        store.setBookingToPay(store.booking.result);
+        this.setState({ redirect: "/payment/form" });
     }
 
     loadBooking() {
