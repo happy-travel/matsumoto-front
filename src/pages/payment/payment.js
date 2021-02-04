@@ -306,7 +306,7 @@ render() {
                 </Formik>
             </React.Fragment>}
 
-            { ((!this.state.direct && this.state.addNew) || ("Success" != this.state.status)) &&
+            { ((!this.state.direct && this.state.addNew) || (this.state.direct && ("Success" != this.state.status))) &&
             <React.Fragment>
                 {!!this.state.savedCards.length &&
                     <div class="form" style={{paddingTop: "40px"}}>
