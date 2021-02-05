@@ -17,7 +17,6 @@ import {
     decorateExpirationDate,
     decorateCardholderName
 } from "./utils/decorator";
-import { snare } from "./utils/snare";
 
 import {
     FieldText,
@@ -90,7 +89,6 @@ class PaymentPage extends BasicPaymentPage {
                 addNew: !data?.length
             })
         });
-        snare();
     }
 
     removeCard(cardId) {
@@ -136,13 +134,7 @@ class PaymentPage extends BasicPaymentPage {
 
         UI.setSaveCreditCard(values.remember_me);
 
-        var fingerprint = this.state.direct ? "" : (document.getElementById("device_fingerprint")?.value || ""),
-            safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
         this.setState({
-            service: {
-                ...this.state.service,
-                ...((!safari && fingerprint) ? { device_fingerprint: fingerprint } : {})
-            },
             loading: true,
             everSubmitted: true
         });
@@ -415,7 +407,6 @@ render() {
             </React.Fragment> }
         </div>
     </section>
-    <input type="hidden" id="device_fingerprint" name="device_fingerprint" />
     <ReactTooltip place="top" type="dark" effect="solid"/>
 </div>
 

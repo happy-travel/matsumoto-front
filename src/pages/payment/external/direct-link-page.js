@@ -3,7 +3,6 @@ import settings from "settings";
 import { API } from "core";
 import { windowSessionStorage } from "core/misc/window-storage";
 import { userAuthSetDirectPayment } from "core/auth";
-import { snare } from "../utils/snare";
 import PaymentPage from "../payment";
 
 class PaymentDirectLinkPage extends PaymentPage {
@@ -58,8 +57,6 @@ class PaymentDirectLinkPage extends PaymentPage {
         });
 
         userAuthSetDirectPayment();
-
-        snare();
     }
 
 }
