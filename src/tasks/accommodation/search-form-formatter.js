@@ -1,4 +1,5 @@
 import moment from "moment";
+import authStore from "stores/auth-store";
 
 export const searchFormFormatter = values => {
     var roomDetails = [];
@@ -19,10 +20,15 @@ export const searchFormFormatter = values => {
         checkInDate: moment(values.checkInDate).utc(true).format(),
         checkOutDate: moment(values.checkOutDate).utc(true).format(),
         roomDetails: roomDetails,
-        location: {
-            predictionResult: values.predictionResult
-        },
+        ...(authStore.settings.newPredictions ? {} : {
+            location: {
+                predictionResult: values.htIds
+            }
+        }),
         nationality: values.nationalityCode,
-        residency: values.residencyCode
+        residency: values.residencyCode,
+        ...(!authStore.settings.newPredictions ? {} : {
+            htIds: values.htIds
+        }),
     };
 };

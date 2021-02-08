@@ -7,6 +7,7 @@ import { decorate } from "simple";
 
 import View from "stores/view-store";
 import UI from "stores/ui-store";
+import authStore from "stores/auth-store";
 
 const typesWeights = {
     "landmark": 1,
@@ -49,10 +50,10 @@ class FieldDestination extends React.Component {
             return View.setDestinations([]);
 
         if (props.formik)
-            props.formik.setFieldValue("predictionResult", null);
+            props.formik.setFieldValue("htIds", null);
 
         API.get({
-            url: API.LOCATION_PREDICTION,
+            url: authStore.settings.newPredictions ? API.LOCATION_PREDICTION : API.EDO_LOCATION_PREDICTION,
             body: {
                 query: currentValue,
                 sessionId: session.google.create()
@@ -68,16 +69,26 @@ class FieldDestination extends React.Component {
     };
     
     setValue(item, formik, silent) {
-        formik.setFieldValue("predictionResult", {
-            "id": item.id,
-            "sessionId": session.google.current(),
-            "source": item.source,
-            "type": item.type
-        });
-        formik.setFieldValue("predictionDestination", item.value);
-        if (silent !== true) {
-            setDestinationSuggestions([]);
-            formik.setFieldValue('destination', item.value);
+        if (!authStore.settings.newPredictions) {
+            formik.setFieldValue("htIds", {
+                "id": item.id,
+                "sessionId": session.google.current(),
+                "source": item.source,
+                "type": item.type
+            });
+            formik.setFieldValue("predictionDestination", item.value);
+            if (silent !== true) {
+                setDestinationSuggestions([]);
+                formik.setFieldValue('destination', item.value);
+            }
+        }
+        if (authStore.settings.newPredictions) {
+            formik.setFieldValue("htIds", [item.htId]);
+            formik.setFieldValue("predictionDestination", item.predictionText);
+            if (silent !== true) {
+                setDestinationSuggestions([]);
+                formik.setFieldValue('destination', item.predictionText);
+            }
         }
     }
 
@@ -100,7 +111,7 @@ class FieldDestination extends React.Component {
         return (
             <FieldText formik={formik}
                        id={id}
-                       additionalFieldForValidation="predictionResult"
+                       additionalFieldForValidation="htIds"
                        label={label}
                        placeholder={placeholder}
                        Icon={<span class="icon icon-hotel" />}

@@ -52,26 +52,31 @@ export default api => {
             var rawResponse = null,
                 failed = false;
             fetch(finalUrl, request)
-                .then(res => {
-                    rawResponse = res;
-                    failed = !res || (res && res.status >= 300);
-                    if (response) {
-                        response(res);
-                        return;
-                    }
-                    return res.text().then(text => {
-                        var value = null;
-                        if (text) {
-                            try {
-                                value = JSON.parse(text);
-                            }
-                            catch (e) {
-                                value = text;
-                            }
+                .then(
+                    res => {
+                        rawResponse = res;
+                        failed = !res || (res && res.status >= 300);
+                        if (response) {
+                            response(res);
+                            return;
                         }
-                        return value;
-                    });
-                })
+                        return res.text().then(text => {
+                            var value = null;
+                            if (text) {
+                                try {
+                                    value = JSON.parse(text);
+                                }
+                                catch (e) {
+                                    value = text;
+                                }
+                            }
+                            return value;
+                        });
+                    },
+                    error => {
+                        console.log("Fetch failed", error); //todo: handle
+                    }
+                )
                 .then(
                     (result) => {
                         if ((rawResponse.status == 401) && isPageAvailableAuthorizedOnly()) {

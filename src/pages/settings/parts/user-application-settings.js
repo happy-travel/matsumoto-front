@@ -72,6 +72,12 @@ class UserApplicationSettings extends React.Component {
                                              label={t("Show Available Credit")}
                                 />
                             </div>
+                            { (__localhost || __devEnv) && <div class="row">
+                                <FieldSwitch formik={formik}
+                                             id="newPredictions"
+                                             label={t("OSAKA Divination")}
+                                />
+                            </div> }
                             <div class="row">
                                 <FieldSelect formik={formik}
                                              id="preferredLanguage"

@@ -1,6 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Highlighted } from "simple";
+import authStore from "stores/auth-store";
 
 import View from "stores/view-store";
 
@@ -8,17 +9,6 @@ import View from "stores/view-store";
 class DestinationDropdown extends React.Component {
     constructor(props) {
         super(props);
-        this.setValue = this.setValue.bind(this);
-    }
-
-    setValue(item) {
-        var {
-            connected,
-            formik
-        } = this.props;
-
-        View.setDestinations([]);
-        formik.setFieldValue(connected, item.value);
     }
 
     render() {
@@ -38,6 +28,8 @@ class DestinationDropdown extends React.Component {
                         let destinationType = null;
                         if (index === 0 || item.type !== View.destinations[index - 1]?.type)
                             destinationType = <div className="subtitle">{item.type}</div>;
+                        if (authStore.settings.newPredictions)
+                            destinationType = null;
 
                         return (
                             <React.Fragment>
@@ -45,7 +37,12 @@ class DestinationDropdown extends React.Component {
                                 <div id={`js-value-${index}`}
                                      class={"country line" + __class(focusIndex === index, "focused")}
                                      onClick={() => this.props.setValue(item, formik, connected)}>
-                                    <Highlighted str={item.value} highlight={this.props.value} />
+                                    {!authStore.settings.newPredictions &&
+                                        <Highlighted str={item.value} highlight={this.props.value}/>
+                                    }
+                                    {authStore.settings.newPredictions &&
+                                        <Highlighted str={item.predictionText} highlight={this.props.value}/>
+                                    }
                                 </div>
                             </React.Fragment>
                         )

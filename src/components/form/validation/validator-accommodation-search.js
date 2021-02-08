@@ -4,7 +4,7 @@ export default Yup.object().shape({
     destination: Yup.string().required("*"),
     residency: Yup.string().required("*"),
     nationality: Yup.string().required("*"),
-    predictionResult: Yup.object().required("*"),
+    htIds: Yup.mixed().required("*"),
     nationalityCode: Yup.string().required("*"),
     residencyCode: Yup.string().required("*"),
 });

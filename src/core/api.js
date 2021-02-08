@@ -2,6 +2,7 @@ import settings from "settings";
 import fetch from "./misc/fetch";
 
 const v1 = settings.edo(settings.default_culture), //todo : select current culture
+      osaka = settings.osaka,
 
 API_METHODS = {
 
@@ -9,7 +10,8 @@ API_METHODS = {
     BASE_CURRENCIES       : v1 + "/payments/currencies",
 
     COUNTRIES_PREDICTION  : v1 + "/locations/countries",
-    LOCATION_PREDICTION   : v1 + "/locations/predictions",
+    LOCATION_PREDICTION   : osaka + "/predictions",
+    EDO_LOCATION_PREDICTION : v1 + "/locations/predictions",
 
     CARDS_SAVED           : v1 + "/cards",
     CARDS_SETTINGS        : v1 + "/cards/settings",
