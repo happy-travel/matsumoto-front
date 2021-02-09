@@ -10,7 +10,8 @@ const settingsCleaner = values => ({
     residencyCode: values.residencyCode,
     weekStarts: values.weekStarts,
     preferredLanguage: values.preferredLanguage,
-    availableCredit: values.availableCredit
+    availableCredit: values.availableCredit,
+    newPredictions: values.newPredictions
 });
 
 export const loadCounterpartyInfo = (callback = () => {}) => {
