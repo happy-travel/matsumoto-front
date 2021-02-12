@@ -6,7 +6,7 @@ import {
     applyFilters,
     generateFiltersLine,
     generateSorterLine
-} from "./utils/accommodation-filtering";
+} from "tasks/utils/accommodation-filtering";
 
 export const PAYMENT_METHODS = {
     CARD: "CreditCard",
