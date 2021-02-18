@@ -20,14 +20,14 @@ export const searchFormFormatter = values => {
         checkInDate: moment(values.checkInDate).utc(true).format(),
         checkOutDate: moment(values.checkOutDate).utc(true).format(),
         roomDetails: roomDetails,
-        ...(authStore.settings.newPredictions ? {} : {
+        ...(authStore.settings.experimentalFeatures ? {} : {
             location: {
                 predictionResult: values.htIds
             }
         }),
         nationality: values.nationalityCode,
         residency: values.residencyCode,
-        ...(!authStore.settings.newPredictions ? {} : {
+        ...(!authStore.settings.experimentalFeatures ? {} : {
             htIds: values.htIds
         }),
     };

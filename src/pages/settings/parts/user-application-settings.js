@@ -57,7 +57,7 @@ class UserApplicationSettings extends React.Component {
             return <Loader page />;
 
         return (
-            <React.Fragment>
+            <>
                 <h2><span class="brand">{t("Application Settings")}</span></h2>
 
                 <CachedForm
@@ -72,12 +72,12 @@ class UserApplicationSettings extends React.Component {
                                              label={t("Show Available Credit")}
                                 />
                             </div>
-                            { (__localhost || __devEnv) && <div class="row">
+                            <div class="row">
                                 <FieldSwitch formik={formik}
-                                             id="newPredictions"
-                                             label={t("OSAKA Divination")}
+                                             id="experimentalFeatures"
+                                             label={t("Enable experimental features (may be unstable)")}
                                 />
-                            </div> }
+                            </div>
                             <div class="row">
                                 <FieldSelect formik={formik}
                                              id="preferredLanguage"
@@ -134,7 +134,7 @@ class UserApplicationSettings extends React.Component {
                         </div>
                     )}
                 />
-            </React.Fragment>
+            </>
         );
     }
 }

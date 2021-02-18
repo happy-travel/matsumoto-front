@@ -53,7 +53,7 @@ class FieldDestination extends React.Component {
             props.formik.setFieldValue("htIds", null);
 
         API.get({
-            url: authStore.settings.newPredictions ? API.LOCATION_PREDICTION : API.EDO_LOCATION_PREDICTION,
+            url: authStore.settings.experimentalFeatures ? API.LOCATION_PREDICTION : API.EDO_LOCATION_PREDICTION,
             body: {
                 query: currentValue,
                 sessionId: session.google.create()
@@ -69,7 +69,7 @@ class FieldDestination extends React.Component {
     };
     
     setValue(item, formik, silent) {
-        if (!authStore.settings.newPredictions) {
+        if (!authStore.settings.experimentalFeatures) {
             formik.setFieldValue("htIds", {
                 "id": item.id,
                 "sessionId": session.google.current(),
@@ -82,7 +82,7 @@ class FieldDestination extends React.Component {
                 formik.setFieldValue('destination', item.value);
             }
         }
-        if (authStore.settings.newPredictions) {
+        if (authStore.settings.experimentalFeatures) {
             formik.setFieldValue("htIds", [item.htId]);
             formik.setFieldValue("predictionDestination", item.predictionText);
             if (silent !== true) {

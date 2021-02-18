@@ -28,23 +28,23 @@ class DestinationDropdown extends React.Component {
                         let destinationType = null;
                         if (index === 0 || item.type !== View.destinations[index - 1]?.type)
                             destinationType = <div className="subtitle">{item.type}</div>;
-                        if (authStore.settings.newPredictions)
+                        if (authStore.settings.experimentalFeatures)
                             destinationType = null;
 
                         return (
-                            <React.Fragment>
+                            <>
                                 {destinationType}
                                 <div id={`js-value-${index}`}
                                      class={"country line" + __class(focusIndex === index, "focused")}
                                      onClick={() => this.props.setValue(item, formik, connected)}>
-                                    {!authStore.settings.newPredictions &&
+                                    {!authStore.settings.experimentalFeatures &&
                                         <Highlighted str={item.value} highlight={this.props.value}/>
                                     }
-                                    {authStore.settings.newPredictions &&
+                                    {authStore.settings.experimentalFeatures &&
                                         <Highlighted str={item.predictionText} highlight={this.props.value}/>
                                     }
                                 </div>
-                            </React.Fragment>
+                            </>
                         )
                     })}
                 </div>

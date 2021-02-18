@@ -11,7 +11,7 @@ const settingsCleaner = values => ({
     weekStarts: values.weekStarts,
     preferredLanguage: values.preferredLanguage,
     availableCredit: values.availableCredit,
-    newPredictions: values.newPredictions
+    experimentalFeatures: values.experimentalFeatures
 });
 
 export const loadCounterpartyInfo = (callback = () => {}) => {
