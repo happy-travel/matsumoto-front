@@ -51,7 +51,7 @@ class AccommodationConfirmationVoucherPage extends React.Component {
 
                 {voucher.logoUrl &&
                     <div class="personal-logo">
-                        <img src={voucher.logoUrl} alt="" />
+                        <img src={voucher.logoUrl + "?" + Number(new Date())} alt="" />
                     </div>
                 }
 
@@ -138,7 +138,7 @@ class AccommodationConfirmationVoucherPage extends React.Component {
 
                 {voucher.bannerUrl &&
                     <div class="personal-b">
-                        <img src={voucher.bannerUrl} alt="" />
+                        <img src={voucher.bannerUrl + "?" + Number(new Date())} alt="" />
                     </div>
                 }
 
