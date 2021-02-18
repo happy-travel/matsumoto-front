@@ -42,37 +42,37 @@ return (
 <>
     <header>
         <section>
-            <div class="logo-wrapper">
-                <Link to="/" class="logo" />
+            <div className="logo-wrapper">
+                <Link to="/" className="logo" />
             </div>
         </section>
     </header>
 
-    <div class="confirmation nova block">
-        <section class="double-sections">
+    <div className="confirmation nova block">
+        <section className="double-sections">
             { "Success" == status ?
-            <div class="middle-section">
+            <div className="middle-section">
                 <h2>{t("Order has been paid successfully")}</h2>
 
-                <div class="accent-frame">
-                    <div class="before">
-                        <span class="icon icon-white-check" />
+                <div className="accent-frame">
+                    <div className="before">
+                        <span className="icon icon-white-check" />
                     </div>
-                    <div class="dual">
-                        <div class="first">
-                            {t("Order reference number")}: <strong class="green">{subject.referenceCode}</strong>
+                    <div className="dual">
+                        <div className="first">
+                            {t("Order reference number")}: <strong className="green">{subject.referenceCode}</strong>
                         </div>
-                        <div class="second">
-                            {t("Payment result")}: <strong class={status}>{status}</strong>
+                        <div className="second">
+                            {t("Payment result")}: <strong className={status}>{status}</strong>
                         </div>
                     </div>
                 </div>
 
-                <div class="part">
-                    <div class="icon-holder">
-                        <span class="icon icon-confirmation-price"/>
+                <div className="part">
+                    <div className="icon-holder">
+                        <span className="icon icon-confirmation-price"/>
                     </div>
-                    <div class="line">
+                    <div className="line">
                         <Dual
                             a={t("Amount")}
                             b={ price(subject.price) }
@@ -80,12 +80,12 @@ return (
                     </div>
                 </div>
 
-                { booking.comment && <div class="part">
-                    <div class="line">
-                        <div class="icon-holder">
-                            <span class="icon icon-confirmation-hotel"/>
+                { booking.comment && <div className="part">
+                    <div className="line">
+                        <div className="icon-holder">
+                            <span className="icon icon-confirmation-hotel"/>
                         </div>
-                        <Dual addClass="line"
+                        <Dual className="line"
                               a={t('Additional Information')}
                               b={booking.comment}
                         />
@@ -94,13 +94,13 @@ return (
 
             </div>
             :
-            <div class="middle-section">
-                { error && <div class="accent-frame error">
-                    <div class="before">
-                        <span class="icon icon-close white" />
+            <div className="middle-section">
+                { error && <div className="accent-frame error">
+                    <div className="before">
+                        <span className="icon icon-close white" />
                     </div>
-                    <div class="dual">
-                        <div class="first">
+                    <div className="dual">
+                        <div className="first">
                             {t("Payment message")}: <strong>{messageFormatter(error)}</strong>
                         </div>
                     </div>

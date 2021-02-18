@@ -39,7 +39,7 @@ class PaymentSavedCardsFormPart extends React.Component {
     render () {
         var { t } = useTranslation();
         return (
-            <div class="form">
+            <div className="form">
                 <Formik
                     initialValues={{
                         card_security_code: ""
@@ -51,14 +51,15 @@ class PaymentSavedCardsFormPart extends React.Component {
                 {formik => (
                     <form onSubmit={formik.handleSubmit}>
                         { this.state.loading && <Loader page /> }
-                        <div class="payment method cards">
-                            <div class="list">
-                                {paymentStore.savedCards.map(item => {
+                        <div className="payment method cards">
+                            <div className="list">
+                                {paymentStore.savedCards.map((item, index) => {
                                     var type = creditCardType(item.number)?.[0];
                                     return (
                                         <div
                                             onClick={() => this.selectCard(item.id)}
-                                            class={"item" + __class(item.id == this.state.selectedCardId, "selected")}
+                                            className={"item" + __class(item.id == this.state.selectedCardId, "selected")}
+                                            key={index}
                                         >
                                             {allowedTypes[type.type] ? <img src={allowedTypes[type.type]} alt="" /> : null}
                                             {item.number} <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
@@ -66,7 +67,7 @@ class PaymentSavedCardsFormPart extends React.Component {
                                                 formik={formik}
                                                 id="card_security_code"
                                                 placeholder={type.code.name}
-                                                addClass={"only-when-selected" + __class(formik.values.card_security_code.length != type.code.size, "force-invalid")}
+                                                className={"only-when-selected" + __class(formik.values.card_security_code.length != type.code.size, "force-invalid")}
                                                 required
                                                 password
                                                 numeric
@@ -83,8 +84,8 @@ class PaymentSavedCardsFormPart extends React.Component {
                                 })}
                             </div>
                         </div>
-                        <button type="submit" class={"no-margin button" + __class(!this.state.selectedCardId, "disabled")}>
-                            <span class="icon icon-white-lock" />
+                        <button type="submit" className={"no-margin button" + __class(!this.state.selectedCardId, "disabled")}>
+                            <span className="icon icon-white-lock" />
                             { t("Pay") + price(paymentStore.subject.price) + t("using saved card")}
                         </button>
                     </form>

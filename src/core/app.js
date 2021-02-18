@@ -35,7 +35,7 @@ const App = () => {
     <I18nextProvider i18n={internationalization}>
         <Router history={history}>
             <NotificationList />
-            <div class="body-wrapper">
+            <div className="body-wrapper">
                 <Switch>
                     <Route exact path="/auth/callback" component={ AuthCallback } />
                     <Route exact path="/auth/silent"   component={ AuthSilent } />
@@ -43,7 +43,7 @@ const App = () => {
                     <Route>
                         <Route component={ AuthDefault } />
                         { canShowContent ? <>
-                            <div class="block-wrapper">
+                            <div className="block-wrapper">
                                 <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
                                 <TopAlert />
                                 <Route exact path={ routesWithSearch } component={ Search } />

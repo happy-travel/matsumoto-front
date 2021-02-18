@@ -7,33 +7,33 @@ class SignUp extends Component {
 
         return (
 
-<div class="account block sign-up-page">
+<div className="account block sign-up-page">
     <section>
-        <div class="logo-wrapper">
-            <div class="logo"></div>
+        <div className="logo-wrapper">
+            <div className="logo"></div>
         </div>
-        <div class="middle-section">
-            <div class="breadcrumbs">
-                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Log In</a><span class="small-arrow-right"></span>
-                Registration<span class="small-arrow-right"></span>
+        <div className="middle-section">
+            <div className="breadcrumbs">
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Log In</a><span className="small-arrow-right"></span>
+                Registration<span className="small-arrow-right"></span>
                 Company Information
-                <div class="back-button">
+                <div className="back-button">
                     <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">
-                        <span class="small-arrow-left"></span> Back
+                        <span className="small-arrow-left"></span> Back
                     </a>
                 </div>
             </div>
 
-            <div class="action-steps action-steps-another-bg">
-                <div class="step current">
+            <div className="action-steps action-steps-another-bg">
+                <div className="step current">
                     Login Information
                 </div>
-                <div class="interval"><s></s><u></u><b></b><i></i></div>
-                <div class="step">
+                <div className="interval"><s></s><u></u><b></b><i></i></div>
+                <div className="step">
                     Agent Information
                 </div>
-                <div class="interval"><s></s><u></u><b></b><i></i></div>
-                <div class="step">
+                <div className="interval"><s></s><u></u><b></b><i></i></div>
+                <div className="step">
                     Company Information
                 </div>
             </div>
@@ -42,58 +42,58 @@ class SignUp extends Component {
             </h1>
             <p>
                 Create a free Happytravel.com account and start booking today.<br/>
-                Already have an account? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="link">Log In Here.</a>
+                Already have an account? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" className="link">Log In Here.</a>
             </p>
             <form method="post">
-                <div class="form">
+                <div className="form">
                     <div>
-                        <div class="row">
-                            <div class="field">
-                                <div class="label">
-                                    <span class="required"><label asp-for="RegisterInput.Email"></label></span>
+                        <div className="row">
+                            <div className="field">
+                                <div className="label">
+                                    <span className="required"><label asp-for="RegisterInput.Email"></label></span>
                                 </div>
-                                <div class="auth-input">
+                                <div className="auth-input">
                                     <input placeholder="Enter your email"  asp-for="RegisterInput.Email"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="field">
-                                <div class="label">
-                                    <span class="required"><label asp-for="RegisterInput.UserName"></label></span>
+                        <div className="row">
+                            <div className="field">
+                                <div className="label">
+                                    <span className="required"><label asp-for="RegisterInput.UserName"></label></span>
                                 </div>
-                                <div class="auth-input">
+                                <div className="auth-input">
                                     <input placeholder="Username" asp-for="RegisterInput.UserName"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="field">
-                                <div class="label">
-                                    <span class="required"><label asp-for="RegisterInput.Password"></label></span>
+                        <div className="row">
+                            <div className="field">
+                                <div className="label">
+                                    <span className="required"><label asp-for="RegisterInput.Password"></label></span>
                                 </div>
-                                <div class="auth-input">
+                                <div className="auth-input">
                                     <input placeholder="Choose your password" asp-for="RegisterInput.Password"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="field">
-                                <div class="label">
-                                    <span class="required"><label asp-for="RegisterInput.ConfirmPassword"></label></span>
+                        <div className="row">
+                            <div className="field">
+                                <div className="label">
+                                    <span className="required"><label asp-for="RegisterInput.ConfirmPassword"></label></span>
                                 </div>
-                                <div class="auth-input">
+                                <div className="auth-input">
                                     <input placeholder="Please repeat your password" asp-for="RegisterInput.ConfirmPassword"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="error-field">
+                        <div className="error-field">
                             <div asp-validation-summary="All"></div>
                         </div>
-                        <div class="row">
-                            <div class="field">
-                                <div class="inner">
-                                    <button type="submit" class="button">Continue Registration</button>
+                        <div className="row">
+                            <div className="field">
+                                <div className="inner">
+                                    <button type="submit" className="button">Continue Registration</button>
                                 </div>
                             </div>
                         </div>

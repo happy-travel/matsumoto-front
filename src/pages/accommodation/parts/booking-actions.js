@@ -33,12 +33,12 @@ class BookingActionPart extends React.Component {
             details = booking.bookingDetails;
 
         return (
-<div class="actions">
+<div className="actions">
     {
         "NotPaid" == booking.paymentStatus &&
         "Cancelled" != details.status &&
         "PendingCancellation" != details.status &&
-            <button class="button" onClick={this.payNowByCard}>
+            <button className="button" onClick={this.payNowByCard}>
                 {t("Pay now by Card")}
             </button>
     }
@@ -48,7 +48,7 @@ class BookingActionPart extends React.Component {
             "Authorized" == booking.paymentStatus
         ) &&
         "Confirmed" == details.status &&
-            <Link to={`/booking/${booking.bookingId}/voucher`} class="button">
+            <Link to={`/booking/${booking.bookingId}/voucher`} className="button">
                 {t("Voucher")}
             </Link>
     }
@@ -57,7 +57,7 @@ class BookingActionPart extends React.Component {
         "PendingCancellation" != details.status &&
         "InternalProcessing" != details.status &&
         "ManualCorrectionNeeded" != details.status &&
-            <Link to={`/booking/${booking.bookingId}/invoice`} class="button">
+            <Link to={`/booking/${booking.bookingId}/invoice`} className="button">
                 {t("Invoice")}
             </Link>
     }
@@ -65,7 +65,7 @@ class BookingActionPart extends React.Component {
         "Cancelled" != details.status &&
         "PendingCancellation" != details.status &&
             <button
-                class={
+                className={
                     "button" +
                     __class(moment().isBefore(details.checkInDate), "transparent-with-border", "gray")
                 }

@@ -22,20 +22,20 @@ class AccommodationFiltersPart extends React.Component {
         const { t } = useTranslation();
         return (
         <>
-            <div class="hide">{store.filters?.__source}</div>
+            <div className="hide">{store.filters?.__source}</div>
             <CachedForm
                 id={ FORM_NAMES.AccommodationFiltersForm }
                 onSubmit={this.submit}
                 render={(formik, reset) => {
                     if (!store.filters || (!store.hotelArray?.length && !store.filtersLine && !store.search.loading))
-                        return <div class="left-section filters" />;
+                        return <div className="left-section filters" />;
                     return (
-                        <div class="left-section filters">
+                        <div className="left-section filters">
                             <Expandable
                                 open
                                 header={t("Price Range")}
                                 content={
-                                    <div class="expanded price-range">
+                                    <div className="expanded price-range">
                                         <h4>{t("Drag the slider to choose minimum and maximum prices")}</h4>
                                         <FieldRange formik={formik}
                                             min={store.filters.price.min}
@@ -51,12 +51,14 @@ class AccommodationFiltersPart extends React.Component {
                                 open
                                 header={t("Rating")}
                                 content={
-                                    <div class="expanded">
+                                    <div className="expanded">
                                         { store.filters.ratings.map((item,i) => (
-                                            <FieldCheckbox formik={formik}
+                                            <FieldCheckbox
+                                                formik={formik}
                                                 label={<Stars count={i+1} />}
                                                 id={ "ratings." + item }
                                                 onChange={formik.handleSubmit}
+                                                key={i}
                                             />
                                         )) }
                                     </div>
@@ -66,12 +68,13 @@ class AccommodationFiltersPart extends React.Component {
                                 open
                                 header={t("Board Basis")}
                                 content={
-                                    <div class="expanded">
+                                    <div className="expanded">
                                         { store.filters.boardBasis.map(item => (
                                             <FieldCheckbox formik={formik}
                                                 label={t(item)}
                                                 id={ "boardBasis." + item }
                                                 onChange={formik.handleSubmit}
+                                                key={item}
                                             />
                                         )) }
                                     </div>
@@ -82,12 +85,14 @@ class AccommodationFiltersPart extends React.Component {
                                 open
                                 header="Source"
                                 content={
-                                    <div class="expanded">
+                                    <div className="expanded">
                                         { store.filters.__source.map((item, i) => (
-                                            <FieldCheckbox formik={formik}
-                                                           label={ item }
-                                                           id={ "source." + item }
-                                                           onChange={formik.handleSubmit}
+                                            <FieldCheckbox
+                                                formik={formik}
+                                                label={ item }
+                                                id={ "source." + item }
+                                                onChange={formik.handleSubmit}
+                                                key={i}
                                             />
                                         )) }
                                     </div>

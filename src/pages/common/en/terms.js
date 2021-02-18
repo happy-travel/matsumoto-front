@@ -3,7 +3,7 @@ import React from "react";
 class TermsPage extends React.Component {
     render() {
         return (
-            <div class="confirmation block document">
+            <div className="confirmation block document">
                 <section>
                     <h1>Terms & Conditions</h1>
 
@@ -45,8 +45,8 @@ class TermsPage extends React.Component {
                         </li>
                     </ul>
 
-                    <h2><span class="brand">1. Scope of Services</span></h2>
-                    <ol class="roman">
+                    <h2><span className="brand">1. Scope of Services</span></h2>
+                    <ol className="roman">
                         <li>Your use of this Site will constitute your acceptance of the Terms of
                             Use. Once accepted, the Terms of Use will constitute a binding agreement
                             between Happy Travel and you governing your use of the Site
@@ -74,8 +74,8 @@ class TermsPage extends React.Component {
                         </li>
                     </ol>
 
-                    <h2><span class="brand">2. Use of the Site</span></h2>
-                    <ol class="roman">
+                    <h2><span className="brand">2. Use of the Site</span></h2>
+                    <ol className="roman">
                         <li>Happy Travel grants you a limited, restricted, personal,
                             non-transferable, non-sublicensable (other than to affiliates or with
                             our express prior written permission), revocable license to access and
@@ -93,7 +93,7 @@ class TermsPage extends React.Component {
                             us. You also undertake to provide correct and accurate e-mail, postal
                             and/or other contact details to Happy Travel and acknowledge that Happy
                             Travel may, in accordance with the terms of our privacy policy found
-                            at <a href="https://happytravel.com/privacy" class="link">
+                            at <a href="https://happytravel.com/privacy" className="link">
                                 https://happytravel.com/privacy
                             </a>, use these details to contact you in the
                             event that this should prove necessary.
@@ -109,7 +109,7 @@ class TermsPage extends React.Component {
                             leaving the Site and proceeding at your own responsibility.
                         </li>
                         <li>In addition, you agree not to:
-                            <ul class="dash">
+                            <ul className="dash">
                                 <li>use the Site or its contents for any non-authorized commercial purpose;</li>
                                 <li>use any feature of the Site for any purpose that is unlawful, harmful, or
                                     otherwise objectionable or inappropriate, as determined by us;
@@ -177,14 +177,14 @@ class TermsPage extends React.Component {
                             </ul>
                         </li>
                         <li>Please report any abusive content that you see on the Site to us at the
-                            following address: <a href="mailto:support@happytravel.com" class="link">
+                            following address: <a href="mailto:support@happytravel.com" className="link">
                                 support@happytravel.com
                             </a>
                         </li>
                     </ol>
 
-                    <h2><span class="brand">3. Your Information</span></h2>
-                    <ol class="roman">
+                    <h2><span className="brand">3. Your Information</span></h2>
+                    <ol className="roman">
                         <li>All information that you provide to us must be accurate and up-to-date. If any of
                             your information changes, you must immediately update it. If you have reason to
                             believe that your login ID, password, or company access code is no longer secure,
@@ -202,15 +202,15 @@ class TermsPage extends React.Component {
                             prevent unauthorized access to your information or account.</li>
                     </ol>
 
-                    <h2><span class="brand">4. Personal Data and Data Privacy</span></h2>
-                    <p class="indent">Happy Travel respects your privacy. Please consult our privacy policy for further
+                    <h2><span className="brand">4. Personal Data and Data Privacy</span></h2>
+                    <p className="indent">Happy Travel respects your privacy. Please consult our privacy policy for further
                         information about how we use your personal
-                        data <a href="https://happytravel.com/privacy" class="link">
+                        data <a href="https://happytravel.com/privacy" className="link">
                             https://happytravel.com/privacy
                         </a>.</p>
 
-                    <h2><span class="brand">5. Intellectual Property</span></h2>
-                    <ol class="roman">
+                    <h2><span className="brand">5. Intellectual Property</span></h2>
+                    <ol className="roman">
                         <li>“Intellectual Property” refers to intellectual property of every sort, whether or
                             not registered, registrable or applied for in any country, including intellectual
                             property coming into existence in the future; and including, among others, all
@@ -251,8 +251,8 @@ class TermsPage extends React.Component {
                             post to our Site.</li>
                     </ol>
 
-                    <h2><span class="brand">6. Warranty Disclaimer</span></h2>
-                    <p class="indent">This Site, all content and services provided on the Site, are provided “as is”, “as
+                    <h2><span className="brand">6. Warranty Disclaimer</span></h2>
+                    <p className="indent">This Site, all content and services provided on the Site, are provided “as is”, “as
                         available” and without warranties of any kind, whether express or implied, to the
                         fullest extent permissible pursuant to applicable law. Happy Travel and its
                         licensors expressly disclaim to the fullest extent possible all warranties of any
@@ -276,8 +276,8 @@ class TermsPage extends React.Component {
                         interruptions in the transmission or receipt of reservations or, any other technical
                         defect whether human or technical in nature.</p>
 
-                    <h2><span class="brand">7. Limitation of Liability and Indemnification</span></h2>
-                    <ol class="roman">
+                    <h2><span className="brand">7. Limitation of Liability and Indemnification</span></h2>
+                    <ol className="roman">
                         <li>Subject to clause 7(ii) below, Happy Travel and its officers, directors, managers,
                             employees, representatives, agents, subsidiaries, affiliates, licensors or others
                             involved in creating, sponsoring, promoting, or otherwise making available the Site
@@ -304,8 +304,8 @@ class TermsPage extends React.Component {
                             your actions, inactions or omission.</li>
                     </ol>
 
-                    <h2><span class="brand">8. Law and Jurisdiction</span></h2>
-                    <ol class="roman">
+                    <h2><span className="brand">8. Law and Jurisdiction</span></h2>
+                    <ol className="roman">
                         <li>These Terms of Use and any dispute and/or claim arising out of or in connection
                             with them, or their subject matter or formation (including non-contractual disputes
                             or claims) shall be governed by and construed in accordance with the laws of England
@@ -318,11 +318,11 @@ class TermsPage extends React.Component {
                             of our Terms of Use in your country of residence or any other country.</li>
                     </ol>
 
-                    <div class="updated">Updated on June 17, 2020</div>
+                    <div className="updated">Updated on June 17, 2020</div>
 
-                    <div class="pdf-button-holder">
-                        <a href="/documents/happytravel-terms.pdf" class="button">
-                            <span class="image">
+                    <div className="pdf-button-holder">
+                        <a href="/documents/happytravel-terms.pdf" className="button">
+                            <span className="image">
                                 Download Terms & Conditions
                             </span>
                         </a>

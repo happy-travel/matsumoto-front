@@ -5,7 +5,7 @@ export default ({
     formik, t
 }) => (
     <>
-        <div class="row">
+        <div className="row">
             <FieldSelect formik={formik}
                 id="title"
                 label={t("Salutation")}
@@ -19,7 +19,7 @@ export default ({
                 ]}
             />
         </div>
-        <div class="row">
+        <div className="row">
             <FieldText formik={formik}
                 id="firstName"
                 label={t("First Name")}
@@ -27,7 +27,7 @@ export default ({
                 required
             />
         </div>
-        <div class="row">
+        <div className="row">
             <FieldText formik={formik}
                 id="lastName"
                 label={t("Last Name")}
@@ -35,7 +35,7 @@ export default ({
                 required
             />
         </div>
-        <div class="row">
+        <div className="row">
             <FieldText formik={formik}
                 id="position"
                 label={t("Position/Designation")}

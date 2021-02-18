@@ -11,7 +11,7 @@ export const Columns = (permittedAgency) => (t, setAgentIdFilter) => [
     ...(permittedAgency ? [{
         header: t("Agent"),
         cell: row => (
-            <span class="link" onClick={(event) => {
+            <span className="link" onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 setAgentIdFilter(row.agent.id);
@@ -44,11 +44,11 @@ export const Columns = (permittedAgency) => (t, setAgentIdFilter) => [
     {
         header: t("Payment"),
         cell: row => <>
-            <span class={getClassByStatus(row.paymentStatus)}>
+            <span className={getClassByStatus(row.paymentStatus)}>
                 {remapStatus(row.paymentStatus)}
             </span>
             <br/>
-            <span class="payment-amount">
+            <span className="payment-amount">
                 {price(row.price)}
             </span>
         </>
@@ -60,7 +60,7 @@ export const Columns = (permittedAgency) => (t, setAgentIdFilter) => [
     {
         header: t("Status"),
         cell: row => (
-            <span class={getClassByStatus(row.status)}>
+            <span className={getClassByStatus(row.status)}>
                 {remapStatus(row.status)}
             </span>
         )

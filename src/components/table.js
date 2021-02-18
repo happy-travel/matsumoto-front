@@ -100,11 +100,11 @@ class Table extends React.Component {
         const result = this.getResult();
 
         return (
-            <div class="table">
-                <section class="content">
-                    <div class="controls">
-                        <div class="left">
-                            { sorters && <div class="form">
+            <div className="table">
+                <section className="content">
+                    <div className="controls">
+                        <div className="left">
+                            { sorters && <div className="form">
                                 <FieldSelect
                                     id="sorter"
                                     value={"Sort by" + " " + sorters[sort_by].title}
@@ -117,13 +117,13 @@ class Table extends React.Component {
                             </div> }
                             { CustomFilter }
                         </div>
-                        { searches && <div class="form search-wrap">
+                        { searches && <div className="form search-wrap">
                             <FieldText
                                 id="search"
                                 placeholder={"Search..."}
                                 onChange={event => this.setState({ search_query: event.target.value })}
                                 onClear={() => this.setState({ search_query: "" })}
-                                Flag={<span class="icon icon-search" />}
+                                Flag={<span className="icon icon-search" />}
                                 clearable
                                 value={search_query}
                             />
@@ -131,15 +131,17 @@ class Table extends React.Component {
                     </div>
                     {list === null ? <Loader /> :
                         (!result?.length ?
-                            <div class="empty">{list?.length ? textEmptyResult : textEmptyList || textEmptyResult}</div> :
-                            <table class="the-table">
-                                {result.map(row => row && (
+                            <div className="empty">{list?.length ? textEmptyResult : textEmptyList || textEmptyResult}</div> :
+                            <table className="the-table">
+                                <tbody>
+                                {result.map((row, index) => row && (
                                     <tr
                                         onClick={onRowClick ? () => onRowClick(row) : null}
-                                        class={__class(onRowClick, "clickable")}
+                                        className={__class(onRowClick, "clickable")}
+                                        key={index}
                                     >
-                                        {columns.map(column =>
-                                            <td>
+                                        {columns.map((column, j) =>
+                                            <td key={j}>
                                                 <strong>{column.header}</strong>
                                                 {typeof column.cell == "function" ?
                                                     column.cell(row) :
@@ -149,6 +151,7 @@ class Table extends React.Component {
                                         )}
                                     </tr>
                                 ))}
+                                </tbody>
                             </table>
                         )}
                 </section>

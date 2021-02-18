@@ -79,7 +79,7 @@ class FieldCountry extends React.Component {
             placeholder,
             anotherField,
 
-            addClass,
+            className,
             clearable,
             required
         } = this.props;
@@ -97,7 +97,7 @@ class FieldCountry extends React.Component {
                        setValue={this.setValue}
                        onClear={() => formik.setFieldValue(codeField(id), "")}
 
-                       addClass={addClass}
+                       className={className}
                        clearable={clearable}
                        required={required}
             />

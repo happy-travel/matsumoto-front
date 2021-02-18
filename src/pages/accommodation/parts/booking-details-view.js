@@ -72,22 +72,22 @@ class BookingDetailsView extends React.Component {
 <>
     { loading && <Loader page /> }
 
-    <div class={"accent-frame" + __class("Cancelled" == details.status, "cancelled")}>
-        <div class="before">
-            <span class="icon icon-white-check" />
+    <div className={"accent-frame" + __class("Cancelled" == details.status, "cancelled")}>
+        <div className="before">
+            <span className="icon icon-white-check" />
         </div>
-        <div class="dual">
-            <div class="first">
-                {t("Booking Reference number")}: <strong class="green">{details.referenceCode}</strong>
+        <div className="dual">
+            <div className="first">
+                {t("Booking Reference number")}: <strong className="green">{details.referenceCode}</strong>
             </div>
             {loading ?
-                <div class="second">
+                <div className="second">
                     Updating...
                 </div> :
-                <div class="second">
-                    {t("Status")}: <strong class={details.status}>{remapStatus(details.status)}</strong>
-                    <div class="status-updater">
-                        <button class="small button transparent-with-border" onClick={() => this.updateBookingStatus()}>
+                <div className="second">
+                    {t("Status")}: <strong className={details.status}>{remapStatus(details.status)}</strong>
+                    <div className="status-updater">
+                        <button className="small button transparent-with-border" onClick={() => this.updateBookingStatus()}>
                             ⟳
                         </button>
                     </div>
@@ -96,10 +96,10 @@ class BookingDetailsView extends React.Component {
         </div>
     </div>
 
-    <h2 class="underline">{t("Accommodation")}</h2>
-    <div class="part">
-        <div class="icon-holder">
-            <span class="icon icon-confirmation-price" />
+    <h2 className="underline">{t("Accommodation")}</h2>
+    <div className="part">
+        <div className="icon-holder">
+            <span className="icon icon-confirmation-price" />
         </div>
         <div>
             <Dual
@@ -123,7 +123,7 @@ class BookingDetailsView extends React.Component {
                 b={details.agentReference}
             /> }
             { !!booking.supplier &&
-            <Dual addClass="grow"
+            <Dual className="grow"
                   a={"Supplier"}
                   b={booking.supplier}
             />
@@ -131,12 +131,12 @@ class BookingDetailsView extends React.Component {
         </div>
     </div>
 
-    <h2 class="underline">{t("Booking Details")}</h2>
-    <div class="part">
-        <div class="icon-holder">
-            <span class="icon icon-confirmation-dates"/>
+    <h2 className="underline">{t("Booking Details")}</h2>
+    <div className="part">
+        <div className="icon-holder">
+            <span className="icon icon-confirmation-dates"/>
         </div>
-        <div class="line">
+        <div className="line">
             <Dual
                   a={t("Your Booking")}
                   b={
@@ -154,55 +154,58 @@ class BookingDetailsView extends React.Component {
             />
         </div>
     </div>
-    <div class="part">
-        <div class="icon-holder">
-            <span class="icon icon-confirmation-hotel"/>
+    <div className="part">
+        <div className="icon-holder">
+            <span className="icon icon-confirmation-hotel"/>
         </div>
-        <div class="line">
+        <div className="line">
             <Dual
                 a={t("Total Cost")}
-                b={<b class="green">{price(booking.totalPrice)}</b>}
+                b={<b className="green">{price(booking.totalPrice)}</b>}
             />
-            { booking.paymentStatus && <Dual addClass="grow"
+            { booking.paymentStatus && <Dual className="grow"
                 a={t("Payment Status")}
                 b={booking.paymentStatus.replace(/([A-Z])/g, " $1")}
             /> }
         </div>
     </div>
 
-    <h2 class="underline">{t("Room Details")}</h2>
+    <h2 className="underline">{t("Room Details")}</h2>
     { details.roomDetails.map((room, index) => (
-        <div class="room-part">
-            <div class="part">
-                <div class="icon-holder">
-                    <div class="icon icon-confirmation-circle">
+        <div className="room-part" key={index}>
+            <div className="part">
+                <div className="icon-holder">
+                    <div className="icon icon-confirmation-circle">
                         { details.roomDetails.length > 1 ?
                             index+1 :
-                            <span class="icon icon-confirmation-passenger"/>
+                            <span className="icon icon-confirmation-passenger"/>
                         }
                     </div>
                 </div>
-                <div class="line">
+                <div className="line">
                     <Dual
-                        a={t("Room type")}
+                        a={t("Room Type")}
                         b={<GroupRoomTypesAndCount solo t={t} contracts={[room]} />}
                     />
                     <Dual
-                        a={t("Board basis")}
+                        a={t("Board Basis")}
                         b={<MealPlan t={t} room={room} />}
                     />
                     <Dual
                         a={t("Room Cost")}
-                        b={<b class="green">{price(room.price)}</b>}
+                        b={<b className="green">{price(room.price)}</b>}
                     />
                 </div>
             </div>
-            <div class="part no-icon">
+            <div className="part no-icon">
                 <Dual
                     a={t("Accommodates")}
-                    b={[...Array(room.passengers.length).fill(<span class="icon icon-man"/>)]}
+                    b={[...Array(room.passengers.length).fill(1).map(
+                        (item, index) => <span className="icon icon-man" key={index} />
+                    )]}
                 />
-                <Dual addClass={__class(room.passengers.length < 2, "grow")}
+                <Dual
+                    className={__class(room.passengers.length < 2, "grow")}
                     a={t("Leading Passenger")}
                     b={<PassengerName passenger={room.passengers[0]} />}
                 />
@@ -210,11 +213,11 @@ class BookingDetailsView extends React.Component {
                     <Dual
                         a={t("Other Passengers")}
                         b={room.passengers.map( (item, index) => ( !!index &&
-                            <div><PassengerName passenger={ item } /></div>
+                            <div key={index}><PassengerName passenger={ item } /></div>
                         ))}
                     />}
             </div>
-            { room.supplierRoomReferenceCode && <div class="part no-icon">
+            { room.supplierRoomReferenceCode && <div className="part no-icon">
                 <Dual
                     a={t("Supplier Reference Code")}
                     b={room.supplierRoomReferenceCode}

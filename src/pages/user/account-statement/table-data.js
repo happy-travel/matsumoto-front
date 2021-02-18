@@ -21,7 +21,7 @@ export const Columns = t => [
     },
     {
         header: t("Reference code"),
-        cell: row => <Link class="link" to={`/booking/${row.referenceCode}`}>
+        cell: row => <Link className="link" to={`/booking/${row.referenceCode}`}>
                          {row.referenceCode}
                      </Link>
     },

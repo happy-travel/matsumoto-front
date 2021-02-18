@@ -40,8 +40,8 @@ class CountryDropdown extends React.Component {
         } = this.props;
 
         return (
-            <div class="region dropdown">
-                <div class="scroll">
+            <div className="region dropdown">
+                <div className="scroll">
                     {View.countries.map((country, index) => {
                         let region = null;
                         if (index === 0 || View.countries[index]?.regionId !== View.countries[index - 1]?.regionId) {
@@ -49,18 +49,18 @@ class CountryDropdown extends React.Component {
                             const currentRegion = UI.regions?.find(regionItem => regionItem.id === regionId);
                             region = <div
                                          key={currentRegion?.name}
-                                         class="subtitle"
+                                         className="subtitle"
                                      >
                                          {currentRegion?.name?.toUpperCase()}
                                      </div>;
                         }
-                        return <div>
+                        return <div key={index}>
                             {region}
                             <div
                               id={`js-value-${index}`}
                               key={`${country.name}-${country.id}`}
                               onClick={ () => this.props.setValue(country, formik, connected) }
-                              class={"country line" + __class(focusIndex === index, "focused")}
+                              className={"country line" + __class(focusIndex === index, "focused")}
                             >
                                 <Flag code={country.code} />
                                 <Highlighted str={country.name} highlight={this.props.value} />

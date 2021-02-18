@@ -7,9 +7,9 @@ const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
     var { t } = useTranslation();
 
     return (
-        <div class="breadcrumbs">
+        <div className="breadcrumbs">
             { items.map((item, index) => (
-                <>
+                <React.Fragment key={index}>
                     { item.link ?
                         <Link to={item.link}>
                             {item.text}
@@ -17,18 +17,18 @@ const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
                       :
                         item.text
                     }
-                    { index+1 < items.length ? <span class="small-arrow-right" /> : ' '}
+                    { index+1 < items.length ? <span className="small-arrow-right" /> : ' '}
                     {' '}
-                </>
+                </React.Fragment>
             )) }
             {!noBackButton && (
                 backLink ?
-                    <Link to={backLink}><span class="back-button">
-                        <span class="small-arrow-left" /> {t('Back')}</span>
+                    <Link to={backLink}><span className="back-button">
+                        <span className="small-arrow-left" /> {t('Back')}</span>
                     </Link>
                 :
-                    <div onClick={() => history.goBack()} class="back-button">
-                        <span class="small-arrow-left" /> {t('Back')}
+                    <div onClick={() => history.goBack()} className="back-button">
+                        <span className="small-arrow-left" /> {t('Back')}
                     </div>
             )}
         </div>

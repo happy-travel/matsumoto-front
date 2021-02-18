@@ -70,10 +70,10 @@ class InvitationSendPage extends React.Component {
         var { t } = useTranslation();
 
         return (
-    <div class="settings block">
+    <div className="settings block">
         <SettingsHeader />
         <section>
-            <h2><span class="brand">{t("Invite an agent")}</span></h2>
+            <h2><span className="brand">{t("Invite an agent")}</span></h2>
             { this.state.success === null && <Loader /> }
             { this.state.success && <div>
                 {this.state.success === true ?
@@ -84,7 +84,7 @@ class InvitationSendPage extends React.Component {
                     <br/>
                 </div> :
                 <div>
-                    <div class="form">
+                    <div className="form">
                         <h3>{t("Send this link as an invitation")}</h3>
                         <br/>
                         <FieldText
@@ -92,11 +92,11 @@ class InvitationSendPage extends React.Component {
                         />
                     </div>
                     <br/>
-                    <button class="button small" onClick={() => copyToClipboard(this.state.success)}>
+                    <button className="button small" onClick={() => copyToClipboard(this.state.success)}>
                         {t("Copy to Clipboard")}
                     </button>
                 </div>}
-                <button class="button payment-back" onClick={this.reset}>
+                <button className="button payment-back" onClick={this.reset}>
                     {t("Send one more invite")}
                 </button>
             </div> }
@@ -117,8 +117,8 @@ class InvitationSendPage extends React.Component {
                 validationSchema={registrationUserValidatorWithEmail}
                 onSubmit={this.submit}
                 render={formik => (
-                    <div class="form">
-                        <div class="row">
+                    <div className="form">
+                        <div className="row">
                             <FieldText formik={formik}
                                 id="email"
                                 label={t("Email")}
@@ -127,19 +127,19 @@ class InvitationSendPage extends React.Component {
                             />
                         </div>
                         <FormUserData formik={formik} t={t} />
-                        <div class="row submit-holder">
-                            <div class="field">
-                                <div class="inner">
+                        <div className="row submit-holder">
+                            <div className="field">
+                                <div className="inner">
                                     <button onClick={() => this.submitButtonClick(true, formik)}
-                                            class={"button" + __class(!formik.isValid, "disabled")}>
+                                            className={"button" + __class(!formik.isValid, "disabled")}>
                                         {t("Send Invitation")}
                                     </button>
                                 </div>
                             </div>
-                            <div class="field">
-                                <div class="inner">
+                            <div className="field">
+                                <div className="inner">
                                     <button onClick={() => this.submitButtonClick(false, formik)}
-                                            class={"button" + __class(!formik.isValid, "disabled")}>
+                                            className={"button" + __class(!formik.isValid, "disabled")}>
                                         {t("Generate Invitation Link")}
                                     </button>
                                 </div>

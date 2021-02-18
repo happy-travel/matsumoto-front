@@ -3,7 +3,7 @@ import React from "react";
 class PrivacyPolicyPage extends React.Component {
     render() {
         return (
-            <div class="confirmation block document">
+            <div className="confirmation block document">
                 <section>
                     <h1>Privacy Policy</h1>
 
@@ -23,13 +23,13 @@ class PrivacyPolicyPage extends React.Component {
                         online booking platform. This notice also explains your various legal rights in
                         connection with our processing of your personal data.</p>
 
-                    <h2><span class="brand"><span class="brand">1. WHO WE ARE</span></span></h2>
+                    <h2><span className="brand"><span className="brand">1. WHO WE ARE</span></span></h2>
                     <p>HappyTravel is responsible for processing your personal data in connection with our
                         online booking platform and is the “data controller” of the processing described in
                         this notice.</p>
                     <p>Please contact us if you have any questions about the contents of this privacy
                         notice, including requests to exercise your legal rights.</p>
-                    <h2><span class="brand">2. PERSONAL DATA WE COLLECT</span></h2>
+                    <h2><span className="brand">2. PERSONAL DATA WE COLLECT</span></h2>
                     <p>Personal data is information relating to an individual, from which that person can be
                         identified.</p>
                     <p>We may process different types of your personal data, such as:</p>
@@ -74,7 +74,7 @@ class PrivacyPolicyPage extends React.Component {
                         interest.&nbsp; We may also seek consent to process Special Categories of Personal
                         Data, in which case we will provide you with further information about our data
                         processing activities, as necessary.</p>
-                    <h2><span class="brand">3. HOW WE COLLECT YOUR PERSONAL DATA</span></h2>
+                    <h2><span className="brand">3. HOW WE COLLECT YOUR PERSONAL DATA</span></h2>
                     <p>We use different methods to collect data from and about you, including:</p>
                     <ol>
                         <li><strong>Direct interactions. </strong>You may give us your Identity, Financial,
@@ -109,7 +109,7 @@ class PrivacyPolicyPage extends React.Component {
                             </ul>
                         </li>
                     </ol>
-                    <h2><span class="brand">4. HOW WE USE YOUR PERSONAL DATA</span></h2>
+                    <h2><span className="brand">4. HOW WE USE YOUR PERSONAL DATA</span></h2>
                     <h3>Purposes of Processing</h3>
                     <p>We process your personal data for one or more of the purposes listed below (or in
                         ways that are not incompatible with the purposes listed below).</p>
@@ -206,7 +206,7 @@ class PrivacyPolicyPage extends React.Component {
                         or are trying to enter with a Travel Business or provider of Travel Components, or
                         otherwise in connection with our services, your failure to provide that personal
                         data when requested may mean we are unable to provide our services to you.</p>
-                    <h2><span class="brand">5. DISCLOSURES OF YOUR PERSONAL DATA</span></h2>
+                    <h2><span className="brand">5. DISCLOSURES OF YOUR PERSONAL DATA</span></h2>
                     <p>We may share your personal data (for the purposes listed above) with the following
                         categories of third parties:</p>
                     <ol>
@@ -226,7 +226,7 @@ class PrivacyPolicyPage extends React.Component {
                             potential acquirers of, or investors in, our business.
                         </li>
                     </ol>
-                    <h2><span class="brand">6. LOCATION / INTERNATIONAL TRANSFERS OF YOUR PERSONAL DATA</span></h2>
+                    <h2><span className="brand">6. LOCATION / INTERNATIONAL TRANSFERS OF YOUR PERSONAL DATA</span></h2>
                     <p>HappyTravel’s business is located in Dubai. In order to provide our services, we use
                         external service providers (including for web hosting), whose servers are located in
                         jurisdictions outside Dubai (including within the European Union).&nbsp; When you
@@ -234,7 +234,7 @@ class PrivacyPolicyPage extends React.Component {
                         other jurisdictions and subsequently access by us in Dubai. We access your personal
                         data in compliance with applicable data protection laws. Please contact us for
                         further information.</p>
-                    <h2><span class="brand">7. DATA SECURITY</span></h2>
+                    <h2><span className="brand">7. DATA SECURITY</span></h2>
                     <p>We have put in place appropriate technical and organisational security measures to
                         prevent accidental or intentional manipulation, partial or complete loss or
                         destruction of, or unauthorized access to personal data by third parties.</p>
@@ -243,7 +243,7 @@ class PrivacyPolicyPage extends React.Component {
                     <p>We have implemented procedures to deal with any suspected personal data breach. We
                         will notify you and any applicable regulator of a breach where we are legally
                         required to do so.</p>
-                    <h2><span class="brand">8. DATA RETENTION</span></h2>
+                    <h2><span className="brand">8. DATA RETENTION</span></h2>
                     <p>We will only retain your personal data for as long as reasonably necessary to fulfil
                         the purposes for which it was collected, including for the purposes of satisfying
                         any legal, regulatory, tax, accounting or reporting requirements. We may retain your
@@ -261,7 +261,7 @@ class PrivacyPolicyPage extends React.Component {
                         may retain it for a longer period of time.</p>
                     <p>In some circumstances you have the right to request that your personal data is
                         deleted (further information is set out below).</p>
-                    <h2><span class="brand">9. YOUR LEGAL RIGHTS</span></h2>
+                    <h2><span className="brand">9. YOUR LEGAL RIGHTS</span></h2>
                     <p>Under certain circumstances, you may have the following rights under data protection
                         laws in relation to your personal data:</p>
                     <ul>
@@ -303,14 +303,14 @@ class PrivacyPolicyPage extends React.Component {
                         legitimate requests within one month. It can take us longer than a month to respond
                         if your request is particularly complex or if you make a number of requests. In this
                         case, we will notify you and keep you updated.</p>
-                    <h2><span class="brand">10. CONTACT DETAILS AND IMPORTANT INFORMATION</span></h2>
+                    <h2><span className="brand">10. CONTACT DETAILS AND IMPORTANT INFORMATION</span></h2>
                     <h3>Contact Information</h3>
                     <p>
                         HappyTravelDotCom Travel and Tourism LLC<br/>
                         B106, Saraya Avenue Building<br/>
                         P.O. Box 36366<br/>
                         Dubai, United Arab Emirates<br/>
-                        Email: <a class="link" href="mailto:info@happytravel.com">info@happytravel.com</a><br/>
+                        Email: <a className="link" href="mailto:info@happytravel.com">info@happytravel.com</a><br/>
                         Telephone: +971-4-2999080
                     </p>
                     <p>You can also contact us if you have a complaint in connection with our processing of
@@ -329,11 +329,11 @@ class PrivacyPolicyPage extends React.Component {
                         enable third-parties to collect or share your data. When you leave our website, we
                         encourage you to read the privacy notice of each website you visit.</p>
 
-                    <div class="updated">Updated on June 17, 2020</div>
+                    <div className="updated">Updated on June 17, 2020</div>
 
-                    <div class="pdf-button-holder">
-                        <a href="/documents/happytravel-privacy-policy.pdf" class="button">
-                            <span class="image">
+                    <div className="pdf-button-holder">
+                        <a href="/documents/happytravel-privacy-policy.pdf" className="button">
+                            <span className="image">
                                 Download Privacy Policy
                             </span>
                         </a>

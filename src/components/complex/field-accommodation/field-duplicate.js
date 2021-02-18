@@ -60,7 +60,7 @@ class FieldDuplicate extends React.Component {
                        label={label}
                        additionalFieldForValidation="id"
                        placeholder={placeholder}
-                       Icon={<span class="icon icon-hotel" />}
+                       Icon={<span className="icon icon-hotel" />}
                        Dropdown={DuplicateDropdown}
                        options={View.destinations}
                        onChange={this.inputChanged}

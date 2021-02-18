@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 export default function () {
     const { t } = useTranslation();
     return (
-        <div class="confirmation block document">
+        <div className="confirmation block document">
             <section>
                 <h1>About Us</h1>
                 <p><b>HappyTravelDotCom</b> is a new travel wholesaler based in Dubai servicing businesses such as travel agents and tour operators across the world.</p>

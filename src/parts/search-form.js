@@ -33,9 +33,9 @@ class AccommodationSearch extends React.Component {
         var { t } = useTranslation();
 
         return (
-            <div class="search block" style={{paddingBottom: "58px"}}>
+            <div className="search block" style={{paddingBottom: "58px"}}>
                 <section>
-                    <div class="hide">{JSON.stringify(authStore.settings)}</div>
+                    <div className="hide">{JSON.stringify(authStore.settings)}</div>
                     <CachedForm
                         id={ FORM_NAMES.SearchForm }
                         initialValues={{
@@ -57,8 +57,8 @@ class AccommodationSearch extends React.Component {
                         enableReinitialize={true}
                         render={formik => (
                             <>
-                                <div class="form">
-                                    <div class="row">
+                                <div className="form">
+                                    <div className="row">
                                         <FieldDestination
                                             formik={formik}
                                             id="destination"
@@ -78,8 +78,8 @@ class AccommodationSearch extends React.Component {
                                             id="room"
                                             label={t("Adults, Children, Rooms")}
                                             placeholder={t("Choose options")}
-                                            Icon={<span class="icon icon-arrows-expand"/>}
-                                            addClass="size-medium"
+                                            Icon={<span className="icon icon-arrows-expand"/>}
+                                            className="size-medium"
                                             Dropdown={PeopleDropdown}
                                             value={[
                                                 __plural(t, countPassengers(formik.values, "adultsNumber"), "Adult"),
@@ -88,14 +88,14 @@ class AccommodationSearch extends React.Component {
                                             ].join(" • ")}
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldCountry
                                             formik={formik}
                                             id="nationality"
                                             anotherField="residency"
                                             label={t("Nationality")}
                                             placeholder={t("Choose your nationality")}
-                                            addClass="size-large"
+                                            className="size-large"
                                             clearable
                                         />
                                         <FieldCountry
@@ -104,13 +104,13 @@ class AccommodationSearch extends React.Component {
                                             anotherField="nationality"
                                             label={t("Residency")}
                                             placeholder={t("Choose your residency")}
-                                            addClass="size-large"
+                                            className="size-large"
                                             clearable
                                         />
-                                        <div class="field">
-                                            <div class="label"/>
-                                            <div class="inner">
-                                                <button type="submit" class="button">
+                                        <div className="field">
+                                            <div className="label"/>
+                                            <div className="inner">
+                                                <button type="submit" className="button">
                                                     {t("Search Accommodations")}
                                                 </button>
                                             </div>

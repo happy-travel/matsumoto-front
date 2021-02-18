@@ -5,8 +5,8 @@ import { observer } from "mobx-react";
 class CurrencySwitcherDropdown extends React.Component {
     render() {
         return (
-            <div class="switcher currency-switcher">
-                <div class="currency">USD <span>(US Dollars)</span></div>
+            <div className="switcher currency-switcher">
+                <div className="currency">USD <span>(US Dollars)</span></div>
             </div>
         );
     }

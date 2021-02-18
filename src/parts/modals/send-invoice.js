@@ -61,9 +61,9 @@ class SendInvoiceModal extends React.Component {
             { error, success, loading, booking } = this.state;
 
         return (
-            <div class="confirm modal">
-                {closeModal && <div class="close-button" onClick={closeModal}>
-                    <span class="icon icon-close" />
+            <div className="confirm modal">
+                {closeModal && <div className="close-button" onClick={closeModal}>
+                    <span className="icon icon-close" />
                 </div>}
 
                 <h2>{type == INVOICE_TYPES.VOUCHER ? t("Send Voucher") : t("Send Invoice")}</h2>
@@ -88,19 +88,19 @@ class SendInvoiceModal extends React.Component {
                         onSubmit={this.submit}
                         render={formik => (
                             <>
-                                <div class="form">
+                                <div className="form">
                                     <p>
                                         {t("Enter email to receive information about booking")} <br/>
                                         { booking?.bookingDetails?.referenceCode }.
                                     </p>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldText formik={formik}
                                             id="email"
                                             placeholder={t("Email")}
                                         />
                                     </div>
-                                    <div class="bottom">
-                                        <button class="button" type="submit">
+                                    <div className="bottom">
+                                        <button className="button" type="submit">
                                             {t("Confirm")}
                                         </button>
                                     </div>

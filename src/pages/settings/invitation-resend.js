@@ -74,41 +74,41 @@ class InvitationResendPage extends React.Component {
             { invitation } = this.state;
 
         return (
-    <div class="settings block">
+    <div className="settings block">
         <SettingsHeader />
         <section>
-            <h2><span class="brand">{t("Invitation Information")}</span></h2>
+            <h2><span className="brand">{t("Invitation Information")}</span></h2>
             { !invitation ? <Loader /> : <>
-                <div class="row">
+                <div className="row">
                     <b>{t("Agent")}</b>:{" "}
                     {PassengerName({ passenger: invitation })}
                 </div>
-                <div class="row">
+                <div className="row">
                     <b>{t("Position")}</b>:{" "}
                     {invitation.position}
                 </div>
-                <div class="row">
+                <div className="row">
                     <b>{t("Email")}</b>:{" "}
                     {invitation.email}
                 </div>
-                <div class="row">
+                <div className="row">
                     <b>{t("Inviter")}</b>:{" "}
                     {invitation.createdBy}
                 </div>
-                <div class="row">
+                <div className="row">
                     <b>{t("Created")}</b>:{" "}
                     {invitation.created}
                 </div>
 
                 { false === this.state.success && <>
-                    <div class="row submit-holder">
-                        <button onClick={this.disable} class="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
+                    <div className="row submit-holder">
+                        <button onClick={this.disable} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
                             {t("Disable Invitation")}
                         </button>
-                        <button onClick={this.resend} class="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
+                        <button onClick={this.resend} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
                             {t("Resend Invitation")}
                         </button>
-                        <button onClick={this.generate} class="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
+                        <button onClick={this.generate} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
                             {t("Generate Invitation Link")}
                         </button>
                     </div>
@@ -124,7 +124,7 @@ class InvitationResendPage extends React.Component {
                     <br/>
                 </div> :
                 <div>
-                    <div class="form">
+                    <div className="form">
                         <h3>{t("Send this link as an invitation")}</h3>
                         <br/>
                         <FieldText
@@ -132,12 +132,12 @@ class InvitationResendPage extends React.Component {
                         />
                     </div>
                     <br/>
-                    <button class="button small" onClick={() => copyToClipboard(this.state.success)}>
+                    <button className="button small" onClick={() => copyToClipboard(this.state.success)}>
                         {t("Copy to Clipboard")}
                     </button>
                 </div>}
                 <Link to="/settings/invitations">
-                    <button class="button small payment-back">
+                    <button className="button small payment-back">
                         {t("Back to Invitations")}
                     </button>
                 </Link>

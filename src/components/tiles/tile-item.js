@@ -13,23 +13,23 @@ class TileItem extends React.Component {
         { t } = useTranslation();
 
         return (
-            <div class={"item" + __class(item.exclusive, "offer")}>
-                <div class="body">
-                    <div class="info">
+            <div className={"item" + __class(item.exclusive, "offer")}>
+                <div className="body">
+                    <div className="info">
                         <Flag code={item.flag} />
                         <div>
-                            <div class="title">{item.city || item.title}</div>
-                            { item.propertiesCount && <div class="count">{t("More than")} {item.propertiesCount} {t("properties")}</div> }
+                            <div className="title">{item.city || item.title}</div>
+                            { item.propertiesCount && <div className="count">{t("More than")} {item.propertiesCount} {t("properties")}</div> }
                         </div>
                     </div>
-                    { item.minPrice && <div class="price">
+                    { item.minPrice && <div className="price">
                         <span>{t("From")}</span> USD {item.minPrice}
                     </div> }
                 </div>
-                <div class="bottom"/>
-                <img class="picture" src={item.image} alt={item.title} />
-                { /* todo: removable && <div class="close" /> */ }
-                { item.exclusive && <div class="exclusive">
+                <div className="bottom"/>
+                <img className="picture" src={item.image} alt={item.title} />
+                { /* todo: removable && <div className="close" /> */ }
+                { item.exclusive && <div className="exclusive">
                     {t("Exclusive offer")}
                 </div> }
             </div>

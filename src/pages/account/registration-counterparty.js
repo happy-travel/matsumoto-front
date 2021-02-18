@@ -44,12 +44,12 @@ class RegistrationCounterparty extends React.Component {
         var { t } = useTranslation();
 
         return (
-            <div class="account block sign-up-page">
+            <div className="account block sign-up-page">
                 <section>
-                    <div class="logo-wrapper">
-                        <div class="logo" />
+                    <div className="logo-wrapper">
+                        <div className="logo" />
                     </div>
-                    <div class="middle-section">
+                    <div className="middle-section">
                         <Breadcrumbs items={[
                             {
                                 text: t("Log In"),
@@ -64,14 +64,14 @@ class RegistrationCounterparty extends React.Component {
                         <ActionSteps
                             items={[t("Login Information"), t("Agent Information"), t("Company Information")]}
                             current={2}
-                            addClass="action-steps-another-bg"
+                            className="action-steps-another-bg"
                         />
                         <h1>
                             Company Information
                         </h1>
                         <p>
                             Create a free Happytravel.com account and start booking today.<br/>
-                            Already have an account? <Link to="/logout" class="link">Log In Here.</Link>
+                            Already have an account? <Link to="/logout" className="link">Log In Here.</Link>
                         </p>
 
                         <CachedForm
@@ -91,8 +91,8 @@ class RegistrationCounterparty extends React.Component {
                             validationSchema={registrationCounterpartyValidator}
                             onSubmit={this.submit}
                             render={formik => (
-                                <div class="form">
-                                    <div class="row">
+                                <div className="form">
+                                    <div className="row">
                                         <FieldText formik={formik}
                                                    id="name"
                                                    label={t("Company Name")}
@@ -100,7 +100,7 @@ class RegistrationCounterparty extends React.Component {
                                                    required
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldTextarea formik={formik}
                                                        id="address"
                                                        label={t("Company Address")}
@@ -108,14 +108,14 @@ class RegistrationCounterparty extends React.Component {
                                                        required
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldText formik={formik}
                                                    id={"postalCode"}
                                                    label={t("Zip/Postal Code")}
                                                    placeholder={t("Zip/Postal Code")}
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldCountry formik={formik}
                                                       id="country"
                                                       label={t("Country")}
@@ -123,7 +123,7 @@ class RegistrationCounterparty extends React.Component {
                                                       required
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldText formik={formik}
                                                    id="city"
                                                    label={t("City")}
@@ -131,7 +131,7 @@ class RegistrationCounterparty extends React.Component {
                                                    required
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldSelect formik={formik}
                                                      id="preferredPaymentMethod"
                                                      label={t("Preferred Payment Method")}
@@ -143,7 +143,7 @@ class RegistrationCounterparty extends React.Component {
                                                      ]}
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldText formik={formik}
                                                    id="phone"
                                                    label={t("Telephone")}
@@ -151,30 +151,30 @@ class RegistrationCounterparty extends React.Component {
                                                    required
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldText formik={formik}
                                                    id="fax"
                                                    label={t("Fax")}
                                                    placeholder={t("Fax")}
                                         />
                                     </div>
-                                    <div class="row">
+                                    <div className="row">
                                         <FieldText formik={formik}
                                                    id="website"
                                                    label={t("Website")}
                                                    placeholder={t("Website")}
                                         />
                                     </div>
-                                    <div class="row submit-holder">
-                                        <div class="field">
-                                            <div class="inner">
-                                                <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
+                                    <div className="row submit-holder">
+                                        <div className="field">
+                                            <div className="inner">
+                                                <button type="submit" className={"button" + __class(!formik.isValid, "disabled")}>
                                                     {t("Get started")}
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="field terms">
-                                            By clicking this button, you agree with <Link to="/terms" class="link">HappyTravel’s Terms of Use.</Link>
+                                        <div className="field terms">
+                                            By clicking this button, you agree with <Link to="/terms" className="link">HappyTravel’s Terms of Use.</Link>
                                         </div>
                                     </div>
                                 </div>

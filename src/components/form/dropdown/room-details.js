@@ -78,15 +78,15 @@ const
     };
 
 const Row = ({ room, t, text, field, value, formik }) => (
-    <div class="row">
-        <div class="caption">{t(text)}</div>
+    <div className="row">
+        <div className="caption">{t(text)}</div>
         <div
-            class={"btn" + __class(setRequestRoomDetails(formik, value, room, field, -1, "test"), "enabled")}
+            className={"btn" + __class(setRequestRoomDetails(formik, value, room, field, -1, "test"), "enabled")}
             onClick={() => setRequestRoomDetails(formik, value, room, field, -1)}
         >–</div>
-        <div class="value">{value}</div>
+        <div className="value">{value}</div>
         <div
-            class={"btn" + __class(setRequestRoomDetails(formik, value, room, field, +1, "test"), "enabled")}
+            className={"btn" + __class(setRequestRoomDetails(formik, value, room, field, +1, "test"), "enabled")}
             onClick={() => setRequestRoomDetails(formik, value, room, field, +1)}
         >+</div>
     </div>
@@ -99,7 +99,7 @@ class PeopleDropdown extends React.Component {
             { formik } = this.props;
 
         return (
-            <div class="people dropdown">
+            <div className="people dropdown">
                 <Row t={t}
                      formik={formik}
                      room={0}
@@ -111,7 +111,7 @@ class PeopleDropdown extends React.Component {
                 <FieldArray
                     render={() => (
                         formik.values.roomDetails.map((room, number) => (
-                            <>
+                            <React.Fragment key={number}>
                                 {(formik.values.roomDetails.length > 1) && <h3>Room {number+1} Settings</h3>}
                                 <Row t={t}
                                      formik={formik}
@@ -128,13 +128,13 @@ class PeopleDropdown extends React.Component {
                                      value={room.childrenAges?.length}
                                 />
                                 {(room.childrenAges?.length > 0) &&
-                                    <div class="form">
+                                    <div className="form">
                                         <h4>{t("Please enter children ages")}</h4>
-                                        <div class="row children">
+                                        <div className="row children">
                                             <FieldArray
                                                 render={() => (
                                                     room.childrenAges.map((item, r) => (
-                                                        <div class="part">
+                                                        <div className="part" key={r}>
                                                             <FieldText formik={formik}
                                                                 id={`roomDetails.${number}.childrenAges.${r}`}
                                                                 placeholder="12"
@@ -143,14 +143,14 @@ class PeopleDropdown extends React.Component {
                                                                 numeric
                                                             />
                                                             <div
-                                                                class="btn active"
+                                                                className="btn active"
                                                                 onClick={() => formik.setFieldValue(
                                                                     `roomDetails.${number}.childrenAges.${r}`,
                                                                     Math.max(0, (formik.values["roomDetails"][number]["childrenAges"][r] || 0) - 1) + ""
                                                                 )}
                                                             >–</div>
                                                             <div
-                                                                class="btn active"
+                                                                className="btn active"
                                                                 onClick={() => formik.setFieldValue(
                                                                     `roomDetails.${number}.childrenAges.${r}`,
                                                                     parseInt(formik.values["roomDetails"][number]["childrenAges"][r] || 0) + 1
@@ -163,7 +163,7 @@ class PeopleDropdown extends React.Component {
                                         </div>
                                     </div>
                                 }
-                            </>
+                            </React.Fragment>
                         ))
                     )}
                 />

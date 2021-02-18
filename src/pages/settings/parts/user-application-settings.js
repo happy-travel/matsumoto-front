@@ -58,27 +58,27 @@ class UserApplicationSettings extends React.Component {
 
         return (
             <>
-                <h2><span class="brand">{t("Application Settings")}</span></h2>
+                <h2><span className="brand">{t("Application Settings")}</span></h2>
 
                 <CachedForm
                     initialValues={authStore.settings}
                     enableReinitialize
                     onSubmit={this.submitUserSettings}
                     render={formik => (
-                        <div class="form app-settings">
-                            <div class="row">
+                        <div className="form app-settings">
+                            <div className="row">
                                 <FieldSwitch formik={formik}
                                              id="availableCredit"
                                              label={t("Show Available Credit")}
                                 />
                             </div>
-                            <div class="row">
+                            <div className="row">
                                 <FieldSwitch formik={formik}
                                              id="experimentalFeatures"
                                              label={t("Enable experimental features (may be unstable)")}
                                 />
                             </div>
-                            <div class="row">
+                            <div className="row">
                                 <FieldSelect formik={formik}
                                              id="preferredLanguage"
                                              label={t("Preferred language")}
@@ -105,7 +105,7 @@ class UserApplicationSettings extends React.Component {
                                              ]}
                                 />
                             </div>
-                            <div class="row">
+                            <div className="row">
                                 <FieldCountry formik={formik}
                                               id="nationality"
                                               anotherField="residency"
@@ -121,10 +121,10 @@ class UserApplicationSettings extends React.Component {
                                               clearable
                                 />
                             </div>
-                            <div class="row controls">
-                                <div class="field">
-                                    <div class="inner">
-                                        <button type="submit" class={"button" +
+                            <div className="row controls">
+                                <div className="field">
+                                    <div className="inner">
+                                        <button type="submit" className={"button" +
                                                                 __class(!formik.isValid || !formik.dirty, "disabled")}>
                                             {t("Save changes")}
                                         </button>

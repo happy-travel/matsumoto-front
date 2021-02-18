@@ -39,10 +39,14 @@ class SelectDropdown extends React.Component {
         } = this.props;
 
         return (
-            <div class="dropdown select">
-                <div class="scroll">
-                    {options?.map(item => (
-                        <div class="item line" onClick={() => this.setValue(item)}>
+            <div className="dropdown select">
+                <div className="scroll">
+                    {options?.map((item, index) => (
+                        <div
+                            className="item line"
+                            onClick={() => this.setValue(item)}
+                            key={index}
+                        >
                             {item.flag && <Flag code={item.flag} /> }
                             {item.text}
                         </div>
@@ -60,7 +64,7 @@ class FieldSelect extends React.Component {
             formik,
             id,
             options,
-            addClass,
+            className,
             value,
             setValue
         } = this.props,
@@ -70,11 +74,11 @@ class FieldSelect extends React.Component {
         return (
             <FieldText
                 {...this.props}
-                Icon={<span class="icon icon-arrow-expand"/>}
-                addClass={`select ${addClass}`}
+                Icon={<span className="icon icon-arrow-expand"/>}
+                className={`select ${className}`}
                 Dropdown={SelectDropdown}
                 ValueObject={ValueObject}
-                readonly
+                readOnly
             />
         );
     }

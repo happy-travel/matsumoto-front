@@ -26,22 +26,22 @@ class DestinationDropdown extends React.Component {
         const { focusIndex } = this.props;
 
         return (
-            <div class="region dropdown">
-                <div class="scroll">
+            <div className="region dropdown">
+                <div className="scroll">
                     {View?.destinations?.map((item, index) => (
-                        <div class="search-results">
+                        <div className="search-results" key={index}>
                             <div id={`js-value-${index}`}
-                                 class={"country line summary" + __class(focusIndex === index, "focused")}
+                                 className={"country line summary" + __class(focusIndex === index, "focused")}
                                  onClick={() => this.setValue(item)}>
-                                { item.accommodation.photo.sourceUrl && <div class="photo">
+                                { item.accommodation.photo.sourceUrl && <div className="photo">
                                     <img src={item.accommodation.photo.sourceUrl} alt={item.accommodation.photo.caption} />
                                 </div> }
-                                <div class="title">
+                                <div className="title">
                                     <h2>
                                         <Highlighted str={item.accommodation.name} highlight={this.props.value} />
                                         <Stars count={item.accommodation.rating} />
                                     </h2>
-                                    <div class="category">
+                                    <div className="category">
                                         <Highlighted str={
                                             item.accommodation.location.locality + ", " + item.accommodation.location.address
                                         } highlight={this.props.value} />

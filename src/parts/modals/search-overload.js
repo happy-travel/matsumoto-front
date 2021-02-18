@@ -9,9 +9,9 @@ class SearchOverloadModal extends React.Component {
             { closeModal } = this.props;
 
         return (
-            <div class="confirm modal">
-                {closeModal && <div class="close-button" onClick={closeModal}>
-                    <span class="icon icon-close" />
+            <div className="confirm modal">
+                {closeModal && <div className="close-button" onClick={closeModal}>
+                    <span className="icon icon-close" />
                 </div>}
 
                 <h2>{t("Would you like an exclusive offer?")}</h2>
@@ -19,7 +19,7 @@ class SearchOverloadModal extends React.Component {
                     {t("You could reach our Operations team directly, and we pick an accommodation for you.")}
                     <br/>
                     <br/>
-                    {t("Email")}: <a href="mailto:reservations@happytravel.com" class="link">reservations@happytravel.com</a>
+                    {t("Email")}: <a href="mailto:reservations@happytravel.com" className="link">reservations@happytravel.com</a>
                 </div>
             </div>
         );

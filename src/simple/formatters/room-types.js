@@ -22,5 +22,5 @@ export const GroupRoomTypesAndCount = ({ t, contracts, solo }) => {
     for (let item in count)
         result.push((count[item] > 1 ? (count[item] + " x ") : "") + item);
 
-    return result.map(item => <div>{item}</div>);
+    return result.map((item, index) => <div key={index}>{item}</div>);
 };

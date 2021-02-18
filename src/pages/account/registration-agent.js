@@ -93,12 +93,12 @@ class RegistrationAgent extends React.Component {
 
         return (
 
-<div class="account block sign-up-page">
+<div className="account block sign-up-page">
     <section>
-        <div class="logo-wrapper">
-            <div class="logo" />
+        <div className="logo-wrapper">
+            <div className="logo" />
         </div>
-        <div class="middle-section">
+        <div className="middle-section">
             <Breadcrumbs items={[
                 {
                     text: t("Log In"),
@@ -113,7 +113,7 @@ class RegistrationAgent extends React.Component {
             <ActionSteps
                 items={actionSteps}
                 current={1}
-                addClass="action-steps-another-bg"
+                className="action-steps-another-bg"
             />
             <h1>
                 Agent Information
@@ -128,12 +128,12 @@ class RegistrationAgent extends React.Component {
             validationSchema={registrationUserValidator}
             onSubmit={this.submit}
             render={formik => (
-                <div class="form">
+                <div className="form">
                     <FormUserData formik={formik} t={t} />
-                    <div class="row submit-holder">
-                        <div class="field">
-                            <div class="inner">
-                                <button type="submit" class="button">
+                    <div className="row submit-holder">
+                        <div className="field">
+                            <div className="inner">
+                                <button type="submit" className="button">
                                     { this.state.invitationCode ?
                                         t("Finish Registration") :
                                         t("Continue Registration")}

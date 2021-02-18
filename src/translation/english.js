@@ -8,6 +8,7 @@ translations: {
     "Tours": "Tours",
     "Visas": "Visas",
     "About": "About",
+    "Bookings": "Bookings",
     "FAQ": "FAQ",
     "Log out": "Log out",
     "Terms & Conditions": "Terms & Conditions",
@@ -372,6 +373,7 @@ translations: {
     "Event Type": "Event Type",
     "Payment Status": "Payment Status",
     "At least": "At least",
-    "Cancellation cost": "Cancellation cost"
+    "Cancellation cost": "Cancellation cost",
+    "Print": "Print"
 }
 };

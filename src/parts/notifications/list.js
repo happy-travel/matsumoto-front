@@ -10,14 +10,15 @@ class NotificationList extends React.Component {
             return null;
 
         return (
-            <div class="notifications">
-                <div class="wrapper">
-                    <div class="list">
+            <div className="notifications">
+                <div className="wrapper">
+                    <div className="list">
                         {Notifications.list.map(
                             (notification, index) =>
                                 <NotificationItem
                                     notification={notification}
                                     index={index}
+                                    key={index}
                                 />
                         )}
                     </div>

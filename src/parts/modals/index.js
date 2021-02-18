@@ -28,9 +28,9 @@ class Index extends React.Component {
             return null;
 
         return (
-            <div class="modal-wrapper">
-                <div class="overlay" onClick={this.closeModal} />
-                <div class="modal-scroll">
+            <div className="modal-wrapper">
+                <div className="overlay" onClick={this.closeModal} />
+                <div className="modal-scroll">
                     <Content
                         closeModal={this.closeModal}
                     />

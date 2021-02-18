@@ -26,8 +26,8 @@ class FieldCountry extends React.Component {
                        label={label}
                        placeholder={placeholder}
                        disabled={disabled}
-                       Icon={<span class="icon icon-calendar"/>}
-                       addClass="size-medium"
+                       Icon={<span className="icon icon-calendar"/>}
+                       className="size-medium"
                        Dropdown={DateDropdown}
                        value={
                            (formik.values[first] || formik.values[second]) ?

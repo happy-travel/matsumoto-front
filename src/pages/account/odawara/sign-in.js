@@ -7,53 +7,53 @@ class SignIn extends Component {
 
         return (
 
-<div class="account block sign-in-page">
-    <div class="picture"></div>
-    <div class="menu">
-        <div class="place">
-            <div class="logo"></div>
+<div className="account block sign-in-page">
+    <div className="picture"></div>
+    <div className="menu">
+        <div className="place">
+            <div className="logo"></div>
         </div>
         <form method="post">
-            <div class="form">
-                <div class="title">
+            <div className="form">
+                <div className="title">
                     <b>Log</b> In
                 </div>
                 <div>
-                    <div class="row">
-                        <div class="field">
-                            <div class="label">
+                    <div className="row">
+                        <div className="field">
+                            <div className="label">
                                 <span><label asp-for="Input.UserName"></label></span>
                             </div>
-                            <div class="auth-input">
+                            <div className="auth-input">
                                 <input placeholder="Enter username" asp-for="Input.UserName"/>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="field">
-                            <div class="label">
+                    <div className="row">
+                        <div className="field">
+                            <div className="label">
                                 <span><label asp-for="Input.Password"></label></span>
                             </div>
-                            <div class="auth-input">
+                            <div className="auth-input">
                                 <input placeholder="Enter password" asp-for="Input.Password"/>
                             </div>
                         </div>
                     </div>
-                    <div class="error-field">
+                    <div className="error-field">
                         <div asp-validation-summary="All"></div>
                     </div>
-                    <div class="row">
-                        <div class="field">
-                            <div class="inner">
-                                <button type="submit" class="button">Log In</button>
+                    <div className="row">
+                        <div className="field">
+                            <div className="inner">
+                                <button type="submit" className="button">Log In</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-        <div class="place">
-            Don`t have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="link">Create new one</a>
+        <div className="place">
+            Don`t have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" className="link">Create new one</a>
         </div>
     </div>
 </div>
@@ -61,8 +61,8 @@ class SignIn extends Component {
         );
         /*
             Layout for "Are you supplier?" block
-            <div class="supplier">
-                <span class="icon icon-supplier" />
+            <div className="supplier">
+                <span className="icon icon-supplier" />
                 Are you supplier?
             </div>
         */

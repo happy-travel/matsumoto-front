@@ -14,21 +14,21 @@ class ErrorPage extends React.Component {
         var { t } = useTranslation();
 
         return (
-            <div class="error-page account block sign-up-page">
+            <div className="error-page account block sign-up-page">
                 <section>
-                    <div class="logo-wrapper">
-                        <a href="/" class="logo" />
+                    <div className="logo-wrapper">
+                        <a href="/" className="logo" />
                     </div>
-                    <div class="middle-section">
-                        <div class="picture">
-                            <div class="text">
+                    <div className="middle-section">
+                        <div className="picture">
+                            <div className="text">
                                 <h1>404</h1>
                                 <h2>{t("Page not found")}</h2>
                             </div>
                         </div>
 
                         <a href="/">
-                            <span class="button">
+                            <span className="button">
                                 {t("Back to homepage")}
                             </span>
                         </a>

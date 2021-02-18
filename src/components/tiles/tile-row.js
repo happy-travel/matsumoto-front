@@ -11,11 +11,12 @@ const Tiles = class extends React.Component {
             return <div/>;
 
         return (
-            <div class={"tile-row x-" + list.length}>
-                {list.map(item =>
+            <div className={"tile-row x-" + list.length}>
+                {list.map((item, index) =>
                     <TileItem
                         item={item}
                         removable={item.exclusive !== true}
+                        key={index}
                     />
                 )}
             </div>

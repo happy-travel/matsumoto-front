@@ -62,23 +62,27 @@ class PaymentDirectLinkPage extends React.Component {
             <>
                 <header>
                     <section>
-                        <div class="logo-wrapper">
-                            <Link to="/" class="logo" />
+                        <div className="logo-wrapper">
+                            <Link to="/" className="logo" />
                         </div>
                     </section>
                 </header>
                 { !order ?
                     <Loader /> :
-                    <div class="confirmation block payment">
-                        <section class="double-sections">
-                            <div class="middle-section">
+                    <div className="confirmation block payment">
+                        <section className="double-sections">
+                            <div className="middle-section">
                                 <h2>
                                     Payment order {order.referenceCode} {dateFormat.b(order.date)}
                                 </h2>
-                                <p class="remark">
-                                    {order.comment.split('\n').map(line => <>{line}<br/></>)}
+                                <p className="remark">
+                                    {order.comment.split('\n').map(line => (
+                                        <React.Fragment>
+                                            {line}<br/>
+                                        </React.Fragment>
+                                    ))}
                                 </p>
-                                <h2 class="payment-title">
+                                <h2 className="payment-title">
                                     {t("Please Enter Your Card Details")}
                                 </h2>
                                 <PaymentForm

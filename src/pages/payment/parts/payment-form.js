@@ -84,22 +84,22 @@ class PaymentForm extends React.Component {
             {formik => (
                 <form
                     onSubmit={formik.handleSubmit}
-                    class={__class(!this.state.everSubmitted, "never-submitted")}
+                    className={__class(!this.state.everSubmitted, "never-submitted")}
                 >
                     { this.state.loading && <Loader page /> }
-                    <div class="form">
-                        <div class="row">
+                    <div className="form">
+                        <div className="row">
                             <FieldText
                                 formik={formik}
                                 id="card_holder_name"
                                 label={t("Card Holder Name")}
                                 placeholder={t("Card Holder Name")}
                                 onChange={decorateCardholderName}
-                                autocomplete="cc-name"
+                                autoComplete="cc-name"
                                 required={formik.values.remember_me}
                             />
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <FieldText
                                 formik={formik}
                                 id="card_number"
@@ -110,21 +110,21 @@ class PaymentForm extends React.Component {
                                 maxLength={22}
                                 onChange={this.detectCardType}
                                 Icon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} alt="" /> : null}
-                                autocomplete="cc-number"
+                                autoComplete="cc-number"
                             />
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <FieldText
                                 formik={formik}
                                 id="expiry_date"
                                 label={t("Expiration Date")}
                                 placeholder="MM/YY"
-                                addClass="size-half"
+                                className="size-half"
                                 required
                                 numeric="/"
                                 onChange={decorateExpirationDate}
                                 maxLength={5}
-                                autocomplete="cc-exp"
+                                autoComplete="cc-exp"
                             />
                             <FieldText
                                 formik={formik}
@@ -134,21 +134,21 @@ class PaymentForm extends React.Component {
                                     <span>
                                         {this.state.code.name}
                                         <span
-                                            class="icon icon-info"
+                                            className="icon icon-info"
                                             data-tip="Security code on your credit card"
                                         />
                                     </span>
                                 }
                                 placeholder={this.state.code.name}
-                                addClass={"size-half" +
+                                className={"size-half" +
                                     __class(formik.values.card_security_code.length != this.state.code.size, "force-invalid")}
                                 required
                                 numeric
                                 maxLength={this.state.code.size}
-                                autocomplete="cc-csc"
+                                autoComplete="cc-csc"
                             />
                         </div>
-                        { !hideCardSaveCheckbox && <div class="row">
+                        { !hideCardSaveCheckbox && <div className="row">
                             <FieldCheckbox
                                 formik={formik}
                                 id="remember_me"
@@ -156,15 +156,15 @@ class PaymentForm extends React.Component {
                                     <span>
                                         {t("Save my card for faster checkout")}
                                         <span
-                                            class="icon icon-info"
+                                            className="icon icon-info"
                                             data-tip={t("Your information is secure; only a part of you card's data will be stored")}
                                         />
                                     </span>
                                 }
                             />
                         </div> }
-                        <button type="submit" class="button">
-                            <span class="icon icon-white-lock" />
+                        <button type="submit" className="button">
+                            <span className="icon icon-white-lock" />
                             { t("Pay") + price(total) }
                         </button>
                     </div>

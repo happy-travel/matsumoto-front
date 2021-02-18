@@ -38,27 +38,27 @@ class AccommodationConfirmationVoucherPage extends React.Component {
             return <Loader />;
 
         return (
-            <div class="invoice">
-                <div class="breadcrumbs no-print">
+            <div className="invoice">
+                <div className="breadcrumbs no-print">
                     <Link to={`/booking/${voucher.referenceCode}`}>
-                        <span class="small-arrow-left" /> Back to Booking Confirmation
+                        <span className="small-arrow-left" /> Back to Booking Confirmation
                     </Link>
                 </div>
-                <div class="buttons no-print">
-                    <button class="button" onClick={window.print}>{t("Print")}</button>
-                    <button class="button" onClick={this.showSendModal}>{t("Send Voucher")}</button>
+                <div className="buttons no-print">
+                    <button className="button" onClick={window.print}>{t("Print")}</button>
+                    <button className="button" onClick={this.showSendModal}>{t("Send Voucher")}</button>
                 </div>
 
                 {voucher.logoUrl &&
-                    <div class="personal-logo">
+                    <div className="personal-logo">
                         <img src={voucher.logoUrl + "?" + Number(new Date())} alt="" />
                     </div>
                 }
 
-                <div class="information">
+                <div className="information">
                     <div>Thank you, <PassengerName passenger={voucher.roomDetails?.[0].passengers?.[0]} /></div>
                 </div>
-                <div class="information">
+                <div className="information">
                     <div>We look forward to welcoming you at</div>
                     <div>{voucher.accommodation.name}</div>
                     <div>
@@ -67,15 +67,15 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                         {voucher.accommodation.location.country}
                     </div>
                 </div>
-                <div class="information">
+                <div className="information">
                     <div>Booking reference code: {voucher.referenceCode}</div>
                 </div>
 
-                <div class="box">
-                    <div class="title">Information About Your Stay</div>
-                    <div class="columns">
-                        <div class="one">
-                            <div class="text">{voucher.accommodation.name}</div>
+                <div className="box">
+                    <div className="title">Information About Your Stay</div>
+                    <div className="columns">
+                        <div className="one">
+                            <div className="text">{voucher.accommodation.name}</div>
                             <div>
                                 {voucher.accommodation.location.address},{" "}
                                 {voucher.accommodation.location.locality},{" "}
@@ -83,34 +83,34 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                                 {voucher.accommodation.contactInfo.phones.join(", ")}
                             </div>
 
-                            <div class="text">Length of stay:</div>
+                            <div className="text">Length of stay:</div>
                             <div>{__plural(t, voucher.nightCount, "Night")}</div>
 
-                            <div class="text">Arrival Date:</div>
+                            <div className="text">Arrival Date:</div>
                             <div>{dateFormat.c(voucher.checkInDate)}</div>
 
-                            <div class="text">Departure Date:</div>
+                            <div className="text">Departure Date:</div>
                             <div>{dateFormat.c(voucher.checkOutDate)}</div>
 
-                            <div class="text">Deadline Date:</div>
+                            <div className="text">Deadline Date:</div>
                             <div>{dateFormat.c(voucher.deadlineDate)}</div>
 
                             { !!voucher.roomDetails?.length && <>
-                                <div class="text">Rooms Number:</div>
+                                <div className="text">Rooms Number:</div>
                                 <div>{__plural(t, voucher.roomDetails.length, "Room")}</div>
                             </> }
                         </div>
-                        <div class="two">
+                        <div className="two">
                             <Map
                                 marker={voucher.accommodation.location.coordinates}
                             />
                         </div>
                     </div>
 
-                    { voucher.roomDetails.map(room => (
-                        <div class="room-part">
+                    { voucher.roomDetails.map((room, index) => (
+                        <div className="room-part" key={index}>
                             <div><GroupRoomTypesAndCount solo t={t} contracts={[room]} /></div>
-                            <div class="main-passenger">
+                            <div className="main-passenger">
                                 <PassengerName passenger={room.passengers[0]} />
                             </div>
                             { room.supplierRoomReferenceCode &&
@@ -120,15 +120,15 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                                 <div>
                                     Other Guests:<br/>
                                     {room.passengers.map( (item, index) => ( !!index &&
-                                        <>
+                                        <React.Fragment key={index}>
                                             <PassengerName passenger={ item } /><br/>
-                                        </>
+                                        </React.Fragment>
                                     ))}
                                 </div>
                             }
                             <div>Board basis: <MealPlan t={t} room={room} /></div>
-                            { room?.remarks.map(item => (
-                                <div>
+                            { room?.remarks.map((item, index) => (
+                                <div key={index}>
                                     {!!item.key && <span>{item.key}:</span>} {item.value}
                                 </div>
                             ))}
@@ -137,20 +137,20 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                 </div>
 
                 {voucher.bannerUrl &&
-                    <div class="personal-b">
+                    <div className="personal-b">
                         <img src={voucher.bannerUrl + "?" + Number(new Date())} alt="" />
                     </div>
                 }
 
                 {!voucher.deadlineDate &&
-                    <div class="deadline-notify">
-                        <span class="icon icon-info-green"/>
+                    <div className="deadline-notify">
+                        <span className="icon icon-info-green"/>
                         FREE Cancellation
                     </div>
                 }
                 {moment().isBefore(voucher.deadlineDate) &&
-                    <div class="deadline-notify">
-                        <span class="icon icon-info-green"/>
+                    <div className="deadline-notify">
+                        <span className="icon icon-info-green"/>
                         FREE Cancellation until {dateFormat.c(voucher.deadlineDate)}
                     </div>
                 }

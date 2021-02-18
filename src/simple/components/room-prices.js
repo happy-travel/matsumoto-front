@@ -8,8 +8,8 @@ export const RoomPrices = ({ t, prices }) => {
     if (prices.length == 1 || !prices[0].fromDate)
         return price(prices[0].finalPrice);
 
-    return prices.map(item => (
-        <div>
+    return prices.map((item, index) => (
+        <div key={index}>
             {dateFormat.c(item.fromDate)} – {dateFormat.c(item.toDate)}: {price(item.finalPrice)}
         </div>
     ));

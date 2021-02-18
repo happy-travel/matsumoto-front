@@ -15,23 +15,23 @@ class LocaleSwitcherDropdown extends React.Component {
 
         return (
             <div
-                class="switcher language-switcher"
+                className="switcher language-switcher"
                 data-dropdown={dropdownId}
                 onClick={() => View.setOpenDropdown(dropdownId)}
             >
-                <div class="flag-holder">
+                <div className="flag-holder">
                     <Flag language={i18n.language} />
                 </div>
-                <div class="name">{t("current_language_name")}</div>
-                <div class="switch-arrow" />
+                <div className="name">{t("current_language_name")}</div>
+                <div className="switch-arrow" />
 
                 { View.isDropdownOpen(dropdownId) &&
-                    <div class="locale dropdown">
-                        <div class="item" onClick={switchLocale.bind(null, "ar")}>
+                    <div className="locale dropdown">
+                        <div className="item" onClick={switchLocale.bind(null, "ar")}>
                             <Flag language="ar" />
                             <span>اللغة الحالية</span>
                         </div>
-                        <div class="item" onClick={switchLocale.bind(null, "en")}>
+                        <div className="item" onClick={switchLocale.bind(null, "en")}>
                             <Flag language="en" />
                             <span>English</span>
                         </div>

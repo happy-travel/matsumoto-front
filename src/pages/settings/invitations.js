@@ -64,7 +64,7 @@ class InvitationsManagement extends React.Component {
             { invitations } = this.state;
 
         return (
-            <div class="settings block">
+            <div className="settings block">
                 <SettingsHeader />
                 <section>
                     {invitations === null ?
@@ -72,7 +72,7 @@ class InvitationsManagement extends React.Component {
                         <>
                             {!!invitations?.length &&
                                 <>
-                                    <h2><span class="brand">{
+                                    <h2><span className="brand">{
                                         authStore.permitted("ObserveAgencyInvitations") ?
                                         t("Unaccepted Agency Invitations") :
                                         t("Unaccepted Invitations")
@@ -86,7 +86,7 @@ class InvitationsManagement extends React.Component {
                                 </>
                             }
                             <Link to="/settings/invitations/send">
-                                <button class="button payment-back">
+                                <button className="button payment-back">
                                     {t("Invite an agent")}
                                 </button>
                             </Link>

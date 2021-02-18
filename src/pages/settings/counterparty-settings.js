@@ -55,7 +55,7 @@ export default class CounterpartySettings extends React.Component {
         const { t } = useTranslation();
 
         return (
-        <div class="settings block">
+        <div className="settings block">
             <SettingsHeader />
             { this.state.loading && <Loader />}
             { !this.state.loading && <section>
@@ -72,27 +72,27 @@ export default class CounterpartySettings extends React.Component {
                     };
 
                     return (
-                    <div class="form">
-                        <h2><span class="brand">{t("Legal Information")}</span></h2>
-                        <div class="row">
+                    <div className="form">
+                        <h2><span className="brand">{t("Legal Information")}</span></h2>
+                        <div className="row">
                             <b>{t("Company Name")}</b>:{" "}
                             {formik.values.name}
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <b>{t("VAT No.")}</b>
                             &nbsp;
                             {formik.values.vatNumber || t("Not provided")}
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <b>{t("Payment method")}</b>:{" "}
                             {formik.values.preferredPaymentMethod}
                         </div>
 
                         {authStore.permitted("ObserveCounterpartyContract") &&
-                            <div class="row">
+                            <div className="row">
                                 {
                                     formik.values.isContractUploaded ?
-                                    <button class="button small" onClick={this.downloadContract}>
+                                    <button className="button small" onClick={this.downloadContract}>
                                         Download contract file
                                     </button> :
                                     <span>No Contract Uploaded</span>
@@ -100,8 +100,8 @@ export default class CounterpartySettings extends React.Component {
                             </div>
                         }
 
-                        <h2><span class="brand">{t("Agency Information")}</span></h2>
-                        <div class="row">
+                        <h2><span className="brand">{t("Agency Information")}</span></h2>
+                        <div className="row">
                             <FieldText {...params}
                                        id="phone"
                                        label={t("Telephone")}
@@ -111,20 +111,20 @@ export default class CounterpartySettings extends React.Component {
                                        label={t("Fax")}
                             />
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <FieldText {...params}
                                        id="countryName"
                                        label={t("Country")}
-                                       addClass={"size-half"}
+                                       className={"size-half"}
                                        Flag={<Flag code={formik.values.countryCode} />}
                             />
                             <FieldText {...params}
                                        id="city"
                                        label={t("City")}
-                                       addClass={"size-half"}
+                                       className={"size-half"}
                             />
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <FieldText {...params}
                                        id="postalCode"
                                        label={t("Zip/Postal Code")}
@@ -134,7 +134,7 @@ export default class CounterpartySettings extends React.Component {
                                        label={t("Website")}
                             />
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <FieldTextarea {...params}
                                 id="address"
                                 label={t("Address")}
@@ -146,7 +146,7 @@ export default class CounterpartySettings extends React.Component {
                 </Formik>
                 { authStore.permitted("AgencyImagesManagement") &&
                     <>
-                        <h2><span class="brand">{t("Voucher Personalisation")}</span></h2>
+                        <h2><span className="brand">{t("Voucher Personalisation")}</span></h2>
                         <div>
                             <VoucherImage
                                 route={API.AGENCY_LOGO}

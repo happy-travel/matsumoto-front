@@ -22,8 +22,8 @@ class DestinationDropdown extends React.Component {
         } = this.props;
 
         return (
-            <div class="region dropdown">
-                <div class="scroll">
+            <div className="region dropdown">
+                <div className="scroll">
                     {View?.destinations?.map?.((item, index) => {
                         let destinationType = null;
                         if (index === 0 || item.type !== View.destinations[index - 1]?.type)
@@ -32,10 +32,10 @@ class DestinationDropdown extends React.Component {
                             destinationType = null;
 
                         return (
-                            <>
+                            <React.Fragment key={index}>
                                 {destinationType}
                                 <div id={`js-value-${index}`}
-                                     class={"country line" + __class(focusIndex === index, "focused")}
+                                     className={"country line" + __class(focusIndex === index, "focused")}
                                      onClick={() => this.props.setValue(item, formik, connected)}>
                                     {!authStore.settings.experimentalFeatures &&
                                         <Highlighted str={item.value} highlight={this.props.value}/>
@@ -44,7 +44,7 @@ class DestinationDropdown extends React.Component {
                                         <Highlighted str={item.predictionText} highlight={this.props.value}/>
                                     }
                                 </div>
-                            </>
+                            </React.Fragment>
                         )
                     })}
                 </div>

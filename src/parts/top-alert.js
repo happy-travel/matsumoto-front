@@ -18,16 +18,16 @@ class TopAlert extends React.Component {
             return null;
 
         return (
-            <div class="top-alert">
+            <div className="top-alert">
                 <section>
-                    <span class="icon icon-warning-white"/>
-                    <div class="inner">
+                    <span className="icon icon-warning-white"/>
+                    <div className="inner">
                         {View?.topAlertText}
                     </div>
-                    <div class="close-button" onClick={this.hideAlert}>
-                        <span class="icon icon-close white" />
+                    <div className="close-button" onClick={this.hideAlert}>
+                        <span className="icon icon-close white" />
                     </div>
-                    {/* <button class="button transparent">
+                    {/* <button className="button transparent">
                         Verify your account
                     </button> */}
                 </section>

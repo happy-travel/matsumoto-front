@@ -16,23 +16,23 @@ render() {
     var ht = UI.ourCompanyInfo;
     return (
         <footer>
-            <div class="upper-part">
+            <div className="upper-part">
                 <section>
-                    <div class="company">
-                        <div class="logo-wrapper">
-                            <a href="/" class="logo" />
+                    <div className="company">
+                        <div className="logo-wrapper">
+                            <a href="/" className="logo" />
                         </div>
-                        { /* <div class="social">
+                        { /* <div className="social">
                             <a href="https://facebook.com/HappyTraveldotcom/" target="_blank">
-                                <span class="icon icon-snet-1-f" />
+                                <span className="icon icon-snet-1-f" />
                             </a>
                             <a href="#">
-                                <span class="icon icon-snet-2-t" />
+                                <span className="icon icon-snet-2-t" />
                             </a>
                         </div> */ }
                     </div>
-                    <div class="middle">
-                        <div class="links">
+                    <div className="middle">
+                        <div className="links">
                             <menu>
                                 <li><Link to="/">{t("Accommodations")}</Link></li>
                                 <li><Link to="/contact">{t("Contact Us")}</Link></li>
@@ -42,24 +42,24 @@ render() {
                                 <li><Link to="/terms">{t("Terms & Conditions")}</Link></li>
                                 <li><Link to="/privacy">{t("Privacy Policy")}</Link></li>
                             </menu>
-                            <div class="payments">
-                                <img src="/images/other/mc-on-dark.png" class="near transparent" alt="Mastercard" />
-                                <img src="/images/other/mc-sec-on-dark.png" class="interval-big transparent" alt="Mastercard Id Check" />
+                            <div className="payments">
+                                <img src="/images/other/mc-on-dark.png" className="near transparent" alt="Mastercard" />
+                                <img src="/images/other/mc-sec-on-dark.png" className="interval-big transparent" alt="Mastercard Id Check" />
                                 <img src="/images/other/visa.png" alt="Visa" />
-                                <img src="/images/other/visa-sec.png" class="interval" alt="Visa Secure" />
+                                <img src="/images/other/visa-sec.png" className="interval" alt="Visa Secure" />
                                 <img src="/images/other/amex.png" alt="American Express" />
                             </div>
-                            <div class="service-info">
+                            <div className="service-info">
                                 Web – {settings.build || 0}<br/>
                                 API – {UI.currentAPIVersion || 0}
                             </div>
                         </div>
-                        <div class="switchers">
+                        <div className="switchers">
                             <LocaleSwitcher />
                             { Authorized() && <CurrencySwitcher /> }
                         </div>
                     </div>
-                    <div class="contact">
+                    <div className="contact">
                         <h3>{t("Contact Us")}</h3>
                         <div><span>{t("Email")}:</span> <a href={`mailto:${ht.email}`}>{ht.email}</a></div>
                         <div><span>{t("Phone")}:</span> {ht.phone}</div>
@@ -69,19 +69,19 @@ render() {
                             P.O. {ht.postalCode}<br/>
                             {ht.city}, {ht.country}
                         </div>
-                        <div class="license">
+                        <div className="license">
                             <span>TRN:</span> {ht.trn}
                         </div>
-                        <div class="license">
+                        <div className="license">
                             <span>IATA: </span> {ht.iata}
                         </div>
-                        <div class="license">
+                        <div className="license">
                             <span>Trade License: </span> {ht.tradeLicense}
                         </div>
                     </div>
                 </section>
             </div>
-            <div class="copyright">
+            <div className="copyright">
                 <section>
                     {t("_copyright")} © 2019 — {new Date().getFullYear()} {ht.name} <br/>
                 </section>

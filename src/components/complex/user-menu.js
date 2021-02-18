@@ -14,23 +14,23 @@ class UserMenu extends React.Component {
         var userName = (authStore.user?.firstName || "") + " " + (authStore.user?.lastName || "");
         return (
             <>
-                <Link to="/bookings" class="button transparent-with-border">
+                <Link to="/bookings" className="button transparent-with-border">
                     {t("Bookings")}
                 </Link>
-                <Link to="/settings" class="switcher user-switcher">
-                    <div class="avatar" />
-                    <div class="double">
+                <Link to="/settings" className="switcher user-switcher">
+                    <div className="avatar" />
+                    <div className="double">
                         <div
-                            class="name"
+                            className="name"
                             {...calcTitleFor(userName)}
                         >
                             <span>
                                 {userName}
                             </span>
-                            <i class="icon icon-gear" />
+                            <i className="icon icon-gear" />
                         </div>
                         <div
-                            class="company"
+                            className="company"
                             {...calcTitleFor(authStore.activeCounterparty.name)}
                         >
                             {authStore.activeCounterparty.name}

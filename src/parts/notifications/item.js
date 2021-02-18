@@ -13,10 +13,10 @@ class NotificationItem extends React.Component {
         var { notification } = this.props;
 
         return (
-            <div class="item">
+            <div className="item">
                 {notification.text}
-                <div class="close-button" onClick={this.hideAlert}>
-                    <span class="icon icon-close" />
+                <div className="close-button" onClick={this.hideAlert}>
+                    <span className="icon icon-close" />
                 </div>
             </div>
         );

@@ -10,15 +10,15 @@ class ViewFailed extends React.Component {
             { reason, button, link } = this.props;
 
         return (
-            <div class="error-page inside">
-                <div class="middle-section">
-                    <div class="text">
+            <div className="error-page inside">
+                <div className="middle-section">
+                    <div className="text">
                         <h1>{t("Oops! Something went wrong!")}</h1>
                         <p>{reason}</p>
                     </div>
 
                     {!!button && <Link to={link}>
-                        <span class="button">
+                        <span className="button">
                             {button}
                         </span>
                     </Link> }

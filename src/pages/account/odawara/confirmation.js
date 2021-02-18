@@ -6,19 +6,19 @@ class Confirmation extends Component {
         if (!__localhost) return null;
 
         return (
-<div class="account block sign-up-page">
+<div className="account block sign-up-page">
     <section>
-        <div class="logo-wrapper">
-            <div class="logo"></div>
+        <div className="logo-wrapper">
+            <div className="logo"></div>
         </div>
-        <div class="middle-section">
-            <div class="breadcrumbs">
-                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Log In</a><span class="small-arrow-right"></span>
-                Registration<span class="small-arrow-right"></span>
+        <div className="middle-section">
+            <div className="breadcrumbs">
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Log In</a><span className="small-arrow-right"></span>
+                Registration<span className="small-arrow-right"></span>
                 Confirmation
-                <div class="back-button">
+                <div className="back-button">
                     <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">
-                        <span class="small-arrow-left"></span> Back
+                        <span className="small-arrow-left"></span> Back
                     </a>
                 </div>
             </div>

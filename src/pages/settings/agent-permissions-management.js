@@ -96,7 +96,7 @@ export default class AgentPermissionsManagement extends React.Component {
             { inAgencyPermissions } = agent;
 
         return (
-        <div class="settings block">
+        <div className="settings block">
             <SettingsHeader />
 
             { loading ?
@@ -110,20 +110,20 @@ export default class AgentPermissionsManagement extends React.Component {
                         text: loading ? t("Agent Permissions") : PassengerName({ passenger: agent })
                     }
                 ]}/>
-                <h2><span class="brand">{t("Information")}</span></h2>
-                <div class="row">
+                <h2><span className="brand">{t("Information")}</span></h2>
+                <div className="row">
                     <b>{t("Agent")}</b>:{" "}
                     {PassengerName({ passenger: agent })}
                 </div>
-                <div class="row">
+                <div className="row">
                     <b>{t("Position")}</b>:{" "}
                     {agent.position}
                 </div>
-                <div class="row">
+                <div className="row">
                     <b>{t("Status")}</b>:{" "}
                     {agent.isActive ? "Active" : "Inactive"}
                 </div>
-                { agent.isMaster ? <div class="row">
+                { agent.isMaster ? <div className="row">
                     <b>{t("Main agent")}</b>
                 </div> : "" }
 
@@ -131,14 +131,14 @@ export default class AgentPermissionsManagement extends React.Component {
                   authStore.user.id != agent.agentId &&
                 <div>
                     {!agent.isActive ? <button
-                        class="button transparent-with-border"
+                        className="button transparent-with-border"
                         onClick={this.enable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >
                         {t("Activate agent")}
                     </button> :
                     <button
-                        class="button transparent-with-border"
+                        className="button transparent-with-border"
                         onClick={this.disable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >
@@ -146,7 +146,7 @@ export default class AgentPermissionsManagement extends React.Component {
                     </button>}
                 </div> }
 
-                <h2><span class="brand">{t("Permissions")}</span></h2>
+                <h2><span className="brand">{t("Permissions")}</span></h2>
 
                 <div>
                     <Formik
@@ -160,10 +160,10 @@ export default class AgentPermissionsManagement extends React.Component {
                     >
                         {formik => (
                             <form onSubmit={formik.handleSubmit}>
-                                <div class="form">
-                                    <div class="permissions">
+                                <div className="form">
+                                    <div className="permissions">
                                         {permissionsList.map(key => (
-                                            <div class="row">
+                                            <div className="row" key={key}>
                                                 <FieldSwitch formik={formik}
                                                              id={key}
                                                              label={generateLabel(key)}
@@ -172,11 +172,11 @@ export default class AgentPermissionsManagement extends React.Component {
                                         ))}
                                     </div>
 
-                                    <div class="row controls">
-                                        <div class="field">
-                                            <div class="label"/>
-                                            <div class="inner">
-                                                <button type="submit" class={"button button-controls" +
+                                    <div className="row controls">
+                                        <div className="field">
+                                            <div className="label"/>
+                                            <div className="inner">
+                                                <button type="submit" className={"button button-controls" +
                                                 __class(!formik.dirty, "disabled")}>
                                                     {t("Save changes")}
                                                 </button>

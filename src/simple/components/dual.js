@@ -1,11 +1,11 @@
 import React from "react";
 
-export const Dual = ({ first, second, a, b, addClass, nonEmpty }) => (
-    (!nonEmpty || b) ? <div class={"dual" + __class(addClass)}>
-        <div class="first">
+export const Dual = ({ first, second, a, b, className, nonEmpty }) => (
+    (!nonEmpty || b) ? <div className={"dual" + __class(className)}>
+        <div className="first">
             { first || a }
         </div>
-        <div class="second">
+        <div className="second">
             { second || b }
         </div>
     </div> : null

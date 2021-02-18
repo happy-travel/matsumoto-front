@@ -88,7 +88,7 @@ class CachedForm extends React.Component {
                 enableReinitialize={enableReinitialize}
             >
                 {formik => (
-                    <form onSubmit={formik.handleSubmit} class={__class(!this.state.everSubmitted, "never-submitted")}>
+                    <form onSubmit={formik.handleSubmit} className={__class(!this.state.everSubmitted, "never-submitted")}>
                         {render(formik, () => this.handleReset(formik) )}
                     </form>
                 )}

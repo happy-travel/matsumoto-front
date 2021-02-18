@@ -47,19 +47,19 @@ class VoucherImage extends React.Component {
             return <Loader />;
 
         return (
-            <div class="voucher-image">
+            <div className="voucher-image">
                 {title}
                 {image?.url ?
                     <>
-                        <div class="box">
+                        <div className="box">
                             <img src={image.url} alt={image.fileName} />
                         </div>
-                        <span class="link" onClick={this.remove}>{t("Remove")}</span>
+                        <span className="link" onClick={this.remove}>{t("Remove")}</span>
                     </> :
                     <>
-                        <div class="box">
+                        <div className="box">
                             <form id={"formElem"+text} onSubmit={this.submit}>
-                                <label class="button file-upload">
+                                <label className="button file-upload">
                                     {t("Upload Image")}
                                     <input type="file" name="file" accept="image/*" onChange={this.submit} />
                                 </label>

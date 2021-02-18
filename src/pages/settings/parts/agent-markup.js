@@ -84,13 +84,13 @@ class AgentMarkup extends React.Component {
             { markups, templates } = this.state;
 
         return (
-            <div class="markup-management">
-                <h2><span class="brand">{t("Markup Management")}</span></h2>
+            <div className="markup-management">
+                <h2><span className="brand">{t("Markup Management")}</span></h2>
                 {!markups?.length && <div style={{ margin: "30px 0 60px" }}>Agent has no markups</div>}
                 {markups
                     .sort((a,b) => (a.settings.order - b.settings.order))
                     .map((markup, index) => (
-                    <div class="markup">
+                    <div className="markup" key={index}>
                         <div>
                             <i>{index + 1}.</i>{" "}
                             <strong>
@@ -101,12 +101,12 @@ class AgentMarkup extends React.Component {
                             ({markup.settings.description}){" "}
                             <i>#{markup.settings.order}</i>
                         </div>
-                        <span class="link" onClick={() => this.remove(markup.id)}>Remove</span>
+                        <span className="link" onClick={() => this.remove(markup.id)}>Remove</span>
                     </div>
                 ))}
                 {!this.state.isExpanded ?
                     <button
-                        class="button"
+                        className="button"
                         onClick={() => this.setState({ isExpanded: true })}
                         style={{ padding: "0 25px", margin: "20px 0 0" }}
                     >
@@ -123,7 +123,7 @@ class AgentMarkup extends React.Component {
                                 templateIndex: 0
                             }}
                             render={formik => (
-                                <div class="form">
+                                <div className="form">
                                     <FieldSelect formik={formik}
                                                  id="templateIndex"
                                                  label="Markup Type"
@@ -149,10 +149,10 @@ class AgentMarkup extends React.Component {
                                                label="Amount"
                                                placeholder="Amount"
                                     />
-                                    <div class="row submit-holder">
-                                        <div class="field">
-                                            <div class="inner">
-                                                <button type="submit" class="button">
+                                    <div className="row submit-holder">
+                                        <div className="field">
+                                            <div className="inner">
+                                                <button type="submit" className="button">
                                                     {t("Create Markup")}
                                                 </button>
                                             </div>

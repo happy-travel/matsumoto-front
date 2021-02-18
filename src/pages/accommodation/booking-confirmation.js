@@ -13,9 +13,9 @@ render() {
     var { t } = useTranslation();
 
     return (
-<div class="confirmation nova block">
-    <section class="double-sections">
-        <div class="middle-section">
+<div className="confirmation nova block">
+    <section className="double-sections">
+        <div className="middle-section">
             <Breadcrumbs
                 items={[
                     {

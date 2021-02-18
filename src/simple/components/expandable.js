@@ -8,7 +8,7 @@ export const Expandable = class extends React.Component {
     render() {
         return (
             <>
-                <div class={"item" + __class(this.state.open, "open")}
+                <div className={"item" + __class(this.state.open, "open")}
                      onClick={() => this.setState({ open : !this.state.open })}>
                     {this.props.header}
                 </div>

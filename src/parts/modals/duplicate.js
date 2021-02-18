@@ -61,10 +61,10 @@ class ReportDuplicateModal extends React.Component {
             { closeModal } = this.props;
 
         return (
-            <div class="confirm modal extra-height">
+            <div className="confirm modal extra-height">
                 { closeModal &&
-                    <div class="close-button" onClick={closeModal}>
-                        <span class="icon icon-close" />
+                    <div className="close-button" onClick={closeModal}>
+                        <span className="icon icon-close" />
                     </div>
                 }
 
@@ -77,14 +77,14 @@ class ReportDuplicateModal extends React.Component {
                     onSubmit={this.submit}
                     validationSchema={duplicateFormValidator}
                     render={formik => (
-                        <div class="form">
+                        <div className="form">
                             <FieldAccommodation
                                 formik={formik}
                                 id="name"
                                 label={t("Accommodation Name")}
                                 clearable
                             />
-                            <button type="submit" class="button" style={{ marginTop: "20px" }}>
+                            <button type="submit" className="button" style={{ marginTop: "20px" }}>
                                 {t("Confirm")}
                             </button>
                         </div>

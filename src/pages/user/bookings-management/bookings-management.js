@@ -51,7 +51,7 @@ class AgencyBookingsManagementPage extends React.Component {
         const Tab = ({ text, value }) => (
             <li>
                 <div
-                    class={"item" + __class(value == filter_tab, "active")}
+                    className={"item" + __class(value == filter_tab, "active")}
                     onClick={() => this.setState({ filter_tab: value })}
                 >
                     {text}
@@ -81,13 +81,13 @@ class AgencyBookingsManagementPage extends React.Component {
         };
 
         return (
-            <div class="management block">
+            <div className="management block">
                 <section>
                     <h2>
                         { permittedAgency ? t("Agency Bookings") : t("Bookings") }
                     </h2>
                 </section>
-                <div class="head-nav">
+                <div className="head-nav">
                     <section>
                         <nav>
                             <Tab text={t("All")} value={null} />
@@ -97,7 +97,7 @@ class AgencyBookingsManagementPage extends React.Component {
                         </nav>
                     </section>
                 </div>
-                <section class="content agency">
+                <section className="content agency">
                     <Table
                         columns={Columns(permittedAgency)(t, this.setAgentIdFilter)}
                         list={store.userBookingList}
@@ -109,12 +109,12 @@ class AgencyBookingsManagementPage extends React.Component {
                         searches={Searches(permittedAgency)}
                         CustomFilter={
                             permittedAgency &&
-                                <div class="user-filter">
+                                <div className="user-filter">
                                     {agentIdFilter ?
-                                        <div class="button-clear" onClick={
+                                        <div className="button-clear" onClick={
                                             () => this.setAgentIdFilter(null)
                                         }>{t("Show all agents bookings")}</div> :
-                                        <div class="blue" onClick={
+                                        <div className="blue" onClick={
                                             () => this.setAgentIdFilter(authStore.user.id)
                                         }>{t("Show only my bookings")}</div>
                                     }

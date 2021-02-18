@@ -14,13 +14,13 @@ class FullDeadline extends React.Component {
 
         return (
             <>
-                <div class={"accent-frame information" + __class(warnAboutDeadlineIsNear, "warn", "ok")}>
-                    <div class="before">
+                <div className={"accent-frame information" + __class(warnAboutDeadlineIsNear, "warn", "ok")}>
+                    <div className="before">
                         { warnAboutDeadlineIsNear ?
-                            <span class="icon icon-warning-yellow" /> :
-                            <span class="icon icon-warning-green" /> }
+                            <span className="icon icon-warning-yellow" /> :
+                            <span className="icon icon-warning-green" /> }
                     </div>
-                    <div class="data">
+                    <div className="data">
                         {deadline.date ?
                             <b>
                                 {t("Cancellation Deadline")}: {dateFormat.a(deadline.date)}
@@ -30,19 +30,23 @@ class FullDeadline extends React.Component {
                                 {t("FREE Cancellation - Without Prepayment")}
                             </span>
                         }
-                        {!!deadline?.policies?.length && deadline.policies.map(item => (<div>
-                            {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
-                        </div>))}
+                        { !!deadline?.policies?.length &&
+                            deadline.policies.map((item, index) => (
+                                <div key={index}>
+                                    {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
-                { !!remarks && !!remarks.length && <div class="accent-frame information">
-                    <div class="before">
-                        <i class="icon icon-hotel-information" />
+                { !!remarks && !!remarks.length && <div className="accent-frame information">
+                    <div className="before">
+                        <i className="icon icon-hotel-information" />
                     </div>
-                    <div class="data">
+                    <div className="data">
                         <b>{t("Accommodation Information")}</b>
                         { remarks.map(item => (
-                            <div>
+                            <div key={item.key}>
                                 {!!item.key && <span>{item.key}:</span>} {item.value}
                             </div>
                         ))}

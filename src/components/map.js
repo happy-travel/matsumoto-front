@@ -33,7 +33,7 @@ class MapComponent extends React.Component {
             center = [marker.latitude, marker.longitude];
 
         return (
-            <div class="map-component">
+            <div className="map-component">
                 <MapContainer center={center} zoom={13} scrollWheelZoom={false}>
                     <TileLayer
                         attribution=""

@@ -71,11 +71,11 @@ class AccountStatementPage extends React.Component {
 
         return (
             <>
-                <div class="settings block">
+                <div className="settings block">
                     <SettingsHeader />
                 </div>
-                <div class="management block payments-history">
-                    <section class="content">
+                <div className="management block payments-history">
+                    <section className="content">
                         <Table
                             columns={Columns(t)}
                             list={this.state.payments}
@@ -84,7 +84,7 @@ class AccountStatementPage extends React.Component {
                             sorters={Sorters(t)}
                             searches={Searches}
                             CustomFilter={
-                                <div class="form">
+                                <div className="form">
                                     <Formik
                                         initialValues={initialValues}
                                         onSubmit={this.fetchBillingHistory}

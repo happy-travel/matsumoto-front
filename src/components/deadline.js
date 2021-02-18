@@ -34,12 +34,12 @@ class Deadline extends React.Component {
 
         if (isRequestPossible && roomContractSet.deadline?.isFinal !== true)
             return (
-                <div class="info">
+                <div className="info">
                     <div
-                        class="link"
+                        className="link"
                         onClick={this.request}
                     >
-                        {t("Cancellation Deadline")} <i class="icon icon-info" />
+                        {t("Cancellation Deadline")} <i className="icon icon-info" />
                     </div>
                 </div>
             );
@@ -47,19 +47,19 @@ class Deadline extends React.Component {
         if (date) {
             if (moment().isBefore(date))
                 return (
-                    <div class="info green">
+                    <div className="info green">
                         {t("Deadline")} – {dateFormat.a(date)}
                     </div>
                 );
             return (
-                <div class="info warning">
+                <div className="info warning">
                     {t("Within deadline")} – {dateFormat.a(date)}
                 </div>
             );
         }
 
         return (
-            <div class="info green">
+            <div className="info green">
                 {t("FREE Cancellation - Without Prepayment")}
             </div>
         );

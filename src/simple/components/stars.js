@@ -7,8 +7,8 @@ export const Stars = ({ count }) => {
     if (result < 1) return null;
 
     return (
-        <span class="stars">
-            {[...Array(result)].map(() => <i/>)}
+        <span className="stars">
+            {[...Array(result)].map((value, index) => <i key={index} />)}
         </span>
     );
 };

@@ -148,13 +148,13 @@ class FieldText extends React.Component {
             Flag,
             clearable,
             password,
-            addClass,
+            className,
             id,
             Dropdown,
             value,
             disabled,
             required,
-            readonly,
+            readOnly,
             options,
             ValueObject,
             maxLength,
@@ -163,7 +163,7 @@ class FieldText extends React.Component {
             formik,
             setValue,
             additionalFieldForValidation,
-            autocomplete,
+            autoComplete,
             //onChange
         } = this.props;
         const errorText = getIn(formik?.errors, id);
@@ -178,9 +178,9 @@ class FieldText extends React.Component {
 
         if (ValueObject !== undefined) {
             if (ValueObject)
-                ValueObject = <div class="value-object">{ValueObject}</div>;
+                ValueObject = <div className="value-object">{ValueObject}</div>;
             else
-                ValueObject = <div class="value-object placeholder">{placeholder}</div>;
+                ValueObject = <div className="value-object placeholder">{placeholder}</div>;
         }
 
         if (formik && !suggestion)
@@ -196,12 +196,12 @@ class FieldText extends React.Component {
         }
 
         return (
-            <div class={"field" + __class(addClass)} data-dropdown={this.props["data-dropdown"] || id}>
+            <div className={"field" + __class(className)} data-dropdown={this.props["data-dropdown"] || id}>
                 <label>
-                    { label && <div class="label">
-                        <span class={__class(required, "required")}>{label}</span>
+                    { label && <div className="label">
+                        <span className={__class(required, "required")}>{label}</span>
                     </div> }
-                    <div class={"input" +
+                    <div className={"input" +
                         __class(this.state.focus, "focus") +
                         __class(disabled, "disabled") +
                         __class(((errorText || (additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation))) && isFieldTouched),
@@ -211,11 +211,11 @@ class FieldText extends React.Component {
                         { !!Flag && <div>
                             { Flag }
                         </div> }
-                        <div class="inner">
+                        <div className="inner">
                             <input
                                 name={id}
                                 type={ password ? "password" : "text" }
-                                placeholder={ !ValueObject && placeholder }
+                                placeholder={ !ValueObject ? placeholder : "" }
                                 onFocus={ this.onFocus }
                                 onChange={ this.changing }
                                 onBlur={ this.onBlur }
@@ -223,28 +223,28 @@ class FieldText extends React.Component {
                                 onKeyDown={ this.onKeyDown }
                                 disabled={ !!disabled }
                                 maxLength={ maxLength }
-                                autocomplete={autocomplete ? autocomplete : "off"}
-                                {...(readonly ? {readonly: "readonly"} : {})}
+                                autoComplete={autoComplete ? autoComplete : "off"}
+                                {...(readOnly ? {readOnly: "readonly"} : {})}
                             />
                             { ValueObject }
-                            { isSuggestionVisible && suggestion && <div class={"suggestion" + __class(numeric, "solid")}>
+                            { isSuggestionVisible && suggestion && <div className={"suggestion" + __class(numeric, "solid")}>
                                 <span>{ fieldValue || value }</span>{ suggestion }
                             </div> }
                         </div>
-                        { Icon && <div class="icon-wrap">
+                        { Icon && <div className="icon-wrap">
                             { Icon }
                         </div> }
                         { (clearable && finalValue) ? <div>
-                            <div class="clear" onClick={ this.clear } />
+                            <div className="clear" onClick={ this.clear } />
                         </div> : null }
                     </div>
                     {(errorText?.length > 1 && isFieldTouched && (!View.isDropdownOpen(id))) ?
-                        <div class={"error-holder" +
+                        <div className={"error-holder" +
                                     __class(!this.state.everBlured || !this.state.everChanged || this.state.focus, "possible-hide") //possible-hide
                         }>{errorText}</div>
                     : null}
                 </label>
-                { Dropdown ? <div class={__class(!View.isDropdownOpen(id), "hide")}>
+                { Dropdown ? <div className={__class(!View.isDropdownOpen(id), "hide")}>
                     <Dropdown formik={formik}
                               connected={id}
                               setValue={setValue}

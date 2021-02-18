@@ -13,19 +13,23 @@ class SorterDropdown extends React.Component {
             sorter,
             text,
             options,
-            addClass
+            className
         } = this.props;
 
         return (
-            <div class="sorter"
+            <div className="sorter"
                  data-dropdown={dropdownId}
                  onClick={() => View.setOpenDropdown(dropdownId)}>
-                <button class={"button-expand" + addClass}>
+                <button className={"button-expand" + className}>
                     {text}
                 </button>
-                { View.isDropdownOpen(dropdownId) && <div class="usual dropdown">
+                { View.isDropdownOpen(dropdownId) && <div className="usual dropdown">
                     {options.map(item =>
-                        <div class="item" onClick={() => sorter(item.order)}>
+                        <div
+                            className="item"
+                            onClick={() => sorter(item.order)}
+                            key={item.order}
+                        >
                             {item.title}
                         </div>
                     )}

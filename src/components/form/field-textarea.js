@@ -19,7 +19,7 @@ class FieldTextarea extends FieldText {
         var {
             label,
             placeholder,
-            addClass,
+            className,
             id,
             formik,
             required,
@@ -29,17 +29,17 @@ class FieldTextarea extends FieldText {
         const isFieldTouched = getIn(formik?.touched, id);
 
         return (
-            <div class={"field" + __class(addClass)}>
+            <div className={"field" + __class(className)}>
                 <label>
-                    { label && <div class="label">
-                        <span class={__class(required, "required")}>{label}</span>
+                    { label && <div className="label">
+                        <span className={__class(required, "required")}>{label}</span>
                     </div> }
-                    <div class={"input textarea" +
+                    <div className={"input textarea" +
                         __class(this.state.focus, "focus") +
                         __class((errorText && isFieldTouched), "error") +
                         __class(disabled, "disabled")}
                     >
-                        { !disabled ? <div class="inner">
+                        { !disabled ? <div className="inner">
                             <textarea
                                 id={id}
                                 placeholder={ placeholder }
@@ -53,7 +53,7 @@ class FieldTextarea extends FieldText {
                         </div> : getIn(formik?.values, id) }
                     </div>
                     {(errorText && isFieldTouched) ?
-                        <div class="error-holder">{errorText}</div>
+                        <div className="error-holder">{errorText}</div>
                     : null}
                 </label>
             </div>

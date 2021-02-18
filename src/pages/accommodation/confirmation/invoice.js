@@ -39,15 +39,15 @@ class AccommodationConfirmationInvoicePage extends React.Component {
             return <Loader />;
 
         return (
-            <div class="invoice">
-                <div class="breadcrumbs no-print">
+            <div className="invoice">
+                <div className="breadcrumbs no-print">
                     <Link to={`/booking/${data.referenceCode}`}>
-                        <span class="small-arrow-left" /> Back to Booking Confirmation
+                        <span className="small-arrow-left" /> Back to Booking Confirmation
                     </Link>
                 </div>
-                <div class="buttons no-print">
-                    <button class="button" onClick={window.print}>{t("Print")}</button>
-                    <button class="button" onClick={this.showSendModal}>{t("Send Invoice")}</button>
+                <div className="buttons no-print">
+                    <button className="button" onClick={window.print}>{t("Print")}</button>
+                    <button className="button" onClick={this.showSendModal}>{t("Send Invoice")}</button>
                 </div>
 
                 <h4>
@@ -55,7 +55,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                     {number}<br/>
                     {dateFormat.e(date)}
                 </h4>
-                <div class="details">
+                <div className="details">
                     <div>Bill to: {data.buyerDetails.name}</div>
                     <div>Address: {data.buyerDetails.address}</div>
                     {!!data.buyerDetails.contactPhone &&
@@ -66,7 +66,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                     }
                 </div>
 
-                <div class="details">
+                <div className="details">
                     <div>Booking Reference number: {data.referenceCode}</div>
                     <div>Arrival Date: {dateFormat.e(data.checkInDate)}</div>
                     <div>Departure Date: {dateFormat.e(data.checkOutDate)}</div>
@@ -74,7 +74,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                 </div>
 
                 <div>
-                    <table class="data">
+                    <table className="data">
                         <thead>
                             <tr>
                                 <th>Leading passenger</th>
@@ -86,8 +86,8 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.invoiceItems?.map(item => (
-                                <tr>
+                            {data.invoiceItems?.map((item, index) => (
+                                <tr key={index}>
                                     <td>
                                         {item.mainPassengerFirstName} {item.mainPassengerLastName}
                                     </td>
@@ -103,21 +103,21 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                             ))}
                         </tbody>
                     </table>
-                    <div class="total">
+                    <div className="total">
                         <div>TOTAL:</div>
                         <div>{price(data.totalPrice)} ({remapStatus(data.paymentStatus)})</div>
                     </div>
                 </div>
 
-                <div class="signature">
+                <div className="signature">
                     <img src="/images/other/signature.png" alt="Signature" />
                 </div>
 
-                <div class="details">
+                <div className="details">
                     <div>PAYMENT DUE DATE: {dateFormat.e(data.payDueDate)}</div>
                 </div>
 
-                <div class="details">
+                <div className="details">
                     <h5>BANK ACCOUNT DETAILS:</h5>
                     <div>{data.sellerDetails.companyName}</div>
                     <div>Bank Name: {data.sellerDetails.bankName}</div>
@@ -128,7 +128,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                     <div>Account No.: {data.sellerDetails.accountNumber}</div>
                 </div>
 
-                <div class="details">
+                <div className="details">
                     <div>
                         <strong>
                             Note:<br/>

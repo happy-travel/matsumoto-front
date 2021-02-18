@@ -20,30 +20,30 @@ class SettingsHeader extends React.Component {
         const { t } = useTranslation();
 
         return (
-            <div class="settings-header">
+            <div className="settings-header">
                 <section>
-                    <div class="logout-wrapper">
-                        <Link to="/logout" class="button transparent-with-border">
-                            <i class="icon icon-logout" />
+                    <div className="logout-wrapper">
+                        <Link to="/logout" className="button transparent-with-border">
+                            <i className="icon icon-logout" />
                             {t("Log out")}
                         </Link>
                     </div>
-                    <div class="user">
-                        <div class="photo">
-                            <div class="no-avatar" />
+                    <div className="user">
+                        <div className="photo">
+                            <div className="no-avatar" />
                         </div>
-                        <div class="data">
+                        <div className="data">
                             <h1>{authStore.user?.firstName} {authStore.user?.lastName}</h1>
                             <h3>
-                                <div class={"status " + authStore.activeCounterparty.counterpartyState} />
+                                <div className={"status " + authStore.activeCounterparty.counterpartyState} />
                                 {authStore.activeCounterparty.name} (
                                     {authStore.activeCounterparty.counterpartyState?.replace(/([A-Z])/g, " $1").trim()}
                                 )
                             </h3>
                             { authStore.permitted("ObserveBalance") &&
-                                <div class="balance">
-                                    <div><i class="icon icon-wallet"/></div>
-                                    <span class="text">
+                                <div className="balance">
+                                    <div><i className="icon icon-wallet"/></div>
+                                    <span className="text">
                                         {t("Balance")}: {price(authStore.balance?.currency, authStore.balance?.balance)}
                                     </span>
                                 </div>

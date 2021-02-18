@@ -9,9 +9,9 @@ class ReadOnlyModal extends React.Component {
             { closeModal } = this.props;
 
         return (
-            <div class="confirm modal">
-                {closeModal && <div class="close-button" onClick={closeModal}>
-                    <span class="icon icon-close" />
+            <div className="confirm modal">
+                {closeModal && <div className="close-button" onClick={closeModal}>
+                    <span className="icon icon-close" />
                 </div>}
 
                 <h2>{t("We’re verifying your agency")}</h2>

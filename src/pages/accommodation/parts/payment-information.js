@@ -40,16 +40,16 @@ class PaymentInformation extends React.Component {
 
         if (status)
             return (
-                <div class="accent-frame">
-                    <div class="before">
-                        <span class="icon icon-white-check" />
+                <div className="accent-frame">
+                    <div className="before">
+                        <span className="icon icon-white-check" />
                     </div>
-                    <div class="dual">
-                        <div class="first">
+                    <div className="dual">
+                        <div className="first">
                             {t("Payment result")}: <strong>{status || "Unknown"}</strong>
                         </div>
                         { paymentStore.saveCreditCard &&
-                            <div class="second">
+                            <div className="second">
                                 <div>
                                     {t("Your card was saved for your future purchases.")}
                                 </div>

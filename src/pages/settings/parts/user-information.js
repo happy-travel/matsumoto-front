@@ -42,7 +42,7 @@ class UserInformation extends React.Component {
             <>
                 {this.state.loading && <Loader page />}
 
-                <h2><span class="brand">{t("Personal Information")}</span></h2>
+                <h2><span className="brand">{t("Personal Information")}</span></h2>
 
                 <CachedForm
                     onSubmit={this.submitUserData}
@@ -50,12 +50,12 @@ class UserInformation extends React.Component {
                     initialValues={authStore.user}
                     enableReinitialize
                     render={formik => (
-                        <div class="form user-data">
+                        <div className="form user-data">
                             <FormUserData formik={formik} t={t} />
-                            <div class="row controls">
-                                <div class="field">
-                                    <div class="inner">
-                                        <button type="submit" class={"button" +
+                            <div className="row controls">
+                                <div className="field">
+                                    <div className="inner">
+                                        <button type="submit" className={"button" +
                                         __class(!formik.isValid || !formik.dirty, "disabled")}>
                                             {t("Save changes")}
                                         </button>

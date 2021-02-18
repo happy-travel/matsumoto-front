@@ -92,8 +92,10 @@ class AccommodationBookingPage extends React.Component {
         };
         store.setBookingRequest(request);
 
-        var error = err => Notifications.addNotification(err?.title || err?.detail || err?.message),
-            after = () => setSubmitting(false);
+        var error = err => {
+                Notifications.addNotification(err?.title || err?.detail || err?.message);
+                setSubmitting(false);
+            };
 
         if (paymentStore.paymentMethod == PAYMENT_METHODS.ACCOUNT)
             API.post({
@@ -108,7 +110,6 @@ class AccommodationBookingPage extends React.Component {
                     paymentStore.setSubject(result.bookingDetails.referenceCode);
                     redirect("/accommodation/confirmation");
                 },
-                after,
                 error
             });
 
@@ -120,7 +121,6 @@ class AccommodationBookingPage extends React.Component {
                     paymentStore.setSubject(result, store.selected.roomContractSet.rate.finalPrice);
                     redirect("/payment/form");
                 },
-                after,
                 error
             });
     }
@@ -167,56 +167,58 @@ class AccommodationBookingPage extends React.Component {
             return null;
 
         return (
-<div class="booking block">
-    <div class="hide">{paymentStore.paymentMethod}{authStore.balance?.balance}</div>
-    <section class="double-sections">
-        <div class="left-section filters">
-            <div class="static item">{t("Booking Summary")}</div>
-            { hotel.photo.sourceUrl && <div class="expanded">
-                <img src={hotel.photo.sourceUrl} alt={hotel.photo.caption} class="round" />
+<div className="booking block">
+    <div className="hide">{paymentStore.paymentMethod}{authStore.balance?.balance}</div>
+    <section className="double-sections">
+        <div className="left-section filters">
+            <div className="static item">{t("Booking Summary")}</div>
+            { hotel.photo.sourceUrl && <div className="expanded">
+                <img src={hotel.photo.sourceUrl} alt={hotel.photo.caption} className="round" />
             </div> }
-            <div class="static item no-border">
+            <div className="static item no-border">
                 {hotel.name}
             </div>
-            <div class="subtitle">
+            <div className="subtitle">
                 {hotel.location.address}
                 , {hotel.location.locality}
                 , {hotel.location.country}
             </div>
-            {contract.supplier && <div class="subtitle">
+            {contract.supplier && <div className="subtitle">
                 Supplier: {" " + contract.supplier}
             </div>}
 
-            <div class="static item">
+            <div className="static item">
                 {t("Your Reservation")}
             </div>
-            <Dual addClass="column"
+            <Dual className="column"
                 a={t("Arrival Date")}
                 b={dateFormat.a(baseInfo.checkInDate)}
             />
-            <Dual addClass="column"
+            <Dual className="column"
                 a={t("Departure Date")}
                 b={dateFormat.a(baseInfo.checkOutDate)}
             />
-            <div class="dual" style={{display: "inline-block"}}>
-                <span class="first">{t("Number of Rooms")}</span>
-                <span class="second">{contract.rooms.length}</span>
+            <div className="dual" style={{display: "inline-block"}}>
+                <span className="first">{t("Number of Rooms")}</span>
+                <span className="second">{contract.rooms.length}</span>
             </div>
 
-            <div class="static item">{t("Room & Total Cost")}</div>
-                {contract?.rooms?.map((rc,i) => (
+            <div className="static item">{t("Room & Total Cost")}</div>
+                {contract?.rooms?.map((rc, i) => (
                     (rc.roomPrices?.[0].finalPrice !== undefined) ?
-                    <Dual addClass={__class(rc.roomPrices.length > 1, "column")}
+                    <Dual
+                        className={__class(rc.roomPrices.length > 1, "column")}
                         a={t("Room Cost") + (contract?.rooms?.length > 1 ? (" " + (i+1)) : '')}
                         b={ <RoomPrices t={t} prices={contract.rooms[i].roomPrices} /> }
+                        key={i}
                     /> : null
                 ))}
-            <div class="total-cost">
+            <div className="total-cost">
                 <div>{t("Reservation Total Cost")}</div>
                 <div>{price(contract.rate.finalPrice)}</div>
             </div>
         </div>
-        <div class="right-section">
+        <div className="right-section">
             <Breadcrumbs items={[
                 {
                     text: t("Search Accommodations"),
@@ -251,27 +253,26 @@ class AccommodationBookingPage extends React.Component {
                 onSubmit={this.submit}
                 render={formik => (
                     <>
-                        <div class="form">
+                        <div className="form">
                             <FieldArray
                                 render={() => (
-                            contract?.rooms.map((item, r) => <>
+                            contract?.rooms.map((item, r) => <React.Fragment key={r}>
                             <h2>
                                 <span>
                                     Room {r+1}:
                                 </span> <GroupRoomTypesAndCount solo t={t} contracts={[item]} />
                             </h2>
-                            <div class="part">
-                                <table class="people"><tbody>
+                            <div className="part">
+                                <table className="people"><tbody>
                                     <tr>
-                                        <th><span class="required">{t("Title")}</span></th>
-                                        <th><span class="required">{t("First Name")}</span></th>
-                                        <th><span class="required">{t("Last Name")}</span></th>
+                                        <th><span className="required">{t("Title")}</span></th>
+                                        <th><span className="required">{t("First Name")}</span></th>
+                                        <th><span className="required">{t("Last Name")}</span></th>
                                     </tr>
                                     <FieldArray
-                                        render={() => (
-                                    <>
-                                        {formik.values.room[r].passengers.map((passengers, index) => (
-                                        <tr>
+                                        render={
+                                    () => formik.values.room[r].passengers.map((passengers, index) => (
+                                        <tr key={index}>
                                             <td>
                                                 <FieldSelect formik={formik}
                                                     id={`room.${r}.passengers.${index}.title`}
@@ -287,7 +288,7 @@ class AccommodationBookingPage extends React.Component {
                                                     ]}
                                                 />
                                             </td>
-                                            <td class="bigger">
+                                            <td className="bigger">
                                                 <FieldText formik={formik}
                                                     id={`room.${r}.passengers.${index}.firstName`}
                                                     placeholder={t("Please enter first name")}
@@ -295,7 +296,7 @@ class AccommodationBookingPage extends React.Component {
                                                     clearable
                                                 />
                                             </td>
-                                            <td class="bigger">
+                                            <td className="bigger">
                                                 <FieldText formik={formik}
                                                     id={`room.${r}.passengers.${index}.lastName`}
                                                     placeholder={t("Please enter last name")}
@@ -303,12 +304,11 @@ class AccommodationBookingPage extends React.Component {
                                                     clearable
                                                 />
                                             </td>
-                                        </tr>))}
-                                    </>
-                                    )} />
+                                        </tr>
+                                    ))} />
                                 </tbody></table>
 
-                                <p class="remark">
+                                <p className="remark">
                                     {t("Board Basis")}: <MealPlan t={t} room={contract.rooms[0]} />
                                 </p>
 
@@ -317,27 +317,27 @@ class AccommodationBookingPage extends React.Component {
                                               remarks={item.remarks}
                                 />
                             </div>
-                            </>))} />
+                            </React.Fragment>))} />
 
-                            <div class="part" style={{ margin: "-10px 0 5px" }}>
-                                <div class="row">
-                                    <div class="vertical-label left">{t("Itinerary number")}</div>
+                            <div className="part" style={{ margin: "-10px 0 5px" }}>
+                                <div className="row">
+                                    <div className="vertical-label left">{t("Itinerary number")}</div>
                                     <FieldText formik={formik}
                                                id={"itineraryNumber"}
                                                placeholder={t("Please enter itinerary number")}
                                                clearable
-                                               addClass={"size-medium"}
+                                               className={"size-medium"}
                                     />
                                 </div>
                             </div>
 
-                            <div class="payment method">
+                            <div className="payment method">
                                 <h2>{t("Please Select Payment Method")}</h2>
-                                { !!contract.priceChangedAlert && <div class="accent-frame information warn alternative-margin">
-                                    <div class="before">
-                                        <span class="icon icon-warning-yellow" />
+                                { !!contract.priceChangedAlert && <div className="accent-frame information warn alternative-margin">
+                                    <div className="before">
+                                        <span className="icon icon-warning-yellow" />
                                     </div>
-                                    <div class="data">
+                                    <div className="data">
                                         <b>
                                             {t("Please note the booking price has changed.")}
                                         </b>
@@ -347,35 +347,35 @@ class AccommodationBookingPage extends React.Component {
                                     </div>
                                 </div>}
                                 <p>{t("You need to pay")}:
-                                    <span class="value"><b>{price(contract.rate.finalPrice)}</b></span>
+                                    <span className="value"><b>{price(contract.rate.finalPrice)}</b></span>
                                 </p>
                                 { contract?.isAdvancePurchaseRate &&
                                     <h3 style={{margin: "20px 0 -20px"}}>
-                                        <span class="restricted-rate">
+                                        <span className="restricted-rate">
                                             {t("Restricted Rate")}
                                         </span>
                                     </h3>
                                 }
-                                <div class="list">
+                                <div className="list">
                                     { this.isAccountPaymentAvailable() &&
                                         <div
-                                            class={"item" +
+                                            className={"item" +
                                                 __class(PAYMENT_METHODS.ACCOUNT == paymentStore.paymentMethod, "selected")
                                             }
                                             onClick={() => paymentStore.setPaymentMethod(PAYMENT_METHODS.ACCOUNT)}
                                         >
-                                            <span class="icon icon-radio" />
+                                            <span className="icon icon-radio" />
                                             {t("Account balance")} {(authStore.settings.availableCredit === true) &&
                                                 <span>{"(" + price(authStore.balance?.currency, authStore.balance?.balance).trim() + ")"}</span>}
                                         </div>
                                     }
                                     <div
-                                        class={"item" +
+                                        className={"item" +
                                             __class(PAYMENT_METHODS.CARD == paymentStore.paymentMethod, "selected")
                                         }
                                         onClick={() => paymentStore.setPaymentMethod(PAYMENT_METHODS.CARD)}
                                     >
-                                        <span class="icon icon-radio" />
+                                        <span className="icon icon-radio" />
                                         {t("Credit or Debit Card")}
                                         <img src="/images/other/visa.png" alt="" />
                                         <img src="/images/other/mc.png" alt="" />
@@ -383,20 +383,20 @@ class AccommodationBookingPage extends React.Component {
                                 </div>
                             </div>
 
-                            <div class="final">
-                                <div class="dual">
-                                    <div class="first">
+                            <div className="final">
+                                <div className="dual">
+                                    <div className="first">
                                         <FieldCheckbox formik={formik}
                                             id={"accepted"}
                                             label={<div>
-                                                {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" class="underlined link">{t("Terms & Conditions")}</Link>
+                                                {t("I have read and accepted the booking")} <Link target="_blank" to="/terms" className="underlined link">{t("Terms & Conditions")}</Link>
                                             </div>}
                                         />
                                     </div>
                                     {!(contract?.isAdvancePurchaseRate &&
                                         (authStore.agencyAPR < APR_VALUES.CardPurchasesOnly)) &&
-                                        <div class="second">
-                                            <button type="submit" class={"button" + __class(!formik.isValid, "disabled")}>
+                                        <div className="second">
+                                            <button type="submit" className={"button" + __class(!formik.isValid, "disabled")}>
                                                 {t("Confirm booking")}
                                             </button>
                                         </div>

@@ -25,7 +25,7 @@ const stateDefinitions = {
 const PaginationArrowComponent = (props) => {
     const {direction, onTrigger, disabled} = props;
     return <button
-        class={`calendar-style__arrows calendar-style__arrow__${direction}`}
+        className={`calendar-style__arrows calendar-style__arrow__${direction}`}
         onClick={(e) => {e.preventDefault(); onTrigger(e)}}
         disabled={disabled}
     >
@@ -42,7 +42,7 @@ class DateDropdown extends React.Component {
             options
         } = this.props;
         return (
-            <div class="date dropdown">
+            <div className="date dropdown">
                 <DateRangePicker
                     className={"calendar-style"}
                     firstOfWeek={authStore.settings.weekStarts

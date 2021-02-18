@@ -70,20 +70,20 @@ class AccommodationRoomContractsSetsPage extends React.Component {
             return null;
 
         return (
-<div class="search-results block room-contract-sets">
-    <section class="double-sections">
-        <div class="left-section filters">
-            <div class="billet">
-                <div class="line">
+<div className="search-results block room-contract-sets">
+    <section className="double-sections">
+        <div className="left-section filters">
+            <div className="billet">
+                <div className="line">
                     {t("Like, but are you not sure?")}
                 </div>
-                <button class="button small" onClick={this.back}>
+                <button className="button small" onClick={this.back}>
                     {t("Similar accommodations")}
                 </button>
             </div>
         </div>
-        <div class="right-section">
-            <div class="title">
+        <div className="right-section">
+            <div className="title">
                 <Breadcrumbs items={[
                     {
                         text: t("Search Accommodations"),
@@ -104,61 +104,61 @@ class AccommodationRoomContractsSetsPage extends React.Component {
 
             <h2>{t("Room Availability")}</h2>
 
-            <div class="billet">
-                <div class="part">
-                    <div class="subpart">
-                        <div class="h1">{t("Check In Date")}</div>
-                        <div class="h2">{dateFormat.d(store.search.request.checkInDate)}</div>
+            <div className="billet">
+                <div className="part">
+                    <div className="subpart">
+                        <div className="h1">{t("Check In Date")}</div>
+                        <div className="h2">{dateFormat.d(store.search.request.checkInDate)}</div>
                         { details?.schedule?.checkInTime &&
-                          <div class="h3">{t("From")} {details.schedule.checkInTime}</div> }
+                          <div className="h3">{t("From")} {details.schedule.checkInTime}</div> }
                     </div>
-                    <div class="subpart">
-                        <div class="h1">{t("Check Out Date")}</div>
-                        <div class="h2">{dateFormat.d(store.search.request.checkOutDate)}</div>
-                        <div class="h3">{__plural(t, store.search?.numberOfNights, "Night")}</div>
+                    <div className="subpart">
+                        <div className="h1">{t("Check Out Date")}</div>
+                        <div className="h2">{dateFormat.d(store.search.request.checkOutDate)}</div>
+                        <div className="h3">{__plural(t, store.search?.numberOfNights, "Night")}</div>
                     </div>
-                    <div class="subpart">
-                        <div class="h1">{t("Guests")}</div>
-                        <div class="h2"><PassengersCount t={t} adults={store.search.request.adultsTotal} /></div>
-                        <div class="h2"><PassengersCount t={t} children={store.search.request.childrenTotal} /></div>
+                    <div className="subpart">
+                        <div className="h1">{t("Guests")}</div>
+                        <div className="h2"><PassengersCount t={t} adults={store.search.request.adultsTotal} /></div>
+                        <div className="h2"><PassengersCount t={t} children={store.search.request.childrenTotal} /></div>
                     </div>
                 </div>
-                <div class="part">
-                    <button class="button small" onClick={this.showSearch}>
+                <div className="part">
+                    <button className="button small" onClick={this.showSearch}>
                         {t("Change Search Settings")}
                     </button>
                 </div>
             </div>
 
             { !item?.roomContractSets?.length ? <Loader /> :
-            <div class="contract">
-                <div class="table">
-                    <table class="table agt">
+            <div className="contract">
+                <div className="table">
+                    <table className="table agt">
                         <thead>
                             <tr>
                                 <th>{t("Room Type")}</th>
-                                <th class="price">{t("Price for")} {__plural(t, store.search?.numberOfNights, "Night")}</th>
-                                <th class="pros" />
+                                <th className="price">{t("Price for")} {__plural(t, store.search?.numberOfNights, "Night")}</th>
+                                <th className="pros" />
                                 <th />
                             </tr>
                         </thead>
                         <tbody>
-                        { item?.roomContractSets?.map(roomContractSet =>
-                            <tr>
-                                <td class="room-contract-set">
+                        { item?.roomContractSets?.map((roomContractSet, index) =>
+                            <tr key={index}>
+                                <td className="room-contract-set">
                                     <span onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
                                         <GroupRoomTypesAndCount t={t} contracts={roomContractSet.rooms} />
                                     </span>
-                                    {roomContractSet.supplier && <div class="black">
+                                    {roomContractSet.supplier && <div className="black">
                                         Supplier: {" " + roomContractSet.supplier}
                                     </div>}
                                 </td>
-                                <td class="price">
+                                <td className="price">
                                     {price(roomContractSet.rate.finalPrice)}
                                 </td>
-                                <td class="pros">
+                                <td className="pros">
                                     {roomContractSet.rooms[0]?.isDynamic === true &&
-                                        <div class="one">
+                                        <div className="one">
                                             <strong>
                                                 {t("Dynamic offer")}
                                             </strong>
@@ -166,16 +166,16 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                     }
                                     {roomContractSet.isAdvancePurchaseRate &&
                                      (authStore.agencyAPR > APR_VALUES.DisplayOnly) &&
-                                        <div class="one">
-                                            <span class="restricted-rate">
+                                        <div className="one">
+                                            <span className="restricted-rate">
                                                 {t("Restricted Rate")}
                                             </span>
                                         </div>
                                     }
-                                    <div class="one green">
+                                    <div className="one green">
                                         <MealPlan t={t} room={roomContractSet.rooms[0]} />
                                     </div>
-                                    <div class="one">
+                                    <div className="one">
                                         <Deadline t={t}
                                             searchId={store.search.id}
                                             resultId={store.selected.accommodation.id}
@@ -183,13 +183,13 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         />
                                     </div>
                                 </td>
-                                <td class="holder">
+                                <td className="holder">
                                     {(roomContractSet.isAdvancePurchaseRate &&
                                      authStore.agencyAPR <= APR_VALUES.DisplayOnly) ?
-                                        <button class="button small disabled">
+                                        <button className="button small disabled">
                                             {t("Restricted Rate")}
                                         </button> :
-                                        <button class="button small"
+                                        <button className="button small"
                                                 onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
                                             {t("Book")}
                                         </button>

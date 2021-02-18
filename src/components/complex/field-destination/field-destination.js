@@ -114,7 +114,7 @@ class FieldDestination extends React.Component {
                        additionalFieldForValidation="htIds"
                        label={label}
                        placeholder={placeholder}
-                       Icon={<span class="icon icon-hotel" />}
+                       Icon={<span className="icon icon-hotel" />}
                        Dropdown={DestinationDropdown}
                        options={View.destinations}
                        setValue={this.setValue}

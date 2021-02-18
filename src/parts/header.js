@@ -12,17 +12,17 @@ const Header = () => {
         <>
             <header>
                 <section>
-                    <div class="logo-wrapper">
-                        <Link to="/" class="logo" />
+                    <div className="logo-wrapper">
+                        <Link to="/" className="logo" />
                     </div>
                     <nav>
-                        { Authorized() && <li><Link class="active" to="/">{t("Accommodations")}</Link></li> }
+                        { Authorized() && <li><Link className="active" to="/">{t("Accommodations")}</Link></li> }
                     </nav>
                     { Authorized() && <UserMenu /> }
                 </section>
             </header>
-            <div class="print">
-                <img class="print-logo" src="/images/logo/logo.png" alt="" />
+            <div className="print">
+                <img className="print-logo" src="/images/logo/logo.png" alt="" />
             </div>
         </>
     );

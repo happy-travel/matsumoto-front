@@ -12,8 +12,8 @@ export const Flag = ({ code, language }) => {
         return null;
 
     return (
-        <span class="flag">
-            <span class={"fp " + code.toLowerCase()}/>
+        <span className="flag">
+            <span className={"fp " + code.toLowerCase()}/>
         </span>
     );
 };

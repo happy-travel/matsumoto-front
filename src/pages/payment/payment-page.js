@@ -43,9 +43,9 @@ class PaymentPage extends React.Component {
             return <Loader />;
 
         return (
-<div class="confirmation block payment">
-    <section class="double-sections">
-        <div class="middle-section">
+<div className="confirmation block payment">
+    <section className="double-sections">
+        <div className="middle-section">
             { paymentStore.subject.previousPaymentMethod &&
                 <Breadcrumbs
                     items={[
@@ -67,7 +67,7 @@ class PaymentPage extends React.Component {
                 />
             }
 
-            <p class="remark">
+            <p className="remark">
                 <strong>Please note:</strong> when paying by card, we hold funds on your account until the deadline date approach.
                 In case of cancellation, funds will be released in accordance with the service cancellation policy as soon as possible.
             </p>
@@ -75,13 +75,13 @@ class PaymentPage extends React.Component {
             { this.state.addNew ?
                 <>
                     {!!paymentStore.savedCards.length &&
-                        <div class="form" style={{ paddingTop: "40px" }}>
-                            <button onClick={() => this.setState({ addNew: false })} class="button transparent-with-border">
+                        <div className="form" style={{ paddingTop: "40px" }}>
+                            <button onClick={() => this.setState({ addNew: false })} className="button transparent-with-border">
                                 {t("Back to saved cards")}
                             </button>
                         </div>
                     }
-                    <h2 class="payment-title">
+                    <h2 className="payment-title">
                         {t("Please Enter Your Card Details")}
                     </h2>
                     <PaymentForm
@@ -90,11 +90,11 @@ class PaymentPage extends React.Component {
                     />
                 </> :
                 <>
-                    <h2 class="payment-title">
+                    <h2 className="payment-title">
                         {t("Pay using saved cards")}
                     </h2>
                     <PaymentSavedCardsFormPart />
-                    <button onClick={() => this.setState({ addNew: true })} class="button transparent-with-border">
+                    <button onClick={() => this.setState({ addNew: true })} className="button transparent-with-border">
                         {t("Use another card")}
                     </button>
                 </>

@@ -39,16 +39,16 @@ class AccommodationSearchResultsPage extends React.Component {
             return <AccommodationTitlePage />;
 
         return (
-<div class="search-results block">
-    {__devEnv && <div class="hide">{JSON.stringify(store.filters?.source)}</div> }
+<div className="search-results block">
+    {__devEnv && <div className="hide">{JSON.stringify(store.filters?.source)}</div> }
     { store?.search?.loading === true ?
     <Loader /> :
-    <section class="double-sections">
+    <section className="double-sections">
         { (store.search?.loading == "__filter_tmp") && <Loader segment /> }
         <AccommodationFilters />
-        <div class="right-section">
-            <div class="head">
-                <div class="title">
+        <div className="right-section">
+            <div className="head">
+                <div className="title">
                     <h3>
                         {t("Results for")} <b>{ store.search.request.destination }</b>
                         <span>&nbsp;(
@@ -74,7 +74,7 @@ class AccommodationSearchResultsPage extends React.Component {
                 </div>
                 <SorterDropdown
                     text={t("Sort by") + " " + (store.sorter?.price ? t("price") : "")}
-                    addClass={__class(store.sorter?.price < 0, "reverse")}
+                    className={__class(store.sorter?.price < 0, "reverse")}
                     sorter={value => searchLoaderWithNewOrder(value)}
                     options={[
                         { title: t("Usual"), order: {} },
@@ -86,14 +86,14 @@ class AccommodationSearchResultsPage extends React.Component {
 
             { (!store.hotelArray.length && !store?.search?.loading && !store.filtersLine) &&
                 <div style={{ paddingTop: "50px" }}>
-                    <div class="head">
-                        <div class="title">
+                    <div className="head">
+                        <div className="title">
                             <h3>{t("Can't find what you're looking for?")}</h3>
                             <br/>
                             {t("You could reach our Operations team directly, and we pick an accommodation for you.")}
                             <br/>
                             <br/>
-                            {t("Email")}: <a href="mailto:reservations@happytravel.com" class="link">reservations@happytravel.com</a>
+                            {t("Email")}: <a href="mailto:reservations@happytravel.com" className="link">reservations@happytravel.com</a>
                         </div>
                     </div>
                 </div> }
@@ -105,14 +105,14 @@ class AccommodationSearchResultsPage extends React.Component {
                 loader={(store.search?.loading !== "__filter_tmp") ? <Loader /> : null}
             >
             { store.hotelArray.map(item =>
-            <div class="contract" key={item.accommodation.id}>
-                <div class="summary">
-                    { item.accommodation.photo.sourceUrl && <div class="photo" onClick={() => this.accommodationSelect(item)}>
+            <div className="contract" key={item.accommodation.id}>
+                <div className="summary">
+                    { item.accommodation.photo.sourceUrl && <div className="photo" onClick={() => this.accommodationSelect(item)}>
                         <img src={item.accommodation.photo.sourceUrl} alt={item.accommodation.photo.caption}  />
                     </div> }
-                    <div class="title">
-                        <div class="features">
-                            <button class={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
+                    <div className="title">
+                        <div className="features">
+                            <button className={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
                                     id={item.supplier + "." + item.accommodation.id}
                                     onClick={
                                         () => View.setModal(MODALS.REPORT_DUPLICATE, item)
@@ -124,7 +124,7 @@ class AccommodationSearchResultsPage extends React.Component {
                             <u>{item.accommodation.name}</u>
                             <Stars count={item.accommodation.rating} />
                         </h2>
-                        <div class="category" onClick={() => this.accommodationSelect(item)}>
+                        <div className="category" onClick={() => this.accommodationSelect(item)}>
                                 {t("Accommodation in")} {item.accommodation.location.country}, {item.accommodation.location.locality}<br/>
                             {item.accommodation.location.address}
                         </div>
@@ -133,8 +133,8 @@ class AccommodationSearchResultsPage extends React.Component {
                         </div>}
                     </div>
                 </div>
-                <div class="table">
-                    <div class="title">
+                <div className="table">
+                    <div className="title">
                         {
                             t("At least")
                         } {__plural(
@@ -149,24 +149,25 @@ class AccommodationSearchResultsPage extends React.Component {
                                            adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
                                            children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}/>
                     </div>
-                    <div class="billet">
-                        <div class="count">
+                    <div className="billet">
+                        <div className="count">
                             {__plural(t, store.search.numberOfNights, "Night")}
                             , <PassengersCount t={t}
                                                adults={store.search.request.roomDetails.reduce((res,item) => (res+item.adultsNumber), 0)}
                                                children={store.search.request.roomDetails.reduce((res,item) => (res+item.childrenNumber), 0)}
                                                separator={", "} />
                         </div>
-                        <div class="price">
+                        <div className="price">
                             <span>{t("From")}</span>
                             {price(item.roomContractSets?.[0]?.rate.currency, item.minPrice)}
                         </div>
-                        <button class="button small" onClick={() => this.accommodationSelect(item)}>
+                        <button className="button small" onClick={() => this.accommodationSelect(item)}>
                             {t("Choose Room")}
                         </button>
                     </div>
-                    { item.roomContractSets.slice(0, 2).map(roomContractSet => <div class="row">
-                        <div class="main">
+                    { item.roomContractSets.slice(0, 2).map((roomContractSet, index) =>
+                    <div className="row" key={index}>
+                        <div className="main">
                             <h3 onClick={() => this.accommodationSelect(item)}>
                                 <GroupRoomTypesAndCount t={t} contracts={roomContractSet.rooms} />
                             </h3>
@@ -180,7 +181,7 @@ class AccommodationSearchResultsPage extends React.Component {
                                 }
                                 {roomContractSet.isAdvancePurchaseRate &&
                                     <div>
-                                        <span class="restricted-rate">
+                                        <span className="restricted-rate">
                                             {t("Restricted Rate")}
                                         </span>
                                     </div>
@@ -191,7 +192,7 @@ class AccommodationSearchResultsPage extends React.Component {
                                      roomContractSet={roomContractSet}
                                 />
                             </div>
-                            <div class="info green">
+                            <div className="info green">
                                 <MealPlan t={t} room={roomContractSet.rooms[0]} />
                             </div>
                         </div>

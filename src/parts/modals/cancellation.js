@@ -44,14 +44,14 @@ class CancellationConfirmationModal extends React.Component {
             { penalty, loading } = this.state;
 
         return (
-    <div class="confirm modal">
+    <div className="confirm modal">
         { loading &&
             <Loader page />
         }
 
         { closeModal &&
-            <div class="close-button" onClick={closeModal}>
-                <span class="icon icon-close" />
+            <div className="close-button" onClick={closeModal}>
+                <span className="icon icon-close" />
             </div>
         }
 
@@ -76,7 +76,7 @@ class CancellationConfirmationModal extends React.Component {
                         <p>
                             {t("Cancellation Deadline")} {dateFormat.a(bookingDetails.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
                         </p>
-                        <p class="danger">
+                        <p className="danger">
                             { penalty?.amount ?
                                 <>
                                     {t("Cancellation cost")}: {price(penalty)}
@@ -87,14 +87,14 @@ class CancellationConfirmationModal extends React.Component {
                     </>}
 
                 { !moment().isAfter(bookingDetails.deadlineDate) &&
-                    <p class="green">
+                    <p className="green">
                         {t("FREE Cancellation - Without Prepayment")}
                     </p>
                 }
 
-                <div class="bottom">
+                <div className="bottom">
                     <button
-                        class={"button" + __class(!moment().isAfter(bookingDetails.deadlineDate), "green")}
+                        className={"button" + __class(!moment().isAfter(bookingDetails.deadlineDate), "green")}
                         onClick={this.bookingCancel}
                     >
                         {t("Cancel booking")}

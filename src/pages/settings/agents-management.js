@@ -54,10 +54,10 @@ class AgentsManagement extends React.Component {
             { agents } = this.state;
 
         return (
-            <div class="settings block">
+            <div className="settings block">
                 <SettingsHeader />
                 <section>
-                    <h2><span class="brand">{t("All Agents")}</span></h2>
+                    <h2><span className="brand">{t("All Agents")}</span></h2>
                     <div style={{ marginTop: "-105px" }}>
                         <Table
                             list={agents}

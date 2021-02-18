@@ -8,7 +8,7 @@ import UserApplicationSettings from "./parts/user-application-settings";
 class PersonalSettings extends React.Component {
     render() {
         return (
-            <div class="settings block">
+            <div className="settings block">
                 <SettingsHeader />
                 <section>
                     <UserInformation />

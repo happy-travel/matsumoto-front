@@ -14,9 +14,9 @@ render () {
         return <Loader white page />;
 
     return (
-        <div class="tiles block">
+        <div className="tiles block">
             <section>
-                <h1><span class="brand">{t("Countries & Hotels")}</span></h1>
+                <h1><span className="brand">{t("Countries & Hotels")}</span></h1>
                 <Tiles list={[
                     {
                         city: 'PARIS, FRANCE',
@@ -51,7 +51,7 @@ render () {
                         image: '/images/hotels/dubai.jpg'
                     }
                 ]} />
-                <h1><span class="brand">{t("Exclusive offers")}</span></h1>
+                <h1><span className="brand">{t("Exclusive offers")}</span></h1>
                 <Tiles list={[
                     {
                         title: 'EMERALD PALACE KEMPINSKI DUBAI, DUBAI',

@@ -1,10 +1,10 @@
 import React from "react";
 
-const ActionSteps = ({ items = [], current, addClass }) => (
-    <div class={"action-steps" + __class(addClass)}>
+const ActionSteps = ({ items = [], current, className }) => (
+    <div className={"action-steps" + __class(className)}>
         { items.map((item, index) => (
-            <>
-                <div class={"step" +
+            <React.Fragment key={index}>
+                <div className={"step" +
                     __class(index  < current   , "finished") +
                     __class(index == current-1 , "previous") +
                     __class(index == current   , "current")
@@ -12,9 +12,9 @@ const ActionSteps = ({ items = [], current, addClass }) => (
                     {item}
                 </div>
                 { index+1 < items.length &&
-                    <div class="interval"><s/><u/><b/><i/></div>
+                    <div className="interval"><s/><u/><b/><i/></div>
                 }
-            </>
+            </React.Fragment>
         )) }
     </div>
 );

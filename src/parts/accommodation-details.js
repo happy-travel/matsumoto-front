@@ -12,9 +12,11 @@ const Amenities = ({ hotel, t }) => {
 
     return <>
         <h2>{t("Accommodation Amenities")}</h2>
-        <ul class="amenities">
+        <ul className="amenities">
             {list.map(item => (
-                (item == item.toLowerCase()) ? <li>{t("amenities_" + item)}{" "}</li> : <li>{item}</li>
+                <li key={item}>
+                    {(item == item.toLowerCase()) ? t("amenities_" + item) + " " : item}
+                </li>
             ))}
         </ul>
     </>;
@@ -48,13 +50,13 @@ class AccommodationCommonDetailsPart extends React.Component {
             description = decodeHtml(description);
 
             if (this.state.fullDescription)
-                return <div class="text" dangerouslySetInnerHTML={{__html: description}} />;
+                return <div className="text" dangerouslySetInnerHTML={{__html: description}} />;
 
-            return <div class="text">
-                <div class="cut">
+            return <div className="text">
+                <div className="cut">
                     <div dangerouslySetInnerHTML={{__html: description}} />
                 </div>
-                <span class="expand"
+                <span className="expand"
                       onClick={() => this.setState({ fullDescription: true })}>
                     {t("more...")}
                 </span>
@@ -62,18 +64,18 @@ class AccommodationCommonDetailsPart extends React.Component {
         };
 
         return (
-            <div class="details">
-                <div class="top">
-                    <div class="info">
-                        <div class="name">
+            <div className="details">
+                <div className="top">
+                    <div className="info">
+                        <div className="name">
                             {hotel.name} <Stars count={hotel.rating} />
                         </div>
-                        <div class="line">
-                            <span class="icon icon-small-pin" />
-                            <span class="subline">{hotel.location.address}, {hotel.location.locality}, {hotel.location.country}</span>
+                        <div className="line">
+                            <span className="icon icon-small-pin" />
+                            <span className="subline">{hotel.location.address}, {hotel.location.locality}, {hotel.location.country}</span>
                         </div>
-                        {hotel.contacts?.phone && <div class="line">
-                            <span class="icon icon-small-phone" />
+                        {hotel.contacts?.phone && <div className="line">
+                            <span className="icon icon-small-phone" />
                             {hotel.contacts.phone}
                         </div>}
                     </div>
