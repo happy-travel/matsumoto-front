@@ -13,7 +13,7 @@ class FullDeadline extends React.Component {
         }
 
         return (
-            <React.Fragment>
+            <>
                 <div class={"accent-frame information" + __class(warnAboutDeadlineIsNear, "warn", "ok")}>
                     <div class="before">
                         { warnAboutDeadlineIsNear ?
@@ -48,7 +48,7 @@ class FullDeadline extends React.Component {
                         ))}
                     </div>
                 </div> }
-            </React.Fragment>
+            </>
         );
     };
 }

@@ -16,11 +16,12 @@ export default api => {
         success,  // function(result)                  - Fires second on success
         error,    // function(error)                   - Fires second on error,
         after     // function(result, error, response) - Fires the last
-    }) => {
+    }) => new Promise((resolve, reject) => {
         Authorize.getUser().then(user => {
             if (!external_url && !user?.access_token) {
                 if (isPageAvailableAuthorizedOnly())
                     Authorize.signinRedirect();
+                reject();
                 return;
             }
 
@@ -65,8 +66,7 @@ export default api => {
                             if (text) {
                                 try {
                                     value = JSON.parse(text);
-                                }
-                                catch (e) {
+                                } catch (e) {
                                     value = text;
                                 }
                             }
@@ -74,6 +74,7 @@ export default api => {
                         });
                     },
                     error => {
+                        reject(error);
                         console.log("Fetch failed", error); //todo: handle
                     }
                 )
@@ -81,6 +82,7 @@ export default api => {
                     (result) => {
                         if ((rawResponse.status == 401) && isPageAvailableAuthorizedOnly()) {
                             Authorize.signinRedirect();
+                            reject(null);
                             return;
                         }
                         if (rawResponse.status == 403) {
@@ -89,6 +91,7 @@ export default api => {
                                 error(result);
                             if (after)
                                 after(null, null, rawResponse);
+                            reject(result);
                             return;
                         }
                         if (failed) {
@@ -104,47 +107,49 @@ export default api => {
                         if (after)
                             after(
                                 failed ? null : result,
-                                failed ? result :  null,
+                                failed ? result : null,
                                 rawResponse
                             );
+                        if (!failed)
+                            resolve(result);
+                        else
+                            reject(result);
                     },
                     (err) => {
                         if (error)
                             error(err);
                         if (after)
                             after(null, err, rawResponse);
+                        reject(err);
                     }
                 );
-        });
-    };
+            }
+        );
+    });
 
-    api.get = (params) => {
+    api.get = (params) =>
         api.request({
             method: "GET",
             ...params
-        })
-    };
+        });
 
-    api.post = (params) => {
+    api.post = (params) =>
         api.request({
             method: "POST",
             ...params
-        })
-    };
+        });
 
-    api.put = (params) => {
+    api.put = (params) =>
         api.request({
             method: "PUT",
             ...params
-        })
-    };
+        });
 
-    api.delete = (params) => {
+    api.delete = (params) =>
         api.request({
             method: "DELETE",
             ...params
-        })
-    };
+        });
 
     return api;
 };

@@ -12,7 +12,7 @@ const getTextByValue = (formik, id, options) => {
     if (formik && typeof value != "undefined")
         for (var i = 0; i < options.length; i++)
             if (options[i].value == value)
-                return <React.Fragment>{options[i].text}</React.Fragment>;
+                return options[i].text;
 
     return null;
 };

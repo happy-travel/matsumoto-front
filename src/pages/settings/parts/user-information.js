@@ -39,7 +39,7 @@ class UserInformation extends React.Component {
     render() {
         const { t } = useTranslation();
         return (
-            <React.Fragment>
+            <>
                 {this.state.loading && <Loader page />}
 
                 <h2><span class="brand">{t("Personal Information")}</span></h2>
@@ -65,7 +65,7 @@ class UserInformation extends React.Component {
                         </div>
                     )}
                 />
-            </React.Fragment>
+            </>
         );
     }
 }

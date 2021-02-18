@@ -13,12 +13,8 @@ class UserMenu extends React.Component {
 
         var userName = (authStore.user?.firstName || "") + " " + (authStore.user?.lastName || "");
         return (
-            <React.Fragment>
-                <Link to={
-                    authStore.permitted("AgencyBookingsManagement") ?
-                        "/agency/bookings" :
-                        "/agent/bookings"
-                } class="button transparent-with-border">
+            <>
+                <Link to="/bookings" class="button transparent-with-border">
                     {t("Bookings")}
                 </Link>
                 <Link to="/settings" class="switcher user-switcher">
@@ -41,7 +37,7 @@ class UserMenu extends React.Component {
                         </div>
                     </div>
                 </Link>
-            </React.Fragment>
+            </>
         );
     }
 }

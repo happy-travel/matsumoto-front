@@ -33,13 +33,15 @@ const userAuthSetDirectPayment = () => {
 const Authorized = () =>
     userAuthGetFromStorage() && (DIRECT_PAYMENT_ID != userAuthGetFromStorage());
 
-const PagesAvailableUnauthorized =
-    ["/contact", "/terms", "/signup/invite/", "/privacy", "/about", "/pay", "/logout"];
+const PagesAvailableUnauthorized = [
+    "/contact", "/terms", "/signup/invite/", "/privacy", "/about", "/logout",
+    "/pay/", "/pay/confirmation", "/payment/result", "/payments/callback"
+];
 
 const isSignUpRoutes = () => window.location.href.indexOf("/signup/") > -1;
 
 const isPageAvailableAuthorizedOnly = () => PagesAvailableUnauthorized.every(
-    item => window.location.href.indexOf(item) == -1
+    item => !window.location.href.includes(item)
 );
 
 export {

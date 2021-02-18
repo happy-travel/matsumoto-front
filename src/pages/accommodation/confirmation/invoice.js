@@ -1,13 +1,11 @@
-import React from 'react';
+import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { Loader, dateFormat, price } from "simple";
-
-import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
-
-const remapStatus = (status = "") => status.replace(/([A-Z])/g, " $1").trim();
+import { INVOICE_TYPES } from "enum";
+import { Loader, dateFormat, price, remapStatus } from "simple";
+import View, { MODALS } from "stores/view-store";
 
 @observer
 class AccommodationConfirmationInvoicePage extends React.Component {
@@ -19,14 +17,14 @@ class AccommodationConfirmationInvoicePage extends React.Component {
     }
 
     showSendModal = () => {
-        UI.setModal(
+        View.setModal(
             MODALS.SEND_INVOICE,
             {
                 type: INVOICE_TYPES.INVOICE,
                 bookingId: this.props.match?.params?.id
             }
         );
-    }
+    };
 
     render() {
         var { t } = useTranslation(),
@@ -43,7 +41,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
         return (
             <div class="invoice">
                 <div class="breadcrumbs no-print">
-                    <Link to={`/accommodation/confirmation/${this.props.match?.params?.id}`}>
+                    <Link to={`/booking/${data.referenceCode}`}>
                         <span class="small-arrow-left" /> Back to Booking Confirmation
                     </Link>
                 </div>
@@ -88,7 +86,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.invoiceItems?.map((item, index) => (
+                            {data.invoiceItems?.map(item => (
                                 <tr>
                                     <td>
                                         {item.mainPassengerFirstName} {item.mainPassengerLastName}

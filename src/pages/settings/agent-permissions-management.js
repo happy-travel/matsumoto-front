@@ -1,16 +1,13 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect } from "react-router-dom";
 import { Formik } from "formik";
-import { API } from "core";
-
+import { API, redirect } from "core";
 import { Loader, PassengerName } from "simple";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import SettingsHeader from "./parts/settings-header";
 import AgentMarkup from "./parts/agent-markup";
-
 import authStore from "stores/auth-store";
 
 const generateLabel = str => {
@@ -27,21 +24,14 @@ const generateLabel = str => {
 export default class AgentPermissionsManagement extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
+            loading: true,
             agent: {},
-            permissionsList: [],
-
-            redirectBack: false,
-            loading: true
+            permissionsList: []
         };
-
-        this.submit = this.submit.bind(this);
-        this.enable = this.enable.bind(this);
-        this.disable = this.disable.bind(this);
     }
 
-    enable() {
+    enable = () => {
         const { agentId } = this.props.match.params;
         API.post({
             url: API.AGENT_ENABLE(agentId),
@@ -52,9 +42,9 @@ export default class AgentPermissionsManagement extends React.Component {
                 }
             })
         });
-    }
+    };
 
-    disable() {
+    disable = () => {
         const { agentId } = this.props.match.params;
         API.post({
             url: API.AGENT_DISABLE(agentId),
@@ -65,7 +55,7 @@ export default class AgentPermissionsManagement extends React.Component {
                 }
             })
         });
-    }
+    };
 
     componentDidMount() {
         if (this.props.match?.params) {
@@ -85,7 +75,7 @@ export default class AgentPermissionsManagement extends React.Component {
         }
     }
 
-    submit(values) {
+    submit = (values) => {
         this.setState({ loading: true });
 
         var { agentId } = this.props.match.params,
@@ -95,7 +85,7 @@ export default class AgentPermissionsManagement extends React.Component {
         API.put({
             url,
             body,
-            success: () => this.setState({ redirectBack: true }),
+            success: () => redirect("/settings/agents"),
             after: () => this.setState({ loading: false })
         });
     };
@@ -104,9 +94,6 @@ export default class AgentPermissionsManagement extends React.Component {
         var { t } = useTranslation(),
             { agent, permissionsList, loading } = this.state,
             { inAgencyPermissions } = agent;
-
-        if (this.state.redirectBack)
-            return <Redirect push to="/settings/agents" />;
 
         return (
         <div class="settings block">

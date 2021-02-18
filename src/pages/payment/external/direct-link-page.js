@@ -1,62 +1,98 @@
 import React from "react";
 import settings from "settings";
-import { API } from "core";
-import { windowSessionStorage } from "core/misc/window-storage";
+import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
+import { API, redirect } from "core";
+import { Loader, dateFormat } from "simple";
+import { windowLocalStorage } from "core/misc/window-storage";
 import { userAuthSetDirectPayment } from "core/auth";
-import PaymentPage from "../payment";
+import {useTranslation} from "react-i18next";
+import PaymentForm from "../parts/payment-form";
+import ReactTooltip from "react-tooltip";
+import { payDirectByForm } from "tasks/payment/direct/direct-processing";
+import { loadDirectPaymentServiceData } from "tasks/payment/direct/direct-service";
+import paymentStore from "stores/payment-store";
 
-class PaymentDirectLinkPage extends PaymentPage {
+@observer
+class PaymentDirectLinkPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ...this.state,
-            direct: true,
-            orderCode: null,
-            loading: true
+            order: null
         };
     }
 
-    componentDidMount() {
-        var orderCode = this.props.match.params.code;
-        this.setState({ order_code: orderCode });
-        API.get({
-            external_url: API.DIRECT_LINK_PAY.SETTINGS,
-            after: data => {
-                this.setState({
-                    service: {
-                        ...this.state.service,
-                        access_code         : data.accessCode,
-                        merchant_identifier : data.merchantIdentifier,
-                    },
-                    request_url: data.tokenizationUrl
-                });
-            }
+    async componentDidMount() {
+        const orderCode = this.props.match.params.code;
+        const [service, order] = await Promise.all([
+            loadDirectPaymentServiceData(),
+            API.get({
+                external_url: API.DIRECT_LINK_PAY.GET_INFO(orderCode),
+                error: () => this.setState({ loading: false })
+            })
+        ]);
+        paymentStore.setSubject(order.referenceCode, {
+            amount: order.amount,
+            currency: order.currency
         });
-        API.get({
-            external_url: API.DIRECT_LINK_PAY.GET_INFO(orderCode),
-            after: result => {
-                if (!result) {
-                    this.setState({
-                        loading: false
-                    });
-                    return;
-                }
-                windowSessionStorage.set(result.referenceCode, orderCode);
-                this.setState({
-                    loading: false,
-                    amount: result.amount,
-                    currency: result.currency,
-                    comment: result.comment,
-                    status: result.creditCardPaymentStatus,
-                    service: {
-                        ...this.state.service,
-                        return_url: settings.payment_callback_host + "/payment/result/" + result.referenceCode
-                    }
-                });
-            }
-        });
-
+        paymentStore.setService(
+            service,
+            `${settings.direct_payment_callback_host}/payment/result/${order.referenceCode}`
+        );
         userAuthSetDirectPayment();
+        windowLocalStorage.set(order.referenceCode, orderCode);
+
+        if ("Success" == order.creditCardPaymentStatus) {
+            paymentStore.setPaymentResult("Success");
+            redirect("/pay/confirmation");
+            return;
+        }
+
+        this.setState({
+            loading: false,
+            order
+        });
+    }
+
+    render() {
+        const { t } = useTranslation();
+        const { order } = this.state;
+
+        return (
+            <>
+                <header>
+                    <section>
+                        <div class="logo-wrapper">
+                            <Link to="/" class="logo" />
+                        </div>
+                    </section>
+                </header>
+                { !order ?
+                    <Loader /> :
+                    <div class="confirmation block payment">
+                        <section class="double-sections">
+                            <div class="middle-section">
+                                <h2>
+                                    Payment order {order.referenceCode} {dateFormat.b(order.date)}
+                                </h2>
+                                <p class="remark">
+                                    {order.comment.split('\n').map(line => <>{line}<br/></>)}
+                                </p>
+                                <h2 class="payment-title">
+                                    {t("Please Enter Your Card Details")}
+                                </h2>
+                                <PaymentForm
+                                    pay={payDirectByForm}
+                                    total={paymentStore.subject.price}
+                                    hideCardSaveCheckbox
+                                />
+                            </div>
+                        </section>
+                        <ReactTooltip place="top" type="dark" effect="solid" />
+                    </div>
+                }
+            </>
+        );
     }
 
 }

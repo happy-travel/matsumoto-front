@@ -1,16 +1,13 @@
-import React from 'react';
+import React from "react";
 import { observer } from "mobx-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import {
-    Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat
-} from "simple";
-
+import { INVOICE_TYPES } from "enum";
+import { Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat } from "simple";
 import Map from "components/map";
-
-import UI, { MODALS, INVOICE_TYPES } from "stores/ui-store";
+import View, { MODALS } from "stores/view-store";
 
 @observer
 class AccommodationConfirmationVoucherPage extends React.Component {
@@ -22,7 +19,7 @@ class AccommodationConfirmationVoucherPage extends React.Component {
     }
 
     showSendModal = () => {
-        UI.setModal(
+        View.setModal(
             MODALS.SEND_INVOICE,
             {
                 type: INVOICE_TYPES.VOUCHER,
@@ -43,7 +40,7 @@ class AccommodationConfirmationVoucherPage extends React.Component {
         return (
             <div class="invoice">
                 <div class="breadcrumbs no-print">
-                    <Link to={`/accommodation/confirmation/${voucher.bookingId}`}>
+                    <Link to={`/booking/${voucher.referenceCode}`}>
                         <span class="small-arrow-left" /> Back to Booking Confirmation
                     </Link>
                 </div>

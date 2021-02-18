@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Tiles from 'components/tiles';
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,6 @@ render () {
         return <Loader white page />;
 
     return (
-    <React.Fragment>
         <div class="tiles block">
             <section>
                 <h1><span class="brand">{t("Countries & Hotels")}</span></h1>
@@ -77,8 +76,7 @@ render () {
                 ]} />
             </section>
         </div>
-    </React.Fragment>
-);
+    );
 }
 }
 

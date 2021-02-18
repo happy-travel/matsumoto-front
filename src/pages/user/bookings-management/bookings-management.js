@@ -2,20 +2,17 @@ import React from "react";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect } from "react-router-dom";
-import { API } from "core";
+import { API, redirect } from "core";
 import Table from "components/table";
 import { Columns, Sorters, Searches } from "./table-data";
 import store from "stores/accommodation-store";
 import authStore from "stores/auth-store";
 
-//todo : remove code duplicates
 @observer
 class AgencyBookingsManagementPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToBookingConfirmationId: null,
             filter_tab: null,
             agentIdFilter: null
         };
@@ -46,14 +43,12 @@ class AgencyBookingsManagementPage extends React.Component {
         var { t } = useTranslation();
         var {
             filter_tab,
-            redirectToBookingConfirmationId,
             agentIdFilter
         } = this.state;
 
-        if (redirectToBookingConfirmationId !== null)
-            return <Redirect push to={"/accommodation/confirmation/" + redirectToBookingConfirmationId} />;
+        const permittedAgency = authStore.permitted("AgencyBookingsManagement");
 
-        var Tab = ({ text, value }) => (
+        const Tab = ({ text, value }) => (
             <li>
                 <div
                     class={"item" + __class(value == filter_tab, "active")}
@@ -64,7 +59,7 @@ class AgencyBookingsManagementPage extends React.Component {
             </li>
         );
 
-        var filter = list => {
+        const filter = list => {
             var result;
 
             if ("Cancelled" == filter_tab)
@@ -89,7 +84,7 @@ class AgencyBookingsManagementPage extends React.Component {
             <div class="management block">
                 <section>
                     <h2>
-                        {t("Agency Bookings")}
+                        { permittedAgency ? t("Agency Bookings") : t("Bookings") }
                     </h2>
                 </section>
                 <div class="head-nav">
@@ -104,25 +99,26 @@ class AgencyBookingsManagementPage extends React.Component {
                 </div>
                 <section class="content agency">
                     <Table
-                        columns={Columns(t, this.setAgentIdFilter)}
+                        columns={Columns(permittedAgency)(t, this.setAgentIdFilter)}
                         list={store.userBookingList}
                         textEmptyResult={t("No reservations found")}
                         textEmptyList={t("You don`t have any reservations")}
-                        onRowClick={item => this.setState({ redirectToBookingConfirmationId: item.id })}
+                        onRowClick={item => redirect(`/booking/${item.referenceCode}`)}
                         filter={filter}
-                        sorters={Sorters(t)}
-                        searches={Searches}
+                        sorters={Sorters(permittedAgency)(t)}
+                        searches={Searches(permittedAgency)}
                         CustomFilter={
-                            <div class="user-filter">
-                                {agentIdFilter ?
-                                    <div class="button-clear" onClick={
-                                        () => this.setAgentIdFilter(null)
-                                    }>{t("Show all agents bookings")}</div> :
-                                    <div class="blue" onClick={
-                                        () => this.setAgentIdFilter(authStore.user.id)
-                                    }>{t("Show only my bookings")}</div>
-                                }
-                            </div>
+                            permittedAgency &&
+                                <div class="user-filter">
+                                    {agentIdFilter ?
+                                        <div class="button-clear" onClick={
+                                            () => this.setAgentIdFilter(null)
+                                        }>{t("Show all agents bookings")}</div> :
+                                        <div class="blue" onClick={
+                                            () => this.setAgentIdFilter(authStore.user.id)
+                                        }>{t("Show only my bookings")}</div>
+                                    }
+                                </div>
                         }
                     />
                 </section>

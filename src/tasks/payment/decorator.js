@@ -51,22 +51,6 @@ export const decorateExpirationDate = (e) => {
     e.target.dataset.previous = e.target.value;
 };
 
-export const postVirtualForm = (path, values) => {
-    var form = document.createElement("form");
-    form.setAttribute("method", "POST");
-    form.setAttribute("action", path);
-    for (var key in values)
-        if (values.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", values[key]);
-            form.appendChild(hiddenField);
-        }
-    document.body.appendChild(form);
-    form.submit();
-};
-
 export const formatExpiryDate = (values) => {
     var value = expirationDate(values.expiry_date),
         MM = value.month,

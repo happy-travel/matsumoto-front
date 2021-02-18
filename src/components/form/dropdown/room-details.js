@@ -3,8 +3,7 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { FieldText } from "components/form";
 import { FieldArray } from "formik";
-
-import UI, { MODALS } from "stores/ui-store";
+import View, { MODALS } from "stores/view-store";
 
 const
     MAXIMUM_PEOPLE_PER_REQUEST = 9,
@@ -48,7 +47,7 @@ const
             ("rooms" == field && currentRooms == MAXIMUM_ROOMS_PER_REQUEST) ||
             ("rooms" != field && currentPeople == MAXIMUM_PEOPLE_PER_REQUEST)
         )) {
-            UI.setModal(MODALS.SEARCH_OVERLOAD);
+            View.setModal(MODALS.SEARCH_OVERLOAD);
             return;
         }
 
@@ -112,7 +111,7 @@ class PeopleDropdown extends React.Component {
                 <FieldArray
                     render={() => (
                         formik.values.roomDetails.map((room, number) => (
-                            <React.Fragment>
+                            <>
                                 {(formik.values.roomDetails.length > 1) && <h3>Room {number+1} Settings</h3>}
                                 <Row t={t}
                                      formik={formik}
@@ -164,7 +163,7 @@ class PeopleDropdown extends React.Component {
                                         </div>
                                     </div>
                                 }
-                            </React.Fragment>
+                            </>
                         ))
                     )}
                 />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { observer } from "mobx-react";
 
 import CancellationConfirmationModal from "parts/modals/cancellation";
@@ -7,7 +7,7 @@ import SearchOverloadModal from "parts/modals/search-overload";
 import ReportDuplicateModal from "parts/modals/duplicate";
 import ReadOnlyModal from "parts/modals/read-only";
 
-import UI, { MODALS } from "stores/ui-store";
+import View, { MODALS } from "stores/view-store";
 
 const modalComponent = {
     [MODALS.CANCELLATION_CONFIRMATION]: CancellationConfirmationModal,
@@ -19,10 +19,10 @@ const modalComponent = {
 
 @observer
 class Index extends React.Component {
-    closeModal = () => UI.setModal(null)
+    closeModal = () => View.setModal(null);
 
     render() {
-        var Content = modalComponent[UI.modal];
+        var Content = modalComponent[View.modal];
 
         if (!Content)
             return null;

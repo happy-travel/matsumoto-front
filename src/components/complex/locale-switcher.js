@@ -14,17 +14,19 @@ class LocaleSwitcherDropdown extends React.Component {
         const { t, i18n } = useTranslation();
 
         return (
-            <React.Fragment>
-                <div class="switcher language-switcher"
-                     data-dropdown={dropdownId}
-                     onClick={() => View.setOpenDropdown(dropdownId)}>
-                    <div class="flag-holder">
-                        <Flag language={i18n.language} />
-                    </div>
-                    <div class="name">{t("current_language_name")}</div>
-                    <div class="switch-arrow" />
+            <div
+                class="switcher language-switcher"
+                data-dropdown={dropdownId}
+                onClick={() => View.setOpenDropdown(dropdownId)}
+            >
+                <div class="flag-holder">
+                    <Flag language={i18n.language} />
+                </div>
+                <div class="name">{t("current_language_name")}</div>
+                <div class="switch-arrow" />
 
-                    {View.isDropdownOpen(dropdownId) && <div class="locale dropdown">
+                { View.isDropdownOpen(dropdownId) &&
+                    <div class="locale dropdown">
                         <div class="item" onClick={switchLocale.bind(null, "ar")}>
                             <Flag language="ar" />
                             <span>اللغة الحالية</span>
@@ -33,9 +35,9 @@ class LocaleSwitcherDropdown extends React.Component {
                             <Flag language="en" />
                             <span>English</span>
                         </div>
-                    </div>}
-                </div>
-            </React.Fragment>
+                    </div>
+                }
+            </div>
         );
     }
 }

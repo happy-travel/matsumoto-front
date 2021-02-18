@@ -8,11 +8,6 @@ import {
     generateSorterLine
 } from "tasks/utils/accommodation-filtering";
 
-export const PAYMENT_METHODS = {
-    CARD: "CreditCard",
-    ACCOUNT: "BankTransfer"
-};
-
 class AccommodationStore {
     @observable
     search = {
@@ -40,7 +35,6 @@ class AccommodationStore {
     booking = {
         request: {},
         result: null,
-        referenceCode: null,
         selected: {}
     };
 
@@ -60,19 +54,8 @@ class AccommodationStore {
     userBookingList = null;
 
     @observable
-    paymentResult = {};
-
-    @observable
-    @setter
-    paymentMethod = PAYMENT_METHODS.CARD;
-
-    @observable
     @setter
     secondStepState = null;
-
-    @observable
-    @setter
-    bookingToPay = null; // todo: refactor, it's temporary decision
 
     constructor() {
         autosave(this, "_accommodation_store_cache");
@@ -155,36 +138,10 @@ class AccommodationStore {
         };
         this.booking.request = null;
         this.booking.result = null;
-        this.paymentResult = {};
     }
 
     setBookingRequest(request) {
         this.booking.request = request;
-    }
-
-    setBookingReferenceCode(result) {
-        this.booking.referenceCode = result || null;
-    }
-
-    setBookingResult(result, data, err) {
-        this.booking.result =
-            ( null !== result && data?.status != 200 )
-                ? { error: data?.detail || err?.message || true }
-                : result;
-    }
-
-    setUpdatedBookingStatus(value) {
-        this.booking.result.bookingDetails.status = value;
-    }
-
-    setPaymentResult(result) {
-        this.paymentResult = result;
-        if (!result)
-            return;
-        if (this.paymentResult.result == "Failed")
-            this.paymentResult.error = true;
-        if (result.params.response_message)
-            this.paymentResult.params_error = (result.params.response_message != "Success");
     }
 
     @computed get filtersLine() {

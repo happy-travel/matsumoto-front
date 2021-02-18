@@ -117,37 +117,35 @@ class InvitationSendPage extends React.Component {
                 validationSchema={registrationUserValidatorWithEmail}
                 onSubmit={this.submit}
                 render={formik => (
-                    <React.Fragment>
-                        <div class="form">
-                            <div class="row">
-                                <FieldText formik={formik}
-                                    id="email"
-                                    label={t("Email")}
-                                    placeholder={t("Email")}
-                                    required
-                                />
-                            </div>
-                            <FormUserData formik={formik} t={t} />
-                            <div class="row submit-holder">
-                                <div class="field">
-                                    <div class="inner">
-                                        <button onClick={() => this.submitButtonClick(true, formik)}
-                                                class={"button" + __class(!formik.isValid, "disabled")}>
-                                            {t("Send Invitation")}
-                                        </button>
-                                    </div>
+                    <div class="form">
+                        <div class="row">
+                            <FieldText formik={formik}
+                                id="email"
+                                label={t("Email")}
+                                placeholder={t("Email")}
+                                required
+                            />
+                        </div>
+                        <FormUserData formik={formik} t={t} />
+                        <div class="row submit-holder">
+                            <div class="field">
+                                <div class="inner">
+                                    <button onClick={() => this.submitButtonClick(true, formik)}
+                                            class={"button" + __class(!formik.isValid, "disabled")}>
+                                        {t("Send Invitation")}
+                                    </button>
                                 </div>
-                                <div class="field">
-                                    <div class="inner">
-                                        <button onClick={() => this.submitButtonClick(false, formik)}
-                                                class={"button" + __class(!formik.isValid, "disabled")}>
-                                            {t("Generate Invitation Link")}
-                                        </button>
-                                    </div>
+                            </div>
+                            <div class="field">
+                                <div class="inner">
+                                    <button onClick={() => this.submitButtonClick(false, formik)}
+                                            class={"button" + __class(!formik.isValid, "disabled")}>
+                                        {t("Generate Invitation Link")}
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </React.Fragment>
+                    </div>
                 )}
             /> }
         </section>

@@ -1,11 +1,12 @@
 import React from "react";
 import { API } from "core";
+import { INVOICE_TYPES } from "enum";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { emailFormValidator } from "components/form/validation";
-
-import UI, { INVOICE_TYPES } from "stores/ui-store";
+import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 @observer
 class SendInvoiceModal extends React.Component {
@@ -22,13 +23,13 @@ class SendInvoiceModal extends React.Component {
 
     componentDidMount() {
         API.get({
-            url: API.BOOKING_GET_BY_ID(UI.modalData.bookingId),
+            url: API.BOOKING_GET_BY_ID(View.modalData.bookingId),
             success: booking => this.setState({ booking })
         });
     }
 
     submit(values) {
-        var { bookingId, type } = UI.modalData;
+        var { bookingId, type } = View.modalData;
         this.setState({
             loading: true
         });
@@ -55,7 +56,7 @@ class SendInvoiceModal extends React.Component {
 
     render() {
         var { t } = useTranslation(),
-            { type } = UI.modalData,
+            { type } = View.modalData,
             { closeModal } = this.props,
             { error, success, loading, booking } = this.state;
 
@@ -69,12 +70,13 @@ class SendInvoiceModal extends React.Component {
 
                 { error && <div>{t("An error occured")}</div>}
 
-                { success && <div>{
-                                type == INVOICE_TYPES.VOUCHER
-                                    ? t("Booking voucher has been sent")
-                                    : t("Booking invoice has been sent")
-                                }
-                </div>}
+                { success &&
+                    <div>{
+                        type == INVOICE_TYPES.VOUCHER
+                            ? t("Booking voucher has been sent")
+                            : t("Booking invoice has been sent")
+                    }</div>
+                }
 
                 { loading && <div>{t("Loading...")}</div>}
 
@@ -85,7 +87,7 @@ class SendInvoiceModal extends React.Component {
                         validationSchema={emailFormValidator}
                         onSubmit={this.submit}
                         render={formik => (
-                            <React.Fragment>
+                            <>
                                 <div class="form">
                                     <p>
                                         {t("Enter email to receive information about booking")} <br/>
@@ -103,7 +105,7 @@ class SendInvoiceModal extends React.Component {
                                         </button>
                                     </div>
                                 </div>
-                            </React.Fragment>
+                            </>
                         )}
                     />
                 }

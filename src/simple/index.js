@@ -5,7 +5,6 @@ import { Loader }       from "./components/loader";
 import { MealPlan }     from "./components/meal-plan";
 import { RoomPrices }   from "./components/room-prices";
 import { Stars }        from "./components/stars";
-import { StaticHeader } from "./components/static-header";
 
 import { hotelStars }   from "./const/hotel-stars";
 
@@ -15,6 +14,7 @@ import { Highlighted }  from "./formatters/highlighted";
 import { PassengersCount, PassengerName } from "./formatters/passengers";
 import { price }        from "./formatters/price";
 import { GroupRoomTypesAndCount } from "./formatters/room-types";
+import { remapStatus } from "./formatters/remap-status";
 
 export {
     Dual,
@@ -24,7 +24,6 @@ export {
     MealPlan,
     RoomPrices,
     Stars,
-    StaticHeader,
 
     hotelStars,
 
@@ -34,5 +33,6 @@ export {
     price,
     GroupRoomTypesAndCount,
     PassengersCount,
-    PassengerName
+    PassengerName,
+    remapStatus
 };

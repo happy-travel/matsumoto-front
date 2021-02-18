@@ -1,14 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { API } from "core";
+import { API, redirect } from "core";
 import { FieldText } from "components/form";
-
 import { Loader, PassengerName } from "simple";
 import { copyToClipboard } from "simple/logic";
 import SettingsHeader from "pages/settings/parts/settings-header";
-
 import authStore from "stores/auth-store";
 import Notifications from "stores/notifications-store";
 
@@ -52,16 +50,16 @@ class InvitationResendPage extends React.Component {
                 Notifications.addNotification(error?.title || error?.detail || error);
             }
         });
-    }
+    };
 
     disable = () => {
         var { id } = this.state;
 
         API.post({
             url: API.AGENT_INVITE_DISABLE(id),
-            success: () => this.setState({ redirect: "/settings/invitations" })
+            success: () => redirect("/settings/invitations")
         });
-    }
+    };
 
     generate = () => {
         var { invitation, id } = this.state;
@@ -69,21 +67,18 @@ class InvitationResendPage extends React.Component {
         this.setState({
             success: window.location.origin + "/signup/invite/" + invitation.email + "/" + id
         });
-    }
+    };
 
     render() {
         var { t } = useTranslation(),
             { invitation } = this.state;
-
-        if (this.state.redirect)
-            return <Redirect push to={this.state.redirect}/>;
 
         return (
     <div class="settings block">
         <SettingsHeader />
         <section>
             <h2><span class="brand">{t("Invitation Information")}</span></h2>
-            { !invitation ? <Loader /> : <React.Fragment>
+            { !invitation ? <Loader /> : <>
                 <div class="row">
                     <b>{t("Agent")}</b>:{" "}
                     {PassengerName({ passenger: invitation })}
@@ -105,7 +100,7 @@ class InvitationResendPage extends React.Component {
                     {invitation.created}
                 </div>
 
-                { false === this.state.success && <React.Fragment>
+                { false === this.state.success && <>
                     <div class="row submit-holder">
                         <button onClick={this.disable} class="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
                             {t("Disable Invitation")}
@@ -117,8 +112,8 @@ class InvitationResendPage extends React.Component {
                             {t("Generate Invitation Link")}
                         </button>
                     </div>
-                </React.Fragment> }
-            </React.Fragment> }
+                </> }
+            </> }
 
             { this.state.success && <div>
                 {this.state.success === true ?

@@ -1,19 +1,15 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect } from "react-router-dom";
-import { API } from "core";
+import { API, redirect } from "core";
 import { userAuthSetToStorage } from "core/auth";
 import { getInvite, forgetInvite } from "core/auth/invite";
-
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import { CachedForm } from "components/form";
 import { registrationUserValidator } from "components/form/validation";
 import { fillEmptyUserSettings } from "simple/logic";
-
 import FormUserData from "parts/form-user-data";
-
 import store from "stores/auth-store";
 import Notifications from "stores/notifications-store";
 
@@ -38,8 +34,6 @@ class RegistrationAgent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToThirdStep: false,
-            redirectToIndexPage: false,
             initialValues: {
                 "title": "",
                 "firstName": "",
@@ -64,18 +58,16 @@ class RegistrationAgent extends React.Component {
                 },
                 success: () => {
                     finishAgentRegistration();
-                    this.setState({ redirectToIndexPage: true });
+                    redirect("/");
                 },
                 error: error => {
                     Notifications.addNotification(error?.title || error?.detail);
                     if (error && !(error?.title || error?.detail))
-                        this.setState({ redirectToIndexPage: true });
+                        redirect("/");
                 }
             });
-        } else if (!this.state.redirectToThirdStep)
-            this.setState({
-                redirectToThirdStep: true
-            });
+        } else
+            redirect("/signup/counterparty");
     }
 
     componentDidMount() {
@@ -94,12 +86,6 @@ class RegistrationAgent extends React.Component {
 
     render() {
         var { t } = useTranslation();
-
-        if (this.state.redirectToThirdStep)
-            return <Redirect push to="/signup/counterparty" />;
-
-        if (this.state.redirectToIndexPage)
-            return <Redirect push to="/" />;
 
         var actionSteps = [t("Login Information"), t("Agent Information")];
         if (!this.state.invitationCode)
@@ -142,22 +128,20 @@ class RegistrationAgent extends React.Component {
             validationSchema={registrationUserValidator}
             onSubmit={this.submit}
             render={formik => (
-                <React.Fragment>
-                    <div class="form">
-                        <FormUserData formik={formik} t={t} />
-                        <div class="row submit-holder">
-                            <div class="field">
-                                <div class="inner">
-                                    <button type="submit" class="button">
-                                        { this.state.invitationCode ?
-                                            t("Finish Registration") :
-                                            t("Continue Registration")}
-                                    </button>
-                                </div>
+                <div class="form">
+                    <FormUserData formik={formik} t={t} />
+                    <div class="row submit-holder">
+                        <div class="field">
+                            <div class="inner">
+                                <button type="submit" class="button">
+                                    { this.state.invitationCode ?
+                                        t("Finish Registration") :
+                                        t("Continue Registration")}
+                                </button>
                             </div>
                         </div>
                     </div>
-                </React.Fragment>
+                </div>
             )}
         />
         </div>

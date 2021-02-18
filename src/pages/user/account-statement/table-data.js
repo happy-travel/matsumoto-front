@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { dateFormat, price, PassengerName } from "simple";
+import { dateFormat, price, remapStatus } from "simple";
 
 const getClassByStatus = status => ({
     //todo: fill
 }[status] || "");
-
-const remapStatus = (status = "") => status.replace(/([A-Z])/g, " $1");
 
 export const Columns = t => [
     {
@@ -23,7 +21,7 @@ export const Columns = t => [
     },
     {
         header: t("Reference code"),
-        cell: row => <Link class="link" to={`/accommodation/confirmation/${row.bookingId}`}>
+        cell: row => <Link class="link" to={`/booking/${row.referenceCode}`}>
                          {row.referenceCode}
                      </Link>
     },

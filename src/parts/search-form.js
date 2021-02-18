@@ -2,61 +2,38 @@ import React from "react";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-
-import { Redirect } from "react-router-dom";
+import { redirect } from "core";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import FieldCountry, { searchFormSetDefaultCountries } from "components/complex/field-country";
 import FieldDestination from "components/complex/field-destination";
 import FieldDatepicker from "components/complex/field-datepicker";
 import { accommodationSearchValidator } from "components/form/validation";
-
 import PeopleDropdown from "components/form/dropdown/room-details";
-
 import { searchCreate } from "tasks/accommodation/search-create";
 import { countPassengers } from "simple/logic";
-
-import View from "stores/view-store";
-import UI, { MODALS } from "stores/ui-store";
+import View, { MODALS } from "stores/view-store";
 import authStore from "stores/auth-store";
 
 @observer
 class AccommodationSearch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            redirectToSearchResultsPage: false
-        };
-        this.submit = this.submit.bind(this);
-    }
-
-    submit(values, formik) {
+    submit = (values, formik) => {
         View.setOpenDropdown(null);
         if (values.predictionDestination != values.destination)
             formik.setFieldValue("destination", values.predictionDestination);
 
         if (!authStore.permitted("AccommodationAvailabilitySearch"))
-            return UI.setModal(MODALS.READ_ONLY);
+            return View.setModal(MODALS.READ_ONLY);
 
         searchCreate(values);
 
-        this.setState({
-            redirectToSearchResultsPage: true
-        });
-    }
-
-    componentDidUpdate() {
-        if (this.state.redirectToSearchResultsPage)
-            this.setState({
-                redirectToSearchResultsPage: false
-            }); // prevent redirection circle
-    }
+        redirect("/search");
+    };
 
     render() {
         var { t } = useTranslation();
 
         return (
             <div class="search block" style={{paddingBottom: "58px"}}>
-                { this.state.redirectToSearchResultsPage && <Redirect to="/search"/> }
                 <section>
                     <div class="hide">{JSON.stringify(authStore.settings)}</div>
                     <CachedForm
@@ -79,51 +56,56 @@ class AccommodationSearch extends React.Component {
                         onSubmit={this.submit}
                         enableReinitialize={true}
                         render={formik => (
-                            <React.Fragment>
+                            <>
                                 <div class="form">
                                     <div class="row">
-                                        <FieldDestination formik={formik}
-                                                          id="destination"
-                                                          label={t("Destination, Hotel Name, Location or Landmark")}
-                                                          placeholder={t("Choose your Destination, Hotel Name, Location or Landmark")}
+                                        <FieldDestination
+                                            formik={formik}
+                                            id="destination"
+                                            label={t("Destination, Hotel Name, Location or Landmark")}
+                                            placeholder={t("Choose your Destination, Hotel Name, Location or Landmark")}
                                         />
-                                        <FieldDatepicker formik={formik}
-                                                         id="dates"
-                                                         first="checkInDate"
-                                                         second="checkOutDate"
-                                                         label={t("Check In - Check Out")}
-                                                         placeholder={t("Choose date")}
+                                        <FieldDatepicker
+                                            formik={formik}
+                                            id="dates"
+                                            first="checkInDate"
+                                            second="checkOutDate"
+                                            label={t("Check In - Check Out")}
+                                            placeholder={t("Choose date")}
                                         />
-                                        <FieldText formik={formik}
-                                                   id="room"
-                                                   label={t("Adults, Children, Rooms")}
-                                                   placeholder={t("Choose options")}
-                                                   Icon={<span class="icon icon-arrows-expand"/>}
-                                                   addClass="size-medium"
-                                                   Dropdown={PeopleDropdown}
-                                                   value={[
-                                                       __plural(t, countPassengers(formik.values, "adultsNumber"), "Adult"),
-                                                       __plural(t, countPassengers(formik.values, "childrenNumber"), "Children"),
-                                                       __plural(t, formik.values.roomDetails.length, "Room")
-                                                   ].join(" • ")}
+                                        <FieldText
+                                            formik={formik}
+                                            id="room"
+                                            label={t("Adults, Children, Rooms")}
+                                            placeholder={t("Choose options")}
+                                            Icon={<span class="icon icon-arrows-expand"/>}
+                                            addClass="size-medium"
+                                            Dropdown={PeopleDropdown}
+                                            value={[
+                                                __plural(t, countPassengers(formik.values, "adultsNumber"), "Adult"),
+                                                __plural(t, countPassengers(formik.values, "childrenNumber"), "Children"),
+                                                __plural(t, formik.values.roomDetails.length, "Room")
+                                            ].join(" • ")}
                                         />
                                     </div>
                                     <div class="row">
-                                        <FieldCountry formik={formik}
-                                                      id="nationality"
-                                                      anotherField="residency"
-                                                      label={t("Nationality")}
-                                                      placeholder={t("Choose your nationality")}
-                                                      addClass="size-large"
-                                                      clearable
+                                        <FieldCountry
+                                            formik={formik}
+                                            id="nationality"
+                                            anotherField="residency"
+                                            label={t("Nationality")}
+                                            placeholder={t("Choose your nationality")}
+                                            addClass="size-large"
+                                            clearable
                                         />
-                                        <FieldCountry formik={formik}
-                                                      id="residency"
-                                                      anotherField="nationality"
-                                                      label={t("Residency")}
-                                                      placeholder={t("Choose your residency")}
-                                                      addClass="size-large"
-                                                      clearable
+                                        <FieldCountry
+                                            formik={formik}
+                                            id="residency"
+                                            anotherField="nationality"
+                                            label={t("Residency")}
+                                            placeholder={t("Choose your residency")}
+                                            addClass="size-large"
+                                            clearable
                                         />
                                         <div class="field">
                                             <div class="label"/>
@@ -135,7 +117,7 @@ class AccommodationSearch extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                            </React.Fragment>
+                            </>
                         )}
                     />
                 </section>

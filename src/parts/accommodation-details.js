@@ -10,14 +10,14 @@ const Amenities = ({ hotel, t }) => {
 
     var list = hotel.accommodationAmenities;
 
-    return <React.Fragment>
+    return <>
         <h2>{t("Accommodation Amenities")}</h2>
         <ul class="amenities">
             {list.map(item => (
                 (item == item.toLowerCase()) ? <li>{t("amenities_" + item)}{" "}</li> : <li>{item}</li>
             ))}
         </ul>
-    </React.Fragment>;
+    </>;
 };
 
 const descriptionLength = 450,

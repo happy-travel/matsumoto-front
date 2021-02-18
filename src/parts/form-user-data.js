@@ -4,7 +4,7 @@ import { FieldText, FieldSelect } from "components/form";
 export default ({
     formik, t
 }) => (
-    <React.Fragment>
+    <>
         <div class="row">
             <FieldSelect formik={formik}
                 id="title"
@@ -43,5 +43,5 @@ export default ({
                 required
             />
         </div>
-    </React.Fragment>
+    </>
 );

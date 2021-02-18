@@ -9,7 +9,7 @@ const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
     return (
         <div class="breadcrumbs">
             { items.map((item, index) => (
-                <React.Fragment>
+                <>
                     { item.link ?
                         <Link to={item.link}>
                             {item.text}
@@ -19,7 +19,7 @@ const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
                     }
                     { index+1 < items.length ? <span class="small-arrow-right" /> : ' '}
                     {' '}
-                </React.Fragment>
+                </>
             )) }
             {!noBackButton && (
                 backLink ?

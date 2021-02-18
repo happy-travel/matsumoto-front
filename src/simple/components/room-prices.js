@@ -6,15 +6,11 @@ export const RoomPrices = ({ t, prices }) => {
         return null;
 
     if (prices.length == 1 || !prices[0].fromDate)
-        return <React.Fragment>
-            {price(prices[0].finalPrice)}
-        </React.Fragment>;
+        return price(prices[0].finalPrice);
 
-    return <React.Fragment>
-        {prices.map(item => (
-            <div>
-                {dateFormat.c(item.fromDate)} – {dateFormat.c(item.toDate)}: {price(item.finalPrice)}
-            </div>
-        ))}
-    </React.Fragment>;
+    return prices.map(item => (
+        <div>
+            {dateFormat.c(item.fromDate)} – {dateFormat.c(item.toDate)}: {price(item.finalPrice)}
+        </div>
+    ));
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { dateFormat, price, PassengerName } from "simple";
+import { dateFormat, price, PassengerName, remapStatus } from "simple";
 
 const getClassByStatus = status => ({
     "Confirmed": "green",
@@ -7,12 +7,8 @@ const getClassByStatus = status => ({
     "Cancelled": "gray"
 }[status] || "");
 
-const remapStatus = (status = "") => ({
-    "WaitingForResponse" : "Awaiting Final Confirmation"
-}[status] || status.replace(/([A-Z])/g, " $1"));
-
-export const Columns = (t, setAgentIdFilter) => [
-    {
+export const Columns = (permittedAgency) => (t, setAgentIdFilter) => [
+    ...(permittedAgency ? [{
         header: t("Agent"),
         cell: row => (
             <span class="link" onClick={(event) => {
@@ -23,7 +19,7 @@ export const Columns = (t, setAgentIdFilter) => [
                 {row.agent?.firstName} {row.agent?.lastName}
             </span>
         ),
-    },
+    }] : []),
     {
         header: t("Reference code"),
         cell: "referenceCode",
@@ -71,7 +67,7 @@ export const Columns = (t, setAgentIdFilter) => [
     }
 ];
 
-export const Sorters = t => [
+export const Sorters = (permittedAgency) =>t => [
     {
         title: t("Creation Date"),
         sorter: v => v.id
@@ -80,10 +76,10 @@ export const Sorters = t => [
         title: t("Creation (old first)"),
         sorter: v => -v.id
     },
-    {
+    ...(permittedAgency ? [{
         title: t("Agent"),
         sorter: v => v.agent?.lastName
-    },
+    }] : []),
     {
         title: t("Deadline"),
         sorter: v => new Date(v.deadline)
@@ -102,7 +98,7 @@ export const Sorters = t => [
     }
 ];
 
-export const Searches = v => [
+export const Searches = (permittedAgency) => v => [
     v.referenceCode,
     v.accommodationName,
     v.countryName,
@@ -113,6 +109,8 @@ export const Searches = v => [
     v.contractType,
     PassengerName({passenger: v.rooms?.[0]?.passengers?.[0]}),
     remapStatus(v.paymentStatus),
-    v.agent?.firstName,
-    v.agent?.lastName
+    ...(permittedAgency ? [
+        v.agent?.firstName,
+        v.agent?.lastName
+    ] : [])
 ];

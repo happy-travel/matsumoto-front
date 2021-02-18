@@ -2,7 +2,6 @@ import React from "react";
 import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect } from "react-router-dom";
 import { API } from "core";
 import { Formik } from "formik";
 import Table from "components/table";
@@ -10,7 +9,6 @@ import FieldDatepicker from "components/complex/field-datepicker";
 import { Columns, Sorters, Searches } from "./table-data";
 
 import authStore from "stores/auth-store";
-import store from "stores/accommodation-store";
 import SettingsHeader from "../../settings/parts/settings-header";
 
 const initialValues = {
@@ -23,7 +21,6 @@ class AccountStatementPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirectToBookingConfirmationId: null,
             filter_tab: null,
             payments: null
         };
@@ -46,7 +43,7 @@ class AccountStatementPage extends React.Component {
             },
             success: payments => this.setState({ payments })
         });
-    }
+    };
 
     componentDidMount() {
         this.fetchBillingHistory();
@@ -54,9 +51,6 @@ class AccountStatementPage extends React.Component {
 
     render() {
         var { t } = useTranslation();
-
-        if (this.state.redirectToBookingConfirmationId !== null)
-            return <Redirect push to={"/accommodation/confirmation/" + this.state.redirectToBookingConfirmationId} />;
 
         var filter = result => {
             if (this.state.filter_tab) {
@@ -76,7 +70,7 @@ class AccountStatementPage extends React.Component {
         };
 
         return (
-            <React.Fragment>
+            <>
                 <div class="settings block">
                     <SettingsHeader />
                 </div>
@@ -97,12 +91,13 @@ class AccountStatementPage extends React.Component {
                                     >
                                         {formik => (
                                             <form>
-                                                <FieldDatepicker formik={formik}
-                                                                 id="range"
-                                                                 first="start"
-                                                                 second="end"
-                                                                 placeholder={t("Choose date")}
-                                                                 onChange={formik.handleSubmit}
+                                                <FieldDatepicker
+                                                    formik={formik}
+                                                    id="range"
+                                                    first="start"
+                                                    second="end"
+                                                    placeholder={t("Choose date")}
+                                                    onChange={formik.handleSubmit}
                                                 />
                                             </form>
                                         )}
@@ -112,7 +107,7 @@ class AccountStatementPage extends React.Component {
                         />
                     </section>
                 </div>
-            </React.Fragment>
+            </>
         );
     }
 }

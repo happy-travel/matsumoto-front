@@ -4,7 +4,6 @@ import { FieldText } from "components/form";
 import DuplicateDropdown from "./dropdown-duplicate";
 
 import View from "stores/view-store";
-import UI from "stores/ui-store";
 import store from "stores/accommodation-store";
 
 const checkMatch = (accommodation , value) => {
@@ -25,7 +24,7 @@ const checkMatch = (accommodation , value) => {
 };
 
 const setList = event => {
-    var result = store.hotelArray.filter(item => item.accommodation.id != UI.modalData?.accommodation?.id);
+    var result = store.hotelArray.filter(item => item.accommodation.id != View.modalData?.accommodation?.id);
     if (event?.target?.value)
         result = result.filter(item => checkMatch(item, event.target.value));
     View.setDestinations(result);

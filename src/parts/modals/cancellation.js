@@ -3,77 +3,78 @@ import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { dateFormat, price } from "simple";
-import { Redirect } from "react-router-dom";
-import UI from "stores/ui-store";
+import { dateFormat, price, Loader } from "simple";
+import View from "stores/view-store";
 import store from "stores/accommodation-store";
 
 @observer
 class CancellationConfirmationModal extends React.Component {
     constructor(props) {
         super(props);
-        this.bookingCancel = this.bookingCancel.bind(this);
         this.state = {
-            penalty: null
+            penalty: null,
+            loading: false
         };
     }
 
     componentDidMount() {
-        var { bookingId } = UI.modalData;
+        var { bookingId } = View.modalData;
         API.get({
             url: API.BOOKING_PENALTY(bookingId),
             success: (penalty) => this.setState({ penalty })
         });
     }
 
-    bookingCancel() {
-        var { bookingId } = UI.modalData;
+    bookingCancel = () => {
+        var { bookingId } = View.modalData;
+        this.setState({ loading: true });
         API.post({
             url: API.BOOKING_CANCEL(bookingId),
             success: () => {
-                this.props.closeModal();
-                window.scrollTo(0, 0);
-                store.setBookingResult(null);
-                API.get({
-                    url: API.BOOKING_GET_BY_ID(bookingId),
-                    after: (result, err, data) => store.setBookingResult(result || {}, data, err)
-                });
-            }
+                window.location.reload();
+            },
+            error: () => this.setState({ loading: false })
         });
-    }
+    };
 
     render() {
         var { t } = useTranslation(),
-            data = UI.modalData,
+            { bookingDetails } = View.modalData,
             { closeModal } = this.props,
-            { penalty } = this.state;
+            { penalty, loading } = this.state;
 
         return (
-            <div class="confirm modal">
-                {closeModal && <div class="close-button" onClick={closeModal}>
-                    <span class="icon icon-close" />
-                </div>}
+    <div class="confirm modal">
+        { loading &&
+            <Loader page />
+        }
 
-        { !moment().isBefore(data.checkInDate) ?
-            <React.Fragment>
+        { closeModal &&
+            <div class="close-button" onClick={closeModal}>
+                <span class="icon icon-close" />
+            </div>
+        }
+
+        { !moment().isBefore(bookingDetails.checkInDate) ?
+            <>
 
                 <h2>{t("Cancellation Deadline")}</h2>
                 <p>
                     {t("Cancellation is not possible furthermore, Check In date passed")}.
                 </p>
 
-            </React.Fragment>
+            </>
         :
-            <React.Fragment>
+            <>
                 <h2>{t("Are you sure you want to cancel your booking?")}</h2>
                 <p>
-                    {t("You are about to cancel your booking")} {data.referenceCode}.
+                    {t("You are about to cancel your booking")} {bookingDetails.referenceCode}
                 </p>
 
-                { moment().isAfter(data.deadlineDate) &&
-                    <React.Fragment>
+                { moment().isAfter(bookingDetails.deadlineDate) &&
+                    <>
                         <p>
-                            {t("Cancellation Deadline")} {dateFormat.a(data.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
+                            {t("Cancellation Deadline")} {dateFormat.a(bookingDetails.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
                         </p>
                         <p class="danger">
                             { penalty?.amount ?
@@ -83,24 +84,25 @@ class CancellationConfirmationModal extends React.Component {
                                 <br />
                             }
                         </p>
-                    </React.Fragment>}
+                    </>}
 
-                { !moment().isAfter(data.deadlineDate) &&
-                <p class="green">
-                    {t("FREE Cancellation - Without Prepayment")}
-                </p> }
+                { !moment().isAfter(bookingDetails.deadlineDate) &&
+                    <p class="green">
+                        {t("FREE Cancellation - Without Prepayment")}
+                    </p>
+                }
 
                 <div class="bottom">
                     <button
-                        class={"button" + __class(!moment().isAfter(data.deadlineDate), "green")}
+                        class={"button" + __class(!moment().isAfter(bookingDetails.deadlineDate), "green")}
                         onClick={this.bookingCancel}
                     >
                         {t("Cancel booking")}
                     </button>
                 </div>
-            </React.Fragment>
+            </>
         }
-            </div>
+    </div>
         );
     }
 }

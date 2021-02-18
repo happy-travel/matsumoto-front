@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { getIn } from "formik";
 
 class FieldCheckbox extends React.Component {

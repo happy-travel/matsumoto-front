@@ -1,8 +1,9 @@
 import React from "react";
 import "../../styles";
 
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./misc/scroll-to-top";
+import history from "./misc/history";
 import { I18nextProvider } from "react-i18next";
 import internationalization from "./internationalization";
 
@@ -32,7 +33,7 @@ const App = () => {
     var canShowContent = !isPageAvailableAuthorizedOnly() || Authorized();
     return (
     <I18nextProvider i18n={internationalization}>
-        <BrowserRouter>
+        <Router history={history}>
             <NotificationList />
             <div class="body-wrapper">
                 <Switch>
@@ -41,7 +42,7 @@ const App = () => {
                     <Route exact path="/logout"        component={ AuthLogout } />
                     <Route>
                         <Route component={ AuthDefault } />
-                        { canShowContent ? <React.Fragment>
+                        { canShowContent ? <>
                             <div class="block-wrapper">
                                 <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
                                 <TopAlert />
@@ -49,14 +50,14 @@ const App = () => {
                                 <Routes />
                             </div>
                             <Route exact path={ routesWithFooter } component={ Footer } />
-                        </React.Fragment> : <Loader page /> }
+                        </> : <Loader page /> }
                     </Route>
                 </Switch>
             </div>
             <Modal />
 
             <ScrollToTop />
-        </BrowserRouter>
+        </Router>
     </I18nextProvider>
 )};
 

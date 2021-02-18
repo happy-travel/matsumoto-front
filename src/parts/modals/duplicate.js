@@ -5,8 +5,7 @@ import { API } from "core";
 import { CachedForm } from "components/form";
 import FieldAccommodation from "components/complex/field-accommodation";
 import * as Yup from "yup";
-
-import UI from "stores/ui-store";
+import View from "stores/view-store";
 
 export const duplicateFormValidator = Yup.object().shape({
     name: Yup.string().required("*"),
@@ -24,8 +23,8 @@ class ReportDuplicateModal extends React.Component {
     }
 
     submit(values) {
-        var id = UI.modalData?.accommodation?.id,
-            supplier = UI.modalData?.supplier;
+        var id = View.modalData?.accommodation?.id,
+            supplier = View.modalData?.supplier;
 
         if (!id)
             return;
@@ -58,14 +57,16 @@ class ReportDuplicateModal extends React.Component {
 
     render() {
         var { t } = useTranslation(),
-            data = UI.modalData,
+            data = View.modalData,
             { closeModal } = this.props;
 
         return (
             <div class="confirm modal extra-height">
-                {closeModal && <div class="close-button" onClick={closeModal}>
-                    <span class="icon icon-close" />
-                </div>}
+                { closeModal &&
+                    <div class="close-button" onClick={closeModal}>
+                        <span class="icon icon-close" />
+                    </div>
+                }
 
                 <h2>Mark the accommodation as a duplicate</h2>
                 <p style={{marginBottom: "20px"}}>
@@ -77,10 +78,11 @@ class ReportDuplicateModal extends React.Component {
                     validationSchema={duplicateFormValidator}
                     render={formik => (
                         <div class="form">
-                            <FieldAccommodation formik={formik}
-                                                id="name"
-                                                label={t("Accommodation Name")}
-                                                clearable
+                            <FieldAccommodation
+                                formik={formik}
+                                id="name"
+                                label={t("Accommodation Name")}
+                                clearable
                             />
                             <button type="submit" class="button" style={{ marginTop: "20px" }}>
                                 {t("Confirm")}

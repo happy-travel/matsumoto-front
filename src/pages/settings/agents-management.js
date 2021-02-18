@@ -1,13 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Redirect } from "react-router-dom";
-import { API } from "core";
-
+import { API, redirect } from "core";
 import { dateFormat } from "simple";
 import Table from "components/table";
 import SettingsHeader from "./parts/settings-header";
-
 import authStore from "stores/auth-store";
 
 const agentsColumns = t => [
@@ -33,13 +30,11 @@ export const Searches = v => [
     v.name
 ];
 
-
 @observer
 class AgentsManagement extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redirect: null,
             agents: null
         };
     }
@@ -56,10 +51,7 @@ class AgentsManagement extends React.Component {
 
     render() {
         var { t } = useTranslation(),
-            { redirect, agents } = this.state;
-
-        if (redirect)
-            return <Redirect push to={redirect} />;
+            { agents } = this.state;
 
         return (
             <div class="settings block">
@@ -70,9 +62,7 @@ class AgentsManagement extends React.Component {
                         <Table
                             list={agents}
                             columns={agentsColumns(t)}
-                            onRowClick={item => this.setState({
-                                redirect: `/settings/agents/${item.agentId}`
-                            })}
+                            onRowClick={item => redirect(`/settings/agents/${item.agentId}`)}
                             textEmptyResult={t("No agents found")}
                             textEmptyList={t("The agents list is empty")}
                             searches={Searches}

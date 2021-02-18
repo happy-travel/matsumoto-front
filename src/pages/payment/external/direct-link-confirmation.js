@@ -2,11 +2,11 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { windowSessionStorage } from "core/misc/window-storage";
-import { Dual, StaticHeader, price } from "simple";
+import { windowLocalStorage } from "core/misc/window-storage";
+import { Dual, price } from "simple";
 import ViewFailed from "parts/view-failed";
-
-import store from "stores/accommodation-store";
+import paymentStore from "stores/payment-store";
+import { Link } from "react-router-dom";
 
 const messageFormatter = str => str.split("+").join(" ");
 
@@ -20,12 +20,7 @@ class DirectLinkConfirmationPage extends React.Component {
     }
 
     componentDidMount() {
-        if (!store.paymentResult?.params?.merchant_reference) {
-            this.setState({ booking: { error: "error" } });
-            return;
-        }
-
-        var code = windowSessionStorage.get(store.paymentResult.params.merchant_reference);
+        var code = windowLocalStorage.get(paymentStore.subject.referenceCode);
         if (!code)
             this.setState({ booking: { error: "error" } });
         API.get({
@@ -39,23 +34,25 @@ class DirectLinkConfirmationPage extends React.Component {
 render() {
     const { t } = useTranslation();
 
-    var {
-        params,
-        result,
-        params_error
-    } = (store.paymentResult || {}),
-
-        booking = this.state.booking;
+    const { status, error } = (paymentStore.paymentResult),
+        subject = paymentStore.subject,
+        { booking } = this.state;
 
 return (
-<React.Fragment>
-    <StaticHeader />
+<>
+    <header>
+        <section>
+            <div class="logo-wrapper">
+                <Link to="/" class="logo" />
+            </div>
+        </section>
+    </header>
 
     <div class="confirmation nova block">
         <section class="double-sections">
-            { !!result && "Success" == result.status ?
+            { "Success" == status ?
             <div class="middle-section">
-                <h2>{t("Your order has been paid successfully")}</h2>
+                <h2>{t("Order has been paid successfully")}</h2>
 
                 <div class="accent-frame">
                     <div class="before">
@@ -63,10 +60,10 @@ return (
                     </div>
                     <div class="dual">
                         <div class="first">
-                            {t("Order reference number")}: <strong class="green">{booking.referenceCode}</strong>
+                            {t("Order reference number")}: <strong class="green">{subject.referenceCode}</strong>
                         </div>
                         <div class="second">
-                            {t("Payment result")}: <strong class={result.status}>{result.status}</strong>
+                            {t("Payment result")}: <strong class={status}>{status}</strong>
                         </div>
                     </div>
                 </div>
@@ -78,12 +75,8 @@ return (
                     <div class="line">
                         <Dual
                             a={t("Amount")}
-                            b={ price(booking.currency, booking.amount || 0) || "" }
+                            b={ price(subject.price) }
                         />
-                        { booking.paymentStatus && <Dual addClass="grow"
-                                                         a={t('Order status')}
-                                                         b={booking.paymentStatus}
-                        /> }
                     </div>
                 </div>
 
@@ -102,32 +95,29 @@ return (
             </div>
             :
             <div class="middle-section">
-                { params_error && <div class="accent-frame error">
+                { error && <div class="accent-frame error">
                     <div class="before">
                         <span class="icon icon-close white" />
                     </div>
                     <div class="dual">
                         <div class="first">
-                            {t("Payment message")}: <strong>{messageFormatter(params?.response_message)}</strong>
-                        </div>
-                        <div class="second">
-                            {t("Response code")}: <strong>{params?.response_code}</strong>
+                            {t("Payment message")}: <strong>{messageFormatter(error)}</strong>
                         </div>
                     </div>
                 </div> }
                 <ViewFailed
                     reason={
-                        <React.Fragment>
+                        <>
                             {t("Payment failed")}<br/>
-                            {result?.error}
-                        </React.Fragment>
+                            {error}
+                        </>
                     }
                 />
             </div>
             }
         </section>
     </div>
-</React.Fragment>
+</>
     );
 }
 }

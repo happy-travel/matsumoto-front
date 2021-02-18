@@ -17,7 +17,7 @@ let settings = {
 
     auth_callback_host    : window.location.origin,
     payment_callback_host : window.location.origin,
-    payment_any_cb_host   : window.location.origin,
+    direct_payment_callback_host : window.location.origin, //todo: remove this after direct payment sign method changed
 
     osaka_url             : process.env.OSAKA_URL || dev.OSAKA_URL,
     osaka_v1              : "api/1.0",
@@ -28,7 +28,7 @@ let settings = {
 };
 
 if (__localhost)
-    settings.payment_callback_host = "https://dev.happytravel.com";
+    settings.direct_payment_callback_host = "https://dev.happytravel.com";
 
 settings.edo = (culture) => settings.edo_url + culture + settings.edo_v1;
 settings.osaka = settings.osaka_url + settings.osaka_v1;

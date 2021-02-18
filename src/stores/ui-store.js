@@ -3,20 +3,6 @@ import autosave from "core/misc/autosave";
 import setter from "core/mobx/setter";
 import { decorate } from "simple";
 
-/* Refactoring possibility: import babel-plugin-objective-enums and make enums */
-export const MODALS = {
-    CANCELLATION_CONFIRMATION: "CANCELLATION_CONFIRMATION",
-    SEND_INVOICE: "SEND_INVOICE",
-    SEARCH_OVERLOAD: "SEARCH_OVERLOAD",
-    REPORT_DUPLICATE: "REPORT_DUPLICATE",
-    READ_ONLY: "READ_ONLY"
-};
-
-export const INVOICE_TYPES = {
-    VOUCHER: "VOUCHER",
-    INVOICE: "INVOICE"
-};
-
 const ourCompanyInfoDefault = {"name":"HappyTravelDotCom Travel and Tourism LLC","address":"B105, Saraya Avenue building","country":"United Arab Emirates","city":"Dubai","phone":"+971-4-2940007","email":"info@happytravel.com","postalCode":"Box 36690","trn":"100497287100003","iata":"96-0 4653","tradeLicense":"828719"};
 
 class UIStore {
@@ -35,12 +21,6 @@ class UIStore {
     };
 
     @observable
-    modal = null;
-
-    @observable
-    modalData = null;
-
-    @observable
     @setter
     ourCompanyInfo = ourCompanyInfoDefault;
 
@@ -50,10 +30,6 @@ class UIStore {
     @observable
     @setter
     currentAPIVersion = null;
-
-    @observable
-    @setter(false)
-    saveCreditCard = false;
 
     constructor() {
         autosave(this, "_ui_store_cache");
@@ -90,12 +66,6 @@ class UIStore {
             }
             return 0;
         });
-    }
-
-    setModal(id, data) {
-        this.modal = id || null;
-        this.modalData = data;
-        document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
     }
 
     getFormCache(formName) {
