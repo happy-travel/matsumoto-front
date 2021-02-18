@@ -56,7 +56,7 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                 }
 
                 <div class="information">
-                    <div>Thank you{voucher.agentName ? ", " + voucher.agentName : ""}</div>
+                    <div>Thank you, <PassengerName passenger={voucher.roomDetails?.[0].passengers?.[0]} /></div>
                 </div>
                 <div class="information">
                     <div>We look forward to welcoming you at</div>
