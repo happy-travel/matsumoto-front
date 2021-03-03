@@ -152,6 +152,15 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                     {roomContractSet.supplier && <div className="black">
                                         Supplier: {" " + roomContractSet.supplier}
                                     </div>}
+                                    { !!roomContractSet.tags?.length &&
+                                        <div className="black">
+                                            { roomContractSet.tags?.includes("direct-connectivity") &&
+                                                <span>
+                                                    Direct Connectivity
+                                                </span>
+                                            }
+                                        </div>
+                                    }
                                 </td>
                                 <td className="price">
                                     {price(roomContractSet.rate.finalPrice)}
