@@ -1,7 +1,6 @@
 const dev = {
     EDO_URL      : "https://edo-dev.happytravel.com/",
     IDENTITY_URL : "https://identity-dev.happytravel.com/",
-    SENTRY_DSN   : "https://21e4194b435946e0b2e20444d6948d25@sentry.dev.happytravel.com/4",
     OSAKA_URL    : "https://osaka-dev.happytravel.com/",
 };
 
@@ -22,7 +21,8 @@ let settings = {
     osaka_url             : process.env.OSAKA_URL || dev.OSAKA_URL,
     osaka_v1              : "api/1.0",
 
-    sentry_dsn            : process.env.SENTRY_DSN || dev.SENTRY_DSN,
+    sentry_dsn            : process.env.SENTRY_DSN,
+    sentry_environment    : process.env.SENTRY_ENVIRONMENT,
 
     build                 : process.env.BUILD_VERSION || "JS_Default"
 };

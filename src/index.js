@@ -7,8 +7,11 @@ import settings from "settings";
 import tracker from "core/misc/tracker";
 import { windowLocalStorage } from "core/misc/window-storage";
 
-if (!__localhost)
-    Sentry.init({ dsn: settings.sentry_dsn });
+if (settings.sentry_dsn)
+    Sentry.init({
+        dsn: settings.sentry_dsn,
+        environment: settings.sentry_environment
+    });
 
 tracker();
 
