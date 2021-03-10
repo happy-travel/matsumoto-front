@@ -24,14 +24,16 @@ header
         padding: 17px 0
 
     .user-link
-        border: 1px solid $color-border
-        border-radius: 25px
+        display: inline-block
         padding: 5px
         height: 46px
         margin-left: 14px
         .icon
             float: left
             margin: 13px 9px 0 9px
+        &:hover
+            .icon
+                filter: none
         .avatar
             background: url("../images/no-avatar.svg") center center no-repeat
             background-size: contain

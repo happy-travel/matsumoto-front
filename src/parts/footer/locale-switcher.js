@@ -15,7 +15,7 @@ class LocaleSwitcherDropdown extends React.Component {
 
         return (
             <div
-                className="switcher"
+                className={"switcher" + __class(View.isDropdownOpen(dropdownId), "open")}
                 data-dropdown={dropdownId}
                 onClick={() => View.setOpenDropdown(dropdownId)}
             >

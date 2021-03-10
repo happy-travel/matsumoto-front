@@ -1,18 +1,22 @@
 .switcher
-    display: flex
-    flex-direction: row
-    cursor: pointer
     position: relative
-    .name:hover
+    cursor: pointer
+    display: inline-flex
+    flex-direction: row
+    &:hover, &.open
         color: $color-text
+        .icon, .switch-arrow
+            filter: brightness(0)
 
     .icon
         margin-right: 10px
 
     &.currency-switcher
         cursor: default
-        .name:hover
+        &:hover, &.open
             color: inherit
+            .icon, .switch-arrow
+                filter: none
         .currency
             span
                 color: $color-text-light

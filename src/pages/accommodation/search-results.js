@@ -161,8 +161,8 @@ class AccommodationSearchResultsPage extends React.Component {
                             <span>{t("From")}</span>
                             {price(item.roomContractSets?.[0]?.rate.currency, item.minPrice)}
                         </div>
-                        <button className="button small" onClick={() => this.accommodationSelect(item)}>
-                            {t("Choose Room")}
+                        <button className="button small main" onClick={() => this.accommodationSelect(item)}>
+                            {t("Choose Your Room")}
                         </button>
                     </div>
                     { item.roomContractSets.slice(0, 2).map((roomContractSet, index) =>

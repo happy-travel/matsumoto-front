@@ -65,6 +65,7 @@ class DateDropdown extends React.Component {
                     localeUtils={localeUtils}
                     numberOfMonths={2}
                     fromMonth={new Date()}
+                    initialMonth={from}
                     disabledDays={"dates" == connected ? {
                         before: new Date(),
                     } : []}

@@ -131,13 +131,13 @@ class PaymentForm extends React.Component {
                                 id="card_security_code"
                                 password
                                 label={
-                                    <span>
+                                    <>
                                         {this.state.code.name}
-                                        <span
+                                        <i
                                             className="icon icon-info"
                                             data-tip="Security code on your credit card"
                                         />
-                                    </span>
+                                    </>
                                 }
                                 placeholder={this.state.code.name}
                                 className={"size-half" +
@@ -163,7 +163,7 @@ class PaymentForm extends React.Component {
                                 }
                             />
                         </div> }
-                        <button type="submit" className="button">
+                        <button type="submit" className="button main">
                             <span className="icon icon-white-lock" />
                             { t("Pay") + price(total) }
                         </button>

@@ -15,7 +15,7 @@ class UserMenu extends React.Component {
                 <Link className="button" to="/bookings">
                     {t("Bookings")}
                 </Link>
-                <Link to="/settings" className="user-link" title={userName}>
+                <Link to="/settings" className="button user-link" title={userName}>
                     <span className="icon icon-user-burger" />
                     <span className="avatar" />
                 </Link>

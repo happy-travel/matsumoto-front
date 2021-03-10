@@ -9,7 +9,7 @@ button
     font: inherit
 
 .button
-    display: inline-block
+    display: inline-flex
     height: 46px
     line-height: 18px
     font-size: 13px
@@ -20,7 +20,10 @@ button
     border-radius: 25px
     cursor: pointer
     background: #ffffff
-    padding: 14px 26px
+    padding: 3px 26px
+    justify-content: center
+    flex-direction: column
+    align-items: center
 
     &:hover
         color: #FF9D19
@@ -28,7 +31,7 @@ button
 
     &.main
         background: $color-brand
-        border-color: $color-brand
+        border: 0
         color: #ffffff
         background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
         &:hover
@@ -42,8 +45,11 @@ button
             color: #C1C2C3
 
     &.green
-        color: #ffffff
-        background: linear-gradient(180deg, #23D578 0%, #1CBE69 100%)
+        color: #1cbe69
+        border-color: #1cbe69
+        &:hover
+            color: #23D578
+            border-color: #23D578
         &.mini-label
             background: #1cbe69
 
@@ -87,6 +93,10 @@ button
     &.disabled
         cursor: default
         background: #ECEEF0
+        border: 0
+        color: #ffffff
+        &:hover
+            background: #ECEEF0
         &.small
             background: #DCDEE0
 

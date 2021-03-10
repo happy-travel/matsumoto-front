@@ -198,7 +198,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         <button className="button small disabled">
                                             {t("Restricted Rate")}
                                         </button> :
-                                        <button className="button small"
+                                        <button className="button main"
                                                 onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
                                             {t("Book")}
                                         </button>

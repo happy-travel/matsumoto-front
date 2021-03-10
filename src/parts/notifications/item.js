@@ -31,8 +31,8 @@ class NotificationItem extends React.Component {
                     </div>
                 </div>
                 { temporary &&
-                    <div class="progress-timer">
-                        <div class="bar" />
+                    <div className="progress-timer">
+                        <div className="bar" />
                     </div>
                 }
                 <div className="close-button" onClick={this.hideAlert}>

@@ -59,7 +59,6 @@ class FieldText extends React.Component {
         switch (e.keyCode) {
             case 13:
             case 39: // Enter or Right arrow
-                // Select first suggestion or selected menu item
                 if (value && setValue) {
                     e.preventDefault();
                     setValue(value, formik, id);
@@ -75,11 +74,10 @@ class FieldText extends React.Component {
                 }
                 break;
             case 38: // Arrow top
-                // Move up in suggestion list
                 if (this.state.ddFocusIndex > 0) {
                     this.setState({ ddFocusIndex: this.state.ddFocusIndex - 1 });
                     const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
-                    scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
+                    scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop-180, 250);
                 } else {
                     scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
                 }
@@ -88,7 +86,6 @@ class FieldText extends React.Component {
                     setAutoComplete(formik, true, value);
                 break;
             case 40: // Arrow bottom
-                // Move down in suggestion list
                 if (this.state.ddFocusIndex === null || options.length > this.state.ddFocusIndex + 1) {
                     this.setState({ddFocusIndex: this.state.ddFocusIndex !== null ? this.state.ddFocusIndex + 1 : 0 });
                     if (this.state.ddFocusIndex < options.length - 2) { // disable scroll to last element
