@@ -198,7 +198,7 @@ class FieldText extends React.Component {
         return (
             <div className={"field" + __class(className)} data-dropdown={this.props["data-dropdown"] || id}>
                 <label>
-                    { label && <div className="label">
+                    { label && <div className={"label" +__class(this.state.focus, "focus")}>
                         <span className={__class(required, "required")}>{label}</span>
                     </div> }
                     <div className={"input" +

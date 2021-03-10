@@ -1,7 +1,6 @@
-import moment from "moment";
 import React from "react";
 import { API } from "core";
-import { dateFormat } from "simple";
+import { date } from "simple";
 
 class Deadline extends React.Component {
     constructor(props) {
@@ -29,7 +28,7 @@ class Deadline extends React.Component {
 
     render() {
         var { roomContractSet, t, searchId, resultId } = this.props,
-            date = this.state.result?.date || roomContractSet.deadline.date,
+            deadline = this.state.result?.date || roomContractSet.deadline.date,
             isRequestPossible = !this.state.result;
 
         if (isRequestPossible && roomContractSet.deadline?.isFinal !== true)
@@ -44,16 +43,16 @@ class Deadline extends React.Component {
                 </div>
             );
 
-        if (date) {
-            if (moment().isBefore(date))
+        if (deadline) {
+            if (!date.passed(deadline))
                 return (
                     <div className="info green">
-                        {t("Deadline")} – {dateFormat.a(date)}
+                        {t("Deadline")} – {date.format.a(deadline)}
                     </div>
                 );
             return (
                 <div className="info warning">
-                    {t("Within deadline")} – {dateFormat.a(date)}
+                    {t("Within deadline")} – {date.format.a(deadline)}
                 </div>
             );
         }

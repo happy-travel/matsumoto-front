@@ -98,7 +98,7 @@ const Routes = () => (
     <Route path="/settings/counterparty"      component={counterpartySettings} title="Counterparty Settings" />
     <Route path="/settings"                   component={personalSettings} title="Personal Settings" />
 
-    <Route path="/contact"                    component={contactUsPage} title="Contact Us" />
+    <Route path="/contact"                    component={contactUsPage} title="Contacts" />
     <Route path="/terms"                      component={termsPage} title="Terms & Conditions" />
     <Route path="/privacy"                    component={privacyPage} title="Privacy Policy" />
     <Route path="/about"                      component={aboutUsPage} title="About Us" />

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { INVOICE_TYPES } from "enum";
-import { Loader, dateFormat, price, remapStatus } from "simple";
+import { Loader, date, price, remapStatus } from "simple";
 import View, { MODALS } from "stores/view-store";
 
 @observer
@@ -30,7 +30,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
         var { t } = useTranslation(),
             invoice = this?.state?.invoice,
             number = invoice?.number,
-            date = invoice?.date,
+            issueDate = invoice?.issueDate,
             data = invoice?.data;
 
         document.title = (number || "") + " Invoice Happytravel.com";
@@ -53,7 +53,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                 <h4>
                     <strong>PROFORMA INVOICE</strong><br/>
                     {number}<br/>
-                    {dateFormat.e(date)}
+                    {date.format.e(issueDate)}
                 </h4>
                 <div className="details">
                     <div>Bill to: {data.buyerDetails.name}</div>
@@ -68,9 +68,9 @@ class AccommodationConfirmationInvoicePage extends React.Component {
 
                 <div className="details">
                     <div>Booking Reference number: {data.referenceCode}</div>
-                    <div>Arrival Date: {dateFormat.e(data.checkInDate)}</div>
-                    <div>Departure Date: {dateFormat.e(data.checkOutDate)}</div>
-                    <div>Deadline Date: {dateFormat.e(data.deadlineDate)}</div>
+                    <div>Arrival Date: {date.format.e(data.checkInDate)}</div>
+                    <div>Departure Date: {date.format.e(data.checkOutDate)}</div>
+                    <div>Deadline Date: {date.format.e(data.deadlineDate)}</div>
                 </div>
 
                 <div>
@@ -114,7 +114,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
                 </div>
 
                 <div className="details">
-                    <div>PAYMENT DUE DATE: {dateFormat.e(data.payDueDate)}</div>
+                    <div>PAYMENT DUE DATE: {date.format.e(data.payDueDate)}</div>
                 </div>
 
                 <div className="details">

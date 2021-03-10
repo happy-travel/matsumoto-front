@@ -6,11 +6,8 @@ import { useTranslation } from "react-i18next";
 @observer
 class TileItem extends React.Component {
     render() {
-        var {
-            item,
-            removable = true
-        } = this.props,
-        { t } = useTranslation();
+        var { item } = this.props,
+            { t } = useTranslation();
 
         return (
             <div className={"item" + __class(item.exclusive, "offer")}>
@@ -28,10 +25,6 @@ class TileItem extends React.Component {
                 </div>
                 <div className="bottom"/>
                 <img className="picture" src={item.image} alt={item.title} />
-                { /* todo: removable && <div className="close" /> */ }
-                { item.exclusive && <div className="exclusive">
-                    {t("Exclusive offer")}
-                </div> }
             </div>
         );
     }

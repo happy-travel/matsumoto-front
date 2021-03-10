@@ -1,12 +1,11 @@
 import React from "react";
-import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { redirect } from "core";
-import { CachedForm, FORM_NAMES, FieldText } from "components/form";
+import { date } from "simple";
+import { CachedForm, FORM_NAMES, FieldText, FieldDatepicker } from "components/form";
 import FieldCountry, { searchFormSetDefaultCountries } from "components/complex/field-country";
 import FieldDestination from "components/complex/field-destination";
-import FieldDatepicker from "components/complex/field-datepicker";
 import { accommodationSearchValidator } from "components/form/validation";
 import PeopleDropdown from "components/form/dropdown/room-details";
 import { searchCreate } from "tasks/accommodation/search-create";
@@ -33,7 +32,7 @@ class AccommodationSearch extends React.Component {
         var { t } = useTranslation();
 
         return (
-            <div className="search block" style={{paddingBottom: "58px"}}>
+            <div className="search block">
                 <section>
                     <div className="hide">{JSON.stringify(authStore.settings)}</div>
                     <CachedForm
@@ -42,8 +41,8 @@ class AccommodationSearch extends React.Component {
                             destination: "",
                             residency: "", residencyCode: "",
                             nationality: "", nationalityCode: "",
-                            checkInDate: moment().startOf("day"),
-                            checkOutDate: moment().startOf("day").add(1, "d"),
+                            checkInDate: new Date(),
+                            checkOutDate: date.addDay(new Date(), +1),
                             roomDetails: [
                                 {
                                     adultsNumber: 2,
@@ -110,7 +109,7 @@ class AccommodationSearch extends React.Component {
                                         <div className="field">
                                             <div className="label"/>
                                             <div className="inner">
-                                                <button type="submit" className="button">
+                                                <button type="submit" className="main button">
                                                     {t("Search Accommodations")}
                                                 </button>
                                             </div>

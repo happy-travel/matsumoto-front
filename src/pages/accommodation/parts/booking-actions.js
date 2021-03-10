@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { redirect } from "core";
+import { date } from "simple";
 import paymentStore from "stores/payment-store";
 import View, { MODALS } from "stores/view-store";
 
@@ -67,7 +67,7 @@ class BookingActionPart extends React.Component {
             <button
                 className={
                     "button" +
-                    __class(moment().isBefore(details.checkInDate), "transparent-with-border", "gray")
+                    __class(date.passed(details.checkInDate), "gray")
                 }
                 onClick={this.showCancellationConfirmation}
             >

@@ -6,7 +6,7 @@ export default function () {
     return (
         <div className="confirmation block document">
             <section>
-                <h1>{t("Contact Us")}</h1>
+                <h1>{t("Contacts")}</h1>
                 Our Customer Service team is available 24 hours a day, seven days a week.<br/>
                 <br/>
                 Email <a href="mailto:info@happytravel.com" className="link">info@happytravel.com</a><br/>

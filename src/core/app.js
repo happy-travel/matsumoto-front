@@ -12,8 +12,8 @@ import AuthSilent   from "core/auth/silent";
 import AuthDefault  from "core/auth/default";
 import AuthLogout   from "core/auth/logout";
 
-import Header    from "parts/header";
-import Footer    from "parts/footer";
+import Header    from "parts/header/header";
+import Footer    from "parts/footer/footer";
 import TopAlert  from "parts/top-alert";
 import Modal     from "parts/modals";
 import Search    from "parts/search-form";
@@ -43,8 +43,8 @@ const App = () => {
                     <Route>
                         <Route component={ AuthDefault } />
                         { canShowContent ? <>
+                            <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
                             <div className="block-wrapper">
-                                <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
                                 <TopAlert />
                                 <Route exact path={ routesWithSearch } component={ Search } />
                                 <Routes />

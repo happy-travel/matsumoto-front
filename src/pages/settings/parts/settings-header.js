@@ -23,7 +23,7 @@ class SettingsHeader extends React.Component {
             <div className="settings-header">
                 <section>
                     <div className="logout-wrapper">
-                        <Link to="/logout" className="button transparent-with-border">
+                        <Link to="/logout" className="button">
                             <i className="icon icon-logout" />
                             {t("Log out")}
                         </Link>

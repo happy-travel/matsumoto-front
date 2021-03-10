@@ -1,26 +1,42 @@
 import { observable } from "mobx";
 
-const MAXIMUM_LENGTH = 3;
-
 class NotificationsStore {
     @observable
     list = [];
 
-    addNotification(text) {
-        if (text?.length > 1)
+    addPermanentNotification(text, title, style = "warning", temporary) {
+        const id = Math.trunc(Math.random() * 10000000);
+        if (text?.length > 1) {
             this.list.push({
-                text
+                id,
+                text,
+                title,
+                style,
+                temporary
             });
-        if (this.list.length > MAXIMUM_LENGTH)
-            this.closeNotification(0);
+            return id;
+        }
+    }
+
+    addNotification(text, title, style) {
+        const id = this.addPermanentNotification(text, title, style, true);
+        setTimeout(() => {
+            this.closeNotification(id);
+        }, 15000);
     }
 
     closeAllNotifications() {
         this.list = [];
     }
 
-    closeNotification(index) {
-        this.list.splice(index, 1);
+    closeNotification(id) {
+        var index;
+        this.list.forEach((item, i) => {
+            if (item.id == id)
+                index = i;
+        });
+        if (index !== undefined)
+            this.list.splice(index, 1);
     }
 }
 

@@ -112,7 +112,7 @@ class AccommodationSearchResultsPage extends React.Component {
                     </div> }
                     <div className="title">
                         <div className="features">
-                            <button className={"button mini-label" + __class(item.hasDuplicate, "gray", "transparent-with-border")}
+                            <button className={"button mini-label" + __class(item.hasDuplicate, "gray")}
                                     id={item.supplier + "." + item.accommodation.id}
                                     onClick={
                                         () => View.setModal(MODALS.REPORT_DUPLICATE, item)

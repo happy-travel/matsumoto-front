@@ -1,16 +1,10 @@
 import React from "react";
-import { dateFormat } from "simple";
-import moment from "moment";
+import { date } from "simple";
 
 class FullDeadline extends React.Component {
     render() {
-        var { deadline = {}, remarks, t } = this.props,
-            warnAboutDeadlineIsNear = false;
-
-        if (deadline.date) {
-            if (moment().add(7, "d").isAfter(deadline.date))
-                warnAboutDeadlineIsNear = true;
-        }
+        const { deadline = {}, remarks, t } = this.props,
+              warnAboutDeadlineIsNear = deadline.date && date.passed(date.addDay(deadline.date, -7));
 
         return (
             <>
@@ -23,7 +17,7 @@ class FullDeadline extends React.Component {
                     <div className="data">
                         {deadline.date ?
                             <b>
-                                {t("Cancellation Deadline")}: {dateFormat.a(deadline.date)}
+                                {t("Cancellation Deadline")}: {date.format.a(deadline.date)}
                             </b>
                         :
                             <span className="info green">
@@ -33,7 +27,7 @@ class FullDeadline extends React.Component {
                         { !!deadline?.policies?.length &&
                             deadline.policies.map((item, index) => (
                                 <div key={index}>
-                                    {t("From")} {dateFormat.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
+                                    {t("From")} {date.format.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
                                 </div>
                             ))
                         }

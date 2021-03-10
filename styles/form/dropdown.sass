@@ -3,7 +3,7 @@
     background: #FFFFFF
     color: $color-text
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15)
-    border-radius: 4px
+    border-radius: 25px
     padding: 28px 36px
     z-index: 100
     right: 0
@@ -22,7 +22,8 @@
         max-height: inherit
         overflow-y: auto
     &.date
-        padding: 14px 0
+        padding: 45px
+        width: 684px
     &.people
         width: 360px
         h3
@@ -66,8 +67,8 @@
                 width: 40px
                 height: 40px
                 background: #FFFFFF
-                border: 1px solid $color-usual-gray
-                border-radius: 4px
+                border: 1px solid $color-border
+                border-radius: 25px
                 text-align: center
                 &.enabled
                     border-color: $color-brand
@@ -90,7 +91,6 @@
             line-height: 24px
             margin-top: 10px
             padding: 0 15px
-            text-transform: uppercase
             font-size: 11px
             background: #F3F4F6
             color: $color-text-light
@@ -107,7 +107,7 @@
         .item
             cursor: pointer
     &.usual, &.locale, &.currency
-        min-width: 136px
+        min-width: 120px
         padding: 6px 0 3px
         line-height: 0
         .item
@@ -120,11 +120,8 @@
             &:hover
                 background: #F3F4F6
             .flag
-                margin-left: 12px
+                margin-right: 12px
                 display: inline-block
-    &.locale, &.currency
-        top: 47px
-        right: -27px
     &.select
         padding: 0
         width: 100%

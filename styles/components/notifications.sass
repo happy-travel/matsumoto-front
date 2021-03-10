@@ -1,6 +1,6 @@
 .notifications
     position: fixed
-    top: 80px
+    top: 90px
     width: 100%
     z-index: 1001
     .wrapper
@@ -8,7 +8,7 @@
         position: sticky
         top: 20px
         left: 100%
-        max-width: 300px
+        max-width: 430px
         .list
             position: absolute
             padding: 10px 20px
@@ -17,18 +17,82 @@
             background: #FFFFFF
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
             border-radius: 25px
-            padding: 20px
+            padding: 14px 0 0
             margin-bottom: 20px
             position: relative
+            overflow: hidden
+            .holder
+                overflow-y: auto
+                max-height: 150px
+                padding-right: 14px
+            .content
+                display: flex
+                flex-direction: row
+                padding-bottom: 14px
+            .text
+                display: flex
+                flex-direction: column
+                justify-content: center
+                padding-left: 22px
+                line-height: 16px
+                min-height: 58px
+                max-width: 250px
+                word-wrap: break-word
+            h2
+                font-size: 14px
+                padding-bottom: 4px
+                font-weight: 600
+            .style
+                width: 90px
+                min-width: 90px
+                box-shadow: .5px 0 0 #B9B9B9
+                background-position: center center
+                background-repeat: no-repeat
             .close-button
                 z-index: 1
                 position: absolute
-                right: 0
-                top: 0
-                padding: 10px 20px 5px 5px
+                right: 20px
+                top: 28px
+                padding: 10px 10px 5px 5px
                 cursor: pointer
                 .icon
                     display: block
         @media print
             display: none
 
+    .progress-timer
+        width: 100%
+        height: 3px
+        margin-top: -3px
+        border-radius: 2px
+
+    .bar
+        height: 100%
+        border-radius: 3px
+        background: #aaa
+        animation: progress 15s linear
+        width: 0
+
+    .warning
+        .style
+            background-image: url("../icons/notification/warning.svg")
+        .progress-timer .bar
+            background: $color-brand
+
+    .information
+        .style
+            background-image: url("../icons/notification/information.svg")
+        .progress-timer .bar
+            background: #3E90F2
+
+    .success
+        .style
+            background-image: url("../icons/notification/success.svg")
+        .progress-timer .bar
+            background: #5CC873
+
+@keyframes progress
+    from
+        width: 100%
+    to
+        width: 0

@@ -5,16 +5,36 @@ import Notifications from "stores/notifications-store";
 @observer
 class NotificationItem extends React.Component {
     hideAlert = () => {
-        var { index } = this.props;
-        Notifications.closeNotification(index);
+        const { notification } = this.props;
+        Notifications.closeNotification(notification.id);
     }
 
     render() {
-        var { notification } = this.props;
+        const { notification } = this.props,
+              { text, title, style, temporary } = notification;
 
         return (
-            <div className="item">
-                {notification.text}
+            <div className={"item" + __class(style)}>
+                <div className="content">
+                    { style &&
+                        <div className="style">
+                            <i />
+                        </div>
+                    }
+                    <div className="holder">
+                        <div className="text">
+                            { title &&
+                                <h2>{title}</h2>
+                            }
+                            <div>{text}</div>
+                        </div>
+                    </div>
+                </div>
+                { temporary &&
+                    <div class="progress-timer">
+                        <div class="bar" />
+                    </div>
+                }
                 <div className="close-button" onClick={this.hideAlert}>
                     <span className="icon icon-close" />
                 </div>

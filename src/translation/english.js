@@ -13,7 +13,7 @@ translations: {
     "Log out": "Log out",
     "Terms & Conditions": "Terms & Conditions",
     "Privacy Policy": "Privacy Policy",
-    "Contact Us": "Contact Us",
+    "Contacts": "Contacts",
     "Email": "Email",
     "Phone": "Phone",
     "Address": "Address",

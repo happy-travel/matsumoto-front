@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { API, redirect } from "core";
 import { FieldArray } from "formik";
-import { Dual, Loader, MealPlan, RoomPrices, GroupRoomTypesAndCount, dateFormat, price } from "simple";
+import { Dual, Loader, MealPlan, RoomPrices, GroupRoomTypesAndCount, date, price } from "simple";
 import { CachedForm, FORM_NAMES, FieldText, FieldCheckbox, FieldSelect } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
@@ -201,11 +201,11 @@ class AccommodationBookingPage extends React.Component {
             </div>
             <Dual className="column"
                 a={t("Arrival Date")}
-                b={dateFormat.a(baseInfo.checkInDate)}
+                b={date.format.a(baseInfo.checkInDate)}
             />
             <Dual className="column"
                 a={t("Departure Date")}
-                b={dateFormat.a(baseInfo.checkOutDate)}
+                b={date.format.a(baseInfo.checkOutDate)}
             />
             <div className="dual" style={{display: "inline-block"}}>
                 <span className="first">{t("Number of Rooms")}</span>

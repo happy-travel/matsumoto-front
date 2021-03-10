@@ -1,9 +1,8 @@
 import React from "react";
-import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { dateFormat, price, Loader } from "simple";
+import { date, price, Loader } from "simple";
 import View from "stores/view-store";
 import store from "stores/accommodation-store";
 
@@ -55,7 +54,7 @@ class CancellationConfirmationModal extends React.Component {
             </div>
         }
 
-        { !moment().isBefore(bookingDetails.checkInDate) ?
+        { date.passed(bookingDetails.checkInDate) ?
             <>
 
                 <h2>{t("Cancellation Deadline")}</h2>
@@ -71,10 +70,10 @@ class CancellationConfirmationModal extends React.Component {
                     {t("You are about to cancel your booking")} {bookingDetails.referenceCode}
                 </p>
 
-                { moment().isAfter(bookingDetails.deadlineDate) &&
+                { date.passed(bookingDetails.deadlineDate) &&
                     <>
                         <p>
-                            {t("Cancellation Deadline")} {dateFormat.a(bookingDetails.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
+                            {t("Cancellation Deadline")} {date.format.a(bookingDetails.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
                         </p>
                         <p className="danger">
                             { penalty?.amount ?
@@ -86,7 +85,7 @@ class CancellationConfirmationModal extends React.Component {
                         </p>
                     </>}
 
-                { !moment().isAfter(bookingDetails.deadlineDate) &&
+                { !date.passed(bookingDetails.deadlineDate) &&
                     <p className="green">
                         {t("FREE Cancellation - Without Prepayment")}
                     </p>
@@ -94,7 +93,7 @@ class CancellationConfirmationModal extends React.Component {
 
                 <div className="bottom">
                     <button
-                        className={"button" + __class(!moment().isAfter(bookingDetails.deadlineDate), "green")}
+                        className={"button" + __class(!date.passed(bookingDetails.deadlineDate), "green")}
                         onClick={this.bookingCancel}
                     >
                         {t("Cancel booking")}

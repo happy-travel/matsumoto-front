@@ -1,91 +1,53 @@
 footer
-    background: #2e2f34
+    background: #f7f8fc
+    color: #777777
     width: 100%
     min-width: 200px
     margin-top: 135px
     position: relative
-    a
-        color: #FFFFFF
+    padding-top: 55px
+    a, a[href]
         &:hover
-            color: $color-text-light
+            color: $color-text
 
-    .middle
+    .company
+        flex-grow: 1
+        .logo-wrapper
+            height: 68px
+            text-align: left
+            .logo
+                width: 100px
+                height: 53px
+                display: inline-block
+                background: url("/images/logo/logo-small.png")
+                background-size: cover
+                &:hover
+                    filter: brightness(0.75)
+
+    section
         display: flex
         flex-direction: row
-        flex-grow: 1
+        justify-content: space-between
 
-    .contact
-        width: 205px
-
-    .upper-part
-        padding: 47px 0 32px
-        color: #ffffff
-        border-bottom: 1px solid $color-text-light
-
-        .company
-            width: 110px
-            .logo-wrapper
-                height: 68px
-                border-top: 1px solid $color-text-light
-                text-align: center
-                .logo
-                    width: 94px
-                    height: 50px
-                    display: inline-block
-                    background: url("/images/logo/logo-small.png")
-                    background-size: cover
-            .social
-                display: flex
-                flex-direction: row
-                padding-left: 11px
-                margin-top: 40px
-                a
-                    width: 27px
-                    height: 27px
-
-        section
-            display: flex
-            flex-direction: row
-            justify-content: space-between
-
-        .links
-            flex-grow: 1
-            padding-left: 66px
-            & > menu
-                display: flex
-                flex-direction: row
-                line-height: 19px
-                margin-bottom: 16px
-                font-size: 13px
-                li
-                    margin-right: 25px
-
-                li
-                    margin-right: 20px
-
-        .contact
-            h3
-                font-size: 14px
-                margin-bottom: 16px
-            div
-                font-size: 12px
-                margin-bottom: 12px
-                line-height: 18px
-            span
-                color: $color-text-light
-            .license
-                margin-bottom: 0
-
-    .copyright
-        color: $color-text-light
-        line-height: 18px
-        padding: 24px 0
-        font-size: 12px
-        text-align: center
+    .column
+        max-width: 265px
+        width: 100%
+        h3
+            font-size: 12px
+            margin-bottom: 19px
+            text-transform: uppercase
+            color: $color-text
+        li
+            font-size: 14px
+            line-height: 18px
+            margin-bottom: 18px
+        span
+            color: $color-text
 
     .payments
         line-height: 0
-        padding-top: 30px
+        margin-top: -60px
+        padding-bottom: 57px
         img
             height: 40px
             background: #ffffff
@@ -101,30 +63,25 @@ footer
             &:last-child
                 margin-right: 0
 
-    .service-info
-        margin-top: 43px
-        color: #ffffff33
-        font-size: 9px
+    .copyright
+        line-height: 14px
+        font-weight: 300
+        padding-top: 20px
+        padding-bottom: 20px
+        font-size: 12px
 
-    .switchers
-        width: 350px
-        height: 30px
-        display: flex
-        flex-direction: row
-        .switcher
-            font-size: 13px
+    .service-info
+        font-size: 10px
+        span
+            margin-right: 5px
+            color: $color-text-light
 
     .dropdown
         margin-top: -13px
 
     @include mobile
-        .upper-part
-            padding-left: 20px
-            padding-right: 20px
-            .links
-                padding-bottom: 50px
-                flex-grow: 0
-                padding-left: 30px
+        padding-left: 20px
+        padding-right: 20px
         .middle
             flex-direction: column
             justify-content: flex-start
@@ -137,24 +94,21 @@ footer
             right: 20px
 
     @include phone
-        .upper-part
-            padding-top: 30px
-            section
-                flex-direction: column
-            .company
-                margin: 0 auto 20px
-            menu
-                justify-content: center
-                flex-wrap: wrap
-                li:last-child
-                    margin-right: 0 !important
-            .switchers
-                justify-content: center
-                margin: 0 auto
-            .payments
-                text-align: center
-            .contact
-                width: 280px
-                margin: 40px auto 0
-            .links
-                padding-left: 0
+        padding-top: 30px
+        section
+            flex-direction: column
+        .company
+            margin: 0 auto 20px
+        ul
+            justify-content: center
+            flex-wrap: wrap
+            li:last-child
+                margin-right: 0 !important
+        .switchers
+            justify-content: center
+            margin: 0 auto
+        .payments
+            text-align: center
+        .contact
+            width: 280px
+            margin: 40px auto 0

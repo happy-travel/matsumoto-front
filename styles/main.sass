@@ -26,11 +26,19 @@ h2
         color: $color-text-light
 
 .round
-    border-radius: 4px
+    border-radius: 25px
 
 section
-    width: 1100px
+    max-width: 1160px
+    width: 100%
     margin: 0 auto
+    padding: 0 30px
+    @include mobile
+        padding: 0 20px
+        max-width: 1140px
+    @include phone
+        padding: 0 10px
+        max-width: 1120px
     &.double-sections
         display: flex
         flex-direction: row
@@ -91,7 +99,7 @@ span.brand
         background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
         width: 40px
         height: 4px
-        border-radius: 4px
+        border-radius: 25px
     &:before
         width: 10px
         right: -76px
@@ -107,3 +115,4 @@ b
 
 .block-wrapper
     min-height: 100vh
+    padding-top: 81px

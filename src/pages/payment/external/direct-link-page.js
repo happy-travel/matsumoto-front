@@ -3,7 +3,7 @@ import settings from "settings";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { API, redirect } from "core";
-import { Loader, dateFormat } from "simple";
+import { Loader, date } from "simple";
 import { windowLocalStorage } from "core/misc/window-storage";
 import { userAuthSetDirectPayment } from "core/auth";
 import {useTranslation} from "react-i18next";
@@ -73,7 +73,7 @@ class PaymentDirectLinkPage extends React.Component {
                         <section className="double-sections">
                             <div className="middle-section">
                                 <h2>
-                                    Payment order {order.referenceCode} {dateFormat.b(order.date)}
+                                    Payment order {order.referenceCode} {date.format.c(order.date)}
                                 </h2>
                                 <p className="remark">
                                     {order.comment.split('\n').map(line => (
