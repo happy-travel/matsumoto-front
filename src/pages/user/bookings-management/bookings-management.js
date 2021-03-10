@@ -32,14 +32,15 @@ class AgencyBookingsManagementPage extends React.Component {
                             ...item.data,
                             agent: item.agent
                         })));
+                    else
+                        store.setUserBookingList([]);
                 }
             });
         else
             API.get({
                 url: API.BOOKING_LIST,
                 success: list => {
-                    if (list?.length)
-                        store.setUserBookingList(list);
+                    store.setUserBookingList(list);
                 }
             });
     }
