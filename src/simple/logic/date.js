@@ -1,14 +1,22 @@
-import { default as dateFormat } from "date-format";
-
-//todo : MONTHs and DAYs
+import { default as basicFormat } from "date-format";
+import localeUtils from "tasks/utils/date-locale-utils";
 
 //todo : format.parse
 
+const dateFormat = (template, rawDate) => {
+    let date = new Date(rawDate);
+    return (
+        basicFormat(template, date)
+            .replace('DAY', localeUtils.formatWeekdayLong(date.getDay()))
+            .replace('MTH', localeUtils.getMonths()[date.getMonth()])
+    );
+};
+
 const format = {
-    api: date => dateFormat("yyyy-MM-ddT00:00:00Z", new Date(date)),
-    a: date => !date ? '' : dateFormat("DAY, dd MONTH yyyy", new Date(date)),
-    c: date => !date ? '' : dateFormat("dd-MM-yyyy", new Date(date)),
-    e: date => !date ? '' : dateFormat("dd-MONTH-yyyy", new Date(date))
+    api: date => dateFormat("yyyy-MM-ddT00:00:00Z", date),
+    a: date => !date ? '' : dateFormat("DAY, dd MTH yyyy", date),
+    c: date => !date ? '' : dateFormat("dd-MM-yyyy", date),
+    e: date => !date ? '' : dateFormat("dd-MTH-yyyy", date)
 };
 
 const addMonth = (date, amount) => {

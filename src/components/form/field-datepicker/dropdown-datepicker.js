@@ -1,8 +1,7 @@
 import React from "react";
 import DayPicker from 'react-day-picker';
 import { observer } from "mobx-react";
-import { windowLocalStorage } from "core/misc/window-storage";
-
+import localeUtils from "tasks/utils/date-locale-utils";
 import View from "stores/view-store";
 import authStore from "stores/auth-store";
 
@@ -29,11 +28,16 @@ class DateDropdown extends React.Component {
         return [result.from, result.to];
     };
 
-    handleDayClick = (day) => {
+    handleDayClick = (day, modifiers) => {
+        if (modifiers.disabled)
+            return;
+
         const { setValue } = this.props;
         const { from, to } = this.state;
 
         if (from && !to) {
+            if (modifiers.start)
+                return;
             setValue(this.setDays({
                 from,
                 to: day
@@ -58,14 +62,8 @@ class DateDropdown extends React.Component {
         return (
             <div className="date dropdown">
                 <DayPicker
+                    localeUtils={localeUtils}
                     numberOfMonths={2}
-                    firstDayOfWeek={
-                        authStore.settings.weekStarts
-                            ? (authStore.settings.weekStarts % 7)
-                            : ("ar" == windowLocalStorage.get("locale")
-                                    ? 0
-                                    : 1
-                    )}
                     fromMonth={new Date()}
                     disabledDays={"dates" == connected ? {
                         before: new Date(),
@@ -77,19 +75,16 @@ class DateDropdown extends React.Component {
                         end: to,
                         only: !to && from
                     }}
-                    captionElement={({ date, localeUtils }) => (
-                        <div className="DayPicker-Caption">
-                            {localeUtils.getMonths("en")[date.getMonth()]}
-                            { date.getFullYear() !== new Date().getFullYear() &&
-                                " " + date.getFullYear()
-                            }
-                        </div>
-                    )}
                     renderDay={(day) => (
                         <div>
                             {day.getDate()}
                         </div>
                     )}
+                    {
+                        ...(authStore.settings.weekStarts ? {
+                            firstDayOfWeek: authStore.settings.weekStarts % 7
+                        } : {})
+                    }
                 />
             </div>
         );
