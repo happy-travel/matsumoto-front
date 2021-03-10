@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Link, withRouter } from "react-router-dom";
 
 const Breadcrumbs = ({ items = [], noBackButton, history, backLink }) => {
     var { t } = useTranslation();

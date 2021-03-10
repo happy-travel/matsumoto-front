@@ -112,6 +112,8 @@ return (
                             {error}
                         </>
                     }
+                    button={t("Try to pay again")}
+                    link={`/pay/${booking.code}`}
                 />
             </div>
             }
