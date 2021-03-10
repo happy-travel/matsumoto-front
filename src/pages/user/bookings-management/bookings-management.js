@@ -21,16 +21,27 @@ class AgencyBookingsManagementPage extends React.Component {
 
     componentDidMount() {
         store.setUserBookingList(null);
-        API.get({
-            url: API.AGENCY_BOOKINGS_LIST,
-            after: list => {
-                if (list?.length)
-                    store.setUserBookingList(list.map(item => ({
-                        ...item.data,
-                        agent: item.agent
-                    })));
-            }
-        });
+
+        const permittedAgency = authStore.permitted("AgencyBookingsManagement");
+        if (permittedAgency)
+            API.get({
+                url: API.AGENCY_BOOKINGS_LIST,
+                after: list => {
+                    if (list?.length)
+                        store.setUserBookingList(list.map(item => ({
+                            ...item.data,
+                            agent: item.agent
+                        })));
+                }
+            });
+        else
+            API.get({
+                url: API.BOOKING_LIST,
+                success: list => {
+                    if (list?.length)
+                        store.setUserBookingList(list);
+                }
+            });
     }
 
     setAgentIdFilter(id) {
