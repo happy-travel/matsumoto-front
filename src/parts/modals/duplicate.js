@@ -61,7 +61,7 @@ class ReportDuplicateModal extends React.Component {
             { closeModal } = this.props;
 
         return (
-            <div className="confirm modal extra-height">
+            <div className="confirm modal duplicate">
                 { closeModal &&
                     <div className="close-button" onClick={closeModal}>
                         <span className="icon icon-close" />
@@ -69,7 +69,7 @@ class ReportDuplicateModal extends React.Component {
                 }
 
                 <h2>Mark the accommodation as a duplicate</h2>
-                <p style={{marginBottom: "20px"}}>
+                <p>
                     If you have seen “{data?.accommodation?.name || ""}“ previously in the current accommodations list,
                     you could link it with a duplicate one, and we will join both results to show them as one next time.
                 </p>
@@ -84,7 +84,7 @@ class ReportDuplicateModal extends React.Component {
                                 label={t("Accommodation Name")}
                                 clearable
                             />
-                            <button type="submit" className="button" style={{ marginTop: "20px" }}>
+                            <button type="submit" className="button">
                                 {t("Confirm")}
                             </button>
                         </div>
