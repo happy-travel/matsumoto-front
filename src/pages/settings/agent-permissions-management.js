@@ -131,14 +131,14 @@ export default class AgentPermissionsManagement extends React.Component {
                   authStore.user.id != agent.agentId &&
                 <div>
                     {!agent.isActive ? <button
-                        className="button transparent-with-border"
+                        className="button"
                         onClick={this.enable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >
                         {t("Activate agent")}
                     </button> :
                     <button
-                        className="button transparent-with-border"
+                        className="button"
                         onClick={this.disable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >

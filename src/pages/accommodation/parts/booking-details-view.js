@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat, price, remapStatus } from "simple";
+import { Dual, Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, date, price, remapStatus } from "simple";
 import FullDeadline from "components/full-deadline";
 import ViewFailed from "parts/view-failed";
 import BookingActionPart from "./booking-actions";
@@ -87,7 +87,7 @@ class BookingDetailsView extends React.Component {
                 <div className="second">
                     {t("Status")}: <strong className={details.status}>{remapStatus(details.status)}</strong>
                     <div className="status-updater">
-                        <button className="small button transparent-with-border" onClick={() => this.updateBookingStatus()}>
+                        <button className="small button" onClick={() => this.updateBookingStatus()}>
                             ⟳
                         </button>
                     </div>
@@ -156,11 +156,11 @@ class BookingDetailsView extends React.Component {
             />
             <Dual
                 a={"Check In Date"}
-                b={dateFormat.a(details.checkInDate)}
+                b={date.format.a(details.checkInDate)}
             />
             <Dual
                 a={"Check Out Date"}
-                b={dateFormat.a(details.checkOutDate)}
+                b={date.format.a(details.checkOutDate)}
             />
         </div>
     </div>

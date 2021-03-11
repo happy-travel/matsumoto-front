@@ -1,11 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { INVOICE_TYPES } from "enum";
-import { Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, dateFormat } from "simple";
+import { Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, date } from "simple";
 import Map from "components/map";
 import View, { MODALS } from "stores/view-store";
 
@@ -87,13 +86,13 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                             <div>{__plural(t, voucher.nightCount, "Night")}</div>
 
                             <div className="text">Arrival Date:</div>
-                            <div>{dateFormat.c(voucher.checkInDate)}</div>
+                            <div>{date.format.c(voucher.checkInDate)}</div>
 
                             <div className="text">Departure Date:</div>
-                            <div>{dateFormat.c(voucher.checkOutDate)}</div>
+                            <div>{date.format.c(voucher.checkOutDate)}</div>
 
                             <div className="text">Deadline Date:</div>
-                            <div>{dateFormat.c(voucher.deadlineDate)}</div>
+                            <div>{date.format.c(voucher.deadlineDate)}</div>
 
                             { !!voucher.roomDetails?.length && <>
                                 <div className="text">Rooms Number:</div>
@@ -148,10 +147,10 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                         FREE Cancellation
                     </div>
                 }
-                {moment().isBefore(voucher.deadlineDate) &&
+                {!date.passed(voucher.deadlineDate) &&
                     <div className="deadline-notify">
                         <span className="icon icon-info-green"/>
-                        FREE Cancellation until {dateFormat.c(voucher.deadlineDate)}
+                        FREE Cancellation until {date.format.c(voucher.deadlineDate)}
                     </div>
                 }
             </div>

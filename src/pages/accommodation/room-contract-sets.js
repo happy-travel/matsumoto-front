@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { API, redirect } from "core";
-import { GroupRoomTypesAndCount, MealPlan, Loader, PassengersCount, dateFormat, price } from "simple";
+import { GroupRoomTypesAndCount, MealPlan, Loader, PassengersCount, date, price } from "simple";
 import Breadcrumbs from "components/breadcrumbs";
 import Deadline from "components/deadline";
 import AccommodationCommonDetails from "parts/accommodation-details";
@@ -108,13 +108,13 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                 <div className="part">
                     <div className="subpart">
                         <div className="h1">{t("Check In Date")}</div>
-                        <div className="h2">{dateFormat.d(store.search.request.checkInDate)}</div>
+                        <div className="h2">{date.format.a(store.search.request.checkInDate)}</div>
                         { details?.schedule?.checkInTime &&
                           <div className="h3">{t("From")} {details.schedule.checkInTime}</div> }
                     </div>
                     <div className="subpart">
                         <div className="h1">{t("Check Out Date")}</div>
-                        <div className="h2">{dateFormat.d(store.search.request.checkOutDate)}</div>
+                        <div className="h2">{date.format.a(store.search.request.checkOutDate)}</div>
                         <div className="h3">{__plural(t, store.search?.numberOfNights, "Night")}</div>
                     </div>
                     <div className="subpart">
@@ -198,7 +198,7 @@ class AccommodationRoomContractsSetsPage extends React.Component {
                                         <button className="button small disabled">
                                             {t("Restricted Rate")}
                                         </button> :
-                                        <button className="button small"
+                                        <button className="button main"
                                                 onClick={() => this.roomContractSetSelect(roomContractSet, details)}>
                                             {t("Book")}
                                         </button>

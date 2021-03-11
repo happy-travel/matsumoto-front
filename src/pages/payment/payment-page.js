@@ -76,7 +76,7 @@ class PaymentPage extends React.Component {
                 <>
                     {!!paymentStore.savedCards.length &&
                         <div className="form" style={{ paddingTop: "40px" }}>
-                            <button onClick={() => this.setState({ addNew: false })} className="button transparent-with-border">
+                            <button onClick={() => this.setState({ addNew: false })} className="button">
                                 {t("Back to saved cards")}
                             </button>
                         </div>
@@ -94,7 +94,7 @@ class PaymentPage extends React.Component {
                         {t("Pay using saved cards")}
                     </h2>
                     <PaymentSavedCardsFormPart />
-                    <button onClick={() => this.setState({ addNew: true })} className="button transparent-with-border">
+                    <button onClick={() => this.setState({ addNew: true })} className="button">
                         {t("Use another card")}
                     </button>
                 </>

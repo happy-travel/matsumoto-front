@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { dateFormat, price, remapStatus } from "simple";
+import { date, price, remapStatus } from "simple";
 
 const getClassByStatus = status => ({
     //todo: fill
@@ -9,7 +9,7 @@ const getClassByStatus = status => ({
 export const Columns = t => [
     {
         header: t("Date"),
-        cell: row => dateFormat.c(row.created)
+        cell: row => date.format.c(row.created)
     },
     {
         header: t("Amount"),

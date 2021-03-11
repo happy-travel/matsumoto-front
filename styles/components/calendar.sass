@@ -1,0 +1,98 @@
+.DayPicker
+    display: block
+    font-size: 13px
+    font-weight: 500
+    position: relative
+    &-wrapper
+        user-select: none
+    &-NavButton
+        position: absolute
+        background: url("../icons/elements/previous.svg")
+        box-sizing: content-box
+        width: 6px
+        height: 10px
+        border: 5px solid #ffffff
+        cursor: pointer
+        top: 0
+        &--interactionDisabled
+            display: none
+        &--prev
+            left: 0
+        &--next
+            right: 0
+            transform: scaleX(-1)
+
+    &-Months
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+    &-Caption
+        display: table-caption
+        text-align: center
+        font-size: 16px
+        line-height: 19px
+        padding-bottom: 16px
+    &-Month
+        display: table
+        border-spacing: 0
+        border-collapse: collapse
+    &-Weekdays
+        display: table-header-group
+    &-WeekdaysRow
+        display: table-row
+    &-Weekday abbr[title]
+        border-bottom: none
+        text-decoration: none
+    &-Body
+        display: table-row-group
+    &-Week
+        display: table-row
+    &-Weekday, &-Day
+        display: table-cell
+        width: 40px
+        text-align: center
+    &-Weekday
+        color: #777777
+        padding: 12px 5px
+    &-Day
+        vertical-align: middle
+        cursor: pointer
+        background: white
+        position: relative
+        z-index: 2
+        overflow: hidden
+        div
+            padding: 12px 5px
+        &:hover
+            color: $color-brand
+    &-Day--disabled
+        color: #aaaaaa
+        cursor: default
+    &-Day--selected:not(&-Day--disabled):not(&-Day--outside) div
+        position: relative
+        background: linear-gradient(270deg, #FAAB19 0%, #FECD0A 100%)
+        color: #F0F8FF
+    &-Day--selected:not(&-Day--start):not(&-Day--end):not(&-Day--outside) div
+        background: #F4F4F4
+        color: $color-text
+
+    &-Day--start:not(&-Day--outside) div,
+    &-Day--end:not(&-Day--outside) div
+        border-radius: 50% !important
+        box-shadow: #F4F4F4 8px 0 0 6px
+        z-index: 0
+    &-Day--end:not(&-Day--outside) div
+        z-index: 1
+        box-shadow: #F4F4F4 -8px 0 0 6px
+    &-Day--only div
+        box-shadow: none !important
+
+[dir="rtl"]
+    .DayPicker-Weekday
+        padding-left: 1px
+        padding-right: 1px
+        font-size: 9px
+    .DayPicker-NavButton--prev
+        transform: scaleX(-1)
+    .DayPicker-NavButton--next
+        transform: scaleX(1)

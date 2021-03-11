@@ -1,5 +1,5 @@
 import React from "react";
-import { dateFormat, price, PassengerName, remapStatus } from "simple";
+import { date, price, PassengerName, remapStatus } from "simple";
 
 const getClassByStatus = status => ({
     "Confirmed": "green",
@@ -39,7 +39,7 @@ export const Columns = (permittedAgency) => (t, setAgentIdFilter) => [
     {
         header: t("Dates"),
         cell: row => new Date(row.checkOutDate) <= 0 ? t("None") :
-            <>{dateFormat.c(row.checkInDate)}&nbsp;—<br/> {dateFormat.c(row.checkOutDate)}</>
+            <>{date.format.c(row.checkInDate)}&nbsp;—<br/> {date.format.c(row.checkOutDate)}</>
     },
     {
         header: t("Payment"),
@@ -55,7 +55,7 @@ export const Columns = (permittedAgency) => (t, setAgentIdFilter) => [
     },
     {
         header: t("Deadline"),
-        cell: row => <>{row.deadline ? dateFormat.c(row.deadline) : t("None")}</>
+        cell: row => <>{row.deadline ? date.format.c(row.deadline) : t("None")}</>
     },
     {
         header: t("Status"),

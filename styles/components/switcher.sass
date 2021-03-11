@@ -1,59 +1,25 @@
 .switcher
-    display: flex
-    flex-direction: row
-    margin-left: 30px
-    cursor: pointer
-    font-size: 14px
     position: relative
+    cursor: pointer
+    display: inline-flex
+    flex-direction: row
+    &:hover, &.open
+        color: $color-text
+        .icon, .switch-arrow
+            filter: brightness(0)
 
-    &.user-switcher
-        .icon
-            margin: 3px 0 0 6px
-            vertical-align: top
-            filter: grayscale(1)
-        &:hover
-            .name
-                color: #074BC5
-            .icon
-                filter: none
-
-    .avatar
-        background: url("../images/no-avatar.svg") center center no-repeat
-        background-size: contain
-        margin: 20px 10px 0 0
-        &, & img, & svg
-            height: 30px
-            width: 30px
-            display: block
-
-    .flag
+    .icon
         margin-right: 10px
-        height: 11px
-        font-size: 11px
-
-    .double
-        margin-top: 17px
-        line-height: 19px
-        .name span, .company
-            max-width: 140px
-            height: 19px
-            overflow: hidden
-            text-overflow: ellipsis
-            white-space: nowrap
-        .name span
-            display: inline-block
 
     &.currency-switcher
         cursor: default
+        &:hover, &.open
+            color: inherit
+            .icon, .switch-arrow
+                filter: none
         .currency
             span
                 color: $color-text-light
-
-    .company
-        font-size: 13px
-        line-height: 16px
-        height: 16px
-        color: $color-text-light
 
     .switch-arrow
         width: 9px
@@ -61,3 +27,10 @@
         background: url("../images/dropdown-arrow.svg") no-repeat
         margin: 7px 0 0 10px
         display: inline-block
+
+    .dropdown
+        width: 120px
+        top: 27px
+        right: auto
+        left: 7px
+        margin-top: 0

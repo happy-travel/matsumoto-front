@@ -1,4 +1,4 @@
-import moment from "moment";
+import { date } from "simple";
 import authStore from "stores/auth-store";
 
 export const searchFormFormatter = values => {
@@ -17,8 +17,8 @@ export const searchFormFormatter = values => {
     }
 
     return {
-        checkInDate: moment(values.checkInDate).utc(true).format(),
-        checkOutDate: moment(values.checkOutDate).utc(true).format(),
+        checkInDate: date.format.api(values.checkInDate),
+        checkOutDate: date.format.api(values.checkOutDate),
         roomDetails: roomDetails,
         ...(authStore.settings.experimentalFeatures ? {} : {
             location: {

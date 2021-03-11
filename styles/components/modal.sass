@@ -48,7 +48,7 @@
     width: 600px
     position: relative
     background: #ffffff
-    border-radius: 4px
+    border-radius: 25px
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2)
     h2
         line-height: 24px
@@ -56,12 +56,12 @@
         font-weight: 500
     .title
         padding: 18px 26px
-        border-bottom: 1px solid $color-usual-gray
+        border-bottom: 1px solid $color-border
     .content
         padding: 30px 25px 35px
 
 .body-wrapper
-    min-width: 1140px
+    min-width: 980px
 
 body.modal-open
     overflow: hidden
@@ -89,5 +89,9 @@ body.modal-open
         text-align: center
         .button
             width: 100%
-    &.extra-height
+    &.duplicate
         margin-bottom: 250px
+        p
+            margin-bottom: 20px
+        .button
+            margin-top: 20px

@@ -1,17 +1,62 @@
 header
     z-index: 102
+    position: fixed
+    width: 100%
+    height: 80px
+    line-height: 22px
+    font-size: 14px
+    box-shadow: 0 .5px 0 #B9B9B9
 
-header, .head-nav
+header
     background: #ffffff
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05)
-    position: relative
-    height: 70px
-    line-height: 70px
+    a
+        display: inline-block
+        vertical-align: top
 
     section
         display: flex
         flex-direction: row
 
+    .search-wrapper
+        flex-grow: 1
+
+    .user-menu
+        padding: 17px 0
+
+    .user-link
+        display: inline-block
+        padding: 5px
+        height: 46px
+        margin-left: 14px
+        .icon
+            float: left
+            margin: 13px 9px 0 9px
+        &:hover
+            .icon
+                filter: none
+        .avatar
+            background: url("../images/no-avatar.svg") center center no-repeat
+            background-size: contain
+            margin: 0
+            &, & img, & svg
+                height: 34px
+                width: 34px
+                display: inline-block
+
+    .logo-wrapper
+        padding-right: 56px
+        .logo
+            width: 110px
+            height: 59px
+            margin: 0 -10px -10px 0
+            display: block
+            background: url("/images/logo/logo.png")
+            background-size: cover
+
+.head-nav
+    position: relative
+    height: 70px
+    line-height: 70px
     nav
         display: flex
         flex-direction: row
@@ -33,29 +78,5 @@ header, .head-nav
                     width: auto
                     background: $color-brand
                     background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
-                    border-radius: 4px
+                    border-radius: 25px
                     position: absolute
-
-    .button.transparent-with-border
-        border: 1px solid $color-brand
-        background: #fff
-        color: $color-brand
-        margin-top: 16px
-        line-height: 34px
-        height: 34px
-        padding: 0 20px
-        &:hover
-            background: #FFFAF3
-
-    .logo-wrapper
-        padding-right: 56px
-        .logo
-            width: 118px
-            height: 63px
-            margin: 0 -10px -10px 0
-            display: block
-            background: url("/images/logo/logo.png")
-            background-size: cover
-
-    .dropdown
-        margin-top: 20px

@@ -8,13 +8,14 @@ import { Stars }        from "./components/stars";
 
 import { hotelStars }   from "./const/hotel-stars";
 
-import { dateFormat }   from "./formatters/date-format";
 import { decorate }     from "./formatters/decorate";
 import { Highlighted }  from "./formatters/highlighted";
 import { PassengersCount, PassengerName } from "./formatters/passengers";
 import { price }        from "./formatters/price";
 import { GroupRoomTypesAndCount } from "./formatters/room-types";
 import { remapStatus } from "./formatters/remap-status";
+
+import date            from "./logic/date";
 
 export {
     Dual,
@@ -27,7 +28,7 @@ export {
 
     hotelStars,
 
-    dateFormat,
+    date,
     decorate,
     Highlighted,
     price,

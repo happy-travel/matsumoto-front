@@ -1,5 +1,5 @@
 import React from "react";
-import { dateFormat, price } from "simple";
+import { date, price } from "simple";
 
 export const RoomPrices = ({ t, prices }) => {
     if (!(prices && prices.length))
@@ -10,7 +10,7 @@ export const RoomPrices = ({ t, prices }) => {
 
     return prices.map((item, index) => (
         <div key={index}>
-            {dateFormat.c(item.fromDate)} – {dateFormat.c(item.toDate)}: {price(item.finalPrice)}
+            {date.format.c(item.fromDate)} – {date.format.c(item.toDate)}: {price(item.finalPrice)}
         </div>
     ));
 };

@@ -101,7 +101,7 @@ class Table extends React.Component {
 
         return (
             <div className="table">
-                <section className="content">
+                <div>
                     <div className="controls">
                         <div className="left">
                             { sorters && <div className="form">
@@ -154,7 +154,7 @@ class Table extends React.Component {
                                 </tbody>
                             </table>
                         )}
-                </section>
+                </div>
             </div>
         );
     }

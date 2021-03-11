@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
-import { dateFormat } from "simple";
+import { date } from "simple";
 import Table from "components/table";
 import SettingsHeader from "./parts/settings-header";
 import authStore from "stores/auth-store";
@@ -14,7 +14,7 @@ const agentsColumns = t => [
     },
     {
         header: "Sign Up Date",
-        cell: (item) => dateFormat.b(item.created * 1000)
+        cell: (item) => date.format.c(item.created * 1000)
     },
     {
         header: "Status",

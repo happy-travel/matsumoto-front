@@ -7,7 +7,7 @@ translations: {
     "FAQ": "الأسئلة الشائعة",
     "Log out": "تسجيل الخروج",
     "Terms & Conditions": "شروط وأحكام الاستخدام",
-    "Contact Us": "تواصل معنا",
+    "Contacts": "تواصل معنا",
     "Email": "البريد الإلكتروني",
     "Phone": "الهاتف",
     "Address": "العنوان",

@@ -21,19 +21,17 @@
                 height: 300px
                 .bottom
                     height: 165px
-                .info
-                    bottom: auto
-                    top: 0
         &.x-4
             .item
                 height: 220px
                 &.offer
                     margin-bottom: 63px
                 .info
-                    padding: 14px
+                    padding: 14px 14px 24px
                     .title
                         font-size: 14px
                         line-height: 17px
+                        min-height: 34px
         .item
             background: #e5e5e5
             margin-right: 20px
@@ -41,6 +39,8 @@
             flex-basis: 100%
             position: relative
             min-height: 50px
+            border-radius: 50px
+            overflow: hidden
             &:last-child
                 margin-right: 0
             .body, .picture
@@ -52,6 +52,7 @@
                 z-index: 3
             .picture
                 z-index: 1
+                object-fit: cover
             .body
                 background: rgba(0,0,0,.1)
                 color: #ffffff
@@ -73,7 +74,6 @@
             .title
                 font-size: 18px
                 line-height: 21px
-                text-transform: uppercase
                 font-weight: 500
             .count
                 font-size: 14px
@@ -84,39 +84,11 @@
                 bottom: 27px
                 right: 30px
                 line-height: 18px
-                text-transform: uppercase
                 font-weight: 500
                 span
                     font-size: 10px
 
-            .close
-                background: url("../images/cross-big.svg") no-repeat
-                width: 12px
-                height: 12px
-                background-size: 12px
-                cursor: pointer
-                border: 10px solid transparent
-                position: absolute
-                top: 20px
-                right: 20px
-                z-index: 10
-                box-sizing: content-box
-
-            .exclusive
-                font-weight: 700
-                text-transform: uppercase
-                border: 1px solid $color-usual-gray
-                height: 64px
-                position: absolute
-                top: 219px
-                padding: 21px
-                text-align: center
-                line-height: 21px
-                font-size: 18px
-                width: 100%
-
     h1
-        text-transform: uppercase
         font-size: 20px
         line-height: 24px
         margin: 63px 0 37px

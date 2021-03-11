@@ -1,19 +1,19 @@
 import React from "react";
-import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
+import { date } from "simple";
 import { Formik } from "formik";
 import Table from "components/table";
-import FieldDatepicker from "components/complex/field-datepicker";
+import { FieldDatepicker } from "components/form";
 import { Columns, Sorters, Searches } from "./table-data";
 
 import authStore from "stores/auth-store";
 import SettingsHeader from "../../settings/parts/settings-header";
 
 const initialValues = {
-    start: moment().startOf("day").add(-1, "M"),
-    end: moment().startOf("day")
+    start: date.addMonth(new Date(), -1),
+    end: new Date()
 };
 
 @observer
@@ -36,9 +36,9 @@ class AccountStatementPage extends React.Component {
             url: API.PAYMENTS_HISTORY,
             body: {
                 $filter: `created gt ${
-                    moment(values.start).utc(true).format()
+                    date.format.api(values.start)
                 } and created lt ${
-                    moment(values.end).add(1,"d").utc(true).format()
+                    date.format.api(date.addDay(values.end, 1))
                 }`
             },
             success: payments => this.setState({ payments })
@@ -57,7 +57,7 @@ class AccountStatementPage extends React.Component {
                 if ("Future" == this.state.filter_tab ||
                     "Past" == this.state.filter_tab)
                     result = result.filter(item => {
-                        var isFuture = moment(item.checkInDate).isAfter(new Date());
+                        var isFuture = !date.passed(item.checkInDate);
                         if ("Future" == this.state.filter_tab)
                             return isFuture;
                         else

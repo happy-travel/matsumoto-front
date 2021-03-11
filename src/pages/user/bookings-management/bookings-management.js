@@ -1,8 +1,8 @@
 import React from "react";
-import moment from "moment";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
+import { date } from "simple";
 import Table from "components/table";
 import { Columns, Sorters, Searches } from "./table-data";
 import store from "stores/accommodation-store";
@@ -81,7 +81,7 @@ class AgencyBookingsManagementPage extends React.Component {
 
                 if ("Future" == filter_tab || "Complete" == filter_tab)
                     result = result.filter(item => {
-                        var isFuture = moment(item.checkInDate).isAfter(new Date());
+                        var isFuture = !date.passed(item.checkInDate);
                         return ("Future" == filter_tab) ? isFuture : !isFuture;
                     });
             }

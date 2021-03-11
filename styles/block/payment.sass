@@ -24,9 +24,9 @@
                 .input.valid
                     &:after
                         content: " "
-                        background: #FFFFFF url("../icons/check-round.svg") left top no-repeat
+                        background: url("../icons/check-round.svg") left top no-repeat
                         position: absolute
-                        top: -9px
+                        top: -6px
                         right: -8px
                         display: block
                         width: 18px
@@ -40,6 +40,7 @@
         .button
             margin-top: 17px
             width: 100%
+            flex-direction: row
             .icon
                 margin-right: 12px
         .middle-section
@@ -65,7 +66,7 @@
                 height: 109px
                 width: 400px
                 border: 1px solid $color-text-light
-                border-radius: 4px
+                border-radius: 25px
                 padding: 42px 30px 0
                 line-height: 24px
                 font-size: 18px
@@ -75,7 +76,7 @@
                     color: $color-text-light
                 &:hover
                     color: $color-text
-                    border-color: $color-text
+                    border-color: $color-brand
                 &.selected
                     color: $color-text
                     border-color: $color-brand
@@ -102,6 +103,11 @@
                         margin: -15px 20px
                     .only-when-selected
                         display: none
+                        .label
+                            margin-top: -10px
+                            margin-left: 0
+                            span
+                                margin-left: 18px
                     img
                         height: 15px
                         margin-right: 10px
