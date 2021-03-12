@@ -51,6 +51,16 @@ class DateDropdown extends React.Component {
         });
     };
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const [ propsFrom, propsTo ] = this.props.options;
+        const [ prevPropsFrom, prevPropsTo ] = prevProps.options;
+        if (propsFrom != prevPropsFrom || propsTo != prevPropsTo)
+            this.setState({
+                from: propsFrom,
+                to: propsTo
+            })
+    }
+
     render() {
         const {
             setValue,

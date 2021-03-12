@@ -1,7 +1,9 @@
 import { default as basicFormat } from "date-format";
 import localeUtils from "tasks/utils/date-locale-utils";
 
-//todo : format.parse
+//const parse = (date) => {
+//   return basicFormat.parse("format", date);
+//};
 
 const dateFormat = (template, rawDate) => {
     let date = new Date(rawDate);
@@ -40,9 +42,37 @@ const passed = (date) => {
     return result;
 };
 
+const parseDateRangeFromString = (text = "") => {
+    const res = text
+        .split(/[.,\/\- –]/)
+        .filter(x => x);
+
+    if (res.map(v => v.length).join(',') != "2,2,4,2,2,4")
+        return null;
+
+    const range = [
+        new Date(+res[2], +res[1]-1, +res[0]),
+        new Date(+res[5], +res[4]-1, +res[3])
+    ];
+
+    const isDateCorrect = (date) => {
+        if (passed(date))
+            return false;
+        if (date.getFullYear() > new Date().getFullYear() + 5)
+            return false;
+        return true;
+    };
+
+    if (!isDateCorrect(range[0]) || !isDateCorrect(range[1]))
+        return null;
+
+    return range;
+};
+
 export default {
     format,
     addDay,
     addMonth,
-    passed
+    passed,
+    parseDateRangeFromString
 };
