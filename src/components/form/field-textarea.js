@@ -31,7 +31,11 @@ class FieldTextarea extends FieldText {
         return (
             <div className={"field" + __class(className)}>
                 <label>
-                    { label && <div className="label">
+                    { label && <div className={
+                        "label" +
+                        __class(this.state.focus, "focus") +
+                        __class(disabled, "disabled")
+                    }>
                         <span className={__class(required, "required")}>{label}</span>
                     </div> }
                     <div className={"input textarea" +
