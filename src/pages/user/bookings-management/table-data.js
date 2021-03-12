@@ -94,7 +94,7 @@ export const Sorters = (permittedAgency) =>t => [
     },
     {
         title: t("Amount"),
-        sorter: v => v.rate.amount
+        sorter: v => v.price.amount
     }
 ];
 

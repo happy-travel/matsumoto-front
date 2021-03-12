@@ -9,16 +9,16 @@
     right: 0
     margin-top: 10px
     overflow: hidden
-    &:after
-        content: ' '
-        width: 14px
-        height: 14px
-        top: -5px
-        right: 30px
-        background: #FFFFFF
-        transform: rotate(45deg)
-        display: block
-        position: absolute
+    //&:after
+    //    content: ' '
+    //    width: 14px
+    //    height: 14px
+    //    top: -5px
+    //    right: 30px
+    //    background: #FFFFFF
+    //    transform: rotate(45deg)
+    //    display: block
+    //    position: absolute
     .scroll
         max-height: inherit
         overflow-y: auto
@@ -27,6 +27,7 @@
         width: 684px
     &.people
         width: 360px
+        user-select: none
         h3
             font-size: 16px
             line-height: 19px
@@ -53,7 +54,7 @@
                     .field
                         width: 52px
                         min-width: 0
-                        margin-right: 0
+                        margin: 0
                         .input
                             height: 40px
                             line-height: 38px
@@ -71,6 +72,7 @@
                 border: 1px solid $color-border
                 border-radius: 25px
                 text-align: center
+                line-height: 37px
                 &.enabled
                     border-color: $color-brand
                 &.enabled, &.active
@@ -104,11 +106,8 @@
                 margin-right: 10px
             b
                 font-weight: 700
-    &.usual
-        .item
-            cursor: pointer
     &.usual, &.locale, &.currency
-        min-width: 120px
+        min-width: 130px
         padding: 6px 0 3px
         line-height: 0
         .item
@@ -123,6 +122,11 @@
             .flag
                 margin-right: 12px
                 display: inline-block
+    &.usual
+        min-width: 150px
+        .item
+            cursor: pointer
+            padding-right: 15px
     &.select
         padding: 0
         width: 100%

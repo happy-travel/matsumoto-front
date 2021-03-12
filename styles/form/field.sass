@@ -20,6 +20,11 @@
         display: block
         &.focus
             color: $color-brand
+        &.disabled
+            span
+                cursor: default
+                background: linear-gradient(0, transparent 25%, #ffffff 50%, transparent 57%)
+                border-radius: 25px
         span
             cursor: pointer
             padding: 4px

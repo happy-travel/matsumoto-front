@@ -195,10 +195,15 @@ class FieldText extends React.Component {
         return (
             <div className={"field" + __class(className)} data-dropdown={this.props["data-dropdown"] || id}>
                 <label>
-                    { label && <div className={"label" +__class(this.state.focus, "focus")}>
+                    { label && <div className={
+                        "label" +
+                        __class(this.state.focus, "focus") +
+                        __class(disabled, "disabled")
+                    }>
                         <span className={__class(required, "required")}>{label}</span>
                     </div> }
-                    <div className={"input" +
+                    <div className={
+                        "input" +
                         __class(this.state.focus, "focus") +
                         __class(disabled, "disabled") +
                         __class(((errorText || (additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation))) && isFieldTouched),
