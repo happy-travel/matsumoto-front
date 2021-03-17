@@ -107,8 +107,7 @@ class AccommodationSearch extends React.Component {
                                             clearable
                                         />
                                         <div className="field">
-                                            <div className="label"/>
-                                            <div className="inner">
+                                            <div className="inner button-holder">
                                                 <button type="submit" className="main button">
                                                     {t("Search Accommodations")}
                                                 </button>
