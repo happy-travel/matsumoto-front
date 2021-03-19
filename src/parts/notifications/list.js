@@ -20,7 +20,7 @@ class NotificationList extends React.Component {
                     (Notifications.list.length - index <= MAXIMUM_VISIBLE_NOTIFICATIONS) &&
                         <NotificationItem
                             notification={notification}
-                            key={index}
+                            key={notification.id}
                         />
                 )
             )}
