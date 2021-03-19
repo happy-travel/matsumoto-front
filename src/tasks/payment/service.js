@@ -11,15 +11,12 @@ export const loadSavedCards = () => {
 };
 
 export const removeSavedCard = (cardId) => {
-    var { savedCards } = this.state;
+    let savedCards = paymentStore.savedCards;
     savedCards = savedCards.filter(item => item.id != cardId);
     return API.delete({
         url: API.CARDS_REMOVE(cardId),
         success: () => {
-            this.setState({
-                savedCards,
-                addNew: !savedCards.length
-            });
+            paymentStore.setSavedCards(savedCards);
         }
     });
 };

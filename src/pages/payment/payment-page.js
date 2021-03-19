@@ -72,7 +72,7 @@ class PaymentPage extends React.Component {
                 In case of cancellation, funds will be released in accordance with the service cancellation policy as soon as possible.
             </p>
 
-            { this.state.addNew ?
+            { (this.state.addNew || !paymentStore.savedCards.length) ?
                 <>
                     {!!paymentStore.savedCards.length &&
                         <div className="form" style={{ paddingTop: "40px" }}>
