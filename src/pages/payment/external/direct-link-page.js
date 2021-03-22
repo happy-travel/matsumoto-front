@@ -75,13 +75,13 @@ class PaymentDirectLinkPage extends React.Component {
                                 <h2>
                                     Payment order {order.referenceCode} {date.format.c(order.date)}
                                 </h2>
-                                <p className="remark">
+                                {!!order.comment && <p className="remark">
                                     {order.comment.split('\n').map(line => (
                                         <React.Fragment>
                                             {line}<br/>
                                         </React.Fragment>
                                     ))}
-                                </p>
+                                </p>}
                                 <h2 className="payment-title">
                                     {t("Please Enter Your Card Details")}
                                 </h2>
