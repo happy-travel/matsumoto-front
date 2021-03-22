@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import Breadcrumbs from "components/breadcrumbs";
-import BookingDetailsView from "./parts/booking-details-view";
+import BookingConfirmationView from "./parts/booking-confirmation-view";
 
 @observer
 class AccommodationViewBookingPage extends React.Component {
@@ -24,7 +24,7 @@ class AccommodationViewBookingPage extends React.Component {
                 ]}
                 backLink="/bookings"
             />
-            <BookingDetailsView referenceCode={this.props.match.params.code} />
+            <BookingConfirmationView referenceCode={this.props.match.params.code} />
         </div>
     </section>
 </div>

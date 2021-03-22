@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
 import PaymentInformation from "./parts/payment-information";
-import BookingDetailsView from "./parts/booking-details-view";
+import BookingConfirmationView from "./parts/booking-confirmation-view";
 import paymentStore from "stores/payment-store";
 
 @observer
@@ -33,7 +33,7 @@ render() {
             />
             <PaymentInformation />
             { !paymentStore.paymentResult.error &&
-                <BookingDetailsView referenceCode={paymentStore.subject.referenceCode}/>
+                <BookingConfirmationView referenceCode={paymentStore.subject.referenceCode}/>
             }
         </div>
     </section>

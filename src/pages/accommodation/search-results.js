@@ -38,6 +38,8 @@ class AccommodationSearchResultsPage extends React.Component {
         if (!store?.search?.request?.destination)
             return <AccommodationTitlePage />;
 
+        document.title = store.search.request.destination + " – " + "Happytravel.com";
+
         return (
 <div className="search-results block">
     {__devEnv && <div className="hide">{JSON.stringify(store.filters?.source)}</div> }
