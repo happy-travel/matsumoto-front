@@ -1,6 +1,7 @@
 import React from "react";
 import { API } from "core";
 import { Formik } from "formik";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 
@@ -97,6 +98,21 @@ export default class CounterpartySettings extends React.Component {
                                     </button> :
                                     <span>No Contract Uploaded</span>
                                 }
+                            </div>
+                        }
+
+                        {(
+                            authStore.permitted("ObserveChildAgencies") ||
+                            authStore.permitted("InviteChildAgencies")
+                        ) &&
+                            <div>
+                                <h2><span className="brand">{t("Child Agencies")}</span></h2>
+                                <Link to="/settings/child-agencies/observe" className="button" style={{ marginRight: 20 }}>
+                                    {t("Observe Child Agencies")}
+                                </Link>
+                                <Link to="/settings/child-agencies/invite" className="button">
+                                    {t("Invite Child Agency")}
+                                </Link>
                             </div>
                         }
 

@@ -130,7 +130,7 @@ class RegistrationAgent extends React.Component {
             render={formik => (
                 <div className="form">
                     <FormUserData formik={formik} t={t} />
-                    <div className="row submit-holder">
+                    <div className="row">
                         <div className="field">
                             <div className="inner">
                                 <button type="submit" className="button">

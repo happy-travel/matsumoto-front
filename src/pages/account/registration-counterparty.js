@@ -165,7 +165,7 @@ class RegistrationCounterparty extends React.Component {
                                                    placeholder={t("Website")}
                                         />
                                     </div>
-                                    <div className="row submit-holder">
+                                    <div className="row">
                                         <div className="field">
                                             <div className="inner">
                                                 <button type="submit" className={"button" + __class(!formik.isValid, "disabled")}>

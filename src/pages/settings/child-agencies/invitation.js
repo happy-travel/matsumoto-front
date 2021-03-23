@@ -3,19 +3,18 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 
-import { Loader } from "simple";
+import {Loader} from "simple";
 import { copyToClipboard } from "simple/logic";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationUserValidatorWithEmail } from "components/form/validation";
 import FormUserData from "parts/form-user-data";
-import SettingsHeader from "pages/settings/parts/settings-header";
+import Breadcrumbs from "components/breadcrumbs";
 
 import UI from "stores/ui-store";
-import authStore from "stores/auth-store";
 import Notifications from "stores/notifications-store";
 
 @observer
-class InvitationSendPage extends React.Component {
+class ChildAgencyInvitationPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,15 +28,17 @@ class InvitationSendPage extends React.Component {
     submit(values) {
         this.setState({ success: null });
         API.post({
-            url: values.send ? API.AGENT_INVITE_SEND : API.AGENT_INVITE_GENERATE,
+            url: values.send ? API.CHILD_AGENCY_INVITE_SEND : API.CHILD_AGENCY_INVITE_GENERATE,
             body: {
-                email: values.email,
-                agencyId: authStore.activeCounterparty.agencyId,
-                registrationInfo: {
+                userRegistrationInfo: {
+                    email: values.email,
                     firstName: values.firstName,
                     lastName: values.lastName,
                     position: values.position,
                     title: values.title
+                },
+                childAgencyRegistrationInfo: {
+                    name: values.agencyName
                 }
             },
             success: data => {
@@ -71,9 +72,20 @@ class InvitationSendPage extends React.Component {
 
         return (
     <div className="settings block">
-        <SettingsHeader />
         <section>
-            <h2><span className="brand">{t("Invite an agent")}</span></h2>
+            <Breadcrumbs items={[
+                {
+                    text: t("Agency"),
+                    link: "/settings/counterparty"
+                },
+                {
+                    text: t("Child Agencies"),
+                    link: "/settings/child-agencies/observe"
+                }, {
+                    text: t("Invitation")
+                }
+            ]}/>
+            <h2><span className="brand">{t("Invite child agency")}</span></h2>
             { this.state.success === null && <Loader /> }
             { this.state.success && <div>
                 {this.state.success === true ?
@@ -100,24 +112,29 @@ class InvitationSendPage extends React.Component {
                     {t("Send one more invite")}
                 </button>
             </div> }
-            { false === this.state.success && <p>
-                {t("Invite someone to create a free Happytravel.com account and start booking today.")}<br/>
-                <br/>
-            </p> }
 
             { false === this.state.success && <CachedForm
                 id={FORM_NAMES.CreateInviteForm}
                 initialValues={{
-                    "email": "",
-                    "title": "",
-                    "firstName": "",
-                    "lastName": "",
-                    "position": ""
+                    agencyName: "",
+                    email: "",
+                    title: "",
+                    firstName: "",
+                    lastName: "",
+                    position: ""
                 }}
                 validationSchema={registrationUserValidatorWithEmail}
                 onSubmit={this.submit}
                 render={formik => (
                     <div className="form">
+                        <div className="row">
+                            <FieldText formik={formik}
+                                id="agencyName"
+                                label={t("Child Agency Name")}
+                                placeholder={t("Child Agency Name")}
+                                required
+                            />
+                        </div>
                         <div className="row">
                             <FieldText formik={formik}
                                 id="email"
@@ -154,4 +171,4 @@ class InvitationSendPage extends React.Component {
     }
 }
 
-export default InvitationSendPage;
+export default ChildAgencyInvitationPage;

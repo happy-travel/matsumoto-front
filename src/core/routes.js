@@ -28,6 +28,10 @@ import invitationsManagement      from "pages/settings/invitations";
 import invitationSend             from "pages/settings/invitation-send";
 import invitationResend           from "pages/settings/invitation-resend";
 
+import childAgencyInvitation      from "pages/settings/child-agencies/invitation";
+import childAgencyObserve         from "pages/settings/child-agencies/observe";
+import childAgencyItem            from "pages/settings/child-agencies/child-agency";
+
 import agentsManagement           from "pages/settings/agents-management";
 import agentPermissionsManagement from "pages/settings/agent-permissions-management";
 
@@ -79,7 +83,7 @@ const Routes = () => (
                 ]}                            component={paymentResultFirst} title="Processing" />
     <Route path="/payments/callback"          component={paymentResultSecond} title="Processing" />
 
-    <Route path="/pay/confirmation"       component={paymentDirectLinkConfirm} title="Confirmation" />
+    <Route path="/pay/confirmation"           component={paymentDirectLinkConfirm} title="Confirmation" />
     <Route path="/pay/:code"                  component={paymentDirectLink} />
 
     <Route path="/signup/agent"               component={registrationAgent} title="Sign Up" />
@@ -91,12 +95,18 @@ const Routes = () => (
     <Route path="/settings/invitations/send"  component={invitationSend} title="Invite an Agent" />
     <Route path="/settings/invitations/:id"   component={invitationResend} title="Invitation" />
     <Route path="/settings/invitations"       component={invitationsManagement} title="Invitations" />
+    <Route path="/settings/child-agencies/invite"
+                                              component={childAgencyInvitation} title="Invite Child Agency" />
+    <Route path="/settings/child-agencies/observe"
+                                              component={childAgencyObserve} title="Observe Child Agency" />
+    <Route path="/settings/child-agencies/:id"
+                                              component={childAgencyItem} title="Child Agency" />
 
     <Route path="/settings/agents/:agentId/"
                                               component={agentPermissionsManagement} title="Agent Permissions" />
     <Route path="/settings/agents"            component={agentsManagement} title="Agent Management" />
     <Route path="/settings/counterparty"      component={counterpartySettings} title="Counterparty Settings" />
-    <Route path="/settings"                   component={personalSettings} title="Personal Settings" />
+    <Route exact path="/settings"             component={personalSettings} title="Personal Settings" />
 
     <Route path="/contact"                    component={contactUsPage} title="Contacts" />
     <Route path="/terms"                      component={termsPage} title="Terms & Conditions" />

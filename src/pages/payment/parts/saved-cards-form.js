@@ -85,7 +85,7 @@ class PaymentSavedCardsFormPart extends React.Component {
                                 })}
                             </div>
                         </div>
-                        <button type="submit" className={"main no-margin button" + __class(!this.state.selectedCardId, "disabled")}>
+                        <button type="submit" className={"main button" + __class(!this.state.selectedCardId, "disabled")}>
                             <span className="icon icon-white-lock" />
                             { t("Pay") + price(paymentStore.subject.price) + t("using saved card")}
                         </button>

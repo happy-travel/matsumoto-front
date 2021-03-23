@@ -405,7 +405,7 @@ class AccommodationBookingPage extends React.Component {
                                     {!(contract?.isAdvancePurchaseRate &&
                                         (authStore.agencyAPR < APR_VALUES.CardPurchasesOnly)) &&
                                         <div className="second">
-                                            <button type="submit" className={"button" + __class(!formik.isValid, "disabled")}>
+                                            <button type="submit" className={"button main" + __class(!formik.isValid, "disabled")}>
                                                 {t("Confirm booking")}
                                             </button>
                                         </div>

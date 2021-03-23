@@ -6,6 +6,11 @@ export const emailForm =  {
         .required("Required"),
 };
 
+export const agencyNameForm =  {
+    email: Yup.string()
+        .required("Required"),
+};
+
 const validator = {
     firstName: Yup.string()
         .max(50, "Too long")
@@ -26,4 +31,10 @@ export const emailFormValidator = Yup.object().shape(emailForm);
 export const registrationUserValidatorWithEmail = Yup.object().shape({
     ...validator,
     ...emailForm
+});
+
+export const registrationUserValidatorWithEmailAndAgencyName = Yup.object().shape({
+    ...validator,
+    ...emailForm,
+    ...agencyNameForm
 });

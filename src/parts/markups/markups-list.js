@@ -1,14 +1,17 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
+import {
+    CachedForm,
+    FieldText,
+    FieldSelect
+} from "components/form";
 import { API } from "core";
 
 import authStore from "stores/auth-store";
-import MarkupFormPart from "parts/markups/markup-form";
-import MarkupsListPart from "parts/markups/markups-list";
 
 @observer
-class AgentMarkup extends React.Component {
+class MarkupsListPart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -74,36 +77,38 @@ class AgentMarkup extends React.Component {
     }
 
     render() {
-        if (!authStore.permitted("MarkupManagement"))
-            return null;
+        const {
+            markups,
+            emptyText,
+            onRemove
+        } = this.props;
 
-        var { t } = useTranslation(),
-            { markups, templates } = this.state;
+        const { t } = useTranslation();
 
         return (
-            <div className="markup-management">
-                <MarkupsListPart
-                    emptyText={"Agent has no markups"}
-                    markups={markups}
-                    onRemove={this.remove}
-                />
-                {!this.state.isExpanded ?
-                    <button
-                        className="button"
-                        onClick={() => this.setState({ isExpanded: true })}
-                        style={{ padding: "0 25px", margin: "20px 0 0" }}
-                    >
-                        Add Markup
-                    </button>
-                :
-                    <MarkupFormPart
-                        templates={templates}
-                        onSubmit={this.create}
-                    />
-                }
-            </div>
+            <>
+                <h2><span className="brand">{t("Markup Management")}</span></h2>
+                {!markups?.length && <div style={{ margin: "30px 0 60px" }}>{emptyText}</div>}
+                {markups
+                    .sort((a,b) => (a.settings.order - b.settings.order))
+                    .map((markup, index) => (
+                        <div className="markup" key={index}>
+                            <div>
+                                <i>{index + 1}.</i>{" "}
+                                <strong>
+                                    { markup.settings.templateSettings.factor ?
+                                        "x " + markup.settings.templateSettings.factor :
+                                        "+ " + markup.settings.templateSettings.addition + " USD" }
+                                </strong>{" "}
+                                ({markup.settings.description}){" "}
+                                <i>#{markup.settings.order}</i>
+                            </div>
+                            <span className="link" onClick={() => onRemove(markup.id)}>Remove</span>
+                        </div>
+                    ))}
+            </>
         );
     }
 }
 
-export default AgentMarkup;
+export default MarkupsListPart;

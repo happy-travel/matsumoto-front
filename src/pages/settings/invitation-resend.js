@@ -101,7 +101,7 @@ class InvitationResendPage extends React.Component {
                 </div>
 
                 { false === this.state.success && <>
-                    <div className="row submit-holder">
+                    <div className="row">
                         <button onClick={this.disable} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
                             {t("Disable Invitation")}
                         </button>
