@@ -102,8 +102,10 @@ export default class CounterpartySettings extends React.Component {
                         }
 
                         {(
-                            authStore.permitted("ObserveChildAgencies") ||
-                            authStore.permitted("InviteChildAgencies")
+                            (__localhost || __devEnv) && (
+                                authStore.permitted("ObserveChildAgencies") ||
+                                authStore.permitted("InviteChildAgencies")
+                            )
                         ) &&
                             <div>
                                 <h2><span className="brand">{t("Child Agencies")}</span></h2>
