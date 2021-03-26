@@ -11,7 +11,7 @@ export const searchFormFormatter = values => {
         if (values.roomDetails[i].childrenAges.length) {
             room.childrenAges = [];
             for (var j = 0; j < values.roomDetails[i].childrenAges.length; j++)
-                room.childrenAges.push(values.roomDetails[i].childrenAges[j] || 12);
+                room.childrenAges.push(parseInt(values.roomDetails[i].childrenAges[j] || 12));
         }
         roomDetails.push(room);
     }
