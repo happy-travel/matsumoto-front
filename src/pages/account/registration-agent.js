@@ -78,7 +78,7 @@ class RegistrationAgent extends React.Component {
                 success: data => {
                     this.setState({
                         invitationCode: invitationCode,
-                        initialValues: data?.registrationInfo
+                        initialValues: data?.userRegistrationInfo
                     });
                 }
             });
