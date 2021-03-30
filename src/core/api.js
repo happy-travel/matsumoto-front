@@ -30,8 +30,8 @@ API_METHODS = {
     AGENT_REGISTER        : v1 + "/agent/register",
     AGENT_REGISTER_MASTER : v1 + "/agent/register-master",
     AGENT_PROPERTIES      : v1 + "/agent/properties",
-    AGENT_INVITE_DATA     : invitationCode =>
-                            v1 + "/agent/invitations/" + invitationCode,
+    INVITATION_DATA       : invitationCode =>
+                            v1 + `/invitations/${invitationCode}`,
     AGENT_INVITE_SEND     : v1 + "/agent/invitations/send",
     AGENT_INVITE_GENERATE : v1 + "/agent/invitations/generate",
     AGENT_INVITE_RESEND   : invitationId =>

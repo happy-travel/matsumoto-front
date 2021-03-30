@@ -74,7 +74,7 @@ class RegistrationAgent extends React.Component {
         var invitationCode = getInvite();
         if (invitationCode)
             API.get({
-                url: API.AGENT_INVITE_DATA(invitationCode),
+                url: API.INVITATION_DATA(invitationCode),
                 success: data => {
                     this.setState({
                         invitationCode: invitationCode,
