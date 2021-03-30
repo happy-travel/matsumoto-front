@@ -6,8 +6,8 @@ import { userAuthSetToStorage } from "core/auth";
 import { getInvite, forgetInvite } from "core/auth/invite";
 import Breadcrumbs from "components/breadcrumbs";
 import ActionSteps from "components/action-steps";
-import { CachedForm } from "components/form";
-import { registrationUserValidator } from "components/form/validation";
+import { CachedForm, FieldText } from "components/form";
+import { registrationUserValidator, registrationUserValidatorWithEmailAndAgencyName } from "components/form/validation";
 import { fillEmptyUserSettings } from "simple/logic";
 import FormUserData from "parts/form-user-data";
 import store from "stores/auth-store";
@@ -38,8 +38,11 @@ class RegistrationAgent extends React.Component {
                 "title": "",
                 "firstName": "",
                 "lastName": "",
-                "position": ""
-            }
+                "position": "",
+                "agencyName": ""
+            },
+            childAgencyRegistrationInfo: {},
+            invitationCode: null
         };
         this.submit = this.submit.bind(this);
     }
@@ -47,15 +50,31 @@ class RegistrationAgent extends React.Component {
     submit(values) {
         store.setRegistrationUserForm(values);
         if (this.state.invitationCode) {
-            API.post({
-                url: API.AGENT_REGISTER,
-                body: {
+            let url = API.AGENT_REGISTER;
+            let body = {
+                registrationInfo: {
+                    ...values,
+                    email: this.state.initialValues.email
+                },
+                invitationCode: this.state.invitationCode
+            };
+            if (this.state.childAgencyRegistrationInfo.name) {
+                url = API.AGENCY_REGISTER;
+                body = {
                     registrationInfo: {
                         ...values,
                         email: this.state.initialValues.email
                     },
+                    childAgencyRegistrationInfo: {
+                        ...this.state.childAgencyRegistrationInfo,
+                        name: values.agencyName
+                    },
                     invitationCode: this.state.invitationCode
-                },
+                }
+            }
+            API.post({
+                url,
+                body,
                 success: () => {
                     finishAgentRegistration();
                     redirect("/");
@@ -76,19 +95,28 @@ class RegistrationAgent extends React.Component {
             API.get({
                 url: API.INVITATION_DATA(invitationCode),
                 success: data => {
+                    let initialValues = data?.userRegistrationInfo;
+                    if (data?.childAgencyRegistrationInfo?.name)
+                        initialValues = {
+                            ...data.userRegistrationInfo,
+                            agencyName: data.childAgencyRegistrationInfo.name
+                        };
                     this.setState({
+                        initialValues,
                         invitationCode: invitationCode,
-                        initialValues: data?.userRegistrationInfo
+                        childAgencyRegistrationInfo: data?.childAgencyRegistrationInfo
                     });
                 }
             });
     }
 
     render() {
-        var { t } = useTranslation();
+        let { t } = useTranslation();
+
+        const { childAgencyRegistrationInfo, invitationCode, initialValues } = this.state;
 
         var actionSteps = [t("Login Information"), t("Agent Information")];
-        if (!this.state.invitationCode)
+        if (!invitationCode)
             actionSteps.push(t("Company Information"));
 
         return (
@@ -123,18 +151,31 @@ class RegistrationAgent extends React.Component {
             </p>
 
         <CachedForm
-            initialValues={this.state.initialValues}
+            initialValues={initialValues}
             enableReinitialize
-            validationSchema={registrationUserValidator}
+            validationSchema={
+                childAgencyRegistrationInfo.name ?
+                    registrationUserValidatorWithEmailAndAgencyName :
+                    registrationUserValidator
+            }
             onSubmit={this.submit}
             render={formik => (
                 <div className="form">
+                    { childAgencyRegistrationInfo.name ? <div className="row">
+                        <FieldText
+                            formik={formik}
+                            id="agencyName"
+                            label={t("Agency Name")}
+                            placeholder={t("Agency Name")}
+                            required
+                        />
+                    </div> : null }
                     <FormUserData formik={formik} t={t} />
                     <div className="row">
                         <div className="field">
                             <div className="inner">
                                 <button type="submit" className="button">
-                                    { this.state.invitationCode ?
+                                    { invitationCode ?
                                         t("Finish Registration") :
                                         t("Continue Registration")}
                                 </button>

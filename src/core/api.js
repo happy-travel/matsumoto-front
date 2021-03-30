@@ -28,6 +28,7 @@ API_METHODS = {
 
     AGENT                 : v1 + "/agent",
     AGENT_REGISTER        : v1 + "/agent/register",
+    AGENCY_REGISTER       : v1 + "/agency/register",
     AGENT_REGISTER_MASTER : v1 + "/agent/register-master",
     AGENT_PROPERTIES      : v1 + "/agent/properties",
     INVITATION_DATA       : invitationCode =>

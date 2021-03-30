@@ -5,7 +5,7 @@ import { API } from "core";
 import { Loader } from "simple";
 import { copyToClipboard } from "simple/logic";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
-import { registrationUserValidatorWithEmail } from "components/form/validation";
+import { registrationUserValidatorWithEmailAndAgencyName } from "components/form/validation";
 import FormUserData from "parts/form-user-data";
 import Breadcrumbs from "components/breadcrumbs";
 
@@ -122,7 +122,7 @@ class ChildAgencyInvitationPage extends React.Component {
                     lastName: "",
                     position: ""
                 }}
-                validationSchema={registrationUserValidatorWithEmail}
+                validationSchema={registrationUserValidatorWithEmailAndAgencyName}
                 onSubmit={this.submit}
                 render={formik => (
                     <div className="form">

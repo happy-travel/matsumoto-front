@@ -7,7 +7,7 @@ export const emailForm =  {
 };
 
 export const agencyNameForm =  {
-    email: Yup.string()
+    agencyName: Yup.string()
         .required("Required"),
 };
 
