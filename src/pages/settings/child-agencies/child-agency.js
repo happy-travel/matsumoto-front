@@ -17,6 +17,10 @@ export default class ChildAgencyItemPage extends React.Component {
     };
     
     componentDidMount() {
+        this.loadAgency();
+    }
+
+    loadAgency = () => {
         const { id } = this.props.match.params;
         API.get({
             url: API.CHILD_AGENCY(id),
@@ -27,7 +31,7 @@ export default class ChildAgencyItemPage extends React.Component {
                 });
             }
         })
-    }
+    };
 
     activate = () => {
         const { id } = this.props.match.params;
@@ -115,6 +119,7 @@ export default class ChildAgencyItemPage extends React.Component {
                                     <TransferBalance
                                         payerAccountId={authStore.activeCounterparty.agencyId}
                                         recipient={agency}
+                                        onUpdate={this.loadAgency}
                                     />
                                     <Markups
                                         id={agency.id}

@@ -10,20 +10,28 @@ import authStore from "stores/auth-store";
 @observer
 export default class ChildAgencyTransferBalancePart extends React.Component {
     componentDidMount() {
+        this.updateBalance();
+    }
+
+    updateBalance = () => {
         if (authStore.permitted("ObserveBalance"))
             API.get({
                 url: API.ACCOUNT_BALANCE("USD"),
                 success: balance => authStore.setBalance(balance)
             });
-    }
+    };
 
-    submit = (values) => {
-        const { payerAccountId, recipient } = this.props;
+    submit = (values, formik) => {
+        const { payerAccountId, recipient, onUpdate } = this.props;
 
         API.post({
             url: API.CHILD_AGENCY_TRANSFER_ACCOUNT_FUNDS(payerAccountId, recipient.id),
             body: values,
-            success: () => console.log('todo')
+            success: () => {
+                this.updateBalance();
+                onUpdate();
+                formik.resetForm();
+            }
         });
     };
 
