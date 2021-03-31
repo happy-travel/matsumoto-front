@@ -109,7 +109,7 @@ export default class CounterpartySettings extends React.Component {
                         ) &&
                             <div>
                                 <h2><span className="brand">{t("Child Agencies")}</span></h2>
-                                <Link to="/settings/child-agencies/observe" className="button" style={{ marginRight: 20 }}>
+                                <Link to="/settings/child-agencies" className="button" style={{ marginRight: 20 }}>
                                     {t("Observe Child Agencies")}
                                 </Link>
                                 <Link to="/settings/child-agencies/invite" className="button">

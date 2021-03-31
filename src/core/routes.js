@@ -95,10 +95,10 @@ const Routes = () => (
     <Route path="/settings/invitations/send"  component={invitationSend} title="Invite an Agent" />
     <Route path="/settings/invitations/:id"   component={invitationResend} title="Invitation" />
     <Route path="/settings/invitations"       component={invitationsManagement} title="Invitations" />
+    <Route exact path="/settings/child-agencies"
+                                              component={childAgencyObserve} title="Observe Child Agency" />
     <Route path="/settings/child-agencies/invite"
                                               component={childAgencyInvitation} title="Invite Child Agency" />
-    <Route path="/settings/child-agencies/observe"
-                                              component={childAgencyObserve} title="Observe Child Agency" />
     <Route path="/settings/child-agencies/:id"
                                               component={childAgencyItem} title="Child Agency" />
 

@@ -63,6 +63,7 @@ class MarkupFormPart extends React.Component {
                                     id="amount"
                                     label="Amount"
                                     placeholder="Amount"
+                                    numeric
                                 />
                             </div>
                             <div className="row">

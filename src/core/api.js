@@ -44,13 +44,15 @@ API_METHODS = {
     AGENCY_INVITATIONS    : v1 + "/agency/invitations",
     AGENCY_ACCEPTED_INVITES: v1 + "/agency/invitations/accepted", // todo: some misunderstandings possible. This methods should be renamed in API
 
+    CHILD_AGENCY          : agencyId =>
+                            v1 + `/agency/child-agencies/${agencyId}`,
     CHILD_AGENCIES        : v1 + "/agency/child-agencies",
     CHILD_AGENCY_INVITE_SEND: v1 + "/agency/invitations/send",
     CHILD_AGENCY_INVITE_GENERATE: v1 + "/agency/invitations/generate",
     CHILD_AGENCY_MARKUPS  : agencyId =>
-                            v1 + `​/agency​/child-agencies​/${agencyId}​/markups`,
+                            v1 + `/agency/child-agencies/${agencyId}/markups`,
     CHILD_AGENCY_MARKUP   : (agencyId, policyId) =>
-                            v1 + `/agency​/child-agencies​/${agencyId}​/markups/${policyId}`,
+                            v1 + `/agency/child-agencies/${agencyId}/markups/${policyId}`,
     CHILD_AGENCY_ACTIVATE : agencyId =>
                             v1 + `/agency/child-agencies/${agencyId}/activate`,
     CHILD_AGENCY_DEACTIVATE: agencyId =>

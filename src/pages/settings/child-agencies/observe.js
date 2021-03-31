@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
+import { price, date } from "simple";
 import Table from "components/table";
 import authStore from "stores/auth-store";
 import Breadcrumbs from "components/breadcrumbs";
@@ -10,11 +11,19 @@ import Breadcrumbs from "components/breadcrumbs";
 const childAgenciesColumns = t => [
     {
         header: t("Name"),
-        cell: "name",
+        cell: "name"
     },
     {
-        header: "Counterparty ID",
-        cell: "counterpartyId"
+        header: t("Active"),
+        cell: v => v.isActive ? t("Yes") : t("No")
+    },
+    {
+        header: t("Balance"),
+        cell: v => price(v.accountBalance)
+    },
+    {
+        header: t("Created"),
+        cell: v => date.format.c(v.created)
     }
 ];
 
@@ -25,12 +34,9 @@ export const Searches = v => [
 
 @observer
 class ChildAgencyObservePage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            agencies: null
-        };
-    }
+    state = {
+        agencies: null
+    };
 
     componentDidMount() {
         if (!authStore.activeCounterparty)
@@ -58,12 +64,12 @@ class ChildAgencyObservePage extends React.Component {
                             text: t("Child Agencies")
                         }
                     ]}/>
-                    <h2><span className="brand">{t("All Child Agencies")}</span></h2>
+                    <h2><span className="brand">{t("Child Agencies")}</span></h2>
                     <div style={{ marginTop: "-105px" }}>
                         <Table
                             list={agencies}
                             columns={childAgenciesColumns(t)}
-                            onRowClick={item => redirect(`/settings/child-agencies/${item.agentId}`)}
+                            onRowClick={item => redirect(`/settings/child-agencies/${item.id}`)}
                             textEmptyResult={t("No child agencies found")}
                             textEmptyList={t("Child agencies list is empty")}
                             searches={Searches}

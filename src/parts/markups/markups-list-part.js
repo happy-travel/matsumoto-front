@@ -17,7 +17,7 @@ class MarkupsListPart extends React.Component {
             <>
                 <h2><span className="brand">{t("Markup Management")}</span></h2>
 
-                {!markups?.length && <div style={{ margin: "30px 0 60px" }}>{emptyText}</div>}
+                {!markups?.length && <div style={{ margin: "30px 0 0" }}>{emptyText}</div>}
                 {markups
                     .sort((a,b) => (a.settings.order - b.settings.order))
                     .map((markup, index) => (

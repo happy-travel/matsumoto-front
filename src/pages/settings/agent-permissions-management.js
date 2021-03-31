@@ -7,7 +7,7 @@ import { Loader, PassengerName } from "simple";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import SettingsHeader from "./parts/settings-header";
-import AgentMarkup from "./parts/agent-markup";
+import Markups from "parts/markups/markups";
 import authStore from "stores/auth-store";
 
 const generateLabel = str => {
@@ -189,9 +189,15 @@ export default class AgentPermissionsManagement extends React.Component {
                     </Formik>
                 </div>
 
-                <AgentMarkup
-                    agentId={agent.agentId}
-                />
+
+                { authStore.permitted("MarkupManagement") &&
+                    <Markups
+                        id={agent.agentId}
+                        emptyText={"Agent has no markups"}
+                        markupsRoute={API.AGENT_MARKUPS}
+                        markupRoute={API.AGENT_MARKUP}
+                    />
+                }
             </section>
             }
         </div>

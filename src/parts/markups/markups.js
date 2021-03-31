@@ -1,14 +1,11 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { API } from "core";
-
-import authStore from "stores/auth-store";
-import MarkupFormPart from "parts/markups/markup-form";
-import MarkupsListPart from "parts/markups/markups-list";
+import MarkupFormPart from "parts/markups/markup-form-part";
+import MarkupsListPart from "parts/markups/markups-list-part";
 
 @observer
-class AgentMarkup extends React.Component {
+class Markups extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,9 +16,6 @@ class AgentMarkup extends React.Component {
     }
 
     componentDidMount() {
-        if (!authStore.permitted("MarkupManagement"))
-            return null;
-
         API.get({
             url: API.MARKUP_TEMPLATES,
             success: templates => this.setState({ templates })
@@ -30,33 +24,33 @@ class AgentMarkup extends React.Component {
     }
 
     load = () => {
-        var { agentId } = this.props;
+        let { markupsRoute, id } = this.props;
         API.get({
-            url: API.AGENT_MARKUPS(agentId),
+            url: markupsRoute(id),
             success: markups => this.setState({
                 markups,
                 isExpanded: !markups?.length
             })
         });
-    }
+    };
 
-    remove = (id) => {
-        var { agentId } = this.props;
+    remove = (markupId) => {
+        let { markupRoute, id } = this.props;
         API.delete({
-            url: API.AGENT_MARKUP(agentId, id),
+            url: markupRoute(id, markupId),
             success: () => this.load()
         });
-    }
+    };
 
     create = (values, formik) => {
-        var { agentId } = this.props,
+        let { markupsRoute, id } = this.props,
             { templates } = this.state,
             amount = values.amount;
 
         amount = amount.replaceAll(",", ".");
 
         API.post({
-            url: API.AGENT_MARKUPS(agentId),
+            url: markupsRoute(id),
             body: {
                 description: values.description,
                 templateId: templates[values.templateIndex].id,
@@ -71,19 +65,16 @@ class AgentMarkup extends React.Component {
                 formik.resetForm();
             }
         });
-    }
+    };
 
     render() {
-        if (!authStore.permitted("MarkupManagement"))
-            return null;
-
-        var { t } = useTranslation(),
-            { markups, templates } = this.state;
+        const { markups, templates } = this.state,
+            { emptyText } = this.props;
 
         return (
             <div className="markup-management">
                 <MarkupsListPart
-                    emptyText={"Agent has no markups"}
+                    emptyText={emptyText}
                     markups={markups}
                     onRemove={this.remove}
                 />
@@ -106,4 +97,4 @@ class AgentMarkup extends React.Component {
     }
 }
 
-export default AgentMarkup;
+export default Markups;
