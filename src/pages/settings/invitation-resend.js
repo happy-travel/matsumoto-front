@@ -3,9 +3,7 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
-import { FieldText } from "components/form";
 import { Loader, PassengerName } from "simple";
-import { copyToClipboard } from "simple/logic";
 import SettingsHeader from "pages/settings/parts/settings-header";
 import authStore from "stores/auth-store";
 import Notifications from "stores/notifications-store";
@@ -61,14 +59,6 @@ class InvitationResendPage extends React.Component {
         });
     };
 
-    generate = () => {
-        var { invitation, id } = this.state;
-
-        this.setState({
-            success: window.location.origin + "/signup/invite/" + invitation.email + "/" + id
-        });
-    };
-
     render() {
         var { t } = useTranslation(),
             { invitation } = this.state;
@@ -108,34 +98,17 @@ class InvitationResendPage extends React.Component {
                         <button onClick={this.resend} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
                             {t("Resend Invitation")}
                         </button>
-                        <button onClick={this.generate} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
-                            {t("Generate Invitation Link")}
-                        </button>
                     </div>
                 </> }
             </> }
 
             { this.state.success && <div>
-                {this.state.success === true ?
                 <div>
                     { this.state.name ?
                         <h3>{t("Your invitation sent to")} {this.state.name}</h3> :
                         <h3>{t("Your invitation sent")}</h3> }
                     <br/>
-                </div> :
-                <div>
-                    <div className="form">
-                        <h3>{t("Send this link as an invitation")}</h3>
-                        <br/>
-                        <FieldText
-                            value={this.state.success}
-                        />
-                    </div>
-                    <br/>
-                    <button className="button small" onClick={() => copyToClipboard(this.state.success)}>
-                        {t("Copy to Clipboard")}
-                    </button>
-                </div>}
+                </div>
                 <Link to="/settings/invitations">
                     <button className="button small payment-back">
                         {t("Back to Invitations")}
