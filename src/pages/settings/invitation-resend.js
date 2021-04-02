@@ -82,23 +82,31 @@ class InvitationResendPage extends React.Component {
                     {invitation.email}
                 </div>
                 <div className="row">
+                    <b>{t("Status")}</b>:{" "}
+                    {invitation.status}
+                </div>
+                <div className="row">
                     <b>{t("Inviter")}</b>:{" "}
                     {invitation.createdBy}
                 </div>
                 <div className="row">
                     <b>{t("Created")}</b>:{" "}
-                    {invitation.created}
+                    {invitation.created} {invitation.isExpired && `(${t("Expired")})`}
                 </div>
 
                 { false === this.state.success && <>
-                    <div className="row">
-                        <button onClick={this.disable} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
-                            {t("Disable Invitation")}
-                        </button>
-                        <button onClick={this.resend} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
-                            {t("Resend Invitation")}
-                        </button>
-                    </div>
+                    {"Active" == invitation.status &&
+                        <div className="row">
+                            { !invitation.isExpired &&
+                                <button onClick={this.disable} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
+                                    {t("Disable Invitation")}
+                                </button>
+                            }
+                            <button onClick={this.resend} className="button" style={{margin:"0 20px 0 0", paddingLeft: "20px", paddingRight: "20px"}}>
+                                {t("Resend Invitation")}
+                            </button>
+                        </div>
+                    }
                 </> }
             </> }
 
