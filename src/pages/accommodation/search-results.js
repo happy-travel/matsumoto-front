@@ -193,13 +193,11 @@ class AccommodationSearchResultsPage extends React.Component {
                                      resultId={item.id}
                                      roomContractSet={roomContractSet}
                                 />
-                                { !!roomContractSet.tags?.length &&
+                                { !!roomContractSet.isDirectContract &&
                                     <div>
-                                        { roomContractSet.tags?.includes("direct-connectivity") &&
-                                            <span>
-                                                Direct Connectivity
-                                            </span>
-                                        }
+                                        <span>
+                                            Direct Connectivity
+                                        </span>
                                     </div>
                                 }
                             </div>

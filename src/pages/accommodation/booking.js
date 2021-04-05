@@ -186,13 +186,11 @@ class AccommodationBookingPage extends React.Component {
             {contract.supplier && <div className="subtitle">
                 Supplier: {" " + contract.supplier}
             </div>}
-            { !!contract.tags?.length &&
+            { !!contract.isDirectContract &&
                 <div className="black">
-                    { contract.tags?.includes("direct-connectivity") &&
-                        <strong>
-                            Direct Connectivity
-                        </strong>
-                    }
+                    <strong>
+                        Direct Connectivity
+                    </strong>
                 </div>
             }
 

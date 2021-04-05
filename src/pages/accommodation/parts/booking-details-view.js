@@ -48,14 +48,12 @@ class BookingDetailsView extends React.Component {
                               b={booking.supplier}
                         />
                         }
-                        { !!booking.tags?.length &&
+                        { !!booking.isDirectContract &&
                         <div className="black">
-                            { booking.tags?.includes("direct-connectivity") &&
                             <Dual className="grow"
                                   a={"Additional Information"}
                                   b={"Direct Connectivity"}
                             />
-                            }
                         </div>
                         }
                     </div>
