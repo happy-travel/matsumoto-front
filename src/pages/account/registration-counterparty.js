@@ -138,7 +138,7 @@ class RegistrationCounterparty extends React.Component {
                                                      required
                                                      placeholder={t("Preferred Payment Method")}
                                                      options={[
-                                                         { value: "BankTransfer", text: "Bank transfer"},
+                                                         { value: "VirtualAccount", text: "Virtual credit"},
                                                          { value: "CreditCard", text: "Credit card"}
                                                      ]}
                                         />
