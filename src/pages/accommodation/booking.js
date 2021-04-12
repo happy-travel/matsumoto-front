@@ -22,7 +22,7 @@ class AccommodationBookingPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            availablePayments: "CreditCardAndBankTransfer"
+            availablePayments: "CreditCardAndVirtualAccount"
         };
         this.submit = this.submit.bind(this);
         this.isAccountPaymentAvailable = this.isAccountPaymentAvailable.bind(this);
