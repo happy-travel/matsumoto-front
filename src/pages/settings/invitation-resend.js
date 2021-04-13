@@ -43,10 +43,6 @@ class InvitationResendPage extends React.Component {
         API.post({
             url: API.AGENT_INVITE_RESEND(id),
             success: () => this.setState({ success: true }),
-            error: (error) => {
-                this.setState({ success: false });
-                Notifications.addNotification(error?.title || error?.detail || error);
-            }
         });
     };
 
