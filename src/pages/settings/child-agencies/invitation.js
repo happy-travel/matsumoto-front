@@ -50,10 +50,6 @@ class ChildAgencyInvitationPage extends React.Component {
                     name: (values.firstName || values.lastName) ? (values.firstName + " " + values.lastName) : null
                 });
             },
-            error: (error) => {
-                this.setState({ success: false });
-                Notifications.addNotification(error?.title || error?.detail);
-            }
         });
     }
 
