@@ -9,7 +9,10 @@ export default Yup.object().shape({
         .min(2, "Too short")
         .max(2000, "Too long")
         .required("Required"),
-    zip: Yup.string(),
+    legalAddress: Yup.string()
+        .min(2, "Too short")
+        .max(2000, "Too long")
+        .required("Required"),
     country: Yup.string()
         .required("Required"),
     city: Yup.string()
@@ -19,7 +22,5 @@ export default Yup.object().shape({
     phone: Yup.string()
         .max(30, "Too long")
         .required("Required"),
-    fax: Yup.string(),
-    website: Yup.string(),
     countryCode: Yup.string().required("*"),
 });

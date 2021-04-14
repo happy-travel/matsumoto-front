@@ -75,7 +75,24 @@ class AuthStore {
         if (form.fax)
             form.fax = decorate.removeNonDigits(form.fax);
 
-        this.registration.counterparty = form;
+        this.registration.counterparty = {
+            counterpartyInfo: {
+                id: 1,
+                legalAddress: form.legalAddress,
+                preferredPaymentMethod: form.preferredPaymentMethod
+            },
+            rootAgencyInfo: {
+                name: form.name,
+                address: form.address,
+                countryCode: form.countryCode,
+                countryName: form.country,
+                city: form.city,
+                phone: form.phone,
+                fax: form.fax,
+                postalCode: form.postalCode,
+                website: form.website
+            }
+        };
     }
 }
 

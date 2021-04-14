@@ -79,6 +79,7 @@ class RegistrationCounterparty extends React.Component {
                             initialValues={{
                                 "name": "",
                                 "address": "",
+                                "legalAddress": "",
                                 "country": "",
                                 "countryCode": "",
                                 "city": "",
@@ -105,6 +106,14 @@ class RegistrationCounterparty extends React.Component {
                                                        id="address"
                                                        label={t("Company Address")}
                                                        placeholder={t("Company Address")}
+                                                       required
+                                        />
+                                    </div>
+                                    <div className="row">
+                                        <FieldTextarea formik={formik}
+                                                       id="legalAddress"
+                                                       label={t("Legal Address")}
+                                                       placeholder={t("Legal Address")}
                                                        required
                                         />
                                     </div>
