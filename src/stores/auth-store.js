@@ -78,11 +78,11 @@ class AuthStore {
         this.registration.counterparty = {
             counterpartyInfo: {
                 id: 1,
+                name: form.name,
                 legalAddress: form.legalAddress,
                 preferredPaymentMethod: form.preferredPaymentMethod
             },
             rootAgencyInfo: {
-                name: form.name,
                 address: form.address,
                 countryCode: form.countryCode,
                 countryName: form.country,
