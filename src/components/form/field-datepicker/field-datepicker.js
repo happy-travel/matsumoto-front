@@ -1,30 +1,29 @@
 import React from "react";
-import { observer } from "mobx-react";
 import { FieldText } from "components/form";
 import DateDropdown from "./dropdown-datepicker";
 import { date } from "simple";
 
-@observer
 class FieldDatepicker extends React.Component {
+    state = {
+        text: ""
+    };
+
     generateText = () => {
         const {
             formik,
             first,
-            second
+            second,
+            short
         } = this.props;
 
         if (formik.values[first] || formik.values[second])
             return (
-                date.format.c(formik.values[first])
+                date.format[short ? "shortDay" : "c"](formik.values[first])
                 + " – " +
-                date.format.c(formik.values[second])
+                date.format[short ? "shortDay" : "c"](formik.values[second])
             );
 
         return "";
-    };
-
-    state = {
-        text: this.generateText()
     };
 
     setValue = ([from, to]) => {
@@ -32,12 +31,13 @@ class FieldDatepicker extends React.Component {
             formik,
             first,
             second,
-            onChange = () => {}
+            onChange
         } = this.props;
 
         formik.setFieldValue(first, from);
         formik.setFieldValue(second, to);
-        onChange();
+        if (onChange)
+            onChange();
     };
 
     inputChanged = (event) => {
@@ -50,6 +50,12 @@ class FieldDatepicker extends React.Component {
         if (parseResult)
             this.setValue(parseResult);
     };
+
+    componentDidMount() {
+        this.setState({
+            text: this.generateText()
+        });
+    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {
@@ -75,20 +81,24 @@ class FieldDatepicker extends React.Component {
             placeholder,
             first,
             second,
-            onChange
+            onChange,
+            short
         } = this.props;
+
         const {
             text
         } = this.state;
 
         return (
             <FieldText
+                noInput={short}
+                ValueObject={short ? text : undefined}
                 formik={formik}
                 id={id}
                 label={label}
                 placeholder={placeholder}
                 disabled={disabled}
-                Icon={<span className="icon icon-calendar"/>}
+                Icon={<span className="icon icon-search-calendar"/>}
                 className="size-medium"
                 Dropdown={DateDropdown}
                 onChange={this.inputChanged}

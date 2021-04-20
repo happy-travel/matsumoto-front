@@ -1,46 +1,42 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Highlighted } from "simple";
-import authStore from "stores/auth-store";
-
-import View from "stores/view-store";
+import { $personal, $view } from "stores";
 
 @observer
 class DestinationDropdown extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        if (!View?.destinations?.length)
+        if (!$view?.destinations?.length)
             return null;
 
         const {
             connected,
             formik,
-            focusIndex
+            focusIndex,
+            setValue
         } = this.props;
 
         return (
-            <div className="region dropdown">
+            <div className="region dropdown" id={connected}>
                 <div className="scroll">
-                    {View?.destinations?.map?.((item, index) => {
+                    {$view?.destinations?.map?.((item, index) => {
                         let destinationType = null;
-                        if (index === 0 || item.type !== View.destinations[index - 1]?.type)
+                        if (index === 0 || item.type !== $view.destinations[index - 1]?.type)
                             destinationType = <div className="subtitle">{item.type}</div>;
-                        if (authStore.settings.experimentalFeatures)
+                        if ($personal.settings.experimentalFeatures)
                             destinationType = null;
 
                         return (
                             <React.Fragment key={index}>
                                 {destinationType}
-                                <div id={`js-value-${index}`}
-                                     className={"country line" + __class(focusIndex === index, "focused")}
-                                     onClick={() => this.props.setValue(item, formik, connected)}>
-                                    {!authStore.settings.experimentalFeatures &&
+                                <div
+                                    className={"country line" + __class(focusIndex === index, "focused")}
+                                    onClick={() => setValue(formik, false, item)}
+                                >
+                                    { !$personal.settings.experimentalFeatures &&
                                         <Highlighted str={item.value} highlight={this.props.value}/>
                                     }
-                                    {authStore.settings.experimentalFeatures &&
+                                    { $personal.settings.experimentalFeatures &&
                                         <Highlighted str={item.predictionText} highlight={this.props.value}/>
                                     }
                                 </div>

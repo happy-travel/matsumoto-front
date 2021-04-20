@@ -1,12 +1,16 @@
 .print
     display: none
 .print-logo
-    width: 118px
-    height: 63px
+    width: 137px
+    height: 74px
     margin: 0 65px
     display: block
 
 @media print
+    .block-wrapper
+        padding-top: 0 !important
+    div.information
+        margin-top: 10px !important
     .no-print, .no-print *
         display: none !important
     footer, header

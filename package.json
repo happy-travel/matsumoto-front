@@ -1,6 +1,6 @@
 {
   "name": "com.happytravel.matsumoto",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@sentry/browser": "5.4.3",

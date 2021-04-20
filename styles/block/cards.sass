@@ -1,0 +1,40 @@
+.cards
+    padding-top: 30px
+    .list
+        padding: 0
+        flex-direction: column
+        .item
+            cursor: pointer
+            border: 1px solid $color-border
+            border-radius: 100px
+            height: auto
+            padding: 25px 0 25px 20px
+            margin: 0 0 17px
+            font-size: 14px
+            line-height: 20px
+            width: 100%
+            .field
+                width: 100px
+                margin: -15px 20px
+                .input
+                    height: 40px !important
+                    line-height: 42px !important
+            .only-when-selected
+                display: none
+                .label
+                    margin-top: -10px
+                    margin-left: 0
+                    span
+                        margin-left: 18px
+            img
+                height: 15px
+                margin-right: 10px
+                top: 2px
+            span
+                margin-left: 30px
+            b
+                font-weight: 500
+            &.selected
+                border-color: $color-brand
+                .only-when-selected
+                    display: inline-block

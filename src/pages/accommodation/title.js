@@ -2,21 +2,26 @@ import React from "react";
 import Tiles from 'components/tiles';
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Loader } from "simple";
+import { Loader } from "components/simple";
+import Search from "parts/search-form/search-form";
+import { $personal } from "stores";
 
-import authStore from "stores/auth-store";
+const AccommodationTitlePage = observer(({ noSearch }) => {
+    const { t } = useTranslation();
 
-@observer
-class AccommodationTitlePage extends React.Component {
-render () {
-    var { t } = useTranslation();
-    if (!authStore?.user?.email) // workaround for loader within registration process
+    if (!$personal?.information?.email) // workaround for loader within registration process
         return <Loader white page />;
 
     return (
+    <>
+        { !noSearch &&
+            <div className="search-fullsize-wrapper">
+                <Search fullsize />
+            </div>
+        }
         <div className="tiles block">
             <section>
-                <h1><span className="brand">{t("Countries & Hotels")}</span></h1>
+                <h2>{t("Countries & Hotels")}</h2>
                 <Tiles list={[
                     {
                         city: 'PARIS, FRANCE',
@@ -51,7 +56,7 @@ render () {
                         image: '/images/hotels/dubai.jpg'
                     }
                 ]} />
-                <h1><span className="brand">{t("Exclusive offers")}</span></h1>
+                <h2>{t("Exclusive offers")}</h2>
                 <Tiles list={[
                     {
                         title: 'EMERALD PALACE KEMPINSKI DUBAI, DUBAI',
@@ -76,8 +81,8 @@ render () {
                 ]} />
             </section>
         </div>
+    </>
     );
-}
-}
+});
 
 export default AccommodationTitlePage;

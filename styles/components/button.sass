@@ -33,25 +33,22 @@ button
         background: $color-brand
         border: 0
         color: #ffffff
-        background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+        background: linear-gradient(90deg, #FFCD0B 0%, #FBAC19 100%)
         &:hover
-            background: #FF7A00
-            background: linear-gradient(90deg, #FF7A00 0%, #F9A51B 100%)
+            background: #FF9D19
+            background: linear-gradient(90deg, #FF9D19 0%, #F9A51B 100%)
 
 
     &.gray
-        color: $color-border
+        color: #b0b0b0
         &:hover
-            color: #C1C2C3
+            color: $color-brand
 
     &.green
-        color: #1cbe69
-        border-color: #1cbe69
+        color: $color-green
+        border-color: $color-green
         &:hover
-            color: #23D578
-            border-color: #23D578
-        &.mini-label
-            background: #1cbe69
+            border-color: $color-brand
 
     &.transparent
         text-transform: none
@@ -90,41 +87,14 @@ button
         display: inline-block
         font-weight: 500
 
-    &.disabled
-        cursor: default
-        background: #ECEEF0
+    &.disabled, &.disabled:hover, &.disabled:active
+        cursor: default !important
+        background: #f2f2f2
         border: 0
-        color: #ffffff
-        &:hover
-            background: #ECEEF0
-        &.small
-            background: #DCDEE0
-
-.button-expand
-    cursor: pointer
-    color: $color-blue
-    &:after
-        content: ' '
-        display: block
-        float: right
-        width: 17px
-        height: 16px
-        background: url("../images/dropdown-arrow-blue.svg") no-repeat
-        background-position: right center
-    &.reverse
-        &:after
-            transform: scaleY(-1)
-    &:hover
-        color: #074BC5
-
-.button-clear
-    cursor: pointer
-    color: $color-text-light
-    background: url("../images/cross-small.svg") no-repeat
-    background-position: left center
-    padding-left: 16px
-    &:hover
-        color: #858585
+        color: #aaa
+        &.main
+            color: #fff
+            background: #e9e9e9
 
 .file-upload
     font-size: 14px

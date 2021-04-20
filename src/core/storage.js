@@ -1,30 +1,29 @@
-import { userAuthGetFromStorage } from "core/auth";
+import { authGetFromStorage } from "core/auth";
 const googleSessionStorageKey = "google-session";
 import { windowLocalStorage, windowSessionStorage } from "core/misc/window-storage";
 
-const userKey = (key) => {
-    var userId = userAuthGetFromStorage() || "_no_user_";
-    return key + '_' + userId;
+const authKey = (key) => {
+    return key + '_' + authGetFromStorage() || "_no_auth_";
 };
 
 export const localStorage = {
-    set: (key, item) => windowLocalStorage.set(userKey(key), item),
-    get: (key) => windowLocalStorage.get(userKey(key)),
-    remove: (key) => windowLocalStorage.remove(userKey(key))
+    set: (key, item) => windowLocalStorage.set(authKey(key), item),
+    get: (key) => windowLocalStorage.get(authKey(key)),
+    remove: (key) => windowLocalStorage.remove(authKey(key))
 };
 
 export const session = {
     set: (key, item) => {
-        if (!userAuthGetFromStorage()) return;
-        windowSessionStorage.set(userKey(key), item);
+        if (!authGetFromStorage()) return;
+        windowSessionStorage.set(authKey(key), item);
     },
     get: (key) => {
-        if (!userAuthGetFromStorage()) return;
-        return windowSessionStorage.get(userKey(key));
+        if (!authGetFromStorage()) return;
+        return windowSessionStorage.get(authKey(key));
     },
     remove: (key) => {
-        if (!userAuthGetFromStorage()) return;
-        windowSessionStorage.remove(userKey(key));
+        if (!authGetFromStorage()) return;
+        windowSessionStorage.remove(authKey(key));
     },
     google: {
         create: () => {

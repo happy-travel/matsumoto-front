@@ -4,14 +4,14 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { redirect } from "core";
 import { date } from "simple";
-import paymentStore from "stores/payment-store";
-import View, { MODALS } from "stores/view-store";
+import { MODALS } from "enum/modals-enum";
+import { $payment, $view } from "stores";
 
 @observer
 class BookingActionPart extends React.Component {
     showCancellationConfirmation = () => {
         const { booking } = this.props;
-        View.setModal(
+        $view.setModal(
             MODALS.CANCELLATION_CONFIRMATION,
             booking
         );
@@ -19,7 +19,7 @@ class BookingActionPart extends React.Component {
 
     payNowByCard = () => {
         const { booking } = this.props;
-        paymentStore.setSubject(
+        $payment.setSubject(
             booking.bookingDetails.referenceCode,
             booking.totalPrice,
             booking.paymentMethod

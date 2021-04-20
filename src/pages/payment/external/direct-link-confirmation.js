@@ -3,24 +3,22 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { windowLocalStorage } from "core/misc/window-storage";
-import { Dual, price } from "simple";
+import BasicHeader from "parts/header/basic-header";
+import { Dual } from "components/simple";
+import { price } from "simple";
 import ViewFailed from "parts/view-failed";
-import paymentStore from "stores/payment-store";
-import { Link } from "react-router-dom";
+import { $payment } from "stores";
 
 const messageFormatter = str => str.split("+").join(" ");
 
 @observer
 class DirectLinkConfirmationPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            booking: {}
-        }
-    }
+    state = {
+        booking: {}
+    };
 
     componentDidMount() {
-        var code = windowLocalStorage.get(paymentStore.subject.referenceCode);
+        var code = windowLocalStorage.get($payment.subject.referenceCode);
         if (!code)
             this.setState({ booking: { error: "error" } });
         API.get({
@@ -34,36 +32,31 @@ class DirectLinkConfirmationPage extends React.Component {
 render() {
     const { t } = useTranslation();
 
-    const { status, error } = (paymentStore.paymentResult),
-        subject = paymentStore.subject,
+    const { status, error } = ($payment.paymentResult),
+        { subject } = $payment,
         { booking } = this.state;
 
 return (
 <>
-    <header>
+    <BasicHeader />
+    <div className="payment block">
         <section>
-            <div className="logo-wrapper">
-                <Link to="/" className="logo" />
-            </div>
-        </section>
-    </header>
-
-    <div className="confirmation nova block">
-        <section className="double-sections">
             { "Success" == status ?
-            <div className="middle-section">
+            <>
                 <h2>{t("Order has been paid successfully")}</h2>
 
                 <div className="accent-frame">
                     <div className="before">
-                        <span className="icon icon-white-check" />
+                        <span className="icon icon-success" />
                     </div>
-                    <div className="dual">
+                    <div className="data">
                         <div className="first">
-                            {t("Order reference number")}: <strong className="green">{subject.referenceCode}</strong>
+                            {t("Order reference number")}<br />
+                            <span className="status Success">{subject.referenceCode}</span>
                         </div>
                         <div className="second">
-                            {t("Payment result")}: <strong className={status}>{status}</strong>
+                            {t("Payment Result")}<br />
+                            <span className="status Success">{status}</span>
                         </div>
                     </div>
                 </div>
@@ -92,19 +85,21 @@ return (
                     </div>
                 </div> }
 
-            </div>
-            :
-            <div className="middle-section">
-                { error && <div className="accent-frame error">
-                    <div className="before">
-                        <span className="icon icon-close white" />
-                    </div>
-                    <div className="dual">
-                        <div className="first">
-                            {t("Payment message")}: <strong>{messageFormatter(error)}</strong>
+            </> :
+            <>
+                { error &&
+                    <div className="accent-frame">
+                        <div className="before">
+                            <span className="icon icon-warning" />
+                        </div>
+                        <div className="data">
+                            <div className="first">
+                                {t("Payment message")}<br/>
+                                <strong>{messageFormatter(error)}</strong>
+                            </div>
                         </div>
                     </div>
-                </div> }
+                }
                 <ViewFailed
                     reason={
                         <>
@@ -115,7 +110,7 @@ return (
                     button={t("Try to pay again")}
                     link={`/pay/${booking.code}`}
                 />
-            </div>
+            </>
             }
         </section>
     </div>

@@ -16,14 +16,11 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 class MapComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            center: [51.505, -0.09],
-            mapRef: null,
-            isLoadedScript: false,
-        }
-    }
+    state = {
+        center: [51.505, -0.09],
+        mapRef: null,
+        isLoadedScript: false,
+    };
 
     componentDidMount() {
     }

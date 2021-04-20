@@ -1,5 +1,5 @@
 import { redirect } from "core";
-import paymentStore from "stores/payment-store";
+import { $payment } from "stores";
 
 export const directPaymentCallback = (data, error) => {
     if ("Secure3d" == data?.status) {
@@ -7,6 +7,9 @@ export const directPaymentCallback = (data, error) => {
         return;
     }
 
-    paymentStore.setPaymentResult(data?.status, error);
+    $payment.setPaymentResult(
+        data?.status, error ||
+        (data?.status == "Failed" && data?.message)
+    );
     redirect("/pay/confirmation");
 };

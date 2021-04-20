@@ -1,9 +1,30 @@
 .management.block
-    padding-bottom: 60px
+    padding-bottom: 150px
+    @include except-phone
+        .sticky-header
+            position: sticky
+            top: 25px
+            z-index: 1002
+            width: 40%
+            left: 100%
+            max-width: 572px
+            transform: translateX(-150%)
+            white-space: nowrap
+            h2
+                display: inline-block
+                margin-top: 0
     h2
-        font-size: 20px
-        line-height: 24px
-        margin: 45px 0 7px
+        font-size: 24px
+        line-height: 30px
+        margin: 25px 0 45px
+        font-weight: 300
+
+    .controls
+        .form
+            @include phone
+                display: flex
+                flex-direction: column-reverse
+                justify-content: flex-end
 
     .content
         min-height: 370px
@@ -13,17 +34,6 @@
 
     .payment-amount
         font-size: 90%
-
-    .head-nav
-        box-shadow: none
-        margin-left: -8px
-        border-bottom: 1px solid $color-border
-        .item
-            padding-left: 40px
-            padding-right: 40px
-            color: $color-text-light
-            &.active
-                color: $color-brand
 
     .the-table
         tr
@@ -36,18 +46,18 @@
     .agency
         .the-table
             tr
-                $cols: (1: 150px, 2: 130px, 3: 160px, 4: 100px, 5: 120px, 6: 90px, 7: 80px, 8: 80px, 9: 110px)
+                $cols: (1: 150px, 2: 140px, 3: 150px, 4: 100px, 5: 100px, 6: 110px, 7: 80px, 8: 80px, 9: 110px)
                 @each $id, $col in $cols
                     td:nth-child(#{$id})
                         min-width: $col !important
                         max-width: $col !important
-        .user-filter
+        .agent-filter
             div
-                margin-top: 44px
+                margin-top: 52px
                 margin-left: 15px
                 cursor: pointer
-            .blue
-                color: $color-blue
+                @include phone
+                    margin: 0 0 30px 10px
 
     &.payments-history
         .the-table
@@ -57,9 +67,3 @@
                     td:nth-child(#{$id})
                         min-width: $col !important
                         max-width: $col !important
-        .controls
-            .dropdown
-                left: 50%
-                right: auto
-                transform: translateX(-50%)
-

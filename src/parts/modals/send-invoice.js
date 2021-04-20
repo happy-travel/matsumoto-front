@@ -5,31 +5,26 @@ import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { emailFormValidator } from "components/form/validation";
-import UI from "stores/ui-store";
-import View from "stores/view-store";
+import { $ui, $view } from "stores";
 
 @observer
 class SendInvoiceModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            success: null,
-            error: null,
-            loading: false,
-            booking: {}
-        };
-        this.submit = this.submit.bind(this);
-    }
+    state = {
+        success: null,
+        error: null,
+        loading: false,
+        booking: {}
+    };
 
     componentDidMount() {
         API.get({
-            url: API.BOOKING_GET_BY_ID(View.modalData.bookingId),
+            url: API.BOOKING_GET_BY_ID($view.modalData.bookingId),
             success: booking => this.setState({ booking })
         });
     }
 
-    submit(values) {
-        var { bookingId, type } = View.modalData;
+    submit = (values) => {
+        var { bookingId, type } = $view.modalData;
         this.setState({
             loading: true
         });
@@ -43,7 +38,7 @@ class SendInvoiceModal extends React.Component {
                     success: true,
                     loading: false
                 });
-                UI.dropFormCache(FORM_NAMES.SendInvoiceForm);
+                $ui.dropFormCache(FORM_NAMES.SendInvoiceForm);
             },
             error: () => {
                 this.setState({
@@ -52,11 +47,11 @@ class SendInvoiceModal extends React.Component {
                 });
             }
         });
-    }
+    };
 
     render() {
         var { t } = useTranslation(),
-            { type } = View.modalData,
+            { type } = $view.modalData,
             { closeModal } = this.props,
             { error, success, loading, booking } = this.state;
 

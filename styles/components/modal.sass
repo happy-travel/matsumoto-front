@@ -10,16 +10,6 @@
     justify-content: center
     align-items: center
     overflow-y: scroll
-
-    .close-button
-        z-index: 100
-        position: absolute
-        right: 10px
-        top: 11px
-        padding: 15px
-        cursor: pointer
-        .icon
-            display: block
     .hide-close-button
         .close-button
             display: none
@@ -38,9 +28,8 @@
     position: absolute
     top: 0
     left: 0
-    background: #dddddd
-    background: linear-gradient(143deg, #dddddd 22%, #ffffff55 32%, #dddddd 43%, #eeeeee 62%, #eeeeee55 84%)
-    opacity: .6
+    background: #f9f7f4
+    opacity: .4
 
 .modal
     text-align: left
@@ -50,6 +39,8 @@
     background: #ffffff
     border-radius: 25px
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2)
+    @include phone
+        max-width: 90% !important
     h2
         line-height: 24px
         font-size: 18px
@@ -61,7 +52,7 @@
         padding: 30px 25px 35px
 
 .body-wrapper
-    min-width: 980px
+    min-width: 480px
 
 body.modal-open
     overflow: hidden
@@ -85,12 +76,31 @@ body.modal-open
         padding-right: 40px
         margin-right: 20px
     .bottom
+        margin-top: 30px
         text-align: center
         .button
             width: 100%
+    .row+.bottom
+        margin-top: 0
     &.duplicate
         margin-bottom: 250px
         p
             margin-bottom: 20px
         .button
             margin-top: 20px
+
+.close-button
+    z-index: 1
+    position: absolute
+    right: 5px
+    top: 5px
+    padding: 10px 10px 5px 5px
+    cursor: pointer
+    .icon
+        display: block
+        filter: brightness(0)
+        opacity: .4
+    &:hover
+        .icon
+            filter: none
+            opacity: 1

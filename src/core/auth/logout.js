@@ -1,16 +1,14 @@
 import React from "react";
 import Authorize from "./authorize";
-import { Loader } from "simple";
-import { userAuthRemoveFromStorage } from "core/auth";
-
-import UI from "stores/ui-store";
-import authStore from "stores/auth-store";
+import { Loader } from "components/simple";
+import { authRemoveFromStorage } from "core/auth";
+import { $ui, $personal } from "stores";
 
 class AuthLogoutComponent extends React.PureComponent {
     componentDidMount() {
-        UI.dropAllFormCaches();
-        authStore.setUser({ email: null });
-        userAuthRemoveFromStorage();
+        $ui.dropAllFormCaches();
+        $personal.setInformation({ email: null });
+        authRemoveFromStorage();
         Authorize.signoutRedirect();
     }
 

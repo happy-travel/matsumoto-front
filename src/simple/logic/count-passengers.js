@@ -1,10 +1,11 @@
 export const countPassengers = (values, field) => {
-    var result = 0;
-    for (var i = 0; i < values.roomDetails.length; i++) {
-        if ("childrenNumber" == field)
-            result += values.roomDetails[i].childrenAges.length;
-        else
-            result += values.roomDetails[i][field];
+    let result = 0,
+        rooms = values?.roomDetails || values?.rooms;
+    for (var i = 0; i < rooms?.length; i++) {
+        if (!field || "childrenNumber" == field)
+            result += (rooms[i].childrenAges?.length || 0);
+        if (!field || "adultsNumber" == field)
+            result += rooms[i].adultsNumber;
     }
     return result;
 };

@@ -7,12 +7,12 @@ class SignUp extends Component {
 
         return (
 
-<div className="account block sign-up-page">
+<div className="account block">
     <section>
         <div className="logo-wrapper">
             <div className="logo"></div>
         </div>
-        <div className="middle-section">
+        <div>
             <div className="breadcrumbs">
                 <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Log In</a><span className="small-arrow-right"></span>
                 Registration<span className="small-arrow-right"></span>
@@ -24,19 +24,6 @@ class SignUp extends Component {
                 </div>
             </div>
 
-            <div className="action-steps action-steps-another-bg">
-                <div className="step current">
-                    Login Information
-                </div>
-                <div className="interval"><s></s><u></u><b></b><i></i></div>
-                <div className="step">
-                    Agent Information
-                </div>
-                <div className="interval"><s></s><u></u><b></b><i></i></div>
-                <div className="step">
-                    Company Information
-                </div>
-            </div>
             <h1>
                 Get started with a new account
             </h1>

@@ -3,12 +3,13 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
 import { API, redirect } from "core";
-import { Loader, PassengerName } from "simple";
+import { PassengerName } from "simple";
+import { Loader } from "components/simple";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
 import SettingsHeader from "./parts/settings-header";
 import Markups from "parts/markups/markups";
-import authStore from "stores/auth-store";
+import { $personal } from "stores";
 
 const generateLabel = str => {
     if (!str)
@@ -22,14 +23,11 @@ const generateLabel = str => {
 
 @observer
 export default class AgentPermissionsManagement extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            agent: {},
-            permissionsList: []
-        };
-    }
+    state = {
+        loading: true,
+        agent: {},
+        permissionsList: []
+    };
 
     enable = () => {
         const { agentId } = this.props.match.params;
@@ -110,7 +108,7 @@ export default class AgentPermissionsManagement extends React.Component {
                         text: loading ? t("Agent Permissions") : PassengerName({ passenger: agent })
                     }
                 ]}/>
-                <h2><span className="brand">{t("Information")}</span></h2>
+                <h2>{t("Information")}</h2>
                 <div className="row">
                     <b>{t("Agent")}</b>:{" "}
                     {PassengerName({ passenger: agent })}
@@ -127,8 +125,8 @@ export default class AgentPermissionsManagement extends React.Component {
                     <b>{t("Main agent")}</b>
                 </div> : "" }
 
-                { authStore.permitted("AgentStatusManagement") &&
-                  authStore.user.id != agent.agentId &&
+                { $personal.permitted("AgentStatusManagement") &&
+                  $personal.information.id != agent.agentId &&
                 <div>
                     {!agent.isActive ? <button
                         className="button"
@@ -146,7 +144,7 @@ export default class AgentPermissionsManagement extends React.Component {
                     </button>}
                 </div> }
 
-                <h2><span className="brand">{t("Permissions")}</span></h2>
+                <h2>{t("Permissions")}</h2>
 
                 <div>
                     <Formik
@@ -190,7 +188,7 @@ export default class AgentPermissionsManagement extends React.Component {
                 </div>
 
 
-                { authStore.permitted("MarkupManagement") &&
+                { $personal.permitted("MarkupManagement") &&
                     <Markups
                         id={agent.agentId}
                         emptyText={"Agent has no markups"}

@@ -1,66 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Picture = ({ item, big }) => {
+const Picture = ({ item, index }) => {
     if (!item?.sourceUrl)
         return null;
 
-    if (big) {
-        var cover = false,
-            img = new Image();
-        img.src = item.sourceUrl;
-
-        if (img.width && img.height && (img.width > img.height) && (img.width < 3 * img.height))
-            cover = true;
-    }
-
     return (
-        <div className={"sizer" + __class(big, "big") + __class(cover, "cover")}>
-            <img src={item.sourceUrl} alt={item.caption || ""} />
-        </div>
+        <div
+            className="sizer"
+            style={{ backgroundImage: `url(${item.sourceUrl})` }}
+        />
     );
 };
 
-class Gallery extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selected: 0
-        };
-    }
+const Gallery = ({ pictures }) => {
+    const [selected, setSelected] = useState(0);
 
-    render() {
-        var { pictures } = this.props,
-            { selected } = this.state;
-
-        if (!pictures || !pictures.length)
+        if (!pictures?.length)
             return null;
 
-        var thumbs = [];
-        for (var i = 0; i < pictures.length / 3; i++) {
-            var subthumbs = [];
-            for (var j = 0; j < 3 && i * 3 + j < pictures.length; j++) {
-                (index => subthumbs.push(
-                    <div
-                        className={"item" + __class(index == selected, "selected")}
-                        onClick={() => this.setState({ selected: index })}
-                        key={index}
-                    >
-                        <Picture item={pictures[index]} />
+        return (
+            <div className="gallery">
+                <div className="big">
+                    <Picture big item={pictures[selected]} index={selected} />
+                </div>
+                { (pictures.length > 1) &&
+                    <div className={"thumbs" + __class(pictures.length >= 4, "scroll")}>
+                        { pictures.map((item, index) => (
+                            <div
+                                className="item"
+                                onClick={() => setSelected(index)}
+                                key={index}
+                            >
+                                <Picture item={pictures[index]} index={index}/>
+                            </div>
+                        ))}
                     </div>
-                ))(i * 3 + j)
-            }
-            thumbs.push(<div className="subthumbs" key={`thumb${i}`}>{subthumbs}</div>);
-        }
-
-        return <div className="gallery">
-            <div className="big">
-                <Picture big item={pictures[selected]} index={selected} />
+                }
+                <div className="corner">
+                    <div />
+                </div>
             </div>
-            { (pictures.length > 1) && <div className={"thumbs" + __class(pictures.length >= 12, "scroll")}>
-                {thumbs}
-            </div> }
-        </div>;
-    }
-}
+        );
+};
 
 export default Gallery;

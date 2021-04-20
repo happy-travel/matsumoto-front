@@ -2,13 +2,13 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import ViewFailed from "parts/view-failed";
-import paymentStore from "stores/payment-store";
 import { PAYMENT_METHODS } from "enum";
+import { $payment } from "stores";
 
 @observer
 class PaymentInformation extends React.Component {
     render() {
-        if (paymentStore.paymentMethod != PAYMENT_METHODS.CARD)
+        if ($payment.paymentMethod != PAYMENT_METHODS.CARD)
             return null;
 
         var { t } = useTranslation();
@@ -16,7 +16,7 @@ class PaymentInformation extends React.Component {
         const {
             error,
             status,
-        } = paymentStore.paymentResult;
+        } = $payment.paymentResult;
 
         if (error)
             return (
@@ -31,7 +31,7 @@ class PaymentInformation extends React.Component {
                     }
                     button={t("Try to pay again")}
                     link={
-                        paymentStore.paymentMethod == PAYMENT_METHODS.CARD ?
+                        $payment.paymentMethod == PAYMENT_METHODS.CARD ?
                             "/payment/form" :
                             "/accommodation/booking"
                     }
@@ -42,19 +42,18 @@ class PaymentInformation extends React.Component {
             return (
                 <div className="accent-frame">
                     <div className="before">
-                        <span className="icon icon-white-check" />
+                        <span className="icon icon-success" />
                     </div>
-                    <div className="dual">
+                    <div className="data">
                         <div className="first">
-                            {t("Payment result")}: <strong>{status || "Unknown"}</strong>
-                        </div>
-                        { paymentStore.saveCreditCard &&
-                            <div className="second">
+                            {t("Payment Result")}<br />
+                            <span className={"status " + status}>{status || "Unknown"}</span>
+                            { $payment.saveCreditCard &&
                                 <div>
-                                    {t("Your card was saved for your future purchases.")}
+                                    {t("Your card was saved for your future purchases")}
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
                 </div>
             );

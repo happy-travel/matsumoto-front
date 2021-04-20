@@ -1,12 +1,15 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { INVOICE_TYPES } from "enum";
-import { Loader, MealPlan, PassengerName, GroupRoomTypesAndCount, date } from "simple";
+import { PassengerName, GroupRoomTypesAndCount, date } from "simple";
+import { Loader } from "components/simple";
+import { MealPlan } from "components/accommodation";
+import Breadcrumbs from "components/breadcrumbs";
 import Map from "components/map";
-import View, { MODALS } from "stores/view-store";
+import { MODALS } from "enum/modals-enum";
+import { $view } from "stores";
 
 @observer
 class AccommodationConfirmationVoucherPage extends React.Component {
@@ -18,14 +21,14 @@ class AccommodationConfirmationVoucherPage extends React.Component {
     }
 
     showSendModal = () => {
-        View.setModal(
+        $view.setModal(
             MODALS.SEND_INVOICE,
             {
                 type: INVOICE_TYPES.VOUCHER,
                 bookingId: this.props.match?.params?.id
             }
         );
-    }
+    };
 
     render() {
         var { t } = useTranslation(),
@@ -34,14 +37,15 @@ class AccommodationConfirmationVoucherPage extends React.Component {
         document.title = (voucher?.referenceCode || "") + " Voucher Happytravel.com";
 
         if (!voucher)
-            return <Loader />;
+            return <Loader page />;
 
         return (
             <div className="invoice">
-                <div className="breadcrumbs no-print">
-                    <Link to={`/booking/${voucher.referenceCode}`}>
-                        <span className="small-arrow-left" /> Back to Booking Confirmation
-                    </Link>
+                <div className="no-print">
+                    <Breadcrumbs
+                        backLink={`/booking/${voucher.referenceCode}`}
+                        backText={t("Back to") + " " + t("Booking Confirmation")}
+                    />
                 </div>
                 <div className="buttons no-print">
                     <button className="button" onClick={window.print}>{t("Print")}</button>
@@ -108,7 +112,7 @@ class AccommodationConfirmationVoucherPage extends React.Component {
 
                     { voucher.roomDetails.map((room, index) => (
                         <div className="room-part" key={index}>
-                            <div><GroupRoomTypesAndCount solo t={t} contracts={[room]} /></div>
+                            <div><GroupRoomTypesAndCount solo contracts={[room]} /></div>
                             <div className="main-passenger">
                                 <PassengerName passenger={room.passengers[0]} />
                             </div>
@@ -125,7 +129,7 @@ class AccommodationConfirmationVoucherPage extends React.Component {
                                     ))}
                                 </div>
                             }
-                            <div>Board basis: <MealPlan t={t} room={room} /></div>
+                            <div>Board basis: <MealPlan room={room} /></div>
                             { room?.remarks.map((item, index) => (
                                 <div key={index}>
                                     {!!item.key && <span>{item.key}:</span>} {item.value}

@@ -2,37 +2,28 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-
-import { Loader } from "simple";
+import { Loader } from "components/simple";
 import { copyToClipboard } from "simple/logic";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
-import { registrationUserValidatorWithEmail } from "components/form/validation";
-import FormUserData from "parts/form-user-data";
+import { registrationAgentValidatorWithEmail } from "components/form/validation";
+import FormAgentData from "parts/form-agent-data";
 import SettingsHeader from "pages/settings/parts/settings-header";
-
-import UI from "stores/ui-store";
-import authStore from "stores/auth-store";
-import Notifications from "stores/notifications-store";
+import { $ui, $personal, $notifications } from "stores";
 
 @observer
 class InvitationSendPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            success: false,
-            form: null
-        };
-        this.submit = this.submit.bind(this);
-        this.reset = this.reset.bind(this);
-    }
+    state = {
+        success: false,
+        form: null
+    };
 
-    submit(values) {
+    submit = (values) => {
         this.setState({ success: null });
         API.post({
             url: values.send ? API.AGENT_INVITE_SEND : API.AGENT_INVITE_GENERATE,
             body: {
                 email: values.email,
-                agencyId: authStore.activeCounterparty.agencyId,
+                agencyId: $personal.activeCounterparty.agencyId,
                 registrationInfo: {
                     firstName: values.firstName,
                     lastName: values.lastName,
@@ -41,7 +32,7 @@ class InvitationSendPage extends React.Component {
                 }
             },
             success: data => {
-                UI.dropFormCache(FORM_NAMES.CreateInviteForm);
+                $ui.dropFormCache(FORM_NAMES.CreateInviteForm);
                 this.setState({
                     success:
                         (values.send || !data) ?
@@ -49,13 +40,17 @@ class InvitationSendPage extends React.Component {
                         window.location.origin + "/signup/invite/" + values.email + "/" + data,
                     name: (values.firstName || values.lastName) ? (values.firstName + " " + values.lastName) : null
                 });
+            },
+            error: (error) => {
+                this.setState({ success: false });
+                $notifications.addNotification(error?.title || error?.detail);
             }
         });
-    }
+    };
 
-    reset() {
+    reset = () => {
         this.setState({ success: false });
-    }
+    };
 
     submitButtonClick(send, formik) {
         formik.setFieldValue("send", send);
@@ -69,7 +64,7 @@ class InvitationSendPage extends React.Component {
     <div className="settings block">
         <SettingsHeader />
         <section>
-            <h2><span className="brand">{t("Invite an agent")}</span></h2>
+            <h2>{t("Invite an agent")}</h2>
             { this.state.success === null && <Loader /> }
             { this.state.success && <div>
                 {this.state.success === true ?
@@ -88,11 +83,11 @@ class InvitationSendPage extends React.Component {
                         />
                     </div>
                     <br/>
-                    <button className="button small" onClick={() => copyToClipboard(this.state.success)}>
+                    <button className="button" style={{ marginBottom: 20 }} onClick={() => copyToClipboard(this.state.success)}>
                         {t("Copy to Clipboard")}
                     </button>
                 </div>}
-                <button className="button payment-back" onClick={this.reset}>
+                <button className="button" onClick={this.reset}>
                     {t("Send one more invite")}
                 </button>
             </div> }
@@ -110,7 +105,7 @@ class InvitationSendPage extends React.Component {
                     "lastName": "",
                     "position": ""
                 }}
-                validationSchema={registrationUserValidatorWithEmail}
+                validationSchema={registrationAgentValidatorWithEmail}
                 onSubmit={this.submit}
                 render={formik => (
                     <div className="form">
@@ -122,7 +117,7 @@ class InvitationSendPage extends React.Component {
                                 required
                             />
                         </div>
-                        <FormUserData formik={formik} t={t} />
+                        <FormAgentData formik={formik} />
                         <div className="row">
                             <div className="field">
                                 <div className="inner">

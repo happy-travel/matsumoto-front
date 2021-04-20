@@ -3,69 +3,48 @@
     height: 100%
     min-height: 100vh
     position: relative
-    display: flex
-    flex-direction: row
     margin-top: -81px
-    &.sign-in-page
-        .picture
-            background: #74B1F5 url("/images/account/background.png") center bottom no-repeat
-            background-size: cover
-            flex-grow: 1
-            .supplier
-                margin: 50px
-                font-size: 18px
-                line-height: 21px
-                vertical-align: middle
-                cursor: pointer
-                display: inline-block
-                color: #ffffff
-                font-weight: 500
-                .icon
-                    margin-right: 16px
-                    vertical-align: middle
-    &.sign-up-page
-        padding-bottom: 60px
-        .logo-wrapper
-            height: 85px
-        .middle-section
-            width: 825px
-            margin: 0 auto
-        .form
-            padding-top: 30px
-        .terms
-            padding-top: 13px
-            flex-grow: 0.3
-            padding-left: 30px
-
-    .logo
-        width: 118px
-        height: 63px
-        margin: 0 -10px -10px 0
-        display: block
-        background: url("/images/logo/logo.png")
-        background-size: cover
-
-    .menu
-        width: 490px
+    background: #74B1F5 center bottom no-repeat
+    background-size: cover
+    padding-bottom: 150px
+    header
+        background: transparent
+        box-shadow: none !important
+        margin-bottom: 40px
+    .section
+        max-width: 760px
+        padding: 20px
         display: flex
-        justify-content: space-between
-        flex-direction: column
-        padding-bottom: 45px
-        .logo
-            margin: 0 auto
-        .form
+        flex-direction: row
+        align-items: center
+        justify-content: center
+        & > div
+            flex-grow: 1
+            background: #ffffff
+            border-radius: 50px
             padding: 50px
-            margin-bottom: 50px
-            .title
-                font-size: 40px
-                line-height: 48px
-                text-align: center
-                letter-spacing: 0.25px
-                b
-                    color: $color-brand
-                    font-weight: 500
-        .place
-            text-align: center
+            box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2)
+    .main.button
+        margin-top: 15px
+        line-height: 50px
+        height: 52px
+        font-size: 16px
+    .breadcrumbs, h2, .paragraph
+        padding-left: 27px
+    .breadcrumbs
+        margin-bottom: 7px
+    .accent-frame,
+    h2
+        margin-bottom: 12px
+        line-height: 34px
+    .paragraph
+        margin: 12px 0 30px
+        line-height: 22px
+        color: $color-text-light
+        .link
+            color: $color-text
+            &:hover
+                color: $color-brand
 
     .error-field
         color: $color-red
@@ -89,18 +68,5 @@
             padding: 0 15px
             position: relative
             display: flex
-            flex-direction: row
-            font-size: 13px
             &:focus
                 border-color: $color-brand
-
-    h1
-        font-size: 40px
-        line-height: 48px
-        font-weight: 400
-        padding: 21px 0 17px
-
-    p
-        font-size: 15px
-        line-height: 20px
-        padding-bottom: 30px

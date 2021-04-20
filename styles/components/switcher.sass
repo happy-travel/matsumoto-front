@@ -2,7 +2,6 @@
     position: relative
     cursor: pointer
     display: inline-flex
-    flex-direction: row
     &:hover, &.open
         color: $color-text
         .icon, .switch-arrow
@@ -23,8 +22,9 @@
 
     .switch-arrow
         width: 9px
-        height: 4px
-        background: url("../images/dropdown-arrow.svg") no-repeat
+        height: 10px
+        background: url("../icons/elements/arrow-expand.svg") no-repeat
+        filter: grayscale(1)
         margin: 7px 0 0 10px
         display: inline-block
 

@@ -4,11 +4,11 @@ export const price = (currencyOrObject, value) => {
     if (undefined === value && currencyOrObject)
         return price(currencyOrObject.currency, currencyOrObject.finalPrice || currencyOrObject.amount);
 
-    var currency = currencyOrObject;
-    if (ALLOWED_CURRENCIES.indexOf(currency) < 0)
+    let currency = currencyOrObject;
+    if (!ALLOWED_CURRENCIES.includes(currency))
         currency = ALLOWED_CURRENCIES[0];
 
-    var result = (value || 0).toLocaleString(undefined, {
+    let result = (value || 0).toLocaleString(undefined, {
         style: "currency",
         currency
     });

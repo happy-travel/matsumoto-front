@@ -1,35 +1,22 @@
 import React from "react";
-import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import Breadcrumbs from "components/breadcrumbs";
 import BookingConfirmationView from "./parts/booking-confirmation-view";
 
-@observer
-class AccommodationViewBookingPage extends React.Component {
-    render() {
-        var { t } = useTranslation();
+const AccommodationViewBookingPage = ({ match }) => {
+    const { t } = useTranslation();
 
-        return (
-<div className="confirmation nova block">
-    <section className="double-sections">
-        <div className="middle-section">
-            <Breadcrumbs
-                items={[
-                    {
-                        text: t("Bookings"),
-                        link: "/bookings"
-                    }, {
-                        text: t("Booking Confirmation")
-                    }
-                ]}
-                backLink="/bookings"
-            />
-            <BookingConfirmationView referenceCode={this.props.match.params.code} />
+    return (
+        <div className="booking block">
+            <section>
+                <Breadcrumbs
+                    backLink="/bookings"
+                    backText={t("Back to") + " " + t("Bookings List")}
+                />
+                <BookingConfirmationView referenceCode={match.params.code} />
+            </section>
         </div>
-    </section>
-</div>
-        );
-    }
-}
+    );
+};
 
 export default AccommodationViewBookingPage;

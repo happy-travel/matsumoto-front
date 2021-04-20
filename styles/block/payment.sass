@@ -1,118 +1,65 @@
-.block
-    .payment-back
-        padding-left: 30px
-        padding-right: 30px
-        margin-top: 25px
-
 .payment.block
+    padding-bottom: 100px
+    section
+        max-width: 520px
+        padding-top: 100px
     .icon.icon-info
         position: relative
         margin-right: -12px
         top: -2px
         right: -16px
         cursor: default
+    h2
+        font-weight: 300
+    h2+form
+        .form
+            margin-top: 20px
     .checkbox
         .icon.icon-info
             right: -7px
+    .accent-frame
+        margin-bottom: 50px
+        .data.only
+            color: $color-text
     .form
         .field
+            position: relative
             &.force-invalid
                 .input.valid
                     &:after
                         display: none
-            .input.valid
+            .input
+                height: 54px
+                line-height: 52px
+            &.valid
                 &:after
                     content: " "
-                    background: url("../icons/check-round.svg") left top no-repeat
+                    background: url("../images/check-round.svg") left top no-repeat
                     position: absolute
-                    top: -6px
-                    right: -8px
+                    top: 4px
+                    right: -5px
                     display: block
                     width: 18px
                     height: 18px
-            .icon-wrap
+            .after-icon-wrap
                 img
                     height: 20px
                     margin-top: 12px
+    .error-page
+        .text
+            padding-bottom: 60px
+    .breadcrumbs
+        margin-top: -20px
     .button
-        margin-top: 17px
+        margin-top: 12px
+        height: 54px
+        line-height: 52px
+        font-size: 16px
+        font-weight: 500
         width: 100%
         flex-direction: row
+        justify-content: center
         .icon
             margin-right: 12px
-    .middle-section
-        padding-left: 308px
-        padding-right: 308px
-    .remark
-        margin-bottom: -15px
-        border-left: 3px solid $color-brand
-        padding: 5px 10px 7px 20px
-
-.payment.method
-    padding-top: 20px
-    .value
-        color: $color-green
-    .list
-        padding: 50px 0
-        display: flex
-        flex-direction: row
-        justify-content: space-between
-        .icon
-            margin-right: 23px
-        .item
-            height: 109px
-            width: 400px
-            border: 1px solid $color-text-light
-            border-radius: 25px
-            padding: 42px 30px 0
-            line-height: 24px
-            font-size: 18px
-            color: $color-text-light
-            cursor: pointer
-            span
-                color: $color-text-light
-            &:hover
-                color: $color-text
-                border-color: $color-brand
-            &.selected
-                color: $color-text
-                border-color: $color-brand
-            img
-                height: 32px
-                margin-top: -32px
-                position: relative
-                top: 8px
-                margin-left: 10px
-    &.cards
-        padding-top: 0
-        .list
-            padding: 0
-            flex-direction: column
-            .item
-                height: auto
-                padding: 25px 5px
-                margin: 0 0 17px
-                font-size: 14px
-                line-height: 20px
-                width: 100%
-                .field
-                    width: 100px
-                    margin: -15px 20px
-                .only-when-selected
-                    display: none
-                    .label
-                        margin-top: -10px
-                        margin-left: 0
-                        span
-                            margin-left: 18px
-                img
-                    height: 15px
-                    margin-right: 10px
-                    top: 2px
-                span
-                    margin-left: 30px
-                b
-                    font-weight: 500
-                &.selected
-                    .only-when-selected
-                        display: inline-block
+    .return-to-saved-cards
+        margin: -40px 0 50px

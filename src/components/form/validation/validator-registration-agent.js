@@ -28,12 +28,12 @@ export default Yup.object().shape(validator);
 
 export const emailFormValidator = Yup.object().shape(emailForm);
 
-export const registrationUserValidatorWithEmail = Yup.object().shape({
+export const registrationAgentValidatorWithEmail = Yup.object().shape({
     ...validator,
     ...emailForm
 });
 
-export const registrationUserValidatorWithEmailAndAgencyName = Yup.object().shape({
+export const registrationAgentValidatorWithEmailAndAgencyName = Yup.object().shape({
     ...validator,
     ...emailForm,
     ...agencyNameForm

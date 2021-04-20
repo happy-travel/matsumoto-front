@@ -5,12 +5,11 @@
     margin-right: 18px
     &:last-child
         margin-right: 0
-
     .label
         text-transform: uppercase
         line-height: 16px
         font-size: 11px
-        color: #777777
+        color: $color-text-light
         height: 24px
         margin-bottom: -13px
         margin-left: 24px
@@ -18,18 +17,47 @@
         z-index: 1
         position: relative
         display: block
-        &.focus
-            color: $color-brand
-        &.disabled
-            span
-                cursor: default
-                background: linear-gradient(0, rgba(245,248,250,0) 25%, #fff 50%, rgba(255,255,255,0) 57%)
-                border-radius: 25px
+        font-weight: 500
         span
+            text-overflow: ellipsis
+            white-space: nowrap
+            max-width: 85%
+            overflow: hidden
             cursor: pointer
             padding: 4px
             background: #ffffff
             display: inline-block
+    &.error
+        .input
+            border-color: #FF4B55
+        .label
+            color: $color-red
+    &.focus
+        & > label > .input
+            border-color: $color-brand
+        & > label > .label
+            color: $color-brand
+        .icon-arrow-expand
+            filter: none
+    &.disabled
+        .input
+            background: #f5f9fA
+            input
+                color: $color-text
+        .label
+            span
+                cursor: default
+                background: linear-gradient(0, rgba(245,248,250,0) 25%, #fff 50%, rgba(255,255,255,0) 57%)
+                border-radius: 25px
+
+    &.no-input
+        cursor: pointer
+        label
+            cursor: pointer
+            .inner
+                white-space: nowrap
+                .placeholder
+                    color: $color-text-light
 
     input, .button
         width: 100%
@@ -54,8 +82,6 @@
     .error-holder
         color: $color-red
         margin: 5px 0 0 17px
-        font-size: 13px
-        line-height: 15px
 
     &.select
         & input
@@ -70,7 +96,7 @@
         &.placeholder
             color: $color-text-light
 
-    $padding: 15px
+    $padding: 27px
     .input
         border-radius: 25px
         color: $color-text
@@ -81,28 +107,18 @@
         padding: 0 $padding
         position: relative
         display: flex
-        flex-direction: row
-        font-size: 13px
-
-        &.disabled
-            background: #f5f9fA
-            input
-                color: $color-text
-
-        &.error
-            border-color: #FF4B55
-        &.focus
-            border-color: $color-brand
+        font-size: 14px
         .inner
             position: relative
             display: inline-block
             flex-grow: 2
         .suggestion
             position: absolute
+            white-space: nowrap
             left: 0
             top: 0
             z-index: 1
-            font-size: 13px
+            font-size: 14px
             color: $color-text-light
             &.solid
                 color: $color-text
@@ -112,11 +128,10 @@
         input[type="text"], input[type="password"], textarea
             border: 0
             width: 100%
-            font-size: 13px
+            font-size: 14px
             background: transparent
             position: relative
             z-index: 3
-
             &::placeholder
                 color: $color-text-light
                 opacity: 1
@@ -137,9 +152,8 @@
                     max-height: 200px
                     display: block
                     line-height: 20px
-
-        .flag
-            margin-right: 9px
+            .disabled
+                color: $color-text-light
 
         .clear
             background: url("../images/cross-small.svg") no-repeat
@@ -150,6 +164,8 @@
             cursor: pointer
 
         .icon-wrap
+            margin-right: 8px
+        .after-icon-wrap
             padding-left: 14px
             cursor: pointer
 

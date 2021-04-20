@@ -1,0 +1,139 @@
+@keyframes Appear
+    0%
+        opacity: 0
+    100%
+        opacity: 1
+
+.search-results.block
+    animation: Appear .42s ease-in-out 1
+    padding-bottom: 100px
+    .head
+        margin-top: 32px
+        .request
+            color: $color-text-light
+            span
+                margin: 0 3px
+                &:first-child
+                    margin-left: 0
+        .title
+            h1
+                font-weight: 500
+                margin: 3px 0 6px
+            h2
+                margin: 5px 0 18px
+                span
+                    color: $color-text-light
+                    font-size: 18px
+                    vertical-align: top
+            .stars
+                margin-bottom: 10px
+    .contract
+        margin: 32px 0 5px
+        .summary
+            padding-bottom: 15px
+            display: flex
+            @include phone
+                flex-direction: column
+            .photo
+                margin-right: 17px
+                width: 276px
+                min-width: 276px
+                height: 170px
+                overflow: hidden
+                border-radius: 10px
+                display: flex
+                justify-content: center
+                flex-basis: 276px
+                cursor: pointer
+                background-color: $color-not-loaded
+                background-size: cover
+                background-position: center center
+                @include phone
+                    width: 100%
+                    height: 150px
+                    margin-bottom: 20px
+            .upper
+                padding-bottom: 15px
+            .bottom
+                display: flex
+                justify-content: space-between
+        .detail
+            flex-grow: 1
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+            min-height: 170px
+            @include phone
+                min-height: 0
+            .name-and-price
+                display: flex
+                justify-content: space-between
+                .name
+                    padding-right: 30px
+                    max-width: 500px
+                    cursor: pointer
+                    h2
+                        font-size: 16px
+                        line-height: 19px
+                .price
+                    div
+                        color: $color-text-light
+                        font-size: 12px
+                        line-height: 14px
+            .stars
+                padding: 8px 0 5px
+            .text
+                color: $color-text-light
+                font-size: 12px
+                line-height: 18px
+            .address
+                margin-bottom: 4px
+                color: $color-text-light
+                font-weight: 300
+            .features
+                position: relative
+                top: -3px
+                text-align: right
+                min-width: 140px
+                .mini-label
+                    vertical-align: bottom
+                button
+                    cursor: pointer
+            .availability
+                font-size: 12px
+                padding: 0 10px 0 17px
+                background: url("../icons/bullet/bullet.svg") left 2px no-repeat
+        .price
+            font-size: 18px
+            line-height: 22px
+    .stars
+        display: block
+        i
+            width: 16px
+            height: 16px
+            margin-right: 1px
+    .gallery
+        margin: 20px 0 10px
+    .another
+        padding-right: 40px
+        @include mobile
+            padding-right: 0
+        h2
+            margin: 30px 0 22px
+            &:first-child
+                margin-top: 10px
+    .finish
+        margin-top: 45px
+        font-size: 13px
+        font-weight: 300
+        text-align: center
+        color: $color-text-light
+    .nothing-found
+        padding-top: 60px
+        max-width: 70%
+        .button
+            margin: 20px 0 50px
+    .checkin-time
+        margin-top: 15px
+        font-weight: 300
+        font-size: 15px

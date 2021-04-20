@@ -1,6 +1,6 @@
-import { hotelStars } from "simple";
+import { HOTEL_STARS } from "enum";
 
-const atLeastOne = (obj) => {
+export const atLeastOne = (obj) => {
     if (!obj)
         return false;
     if (obj.length)
@@ -45,23 +45,23 @@ export const generateSorterLine = sorter => {
 };
 
 export const createFilters = hotels => {
-    var filters = {
-            price: {
-                min: 0,
-                max: TEMPORARY_MAX_PRICE,
-                currency: "USD"
-            },
-            boardBasis: [
-                "RoomOnly",
-                "SelfCatering",
-                "BedAndBreakfast",
-                "HalfBoard",
-                "FullBoard",
-                "AllInclusive"
-            ],
-            ratings: hotelStars.filter(v=>v),
-            __source: new Set()
-        };
+    const filters = {
+        price: {
+            min: 0,
+            max: TEMPORARY_MAX_PRICE,
+            currency: "USD"
+        },
+        boardBasis: [
+            "RoomOnly",
+            "SelfCatering",
+            "BedAndBreakfast",
+            "HalfBoard",
+            "FullBoard",
+            "AllInclusive"
+        ],
+        ratings: HOTEL_STARS.filter(v=>v),
+        __source: new Set()
+    };
 
     for (var i = 0; i < hotels.length; i++) {
         var hotel = hotels[i];

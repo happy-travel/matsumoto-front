@@ -4,15 +4,15 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { price } from "simple";
 import { API } from "core";
-import authStore from "stores/auth-store";
+import { $personal } from "stores";
 
 @observer
 class SettingsHeader extends React.Component {
     componentDidMount() {
-        if (authStore.permitted("ObserveBalance"))
+        if ($personal.permitted("ObserveBalance"))
             API.get({
                 url: API.ACCOUNT_BALANCE("USD"),
-                success: balance => authStore.setBalance(balance)
+                success: balance => $personal.setBalance(balance)
             });
     }
 
@@ -28,51 +28,50 @@ class SettingsHeader extends React.Component {
                             {t("Log out")}
                         </Link>
                     </div>
-                    <div className="user">
+                    <div className="agent">
                         <div className="photo">
                             <div className="no-avatar" />
                         </div>
                         <div className="data">
-                            <h1>{authStore.user?.firstName} {authStore.user?.lastName}</h1>
-                            <h3>
-                                <div className={"status " + authStore.activeCounterparty.counterpartyState} />
-                                {authStore.activeCounterparty.name} (
-                                    {authStore.activeCounterparty.counterpartyState?.replace(/([A-Z])/g, " $1").trim()}
-                                )
-                            </h3>
-                            { authStore.permitted("ObserveBalance") &&
-                                <div className="balance">
-                                    <div><i className="icon icon-wallet"/></div>
-                                    <span className="text">
-                                        {t("Balance")}: {price(authStore.balance?.currency, authStore.balance?.balance)}
-                                    </span>
+                            <h1>{$personal.information?.firstName} {$personal.information?.lastName}</h1>
+                            <div className="company">
+                                {$personal.activeCounterparty.name} (
+                                    {$personal.activeCounterparty.counterpartyState?.replace(/([A-Z])/g, " $1").trim()}
+                                ) <b className={"status " + $personal.activeCounterparty.counterpartyState} />
+                            </div>
+                            { $personal.permitted("ObserveBalance") &&
+                                <div>
+                                    {t("Balance")}:{" "}
+                                    <span>{price($personal.balance?.currency, $personal.balance?.balance)}</span>
                                 </div>
                             }
                         </div>
                     </div>
                 </section>
-                <div>
-                    <NavLink exact to="/settings">
-                        {t("Personal Settings")}
-                    </NavLink>
-                    <NavLink to="/settings/counterparty">
-                        {t("Agency Information")}
-                    </NavLink>
-                    {authStore.permitted("ObserveAgents") &&
-                        <NavLink to="/settings/agents">
-                            {t("Agent Management")}
+                <div className="settings-nav">
+                    <section>
+                        <NavLink exact to="/settings">
+                            {t("Personal Settings")}
                         </NavLink>
-                    }
-                    {authStore.permitted("AgentInvitation") &&
-                        <NavLink to="/settings/invitations" >
-                            {t("Invitations")}
+                        <NavLink to="/settings/counterparty">
+                            {t("Agency Information")}
                         </NavLink>
-                    }
-                    { authStore.permitted("ObservePaymentHistory") &&
-                        <NavLink to="/settings/account">
-                            {t("Account statement")}
-                        </NavLink>
-                    }
+                        {$personal.permitted("ObserveAgents") &&
+                            <NavLink to="/settings/agents">
+                                {t("Agent Management")}
+                            </NavLink>
+                        }
+                        {$personal.permitted("AgentInvitation") &&
+                            <NavLink to="/settings/invitations" >
+                                {t("Invitations")}
+                            </NavLink>
+                        }
+                        { $personal.permitted("ObservePaymentHistory") &&
+                            <NavLink to="/settings/account">
+                                {t("Account statement")}
+                            </NavLink>
+                        }
+                    </section>
                 </div>
             </div>
         );

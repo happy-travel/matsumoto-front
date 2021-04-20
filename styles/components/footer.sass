@@ -1,6 +1,6 @@
 footer
     background: #f7f8fc
-    color: #777777
+    color: $color-text-light
     width: 100%
     min-width: 200px
     position: relative
@@ -27,7 +27,6 @@ footer
 
     section
         display: flex
-        flex-direction: row
         justify-content: space-between
 
     .column
@@ -47,8 +46,8 @@ footer
 
     .payments
         line-height: 0
-        margin-top: -60px
         padding-bottom: 30px
+        margin-top: -60px
         img
             height: 40px
             background: #ffffff
@@ -81,33 +80,43 @@ footer
         margin-top: -13px
 
     @include mobile
+        padding-top: 90px
         padding-left: 20px
         padding-right: 20px
+        .company
+            max-width: 0
         .middle
             flex-direction: column
             justify-content: flex-start
         .copyright
-            max-width: 300px
+            display: flex
+            flex-direction: column-reverse
             margin: 0 auto
-        .service-info
-            position: absolute
-            bottom: 100px
-            right: 20px
+            div
+                margin-bottom: 20px
+        .company
+            .logo-wrapper
+                left: 50%
+                transform: translateX(-50%)
+
+        .payments
+            margin-top: 20px
+            padding-bottom: 10px
 
     @include phone
-        padding-top: 30px
         section
             flex-direction: column
-        .company
-            margin: 0 auto 20px
+        .column
+            margin-bottom: 30px
+            &:nth-child(2)
+                order: 1
         ul
             justify-content: center
             flex-wrap: wrap
             li:last-child
                 margin-right: 0 !important
-        .switchers
-            justify-content: center
-            margin: 0 auto
+        .copyright
+            max-width: 300px
         .payments
             text-align: center
         .contact

@@ -1,11 +1,13 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { INVOICE_TYPES } from "enum";
-import { Loader, date, price, remapStatus } from "simple";
-import View, { MODALS } from "stores/view-store";
+import { date, price, remapStatus } from "simple";
+import Breadcrumbs from "components/breadcrumbs";
+import { Loader } from "components/simple";
+import { MODALS } from "enum/modals-enum";
+import { $view } from "stores";
 
 @observer
 class AccommodationConfirmationInvoicePage extends React.Component {
@@ -17,7 +19,7 @@ class AccommodationConfirmationInvoicePage extends React.Component {
     }
 
     showSendModal = () => {
-        View.setModal(
+        $view.setModal(
             MODALS.SEND_INVOICE,
             {
                 type: INVOICE_TYPES.INVOICE,
@@ -36,14 +38,15 @@ class AccommodationConfirmationInvoicePage extends React.Component {
         document.title = (number || "") + " Invoice Happytravel.com";
 
         if (!invoice)
-            return <Loader />;
+            return <Loader page />;
 
         return (
             <div className="invoice">
-                <div className="breadcrumbs no-print">
-                    <Link to={`/booking/${data.referenceCode}`}>
-                        <span className="small-arrow-left" /> Back to Booking Confirmation
-                    </Link>
+                <div className="no-print">
+                    <Breadcrumbs
+                        backLink={`/booking/${data.referenceCode}`}
+                        backText={t("Back to") + " " + t("Booking Confirmation")}
+                    />
                 </div>
                 <div className="buttons no-print">
                     <button className="button" onClick={window.print}>{t("Print")}</button>

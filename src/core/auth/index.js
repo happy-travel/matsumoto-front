@@ -1,22 +1,22 @@
 import { windowSessionStorage } from "core/misc/window-storage";
 
-const STORAGE_KEY = "__user_id",
+const STORAGE_KEY = "__auth_id",
       DIRECT_PAYMENT_ID = "__direct_payment";
 
-const userAuthGetFromStorage = () => windowSessionStorage.get(STORAGE_KEY);
+const authGetFromStorage = () => windowSessionStorage.get(STORAGE_KEY);
 
-const userAuthRemoveFromStorage = () => windowSessionStorage.remove(STORAGE_KEY);
+const authRemoveFromStorage = () => windowSessionStorage.remove(STORAGE_KEY);
 
-const userAuthSetToStorage = (user) => {
-    var email = user?.email || user?.profile?.email;
+const authSetToStorage = (auth) => {
+    var email = auth?.email || auth?.profile?.email;
     if (!email) {
-        if (userAuthGetFromStorage())
-            userAuthRemoveFromStorage();
+        if (authGetFromStorage())
+            authRemoveFromStorage();
         return;
     }
 
     var value = btoa(email);
-    if (value == userAuthGetFromStorage())
+    if (value == authGetFromStorage())
         return;
 
     windowSessionStorage.set(STORAGE_KEY, value);
@@ -25,13 +25,13 @@ const userAuthSetToStorage = (user) => {
         _renderTheApp();
 };
 
-const userAuthSetDirectPayment = () => {
-    if (!userAuthGetFromStorage())
+const authSetDirectPayment = () => {
+    if (!authGetFromStorage())
         windowSessionStorage.set(STORAGE_KEY, DIRECT_PAYMENT_ID);
 };
 
 const Authorized = () =>
-    userAuthGetFromStorage() && (DIRECT_PAYMENT_ID != userAuthGetFromStorage());
+    authGetFromStorage() && (DIRECT_PAYMENT_ID != authGetFromStorage());
 
 const PagesAvailableUnauthorized = [
     "/contact", "/terms", "/signup/invite/", "/privacy", "/about", "/logout",
@@ -47,11 +47,11 @@ const isPageAvailableAuthorizedOnly = () => PagesAvailableUnauthorized.every(
 export {
     Authorized,
 
-    userAuthGetFromStorage,
-    userAuthSetToStorage,
-    userAuthRemoveFromStorage,
+    authGetFromStorage,
+    authSetToStorage,
+    authRemoveFromStorage,
 
-    userAuthSetDirectPayment,
+    authSetDirectPayment,
 
     isSignUpRoutes,
     isPageAvailableAuthorizedOnly

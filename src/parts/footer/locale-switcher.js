@@ -1,10 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { Flag } from "simple";
+import { Flag } from "components/simple";
 import { switchLocale } from "core/misc/switch-locale";
-
-import View from "stores/view-store";
+import { $view } from "stores";
 
 const dropdownId = "LocaleSwitcherDropdown";
 
@@ -15,9 +14,9 @@ class LocaleSwitcherDropdown extends React.Component {
 
         return (
             <div
-                className={"switcher" + __class(View.isDropdownOpen(dropdownId), "open")}
+                className={"switcher" + __class($view.isDropdownOpen(dropdownId), "open")}
                 data-dropdown={dropdownId}
-                onClick={() => View.setOpenDropdown(dropdownId)}
+                onClick={() => $view.setOpenDropdown(dropdownId)}
             >
                 <div>
                     <span className="icon icon-locale-switcher" />
@@ -25,7 +24,7 @@ class LocaleSwitcherDropdown extends React.Component {
                 <div className="name">{t("current_language_name")}</div>
                 <div className="switch-arrow" />
 
-                { View.isDropdownOpen(dropdownId) &&
+                { $view.isDropdownOpen(dropdownId) &&
                     <div className="locale dropdown">
                         <div className="item" onClick={switchLocale.bind(null, "ar")}>
                             <Flag language="ar" />

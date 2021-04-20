@@ -1,6 +1,6 @@
 import React from "react";
 import { getParams, API } from "core";
-import { Loader } from "simple";
+import { Loader } from "components/simple";
 import { windowLocalStorage } from "core/misc/window-storage";
 import { paymentCallback } from "tasks/payment/finalize";
 import { directPaymentCallback } from "tasks/payment/direct/direct-finalize";

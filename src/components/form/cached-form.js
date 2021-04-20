@@ -1,30 +1,16 @@
 import React from "react";
 import { Formik } from "formik";
-
-import UI from "stores/ui-store";
+import { $ui } from "stores";
 
 class CachedForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.getInitialValues = this.getInitialValues.bind(this);
-        this.handleReset = this.handleReset.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
-        this.state = {
-            initialValues: this.getInitialValues(),
-            everSubmitted: false
-        };
-    }
-
-    getInitialValues() {
+    getInitialValues = () => {
         var {
             initialValues = {},
             cacheValidator,
             valuesOverwrite = values => values
         } = this.props,
             formName = this.props.id,
-            cached = UI.getFormCache(formName),
+            cached = $ui.getFormCache(formName),
             isValid = false;
 
         if (!cached)
@@ -43,7 +29,12 @@ class CachedForm extends React.Component {
         return valuesOverwrite(initialValues);
     };
 
-    handleReset(formik) {
+    state = {
+        initialValues: this.getInitialValues(),
+        everSubmitted: false
+    };
+
+    handleReset = (formik) => {
         const {
             initialValues = {}
         } = this.props,
@@ -52,14 +43,14 @@ class CachedForm extends React.Component {
         this.setState({ everSubmitted: false });
         formik.resetForm();
         formik.setValues(initialValues);
-        UI.setFormCache(formName, null);
-    }
-
-    handleChange(values) {
-        UI.setFormCache(this.props.id, values);
+        $ui.setFormCache(formName, null);
     };
 
-    handleSubmit(props, extended) {
+    handleChange = (values) => {
+        $ui.setFormCache(this.props.id, values);
+    };
+
+    handleSubmit = (props, extended) => {
         this.setState({ everSubmitted: true });
         if (this.props.onSubmit)
             this.props.onSubmit(props, extended);

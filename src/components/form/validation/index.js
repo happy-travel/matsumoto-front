@@ -1,7 +1,7 @@
-import registrationUserValidator, {
-    registrationUserValidatorWithEmail,
+import registrationAgentValidator, {
+    registrationAgentValidatorWithEmail,
     emailFormValidator,
-    registrationUserValidatorWithEmailAndAgencyName
+    registrationAgentValidatorWithEmailAndAgencyName
 } from "./validator-registration-agent";
 import registrationCounterpartyValidator from "./validator-registration-counterparty";
 import accommodationSearchValidator from "./validator-accommodation-search";
@@ -10,9 +10,9 @@ import { creditCardValidator, savedCreditCardValidator } from "./validator-credi
 import { transferBalanceValidator } from "./transfer-balance-validator";
 
 export {
-    registrationUserValidator,
-    registrationUserValidatorWithEmail,
-    registrationUserValidatorWithEmailAndAgencyName,
+    registrationAgentValidator,
+    registrationAgentValidatorWithEmail,
+    registrationAgentValidatorWithEmailAndAgencyName,
     registrationCounterpartyValidator,
     accommodationSearchValidator,
     accommodationBookingValidator,

@@ -1,21 +1,15 @@
 import React from "react";
 import { getIn } from "formik";
 import { FieldText, FieldSelect } from "components/form";
-import { Loader } from "simple";
+import { Loader } from "components/simple";
 
 class Table extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            search_query: "",
-            sort_by: 0
-        };
-        this.getResult = this.getResult.bind(this);
-        this.searcher = this.searcher.bind(this);
-        this.sorter = this.sorter.bind(this);
-    }
+    state = {
+        search_query: "",
+        sort_by: 0
+    };
 
-    searcher(result) {
+    searcher = (result) => {
         var { search_query } = this.state,
             { searches } = this.props;
 
@@ -38,9 +32,9 @@ class Table extends React.Component {
             });
         }
         return result;
-    }
+    };
 
-    sorter(result) {
+    sorter = (result) => {
         var { sort_by } = this.state,
             { sorters } = this.props;
 
@@ -58,9 +52,9 @@ class Table extends React.Component {
             return 0;
         });
         return result;
-    }
+    };
 
-    getResult() {
+    getResult = () => {
         var {
             list,
             filter
@@ -73,7 +67,7 @@ class Table extends React.Component {
         result = this.sorter(result);
         result = this.searcher(result);
         return result;
-    }
+    };
 
     render() {
         var {
@@ -107,7 +101,8 @@ class Table extends React.Component {
                             { sorters && <div className="form">
                                 <FieldSelect
                                     id="sorter"
-                                    value={"Sort by" + " " + sorters[sort_by].title}
+                                    label="Sort by"
+                                    value={sorters[sort_by].title}
                                     setValue={value => this.setState({ sort_by: value })}
                                     options={sorters.map((item, index) => ({
                                         text: item.title,
@@ -120,10 +115,11 @@ class Table extends React.Component {
                         { searches && <div className="form search-wrap">
                             <FieldText
                                 id="search"
-                                placeholder={"Search..."}
+                                label={"Search"}
+                                placeholder="Enter Search Text"
                                 onChange={event => this.setState({ search_query: event.target.value })}
                                 onClear={() => this.setState({ search_query: "" })}
-                                Flag={<span className="icon icon-search" />}
+                                Icon={<span className="icon icon-search" />}
                                 clearable
                                 value={search_query}
                             />

@@ -3,23 +3,21 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
 import { creditCardType } from "card-validator";
-import { price, Loader } from "simple";
+import { price } from "simple";
+import { Loader } from "components/simple";
 import { allowedTypes } from "tasks/payment/decorator";
 import { FieldText } from "components/form";
 import { savedCreditCardValidator } from "components/form/validation";
 import { removeSavedCard } from "tasks/payment/service";
 import { payBySavedCard } from "tasks/payment/processing";
-import paymentStore from "stores/payment-store";
+import { $payment } from "stores";
 
 @observer
 class PaymentSavedCardsFormPart extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: false,
-            selectedCardId: 0
-        };
-    }
+    state = {
+        loading: false,
+        selectedCardId: 0
+    };
 
     selectCard = (id) => {
         this.setState({
@@ -53,8 +51,8 @@ class PaymentSavedCardsFormPart extends React.Component {
                         { this.state.loading && <Loader page /> }
                         <div className="payment method cards">
                             <div className="list">
-                                {paymentStore.savedCards.map((item, index) => {
-                                    var type = creditCardType(item.number)?.[0];
+                                {$payment.savedCards.map((item, index) => {
+                                    let type = creditCardType(item.number)?.[0] || { type: "none", code: { name: "Code", size: 4 } };
                                     return (
                                         <div
                                             onClick={() => this.selectCard(item.id)}
@@ -62,7 +60,10 @@ class PaymentSavedCardsFormPart extends React.Component {
                                             key={index}
                                         >
                                             {allowedTypes[type.type] ? <img src={allowedTypes[type.type]} alt="" /> : null}
-                                            {item.number} <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
+                                            <span>
+                                                {item.number}
+                                            </span>
+                                            <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
                                             <FieldText
                                                 formik={formik}
                                                 id="card_security_code"
@@ -87,7 +88,7 @@ class PaymentSavedCardsFormPart extends React.Component {
                         </div>
                         <button type="submit" className={"main button" + __class(!this.state.selectedCardId, "disabled")}>
                             <span className="icon icon-white-lock" />
-                            { t("Pay") + price(paymentStore.subject.price) + t("using saved card")}
+                            { t("Pay") + price($payment.subject.price) + t("using saved card")}
                         </button>
                     </form>
                 )}

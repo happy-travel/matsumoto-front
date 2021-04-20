@@ -1,19 +1,22 @@
 .DayPicker
     display: block
-    font-size: 13px
     font-weight: 500
     position: relative
+    line-height: 16px
     &-wrapper
         user-select: none
     &-NavButton
         position: absolute
-        background: url("../icons/elements/previous.svg")
+        background: url("../icons/elements/previous.svg") center center no-repeat
+        filter: brightness(0)
         box-sizing: content-box
         width: 6px
         height: 10px
-        border: 5px solid #ffffff
+        border: 12px solid transparent
         cursor: pointer
-        top: 0
+        top: -7px
+        &:hover
+            filter: none
         &--interactionDisabled
             display: none
         &--prev
@@ -24,7 +27,6 @@
 
     &-Months
         display: flex
-        flex-direction: row
         justify-content: space-between
     &-Caption
         display: table-caption
@@ -36,6 +38,9 @@
         display: table
         border-spacing: 0
         border-collapse: collapse
+        @include phone
+            &:last-child
+                display: none
     &-Weekdays
         display: table-header-group
     &-WeekdaysRow
@@ -52,7 +57,7 @@
         width: 40px
         text-align: center
     &-Weekday
-        color: #777777
+        color: $color-text-light
         padding: 12px 5px
     &-Day
         vertical-align: middle
@@ -62,30 +67,46 @@
         z-index: 2
         overflow: hidden
         div
-            padding: 12px 5px
+            margin: 3px 0
+            padding: 9px 5px
         &:hover
-            color: $color-brand
+            div
+                color: $color-brand !important
     &-Day--disabled
         color: #aaaaaa
         cursor: default
-    &-Day--selected:not(&-Day--disabled):not(&-Day--outside) div
-        position: relative
-        background: linear-gradient(270deg, #FAAB19 0%, #FECD0A 100%)
-        color: #F0F8FF
     &-Day--selected:not(&-Day--start):not(&-Day--end):not(&-Day--outside) div
         background: #F4F4F4
         color: $color-text
 
-    &-Day--start:not(&-Day--outside) div,
-    &-Day--end:not(&-Day--outside) div
-        border-radius: 50% !important
-        box-shadow: #F4F4F4 8px 0 0 6px
-        z-index: 0
-    &-Day--end:not(&-Day--outside) div
-        z-index: 1
-        box-shadow: #F4F4F4 -8px 0 0 6px
-    &-Day--only div
-        box-shadow: none !important
+    &-Day--start:not(&-Day--outside),
+    &-Day--end:not(&-Day--outside)
+        position: relative
+        &:after
+            content: ''
+            display: block
+            width: 17px
+            height: 34px
+            position: absolute
+            top: 3px
+            right: 0
+            background: #F4F4F4
+            z-index: 1
+        div
+            position: relative
+            z-index: 2
+            border-radius: 50% !important
+            padding-left: 2px
+            padding-right: 2px
+            margin: 3px
+            background: linear-gradient(270deg, #FAAB19 0%, #FECD0A 100%)
+            color: #F0F8FF !important
+    &-Day--end:not(&-Day--outside)
+        &:after
+            left: 0
+            right: auto
+    &-Day--only:after
+        display: none !important
 
 [dir="rtl"]
     .DayPicker-Weekday

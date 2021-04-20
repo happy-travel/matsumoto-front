@@ -2,22 +2,19 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { date, price, Loader } from "simple";
-import View from "stores/view-store";
-import store from "stores/accommodation-store";
+import { date, price } from "simple";
+import { Loader } from "components/simple";
+import { $view, $accommodation } from "stores";
 
 @observer
 class CancellationConfirmationModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            penalty: null,
-            loading: false
-        };
-    }
+    state = {
+        penalty: null,
+        loading: false
+    };
 
     componentDidMount() {
-        var { bookingId } = View.modalData;
+        var { bookingId } = $view.modalData;
         API.get({
             url: API.BOOKING_PENALTY(bookingId),
             success: (penalty) => this.setState({ penalty })
@@ -25,7 +22,7 @@ class CancellationConfirmationModal extends React.Component {
     }
 
     bookingCancel = () => {
-        var { bookingId } = View.modalData;
+        var { bookingId } = $view.modalData;
         this.setState({ loading: true });
         API.post({
             url: API.BOOKING_CANCEL(bookingId),
@@ -38,7 +35,7 @@ class CancellationConfirmationModal extends React.Component {
 
     render() {
         var { t } = useTranslation(),
-            { bookingDetails } = View.modalData,
+            { bookingDetails } = $view.modalData,
             { closeModal } = this.props,
             { penalty, loading } = this.state;
 
@@ -58,8 +55,8 @@ class CancellationConfirmationModal extends React.Component {
             <>
 
                 <h2>{t("Cancellation Deadline")}</h2>
-                <p>
-                    {t("Cancellation is not possible furthermore, Check In date passed")}.
+                <p style={{ maxWidth: 290 }}>
+                    {t("Cancellation is not possible furthermore, Check-in Date passed")}.
                 </p>
 
             </>
@@ -86,7 +83,7 @@ class CancellationConfirmationModal extends React.Component {
                     </>}
 
                 { !date.passed(bookingDetails.deadlineDate) &&
-                    <p className="green">
+                    <p>
                         {t("FREE Cancellation - Without Prepayment")}
                     </p>
                 }

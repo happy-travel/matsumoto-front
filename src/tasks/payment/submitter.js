@@ -1,6 +1,6 @@
 import { decorate } from "simple";
 import { formatExpiryDate } from "./decorator";
-import paymentStore from "stores/payment-store";
+import { $payment } from "stores";
 
 const formFormatter = (values) => ({
     card_holder_name: values.card_holder_name,
@@ -27,8 +27,8 @@ const postVirtualForm = (path, values) => {
 };
 
 export const submitPaymentForm = (values, signature) => {
-    postVirtualForm(paymentStore.requestUrl, {
-        ...paymentStore.service,
+    postVirtualForm($payment.requestUrl, {
+        ...$payment.service,
         ...formFormatter(values),
         signature
     });

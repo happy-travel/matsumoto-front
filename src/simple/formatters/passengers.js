@@ -1,15 +1,14 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
-export const PassengersCount = ({ t, adults, children, separator }) => {
-    return (
-        ( adults ? __plural(t, adults, "Adult") : "" ) +
-        ((adults && children) ?
-            (undefined !== separator ?
-                separator :
-                (" " + t("and") + " ")) :
-            "") +
-        ( children ? __plural(t, children, "Children") : "" )
-    );
+export const PassengersCount = ({ adults, children }) => {
+    const { t } = useTranslation();
+    let result = [];
+    if (adults)
+        result.push(__plural(t, adults, "Adult"));
+    if (children)
+        result.push(__plural(t, children, "Children"));
+    return result.join(", ");
 };
 
 export const PassengerName = ({ passenger }) => (

@@ -1,8 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
 import SettingsHeader from "./parts/settings-header";
-import UserInformation from "./parts/user-information";
-import UserApplicationSettings from "./parts/user-application-settings";
+import SettingsNav from "pages/settings/parts/settings-nav";
+import AgentInformation from "./parts/agent-information";
+import AgentApplicationSettings from "./parts/agent-application-settings";
 
 @observer
 class PersonalSettings extends React.Component {
@@ -10,9 +11,10 @@ class PersonalSettings extends React.Component {
         return (
             <div className="settings block">
                 <SettingsHeader />
+                <SettingsNav />
                 <section>
-                    <UserInformation />
-                    <UserApplicationSettings />
+                    <AgentInformation />
+                    <AgentApplicationSettings />
                 </section>
             </div>
         );

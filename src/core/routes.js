@@ -3,9 +3,9 @@ import { Switch } from "react-router-dom";
 import Route from "./misc/route";
 
 import accommodationTitle         from "pages/accommodation/title";
-import accommodationSearchResults from "pages/accommodation/search-results";
-import accommodationBooking       from "pages/accommodation/booking";
-import accommodationContractsSets from "pages/accommodation/room-contract-sets";
+import accommodationSearchResults from "pages/accommodation/search-results/search-results";
+import accommodationBooking       from "pages/accommodation/booking/booking";
+import accommodationContractsSets from "pages/accommodation/room-contract-sets/room-contract-sets";
 
 import accommodationConfirmation        from "pages/accommodation/booking-confirmation";
 import accommodationViewBooking         from "pages/accommodation/view-booking-page";
@@ -22,8 +22,8 @@ import registrationAgent          from "pages/account/registration-agent";
 import registrationCounterparty   from "pages/account/registration-counterparty";
 import acceptInvite               from "pages/account/accept-invite";
 
-import bookingsManagement         from "pages/user/bookings-management/bookings-management";
-import accountStatement           from "pages/user/account-statement/account-statement";
+import bookingsManagement         from "pages/agent/bookings-management/bookings-management";
+import accountStatement           from "pages/agent/account-statement/account-statement";
 import invitationsManagement      from "pages/settings/invitations";
 import invitationSend             from "pages/settings/invitation-send";
 import invitationResend           from "pages/settings/invitation-resend";
@@ -45,13 +45,10 @@ import aboutUsPage                from "pages/common/about";
 
 import errorPage                  from "pages/common/error";
 
-export const routesWithSearch = [
+export const routesWithHeaderAndFooter = [
     "/",
     "/search",
-    "/search/contract"
-];
-export const routesWithHeaderAndFooter = [
-    ...routesWithSearch,
+    "/search/contract",
     "/accommodation/booking",
     "/booking*",
     "/accommodation/confirmation",
@@ -59,10 +56,16 @@ export const routesWithHeaderAndFooter = [
     "/payment/form",
     "/settings*",
 ];
+
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
     "/pay/*",
     "/signup/*"
+];
+
+export const routesWithSearch = [
+    "/search",
+    "/search/contract"
 ];
 
 const Routes = () => (

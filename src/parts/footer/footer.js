@@ -5,15 +5,14 @@ import settings from "settings";
 import { observer } from "mobx-react";
 import LocaleSwitcher from "./locale-switcher";
 import CurrencySwitcher from "./currency-switcher";
-
-import UI from "stores/ui-store";
 import { Authorized } from "core/auth";
+import { $ui } from "stores";
 
 @observer
 class Footer extends React.Component {
 render() {
     const { t } = useTranslation();
-    var ht = UI.ourCompanyInfo;
+    var ht = $ui.ourCompanyInfo;
     return (
         <footer>
             <section>
@@ -82,7 +81,7 @@ render() {
                 <div>{t("_copyright")} © 2019 — {new Date().getFullYear()} {ht.name}</div>
                 <div className="service-info column">
                     <span>Web – {settings.build || 0} </span>
-                    <span>API – {UI.currentAPIVersion || 0}</span>
+                    <span>API – {$ui.currentAPIVersion || 0}</span>
                 </div>
             </section>
         </footer>

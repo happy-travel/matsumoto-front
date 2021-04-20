@@ -1,5 +1,5 @@
 import React from "react";
-import { Flag } from "simple";
+import { Flag } from "components/simple";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 

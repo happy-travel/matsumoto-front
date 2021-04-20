@@ -1,21 +1,9 @@
 import { observable } from "mobx";
+import { MODALS } from "enum/modals-enum";
 import setter from "core/mobx/setter";
-
-export const MODALS = {
-    CANCELLATION_CONFIRMATION: "CANCELLATION_CONFIRMATION",
-    SEND_INVOICE: "SEND_INVOICE",
-    SEARCH_OVERLOAD: "SEARCH_OVERLOAD",
-    REPORT_DUPLICATE: "REPORT_DUPLICATE",
-    READ_ONLY: "READ_ONLY"
-};
 
 class ViewStore {
     @observable
-    @setter(null)
-    topAlertText = null; // todo: remove legacy
-
-    @observable
-    @setter(null)
     openDropdown = null;
 
     @observable
@@ -38,7 +26,17 @@ class ViewStore {
         document.getElementsByTagName("body")?.[0]?.classList.toggle("modal-open", this.modal in MODALS);
     }
 
+    setOpenDropdown(value, softly) {
+        if (softly) {
+            if (!value && (["residencyPicker", "residency", "nationality"].includes(this.openDropdown)))
+                return;
+        }
+        this.openDropdown = value;
+    }
+
     isDropdownOpen(id) {
+        if (id == "residencyPicker" && (this.openDropdown == "residency" || this.openDropdown == "nationality"))
+            return true;
         return this.openDropdown === id;
     }
 }

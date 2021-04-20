@@ -6,12 +6,12 @@ class Confirmation extends Component {
         if (!__localhost) return null;
 
         return (
-<div className="account block sign-up-page">
+<div className="account block">
     <section>
         <div className="logo-wrapper">
             <div className="logo"></div>
         </div>
-        <div className="middle-section">
+        <div>
             <div className="breadcrumbs">
                 <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Log In</a><span className="small-arrow-right"></span>
                 Registration<span className="small-arrow-right"></span>

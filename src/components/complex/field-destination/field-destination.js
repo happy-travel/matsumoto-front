@@ -5,9 +5,8 @@ import DestinationDropdown from "./dropdown-destination";
 import { API, session } from "core";
 import { decorate } from "simple";
 
-import View from "stores/view-store";
-import UI from "stores/ui-store";
-import authStore from "stores/auth-store";
+import { $view, $ui, $personal } from "stores";
+import {getIn} from "formik";
 
 const typesWeights = {
     "landmark": 1,
@@ -27,49 +26,62 @@ const setDestinationSuggestions = (value = [], currentValue) => {
         result.forEach((item, index) => result[index].value = item.value);
     }
 
-    View.setDestinations(result);
+    $view.setDestinations(result);
 };
+
+let throttle;
 
 @observer
 class FieldDestination extends React.Component {
-    constructor(props) {
-        super(props);
-        this.setValue = this.setValue.bind(this);
-        this.inputChanged = this.inputChanged.bind(this);
-        this.setDestinationAutoComplete = this.setDestinationAutoComplete.bind(this);
-    }
+    setSuggestion = (value) => {
+        if ($view?.destinations?.length) {
+            const prediction = $view.destinations[0];
+            if (!$personal.settings.experimentalFeatures)
+                $ui.setSuggestion("destination", value, prediction.value, prediction);
+            if ($personal.settings.experimentalFeatures)
+                $ui.setSuggestion("destination", value, prediction.predictionText, prediction);
+            return;
+        }
+        $ui.setSuggestion("destination", null);
+    };
 
-    setSuggestion(value) {
-        UI.setSuggestion("destination", value, View?.destinations?.length ? View.destinations[0] : "");
-    }
+    inputChanged = (event, formik) => {
+        const currentValue = event.target.value.trim();
 
-    inputChanged(event, props) {
-        var currentValue = event.target.value.trim();
         this.setSuggestion(currentValue);
         if (!currentValue)
-            return View.setDestinations([]);
+            return $view.setDestinations([]);
 
-        if (props.formik)
-            props.formik.setFieldValue("htIds", null);
+        if (formik)
+            formik.setFieldValue("htIds", null);
 
-        API.get({
-            url: authStore.settings.experimentalFeatures ? API.LOCATION_PREDICTION : API.EDO_LOCATION_PREDICTION,
-            body: {
-                query: currentValue,
-                sessionId: session.google.create()
-            },
-            after: (data) => {
-                if (currentValue != event.target.value.trim())
-                    return;
-                setDestinationSuggestions(data, currentValue);
-                UI.setSuggestion("destination", currentValue, View?.destinations?.length ? View.destinations[0] : "");
-                this.setDestinationAutoComplete(props.formik, true);
-            }
-        });
+        clearTimeout(throttle);
+        throttle = setTimeout(() => {
+            API.get({
+                url: $personal.settings.experimentalFeatures ? API.LOCATION_PREDICTION : API.EDO_LOCATION_PREDICTION,
+                body: {
+                    query: currentValue,
+                    sessionId: session.google.create()
+                },
+                after: (data) => {
+                    if (currentValue != event.target.value.trim())
+                        return;
+                    setDestinationSuggestions(data, currentValue);
+                    this.setSuggestion(currentValue);
+
+                    const prediction = $ui.suggestions["destination"]?.suggestionObject;
+                    if (prediction) {
+                        this.setValue(formik, null, prediction, true);
+                    }
+                }
+            });
+        }, 200);
     };
     
-    setValue(item, formik, silent) {
-        if (!authStore.settings.experimentalFeatures) {
+    setValue = (formik, connected, item, silent) => {
+        if (!item)
+            return;
+        if (!$personal.settings.experimentalFeatures) {
             formik.setFieldValue("htIds", {
                 "id": item.id,
                 "sessionId": session.google.current(),
@@ -79,26 +91,18 @@ class FieldDestination extends React.Component {
             formik.setFieldValue("predictionDestination", item.value);
             if (silent !== true) {
                 setDestinationSuggestions([]);
-                formik.setFieldValue('destination', item.value);
+                formik.setFieldValue("destination", item.value);
             }
         }
-        if (authStore.settings.experimentalFeatures) {
+        if ($personal.settings.experimentalFeatures) {
             formik.setFieldValue("htIds", [item.htId]);
             formik.setFieldValue("predictionDestination", item.predictionText);
             if (silent !== true) {
                 setDestinationSuggestions([]);
-                formik.setFieldValue('destination', item.predictionText);
+                formik.setFieldValue("destination", item.predictionText);
             }
         }
-    }
-
-    setDestinationAutoComplete(formik, silent, suggestion) {
-        var item = UI.suggestions.destination;
-        if (suggestion)
-            item = { value: formik.values.destination, suggestion: suggestion.value, suggestionExtendInfo: suggestion };
-        if (item)
-            this.setValue(item?.suggestionExtendInfo, formik, silent, item?.value);
-    }
+    };
 
     render() {
         const {
@@ -106,21 +110,22 @@ class FieldDestination extends React.Component {
             id,
             label,
             placeholder,
+            short
         } = this.props;
 
         return (
-            <FieldText formik={formik}
-                       id={id}
-                       additionalFieldForValidation="htIds"
-                       label={label}
-                       placeholder={placeholder}
-                       Icon={<span className="icon icon-hotel" />}
-                       Dropdown={DestinationDropdown}
-                       options={View.destinations}
-                       setValue={this.setValue}
-                       onChange={this.inputChanged}
-                       setAutoComplete={this.setDestinationAutoComplete}
-                       clearable
+            <FieldText
+                formik={formik}
+                id={id}
+                additionalFieldForValidation="htIds"
+                label={label}
+                placeholder={placeholder}
+                Icon={<span className="icon icon-search-location" />}
+                Dropdown={DestinationDropdown}
+                options={$view.destinations}
+                setValue={this.setValue}
+                onChange={this.inputChanged}
+                className={short ? "overall" : ""}
             />
         );
     }

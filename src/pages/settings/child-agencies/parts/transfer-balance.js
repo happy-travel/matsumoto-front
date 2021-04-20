@@ -5,7 +5,7 @@ import { API } from "core";
 import { price } from "simple";
 import { CachedForm, FieldSelect, FieldText } from "components/form";
 import { transferBalanceValidator } from "components/form/validation";
-import authStore from "stores/auth-store";
+import { $personal } from "stores";
 
 @observer
 export default class ChildAgencyTransferBalancePart extends React.Component {
@@ -14,10 +14,10 @@ export default class ChildAgencyTransferBalancePart extends React.Component {
     }
 
     updateBalance = () => {
-        if (authStore.permitted("ObserveBalance"))
+        if ($personal.permitted("ObserveBalance"))
             API.get({
                 url: API.ACCOUNT_BALANCE("USD"),
-                success: balance => authStore.setBalance(balance)
+                success: balance => $personal.setBalance(balance)
             });
     };
 
@@ -41,10 +41,10 @@ export default class ChildAgencyTransferBalancePart extends React.Component {
 
         return (
             <div>
-                <h2><span className="brand">{t("Transfer Balance")}</span></h2>
+                <h2>{t("Transfer Balance")}</h2>
                 <div className="row">
                     <b>{t("Your Balance")}</b>:{" "}
-                    {price(authStore.balance?.currency, authStore.balance?.balance)}
+                    {price($personal.balance?.currency, $personal.balance?.balance)}
                 </div>
                 <div className="row">
                     <b>{t("Child Agency Account Balance")}</b>:{" "}

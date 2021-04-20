@@ -15,7 +15,7 @@ class MarkupsListPart extends React.Component {
 
         return (
             <>
-                <h2><span className="brand">{t("Markup Management")}</span></h2>
+                <h2>{t("Markup Management")}</h2>
 
                 {!markups?.length && <div style={{ margin: "30px 0 0" }}>{emptyText}</div>}
                 {markups

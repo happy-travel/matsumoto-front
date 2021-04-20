@@ -1,5 +1,23 @@
 import { date } from "simple";
-import authStore from "stores/auth-store";
+import { $personal } from "stores";
+
+export const searchFormValuesCorrection = values => {
+    if (!values.residency || !values.residencyCode) {
+        values.residency = $personal.settings.residency || "";
+        values.residencyCode = $personal.settings.residencyCode || "";
+    }
+    if (!values.nationality || !values.nationalityCode) {
+        values.nationality = $personal.settings.nationality || "";
+        values.nationalityCode = $personal.settings.nationalityCode || "";
+    }
+    if (date.passed(values.checkInDate) ||
+        date.passed(values.checkOutDate) ||
+        new Date(values.checkInDate) > new Date(values.checkOutDate)) {
+        values.checkInDate = new Date();
+        values.checkOutDate = date.addDay(new Date(), 1);
+    }
+    return values;
+};
 
 export const searchFormFormatter = values => {
     var roomDetails = [];
@@ -20,14 +38,14 @@ export const searchFormFormatter = values => {
         checkInDate: date.format.api(values.checkInDate),
         checkOutDate: date.format.api(values.checkOutDate),
         roomDetails: roomDetails,
-        ...(authStore.settings.experimentalFeatures ? {} : {
+        ...($personal.settings.experimentalFeatures ? {} : {
             location: {
                 predictionResult: values.htIds
             }
         }),
         nationality: values.nationalityCode,
         residency: values.residencyCode,
-        ...(!authStore.settings.experimentalFeatures ? {} : {
+        ...(!$personal.settings.experimentalFeatures ? {} : {
             htIds: values.htIds
         }),
     };

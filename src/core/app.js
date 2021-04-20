@@ -2,35 +2,31 @@ import React from "react";
 import "../../styles";
 
 import { Router, Route, Switch } from "react-router-dom";
-import ScrollToTop from "./misc/scroll-to-top";
 import history from "./misc/history";
 import { I18nextProvider } from "react-i18next";
 import internationalization from "./internationalization";
 
 import AuthCallback from "core/auth/callback";
-import AuthSilent   from "core/auth/silent";
-import AuthDefault  from "core/auth/default";
-import AuthLogout   from "core/auth/logout";
+import AuthSilent from "core/auth/silent";
+import AuthDefault from "core/auth/default";
+import AuthLogout from "core/auth/logout";
 
-import Header    from "parts/header/header";
-import Footer    from "parts/footer/footer";
-import TopAlert  from "parts/top-alert";
-import Modal     from "parts/modals";
-import Search    from "parts/search-form";
-
+import Header from "parts/header/header";
+import Footer from "parts/footer/footer";
+import Modal from "parts/modals";
 import NotificationList from "parts/notifications/list";
 
 import Routes, {
     routesWithHeaderAndFooter,
-    routesWithSearch,
     routesWithFooter
 } from "./routes";
 
-import { Loader } from "simple";
+import { Loader } from "components/simple";
 import { Authorized, isPageAvailableAuthorizedOnly } from "core/auth";
 
 const App = () => {
-    var canShowContent = !isPageAvailableAuthorizedOnly() || Authorized();
+    const canShowContent = !isPageAvailableAuthorizedOnly() || Authorized();
+
     return (
     <I18nextProvider i18n={internationalization}>
         <Router history={history}>
@@ -38,25 +34,24 @@ const App = () => {
             <div className="body-wrapper">
                 <Switch>
                     <Route exact path="/auth/callback" component={ AuthCallback } />
-                    <Route exact path="/auth/silent"   component={ AuthSilent } />
-                    <Route exact path="/logout"        component={ AuthLogout } />
+                    <Route exact path="/auth/silent" component={ AuthSilent } />
+                    <Route exact path="/logout" component={ AuthLogout } />
                     <Route>
-                        <Route component={ AuthDefault } />
-                        { canShowContent ? <>
-                            <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
-                            <div className="block-wrapper">
-                                <TopAlert />
-                                <Route exact path={ routesWithSearch } component={ Search } />
-                                <Routes />
-                            </div>
-                            <Route exact path={ routesWithFooter } component={ Footer } />
-                        </> : <Loader page /> }
+                        <AuthDefault />
+                        { canShowContent ?
+                            <>
+                                <Route exact path={ routesWithHeaderAndFooter } component={ Header } />
+                                <div className="block-wrapper">
+                                    <Routes />
+                                </div>
+                                <Route exact path={ routesWithFooter } component={ Footer } />
+                            </> :
+                            <Loader page />
+                        }
                     </Route>
                 </Switch>
             </div>
             <Modal />
-
-            <ScrollToTop />
         </Router>
     </I18nextProvider>
 )};

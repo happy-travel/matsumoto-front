@@ -1,68 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { date } from "simple";
 
-class Deadline extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            result: null
-        };
-        this.request = this.request.bind(this);
-    }
+const Deadline = ({ roomContractSet, searchId, resultId }) => {
+    const { t } = useTranslation();
 
-    request() {
+    const [result, setResult] = useState(null);
+    const deadline = result?.date || roomContractSet.deadline.date;
+    const isRequestPossible = !result;
+
+    const request = (event) => {
+        event.stopPropagation();
         API.get({
             url: API.REQUEST_DEADLINE(
-                this.props.searchId,
-                this.props.resultId,
-                this.props.roomContractSet.id
+                searchId,
+                resultId,
+                roomContractSet.id
             ),
             success: data => {
-                this.setState({
-                    result: data || {}
-                });
+                setResult(data || {});
             }
         });
-    }
+    };
 
-    render() {
-        var { roomContractSet, t, searchId, resultId } = this.props,
-            deadline = this.state.result?.date || roomContractSet.deadline.date,
-            isRequestPossible = !this.state.result;
-
-        if (isRequestPossible && roomContractSet.deadline?.isFinal !== true)
-            return (
-                <div className="info">
-                    <div
-                        className="link"
-                        onClick={this.request}
-                    >
-                        {t("Cancellation Deadline")} <i className="icon icon-info" />
-                    </div>
-                </div>
-            );
-
-        if (deadline) {
-            if (!date.passed(deadline))
-                return (
-                    <div className="info green">
-                        {t("Deadline")} – {date.format.a(deadline)}
-                    </div>
-                );
-            return (
-                <div className="info warning">
-                    {t("Within deadline")} – {date.format.a(deadline)}
-                </div>
-            );
-        }
-
+    if (isRequestPossible && roomContractSet.deadline?.isFinal !== true)
         return (
-            <div className="info green">
-                {t("FREE Cancellation - Without Prepayment")}
+            <div className="deadline">
+                <div
+                    className="link tag clickable"
+                    onClick={request}
+                >
+                    {t("Cancellation Deadline")} <i className="icon icon-info" />
+                </div>
             </div>
         );
-    };
-}
+
+    if (deadline) {
+        if (!date.passed(deadline))
+            return (
+                <div className={"deadline future" + __class(!isRequestPossible, "requested")}>
+                    {t("Deadline")} – {date.format.a(deadline)}
+                </div>
+            );
+        return (
+            <div className={"deadline near" + __class(!isRequestPossible, "requested")}>
+                {t("Within deadline")} – {date.format.a(deadline)}
+            </div>
+        );
+    }
+
+    return (
+        <div className="deadline free">
+            {t("FREE Cancellation - Without Prepayment")}
+        </div>
+    );
+};
 
 export default Deadline;

@@ -1,29 +1,40 @@
 header
     z-index: 1001
+    background: #ffffff
     position: fixed
     width: 100%
     height: 80px
     line-height: 22px
     font-size: 14px
-    box-shadow: 0 .5px 0 #B9B9B9
-
-header
-    background: #ffffff
+    transition: box-shadow 0.2s
+    box-shadow: 0 .5px 0 #ffffff
+    &.fixed
+        transition: box-shadow 1.2s
+        box-shadow: 0 .5px 0 $color-shadow-border
     a
         display: inline-block
         vertical-align: top
 
     section
         display: flex
-        flex-direction: row
+        justify-content: space-between
 
     .search-wrapper
-        flex-grow: 1
+        margin-top: 17px
+        position: relative
 
-    .user-menu
+    .agent-menu
         padding: 17px 0
+        min-width: 240px
+        text-align: right
+        .button
+            border: 1px solid #ffffff
+            box-shadow: 0 0 1px #666
+            &:hover
+                border-color: $color-brand
+                box-shadow: none
 
-    .user-link
+    .agent-link
         display: inline-block
         padding: 5px
         height: 46px
@@ -44,39 +55,69 @@ header
                 display: inline-block
 
     .logo-wrapper
-        padding-right: 56px
-        .logo
-            width: 118px
-            height: 63px
-            margin: 0 -10px -10px 0
-            display: block
-            background: url("/images/logo/logo.png")
-            background-size: cover
-
-.head-nav
-    position: relative
-    height: 70px
-    line-height: 70px
-    nav
+        width: 50%
+        transform: translateX(68px)
         display: flex
-        flex-direction: row
-        flex-grow: 2
-        a, .item
-            padding: 0 10px
-            margin: 0 10px
-            display: block
+        justify-content: flex-end
+        min-width: 157px
+        .logo
+            width: 137px
+            height: 74px
             position: relative
-            cursor: pointer
-            &.active
-                cursor: default
-                &:after
-                    content: ' '
-                    height: 4px
-                    left: 8px
-                    right: 8px
-                    bottom: 0
-                    width: auto
-                    background: $color-brand
-                    background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
-                    border-radius: 25px
-                    position: absolute
+            .image, .underline
+                width: 137px
+                height: 74px
+                background: url("/images/logo/logo.png") no-repeat
+                display: block
+                background-size: contain
+                position: relative
+                z-index: 2
+            .underline
+                height: 130px
+                width: 130px
+                background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+                position: absolute
+                top: -61px
+                left: 3px
+                z-index: 1
+                border-radius: 100px
+
+@include mobile
+    .with-search
+        .notifications
+            top: 170px
+        header
+            height: 160px
+            .search-wrapper
+                display: block
+                position: absolute
+                top: 80px
+                left: 50%
+                transform: translateX(-50%)
+                width: 750px
+                max-width: 100%
+                padding: 0 20px
+                section
+                    justify-content: space-around
+
+@include phone
+    .with-search
+        header
+            .search-wrapper
+                left: 0
+                transform: none
+                width: 100%
+                padding: 0 10px
+    header
+        .logo-wrapper
+            width: 240px
+            transform: none
+            justify-content: flex-start
+
+@include desktop
+    .with-search
+        header
+            .logo-wrapper
+                width: 240px
+                transform: none
+                justify-content: flex-start

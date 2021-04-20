@@ -3,30 +3,27 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
-import { Loader, PassengerName } from "simple";
+import { PassengerName } from "simple";
+import { Loader } from "components/simple";
 import SettingsHeader from "pages/settings/parts/settings-header";
-import authStore from "stores/auth-store";
-import Notifications from "stores/notifications-store";
+import { $personal } from "stores";
 
 @observer
 class InvitationResendPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            success: false,
-            id: this.props.match.params.id,
-            invitation: null
-        };
-    }
+    state = {
+        success: false,
+        id: this.props.match.params.id,
+        invitation: null
+    };
 
     componentDidMount() {
         var { id } = this.state;
 
-        if (!authStore.activeCounterparty)
+        if (!$personal.activeCounterparty)
             return;
 
         var url = API.AGENT_INVITATIONS;
-        if (authStore.permitted("ObserveAgencyInvitations"))
+        if ($personal.permitted("ObserveAgencyInvitations"))
             url = API.AGENCY_INVITATIONS;
 
         API.get({
@@ -43,6 +40,7 @@ class InvitationResendPage extends React.Component {
         API.post({
             url: API.AGENT_INVITE_RESEND(id),
             success: () => this.setState({ success: true }),
+            error: () => this.setState({ success: false })
         });
     };
 
@@ -63,7 +61,7 @@ class InvitationResendPage extends React.Component {
     <div className="settings block">
         <SettingsHeader />
         <section>
-            <h2><span className="brand">{t("Invitation Information")}</span></h2>
+            <h2>{t("Invitation Information")}</h2>
             { !invitation ? <Loader /> : <>
                 <div className="row">
                     <b>{t("Agent")}</b>:{" "}
@@ -114,8 +112,8 @@ class InvitationResendPage extends React.Component {
                     <br/>
                 </div>
                 <Link to="/settings/invitations">
-                    <button className="button small payment-back">
-                        {t("Back to Invitations")}
+                    <button className="button small">
+                        {t("Back to") + " " + t("Invitations")}
                     </button>
                 </Link>
             </div> }

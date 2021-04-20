@@ -2,21 +2,14 @@ import React from "react";
 import DayPicker from 'react-day-picker';
 import { observer } from "mobx-react";
 import localeUtils from "tasks/utils/date-locale-utils";
-import View from "stores/view-store";
-import authStore from "stores/auth-store";
+import { $view, $personal } from "stores";
 
 @observer
 class DateDropdown extends React.Component {
-    constructor(props) {
-        super(props);
-
-        const { options } = this.props;
-        const [from, to] = options;
-        this.state = {
-            from,
-            to
-        };
-    }
+    state = {
+        from: this.props.options[0],
+        to: this.props.options[0]
+    };
 
     setDays = (result) => {
         if (result.to && (result.from > result.to))
@@ -42,7 +35,7 @@ class DateDropdown extends React.Component {
                 from,
                 to: day
             }));
-            View.setOpenDropdown(null);
+            $view.setOpenDropdown(null);
             return;
         }
         this.setDays({
@@ -74,11 +67,19 @@ class DateDropdown extends React.Component {
                 <DayPicker
                     localeUtils={localeUtils}
                     numberOfMonths={2}
-                    fromMonth={new Date()}
+                    fromMonth={
+                        "dates" == connected ?
+                            new Date() :
+                            new Date("2019-01-01")
+                    }
                     initialMonth={from}
-                    disabledDays={"dates" == connected ? {
-                        before: new Date(),
-                    } : []}
+                    disabledDays={
+                        "dates" == connected ?
+                        {
+                            before: new Date()
+                        } :
+                        []
+                    }
                     selectedDays={[from, { from, to }]}
                     onDayClick={this.handleDayClick}
                     modifiers={{
@@ -92,8 +93,8 @@ class DateDropdown extends React.Component {
                         </div>
                     )}
                     {
-                        ...(authStore.settings.weekStarts ? {
-                            firstDayOfWeek: authStore.settings.weekStarts % 7
+                        ...($personal.settings.weekStarts ? {
+                            firstDayOfWeek: $personal.settings.weekStarts % 7
                         } : {})
                     }
                 />

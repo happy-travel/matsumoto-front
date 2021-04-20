@@ -1,12 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
-import Notifications from "stores/notifications-store";
+import { $notifications } from "stores";
 
 @observer
 class NotificationItem extends React.Component {
     hideAlert = () => {
         const { notification } = this.props;
-        Notifications.closeNotification(notification.id);
+        $notifications.closeNotification(notification.id);
     }
 
     render() {

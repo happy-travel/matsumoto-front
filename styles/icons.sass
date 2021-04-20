@@ -1,14 +1,67 @@
+@mixin icon($image, $width: 18, $height: 18)
+    background-image: url($image)
+    width: #{$width}px
+    height: #{$height}px
 .icon
-    &.icon-user-burger
-        background-image: url("./icons/sidebars/burger-small.svg")
-        width: 14px
-        height: 9px
+    display: inline-block
+    background: no-repeat center center
+    vertical-align: text-bottom
+    &.icon-burger
+        @include icon("./icons/sidebars/burger-small.svg", 14, 9)
         filter: brightness(0.22)
     &.icon-locale-switcher
-        background-image: url("./icons/sidebars/locale-switcher.svg")
-        width: 16px
-        height: 16px
+        @include icon("./icons/sidebars/locale-switcher.svg", 16, 16)
     &.icon-currency-switcher
-        background-image: url("./icons/sidebars/currency-switcher.svg")
-        width: 16px
-        height: 16px
+        @include icon("./icons/sidebars/currency-switcher.svg", 16, 16)
+
+    &.icon-arrow-next
+        @include icon("./icons/elements/arrow-next.svg", 16, 16)
+    &.icon-filters
+        @include icon("./icons/elements/filters.svg")
+    &.icon-refresh
+        @include icon("./icons/elements/refresh.svg")
+    &.icon-close
+        @include icon("./icons/elements/close.svg", 18, 19)
+    &.icon-up, &.icon-down
+        @include icon("./icons/elements/up.svg")
+    &.icon-down
+        transform: rotate(180deg)
+    &.icon-remove
+        @include icon("./icons/elements/remove.svg", 16, 16)
+    &.icon-arrow-expand
+        @include icon("./icons/elements/arrow-expand.svg")
+        filter: grayscale(1)
+    &.icon-white-lock
+        @include icon("./icons/elements/white-lock.svg")
+
+    &.icon-search-location
+        @include icon("./icons/search/location.svg", 14, 14)
+    &.icon-search-calendar
+        @include icon("./icons/search/calendar.svg", 14, 14)
+    &.icon-search-guests
+        @include icon("./icons/search/guests.svg", 14, 14)
+    &.icon-search-white
+        @include icon("./icons/search/search.svg", 14, 14)
+    &.icon-search
+        @include icon("./icons/search/search-input.svg")
+    &.icon-summary-location
+        @include icon("./icons/search/summary-location.svg", 22, 22)
+    &.icon-summary-guests
+        @include icon("./icons/search/summary-guests.svg", 22, 22)
+    &.icon-summary-calendar
+        @include icon("./icons/search/summary-calendar.svg", 22, 22)
+
+    &.icon-success
+        @include icon("./icons/notification/success.svg", 40, 40)
+    &.icon-warning
+        @include icon("./icons/notification/warning.svg", 40, 40)
+    &.icon-information
+        @include icon("./icons/notification/information.svg", 40, 40)
+
+    &.icon-info
+        @include icon("./icons/old/info-blue.svg", 12, 12)
+    &.icon-info-green
+        @include icon("./icons/old/info-green.svg")
+        background-size: contain
+    &.icon-logout
+        @include icon("./icons/old/logout.svg", 24, 24)

@@ -1,84 +1,36 @@
 .booking.block
-    .left-section
-        font-size: 13px
-        line-height: 16px
-        padding-bottom: 135px
-        img
-            max-width: 100%
-        .subtitle
-            color: $color-text-light
-            margin-bottom: 16px
-        .item.static
-            margin-bottom: 23px
-            &.no-border
-                margin-bottom: 0
-        .dual
-            margin-bottom: 16px
-            .first
-                color: $color-text-light
-                margin-right: 6px
-                white-space: nowrap
-                &:after
-                    content: ':'
-            .second
-                color: $color-text
-        .total-cost
-            border: 1px solid $color-border
-            border-radius: 25px
-            padding: 22px
-            margin-top: 43px
-            text-align: center
-            div
-                font-size: 15px
-                line-height: 18px
-                &:last-child
-                    font-size: 22px
-                    line-height: 26px
-                    margin-top: 7px
-                    color: $color-green
-    .right-section
-        h2
-            margin-bottom: 16px
-
-    .part
+    padding-bottom: 100px
+    h2
         margin-top: 10px
-        padding-bottom: 25px
-        margin-bottom: 30px
-    .final
-        margin-bottom: 54px
-        line-height: 46px
-        text-align: center
-        .button
-            padding-left: 60px
-            padding-right: 60px
-
     .people
-        margin: 0 0 15px
+        margin: 20px 0 30px
         width: 100%
-        td, th
+        td
             padding-bottom: 10px
             padding-right: 7px
             text-align: left
             font-weight: 400
+            width: 45%
+            &:first-child
+                min-width: 130px
+                width: 130px !important
             &:last-child
                 padding-right: 0
-
     .row
-        margin-bottom: 21px
+        margin-bottom: 20px
         max-width: 540px
-
-    td.bigger
-        width: 300px
-
-    .icon-info
-        width: 16px
-        height: 16px
-        margin-left: 4px
-        background-size: contain
-
-    .checkboxes
-        font-size: 13px
-        td
-            padding-bottom: 16px
-        tr:last-child td
-            padding-bottom: 6px
+        &.itinerary
+            margin-top: 35px
+            @include phone
+                margin-left: 30px
+    .billet
+        min-width: 420px
+    .room-container+.room-container
+        margin-top: 60px
+    h2+.allotment
+        margin-top: 35px
+    @include mobile
+        .billet-wrapper
+            flex-direction: column-reverse
+            .billet
+                margin: 40px auto 0

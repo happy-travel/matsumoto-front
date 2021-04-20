@@ -9,6 +9,8 @@
         top: 20px
         left: 100%
         max-width: 430px
+        @media (max-width: 600px)
+            max-width: 100%
         .list
             position: absolute
             padding: 10px 20px
@@ -27,7 +29,6 @@
                 padding-right: 14px
             .content
                 display: flex
-                flex-direction: row
                 padding-bottom: 14px
             .text
                 display: flex
@@ -45,18 +46,11 @@
             .style
                 width: 90px
                 min-width: 90px
-                box-shadow: .5px 0 0 #B9B9B9
+                box-shadow: .5px 0 0 $color-shadow-border
                 background-position: center center
                 background-repeat: no-repeat
             .close-button
-                z-index: 1
-                position: absolute
-                right: 20px
-                top: 28px
-                padding: 10px 10px 5px 5px
-                cursor: pointer
-                .icon
-                    display: block
+                top: 23px
         @media print
             display: none
 

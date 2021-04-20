@@ -1,0 +1,63 @@
+.accent-frame
+    margin: 20px 0 35px
+    border-radius: 8px
+    background: $color-background
+    position: relative
+    padding: 16px 0 14px
+    min-height: 60px
+    height: auto
+    overflow: hidden
+    display: flex
+    line-height: 18px
+    &+.accent-frame
+        margin-top: -20px
+    .before
+        padding: 9px 25px 9px 25px
+        border-right: 1px solid $color-border
+        &.Cancelled
+            .icon
+                filter: grayscale(1)
+                opacity: .6
+    .data
+        padding: 4px 27px
+        flex-grow: 1
+        display: flex
+        justify-content: space-between
+        &.only
+            flex-direction: column
+            color: $color-dark-gray
+            div
+                font-weight: 500
+                margin-bottom: 8px
+                line-height: 17px
+                color: $color-text
+        .first, .second
+            font-weight: 500
+            line-height: 26px
+        .first
+            padding-right: 20px
+        .second
+            text-align: right
+        @media (max-width: 650px)
+            flex-direction: column
+            .second
+                text-align: left
+    .after
+        padding: 4px 22px 4px 5px
+        .status-updater
+            vertical-align: middle
+            overflow: hidden
+            display: inline-block
+            width: 70px
+            text-align: center
+            line-height: 30px
+            font-size: 40px
+            button
+                width: 50px
+                height: 50px
+                border-radius: 6px
+                .icon
+                    filter: grayscale(1)
+                &:hover
+                    .icon
+                        filter: none

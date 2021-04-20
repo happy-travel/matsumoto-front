@@ -1,68 +1,99 @@
-import React from "react";
-import {getIn} from "formik";
-import FieldText from "./field-text"
+import React, { useState, useCallback } from "react";
+import { getIn } from "formik";
 import { observer } from "mobx-react";
+import { $view } from "stores";
 
-@observer
-class FieldTextarea extends FieldText {
-    constructor(props) {
-        super(props);
-        this.onKeyUp = this.onKeyUp.bind(this);
-    }
+const FieldTextarea = observer(({
+    label,
+    placeholder,
+    className,
+    id,
+    disabled,
+    required,
+    formik,
+    dataDropdown
+}) => {
+    const [focused, setFocused] = useState(false);
+    const [everTouched, setEverTouched] = useState(false);
+    const [everChanged, setEverChanged] = useState(false);
 
-    onKeyUp(event) {
+    const onFocus = useCallback(() => {
+        setFocused(true);
+    }, []);
+
+    const onKeyUp = (event) => {
         event.target.style.height = "1px";
         event.target.style.height = ( event.target.scrollHeight + 20 )+"px";
-    }
+    };
 
-    render() {
-        var {
-            label,
-            placeholder,
-            className,
-            id,
-            formik,
-            required,
-            disabled,
-        } = this.props;
-        const errorText = getIn(formik?.errors, id);
-        const isFieldTouched = getIn(formik?.touched, id);
+    const blur = useCallback((event) => {
+        setFocused(false);
+        if (formik)
+            formik.handleBlur(event);
+        if (!everTouched)
+            setEverTouched(true);
+    }, []);
 
-        return (
-            <div className={"field" + __class(className)}>
-                <label>
-                    { label && <div className={
-                        "label" +
-                        __class(this.state.focus, "focus") +
-                        __class(disabled, "disabled")
-                    }>
+    const changing = useCallback((event) => {
+        if (formik) {
+            formik.setFieldTouched(id, true);
+            formik.handleChange(event);
+        }
+        if (!everChanged)
+            setEverChanged(true);
+    },[]);
+
+    const errorText = getIn(formik?.errors, id);
+    const isFieldTouched = getIn(formik?.touched, id);
+    const fieldValue = getIn(formik?.values, id);
+
+    return (
+        <div
+            className={
+                "field" +
+                __class(className) +
+                __class(focused, "focus") +
+                __class(disabled, "disabled") +
+                __class(errorText && isFieldTouched, "error") +
+                __class(!errorText && fieldValue, "valid")
+            }
+            data-dropdown={dataDropdown || id}
+        >
+            <label>
+                { label &&
+                    <div className="label">
                         <span className={__class(required, "required")}>{label}</span>
-                    </div> }
-                    <div className={"input textarea" +
-                        __class(this.state.focus, "focus") +
-                        __class((errorText && isFieldTouched), "error") +
-                        __class(disabled, "disabled")}
-                    >
-                        { !disabled ? <div className="inner">
+                    </div>
+                }
+                <div className="input textarea">
+                    { !disabled ?
+                        <div className="inner">
                             <textarea
                                 id={id}
-                                placeholder={ placeholder }
-                                onFocus={ this.onFocus }
-                                onChange={ this.changing }
-                                onBlur={ this.onBlur }
-                                onKeyUp={ this.onKeyUp }
-                            >
-                                {getIn(formik?.values, id)}
-                            </textarea>
-                        </div> : getIn(formik?.values, id) }
+                                placeholder={placeholder}
+                                onFocus={onFocus}
+                                onChange={changing}
+                                onKeyUp={onKeyUp}
+                                onBlur={blur}
+                                value={fieldValue}
+                            />
+                        </div> :
+                        <span className="disabled">
+                            { fieldValue || placeholder}
+                        </span>
+                    }
+                </div>
+                { (errorText?.length > 1 && isFieldTouched && !$view.isDropdownOpen(id)) &&
+                    <div className={
+                        "error-holder" +
+                        __class(!everTouched || !everChanged || focused, "possible-hide")
+                    }>
+                        {errorText}
                     </div>
-                    {(errorText && isFieldTouched) ?
-                        <div className="error-holder">{errorText}</div>
-                    : null}
-                </label>
-            </div>
-        );
-    }
-}
+                }
+            </label>
+        </div>
+    );
+});
 
 export default FieldTextarea;

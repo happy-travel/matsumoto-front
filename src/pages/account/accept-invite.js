@@ -4,12 +4,9 @@ import Authorize from "core/auth/authorize";
 
 @observer
 class AccountInvite extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            invitation: {}
-        };
-    }
+    state = {
+        invitation: {}
+    };
 
     componentDidMount() {
         var invitation = this.props?.match?.params || {};

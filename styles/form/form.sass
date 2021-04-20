@@ -4,7 +4,6 @@
     width: 100%
     .row
         display: flex
-        flex-direction: row
         width: 100%
         margin-bottom: 20px
 
@@ -19,8 +18,12 @@
 
 .checkbox
     cursor: pointer
-    background: url("../images/checkbox-off.svg") no-repeat
-    background-position: left center
+    background: url("../images/checkbox-off.svg") no-repeat left center
     padding-left: 27px
+    line-height: 22px
+    display: inline-flex
+    user-select: none
+    &:hover
+        color: $color-brand
     &.on
         background-image: url("../images/checkbox-on.svg")

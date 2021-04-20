@@ -4,12 +4,11 @@ import FieldSwitch from "./field-switch";
 import FieldCheckbox from "./field-checkbox";
 import FieldTextarea from "./field-textarea";
 import FieldRange from "./field-range";
-import FieldSelect from "./field-select";
+import FieldSelect from "./field-select/field-select";
 import FieldDatepicker from "./field-datepicker/field-datepicker";
 
 const FORM_NAMES = {
     CreateInviteForm: "CreateInviteForm",
-    AccommodationFiltersForm: "AccommodationFiltersForm",
     RegistrationCounterpartyForm: "RegistrationCounterpartyForm",
     SearchForm: "SearchForm",
     BookingForm: "BookingForm",

@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
-import { Loader } from "simple";
+import { Loader } from "components/simple";
 import { API } from "core";
 
 @observer

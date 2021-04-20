@@ -1,15 +1,8 @@
-$minimum-supported-width: 375px
-
-$media-phone: 0 // 768px
-$media-tablet-width: 0 // 768px
-$media-desktop-width: 0 // 1140px
+$media-phone: 768px
+$media-desktop-width: 1140px
 
 @mixin phone
-  @media (max-width: #{$media-tablet-width - 0.5px})
-    @content
-
-@mixin tablet
-  @media (min-width: #{$media-tablet-width}) and (max-width: #{$media-desktop-width - 0.5px})
+  @media (max-width: #{$media-phone - 0.5px})
     @content
 
 @mixin mobile
@@ -18,4 +11,8 @@ $media-desktop-width: 0 // 1140px
 
 @mixin desktop
   @media (min-width: #{$media-desktop-width})
+    @content
+
+@mixin except-phone
+  @media (min-width: #{$media-phone})
     @content

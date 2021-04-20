@@ -1,8 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
-export const GroupRoomTypesAndCount = ({ t, contracts, solo }) => {
-    const count = {},
-        result = [];
+export const GroupRoomTypesAndCount = ({ contracts, solo }) => {
+    const { t } = useTranslation();
+    let count = {};
+    let result = [];
     for (let i = 0; i < contracts.length; i++) {
         var description = (contracts[i].contractDescription || "").trim();
         if ("NotSpecified" != contracts[i].type)

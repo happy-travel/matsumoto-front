@@ -1,12 +1,12 @@
 import Authorize from "core/auth/authorize";
 import { isPageAvailableAuthorizedOnly } from "core/auth";
-import Notifications from "stores/notifications-store";
+import { $notifications } from "stores";
 
 export default api => {
     const showError = (text, url = "") => ((
         api.methods_dont_show_error.indexOf(url) < 0 &&
         (!url || (url?.indexOf("/state") < 0))
-    ) && Notifications.addNotification(text));
+    ) && $notifications.addNotification(text));
 
     api.request = ({
         url, external_url,

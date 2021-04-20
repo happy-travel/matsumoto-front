@@ -1,39 +1,33 @@
-import React from "react";
+import React, {useState} from "react";
 import { getIn } from "formik";
 
-class FieldCheckbox extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: !!getIn(this.props.formik?.values, this.props.id)
-        };
-        this.changing = this.changing.bind(this);
-    }
+const FieldCheckbox = ({
+    formik,
+    id,
+    label,
+    onChange,
+    value
+}) => {
+    const [checked, setChecked] = useState(value || (formik ? !!getIn(formik.values, id) : false));
 
-    changing() {
-        var { id, formik } = this.props,
-            newValue = !this.state.value;
-
-        this.setState({
-            value: newValue
-        });
+    const changing = () => {
+        let newValue = !checked;
+        setChecked(newValue);
 
         if (formik) {
             formik.setFieldValue(id, newValue);
             formik.setFieldTouched(id, true);
         }
 
-        if (this.props.onChange)
-            this.props.onChange();
-    }
+        if (onChange)
+            onChange(newValue);
+    };
 
-    render() {
-        return (
-            <div onClick={this.changing} className={"checkbox" + __class(this.state.value, "on")}>
-                {this.props.label}
-            </div>
-        );
-    }
-}
+    return (
+        <div onClick={changing} className={"checkbox" + __class(checked, "on")}>
+            {label}
+        </div>
+    );
+};
 
 export default FieldCheckbox;

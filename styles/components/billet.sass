@@ -1,10 +1,103 @@
 .billet
-    text-align: center
     border: 1px solid $color-border
-    padding: 20px
+    padding: 38px 30px 28px
     border-radius: 25px
-    .line
-        color: $color-dark-gray
-        font-size: 14px
-        line-height: 17px
+    font-size: 14px
+    line-height: 17px
+    img
+        max-width: 100%
+    &.sticky
+        position: sticky
+        top: 160px
+        margin-bottom: 50px
+    h2
         margin-bottom: 20px
+    h3, h4
+        margin-bottom: 25px
+    h4
+        font-size: 20px
+        line-height: 24px
+        margin-top: 40px
+    .line
+        font-size: 14px
+        line-height: 22px
+        font-weight: 500
+        margin-bottom: 12px
+        .icon
+            position: relative
+            top: 3px
+            margin-right: 15px
+    .select
+        .line
+            margin-bottom: 0
+            font-weight: 400
+            line-height: 34px !important
+        span
+            color: $color-green
+        img
+            max-width: 25px
+            max-height: 18px
+            margin-left: 12px
+            vertical-align: middle
+            &:last-child
+                margin-left: 15px
+    .button
+        width: 100%
+        margin-top: 15px
+    .dual
+        margin-bottom: 15px
+        .first
+            color: $color-text-light
+            margin-right: 6px
+            font-weight: 300
+        .second
+            color: $color-text
+    .subtitle
+        color: $color-text-light
+        margin-bottom: 3px
+    .title
+        margin-top: 0
+    .title+.subtitle
+        margin: -15px 0 15px
+    .photo-holder
+        max-height: 200px
+        border-top-left-radius: 25px
+        border-bottom-right-radius: 25px
+        overflow: hidden
+        .photo
+            background: $color-not-loaded center center no-repeat
+            background-size: cover
+            height: 300px
+        img
+            object-fit: cover
+            float: left
+    .checkbox-holder
+        margin-top: 20px
+        font-size: 13px
+        .checkbox:hover
+            color: $color-text
+        a, a:hover
+            margin-left: 4px
+            color: $color-brand
+    .total-price
+        .second
+            color: $color-green
+            font-size: 16px
+            font-weight: 600
+
+.billet-wrapper
+    display: flex
+    justify-content: space-between
+    flex-direction: row-reverse
+    align-items: flex-start
+    @include mobile
+        flex-direction: column
+    .another
+        flex-grow: 1
+        @include mobile
+            width: 100%
+    .billet
+        min-width: 360px
+        max-width: 420px
+        margin-left: 30px
+        width: 100%

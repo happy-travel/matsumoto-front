@@ -11,7 +11,7 @@ class ViewFailed extends React.Component {
 
         return (
             <div className="error-page inside">
-                <div className="middle-section">
+                <div>
                     <div className="text">
                         <h1>{t("Oops! Something went wrong!")}</h1>
                         <p>{reason}</p>

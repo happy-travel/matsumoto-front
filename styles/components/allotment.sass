@@ -1,0 +1,36 @@
+.allotment
+    li
+        font-size: 14px
+        line-height: 22px
+        margin-bottom: 12px
+        background: url("../icons/bullet/bullet.svg") 3px 5px no-repeat
+        padding-left: 24px
+        .primary+.additional
+            margin-top: 5px
+        .additional
+            color: $color-text-light
+            font-weight: 300
+        &.gray
+            filter: grayscale(1)
+        &.important
+            background-image: url("../icons/bullet/bullet-important.svg")
+            background-position: left 4px
+        &.warning
+            background-image: url("../icons/bullet/bullet-warning.svg")
+            background-position: left 4px
+        &.warn
+            background-image: url("../icons/bullet/bullet-warn-info.svg")
+            background-position: left 1px
+        .guests
+            color: $color-text
+            font-size: 15px
+            strong
+                font-weight: 400
+
+.amenities
+    display: flex
+    .allotment
+        width: 33%
+        padding-right: 20px
+        li
+            margin-bottom: 8px

@@ -2,9 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { FieldText } from "components/form";
 import DuplicateDropdown from "./dropdown-duplicate";
-
-import View from "stores/view-store";
-import store from "stores/accommodation-store";
+import { $view, $accommodation } from "stores";
 
 const checkMatch = (accommodation , value) => {
     var str = [
@@ -24,24 +22,19 @@ const checkMatch = (accommodation , value) => {
 };
 
 const setList = event => {
-    var result = store.hotelArray.filter(item => item.accommodation.id != View.modalData?.accommodation?.id);
+    var result = $accommodation.hotelArray.filter(item => item.accommodation.id != $view.modalData?.accommodation?.id);
     if (event?.target?.value)
         result = result.filter(item => checkMatch(item, event.target.value));
-    View.setDestinations(result);
+    $view.setDestinations(result);
 };
 
 @observer
 class FieldDuplicate extends React.Component {
-    constructor(props) {
-        super(props);
-        this.inputChanged = this.inputChanged.bind(this);
-    }
-
     componentDidMount() {
         setList();
     }
 
-    inputChanged(event) {
+    inputChanged = (event) => {
         this.props.formik.setFieldValue("id", null);
         setList(event);
     };
@@ -60,9 +53,9 @@ class FieldDuplicate extends React.Component {
                        label={label}
                        additionalFieldForValidation="id"
                        placeholder={placeholder}
-                       Icon={<span className="icon icon-hotel" />}
+                       Icon={<span className="icon icon-search-location" />}
                        Dropdown={DuplicateDropdown}
-                       options={View.destinations}
+                       options={$view.destinations}
                        onChange={this.inputChanged}
                        clearable
             />

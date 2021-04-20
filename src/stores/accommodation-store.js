@@ -1,6 +1,6 @@
 import { observable, computed } from "mobx"
 import autosave from "core/misc/autosave";
-import setter from "core/mobx/setter";
+import { SEARCH_STATUSES } from "enum";
 import {
     createFilters,
     applyFilters,
@@ -8,61 +8,89 @@ import {
     generateSorterLine
 } from "tasks/utils/accommodation-filtering";
 
+const DAY_IN_SECONDS = 24 * 60 * 60 * 1000;
+
 class AccommodationStore {
     @observable
     search = {
         loading: false,
         request: null,
-        result: null,
-        length: 0, status: "",
+        numberOfNights: 0,
         id: null,
-        hasMoreSearchResults: false,
+        createdAt: null,
+        taskState: "",
+        lastCheckedAt: null,
+        result: [],
         page: 0,
-        numberOfNights: 0
+        resultCount: 0,
+        hasMoreSearchResults: false,
+        filters: null,
+        roomsTaskState: null,
+        roomsLastCheckedAt: null,
+        roomsCreatedAt: null
     };
 
     @observable
     selected = {
-        roomContractSet: null,
         accommodation: null,
+        roomContractSet: null,
         accommodationFullDetails: null,
         accommodationFinal: null,
-        deadlineDetails: null,
-        availabilityId: null
+        availabilityId: null,
+        sorter: null,
+        filters: null
     };
 
     @observable
     booking = {
         request: {},
-        result: null,
-        selected: {}
+        result: null
     };
 
-    @observable
-    filters = null;
-
-    @observable
-    @setter
-    selectedFilters = null;
-
-    @observable
-    @setter
-    sorter = null;
-
-    @observable
-    @setter
-    userBookingList = null;
-
-    @observable
-    @setter
-    secondStepState = null;
-
     constructor() {
-        autosave(this, "_accommodation_store_cache");
+        autosave(
+            this,
+            "_accommodation_store_cache",
+            (initial) => {
+                const short = JSON.parse(JSON.stringify(initial));
+                if (short?.search?.result?.length > 10) {
+                    short.search.result = short.search.result.slice(0, 10);
+                    short.search.page = 0;
+                    short.search.hasMoreSearchResults = true;
+                }
+                return short;
+            }
+        );
     }
 
-    @computed get hotelArray() {
-        return applyFilters(this.search?.result, this.selectedFilters) || [];
+    setNewSearchRequest(request) {
+        this.search = {
+            request,
+            numberOfNights: Math.round(Math.abs(new Date(request.checkOutDate) - new Date(request.checkInDate)) / DAY_IN_SECONDS),
+            resultCount: 0,
+            result: [],
+            taskState: SEARCH_STATUSES.STARTED,
+            page: 0,
+            createdAt: Number(new Date()),
+            lastCheckedAt: null,
+            loading: false,
+            hasMoreSearchResults: false,
+            id: null
+        };
+        this.selected = {
+            roomContractSet: null,
+            accommodation: null,
+            accommodationFullDetails: null,
+            accommodationFinal: null,
+            availabilityId: null,
+            filters: null,
+            sorter: null
+        };
+    }
+
+    setSearchId(searchId) {
+        this.search.id = searchId;
+        this.search.taskState = SEARCH_STATUSES.CREATED;
     }
 
     setSearchResult(results, page = 0) {
@@ -71,22 +99,17 @@ class AccommodationStore {
                 this.search.result.push(...results);
             else
                 this.search.result = results;
-        } else if (0 == page)
-            this.search.result = [];
+        }
 
+        this.search.loading = false;
+        this.search.lastCheckedAt = Number(new Date());
         this.search.page = page;
 
-        this.search.hasMoreSearchResults = !!results?.length;
-        if (this.search.status == "PartiallyCompleted")
-            this.search.hasMoreSearchResults = this.search.result?.results?.length < this.search.length;
+        this.search.hasMoreSearchResults = this.search.result.length < this.search.resultCount;
+        if (!results?.length)
+            this.search.hasMoreSearchResults = false;
 
-        if ((this.search.status != "PartiallyCompleted") || this.search.result?.length || (this.search.loading == "__filter_tmp"))
-            this.search.loading = false;
-
-        if (this.search.status == "Completed") 
-            this.search.loading = false;
-
-        this.filters = createFilters(this.search.result);
+        this.search.filters = createFilters(this.search.result);
 
         if (0 == page) {
             this.booking.request = null;
@@ -94,34 +117,57 @@ class AccommodationStore {
         }
     }
 
-    setSearchResultLength(length, status) {
-        this.search.length = length;
-        this.search.status = status;
+    updateSearchResultStatus({ resultCount, taskState }) {
+        this.search.taskState = taskState;
+        if (resultCount !== undefined)
+            this.search.resultCount = resultCount;
     }
 
-    setSearchId(searchId) {
-        this.search.id = searchId;
+    @computed get hotelArray() {
+        return applyFilters(this.search.result, this.selected.filters) || [];
+    }
+
+    searchChecked() {
+        this.search.lastCheckedAt = Number(new Date());
     }
 
     setSearchIsLoading(value) {
         this.search.loading = value;
     }
 
-    setNewSearchRequest(form) {
-        this.search.request = form;
-        this.search.numberOfNights = Math.round(Math.abs(new Date(form.checkOutDate) - new Date(form.checkInDate))/24/60/60/1000);
+    setSearchSelectedFilters(filters) {
+        this.selected.filters = filters;
     }
 
-    setRoomContractsSets(id, roomContractSets = []) {
-        roomContractSets?.sort((a,b) => a.rate.finalPrice - b.rate.finalPrice);
-        this.selected.accommodation = {
-            id,
-            roomContractSets
-        };
+    setSearchSelectedSorter(sorter) {
+        this.selected.sorter = sorter;
+    }
+
+    @computed get filtersLine() {
+        return generateFiltersLine(this.selected.filters);
+    }
+
+    @computed get sorterLine() {
+        return generateSorterLine(this.selected.sorter);
     }
 
     setSelectedAccommodationFullDetails(details) {
         this.selected.accommodationFullDetails = details;
+    }
+
+    selectSearchResultAccommodation(id, roomContractSets) {
+        if (undefined === roomContractSets) {
+            this.search.roomsTaskState = SEARCH_STATUSES.CREATED;
+            this.search.roomsCreatedAt = Number(new Date());
+            this.search.roomsLastCheckedAt = null;
+            this.selected.accommodationFullDetails = null;
+        }
+
+        roomContractSets?.sort((a,b) => a.rate.finalPrice - b.rate.finalPrice);
+        this.selected.accommodation = {
+            id,
+            roomContractSets: roomContractSets || []
+        };
     }
 
     selectRoomContractSet(result, preloaded) {
@@ -133,23 +179,21 @@ class AccommodationStore {
             ...this.selected,
             accommodationFinal : result,
             roomContractSet : result?.roomContractSet,
-            availabilityId : result?.availabilityId,
-            deadlineDetails : result?.deadlineDetails
+            availabilityId : result?.availabilityId
         };
-        this.booking.request = null;
-        this.booking.result = null;
+        this.booking = {
+            request: {},
+            result: null
+        };
+    }
+
+    setRoomsTaskState(value) {
+        this.search.roomsTaskState = value;
+        this.search.roomsLastCheckedAt = Number(new Date());
     }
 
     setBookingRequest(request) {
         this.booking.request = request;
-    }
-
-    @computed get filtersLine() {
-        return generateFiltersLine(this.selectedFilters);
-    }
-
-    @computed get sorterLine() {
-        return generateSorterLine(this.sorter);
     }
 }
 

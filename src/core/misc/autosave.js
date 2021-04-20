@@ -2,7 +2,7 @@ import { autorun, set } from "mobx";
 import { session } from "../storage";
 import settings from "settings";
 
-export default (store, key) => {
+export default (store, key, shorter) => {
     var cached = session.get(key);
     const reserve = JSON.parse(JSON.stringify(store));
 
@@ -23,7 +23,7 @@ export default (store, key) => {
     autorun(() => {
         cached = session.get(key);
         store.build = settings.build;
-        const newValue = JSON.stringify(store);
+        const newValue = JSON.stringify(shorter ? shorter(store) : store);
         if (cached != newValue)
             session.set(key, newValue);
     }, {

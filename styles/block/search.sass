@@ -1,11 +1,23 @@
-.search.block
-    padding: 10px 0 72px
+.search.block .fullsize
+    padding: 70px 0 110px
     display: flex
     justify-content: center
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15)
-    .row
+    & > .row
         margin-bottom: 0
     .field
         margin-top: 36px
     .button-holder
         margin-top: 11px
+    @include phone
+        & > .row
+            flex-direction: column
+        .field
+            width: 100%
+            max-width: 100% !important
+            margin-top: 15px
+
+    @include mobile
+        padding: 40px 0
+
+.search-fullsize-wrapper
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)

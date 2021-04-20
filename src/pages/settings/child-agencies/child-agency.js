@@ -2,12 +2,12 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
-import { Loader, date } from "simple";
+import { date } from "simple";
+import { Loader } from "components/simple";
 import Breadcrumbs from "components/breadcrumbs";
 import Markups from "parts/markups/markups";
 import TransferBalance from "./parts/transfer-balance";
-
-import authStore from "stores/auth-store";
+import { $personal } from "stores";
 
 @observer
 export default class ChildAgencyItemPage extends React.Component {
@@ -82,7 +82,7 @@ export default class ChildAgencyItemPage extends React.Component {
                     { loading ?
                         <Loader /> :
                         <>
-                            <h2><span className="brand">{t("Information")}</span></h2>
+                            <h2>{t("Information")}</h2>
                             <div className="row">
                                 <b>{t("Agency")}</b>: {agency.name}
                             </div>
@@ -117,7 +117,7 @@ export default class ChildAgencyItemPage extends React.Component {
                             { agency.isActive &&
                                 <>
                                     <TransferBalance
-                                        payerAccountId={authStore.activeCounterparty.agencyId}
+                                        payerAccountId={$personal.activeCounterparty.agencyId}
                                         recipient={agency}
                                         onUpdate={this.loadAgency}
                                     />

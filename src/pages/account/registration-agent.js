@@ -2,53 +2,50 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
-import { userAuthSetToStorage } from "core/auth";
+import BasicHeader from "parts/header/basic-header";
+import { authSetToStorage } from "core/auth";
 import { getInvite, forgetInvite } from "core/auth/invite";
 import Breadcrumbs from "components/breadcrumbs";
-import ActionSteps from "components/action-steps";
 import { CachedForm, FieldText } from "components/form";
-import { registrationUserValidator, registrationUserValidatorWithEmailAndAgencyName } from "components/form/validation";
-import { fillEmptyUserSettings } from "simple/logic";
-import FormUserData from "parts/form-user-data";
-import store from "stores/auth-store";
-import Notifications from "stores/notifications-store";
+import { registrationAgentValidator, registrationAgentValidatorWithEmailAndAgencyName } from "components/form/validation";
+import { fillEmptyAgentSettings } from "simple/logic";
+import FormAgentData from "parts/form-agent-data";
+import { $personal, $notifications } from "stores";
 
 export const finishAgentRegistration = () => {
     API.get({
         url: API.AGENT,
-        success: (user) => {
-            userAuthSetToStorage(user);
-            if (user?.email)
-                store.setUser(user);
-            fillEmptyUserSettings();
+        success: (agent) => {
+            authSetToStorage(agent);
+            if (agent?.email) {
+                $personal.setInformation(agent);
+                $notifications.addNotification("Registration Completed!", "Great!", "success");
+            }
+            fillEmptyAgentSettings();
         }
     });
 
     forgetInvite();
-    store.setRegistrationUserForm({});
-    store.setRegistrationCounterpartyForm({});
+    $personal.$setRegistrationAgentForm({});
+    $personal.setRegistrationCounterpartyForm({});
 };
 
 @observer
 class RegistrationAgent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            initialValues: {
-                "title": "",
-                "firstName": "",
-                "lastName": "",
-                "position": "",
-                "agencyName": ""
-            },
-            childAgencyRegistrationInfo: {},
-            invitationCode: null
-        };
-        this.submit = this.submit.bind(this);
-    }
+    state = {
+        initialValues: {
+            "title": "",
+            "firstName": "",
+            "lastName": "",
+            "position": "",
+            "agencyName": ""
+        },
+        childAgencyRegistrationInfo: {},
+        invitationCode: null
+    };
 
-    submit(values) {
-        store.setRegistrationUserForm(values);
+    submit = (values) => {
+        $personal.$setRegistrationAgentForm(values);
         if (this.state.invitationCode) {
             let url = API.AGENT_REGISTER;
             let body = {
@@ -80,14 +77,14 @@ class RegistrationAgent extends React.Component {
                     redirect("/");
                 },
                 error: error => {
-                    Notifications.addNotification(error?.title || error?.detail);
+                    $notifications.addNotification(error?.title || error?.detail);
                     if (error && !(error?.title || error?.detail))
                         redirect("/");
                 }
             });
         } else
             redirect("/signup/counterparty");
-    }
+    };
 
     componentDidMount() {
         var invitationCode = getInvite();
@@ -115,76 +112,68 @@ class RegistrationAgent extends React.Component {
 
         const { childAgencyRegistrationInfo, invitationCode, initialValues } = this.state;
 
-        var actionSteps = [t("Login Information"), t("Agent Information")];
-        if (!invitationCode)
-            actionSteps.push(t("Company Information"));
-
         return (
 
-<div className="account block sign-up-page">
-    <section>
-        <div className="logo-wrapper">
-            <div className="logo" />
-        </div>
-        <div className="middle-section">
-            <Breadcrumbs items={[
-                {
-                    text: t("Log In"),
-                    link: "/logout"
-                }, {
-                    text: t("Registration"),
-                    link: "/logout"
-                }, {
-                    text: t("Agent Information")
-                }
-            ]}/>
-            <ActionSteps
-                items={actionSteps}
-                current={1}
-                className="action-steps-another-bg"
+<div className="account block" style={{ backgroundImage: `url(/images/bg04.svg)`}}>
+    <BasicHeader />
+    <section className="section">
+        <div>
+            <Breadcrumbs
+                items={[
+                    {
+                        text: t("Log In"),
+                        link: "/logout"
+                    }, {
+                        text: t("Registration"),
+                        link: "/logout"
+                    }, {
+                        text: t("Agent Information")
+                    }
+                ]}
+                 noBackButton
             />
-            <h1>
+            <h2>
                 Agent Information
-            </h1>
-            <p>
+            </h2>
+            <div className="paragraph">
                 Create a new Happytravel.com account and start booking.
-            </p>
+            </div>
 
-        <CachedForm
-            initialValues={initialValues}
-            enableReinitialize
-            validationSchema={
-                childAgencyRegistrationInfo.name ?
-                    registrationUserValidatorWithEmailAndAgencyName :
-                    registrationUserValidator
-            }
-            onSubmit={this.submit}
-            render={formik => (
-                <div className="form">
-                    { childAgencyRegistrationInfo.name ? <div className="row">
-                        <FieldText
-                            formik={formik}
-                            id="agencyName"
-                            label={t("Agency Name")}
-                            placeholder={t("Agency Name")}
-                            required
-                        />
-                    </div> : null }
-                    <FormUserData formik={formik} t={t} />
-                    <div className="row">
-                        <div className="field">
-                            <div className="inner">
-                                <button type="submit" className="button">
-                                    { invitationCode ?
-                                        t("Finish Registration") :
-                                        t("Continue Registration")}
-                                </button>
+            <CachedForm
+                initialValues={initialValues}
+                enableReinitialize
+                validationSchema={
+                    childAgencyRegistrationInfo.name ?
+                        registrationAgentValidatorWithEmailAndAgencyName :
+                        registrationAgentValidator
+                }
+                onSubmit={this.submit}
+                render={formik => (
+                    <div className="form">
+                        { childAgencyRegistrationInfo.name ? <div className="row">
+                            <FieldText
+                                formik={formik}
+                                id="agencyName"
+                                label={t("Agency Name")}
+                                placeholder={t("Agency Name")}
+                                required
+                            />
+                        </div> : null }
+                        <FormAgentData formik={formik} />
+                        <div className="row">
+                            <div className="field">
+                                <div className="inner">
+                                    <button type="submit" className="button main">
+                                        { invitationCode ?
+                                            t("Finish Registration") :
+                                            t("Continue Registration")}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-        />
+                )}
+            />
         </div>
     </section>
 </div>

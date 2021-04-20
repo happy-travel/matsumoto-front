@@ -1,40 +1,87 @@
-import store from "stores/accommodation-store";
 import { API } from "core";
+import { SEARCH_STATUSES } from "enum";
+import { $accommodation } from "stores";
 
-export const searchLoader = (page = 0, callback = () => {}) => {
-    //todo: prevent multithread loader
-    //todo: prevent page loading over result loading
-    const PAGE_SIZE = 10;
+const POLLING_DURATION = 10 * 60 * 1000;
+const REQUEST_INTERVAL = 1000;
+const PAGE_SIZE = 10;
+
+const requestSearchResultsPage = (page = 0, callback = () => {}) => {
+    const { search, filtersLine, sorterLine } = $accommodation;
+
+    if (!search.id)
+        return;
 
     API.get({
-        url: API.A_SEARCH_ONE_RESULT(store.search.id),
+        url: API.A_SEARCH_ONE_RESULT(search.id),
         body: {
             $top: PAGE_SIZE,
-            $skip: page*PAGE_SIZE,
-            ...(store.filtersLine ? {$filter: store.filtersLine} : {}),
-            ...(store.sorterLine ? {$orderBy: store.sorterLine} : {})
+            $skip: page * PAGE_SIZE,
+            ...(filtersLine ? { $filter: filtersLine } : {}),
+            ...(sorterLine ? { $orderBy: sorterLine } : {})
         },
         success: result => {
             callback();
-            store.setSearchResult(result, page);
+            $accommodation.setSearchResult(result, page);
         },
-        after: () => {
-            store.setSearchIsLoading(false);
-        }
+        error: () => $accommodation.updateSearchResultStatus({ taskState: SEARCH_STATUSES.BROKEN })
     });
 };
 
-export const searchLoaderWithNewFilters = values => {
-    var filters = store.filtersLine;
-    store.setSelectedFilters(values);
-    if (filters != store.filtersLine) {
-        searchLoader();
-        store.setSearchIsLoading("__filter_tmp");
+const subscribeSearchResults = () =>
+    setInterval(() => {
+        const { search } = $accommodation;
+
+        if (!search.id || !SEARCH_STATUSES.isPending(search.taskState))
+            return;
+
+        if (search.lastCheckedAt - search.createdAt > POLLING_DURATION) {
+            $accommodation.updateSearchResultStatus({ taskState: SEARCH_STATUSES.TIMEOUT });
+            return;
+        }
+
+        API.get({
+            url: API.A_SEARCH_ONE_CHECK(search.id),
+            success: data => {
+                $accommodation.searchChecked();
+                if (SEARCH_STATUSES.isReadyToLoad(data.taskState)) {
+                    if ((!data.resultCount && SEARCH_STATUSES.isFinished(data.taskState))) {
+                        $accommodation.updateSearchResultStatus(data);
+                        return;
+                    }
+                    if (search.resultCount != data.resultCount || search.taskState !== data.taskState) {
+                        requestSearchResultsPage(0, () => {
+                            $accommodation.updateSearchResultStatus(data);
+                        });
+                    }
+                }
+            },
+            error: () => $accommodation.updateSearchResultStatus({ taskState: SEARCH_STATUSES.BROKEN })
+        });
+    }, REQUEST_INTERVAL);
+
+const searchLoadNextPage = () => {
+    requestSearchResultsPage(($accommodation.search.page || 0) + 1);
+};
+
+const searchLoadWithNewFilters = values => {
+    var { filtersLine } = $accommodation;
+    $accommodation.setSearchSelectedFilters(values);
+    if (filtersLine != $accommodation.filtersLine) {
+        $accommodation.setSearchIsLoading(true);
+        requestSearchResultsPage();
     }
 };
 
-export const searchLoaderWithNewOrder = values => {
-    store.setSorter(values);
-    searchLoader();
-    store.setSearchIsLoading("__filter_tmp");
+const searchLoadWithNewOrder = values => {
+    $accommodation.setSearchIsLoading(true);
+    $accommodation.setSearchSelectedSorter(values);
+    requestSearchResultsPage();
+};
+
+export {
+    subscribeSearchResults,
+    searchLoadNextPage,
+    searchLoadWithNewFilters,
+    searchLoadWithNewOrder
 };

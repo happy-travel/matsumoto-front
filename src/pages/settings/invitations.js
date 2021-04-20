@@ -3,10 +3,12 @@ import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { API, redirect } from "core";
-import { PassengerName, Loader } from "simple";
+import { PassengerName } from "simple";
+import { Loader } from "components/simple";
 import Table from "components/table";
 import SettingsHeader from "./parts/settings-header";
-import authStore from "stores/auth-store";
+import SettingsNav from "pages/settings/parts/settings-nav";
+import { $personal } from "stores";
 
 const invitationsColumns = t => [
     {
@@ -33,21 +35,18 @@ const invitationsColumns = t => [
 
 @observer
 class InvitationsManagement extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            redirect: null,
-            invitations: null,
-            creation: false
-        };
-    }
+    state = {
+        redirect: null,
+        invitations: null,
+        creation: false
+    };
 
     componentDidMount() {
-        if (!authStore.activeCounterparty)
+        if (!$personal.activeCounterparty)
             return;
 
         var url = API.AGENT_INVITATIONS;
-        if (authStore.permitted("ObserveAgencyInvitations"))
+        if ($personal.permitted("ObserveAgencyInvitations"))
             url = API.AGENCY_INVITATIONS;
 
         API.get({
@@ -66,17 +65,18 @@ class InvitationsManagement extends React.Component {
         return (
             <div className="settings block">
                 <SettingsHeader />
+                <SettingsNav />
                 <section>
                     {invitations === null ?
                         <Loader /> :
                         <>
                             {!!invitations?.length &&
                                 <>
-                                    <h2><span className="brand">{
-                                        authStore.permitted("ObserveAgencyInvitations") ?
+                                    <h2>{
+                                        $personal.permitted("ObserveAgencyInvitations") ?
                                         t("Unaccepted Agency Invitations") :
                                         t("Unaccepted Invitations")
-                                    }</span></h2>
+                                    }</h2>
                                     <Table
                                         list={invitations}
                                         columns={invitationsColumns(t)}
@@ -86,7 +86,7 @@ class InvitationsManagement extends React.Component {
                                 </>
                             }
                             <Link to="/settings/invitations/send">
-                                <button className="button payment-back">
+                                <button className="button" style={{ marginTop: 25 }}>
                                     {t("Invite an agent")}
                                 </button>
                             </Link>

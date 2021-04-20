@@ -1,9 +1,17 @@
 import { default as basicFormat } from "date-format";
 import localeUtils from "tasks/utils/date-locale-utils";
+import { windowLocalStorage } from "core/misc/window-storage";
 
 //const parse = (date) => {
 //   return basicFormat.parse("format", date);
 //};
+
+const getLocale = () => windowLocalStorage.get("locale");
+const shortMonth = (val) => {
+    if ("ar" === getLocale() || (val?.length < 5))
+        return val;
+    return val.substr(0, 3);
+};
 
 const dateFormat = (template, rawDate) => {
     let date = new Date(rawDate);
@@ -11,6 +19,8 @@ const dateFormat = (template, rawDate) => {
         basicFormat(template, date)
             .replace('DAY', localeUtils.formatWeekdayLong(date.getDay()))
             .replace('MTH', localeUtils.getMonths()[date.getMonth()])
+            .replace('mth', shortMonth(localeUtils.getMonths()[date.getMonth()]))
+            .replace('DD', date.getDate())
     );
 };
 
@@ -18,7 +28,9 @@ const format = {
     api: date => dateFormat("yyyy-MM-ddT00:00:00Z", date),
     a: date => !date ? '' : dateFormat("DAY, dd MTH yyyy", date),
     c: date => !date ? '' : dateFormat("dd-MM-yyyy", date),
-    e: date => !date ? '' : dateFormat("dd-MTH-yyyy", date)
+    e: date => !date ? '' : dateFormat("dd-MTH-yyyy", date),
+    day: date => !date ? '' : dateFormat("MTH DD", date),
+    shortDay: date => !date ? '' : dateFormat("mth DD", date),
 };
 
 const addMonth = (date, amount) => {
@@ -36,6 +48,8 @@ const addDay = (date, amount) => {
 };
 
 const passed = (date) => {
+    if (!date)
+        return true;
     let result = new Date() > new Date(date);
     if (format.api(new Date()) == format.api(date))
         result = false;

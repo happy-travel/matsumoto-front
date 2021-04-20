@@ -1,20 +1,20 @@
 import React from "react";
 import Authorize from "./authorize";
-import { Loader } from "simple";
-import { userAuthSetToStorage } from "./index";
+import { Loader } from "components/simple";
+import { authSetToStorage } from "./index";
 import { lastPage } from "core/misc/tracker";
 
 class AuthCallbackComponent extends React.PureComponent {
     componentDidMount() {
         Authorize.removeUser();
         Authorize.signinRedirectCallback()
-            .then((user) => this.onRedirectSuccess(user))
-            .catch((error) => this.onRedirectError(error));
+            .then(this.onRedirectSuccess)
+            .catch(this.onRedirectError);
     }
 
-    onRedirectSuccess = user => {
+    onRedirectSuccess = auth => {
         Authorize.clearStaleState();
-        userAuthSetToStorage(user);
+        authSetToStorage(auth);
         this.props.history.push(lastPage());
     };
 

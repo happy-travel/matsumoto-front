@@ -1,22 +1,16 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Flag, Highlighted, decorate } from "simple";
-
-import UI from "stores/ui-store";
-import View from "stores/view-store";
+import { Highlighted, decorate } from "simple";
+import { Flag } from "components/simple";
+import { $ui, $view } from "stores";
 
 @observer
 class CountryDropdown extends React.Component {
-    constructor(props) {
-        super(props);
-        this.generateSuggestion = this.generateSuggestion.bind(this);
-    }
-
     generateSuggestion = () => {
-        if (!View.countries?.length || !UI.regions?.length)
+        if (!$view.countries?.length || !$ui.regions?.length)
             return;
 
-        var countries = [...View.countries];
+        var countries = [...$view.countries];
 
         for (var i = 0; i < countries.length; i++) {
             if (decorate.cutFirstPart(countries[i].name, this.props.value))
@@ -25,47 +19,57 @@ class CountryDropdown extends React.Component {
     };
 
     componentDidUpdate(prevProps) {
-        if (prevProps.value != this.props.value)
-            UI.setSuggestion(this.props.connected, this.props.value, this.generateSuggestion());
+        if (prevProps.value === this.props.value)
+            return;
+
+        const suggestion = this.generateSuggestion();
+        if (suggestion?.value)
+            $ui.setSuggestion(this.props.connected, this.props.value, suggestion.value, suggestion);
+        else
+            $ui.setSuggestion(this.props.connected, null);
     }
 
     render() {
-        if (!View.countries?.length)
+        if (!$view.countries?.length)
             return null;
 
         const {
             connected,
             formik,
-            focusIndex
+            focusIndex,
+            setValue
         } = this.props;
 
         return (
-            <div className="region dropdown">
+            <div className="region dropdown" id={connected}>
                 <div className="scroll">
-                    {View.countries.map((country, index) => {
+                    {$view.countries.map((country, index) => {
                         let region = null;
-                        if (index === 0 || View.countries[index]?.regionId !== View.countries[index - 1]?.regionId) {
-                            const regionId = +View.countries[index]?.regionId;
-                            const currentRegion = UI.regions?.find(regionItem => regionItem.id === regionId);
-                            region = <div
-                                         key={currentRegion?.name}
-                                         className="subtitle"
-                                     >
-                                         {currentRegion?.name?.toUpperCase()}
-                                     </div>;
+                        if (index === 0 || $view.countries[index]?.regionId !== $view.countries[index - 1]?.regionId) {
+                            const regionId = +$view.countries[index]?.regionId;
+                            const currentRegion = $ui.regions?.find(regionItem => regionItem.id === regionId);
+                            region = (
+                                <div
+                                     key={currentRegion?.name}
+                                     className="subtitle"
+                                >
+                                    {currentRegion?.name?.toUpperCase()}
+                                </div>
+                            );
                         }
-                        return <div key={index}>
-                            {region}
-                            <div
-                              id={`js-value-${index}`}
-                              key={`${country.name}-${country.id}`}
-                              onClick={ () => this.props.setValue(country, formik, connected) }
-                              className={"country line" + __class(focusIndex === index, "focused")}
-                            >
-                                <Flag code={country.code} />
-                                <Highlighted str={country.name} highlight={this.props.value} />
+                        return (
+                            <div key={index}>
+                                {region}
+                                <div
+                                    key={`${country.name}-${country.id}`}
+                                    onClick={() => setValue(formik, connected, country)}
+                                    className={"country line" + __class(focusIndex === index, "focused")}
+                                >
+                                    <Flag code={country.code} />
+                                    <Highlighted str={country.name} highlight={this.props.value} />
+                                </div>
                             </div>
-                        </div>
+                        )
                     })}
                 </div>
             </div>

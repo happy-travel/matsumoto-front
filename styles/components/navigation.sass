@@ -1,0 +1,38 @@
+.navigation
+    position: relative
+    background: $color-background
+    height: 54px
+    line-height: 54px
+    z-index: 150
+    @include desktop
+        position: sticky
+        top: 80px
+        box-shadow: 0 .5px 0 $color-shadow-border
+    nav
+        display: flex
+        flex-grow: 1
+        margin-left: -20px
+        a, .item
+            padding: 0 10px
+            margin: 0 12px
+            display: block
+            position: relative
+            cursor: pointer
+            font-size: 15px
+            &:hover
+                color: $color-brand
+            &.active
+                cursor: default
+                &:hover
+                    color: $color-text
+                &:after
+                    content: ' '
+                    height: 4px
+                    left: 8px
+                    right: 8px
+                    bottom: 0
+                    width: auto
+                    background: $color-brand
+                    background: linear-gradient(180deg, #FFCD0B 0%, #FBAC19 100%)
+                    border-radius: 25px
+                    position: absolute

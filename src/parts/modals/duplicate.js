@@ -5,7 +5,7 @@ import { API } from "core";
 import { CachedForm } from "components/form";
 import FieldAccommodation from "components/complex/field-accommodation";
 import * as Yup from "yup";
-import View from "stores/view-store";
+import { $view } from "stores";
 
 export const duplicateFormValidator = Yup.object().shape({
     name: Yup.string().required("*"),
@@ -14,17 +14,13 @@ export const duplicateFormValidator = Yup.object().shape({
 
 @observer
 class ReportDuplicateModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            result: null
-        };
-        this.submit = this.submit.bind(this);
-    }
+    state = {
+        result: null
+    };
 
-    submit(values) {
-        var id = View.modalData?.accommodation?.id,
-            supplier = View.modalData?.supplier;
+    submit = (values) => {
+        let id = $view.modalData?.accommodation?.id,
+            supplier = $view.modalData?.supplier;
 
         if (!id)
             return;
@@ -45,19 +41,18 @@ class ReportDuplicateModal extends React.Component {
             },
             success: () => {
                 var temporary_duplicate_element = document.getElementById(supplier + "." + id);
-                if (temporary_duplicate_element) {
-                    temporary_duplicate_element.innerHTML = "Marked as Duplicate";
-                    temporary_duplicate_element.className = "button mini-label gray";
-                }
+                if (temporary_duplicate_element)
+                    temporary_duplicate_element.outerHTML =
+                        '<button class="button mini-label disabled">Marked as Duplicate</button>';
             }
         });
 
         this.props.closeModal();
-    }
+    };
 
     render() {
         var { t } = useTranslation(),
-            data = View.modalData,
+            data = $view.modalData,
             { closeModal } = this.props;
 
         return (
@@ -80,6 +75,7 @@ class ReportDuplicateModal extends React.Component {
                         <div className="form">
                             <FieldAccommodation
                                 formik={formik}
+                                placeholder={t("Select")}
                                 id="name"
                                 label={t("Accommodation Name")}
                                 clearable

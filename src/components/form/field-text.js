@@ -1,126 +1,119 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { getIn } from "formik";
 import { observer } from "mobx-react";
-import { scrollTo } from "core";
 import { decorate } from "simple";
 import { windowLocalStorage } from "core/misc/window-storage";
+import { $ui, $view } from "stores";
 
-import UI from "stores/ui-store";
-import View from "stores/view-store";
+const FieldText = observer(({
+    label,
+    placeholder,
+    Icon,
+    AfterIcon,
+    clearable,
+    password,
+    className,
+    id,
+    Dropdown,
+    value,
+    disabled,
+    required,
+    readOnly,
+    options,
+    ValueObject,
+    maxLength,
+    numeric,
+    suggestion,
+    formik,
+    setValue,
+    additionalFieldForValidation,
+    autoComplete,
+    onChange,
+    onClear,
+    dataDropdown,
+    noInput
+}) => {
+    const [focused, setFocused] = useState(false);
+    const [optionIndex, setOptionIndex] = useState(null);
+    const [everTouched, setEverTouched] = useState(false);
+    const [everChanged, setEverChanged] = useState(false);
 
-@observer
-class FieldText extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            focus: false,
-            ddFocusIndex: null,
-            everBlured: false,
-            everChanged: false
-        };
-        this.onFocus = this.onFocus.bind(this);
-        this.onBlur = this.onBlur.bind(this);
-        this.clear = this.clear.bind(this);
-        this.changing = this.changing.bind(this);
-        this.onKeyDown = this.onKeyDown.bind(this);
-    }
-
-    onFocus() {
-        const { id, Dropdown } = this.props;
+    const onFocus = useCallback(() => {
         if (Dropdown) {
-            var newOpenDropdown = id;
-            if (View.isDropdownOpen(newOpenDropdown))
-                newOpenDropdown = null;
-            View.setOpenDropdown(newOpenDropdown);
-            this.setState({ ddFocusIndex: null });
+            $view.setOpenDropdown(id);
+            setOptionIndex(null);
         }
+        setFocused(true);
+    }, []);
 
-        this.setState({
-            focus: true
-        });
-    }
-
-    onBlur(event) {
-        const { formik, onBlur } = this.props;
-        this.setState({ focus: false });
-        if (onBlur)
-            onBlur(event);
+    const blur = useCallback((event) => {
+        setFocused(false);
         if (formik)
             formik.handleBlur(event);
-        if (!this.state.everBlured)
-            this.setState({ everBlured: true });
-    }
+        if (!everTouched)
+            setEverTouched(true);
+    }, []);
 
-    onKeyDown(e) {
-        var { formik, Dropdown, id, options, suggestion, setValue, setAutoComplete } = this.props;
-        if ( !Dropdown || !options ) return;
+    const onKeyDown = (event) => {
+        if (!Dropdown || !options?.length) return;
 
-        let value = options[this.state.ddFocusIndex];
-        switch (e.keyCode) {
-            case 13:
-            case 39: // Enter or Right arrow
-                if (value && setValue) {
-                    e.preventDefault();
-                    setValue(value, formik, id);
-                }
-                if (!value && setAutoComplete) {
-                    if (formik && !suggestion) {
-                        suggestion = UI.getSuggestion(id, getIn(formik, id));
-                    }
-                    if (suggestion) {
-                        e.preventDefault();
-                        setAutoComplete(formik);
-                    }
+        const scroll = document.querySelectorAll(`#${id} .scroll > div:not(.subtitle)`),
+              scrollElem = document.querySelector(`#${id} .scroll`);
+
+        if (!scroll?.length)
+            return;
+
+        const suggestion = $ui.suggestions[id]?.suggestionObject;
+
+        switch (event.key) {
+            case "Enter":
+            case "ArrowRight":
+                if (optionIndex !== null || suggestion) {
+                    event.preventDefault();
+                    setValue(formik, id, optionIndex !== null ? options[optionIndex] : suggestion, false);
+                    setFocused(false);
                 }
                 break;
-            case 38: // Arrow top
-                if (this.state.ddFocusIndex > 0) {
-                    this.setState({ ddFocusIndex: this.state.ddFocusIndex - 1 });
-                    const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
-                    scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop-180, 250);
+            case "ArrowUp":
+            case "ArrowDown":
+                let possible = optionIndex > 0,
+                    newIndex = optionIndex - 1,
+                    correction = -100;
+                if ("ArrowDown" === event.key) {
+                    possible = optionIndex === null || options.length > optionIndex + 1;
+                    newIndex = optionIndex === null ? 0 : optionIndex + 1;
+                    correction = -20;
+                }
+                if (possible) {
+                    setOptionIndex(newIndex);
+                    scrollElem.scrollTo(0, scroll[optionIndex]?.offsetTop + correction);
                 } else {
-                    scrollTo(document.querySelector('.dropdown .scroll'), 0, 250);
+                    scrollElem.scrollTo(0, 0);
                 }
-                value = options[this.state.ddFocusIndex];
-                if (setAutoComplete)
-                    setAutoComplete(formik, true, value);
-                break;
-            case 40: // Arrow bottom
-                if (this.state.ddFocusIndex === null || options.length > this.state.ddFocusIndex + 1) {
-                    this.setState({ddFocusIndex: this.state.ddFocusIndex !== null ? this.state.ddFocusIndex + 1 : 0 });
-                    if (this.state.ddFocusIndex < options.length - 2) { // disable scroll to last element
-                        const focusedElement = document.getElementById(`js-value-${this.state.ddFocusIndex}`);
-                        scrollTo(document.querySelector('.dropdown .scroll'), focusedElement?.offsetTop, 250);
-                    }
-                }
-                value = options[this.state.ddFocusIndex];
-                if (setAutoComplete)
-                    setAutoComplete(formik, true, value);
+                setValue(formik, id, options[optionIndex], true);
                 break;
             default:
                 return;
         }
-    }
+    };
 
-    clear() {
-        const { formik, id, onClear, Dropdown, additionalFieldForValidation } = this.props;
+    const clear = useCallback(() => {
         if (formik) {
             formik.setFieldValue(id, "");
             formik.setFieldTouched(id, false);
             if (Dropdown)
-                View.setOpenDropdown(null);
+                $view.setOpenDropdown(null);
             if (additionalFieldForValidation)
                 formik.setFieldValue(additionalFieldForValidation, false);
         }
         if (onClear)
             onClear();
-    }
+    },[]);
 
-    changing(event) {
-        const { Dropdown, id, numeric, onChange, formik } = this.props;
+    const changing = useCallback((event) => {
         if (Dropdown) {
-            View.setOpenDropdown(id);
-            this.setState({ ddFocusIndex: null });
+            $view.setOpenDropdown(id);
+            setOptionIndex(null);
         }
         if (numeric)
             if ("/" == numeric)
@@ -128,136 +121,142 @@ class FieldText extends React.Component {
             else
                 event.target.value = event.target.value.replace(/[^0-9.]/g, "");
         if (onChange)
-            onChange(event, this.props);
+            onChange(event, formik, id);
         if (formik) {
             formik.setFieldTouched(id, true);
             formik.handleChange(event);
         }
-        if (!this.state.everChanged)
-            this.setState({ everChanged: true });
+        if (!everChanged)
+            setEverChanged(true);
+    },[]);
+
+    const errorText = getIn(formik?.errors, id);
+    const isFieldTouched = getIn(formik?.touched, id);
+    const fieldValue = getIn(formik?.values, id);
+
+    if (suggestion)
+        suggestion = decorate.cutFirstPart(suggestion, fieldValue);
+
+    /* todo: Remove this workaround when server rtl suggestions works correct */
+    var isSuggestionVisible = windowLocalStorage.get("locale") != "ar";
+
+    if (ValueObject !== undefined) {
+        if (ValueObject)
+            ValueObject = <div className="value-object">{ValueObject}</div>;
+        else
+            ValueObject = <div className="value-object placeholder">{placeholder}</div>;
     }
 
-    render() {
-        var {
-            label,
-            placeholder,
-            Icon,
-            Flag,
-            clearable,
-            password,
-            className,
-            id,
-            Dropdown,
-            value,
-            disabled,
-            required,
-            readOnly,
-            options,
-            ValueObject,
-            maxLength,
-            numeric,
-            suggestion,
-            formik,
-            setValue,
-            additionalFieldForValidation,
-            autoComplete,
-            //onChange
-        } = this.props;
-        const errorText = getIn(formik?.errors, id);
-        const isFieldTouched = getIn(formik?.touched, id);
-        const fieldValue = getIn(formik?.values, id);
+    if (formik && !suggestion)
+        suggestion = $ui.getSuggestion(id, fieldValue);
 
-        if (suggestion)
-            suggestion = decorate.cutFirstPart(suggestion, fieldValue);
+    var finalValue = "";
+    if (!ValueObject) {
+        finalValue = value || (formik?.values ? fieldValue : "");
+        if (finalValue === 0)
+            finalValue = "0";
+        if (!finalValue)
+            finalValue = "";
+    }
 
-        /* todo: Remove this workaround when server rtl suggestions works correct */
-        var isSuggestionVisible = windowLocalStorage.get("locale") != "ar";
-
-        if (ValueObject !== undefined) {
-            if (ValueObject)
-                ValueObject = <div className="value-object">{ValueObject}</div>;
-            else
-                ValueObject = <div className="value-object placeholder">{placeholder}</div>;
-        }
-
-        if (formik && !suggestion)
-            suggestion = UI.getSuggestion(id, fieldValue);
-
-        var finalValue = "";
-        if (!ValueObject) {
-            finalValue = value || (formik?.values ? fieldValue : "");
-            if (finalValue === 0)
-                finalValue = "0";
-            if (!finalValue)
-                finalValue = "";
-        }
-
-        return (
-            <div className={"field" + __class(className)} data-dropdown={this.props["data-dropdown"] || id}>
-                <label>
-                    { label && <div className={
-                        "label" +
-                        __class(this.state.focus, "focus") +
-                        __class(disabled, "disabled")
-                    }>
+    return (
+        <div
+            className={
+                "field" +
+                __class(className) +
+                __class(focused || $view.isDropdownOpen(id), "focus") +
+                __class(disabled, "disabled") +
+                __class(noInput, "no-input") +
+                __class((
+                (errorText ||
+                (additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation))) &&
+                isFieldTouched),
+                    "error") +
+                __class(!errorText && finalValue, "valid")
+            }
+            data-dropdown={dataDropdown || id}
+        >
+            <label onClick={noInput ? onFocus : null}>
+                { label &&
+                    <div className="label">
                         <span className={__class(required, "required")}>{label}</span>
-                    </div> }
-                    <div className={
-                        "input" +
-                        __class(this.state.focus, "focus") +
-                        __class(disabled, "disabled") +
-                        __class(((errorText || (additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation))) && isFieldTouched),
-                                          "error") +
-                        __class(!errorText && finalValue, "valid")}
-                    >
-                        { !!Flag && <div>
-                            { Flag }
-                        </div> }
+                    </div>
+                }
+                <div className="input">
+                    { !!Icon &&
+                        <div className="icon-wrap">
+                            {Icon}
+                        </div>
+                    }
+                    { !noInput ?
                         <div className="inner">
                             <input
                                 name={id}
                                 type={ password ? "password" : "text" }
                                 placeholder={ !ValueObject ? placeholder : "" }
-                                onFocus={ this.onFocus }
-                                onChange={ this.changing }
-                                onBlur={ this.onBlur }
-                                value={ finalValue }
-                                onKeyDown={ this.onKeyDown }
-                                disabled={ !!disabled }
-                                maxLength={ maxLength }
+                                onFocus={onFocus}
+                                onChange={changing}
+                                onBlur={blur}
+                                value={finalValue}
+                                onKeyDown={onKeyDown}
+                                disabled={!!disabled}
+                                maxLength={maxLength}
                                 autoComplete={autoComplete ? autoComplete : "off"}
                                 {...(readOnly ? {readOnly: "readonly"} : {})}
                             />
-                            { ValueObject }
-                            { isSuggestionVisible && suggestion && <div className={"suggestion" + __class(numeric, "solid")}>
-                                <span>{ fieldValue || value }</span>{ suggestion }
-                            </div> }
+                            {ValueObject}
+                            { isSuggestionVisible && suggestion &&
+                                <div className={"suggestion" + __class(numeric, "solid")}>
+                                    <span>{ fieldValue || value }</span>{ suggestion }
+                                </div>
+                            }
+                        </div> :
+                        <div className="inner">
+                            { (value || finalValue) ?
+                                (ValueObject ? ValueObject : finalValue) :
+                                <span className="placeholder">{placeholder}</span>
+                            }
                         </div>
-                        { Icon && <div className="icon-wrap">
-                            { Icon }
-                        </div> }
-                        { (clearable && finalValue) ? <div>
-                            <div className="clear" onClick={ this.clear } />
-                        </div> : null }
+                    }
+                    { AfterIcon &&
+                        <div className="after-icon-wrap">
+                            { AfterIcon }
+                        </div>
+                    }
+                    { clearable && !!finalValue &&
+                        <div>
+                            <div className="clear" onClick={clear} />
+                        </div>
+                    }
+                </div>
+                { (errorText?.length > 1 && isFieldTouched && !$view.isDropdownOpen(id)) &&
+                    <div className={
+                        "error-holder" +
+                        __class(!everTouched || !everChanged || focused, "possible-hide")
+                    }>
+                        {errorText}
                     </div>
-                    {(errorText?.length > 1 && isFieldTouched && (!View.isDropdownOpen(id))) ?
-                        <div className={"error-holder" +
-                                    __class(!this.state.everBlured || !this.state.everChanged || this.state.focus, "possible-hide") //possible-hide
-                        }>{errorText}</div>
-                    : null}
-                </label>
-                { Dropdown ? <div className={__class(!View.isDropdownOpen(id), "hide")}>
-                    <Dropdown formik={formik}
-                              connected={id}
-                              setValue={setValue}
-                              value={fieldValue}
-                              options={options}
-                              focusIndex={this.state.ddFocusIndex}
+                }
+            </label>
+            { !!Dropdown &&
+                <div className={__class(!$view.isDropdownOpen(id), "hide")}>
+                    <Dropdown
+                        formik={formik}
+                        connected={id}
+                        setValue={
+                            (...params) => {
+                                if (setValue)
+                                    setValue(...params);
+                                setFocused(false);
+                            }}
+                        value={fieldValue}
+                        options={options}
+                        focusIndex={optionIndex}
                     />
-                </div> : null }
-            </div>
-        );
-    }
-}
+                </div>
+            }
+        </div>
+    );
+});
 
 export default FieldText;

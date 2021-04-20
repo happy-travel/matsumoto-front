@@ -40,7 +40,6 @@
 
     .icon-search
         background-position: 0 3px
-        margin-right: 7px
 
     .controls
         display: flex
@@ -48,8 +47,12 @@
         .form
             padding: 30px 0
             margin-right: 16px
-            width: 240px
+            width: 220px
         .search-wrap
             margin-right: 0
         .left
             display: flex
+            @include phone
+                flex-direction: column
+                .form+.form
+                    margin-top: -40px

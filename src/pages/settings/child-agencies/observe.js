@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
 import { price, date } from "simple";
 import Table from "components/table";
-import authStore from "stores/auth-store";
 import Breadcrumbs from "components/breadcrumbs";
+import { $personal } from "stores";
 
 const childAgenciesColumns = t => [
     {
@@ -39,7 +39,7 @@ class ChildAgencyObservePage extends React.Component {
     };
 
     componentDidMount() {
-        if (!authStore.activeCounterparty)
+        if (!$personal.activeCounterparty)
             return;
 
         API.get({
@@ -64,8 +64,8 @@ class ChildAgencyObservePage extends React.Component {
                             text: t("Child Agencies")
                         }
                     ]}/>
-                    <h2><span className="brand">{t("Child Agencies")}</span></h2>
-                    <div style={{ marginTop: "-105px" }}>
+                    <h2>{t("Child Agencies")}</h2>
+                    <div style={{ marginTop: "-117px" }}>
                         <Table
                             list={agencies}
                             columns={childAgenciesColumns(t)}

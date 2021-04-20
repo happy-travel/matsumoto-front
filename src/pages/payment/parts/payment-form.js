@@ -2,7 +2,8 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
-import { price, Loader } from "simple";
+import { price } from "simple";
+import { Loader } from "components/simple";
 import {
     allowedTypes,
     decorateExpirationDate,
@@ -15,17 +16,14 @@ import { creditCardType } from "card-validator";
 
 @observer
 class PaymentForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            everSubmitted: false,
-            loading: false,
-            code: {
-                name: "CVV",
-                size: 3
-            }
-        };
-    }
+    state = {
+        everSubmitted: false,
+        loading: false,
+        code: {
+            name: "CVV",
+            size: 3
+        }
+    };
 
     detectCardType = (e) => {
         var info = creditCardType(e.target?.value)?.[0];
@@ -109,7 +107,7 @@ class PaymentForm extends React.Component {
                                 numeric="/"
                                 maxLength={22}
                                 onChange={this.detectCardType}
-                                Icon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} alt="" /> : null}
+                                AfterIcon={allowedTypes[this.state.type] ? <img src={allowedTypes[this.state.type]} alt="" /> : null}
                                 autoComplete="cc-number"
                             />
                         </div>

@@ -7,7 +7,7 @@ class SignIn extends Component {
 
         return (
 
-<div className="account block sign-in-page">
+<div className="account block">
     <div className="picture"></div>
     <div className="menu">
         <div className="place">
@@ -59,13 +59,6 @@ class SignIn extends Component {
 </div>
 
         );
-        /*
-            Layout for "Are you supplier?" block
-            <div className="supplier">
-                <span className="icon icon-supplier" />
-                Are you supplier?
-            </div>
-        */
     }
 }
 

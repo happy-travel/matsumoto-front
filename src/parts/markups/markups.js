@@ -6,13 +6,10 @@ import MarkupsListPart from "parts/markups/markups-list-part";
 
 @observer
 class Markups extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            markups: [],
-            templates: [],
-            isExpanded: false
-        }
+    state = {
+        markups: [],
+        templates: [],
+        isExpanded: false
     }
 
     componentDidMount() {

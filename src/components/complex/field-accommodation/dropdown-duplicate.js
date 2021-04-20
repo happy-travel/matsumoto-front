@@ -1,45 +1,45 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Highlighted, Stars } from "simple";
-
-import View from "stores/view-store";
+import { Highlighted } from "simple";
+import { HotelStars } from "components/accommodation";
+import { $view } from "stores";
 
 @observer
 class DestinationDropdown extends React.Component {
-    constructor(props) {
-        super(props);
-        this.setValue = this.setValue.bind(this);
-    }
-
-    setValue(item) {
+    setValue = (item) => {
         const { formik } = this.props;
 
-        View.setDestinations([]);
+        $view.setDestinations([]);
         setTimeout(() => {
             formik.setFieldValue("source", item.supplier);
             formik.setFieldValue("name", item.accommodation.name);
             formik.setFieldValue("id", item.accommodation.id);
-        }, 1);
-    }
+        }, 0);
+    };
 
     render() {
-        const { focusIndex } = this.props;
+        const { focusIndex, connected } = this.props;
 
         return (
-            <div className="region dropdown">
+            <div className="region dropdown" id={connected}>
                 <div className="scroll">
-                    {View?.destinations?.map((item, index) => (
+                    { $view?.destinations?.map((item, index) => (
                         <div className="search-results" key={index}>
-                            <div id={`js-value-${index}`}
-                                 className={"country line summary" + __class(focusIndex === index, "focused")}
-                                 onClick={() => this.setValue(item)}>
-                                { item.accommodation.photo.sourceUrl && <div className="photo">
-                                    <img src={item.accommodation.photo.sourceUrl} alt={item.accommodation.photo.caption} />
-                                </div> }
+                            <div
+                                id={`${connected}-${index}`}
+                                className={"country line summary" + __class(focusIndex === index, "focused")}
+                                onClick={() => this.setValue(item)}
+                            >
+                                { item.accommodation.photo.sourceUrl &&
+                                    <div
+                                        className="photo"
+                                        style={{ backgroundImage: `url(${item.accommodation.photo.sourceUrl})`}}
+                                    />
+                                }
                                 <div className="title">
                                     <h2>
                                         <Highlighted str={item.accommodation.name} highlight={this.props.value} />
-                                        <Stars count={item.accommodation.rating} />
+                                        <HotelStars count={item.accommodation.rating} />
                                     </h2>
                                     <div className="category">
                                         <Highlighted str={

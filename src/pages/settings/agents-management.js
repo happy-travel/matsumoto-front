@@ -4,8 +4,9 @@ import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
 import { date } from "simple";
 import Table from "components/table";
-import SettingsHeader from "./parts/settings-header";
-import authStore from "stores/auth-store";
+import SettingsHeader from "pages/settings/parts/settings-header";
+import SettingsNav from "pages/settings/parts/settings-nav";
+import { $personal } from "stores";
 
 const agentsColumns = t => [
     {
@@ -32,15 +33,12 @@ export const Searches = v => [
 
 @observer
 class AgentsManagement extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            agents: null
-        };
-    }
+    state = {
+        agents: null
+    };
 
     componentDidMount() {
-        if (!authStore.activeCounterparty)
+        if (!$personal.activeCounterparty)
             return;
 
         API.get({
@@ -56,9 +54,10 @@ class AgentsManagement extends React.Component {
         return (
             <div className="settings block">
                 <SettingsHeader />
+                <SettingsNav />
                 <section>
-                    <h2><span className="brand">{t("All Agents")}</span></h2>
-                    <div style={{ marginTop: "-105px" }}>
+                    <h2>{t("All Agents")}</h2>
+                    <div style={{ marginTop: "-117px" }}>
                         <Table
                             list={agents}
                             columns={agentsColumns(t)}

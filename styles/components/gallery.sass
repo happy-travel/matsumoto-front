@@ -1,32 +1,35 @@
 .gallery
-    max-width: 100%
-    height: 214px
-    display: inline-flex
-    vertical-align: top
-    flex-direction: row
-    padding: 6px
-    border: 1px solid #D8DADC
-    border-radius: 25px
+    width: 100%
+    height: 414px
+    display: flex
+    justify-content: space-between
+    position: relative
     .big
-        border: 1px solid #ffffff
-        border-radius: 25px
-        width: 400px
-        height: 200px
+        width: 49.5%
+        height: 400px
         position: relative
-        margin-right: 3px
+        margin-top: 5px
+        border-top-left-radius: 50px
+        overflow: hidden
         .sizer
             img
                 background: #e8eaec
-                object-fit: contain
+                object-fit: cover
+        @include phone
+            display: none
     .thumbs
-        height: 200px
-        max-width: 413px
+        height: 400px
+        width: 49.5%
         overflow: hidden
         display: flex
-        flex-direction: row
+        position: relative
+        @include phone
+            width: 100%
         &.scroll
             overflow-x: scroll
-            height: 209px
+            height: 423px
+            flex-direction: column
+            flex-wrap: wrap
             &::-webkit-scrollbar
                 height: 5px
                 line-height: 0
@@ -34,42 +37,41 @@
                 background: transparent
             &::-webkit-scrollbar-thumb
                 background-color: $color-brand
-                border-radius: 25px
-        .subthumbs
-            display: flex
-            flex-direction: column
-            margin-right: 4px
-            &:last-child
-                margin-right: 0
         .item
             cursor: pointer
             display: inline-block
             position: relative
-            width: 99px
-            height: 64px
-            padding: 2px
-            border: 1px solid #D8DADC
-            border-radius: 25px
-            margin-bottom: 4px
+            min-width: 49%
+            max-width: 49%
+            height: 195px
+            margin: 5px 2% 5px 0
             &:last-child
                 margin-bottom: 0
-            &.selected
-                border-color: $color-brand
+            @include except-phone
+                &:nth-child(1)
+                    order: 1
+    .corner
+        position: absolute
+        top: 355px
+        right: 0
+        width: 50px
+        height: 50px
+        overflow: hidden
+        div
+            position: absolute
+            bottom: 0
+            right: 0
+            background: transparent
+            width: 100px
+            height: 100px
+            border-radius: 50px
+            box-shadow: 0 0 0 30px #fff
 
     .sizer
+        background: $color-not-loaded center center no-repeat
+        background-size: cover
         width: 100%
         height: 100%
         justify-content: center
         align-items: center
         overflow: hidden
-        img
-            border-radius: 25px
-            width: 100%
-            height: 100%
-            object-fit: cover
-        &.big
-            img
-                border-radius: 25px
-        &.cover
-            img
-                object-fit: cover

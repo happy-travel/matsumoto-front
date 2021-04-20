@@ -1,20 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import UserMenu from "./user-menu";
-
+import { Link, Route } from "react-router-dom";
+import AgentMenu from "./agent-menu";
+import { routesWithSearch } from "core/routes";
 import { Authorized } from "core/auth";
+import Search from "parts/search-form/search-form";
 
 const Header = () => (
     <>
         <header>
             <section>
                 <div className="logo-wrapper">
-                    <Link to="/" className="logo" />
+                    <div className="logo">
+                        <Link to="/" className="image" />
+                        <div className="underline" />
+                    </div>
                 </div>
-                <div className="search-wrapper">
-
-                </div>
-                { Authorized() && <UserMenu /> }
+                <Route exact path={ routesWithSearch } component={() => (
+                    <div className="search-wrapper">
+                        <Search />
+                    </div>
+                )} />
+                { Authorized() && <AgentMenu /> }
             </section>
         </header>
         <div className="print">

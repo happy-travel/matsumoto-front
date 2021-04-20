@@ -1,46 +1,60 @@
 .filters
-    .item
-        min-height: 18px
-        box-sizing: content-box
-        line-height: 18px
-        padding: 15px 0 15px
-        margin-bottom: 9px
-        font-size: 15px
-        font-weight: 500
-        border-bottom: 1px solid $color-border
-        cursor: pointer
-        &:first-child
-            padding-top: 0
-        &:after
-            content: ' '
-            background: url("../images/dropdown-arrow.svg") no-repeat
-            width: 9px
-            height: 4px
-            display: block
-            float: right
-            margin-top: 6px
-        &.open
-            &:after
-                transform: rotate(180deg)
-        &.static
-            cursor: default
-            &:after
-                content: ''
-                display: none
-        &.no-border
-            border: 0
-
-    .expanded
-        padding-bottom: 15px
-        .checkbox
-            margin-top: 15px
-            font-size: 13px
-            line-height: 16px
-            span
-                color: $color-text-light
-
+    h3
+        margin-top: 23px
+        margin-bottom: 16px
+        font-size: 18px
+        line-height: 22px
+    h4
+        margin-top: -6px
+        margin-bottom: 7px
+        font-size: 13px
+        line-height: 16px
+        font-weight: 300
+        color: $color-text-light
+    .checkbox
+        margin-bottom: 14px
     .price-range
-        h4
-            font-size: 13px
-            line-height: 16px
-            color: $color-text-light
+        margin-bottom: 50px
+
+.filtration
+    display: flex
+    margin-bottom: 3px
+    flex-wrap: wrap
+    & > .item
+        margin-right: 10px
+        margin-bottom: 10px
+        position: relative
+        display: inline-block
+        .button
+            flex-direction: row
+            font-weight: 400
+            padding: 0 18px
+            user-select: none
+            .icon
+                filter: brightness(0.3)
+                &.icon-remove
+                    filter: grayscale(1)
+            &.after-icon
+                padding-right: 12px
+                .icon
+                    margin-left: 6px
+            &.leading-icon
+                .icon
+                    margin-right: 8px
+            &:hover
+                .icon
+                    filter: none
+        .input, .button
+            line-height: 36px !important
+            height: 36px !important
+    .dropdown.select
+        min-width: 160px
+
+.filters.dropdown
+    left: 0
+    right: auto
+    width: 300px
+    padding: 0 30px 15px
+    .close-button
+        top: 10px
+        right: 10px

@@ -1,14 +1,14 @@
 import { API } from "core";
 import { submitPaymentForm } from "./submitter";
 import { paymentCallback } from "./finalize";
-import paymentStore from "stores/payment-store";
+import { $payment } from "stores";
 
 export const payBySavedCard = (values, selectedCardId) => {
-    paymentStore.setSaveCreditCard(false);
+    $payment.setSaveCreditCard(false);
     return API.post({
         url: API.PAYMENTS_CARD_SAVED,
         body: {
-            referenceCode: paymentStore.subject.referenceCode,
+            referenceCode: $payment.subject.referenceCode,
             cardId: selectedCardId,
             securityCode: values.card_security_code
         },
@@ -17,10 +17,10 @@ export const payBySavedCard = (values, selectedCardId) => {
 };
 
 export const payByForm = (values) => {
-    paymentStore.setSaveCreditCard(values.remember_me);
+    $payment.setSaveCreditCard(values.remember_me);
     return API.post({
         url: API.CARDS_SIGN,
-        body: paymentStore.service,
+        body: $payment.service,
         success: signature => submitPaymentForm(values, signature)
     });
 };

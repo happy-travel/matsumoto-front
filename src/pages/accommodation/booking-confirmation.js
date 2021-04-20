@@ -2,44 +2,37 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import Breadcrumbs from "components/breadcrumbs";
-import ActionSteps from "components/action-steps";
 import PaymentInformation from "./parts/payment-information";
 import BookingConfirmationView from "./parts/booking-confirmation-view";
-import paymentStore from "stores/payment-store";
+import { $payment } from "stores";
 
 @observer
 class AccommodationConfirmationPage extends React.Component {
-render() {
-    var { t } = useTranslation();
+    render() {
+        const { t } = useTranslation();
 
-    return (
-<div className="confirmation nova block">
-    <section className="double-sections">
-        <div className="middle-section">
-            <Breadcrumbs
-                items={[
-                    {
-                        text: t("Search Accommodations"),
-                        link: "/"
-                    }, {
-                        text: t("Booking Confirmation")
+        return (
+            <div className="booking block">
+                <section>
+                    { !$payment.paymentResult.error &&
+                        <Breadcrumbs
+                            backLink="/bookings"
+                            backText={t("Back to") + " " + t("Bookings List")}
+                        />
                     }
-                ]}
-                noBackButton
-            />
-            <ActionSteps
-                items={[t("Search Accommodations"), t("Guest Details"), t("Booking Confirmation")]}
-                current={2}
-            />
-            <PaymentInformation />
-            { !paymentStore.paymentResult.error &&
-                <BookingConfirmationView referenceCode={paymentStore.subject.referenceCode}/>
-            }
-        </div>
-    </section>
-</div>
-    );
-}
+                    { $payment.paymentResult.error &&
+                        <PaymentInformation />
+                    }
+                    { !$payment.paymentResult.error &&
+                        <BookingConfirmationView
+                            referenceCode={$payment.subject.referenceCode}
+                            PaymentInformation={<PaymentInformation />}
+                        />
+                    }
+                </section>
+            </div>
+        );
+    }
 }
 
 export default AccommodationConfirmationPage;

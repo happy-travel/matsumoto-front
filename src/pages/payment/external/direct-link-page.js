@@ -1,26 +1,24 @@
 import React from "react";
 import settings from "settings";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
+import BasicHeader from "parts/header/basic-header";
 import { API, redirect } from "core";
-import { Loader, date } from "simple";
+import { date } from "simple";
+import { Loader } from "components/simple";
 import { windowLocalStorage } from "core/misc/window-storage";
-import { userAuthSetDirectPayment } from "core/auth";
-import {useTranslation} from "react-i18next";
+import { authSetDirectPayment } from "core/auth";
+import { useTranslation } from "react-i18next";
 import PaymentForm from "../parts/payment-form";
 import ReactTooltip from "react-tooltip";
 import { payDirectByForm } from "tasks/payment/direct/direct-processing";
 import { loadDirectPaymentServiceData } from "tasks/payment/direct/direct-service";
-import paymentStore from "stores/payment-store";
+import { $payment } from "stores";
 
 @observer
 class PaymentDirectLinkPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            order: null
-        };
-    }
+    state = {
+        order: null
+    };
 
     async componentDidMount() {
         const orderCode = this.props.match.params.code;
@@ -31,19 +29,19 @@ class PaymentDirectLinkPage extends React.Component {
                 error: () => this.setState({ loading: false })
             })
         ]);
-        paymentStore.setSubject(order.referenceCode, {
+        $payment.setSubject(order.referenceCode, {
             amount: order.amount,
             currency: order.currency
         });
-        paymentStore.setService(
+        $payment.setService(
             service,
             `${settings.direct_payment_callback_host}/payment/result/${order.referenceCode}`
         );
-        userAuthSetDirectPayment();
+        authSetDirectPayment();
         windowLocalStorage.set(order.referenceCode, orderCode);
 
         if ("Success" == order.creditCardPaymentStatus) {
-            paymentStore.setPaymentResult("Success");
+            $payment.setPaymentResult("Success");
             redirect("/pay/confirmation");
             return;
         }
@@ -60,37 +58,34 @@ class PaymentDirectLinkPage extends React.Component {
 
         return (
             <>
-                <header>
-                    <section>
-                        <div className="logo-wrapper">
-                            <Link to="/" className="logo" />
-                        </div>
-                    </section>
-                </header>
+                <BasicHeader />
                 { !order ?
                     <Loader /> :
-                    <div className="confirmation block payment">
-                        <section className="double-sections">
-                            <div className="middle-section">
-                                <h2>
-                                    Payment order {order.referenceCode} {date.format.c(order.date)}
-                                </h2>
-                                {!!order.comment && <p className="remark">
-                                    {order.comment.split('\n').map(line => (
-                                        <React.Fragment>
-                                            {line}<br/>
-                                        </React.Fragment>
-                                    ))}
-                                </p>}
-                                <h2 className="payment-title">
-                                    {t("Please Enter Your Card Details")}
-                                </h2>
-                                <PaymentForm
-                                    pay={payDirectByForm}
-                                    total={paymentStore.subject.price}
-                                    hideCardSaveCheckbox
-                                />
-                            </div>
+                    <div className="payment block">
+                        <section>
+                            <h2>
+                                Payment order {order.referenceCode}<br/>
+                                {date.format.a(order.date)}
+                            </h2>
+                            { !!order.comment &&
+                                <div className="accent-frame">
+                                    <div className="data only">
+                                        {order.comment.split('\n').map((line, index) => (
+                                            <React.Fragment key={index}>
+                                                {line}<br/>
+                                            </React.Fragment>
+                                        ))}
+                                    </div>
+                                </div>
+                            }
+                            <h2>
+                                {t("Please Enter Your Card Details")}
+                            </h2>
+                            <PaymentForm
+                                pay={payDirectByForm}
+                                total={$payment.subject.price}
+                                hideCardSaveCheckbox
+                            />
                         </section>
                         <ReactTooltip place="top" type="dark" effect="solid" />
                     </div>

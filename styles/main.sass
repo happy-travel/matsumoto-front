@@ -2,9 +2,10 @@ body
     background: #ffffff
     color: $color-text
     letter-spacing: 0.232143px
+    line-height: 16px
     font:
         family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial Neue", sans-serif
-        size: 14px
+        size: 13px
 
 textarea, pre, input, button
     font-family: inherit
@@ -18,41 +19,26 @@ textarea, pre, input, button
     &.underlined
         text-decoration: underline
 
+h1
+    font-size: 30px
+    line-height: 36px
+
 h2
-    font-size: 18px
-    line-height: 21px
+    font-size: 24px
+    line-height: 29px
     font-weight: 400
     span
         color: $color-text-light
 
-.round
-    border-radius: 25px
-
 section
-    max-width: 1160px
+    max-width: 1290px
     width: 100%
     margin: 0 auto
     padding: 0 30px
     @include mobile
         padding: 0 20px
-        max-width: 1140px
     @include phone
         padding: 0 10px
-        max-width: 1120px
-    &.double-sections
-        display: flex
-        flex-direction: row
-        padding-top: 50px
-        .left-section
-            min-width: 230px
-            max-width: 230px
-            margin-right: 45px
-        .right-section
-            flex-grow: 1
-        .middle-section
-            flex-grow: 1
-            padding-left: 137px
-            padding-right: 137px
 
 .hide
     display: none !important
@@ -60,7 +46,6 @@ section
 .dual
     display: flex
     width: 100%
-    flex-direction: row
     justify-content: space-between
     .second
         text-align: right
@@ -68,47 +53,6 @@ section
         flex-direction: column
         .second
             text-align: left
-
-.flag
-    width: 15px
-    height: 10px
-    position: relative
-    display: inline-block
-    span
-        outline: 1px solid rgba(128,128,128,.22)
-        &.np
-            outline: 0
-    .flag-icon
-        width: 100%
-        height: 100%
-
-.remark
-    margin: 6px 0 12px
-
-
-span.brand
-    position: relative
-    display: inline-block
-    color: $color-text
-    &:after, &:before
-        content: ' '
-        position: absolute
-        right: -60px
-        top: 10px
-        background: #FECE08
-        background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
-        width: 40px
-        height: 4px
-        border-radius: 25px
-    &:before
-        width: 10px
-        right: -76px
-
-.green
-    color: $color-green
-
-.black
-    color: $color-text
 
 b
     font-weight: 600
@@ -119,3 +63,18 @@ b
     header
         margin-top: -81px
         position: static
+        box-shadow: none !important
+
+.hide-desktop
+    display: none
+.hide-mobile
+    display: block
+
+@include mobile
+    .with-search
+        .block-wrapper
+            padding-top: 161px
+    .hide-desktop
+        display: block
+    .hide-mobile
+        display: none
