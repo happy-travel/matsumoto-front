@@ -5,4 +5,8 @@ export const transferBalanceValidator = Yup.object().shape({
         .required("*"),
     currency: Yup.string()
         .required("*"),
+    payerId: Yup.string()
+        .required("*"),
+    recipientId: Yup.string()
+        .required("*"),
 });

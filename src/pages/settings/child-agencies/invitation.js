@@ -134,7 +134,7 @@ class ChildAgencyInvitationPage extends React.Component {
                                 </div>
                                 <FormAgentData formik={formik} />
                                 <div className="row">
-                                    <div className="field">
+                                    <div className="field" style={{ width: "50%" }}>
                                         <div className="inner">
                                             <button onClick={() => this.submitButtonClick(true, formik)}
                                                     className={"button" + __class(!formik.isValid, "disabled")}>
@@ -142,7 +142,7 @@ class ChildAgencyInvitationPage extends React.Component {
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="field">
+                                    <div className="field" style={{ width: "50%" }}>
                                         <div className="inner">
                                             <button onClick={() => this.submitButtonClick(false, formik)}
                                                     className={"button" + __class(!formik.isValid, "disabled")}>

@@ -43,6 +43,7 @@ API_METHODS = {
     AGENT_ACCEPTED_INVITES: v1 + "/agent/invitations/accepted",
     AGENCY_INVITATIONS    : v1 + "/agency/invitations",
     AGENCY_ACCEPTED_INVITES: v1 + "/agency/invitations/accepted", // todo: some misunderstandings possible. This methods should be renamed in API
+    AGENCY_ACCOUNTS       : v1 + `/agency-accounts`,
 
     CHILD_AGENCY          : agencyId =>
                             v1 + `/agency/child-agencies/${agencyId}`,
