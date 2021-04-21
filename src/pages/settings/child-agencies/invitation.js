@@ -69,7 +69,7 @@ class ChildAgencyInvitationPage extends React.Component {
                         },
                         {
                             text: t("Child Agencies"),
-                            link: "/settings/child-agencies/observe"
+                            link: "/settings/child-agencies"
                         }, {
                             text: t("Invitation")
                         }

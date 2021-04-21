@@ -3,10 +3,17 @@ import { isPageAvailableAuthorizedOnly } from "core/auth";
 import { $notifications } from "stores";
 
 export default api => {
-    const showError = (text, url = "") => ((
-        api.methods_dont_show_error.indexOf(url) < 0 &&
-        (!url || (url?.indexOf("/state") < 0))
-    ) && $notifications.addNotification(text));
+    const showError = (err, url = "") => {
+        if (api.methods_dont_show_error.includes(url) || url?.includes("/state"))
+            return;
+        if (typeof err.detail == "string")
+            return $notifications.addNotification(err.detail);
+        if (typeof err.title == "string")
+            return $notifications.addNotification(err.title, "Server error");
+        if (typeof err == "string")
+            $notifications.addNotification(err);
+        $notifications.addNotification("Server Request Error");
+    };
 
     api.request = ({
         url, external_url,
@@ -74,8 +81,8 @@ export default api => {
                         });
                     },
                     error => {
+                        showError(error, url);
                         reject(error);
-                        console.log("Fetch failed", error); //todo: handle
                     }
                 )
                 .then(
@@ -95,12 +102,11 @@ export default api => {
                             return;
                         }
                         if (failed) {
-                            if (result && result.status >= 400 && result.detail)
-                                showError(result.detail, url);
+                            if (result && result.status >= 400)
+                                showError(result, url);
                             if (error)
                                 error(result);
                         } else {
-                            showError(null, url);
                             if (success)
                                 success(result);
                         }
@@ -118,6 +124,8 @@ export default api => {
                     (err) => {
                         if (error)
                             error(err);
+                        else
+                            showError(err);
                         if (after)
                             after(null, err, rawResponse);
                         reject(err);

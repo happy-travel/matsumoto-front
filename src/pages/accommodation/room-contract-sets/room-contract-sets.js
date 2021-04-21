@@ -17,7 +17,12 @@ import { $accommodation, $notifications } from "stores";
 const HEADER_SCROLL_CORRECTION = 170;
 
 const scroll = (event, id) => {
-    window.scrollTo(0, document.getElementById(id || event.target.dataset["scroll"]).offsetTop - HEADER_SCROLL_CORRECTION);
+    window.scrollTo(
+        0,
+        document.getElementById(id || (event.target.dataset["scroll"])
+            ?.offsetTop || 0)
+            - HEADER_SCROLL_CORRECTION
+    );
 };
 
 let buttons, elements, throttle;

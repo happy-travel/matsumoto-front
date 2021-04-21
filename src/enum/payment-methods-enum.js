@@ -1,6 +1,8 @@
 export const PAYMENT_METHODS = {
     CARD: "CreditCard",
     ACCOUNT: "VirtualAccount",
+    OFFLINE: "Offline",
+
     CREDIT_CARD_AND_VIRTUAL_ACCOUNT: "CreditCardAndVirtualAccount",
-    OFFLINE: "Offline"
+    FORCE_SWITCH: "None"
 };

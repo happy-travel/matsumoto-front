@@ -24,24 +24,29 @@ const BookingPaymentMethodSelector = observer(({}) => {
         });
         API.get({
             url: API.COUNTERPARTY_INFO,
-            success: counterparty => $payment.setPaymentMethod(counterparty.preferredPaymentMethod)
+            success: counterparty => {
+                let newMethod = counterparty.preferredPaymentMethod;
+                if (PAYMENT_METHODS.FORCE_SWITCH == newMethod)
+                    newMethod = PAYMENT_METHODS.CARD;
+                $payment.setPaymentMethod(newMethod)
+            }
         });
     }, []);
 
     const isAccountPaymentAvailable = () => {
         let APR = $accommodation.selected.roomContractSet?.isAdvancePurchaseRate;
-        var result = (
+        var isAvailable = (
             balance?.currency &&
             (balance.balance >= 0) &&
             !(APR && ($personal.agencyAPR < APR_VALUES.CardAndAccountPurchases)) &&
-            (availablePaymentMethods != PAYMENT_METHODS.CARD)
+            [PAYMENT_METHODS.CARD, PAYMENT_METHODS.CREDIT_CARD_AND_VIRTUAL_ACCOUNT].includes(availablePaymentMethods)
         );
 
-        if (!result && (PAYMENT_METHODS.ACCOUNT == paymentMethod)) {
+        if (!isAvailable && (PAYMENT_METHODS.ACCOUNT == paymentMethod)) {
             $payment.setPaymentMethod(PAYMENT_METHODS.CARD);
         }
 
-        return result;
+        return isAvailable;
     };
 
     const selectPaymentMethod = (method) => {
