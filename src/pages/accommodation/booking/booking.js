@@ -52,7 +52,7 @@ const AccommodationBookingPage = observer(() => {
 
     return (
 <div className="booking block">
-    <div class="hide">{JSON.stringify($payment.paymentMethod)}</div>
+    <div className="hide">{JSON.stringify($payment.paymentMethod)}</div>
     <section>
         <Breadcrumbs
             backText={t("Back to") + " " + t("Room Selection")}

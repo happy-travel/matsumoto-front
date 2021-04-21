@@ -50,11 +50,6 @@ const taskSubmitBookingForm = (values, { setSubmitting }) => {
     };
     $accommodation.setBookingRequest(request);
 
-    var error = err => {
-        $notifications.addNotification(err?.title || err?.detail || err?.message);
-        setSubmitting(false);
-    };
-
     if ($payment.paymentMethod == PAYMENT_METHODS.ACCOUNT)
         API.post({
             url: API.BOOK_BY_ACCOUNT,
@@ -68,7 +63,7 @@ const taskSubmitBookingForm = (values, { setSubmitting }) => {
                 $payment.setSubject(result.bookingDetails.referenceCode);
                 redirect("/accommodation/confirmation");
             },
-            error
+            error: () => setSubmitting(false)
         });
 
     if ($payment.paymentMethod == PAYMENT_METHODS.CARD)
@@ -79,7 +74,7 @@ const taskSubmitBookingForm = (values, { setSubmitting }) => {
                 $payment.setSubject(result, $accommodation.selected.roomContractSet.rate.finalPrice);
                 redirect("/payment/form");
             },
-            error
+            error: () => setSubmitting(false)
         });
 };
 

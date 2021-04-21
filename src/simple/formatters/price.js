@@ -13,9 +13,7 @@ export const price = (currencyOrObject, value) => {
         currency
     });
 
-    if (result.substr(0,2) == "US") {
-        result = "$" + result.substr(3);
-    }
+    result = result.replace("US$", "$");
 
     return " " + result + " ";
 };
