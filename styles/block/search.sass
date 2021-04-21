@@ -6,16 +6,21 @@
         margin-bottom: 0
     .field
         margin-top: 36px
+        &.size-one
+            width: 300px
+            max-width: 300px
+        &.size-two
+            width: 350px
+            max-width: 350px
     .button-holder
         margin-top: 11px
     @include phone
         & > .row
             flex-direction: column
         .field
-            width: 100%
+            width: 100% !important
             max-width: 100% !important
             margin-top: 15px
-
     @include mobile
         padding: 40px 0
 

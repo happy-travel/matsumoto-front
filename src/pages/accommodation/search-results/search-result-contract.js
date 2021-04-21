@@ -53,7 +53,7 @@ const AccommodationSearchResultContract = ({ contract }) => {
                         </div>
                     </div>
                     <div className="bottom">
-                        <div className="availability">
+                        <div className="availability" onClick={accommodationSelect}>
                             {
                                 t("At least")
                             } {__plural(
@@ -83,7 +83,7 @@ const AccommodationSearchResultContract = ({ contract }) => {
                     <RoomSummary
                         key={index}
                         roomContractSet={roomContractSet}
-                        onSelect={() => accommodationSelect(contract)}
+                        onSelect={accommodationSelect}
                         resultId={contract.id}
                     />
                 ) }

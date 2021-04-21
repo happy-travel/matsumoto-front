@@ -105,7 +105,10 @@ class AccommodationStore {
         this.search.lastCheckedAt = Number(new Date());
         this.search.page = page;
 
-        this.search.hasMoreSearchResults = this.search.result.length < this.search.resultCount;
+        if (!this.filtersLine)
+            this.search.hasMoreSearchResults = this.search.result.length < this.search.resultCount;
+        else
+            this.search.hasMoreSearchResults = results.length == 10;
         if (!results?.length)
             this.search.hasMoreSearchResults = false;
 

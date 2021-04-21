@@ -28,8 +28,6 @@
             background: #ffffff
             display: inline-block
     &.error
-        .input
-            border-color: #FF4B55
         .label
             color: $color-red
     &.focus
@@ -48,7 +46,7 @@
             span
                 cursor: default
                 background: linear-gradient(0, rgba(245,248,250,0) 25%, #fff 50%, rgba(255,255,255,0) 57%)
-                border-radius: 25px
+                border-radius: 28px
 
     &.no-input
         cursor: pointer
@@ -68,17 +66,6 @@
     &.size-half
         width: 50%
 
-    &.size-fourth
-        width: 25%
-        &.label-long
-            .label
-                width: 300px
-                overflow: hidden
-
-    &.size-large
-        width: 367px
-        max-width: 367px
-
     .error-holder
         color: $color-red
         margin: 5px 0 0 17px
@@ -96,15 +83,13 @@
         &.placeholder
             color: $color-text-light
 
-    $padding: 27px
     .input
         border-radius: 25px
         color: $color-text
         background: #ffffff
         border: 1px solid $color-border
-        height: 46px
-        line-height: 44px
-        padding: 0 $padding
+        line-height: 52px
+        padding: 0 27px
         position: relative
         display: flex
         font-size: 14px

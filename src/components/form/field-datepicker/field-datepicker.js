@@ -82,7 +82,8 @@ class FieldDatepicker extends React.Component {
             first,
             second,
             onChange,
-            short
+            short,
+            className
         } = this.props;
 
         const {
@@ -99,7 +100,7 @@ class FieldDatepicker extends React.Component {
                 placeholder={placeholder}
                 disabled={disabled}
                 Icon={<span className="icon icon-search-calendar"/>}
-                className="size-medium"
+                className={className || "size-medium"}
                 Dropdown={DateDropdown}
                 onChange={this.inputChanged}
                 value={text}

@@ -24,13 +24,14 @@ const SearchFormFullsizePart = ({ formik }) => {
                     second="checkOutDate"
                     label={t("Check-in - Check-out")}
                     placeholder={t("Dates")}
+                    className="size-one"
                 />
                 <FieldText
                     formik={formik}
                     id="room"
                     label={t("Adults, Children, Rooms")}
                     placeholder={t("Choose options")}
-                    className="size-medium"
+                    className="size-one"
                     Dropdown={PeopleDropdown}
                     Icon={<span className="icon icon-search-guests" />}
                     value={[
@@ -47,7 +48,7 @@ const SearchFormFullsizePart = ({ formik }) => {
                     anotherField="residency"
                     label={t("Nationality")}
                     placeholder={t("Choose your nationality")}
-                    className="size-large"
+                    className="size-two"
                     clearable
                 />
                 <FieldCountry
@@ -56,7 +57,7 @@ const SearchFormFullsizePart = ({ formik }) => {
                     anotherField="nationality"
                     label={t("Residency")}
                     placeholder={t("Choose your residency")}
-                    className="size-large"
+                    className="size-two"
                     clearable
                 />
                 <div className="field">

@@ -14,10 +14,10 @@ import Amenities from "./amenities";
 import RequestSummary from "./request-summary";
 import { $accommodation, $notifications } from "stores";
 
-const HEADER_SCROLL_CORRECTION = 150;
+const HEADER_SCROLL_CORRECTION = 170;
 
-const scroll = (event) => {
-    window.scrollTo(0, document.getElementById(event.target.dataset["scroll"]).offsetTop - HEADER_SCROLL_CORRECTION);
+const scroll = (event, id) => {
+    window.scrollTo(0, document.getElementById(id || event.target.dataset["scroll"]).offsetTop - HEADER_SCROLL_CORRECTION);
 };
 
 let buttons, elements, throttle;
@@ -59,6 +59,12 @@ const AccommodationRoomContractsSetsPage = observer(() => {
             clearInterval(interval);
         };
     }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            scroll(undefined, "rooms");
+        }, 100);
+    }, [details]);
 
 //todo: move to booking logic block
     const roomContractSetSelect = (roomContractSet) => {

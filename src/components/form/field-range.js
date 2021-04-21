@@ -1,53 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { getIn } from "formik";
-import { observer } from "mobx-react";
 import InputRange from "react-input-range";
 import { price } from "simple";
 
-@observer
-class FieldRangeSlider extends React.Component {
-    state = {
-        value: getIn(this.props.formik?.values, this.props.id) || { min: props.min, max: props.max }
-    };
+const FieldRangeSlider = ({ formik, min, max, id, onChange, currency, formatLabel }) =>  {
+    const [value, setValue] = useState(getIn(formik?.values, id) || { min, max: max });
 
-    changing = (value) => {
-        this.setState({ value });
-        var { formik, id } = this.props;
+    const changing = (newValue) => {
+        setValue(newValue);
 
         if (formik)
-            formik.setFieldValue(id, value);
+            formik.setFieldValue(id, newValue);
     };
 
-    onChange = () => {
-        if (this.props.onChange)
-            this.props.onChange();
+    const changeComplete = () => {
+        if (onChange)
+            onChange();
     };
 
-    render() {
-        var {
-            min,
-            max,
-            currency,
-            formatLabel
-        } = this.props;
+    if (!formatLabel)
+        formatLabel = (v, label) =>
+            ("max" == label && value[label] == 2500) ? "Any" : price(currency, value[label]);
 
-        if (!formatLabel)
-            formatLabel = (v, label) =>
-                ("max" == label && this.state.value[label] == 2500) ? "Any" : price(currency, this.state.value[label]);
-
-        return (
-            <InputRange
-                maxValue={max}
-                minValue={min}
-                step={1}
-                allowSameValues={true}
-                formatLabel={formatLabel}
-                value={this.state.value}
-                onChange={this.changing}
-                onChangeComplete={this.onChange}
-            />
-        );
-    }
-}
+    return (
+        <InputRange
+            maxValue={max}
+            minValue={min}
+            step={1}
+            allowSameValues={true}
+            formatLabel={formatLabel}
+            value={value}
+            onChange={changing}
+            onChangeComplete={changeComplete}
+        />
+    );
+};
 
 export default FieldRangeSlider;

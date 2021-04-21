@@ -65,7 +65,7 @@ class ChildAgencyObservePage extends React.Component {
                         }
                     ]}/>
                     <h2>{t("Child Agencies")}</h2>
-                    <div style={{ marginTop: "-117px" }}>
+                    <div style={{ marginTop: "-126px" }}>
                         <Table
                             list={agencies}
                             columns={childAgenciesColumns(t)}

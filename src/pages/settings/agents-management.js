@@ -57,7 +57,7 @@ class AgentsManagement extends React.Component {
                 <SettingsNav />
                 <section>
                     <h2>{t("All Agents")}</h2>
-                    <div style={{ marginTop: "-117px" }}>
+                    <div style={{ marginTop: "-126px" }}>
                         <Table
                             list={agents}
                             columns={agentsColumns(t)}
