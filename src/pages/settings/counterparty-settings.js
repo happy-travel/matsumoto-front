@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { API } from "core";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
@@ -12,19 +12,19 @@ import VoucherImage from "./parts/voucher-image";
 import { loadCounterpartyInfo } from "simple/logic";
 import { $personal, $notifications } from "stores";
 
-@observer
-export default class CounterpartySettings extends React.Component {
-    state = {
-        loading: true
-    };
+const CounterpartySettings = observer(() => {
+    const [loading, setLoading] = useState(true);
+    const [company, setCompany] = useState({});
 
-    componentDidMount() {
-        loadCounterpartyInfo(
-            () => this.setState({ loading: false })
-        );
-    }
+    useEffect(() => {
+        loadCounterpartyInfo(() => setLoading(false));
+        API.get({
+            url: API.COMPANY_INFO,
+            success: setCompany
+        });
+    }, []);
 
-    downloadContract() {
+    const downloadContract = () => {
         API.get({
             url: API.COUNTERPARTY_FILE,
             response: res => {
@@ -44,19 +44,24 @@ export default class CounterpartySettings extends React.Component {
                     });
             }
         })
-    }
+    };
 
-    render() {
-        const { t } = useTranslation();
+    const { t } = useTranslation();
 
-        return (
-            <div className="settings block">
-                <SettingsHeader />
-                <SettingsNav />
-                { this.state.loading && <Loader />}
-                { !this.state.loading && <section>
+    return (
+        <div className="settings block">
+            <SettingsHeader />
+            <SettingsNav />
+            { loading ?
+                <Loader /> :
+                <section>
                     <Formik
-                        initialValues={$personal.counterpartyInfo || {}}
+                        initialValues={
+                            {
+                                ...company,
+                                ...$personal.counterpartyInfo
+                            } || {}
+                        }
                         enableReinitialize={true}
                         onSubmit={() => {}}
                     >
@@ -86,9 +91,8 @@ export default class CounterpartySettings extends React.Component {
 
                             {$personal.permitted("ObserveCounterpartyContract") &&
                                 <div className="row">
-                                    {
-                                        formik.values.isContractUploaded ?
-                                        <button className="button small" onClick={this.downloadContract}>
+                                    { formik.values.isContractUploaded ?
+                                        <button className="button small" onClick={downloadContract}>
                                             Download contract file
                                         </button> :
                                         <span>No Contract Uploaded</span>
@@ -96,12 +100,8 @@ export default class CounterpartySettings extends React.Component {
                                 </div>
                             }
 
-                            {(
-                                (__localhost || __devEnv) && (
-                                    $personal.permitted("ObserveChildAgencies") ||
-                                    $personal.permitted("InviteChildAgencies")
-                                )
-                            ) &&
+                            {($personal.permitted("ObserveChildAgencies") ||
+                              $personal.permitted("InviteChildAgencies")) &&
                                 <div>
                                     <h2>{t("Child Agencies")}</h2>
                                     <Link to="/settings/child-agencies" className="button" style={{ marginRight: 20 }}>
@@ -115,40 +115,47 @@ export default class CounterpartySettings extends React.Component {
 
                             <h2>{t("Agency Information")}</h2>
                             <div className="row">
-                                <FieldText {...params}
-                                           id="phone"
-                                           label={t("Phone")}
+                                <FieldText
+                                    {...params}
+                                    id="phone"
+                                    label={t("Phone")}
                                 />
-                                <FieldText {...params}
-                                           id="fax"
-                                           label={t("Fax")}
-                                />
-                            </div>
-                            <div className="row">
-                                <FieldText {...params}
-                                           id="countryName"
-                                           label={t("Country")}
-                                           className={"size-half"}
-                                           Icon={formik.values.countryCode ? <Flag code={formik.values.countryCode} /> : null}
-                                />
-                                <FieldText {...params}
-                                           id="city"
-                                           label={t("City")}
-                                           className={"size-half"}
+                                <FieldText
+                                    {...params}
+                                    id="fax"
+                                    label={t("Fax")}
                                 />
                             </div>
                             <div className="row">
-                                <FieldText {...params}
-                                           id="postalCode"
-                                           label={t("Zip/Postal Code")}
+                                <FieldText
+                                    {...params}
+                                    id="countryName"
+                                    label={t("Country")}
+                                    className="size-half"
+                                    Icon={formik.values.countryCode ? <Flag code={formik.values.countryCode} /> : null}
                                 />
-                                <FieldText {...params}
-                                           id="website"
-                                           label={t("Website")}
+                                <FieldText
+                                    {...params}
+                                    id="city"
+                                    label={t("City")}
+                                    className="size-half"
                                 />
                             </div>
                             <div className="row">
-                                <FieldTextarea {...params}
+                                <FieldText
+                                    {...params}
+                                    id="postalCode"
+                                    label={t("Zip/Postal Code")}
+                                />
+                                <FieldText
+                                    {...params}
+                                    id="website"
+                                    label={t("Website")}
+                                />
+                            </div>
+                            <div className="row">
+                                <FieldTextarea
+                                    {...params}
                                     id="address"
                                     label={t("Address")}
                                 />
@@ -174,8 +181,10 @@ export default class CounterpartySettings extends React.Component {
                             </div>
                         </>
                     }
-                </section> }
-            </div>
-        );
-    }
-}
+                </section>
+            }
+        </div>
+    );
+});
+
+export default CounterpartySettings;

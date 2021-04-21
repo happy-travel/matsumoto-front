@@ -128,6 +128,7 @@ API_METHODS = {
     AGENCY_LOGO          : v1 + "/agency/images/logo",
     COUNTERPARTY_INFO    : v1 + "/counterparty",
     COUNTERPARTY_FILE    : v1 + "/counterparty/contract-file",
+    COMPANY_INFO         : v1 + "/company",
     AGENT_SETTINGS       : v1 + "/agent/settings/application",
     ALL_PERMISSIONS      : v1 + "/all-permissions-list",
     AGENT_PERMISSIONS    : agentId =>

@@ -27,6 +27,10 @@ class PersonalStore {
 
     @observable
     @setter
+    companyInfo = null;
+
+    @observable
+    @setter
     balance = null;
 
     @observable

@@ -78,7 +78,7 @@ const FieldTextarea = observer(({
                                 value={fieldValue}
                             />
                         </div> :
-                        <span className="disabled">
+                        <span className={"disabled" + __class(!fieldValue, "placeholder")}>
                             { fieldValue || placeholder}
                         </span>
                     }
