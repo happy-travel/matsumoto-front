@@ -11,23 +11,25 @@ const Allotment = ({ room, contract }) => {
     const { t } = useTranslation();
     return (
         <ul className="allotment">
-            <li className={__class(warnAboutDeadlineIsNear, "warning", "important")}>
-                <div className="primary">
-                    { deadline.date ?
-                        t("Cancellation Deadline") + ": " + date.format.a(deadline.date) :
-                        t("FREE Cancellation - Without Prepayment")
-                    }
-                </div>
-                { !!deadline?.policies?.length &&
-                    <div className="additional">
-                        { deadline.policies.map((item, index) => (
-                            <div key={index}>
-                                {t("From")} {date.format.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
-                            </div>
-                        ))}
+            { !contract.isAdvancePurchaseRate &&
+                <li className={__class(warnAboutDeadlineIsNear, "warning", "important")}>
+                    <div className="primary">
+                        { deadline.date ?
+                            t("Cancellation Deadline") + ": " + date.format.a(deadline.date) :
+                            t("FREE Cancellation - Without Prepayment")
+                        }
                     </div>
-                }
-            </li>
+                    { !!deadline?.policies?.length &&
+                        <div className="additional">
+                            { deadline.policies.map((item, index) => (
+                                <div key={index}>
+                                    {t("From")} {date.format.a(item.fromDate)} {t("cancellation costs")} {item.percentage}% {t("of total amount")}.
+                                </div>
+                            ))}
+                        </div>
+                    }
+                </li>
+            }
             <li className="warn">
                 <div className="primary">{t("Board Basis")}</div>
                 <div className="additional">

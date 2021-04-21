@@ -28,11 +28,13 @@ const RoomSummary = observer(({ resultId, roomContractSet, onSelect, secondStep 
                 <div>
                     <MealPlan room={roomContractSet.rooms[0]} />
                 </div>
-                <Deadline
-                    searchId={$accommodation.search.id}
-                    resultId={resultId}
-                    roomContractSet={roomContractSet}
-                />
+                { !roomContractSet.isAdvancePurchaseRate &&
+                    <Deadline
+                        searchId={$accommodation.search.id}
+                        resultId={resultId}
+                        roomContractSet={roomContractSet}
+                    />
+                }
                 <div>
                     { (isRestricted && !secondStep) &&
                         <div className="tag">

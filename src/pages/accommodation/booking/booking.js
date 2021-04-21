@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { FieldArray } from "formik";
-import {GroupRoomTypesAndCount, price} from "simple";
+import { GroupRoomTypesAndCount, price } from "simple";
 import { Loader } from "components/simple";
 import { CachedForm, FORM_NAMES, FieldText, FieldCheckbox, FieldSelect } from "components/form";
 import Breadcrumbs from "components/breadcrumbs";
@@ -11,7 +11,7 @@ import { accommodationBookingValidator } from "components/form/validation";
 import { Allotment } from "components/accommodation";
 import transliterate from "components/external/transliterate";
 import ViewFailed from "parts/view-failed";
-import {APR_VALUES, PAYMENT_METHODS} from "enum";
+import { APR_VALUES, PAYMENT_METHODS } from "enum";
 import BookingSummary from "../parts/booking-summary"
 import taskSubmitBookingForm from "tasks/booking/booking-submit";
 import PaymentMethodSelector from "./booking-payment-method-selector";
@@ -49,6 +49,21 @@ const AccommodationBookingPage = observer(() => {
 
     if (!contract)
         return null;
+
+    const isRestricted = contract.isAdvancePurchaseRate && ($personal.agencyAPR < APR_VALUES.CardPurchasesOnly);
+
+    const ContinueButton = ({ formik }) => (
+        <button type="submit" className={"button main" + __class(!formik.isValid, "disabled")}>
+            { formik.isValid || !formik.values.accepted ?
+                 (
+                     PAYMENT_METHODS.ACCOUNT == $payment.paymentMethod ?
+                        t("Pay") + price(contract.rate.finalPrice) :
+                        t("Confirm Booking")
+                 ) :
+                t("You have not filled guests information")
+            }
+        </button>
+    );
 
     return (
 <div className="booking block">
@@ -91,44 +106,38 @@ const AccommodationBookingPage = observer(() => {
                                 <div className="data only">
                                     <div>{t("Please note the booking price has changed")}</div>
                                     {t("To speed up a search on a large number of accommodations, we use preloaded data. Sometimes the data may become outdated while you work with the site. When this happens, you may see a change in price or in cancellation policies on this screen. The last shown price is final.")}
-                                    <button type="submit" className={"button main" + __class(!formik.isValid, "disabled")}>
-                                        { (PAYMENT_METHODS.ACCOUNT == $payment.paymentMethod) ?
-                                            t("Pay") + price(contract.rate.finalPrice) :
-                                            t("Confirm Booking")
-                                        }
-                                    </button>
+                                    { !isRestricted &&
+                                        <ContinueButton formik={formik} />
+                                    }
                                 </div>
                             </div>
                         }
-                        { !(contract?.isAdvancePurchaseRate &&
-                            ($personal.agencyAPR < APR_VALUES.CardPurchasesOnly)) ?
+
+                        { !isRestricted ?
                             <div>
-                                {!contract.priceChangedAlert &&
-                                    <button type="submit" className={"button main" + __class(!formik.isValid, "disabled")}>
-                                        { (PAYMENT_METHODS.ACCOUNT == $payment.paymentMethod) ?
-                                            t("Pay") + price(contract.rate.finalPrice) :
-                                            t("Confirm Booking")
-                                        }
-                                    </button>
+                                { !contract.priceChangedAlert &&
+                                    <ContinueButton formik={formik} />
                                 }
                             </div> :
-                            <div>
+                            <div className="restricted-rate">
                                 <strong>
                                     {t("Restricted Rate")}
                                 </strong>
                             </div>
                         }
 
-                        <div className="checkbox-holder">
-                            <FieldCheckbox
-                                formik={formik}
-                                id="accepted"
-                                label={<>
-                                    {t("I have read and accepted")}
-                                    <Link target="_blank" to="/terms" className="underlined link">{t("Terms & Conditions")}</Link>
-                                </>}
-                            />
-                        </div>
+                        { !isRestricted &&
+                            <div className="checkbox-holder">
+                                <FieldCheckbox
+                                    formik={formik}
+                                    id="accepted"
+                                    label={<>
+                                        {t("I have read and accepted")}
+                                        <Link target="_blank" to="/terms" className="underlined link">{t("Terms & Conditions")}</Link>
+                                    </>}
+                                />
+                            </div>
+                        }
                     </div>
                     <div className="another">
                         { formik.isSubmitting &&
