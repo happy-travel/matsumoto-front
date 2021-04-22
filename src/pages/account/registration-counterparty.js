@@ -145,7 +145,7 @@ class RegistrationCounterparty extends React.Component {
                                             options={[
                                                 { value: PAYMENT_METHODS.ACCOUNT, text: "Virtual Credit"},
                                                 { value: PAYMENT_METHODS.CARD, text: "Credit Card"},
-                                                { value: PAYMENT_METHODS.OFFLINE, text: "Offline (Bank transfer, cash)" }
+                                                { value: PAYMENT_METHODS.OFFLINE, text: <>Offline <em>(Bank transfer, cash)</em></> }
                                             ]}
                                         />
                                     </div>

@@ -27,8 +27,8 @@ const AccommodationSearchSorters = observer(() => {
                 <FieldSelectDropdown
                     options={[
                         { text: t("Unsorted"), value: {} },
-                        { text: t("Price (High to Low)"), value: { price: 1 } },
-                        { text: t("Price (Low to High)"), value: { price: -1 } },
+                        { text: <>${t("Price")} <em>({t("High to Low")})</em></>, value: { price: 1 } },
+                        { text: <>${t("Price")} <em>({t("Low to High")})</em></>, value: { price: -1 } },
                     ]}
                     setValue={searchLoadWithNewOrder}
                 />
