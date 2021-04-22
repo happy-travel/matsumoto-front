@@ -14,20 +14,23 @@ import Amenities from "./amenities";
 import RequestSummary from "./request-summary";
 import { $accommodation, $notifications } from "stores";
 
-const HEADER_SCROLL_CORRECTION = 170;
+const HEADER_SCROLL_CORRECTION_DESKTOP = 160;
+const HEADER_SCROLL_CORRECTION_MOBILE = 180;
+const DESKTOP_WIDTH = 1100;
 
 const scroll = (event, id) => {
+    let correction = HEADER_SCROLL_CORRECTION_DESKTOP;
+    if (window.innerWidth < DESKTOP_WIDTH)
+        correction = HEADER_SCROLL_CORRECTION_MOBILE;
     window.scrollTo(
         0,
-        document.getElementById(id || (event.target.dataset["scroll"])
-            ?.offsetTop || 0)
-            - HEADER_SCROLL_CORRECTION
+        (document.getElementById(id || (event.target.dataset["scroll"]))?.offsetTop || 0) - correction
     );
 };
 
 let buttons, elements, throttle;
 const onScroll = () => {
-    if (window.innerWidth < 1100)
+    if (window.innerWidth < DESKTOP_WIDTH)
         return;
     if (throttle)
         return;
@@ -38,7 +41,7 @@ const onScroll = () => {
         }
         if (!buttons.length)
             return;
-        const scrollTop = window.scrollY + HEADER_SCROLL_CORRECTION + 50;
+        const scrollTop = window.scrollY + HEADER_SCROLL_CORRECTION_DESKTOP + 50;
         const tops = [...elements.map(item => item.offsetTop), scrollTop].sort((a,b)=>a-b);
         const selected = Math.max(0, Math.min(elements.length, tops.indexOf(scrollTop))-1);
         if (buttons[selected]?.className != "item active") {

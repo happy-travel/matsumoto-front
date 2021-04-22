@@ -14,13 +14,13 @@ import { $personal, $notifications } from "stores";
 
 const CounterpartySettings = observer(() => {
     const [loading, setLoading] = useState(true);
-    const [company, setCompany] = useState({});
+    const [agency, setAgency] = useState({});
 
     useEffect(() => {
         loadCounterpartyInfo(() => setLoading(false));
         API.get({
-            url: API.COMPANY_INFO,
-            success: setCompany
+            url: API.AGENCY,
+            success: setAgency
         });
     }, []);
 
@@ -58,7 +58,7 @@ const CounterpartySettings = observer(() => {
                     <Formik
                         initialValues={
                             {
-                                ...company,
+                                ...agency,
                                 ...$personal.counterpartyInfo
                             } || {}
                         }
@@ -76,7 +76,7 @@ const CounterpartySettings = observer(() => {
                         <div className="form">
                             <h2>{t("Legal Information")}</h2>
                             <div className="row">
-                                <b>{t("Company Name")}</b>:{" "}
+                                <b>{t("agency Name")}</b>:{" "}
                                 {formik.values.name}
                             </div>
                             <div className="row">

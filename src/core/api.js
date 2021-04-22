@@ -118,6 +118,7 @@ API_METHODS = {
         PAY_CALLBACK : code => v1 + "/external/payment-links/" + code + "/pay/callback"
     },
 
+    AGENCY               : v1 + `/agency`,
     AGENCY_AGENTS        : v1 + `/agency/agents`,
     AGENCY_AGENT         : agentId =>
                            v1 + `/agency/agents/${agentId}`,
