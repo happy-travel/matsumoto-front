@@ -24,7 +24,7 @@ class FieldSelectDropdown extends React.Component {
                 <div className="scroll">
                     {options?.map((item, index) => (
                         <div
-                            className="item line"
+                            className="line"
                             onClick={() => this.setValue(item)}
                             key={index}
                         >

@@ -76,7 +76,7 @@ const CounterpartySettings = observer(() => {
                         <div className="form">
                             <h2>{t("Legal Information")}</h2>
                             <div className="row">
-                                <b>{t("agency Name")}</b>:{" "}
+                                <b>{t("Agency Name")}</b>:{" "}
                                 {formik.values.name}
                             </div>
                             <div className="row">

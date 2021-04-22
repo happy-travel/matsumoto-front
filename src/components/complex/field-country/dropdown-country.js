@@ -41,7 +41,7 @@ class CountryDropdown extends React.Component {
         } = this.props;
 
         return (
-            <div className="region dropdown" id={connected}>
+            <div className="dropdown" id={connected}>
                 <div className="scroll">
                     {$view.countries.map((country, index) => {
                         let region = null;
@@ -58,17 +58,17 @@ class CountryDropdown extends React.Component {
                             );
                         }
                         return (
-                            <div key={index}>
+                            <React.Fragment key={index}>
                                 {region}
                                 <div
                                     key={`${country.name}-${country.id}`}
                                     onClick={() => setValue(formik, connected, country)}
-                                    className={"country line" + __class(focusIndex === index, "focused")}
+                                    className={"line" + __class(focusIndex === index, "focused")}
                                 >
                                     <Flag code={country.code} />
                                     <Highlighted str={country.name} highlight={this.props.value} />
                                 </div>
-                            </div>
+                            </React.Fragment>
                         )
                     })}
                 </div>

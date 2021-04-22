@@ -1,0 +1,101 @@
+.dropdown
+    &.room-details
+        padding: 28px 36px
+        width: 360px
+        user-select: none
+        right: 0
+        left: auto
+        min-height: 0
+        max-height: none
+        h3
+            font-size: 16px
+            line-height: 19px
+            padding: 35px 0 20px
+        h4
+            padding: 5px 0
+        .input
+            overflow: hidden
+        .row
+            display: flex
+            line-height: 40px
+            margin-bottom: 15px
+            &.children
+                flex-wrap: wrap
+                width: 310px
+                .part
+                    display: flex
+                    width: 135px
+                    flex-grow: 0
+                    margin-top: 10px
+                    margin-right: 18px
+                    .field
+                        width: 52px
+                        min-width: 0
+                        margin: 0
+                        .input
+                            padding: 0 5px
+                            height: 40px
+                            line-height: 38px
+                            input
+                                text-align: center
+                    .btn
+                        margin-left: 3px
+            &:last-child
+                margin-bottom: 0
+            .caption
+                flex-grow: 1
+            .btn
+                display: block
+                width: 40px
+                height: 40px
+                border: 1px solid $color-border
+                border-radius: 25px
+                text-align: center
+                line-height: 37px
+                opacity: .5
+                &.enabled
+                    opacity: 1
+                &.enabled, &.active
+                    cursor: pointer
+                    &:hover
+                        border-color: $color-brand
+                        color: $color-brand
+            .value
+                font-size: 14px
+                text-align: center
+                width: 53px
+    &.date
+        padding: 25px 25px
+        width: 644px
+        transform: translateX(-50%)
+        left: 50%
+        min-height: 0
+        max-height: none
+        @include phone
+            left: 0
+            margin-left: 0
+            transform: none
+            width: 330px
+    &.residency
+        padding: 20px 20px 10px
+        width: 350px
+        overflow: visible
+        right: 0
+        left: auto
+        min-height: 0
+        max-height: none
+        .field
+            margin-bottom: 15px
+            margin-right: 0
+        .checkbox
+            margin: 25px 5px 15px
+    &.filters
+        left: 0
+        right: auto
+        width: 300px
+        padding: 0 30px 15px
+        min-height: 0
+        max-height: none
+        .close-button
+            top: 10px
+            right: 10px

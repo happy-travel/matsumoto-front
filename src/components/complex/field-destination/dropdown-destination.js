@@ -17,7 +17,7 @@ class DestinationDropdown extends React.Component {
         } = this.props;
 
         return (
-            <div className="region dropdown" id={connected}>
+            <div className="dropdown" id={connected}>
                 <div className="scroll">
                     {$view?.destinations?.map?.((item, index) => {
                         let destinationType = null;
@@ -30,7 +30,7 @@ class DestinationDropdown extends React.Component {
                             <React.Fragment key={index}>
                                 {destinationType}
                                 <div
-                                    className={"country line" + __class(focusIndex === index, "focused")}
+                                    className={"line" + __class(focusIndex === index, "focused")}
                                     onClick={() => setValue(formik, false, item)}
                                 >
                                     { !$personal.settings.experimentalFeatures &&

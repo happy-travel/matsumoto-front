@@ -4,12 +4,17 @@
     color: $color-text
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15)
     border-radius: 25px
-    padding: 28px 36px
     z-index: 100
     margin-top: 10px
     overflow: hidden
     left: 0
+    width: 100%
+    max-height: 280px
+    min-width: 120px
+    animation: Appear .15s ease-in 1
+    font-size: 14px
     .scroll
+        padding: 8px 0
         max-height: inherit
         overflow-y: auto
         &::-webkit-scrollbar
@@ -18,144 +23,38 @@
             background: transparent
         &::-webkit-scrollbar-thumb
             background-color: $color-border
-    &.people
-        width: 360px
-        user-select: none
-        right: 0
-        left: auto
-        h3
-            font-size: 16px
-            line-height: 19px
-            padding: 35px 0 20px
-        h4
-            padding: 5px 0
-        .input
-            overflow: hidden
-        .row
-            display: flex
-            line-height: 40px
-            margin-bottom: 15px
-            &.children
-                flex-wrap: wrap
-                width: 310px
-                .part
-                    display: flex
-                    width: 135px
-                    flex-grow: 0
-                    margin-top: 10px
-                    margin-right: 18px
-                    .field
-                        width: 52px
-                        min-width: 0
-                        margin: 0
-                        .input
-                            padding: 0 5px
-                            height: 40px
-                            line-height: 38px
-                            input
-                                text-align: center
-                    .btn
-                        margin-left: 3px
-            &:last-child
-                margin-bottom: 0
-            .caption
-                flex-grow: 1
-            .btn
-                display: block
-                width: 40px
-                height: 40px
-                border: 1px solid $color-border
-                border-radius: 25px
-                text-align: center
-                line-height: 37px
-                opacity: .5
-                &.enabled
-                    opacity: 1
-                &.enabled, &.active
-                    cursor: pointer
-                    &:hover
-                        border-color: $color-brand
-                        color: $color-brand
-            .value
-                font-size: 14px
-                text-align: center
-                width: 53px
-    &.date.dropdown
-        padding: 25px 25px
-        width: 644px
-        transform: translateX(-50%)
-        left: 50%
-        @include phone
-            left: 0
-            margin-left: 0
-            transform: none
-            width: 330px
-    &.region
-        padding: 0
-        width: 100%
-        max-height: 280px
-        .subtitle
-            height: 24px
-            line-height: 24px
-            margin-top: 10px
-            padding: 0 15px
-            font-size: 11px
-            background: #F3F4F6
-            color: $color-text-light
-        .country
-            line-height: 21px
-            padding: 8px 15px
-            &.focused
-                background: #F3F4F6
-            .flag
-                margin-right: 10px
-            b
-                font-weight: 700
-    &.locale, &.currency
-        min-width: 130px
-        padding: 6px 0 3px
-        line-height: 0
-        .item
-            line-height: 17px
-            padding: 10px 0 10px 16px
-            font-size: 11px
-            display: block
-            z-index: 2
-            position: relative
-            &:hover
-                background: #F3F4F6
-            .flag
-                margin-right: 12px
-                display: inline-block
-    &.select
-        padding: 0
-        width: 100%
-        max-height: 350px
-        min-width: 120px
-        .item
-            line-height: 21px
-            padding: 8px 15px
-
     .line
         cursor: pointer
         position: relative
         z-index: 1
+        line-height: 22px
+        padding: 9px 15px 9px 27px
         .flag
-            margin-right: 10px
-        &:hover
+            margin-right: 12px
+        &:hover, &.focused
             background: #F3F4F6
+    .subtitle
+        height: 24px
+        line-height: 24px
+        padding: 0 15px 0 27px
+        margin-top: 8px
+        font-size: 12px
+        background: #F3F4F6
+        color: $color-text-light
         &:first-child
-            border-top-left-radius: 4px
-            border-top-right-radius: 4px
-        &:last-child
-            border-bottom-left-radius: 4px
-            border-bottom-right-radius: 4px
-
+            margin-top: 0
+    &.locale
+        width: 160px
+        line-height: 0
+        padding: 8px 0
+        top: 20px
+        left: -26px
     .summary
         margin-bottom: 0
+        padding-left: 17px
         display: flex
         .photo
-            background: #ddd center center no-repeat
+            background: #e8eaec center center no-repeat
             background-size: cover
             border-radius: 6px
             width: 80px
@@ -175,15 +74,3 @@
                 margin-right: 8px
         h2, h2 span
             color: #000
-
-    &.residency
-        padding: 20px 20px 10px
-        width: 350px
-        overflow: visible
-        right: 0
-        left: auto
-        .field
-            margin-bottom: 15px
-            margin-right: 0
-        .checkbox
-            margin: 25px 5px 15px

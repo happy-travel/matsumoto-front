@@ -90,7 +90,8 @@ const FieldText = observer(({
                 } else {
                     scrollElem.scrollTo(0, 0);
                 }
-                setValue(formik, id, options[optionIndex], true);
+                if (setValue)
+                    setValue(formik, id, options[optionIndex], true);
                 break;
             default:
                 return;

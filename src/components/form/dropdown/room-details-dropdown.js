@@ -104,7 +104,7 @@ class PeopleDropdown extends React.Component {
             { formik } = this.props;
 
         return (
-            <div className="people dropdown">
+            <div className="room-details dropdown">
                 <Row
                      formik={formik}
                      room={0}

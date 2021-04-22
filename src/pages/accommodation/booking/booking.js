@@ -150,7 +150,7 @@ const AccommodationBookingPage = observer(() => {
                                         <h2>
                                             <GroupRoomTypesAndCount solo contracts={[room]} />
                                         </h2>
-                                        <table className="people"><tbody>
+                                        <table className="room-details"><tbody>
                                             <FieldArray render={() => formik.values.room[r].passengers.map((passengers, index) => (
                                                 <tr key={index}>
                                                     <td>

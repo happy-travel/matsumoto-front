@@ -18,10 +18,6 @@ const childAgenciesColumns = t => [
         cell: v => v.isActive ? t("Yes") : t("No")
     },
     {
-        header: t("Balance"),
-        cell: v => price(v.accountBalance)
-    },
-    {
         header: t("Created"),
         cell: v => date.format.c(v.created)
     }
