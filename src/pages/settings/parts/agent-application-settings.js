@@ -53,12 +53,14 @@ class AgentApplicationSettings extends React.Component {
                     onSubmit={this.submitAgentSettings}
                     render={formik => (
                         <div className="form app-settings">
-                            <div className="row">
-                                <FieldSwitch formik={formik}
-                                             id="availableCredit"
-                                             label={t("Show Available Credit")}
-                                />
-                            </div>
+                            { $personal.permitted("ObserveBalance") &&
+                                <div className="row">
+                                    <FieldSwitch formik={formik}
+                                                 id="availableCredit"
+                                                 label={t("Show Available Credit")}
+                                    />
+                                </div>
+                            }
                             <div className="row">
                                 <FieldSwitch formik={formik}
                                              id="experimentalFeatures"

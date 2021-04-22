@@ -80,6 +80,7 @@ const AgencyBookingsManagementPage = observer(() => {
                     { permittedAgency ? t("Agency Bookings") : t("Bookings") }
                 </h2>
             </section>
+            <div className="sticky-header-before" />
             <div className="navigation">
                 <section>
                     <nav>

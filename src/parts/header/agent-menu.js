@@ -10,9 +10,11 @@ const AgentMenu = observer(() => {
     const { t } = useTranslation();
     return (
         <div className="agent-menu">
-            <Link className="button" to="/bookings">
-                {t("Bookings")}
-            </Link>
+            { $personal.permitted("AccommodationBooking") &&
+                <Link className="button" to="/bookings">
+                    {t("Bookings")}
+                </Link>
+            }
             <Link to="/settings" className="button agent-link" title={agentName}>
                 <span className="icon icon-burger" />
                 <span className="avatar" />

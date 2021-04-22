@@ -1,18 +1,16 @@
 .management.block
     padding-bottom: 150px
     @include except-phone
+        .sticky-header-before
+            height: 120px
         .sticky-header
             position: sticky
             top: 25px
             z-index: 1002
-            width: 40%
-            left: 100%
-            max-width: 572px
-            transform: translateX(-150%)
             white-space: nowrap
+            height: 0
             h2
-                display: inline-block
-                margin-top: 0
+                overflow: visible
     h2
         font-size: 24px
         line-height: 30px
