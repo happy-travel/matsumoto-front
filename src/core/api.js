@@ -1,7 +1,8 @@
 import settings from "settings";
 import fetch from "./misc/fetch";
+import getLocale from "./misc/get-locale";
 
-const v1 = settings.edo(settings.default_culture), //todo : select current culture
+const v1 = settings.edo(getLocale()),
       osaka = settings.osaka,
 
 API_METHODS = {

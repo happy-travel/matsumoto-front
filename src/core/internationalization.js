@@ -1,12 +1,12 @@
 import i18n from "i18next";
-import { windowLocalStorage } from "core/misc/window-storage";
+import { getLocale } from "core";
 import settings from "settings";
 
 import english from "translation/english";
 import arabic from "translation/arabic";
 
 i18n.init({
-    lng: windowLocalStorage.get("locale") || settings.default_culture,
+    lng: getLocale(),
     resources: {
         en: english,
         ar: arabic

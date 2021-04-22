@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { getIn } from "formik";
 import { observer } from "mobx-react";
+import { getLocale } from "core";
 import { decorate } from "simple";
-import { windowLocalStorage } from "core/misc/window-storage";
 import { $ui, $view } from "stores";
 
 const FieldText = observer(({
@@ -139,7 +139,7 @@ const FieldText = observer(({
         suggestion = decorate.cutFirstPart(suggestion, fieldValue);
 
     /* todo: Remove this workaround when server rtl suggestions works correct */
-    var isSuggestionVisible = windowLocalStorage.get("locale") != "ar";
+    var isSuggestionVisible = getLocale() != "ar";
 
     if (ValueObject !== undefined) {
         if (ValueObject)

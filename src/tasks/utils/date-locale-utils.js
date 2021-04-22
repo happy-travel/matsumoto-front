@@ -1,7 +1,5 @@
 import React from "react";
-import { windowLocalStorage } from "core/misc/window-storage";
-
-const getLocale = () => windowLocalStorage.get("locale");
+import { getLocale } from "core";
 
 const WEEKDAYS_LONG = (locale) => {
     const list = {

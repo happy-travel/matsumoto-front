@@ -1,5 +1,4 @@
-import { API } from "core";
-import { windowLocalStorage } from "core/misc/window-storage";
+import { API, getLocale } from "core";
 import { switchLocale } from "core/misc/switch-locale";
 import { $personal } from "stores";
 
@@ -44,7 +43,7 @@ export const loadAgentSettings = () => {
             $personal.setSettings(result);
             if (!Object.keys(result || {}).length)
                 fillEmptyAgentSettings();
-            if ("ar" == result.preferredLanguage && "ar" != windowLocalStorage.get("locale"))
+            if ("ar" == result.preferredLanguage && !getLocale())
                 switchLocale("ar");
         }
     });
@@ -56,6 +55,8 @@ export const saveAgentSettings = (values, after) => {
         body: settingsCleaner(values),
         success: () => {
             $personal.setSettings(values);
+            if ("ar" == result.preferredLanguage && "ar" != getLocale())
+                switchLocale("ar");
         },
         after
     });

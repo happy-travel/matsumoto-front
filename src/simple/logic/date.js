@@ -1,12 +1,11 @@
 import { default as basicFormat } from "date-format";
 import localeUtils from "tasks/utils/date-locale-utils";
-import { windowLocalStorage } from "core/misc/window-storage";
+import { getLocale } from "core";
 
 //const parse = (date) => {
 //   return basicFormat.parse("format", date);
 //};
 
-const getLocale = () => windowLocalStorage.get("locale");
 const shortMonth = (val) => {
     if ("ar" === getLocale() || (val?.length < 5))
         return val;
