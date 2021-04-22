@@ -1,14 +1,23 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import BasicHeader from "parts/header/basic-header";
 import { useTranslation } from "react-i18next";
 
-const ErrorPage = () => {
+const NotFoundPage = () => {
     const { t } = useTranslation();
 
     useEffect(() => {
         document.querySelectorAll("header, footer").forEach(
             item => item ? item.style.display = "none" : null
         );
+        setTimeout(() => {
+            document.title = "Happytravel.com";
+        }, 0);
+        return () => {
+            document.querySelectorAll("header, footer").forEach(
+                item => item ? item.style.display = "block" : null
+            );
+        }
     }, []);
 
     return (
@@ -23,15 +32,15 @@ const ErrorPage = () => {
                         </div>
                     </div>
 
-                    <a href="/">
+                    <Link to="/">
                         <span className="button">
                             {t("Back to") + " " + t("Homepage")}
                         </span>
-                    </a>
+                    </Link>
                 </div>
             </section>
         </div>
     );
 };
 
-export default ErrorPage;
+export default NotFoundPage;

@@ -41,8 +41,8 @@ export default ({
             <div className="row">
                 <FieldText formik={formik}
                     id="position"
-                    label={t("Position/Designation")}
-                    placeholder={t("Position/Designation")}
+                    label={t("Position (Designation)")}
+                    placeholder={t("Position (Designation)")}
                     required
                 />
             </div>

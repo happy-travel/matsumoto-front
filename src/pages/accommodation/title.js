@@ -9,7 +9,7 @@ import { $personal } from "stores";
 const AccommodationTitlePage = observer(({ noSearch }) => {
     const { t } = useTranslation();
 
-    if (!$personal?.information?.email) // workaround for loader within registration process
+    if (!$personal.information?.email) // workaround for loader within registration process
         return <Loader white page />;
 
     return (

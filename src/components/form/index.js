@@ -9,6 +9,7 @@ import FieldDatepicker from "./field-datepicker/field-datepicker";
 
 const FORM_NAMES = {
     CreateInviteForm: "CreateInviteForm",
+    RegistrationAgentForm: "RegistrationAgentForm",
     RegistrationCounterpartyForm: "RegistrationCounterpartyForm",
     SearchForm: "SearchForm",
     BookingForm: "BookingForm",

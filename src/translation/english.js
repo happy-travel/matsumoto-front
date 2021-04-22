@@ -19,7 +19,7 @@ translations: {
     "Address": "Address",
     "_copyright": "All Rights Reserved",
     "Are you supplier?": "Are you a supplier?",
-    "Log In": "Log In",
+    "Sign In": "Sign In",
     "Registration": "Registration",
     "Password": "Password",
     "Don`t have an account?": "Don`t have an account?",
@@ -39,7 +39,7 @@ translations: {
     "Generate Password": "Generate Password",
     "Continue Registration": "Continue Registration",
     "Salutation": "Salutation",
-    "Position/Designation": "Position/Designation",
+    "Position (Designation)": "Position (Designation)",
     "Company Name": "Company Name",
     "Company Address": "Company Address",
     "Zip/Postal Code": "Zip/Postal Code",
@@ -357,5 +357,6 @@ translations: {
     "All Agents": "All Agents",
     "You have not filled guests information": "You have not filled guests information",
     "Please Select": "Please Select",
+    "Legal Address": "Legal Address",
 }
 };

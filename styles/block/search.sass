@@ -14,6 +14,8 @@
             max-width: 350px
     .button-holder
         margin-top: 11px
+        .button
+            font-size: 15px
     @include phone
         & > .row
             flex-direction: column
@@ -24,5 +26,6 @@
     @include mobile
         padding: 40px 0
 
-.search-fullsize-wrapper
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+@include except-phone
+    .search-fullsize-wrapper
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)

@@ -2,17 +2,19 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
+import NotFoundPage from "pages/common/not-found-page";
 import BasicHeader from "parts/header/basic-header";
 import { authSetToStorage } from "core/auth";
 import { getInvite, forgetInvite } from "core/auth/invite";
+import { Loader } from "components/simple";
 import Breadcrumbs from "components/breadcrumbs";
-import { CachedForm, FieldText } from "components/form";
+import { CachedForm, FieldText, FORM_NAMES } from "components/form";
 import { registrationAgentValidator, registrationAgentValidatorWithEmailAndAgencyName } from "components/form/validation";
 import { fillEmptyAgentSettings } from "simple/logic";
 import FormAgentData from "parts/form-agent-data";
-import { $personal, $notifications } from "stores";
+import { $personal, $notifications, $ui } from "stores";
 
-export const finishAgentRegistration = () => {
+export const finishAgentRegistration = (after) => {
     API.get({
         url: API.AGENT,
         success: (agent) => {
@@ -22,12 +24,14 @@ export const finishAgentRegistration = () => {
                 $notifications.addNotification("Registration Completed!", "Great!", "success");
             }
             fillEmptyAgentSettings();
-        }
+            forgetInvite();
+            $ui.dropFormCache(FORM_NAMES.RegistrationAgentForm);
+            $ui.dropFormCache(FORM_NAMES.RegistrationCounterpartyForm);
+            $personal.$setRegistrationAgentForm({});
+            $personal.setRegistrationCounterpartyForm({});
+        },
+        after
     });
-
-    forgetInvite();
-    $personal.$setRegistrationAgentForm({});
-    $personal.setRegistrationCounterpartyForm({});
 };
 
 @observer
@@ -40,6 +44,7 @@ class RegistrationAgent extends React.Component {
             "position": "",
             "agencyName": ""
         },
+        loading: false,
         childAgencyRegistrationInfo: {},
         invitationCode: null
     };
@@ -47,6 +52,7 @@ class RegistrationAgent extends React.Component {
     submit = (values) => {
         $personal.$setRegistrationAgentForm(values);
         if (this.state.invitationCode) {
+            this.setState({ loading: true });
             let url = API.AGENT_REGISTER;
             let body = {
                 registrationInfo: {
@@ -73,13 +79,12 @@ class RegistrationAgent extends React.Component {
                 url,
                 body,
                 success: () => {
-                    finishAgentRegistration();
+                    finishAgentRegistration(() => this.setState({ loading: false}));
                     redirect("/");
                 },
                 error: error => {
                     $notifications.addNotification(error?.title || error?.detail);
-                    if (error && !(error?.title || error?.detail))
-                        redirect("/");
+                    this.setState({ loading: false});
                 }
             });
         } else
@@ -110,18 +115,22 @@ class RegistrationAgent extends React.Component {
     render() {
         let { t } = useTranslation();
 
+        if ($personal.information?.email)
+            return <NotFoundPage />;
+
         const { childAgencyRegistrationInfo, invitationCode, initialValues } = this.state;
 
         return (
 
 <div className="account block" style={{ backgroundImage: `url(/images/bg04.svg)`}}>
     <BasicHeader />
+    { this.state.loading && <Loader page /> }
     <section className="section">
         <div>
             <Breadcrumbs
                 items={[
                     {
-                        text: t("Log In"),
+                        text: t("Sign In"),
                         link: "/logout"
                     }, {
                         text: t("Registration"),
@@ -140,6 +149,7 @@ class RegistrationAgent extends React.Component {
             </div>
 
             <CachedForm
+                id={FORM_NAMES.RegistrationAgentForm}
                 initialValues={initialValues}
                 enableReinitialize
                 validationSchema={

@@ -43,7 +43,7 @@ import termsPage                          from "pages/common/terms";
 import privacyPage                        from "pages/common/privacy";
 import aboutUsPage                        from "pages/common/about";
 
-import errorPage                          from "pages/common/error";
+import NotFoundPage                       from "pages/common/not-found-page";
 
 export const routesWithHeaderAndFooter = [
     "/",
@@ -112,7 +112,7 @@ const Routes = () => (
     <Route path="/privacy"                          component={privacyPage} title="Privacy Policy" />
     <Route path="/about"                            component={aboutUsPage} title="About Us" />
 
-    <Route  component={errorPage} />
+    <Route component={NotFoundPage} />
 </Switch>
 );
 
