@@ -144,48 +144,49 @@ export default class AgentPermissionsManagement extends React.Component {
                     </button>}
                 </div> }
 
-                <h2>{t("Permissions")}</h2>
+                { $personal.permitted("PermissionManagement") && <>
+                    <h2>{t("Permissions")}</h2>
+                    <div>
+                        <Formik
+                            onSubmit={this.submit}
+                            initialValues={{
+                                ...permissionsList.reduce((obj, key) => (
+                                    {...obj, [key]: inAgencyPermissions.includes(key)}),
+                                {})
+                            }}
+                            enableReinitialize
+                        >
+                            {formik => (
+                                <form onSubmit={formik.handleSubmit}>
+                                    <div className="form">
+                                        <div className="permissions">
+                                            {permissionsList.map(key => (
+                                                <div className="row" key={key}>
+                                                    <FieldSwitch formik={formik}
+                                                                 id={key}
+                                                                 label={generateLabel(key)}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
 
-                <div>
-                    <Formik
-                        onSubmit={this.submit}
-                        initialValues={{
-                            ...permissionsList.reduce((obj, key) => (
-                                {...obj, [key]: inAgencyPermissions.includes(key)}),
-                            {})
-                        }}
-                        enableReinitialize
-                    >
-                        {formik => (
-                            <form onSubmit={formik.handleSubmit}>
-                                <div className="form">
-                                    <div className="permissions">
-                                        {permissionsList.map(key => (
-                                            <div className="row" key={key}>
-                                                <FieldSwitch formik={formik}
-                                                             id={key}
-                                                             label={generateLabel(key)}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="row controls">
-                                        <div className="field">
-                                            <div className="label"/>
-                                            <div className="inner">
-                                                <button type="submit" className={"button button-controls" +
-                                                __class(!formik.dirty, "disabled")}>
-                                                    {t("Save changes")}
-                                                </button>
+                                        <div className="row controls">
+                                            <div className="field">
+                                                <div className="label"/>
+                                                <div className="inner">
+                                                    <button type="submit" className={"button button-controls" +
+                                                    __class(!formik.dirty, "disabled")}>
+                                                        {t("Save changes")}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
-                        )}
-                    </Formik>
-                </div>
+                                </form>
+                            )}
+                        </Formik>
+                    </div>
+                </> }
 
 
                 { $personal.permitted("MarkupManagement") &&

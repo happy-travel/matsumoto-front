@@ -4,7 +4,7 @@ import { API } from "core";
 import { price } from "simple";
 import { CachedForm, FieldSelect, FieldText } from "components/form";
 import { transferBalanceValidator } from "components/form/validation";
-import { $notifications } from "stores";
+import { $notifications, $personal } from "stores";
 
 const generateOptions = (accounts) =>
     accounts.map(item => (
@@ -32,6 +32,9 @@ const ChildAgencyTransferBalancePart = ({
             }
         });
     };
+
+    if (!$personal.permitted("AgencyToChildTransfer"))
+        return null;
 
     return (
         <div>
