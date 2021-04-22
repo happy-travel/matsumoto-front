@@ -20,7 +20,7 @@ translations: {
     "Agent Information": "معلومات المستخدم",
     "Company Information": "معلومات الشركة",
     "Already have an account?": "هل لديك حساباً؟",
-    "Log In Here.": "لتسجيل الدخول اضغط هنا",
+    "Log In Here": "لتسجيل الدخول اضغط هنا",
     "Password complexity": "درجة تعقيد كلمة المرور",
     "One lowercase character": "حرف واحد من الحروف الصغيرة",
     "One uppercase character": "حرف واحد من الحروف الكبيرة",

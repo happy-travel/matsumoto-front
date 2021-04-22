@@ -92,7 +92,7 @@ class InvitationSendPage extends React.Component {
                 </button>
             </div> }
             { false === this.state.success && <p>
-                {t("Invite someone to create a free Happytravel.com account and start booking today.")}<br/>
+                {t("Invite someone to create a free Happytravel.com account and start booking today")}<br/>
                 <br/>
             </p> }
 

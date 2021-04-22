@@ -1,0 +1,47 @@
+@import "../global.sass"
+@import "../main.sass"
+@import "../block/account"
+@import "password-validator"
+
+.account.block
+    .label.with-actions
+        display: flex
+        justify-content: space-between
+        padding-right: 27px
+        .link
+            color: $color-blue
+            border-bottom: 0
+        @include phone
+            span:last-child
+                display: none
+    .error-field
+        color: $color-red
+        line-height: 19px
+        ul
+            padding-left: 24px
+            li
+                list-style-type: disc
+                margin-bottom: 4px
+                &:first-child
+                    padding-top: 9px
+                &:last-child
+                    padding-bottom: 9px
+    .auth-input
+        input, textarea
+            border-radius: 25px
+            color: $color-text
+            background: #ffffff
+            border: 1px solid $color-border
+            height: 54px
+            line-height: 16px
+            padding: 0 27px
+            position: relative
+            display: flex
+            &:focus
+                border-color: $color-brand
+        textarea
+            width: 100%
+            height: 120px
+            padding-top: 20px
+            resize: none
+            font-size: 11px

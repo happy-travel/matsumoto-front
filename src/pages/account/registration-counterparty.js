@@ -59,8 +59,8 @@ class RegistrationCounterparty extends React.Component {
                             Company Information
                         </h2>
                         <div className="paragraph">
-                            Create a free Happytravel.com account and start booking today.<br/>
-                            Already have an account? <Link to="/logout" className="link">Log In Here.</Link>
+                            Create a free Happytravel.com account and start booking today<br/>
+                            Already have an account? <Link to="/logout" className="link">Log In Here</Link>
                         </div>
 
                         <CachedForm
@@ -184,7 +184,7 @@ class RegistrationCounterparty extends React.Component {
                                         </div>
                                     </div>
                                     <div className="paragraph" style={{ paddingLeft: 0 }}>
-                                        By clicking this button, you agree with <Link to="/terms" className="link">HappyTravel’s Terms of Use.</Link>
+                                        By clicking this button, you agree with <Link to="/terms" className="link">HappyTravel’s Terms of Use</Link>
                                     </div>
                                 </div>
                             )}
