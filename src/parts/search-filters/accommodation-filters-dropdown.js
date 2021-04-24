@@ -6,7 +6,7 @@ import { HotelStars } from "components/accommodation";
 import { searchLoadWithNewFilters } from "tasks/accommodation/search-loaders";
 import { $accommodation, $view } from "stores";
 
-const AccommodationFiltersDropdown = observer(() => {
+const AccommodationFiltersDropdown = observer(({ close }) => {
     const { t } = useTranslation();
     const { search, hotelArray, filtersLine } = $accommodation;
     const { filters } = search;
@@ -23,7 +23,7 @@ const AccommodationFiltersDropdown = observer(() => {
             initialValues={selected || {}}
             render={formik => (
                 <div className="filters dropdown">
-                    <div className="close-button" onClick={() => $view.setOpenDropdown(null)}>
+                    <div className="close-button" onClick={close}>
                         <span className="icon icon-close" />
                     </div>
 

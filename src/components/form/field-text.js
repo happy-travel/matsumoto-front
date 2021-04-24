@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { getIn } from "formik";
 import { observer } from "mobx-react";
 import { getLocale } from "core";
-import { decorate } from "simple";
-import { $view } from "stores";
+import { decorate, useDropdown } from "simple";
 
 const FieldText = observer(({
     label,
@@ -30,7 +29,6 @@ const FieldText = observer(({
     autoComplete,
     onChange,
     onClear,
-    dataDropdown,
     noInput,
     onFocusChanged
 }) => {
@@ -38,6 +36,13 @@ const FieldText = observer(({
     const [optionIndex, setOptionIndex] = useState(null);
     const [everTouched, setEverTouched] = useState(false);
     const [everChanged, setEverChanged] = useState(false);
+
+    const refElement = useRef(null);
+    const refDropdown = useRef(null);
+    let dropdownOpen, toggleDropdown;
+    if (Dropdown) {
+        [dropdownOpen, toggleDropdown] = useDropdown(refElement, refDropdown);
+    }
 
     const setFocused = (newValue, onlyStyles) => {
         setFocusedState(newValue);
@@ -47,7 +52,7 @@ const FieldText = observer(({
 
     const focus = useCallback(() => {
         if (Dropdown) {
-            $view.setOpenDropdown(id);
+            toggleDropdown(true);
             setOptionIndex(null);
         }
         setFocused(true);
@@ -61,12 +66,6 @@ const FieldText = observer(({
         if (!Dropdown)
             setFocused(false);
     }, [suggestion]);
-
-    if (Dropdown)
-        useEffect(() => {
-            if (focused && !$view.openDropdown)
-                setFocused(false);
-        }, [$view.openDropdown]);
 
     const onKeyDown = (event) => {
         if (!Dropdown || !options?.length) return;
@@ -84,7 +83,7 @@ const FieldText = observer(({
                     event.preventDefault();
                     setValue(optionIndex !== null ? options[optionIndex] : suggestion?.value, false);
                     setFocused(false, true);
-                    $view.setOpenDropdown(null);
+                    toggleDropdown(false);
                 }
                 break;
             case "ArrowUp":
@@ -110,7 +109,7 @@ const FieldText = observer(({
             formik.setFieldValue(id, "");
             formik.setFieldTouched(id, false);
             if (Dropdown)
-                $view.setOpenDropdown(null);
+                toggleDropdown(false);
             if (additionalFieldForValidation)
                 formik.setFieldValue(additionalFieldForValidation, false);
         }
@@ -120,7 +119,7 @@ const FieldText = observer(({
 
     const changing = useCallback((event) => {
         if (Dropdown) {
-            $view.setOpenDropdown(id);
+            toggleDropdown(true);
             setOptionIndex(null);
         }
         if (numeric)
@@ -142,7 +141,7 @@ const FieldText = observer(({
         if (setValue)
             setValue(...params);
         setFocused(false, true);
-        $view.setOpenDropdown(null);
+        toggleDropdown(false);
     };
 
     const isFieldTouched = getIn(formik?.touched, id);
@@ -155,14 +154,14 @@ const FieldText = observer(({
 
     let errorText = getIn(formik?.errors, id);
     let additionalFieldError = additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation);
-    if (Dropdown && $view.isDropdownOpen(id)) {
+    if (Dropdown && dropdownOpen) {
         errorText = "";
         additionalFieldError = "";
     }
 
     // todo: short search destination field workaround. rewrite in future
     if (noInput == "destination") {
-        if ($view.isDropdownOpen(id)) {
+        if (dropdownOpen) {
             noInput = false;
         } else {
             value = true;
@@ -191,15 +190,14 @@ const FieldText = observer(({
             className={
                 "field" +
                 __class(className) +
-                __class(Dropdown ? $view.isDropdownOpen(id) : focused, "focus") +
+                __class(Dropdown ? dropdownOpen : focused, "focus") +
                 __class(disabled, "disabled") +
                 __class(noInput, "no-input") +
                 __class(((errorText || additionalFieldError) && isFieldTouched), "error") +
                 __class(!errorText && finalValue, "valid")
             }
-            data-dropdown={dataDropdown || id}
         >
-            <label onClick={noInput ? focus : null}>
+            <label onClick={noInput ? focus : null} ref={refElement}>
                 { label &&
                     <div className="label">
                         <span className={__class(required, "required")}>{label}</span>
@@ -262,7 +260,7 @@ const FieldText = observer(({
                 }
             </label>
             { !!Dropdown &&
-                <div className={__class(!$view.isDropdownOpen(id), "hide")}>
+                <div hidden={!dropdownOpen} ref={refDropdown}>
                     <Dropdown
                         formik={formik}
                         connected={id}
@@ -270,6 +268,7 @@ const FieldText = observer(({
                         value={fieldValue}
                         options={options}
                         focusIndex={optionIndex}
+                        close={() => toggleDropdown(false)}
                     />
                 </div>
             }

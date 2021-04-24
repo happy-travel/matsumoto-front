@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useRef} from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { searchLoadWithNewFilters } from "tasks/accommodation/search-loaders";
 import { atLeastOne } from "tasks/utils/accommodation-filtering";
 import AccommodationFiltersDropdown from "./accommodation-filters-dropdown";
+import { useDropdown } from "simple";
 import { HOTEL_STARS } from "enum";
-import { $accommodation, $view } from "stores";
-
-const dropdownId = "filters";
+import { $accommodation } from "stores";
 
 const AccommodationSearchFilters = observer(({ update }) => {
     const { selected } = $accommodation;
     const { filters } = selected;
+    const refElement = useRef(null);
+    const refDropdown = useRef(null);
+    const [dropdownOpen, toggleDropdown] = useDropdown(refElement, refDropdown);
 
     const removeFilter = (item) => {
         const newFilters = JSON.parse(JSON.stringify(filters));
@@ -23,16 +25,19 @@ const AccommodationSearchFilters = observer(({ update }) => {
     const { t } = useTranslation();
     return (
         <>
-            <div className="item" data-dropdown={dropdownId}>
+            <div className="item" ref={refElement}>
                 <div
                     className="button leading-icon"
-                    onClick={() => $view.setOpenDropdown(dropdownId)}
+                    onClick={toggleDropdown}
                 >
                     <span className="icon icon-filters" /> {t("Filters")}
                 </div>
 
-                { $view.isDropdownOpen(dropdownId) &&
-                    <AccommodationFiltersDropdown />
+                { dropdownOpen &&
+                    <AccommodationFiltersDropdown
+                        close={() => toggleDropdown(false)}
+                        ref={refDropdown}
+                    />
                 }
             </div>
             { !!filters && <>

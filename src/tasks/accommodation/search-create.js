@@ -7,8 +7,6 @@ import { searchFormFormatter } from "./search-form-formatter";
 import { $accommodation, $personal, $view } from "stores";
 
 export const searchCreate = (values) => {
-    $view.setOpenDropdown(null);
-
     if (!$personal.permitted("AccommodationAvailabilitySearch"))
         return $view.setModal(MODALS.READ_ONLY);
 

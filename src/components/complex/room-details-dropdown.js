@@ -49,7 +49,6 @@ const
             ("rooms" != field && currentPeople == MAXIMUM_PEOPLE_PER_REQUEST)
         )) {
             $view.setModal(MODALS.SEARCH_OVERLOAD);
-            $view.setOpenDropdown(null);
             return;
         }
 
@@ -144,7 +143,6 @@ class PeopleDropdown extends React.Component {
                                                                 id={`roomDetails.${number}.childrenAges.${r}`}
                                                                 placeholder="12"
                                                                 maxLength={2}
-                                                                dataDropdown="room"
                                                                 numeric
                                                             />
                                                             <div

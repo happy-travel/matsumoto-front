@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { getIn } from "formik";
 import { observer } from "mobx-react";
-import { $view } from "stores";
 
 const FieldTextarea = observer(({
     label,
@@ -10,8 +9,7 @@ const FieldTextarea = observer(({
     id,
     disabled,
     required,
-    formik,
-    dataDropdown
+    formik
 }) => {
     const [focused, setFocused] = useState(false);
     const [everTouched, setEverTouched] = useState(false);
@@ -57,7 +55,6 @@ const FieldTextarea = observer(({
                 __class(errorText && isFieldTouched, "error") +
                 __class(!errorText && fieldValue, "valid")
             }
-            data-dropdown={dataDropdown || id}
         >
             <label>
                 { label &&
@@ -83,7 +80,7 @@ const FieldTextarea = observer(({
                         </span>
                     }
                 </div>
-                { (errorText?.length > 1 && isFieldTouched && !$view.isDropdownOpen(id)) &&
+                { errorText?.length > 1 && isFieldTouched &&
                     <div className={
                         "error-holder" +
                         __class(!everTouched || !everChanged || focused, "possible-hide")

@@ -3,16 +3,15 @@ import React from "react";
 import { isPageAvailableAuthorizedOnly, authSetToStorage, isSignUpRoutes } from "core/auth";
 import { API } from "core";
 import { initInvite } from "core/auth/invite";
-import dropdownToggler from "components/form/dropdown/toggler";
 import { loadAgentSettings } from "simple/logic";
-import { APR_VALUES, SEARCH_STATUSES } from "enum";
-import { $ui, $personal, $accommodation, $notifications } from "stores";
+import { searchCheckAndFix } from "tasks/accommodation/search-init-fix";
+import { APR_VALUES } from "enum";
+import { $ui, $personal, $notifications } from "stores";
 
 export const initApplication = () => {
     initInvite();
-    dropdownToggler();
     initHeader();
-    checkSearch();
+    searchCheckAndFix();
 };
 
 export const initAgent = () => {
@@ -72,16 +71,6 @@ export const initAgent = () => {
             $ui.setCurrentAPIVersion(result)
         }
     });
-};
-
-const checkSearch = () => {
-    if (!$accommodation?.search)
-        return;
-    const { search } = $accommodation;
-    if (search.loading)
-        $accommodation.setSearchIsLoading(false);
-    if (SEARCH_STATUSES.STARTED === search.taskState)
-        $accommodation.updateSearchResultStatus({ taskState: SEARCH_STATUSES.BROKEN });
 };
 
 const initHeader = () => {

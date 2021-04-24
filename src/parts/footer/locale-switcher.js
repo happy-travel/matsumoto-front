@@ -1,33 +1,34 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { Flag } from "components/simple";
+import { useDropdown } from "simple";
 import { setLocale } from "core";
-import { $view } from "stores";
-
-const dropdownId = "LocaleSwitcherDropdown";
 
 const LocaleSwitcherDropdown = observer(() => {
     const { t } = useTranslation();
+    const refElement = useRef(null);
+    const refDropdown = useRef(null);
+    const [dropdownOpen, toggleDropdown] = useDropdown(refElement, refDropdown);
 
     const selectLocale = (locale) => {
-        $view.setOpenDropdown(null);
         setLocale(locale);
     };
 
     return (
-        <div
-            className={"switcher" + __class($view.isDropdownOpen(dropdownId), "open")}
-            data-dropdown={dropdownId}
-            onClick={() => $view.setOpenDropdown(dropdownId)}
-        >
-            <div>
-                <span className="icon icon-locale-switcher" />
+        <>
+            <div
+                className={"switcher" + __class(dropdownOpen, "open")}
+                onClick={toggleDropdown}
+                ref={refElement}
+            >
+                <div>
+                    <span className="icon icon-locale-switcher" />
+                </div>
+                <div className="name">{t("current_language_name")}</div>
+                <div className="switch-arrow" />
             </div>
-            <div className="name">{t("current_language_name")}</div>
-            <div className="switch-arrow" />
-
-            { $view.isDropdownOpen(dropdownId) &&
+            { dropdownOpen &&
                 <div className="locale dropdown">
                     <div className="line" onClick={() => selectLocale("ar")}>
                         <Flag language="ar" />
@@ -39,7 +40,7 @@ const LocaleSwitcherDropdown = observer(() => {
                     </div>
                 </div>
             }
-        </div>
+        </>
     );
 });
 
