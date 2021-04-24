@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { getIn } from "formik";
 import { observer } from "mobx-react";
 import { getLocale } from "core";
 import { decorate } from "simple";
-import { $ui, $view } from "stores";
+import { $view } from "stores";
 
 const FieldText = observer(({
     label,
@@ -31,14 +31,21 @@ const FieldText = observer(({
     onChange,
     onClear,
     dataDropdown,
-    noInput
+    noInput,
+    onFocusChanged
 }) => {
-    const [focused, setFocused] = useState(false);
+    const [focused, setFocusedState] = useState(false);
     const [optionIndex, setOptionIndex] = useState(null);
     const [everTouched, setEverTouched] = useState(false);
     const [everChanged, setEverChanged] = useState(false);
 
-    const onFocus = useCallback(() => {
+    const setFocused = (newValue, onlyStyles) => {
+        setFocusedState(newValue);
+        if (onFocusChanged)
+            onFocusChanged(newValue, onlyStyles);
+    };
+
+    const focus = useCallback(() => {
         if (Dropdown) {
             $view.setOpenDropdown(id);
             setOptionIndex(null);
@@ -47,12 +54,19 @@ const FieldText = observer(({
     }, []);
 
     const blur = useCallback((event) => {
-        setFocused(false);
         if (formik)
             formik.handleBlur(event);
         if (!everTouched)
             setEverTouched(true);
-    }, []);
+        if (!Dropdown)
+            setFocused(false);
+    }, [suggestion]);
+
+    if (Dropdown)
+        useEffect(() => {
+            if (focused && !$view.openDropdown)
+                setFocused(false);
+        }, [$view.openDropdown]);
 
     const onKeyDown = (event) => {
         if (!Dropdown || !options?.length) return;
@@ -63,15 +77,14 @@ const FieldText = observer(({
         if (!scroll?.length)
             return;
 
-        const suggestion = $ui.suggestions[id]?.suggestionObject;
-
         switch (event.key) {
             case "Enter":
             case "ArrowRight":
-                if (optionIndex !== null || suggestion) {
+                if (optionIndex !== null || suggestion?.value) {
                     event.preventDefault();
-                    setValue(formik, id, optionIndex !== null ? options[optionIndex] : suggestion, false);
-                    setFocused(false);
+                    setValue(optionIndex !== null ? options[optionIndex] : suggestion?.value, false);
+                    setFocused(false, true);
+                    $view.setOpenDropdown(null);
                 }
                 break;
             case "ArrowUp":
@@ -91,7 +104,7 @@ const FieldText = observer(({
                     scrollElem.scrollTo(0, 0);
                 }
                 if (setValue)
-                    setValue(formik, id, options[optionIndex], true);
+                    setValue(options[optionIndex], true);
                 break;
             default:
                 return;
@@ -131,15 +144,37 @@ const FieldText = observer(({
             setEverChanged(true);
     },[]);
 
-    const errorText = getIn(formik?.errors, id);
+    const dropdownSetValue = (...params) => {
+        if (setValue)
+            setValue(...params);
+        setFocused(false, true);
+        $view.setOpenDropdown(null);
+    };
+
     const isFieldTouched = getIn(formik?.touched, id);
     const fieldValue = getIn(formik?.values, id);
 
-    if (suggestion)
-        suggestion = decorate.cutFirstPart(suggestion, fieldValue);
-
+    let suggestionText = decorate.cutFirstPart(suggestion?.text, fieldValue);
     /* todo: Remove this workaround when server rtl suggestions works correct */
-    var isSuggestionVisible = getLocale() != "ar";
+    if (getLocale() == "ar")
+        suggestionText = "";
+
+    let errorText = getIn(formik?.errors, id);
+    let additionalFieldError = additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation);
+    if (Dropdown && $view.isDropdownOpen(id)) {
+        errorText = "";
+        additionalFieldError = "";
+    }
+
+    // todo: short search destination field workaround. rewrite in future
+    if (noInput == "destination") {
+        if ($view.isDropdownOpen(id)) {
+            noInput = false;
+        } else {
+            value = true;
+            ValueObject = formik.values.destination;
+        }
+    }
 
     if (ValueObject !== undefined) {
         if (ValueObject)
@@ -148,10 +183,7 @@ const FieldText = observer(({
             ValueObject = <div className="value-object placeholder">{placeholder}</div>;
     }
 
-    if (formik && !suggestion)
-        suggestion = $ui.getSuggestion(id, fieldValue);
-
-    var finalValue = "";
+    let finalValue = "";
     if (!ValueObject) {
         finalValue = value || (formik?.values ? fieldValue : "");
         if (finalValue === 0)
@@ -165,19 +197,15 @@ const FieldText = observer(({
             className={
                 "field" +
                 __class(className) +
-                __class(focused || $view.isDropdownOpen(id), "focus") +
+                __class(Dropdown ? $view.isDropdownOpen(id) : focused, "focus") +
                 __class(disabled, "disabled") +
                 __class(noInput, "no-input") +
-                __class((
-                (errorText ||
-                (additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation))) &&
-                isFieldTouched),
-                    "error") +
+                __class(((errorText || additionalFieldError) && isFieldTouched), "error") +
                 __class(!errorText && finalValue, "valid")
             }
             data-dropdown={dataDropdown || id}
         >
-            <label onClick={noInput ? onFocus : null}>
+            <label onClick={noInput ? focus : null}>
                 { label &&
                     <div className="label">
                         <span className={__class(required, "required")}>{label}</span>
@@ -195,7 +223,7 @@ const FieldText = observer(({
                                 name={id}
                                 type={ password ? "password" : "text" }
                                 placeholder={ !ValueObject ? placeholder : "" }
-                                onFocus={onFocus}
+                                onFocus={focus}
                                 onChange={changing}
                                 onBlur={blur}
                                 value={finalValue}
@@ -206,9 +234,9 @@ const FieldText = observer(({
                                 {...(readOnly ? {readOnly: "readonly"} : {})}
                             />
                             {ValueObject}
-                            { isSuggestionVisible && suggestion &&
+                            { suggestionText &&
                                 <div className={"suggestion" + __class(numeric, "solid")}>
-                                    <span>{ fieldValue || value }</span>{ suggestion }
+                                    <span>{ fieldValue || value }</span>{ suggestionText }
                                 </div>
                             }
                         </div> :
@@ -230,7 +258,7 @@ const FieldText = observer(({
                         </div>
                     }
                 </div>
-                { (errorText?.length > 1 && isFieldTouched && !$view.isDropdownOpen(id)) &&
+                { errorText?.length > 1 && isFieldTouched &&
                     <div className={
                         "error-holder" +
                         __class(!everTouched || !everChanged || focused, "possible-hide")
@@ -244,12 +272,7 @@ const FieldText = observer(({
                     <Dropdown
                         formik={formik}
                         connected={id}
-                        setValue={
-                            (...params) => {
-                                if (setValue)
-                                    setValue(...params);
-                                setFocused(false);
-                            }}
+                        setValue={dropdownSetValue}
                         value={fieldValue}
                         options={options}
                         focusIndex={optionIndex}

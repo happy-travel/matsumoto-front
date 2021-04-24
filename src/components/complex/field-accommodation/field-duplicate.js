@@ -1,8 +1,7 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { useState, useEffect } from "react";
 import { FieldText } from "components/form";
 import DuplicateDropdown from "./dropdown-duplicate";
-import { $view, $accommodation } from "stores";
+import { $accommodation, $view } from "stores";
 
 const checkMatch = (accommodation , value) => {
     var str = [
@@ -21,46 +20,53 @@ const checkMatch = (accommodation , value) => {
     return false;
 };
 
-const setList = event => {
-    var result = $accommodation.hotelArray.filter(item => item.accommodation.id != $view.modalData?.accommodation?.id);
-    if (event?.target?.value)
-        result = result.filter(item => checkMatch(item, event.target.value));
-    $view.setDestinations(result);
-};
+const FieldDuplicate = ({
+    formik,
+    id,
+    label,
+    placeholder,
+}) => {
+    const [destinationsList, setDestinationsList] = useState([]);
 
-@observer
-class FieldDuplicate extends React.Component {
-    componentDidMount() {
+    useEffect(() => {
         setList();
-    }
+    }, []);
 
-    inputChanged = (event) => {
-        this.props.formik.setFieldValue("id", null);
+    const inputChanged = (event) => {
+        formik.setFieldValue("id", null);
         setList(event);
     };
 
-    render() {
-        const {
-            formik,
-            id,
-            label,
-            placeholder,
-        } = this.props;
+    const setList = event => {
+        let result = $accommodation.hotelArray.filter(item => item.accommodation.id != $view.modalData?.accommodation?.id);
+        if (event?.target?.value)
+            result = result.filter(item => checkMatch(item, event.target.value));
+        setDestinationsList(result);
+    };
 
-        return (
-            <FieldText formik={formik}
-                       id={id}
-                       label={label}
-                       additionalFieldForValidation="id"
-                       placeholder={placeholder}
-                       Icon={<span className="icon icon-search-location" />}
-                       Dropdown={DuplicateDropdown}
-                       options={$view.destinations}
-                       onChange={this.inputChanged}
-                       clearable
-            />
-        );
-    }
-}
+    const setValue = (item) => {
+        setTimeout(() => {
+            formik.setFieldValue("source", item.supplier);
+            formik.setFieldValue("name", item.accommodation.name);
+            formik.setFieldValue("id", item.accommodation.id);
+        }, 0);
+    };
+
+    return (
+        <FieldText
+            formik={formik}
+            id={id}
+            label={label}
+            additionalFieldForValidation="id"
+            placeholder={placeholder}
+            Icon={<span className="icon icon-search-location" />}
+            Dropdown={DuplicateDropdown}
+            options={destinationsList}
+            onChange={inputChanged}
+            setValue={setValue}
+            clearable
+        />
+    );
+};
 
 export default FieldDuplicate;

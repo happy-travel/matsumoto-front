@@ -2,7 +2,7 @@ import React from "react";
 import FieldDestination from "components/complex/field-destination";
 import { FieldDatepicker, FieldText } from "components/form";
 import { useTranslation } from "react-i18next";
-import PeopleDropdown from "components/form/dropdown/room-details-dropdown";
+import PeopleDropdown from "components/complex/room-details-dropdown";
 import { countPassengers } from "simple/logic";
 import FieldCountry from "components/complex/field-country";
 

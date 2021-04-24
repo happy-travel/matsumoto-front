@@ -1,35 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { FieldText } from "components/form";
 import CountryDropdown from "./dropdown-country";
 import { Flag } from "components/simple";
 import { API } from "core";
-import { $view, $ui } from "stores";
+import { $ui } from "stores";
 
-const codeField = field => field + "Code";
-
-const setCountrySuggestions = value => {
-    const newGroupedCountries = value.reduce(function (r, a) {
-        r[a.regionId] = r[a.regionId] || [];
-        r[a.regionId].push(a);
-        return r;
-    }, Object.create(null));
-    let countries = [];
-    $ui.regions?.forEach(region => {
-        if (newGroupedCountries[region.id]) {
-            countries = countries.concat(newGroupedCountries[region.id].sort((a, b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            }));
-        }
-    });
-    $view.setCountries(countries);
-};
+const getCodeFieldId = (field) => field + "Code";
 
 const FieldCountry = observer(({
     formik,
@@ -41,38 +18,86 @@ const FieldCountry = observer(({
     clearable,
     required
 } ) => {
-    let throttle;
-    const inputChanged = (event, formik, id) => {
-        formik.setFieldValue(codeField(id), "");
+    const [options, setOptions] = useState([]);
+    const [suggestion, setSuggestion] = useState(null);
 
-        var query = event.target.value;
-        if (!query)
-            return setCountrySuggestions([]);
+    const setCountryPredictions = (newOptions) => {
+        let countries = [];
+        if (newOptions) {
+            const newGroupedCountries = newOptions.reduce(
+                (r, a) => {
+                    r[a.regionId] = r[a.regionId] || [];
+                    r[a.regionId].push(a);
+                    return r;
+                },
+                Object.create(null)
+            );
+            $ui.regions?.forEach(region => {
+                if (newGroupedCountries[region.id]) {
+                    countries = countries.concat(newGroupedCountries[region.id].sort((a, b) => {
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        return 0;
+                    }));
+                }
+            });
+        }
+        setOptions(countries);
+    };
+
+    const setCountrySuggestion = (newOptions, value) => {
+        if (newOptions?.length) {
+            const prediction = newOptions.find(item => item.name.toLowerCase().indexOf(value.toLowerCase()) == 0);
+            if (prediction) {
+                setSuggestion({text: prediction.name, value: prediction});
+                return;
+            }
+        }
+        setSuggestion(null);
+    };
+
+    const setCountryPredictionsAndSuggestion = (newOptions, value) => {
+        setCountryPredictions(newOptions);
+        setCountrySuggestion(newOptions, value);
+    };
+
+    let throttle;
+    const inputChanged = (event) => {
+        const currentValue = event.target.value.trim();
+
+        formik.setFieldValue(getCodeFieldId(id), "");
+
+        if (!currentValue) {
+            setCountryPredictionsAndSuggestion(null);
+            return;
+        }
 
         clearTimeout(throttle);
         throttle = setTimeout(() => {
             API.get({
                 url: API.COUNTRIES_PREDICTION,
-                body: { query },
-                after: data => {
-                    setCountrySuggestions(data || []);
-                }
+                body: { query: currentValue },
+                after: (data) => setCountryPredictionsAndSuggestion(data, event.target.value.trim())
             });
         }, 200);
     };
     
-    const setValue = (formik, connected, country, silent) => {
+    const setValue = (country, silent) => {
         if (silent)
             return;
 
-        setCountrySuggestions([]);
+        setCountryPredictionsAndSuggestion(null);
 
-        formik.setFieldValue(connected, country.name);
-        formik.setFieldValue(codeField(connected), country.code);
+        formik.setFieldValue(id, country.name);
+        formik.setFieldValue(getCodeFieldId(id), country.code);
         if (anotherField)
-            if (!formik.values[codeField(anotherField)]) {
+            if (!formik.values[getCodeFieldId(anotherField)]) {
                 formik.setFieldValue(anotherField, country.name);
-                formik.setFieldValue(codeField(anotherField), country.code);
+                formik.setFieldValue(getCodeFieldId(anotherField), country.code);
             }
     };
 
@@ -80,18 +105,23 @@ const FieldCountry = observer(({
         <FieldText
             formik={formik}
             id={id}
-            additionalFieldForValidation={codeField(id)}
+            additionalFieldForValidation={getCodeFieldId(id)}
             label={label}
             placeholder={placeholder}
-            Icon={formik.values[codeField(id)] ? <Flag code={formik.values[codeField(id)]} /> : null}
+            Icon={
+                formik.values[getCodeFieldId(id)] ?
+                    <Flag code={formik.values[getCodeFieldId(id)]} /> :
+                    null
+            }
             Dropdown={CountryDropdown}
             onChange={inputChanged}
-            options={$view.countries}
+            options={options}
             setValue={setValue}
-            onClear={() => formik.setFieldValue(codeField(id), "")}
-            className={className}
+            onClear={() => formik.setFieldValue(getCodeFieldId(id), "")}
+            className={"capitalize " + className}
             clearable={clearable}
             required={required}
+            suggestion={suggestion}
         />
     );
 });

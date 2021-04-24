@@ -6,11 +6,8 @@ import { MODALS } from "enum/modals-enum";
 import { searchFormFormatter } from "./search-form-formatter";
 import { $accommodation, $personal, $view } from "stores";
 
-export const searchCreate = (values, formik) => {
+export const searchCreate = (values) => {
     $view.setOpenDropdown(null);
-
-    if (values.predictionDestination != values.destination)
-        formik.setFieldValue("destination", values.predictionDestination);
 
     if (!$personal.permitted("AccommodationAvailabilitySearch"))
         return $view.setModal(MODALS.READ_ONLY);
@@ -18,7 +15,7 @@ export const searchCreate = (values, formik) => {
     const body = searchFormFormatter(values);
     $accommodation.setNewSearchRequest({
         ...body,
-        destination: values.predictionDestination,
+        destination: values.destination,
         adultsTotal: countPassengers(values, "adultsNumber"),
         childrenTotal: countPassengers(values, "childrenNumber")
     });

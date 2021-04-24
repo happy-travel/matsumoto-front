@@ -14,13 +14,6 @@ class UIStore {
     currencies = [];
 
     @observable
-    suggestions = {
-        "destination": null,
-        "nationality": null,
-        "residency": null
-    };
-
-    @observable
     @setter
     ourCompanyInfo = ourCompanyInfoDefault;
 
@@ -33,24 +26,6 @@ class UIStore {
 
     constructor() {
         autosave(this, "_ui_store_cache");
-    }
-
-    getSuggestion(field, value = "") {
-        if (this.suggestions?.[field]?.suggestion &&
-            value.trim() == (this.suggestions[field]?.value || "").trim())
-            return decorate.cutFirstPart(this.suggestions[field].suggestion, value);
-
-        return null;
-    }
-
-    setSuggestion(field, value, suggestion, option) {
-        if (value && suggestion) {
-            this.suggestions[field] = { value, suggestion, suggestionObject: option };
-            return;
-        }
-
-        if (this.suggestions[field])
-            this.suggestions[field] = null;
     }
 
     setRegions(value) {

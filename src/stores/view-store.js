@@ -1,18 +1,9 @@
 import { observable } from "mobx";
 import { MODALS } from "enum/modals-enum";
-import setter from "core/mobx/setter";
 
 class ViewStore {
     @observable
     openDropdown = null;
-
-    @observable
-    @setter
-    countries = [];
-
-    @observable
-    @setter
-    destinations = [];
 
     @observable
     modal = null;

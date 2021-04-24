@@ -2,63 +2,57 @@
     border: 1px solid $color-border
     border-radius: 50px
     width: auto
-    display: inline-flex
-    & > .row
-        padding-left: 220px
-        margin-bottom: 0
+    transition: border-color 0.3s ease-in-out
+    position: relative
+    flex-direction: row
+    justify-content: center
+    &>.field
+        position: static
+        min-width: 0
+        margin-right: 0
+        padding: 0 15px 0 15px
+        flex-grow: 0
+        &:nth-child(3)
+            padding-right: 7px
+            min-width: 110px
+        &:nth-child(4)
+            padding-right: 12px
+            min-width: 71px
+        &+.field
+            background: url("../images/separator.svg") left center no-repeat
+        &>label
+            .input
+                padding: 0
+                margin-right: 0
+                border: 0
+                height: 46px
+                line-height: 44px
+                &:first-child
+                    border-top-left-radius: 25px
+                    border-bottom-left-radius: 25px
+        input, .suggestion
+            text-overflow: ellipsis
+    .button-holder
+        max-width: 47px
+        min-width: 47px
+        padding: 0
+        background: none !important
+    .main.button
+        width: 34px
+        height: 34px
+        padding: 0
+        margin: 6px 8px 0 6px
+    .overall
         position: relative
-        &>.field
-            position: static
-            min-width: 0
-            margin-right: 0
-            padding: 0 15px 0 15px
-            &:nth-child(3)
-                padding-right: 7px
-                min-width: 110px
-            &:nth-child(4)
-                padding-right: 12px
-                min-width: 71px
-            &+.field
-                background: url("../images/separator.svg") left center no-repeat
-            &>label
-                .input
-                    padding: 0
-                    margin-right: 0
-                    border: 0
-                    height: 46px
-                    line-height: 44px
-                    &:first-child
-                        border-top-left-radius: 25px
-                        border-bottom-left-radius: 25px
-            input, .suggestion
-                text-overflow: ellipsis
-        .button-holder
-            max-width: 47px
-            min-width: 47px
-            padding: 0
-            background: none !important
-        .main.button
-            width: 34px
-            height: 34px
-            padding: 0
-            margin: 6px 8px 0 6px
     .overall:not(.focus)
-        position: absolute
-        top: 0
-        left: 0
         max-width: 220px
-        width: 220px
-        padding-left: 17px
-        .suggestion
-            width: 100%
-            overflow: hidden
     .overall.focus
         max-width: none
         position: absolute
         top: -1px
         left: -1px
         right: -1px
-        padding-left: 17px
+        padding-left: 15px
         background: #fff
         z-index: 30
         border-radius: 42px
@@ -81,25 +75,16 @@
         width: 100%
 
     @media (max-width: 670px)
-        & > .row
-            padding-left: 170px
         .overall:not(.focus)
             max-width: 170px
-            width: 170px
 
     @media (max-width: 680px)
-        & > .row
-            padding-left: 170px
         .overall:not(.focus)
             max-width: 170px
-            width: 170px
 
     @media (max-width: 630px)
-        & > .row
-            padding-left: 120px
         .overall:not(.focus)
             max-width: 120px
-            width: 120px
 
     @media (max-width: 580px)
         font-size: 12px !important
