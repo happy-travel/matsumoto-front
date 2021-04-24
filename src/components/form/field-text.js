@@ -89,19 +89,13 @@ const FieldText = observer(({
                 break;
             case "ArrowUp":
             case "ArrowDown":
-                let newIndex = optionIndex === null ? options.length -1 : optionIndex - 1,
-                    possible = newIndex >= 0 && newIndex < options.length,
-                    correction = -100;
+                let newIndex = optionIndex === null ? options.length -1 : optionIndex - 1;
                 if ("ArrowDown" === event.key) {
-                    possible = optionIndex === null || options.length > optionIndex + 1;
                     newIndex = optionIndex === null ? 0 : optionIndex + 1;
-                    correction = -20;
                 }
-                if (possible) {
+                if (newIndex >= 0 && newIndex < options.length) {
                     setOptionIndex(newIndex);
-                    scrollElem.scrollTo(0, scroll[optionIndex]?.offsetTop + correction);
-                } else {
-                    scrollElem.scrollTo(0, 0);
+                    scrollElem.scrollTo(0, scroll[newIndex]?.offsetTop - 20);
                 }
                 if (setValue)
                     setValue(options[optionIndex], true);
