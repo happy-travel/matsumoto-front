@@ -6,12 +6,21 @@
     position: relative
     flex-direction: row
     justify-content: center
-    &>.field
+    max-width: 700px
+    & > .field
         position: static
         min-width: 0
         margin-right: 0
         padding: 0 15px 0 15px
         flex-grow: 0
+        text-align: center
+        .dropdown
+            text-align: left
+        &:nth-child(1)
+            .value-object
+                text-overflow: ellipsis
+        &:nth-child(2)
+            flex-grow: 1
         &:nth-child(3)
             padding-right: 7px
             min-width: 110px
@@ -20,7 +29,7 @@
             min-width: 71px
         &+.field
             background: url("../images/separator.svg") left center no-repeat
-        &>label
+        & > label
             .input
                 padding: 0
                 margin-right: 0
@@ -30,8 +39,6 @@
                 &:first-child
                     border-top-left-radius: 25px
                     border-bottom-left-radius: 25px
-        input, .suggestion
-            text-overflow: ellipsis
     .button-holder
         max-width: 47px
         min-width: 47px
@@ -45,7 +52,7 @@
     .overall
         position: relative
     .overall:not(.focus)
-        max-width: 220px
+        max-width: 240px
     .overall.focus
         max-width: none
         position: absolute
@@ -66,14 +73,6 @@
     .date.dropdown
         left: 50%
         transform: translateX(-50%)
-    @include mobile
-        .room-details.dropdown
-            left: 0
-            right: auto
-
-    @include mobile
-        width: 100%
-
     @media (max-width: 670px)
         .overall:not(.focus)
             max-width: 170px
@@ -82,20 +81,33 @@
         .overall:not(.focus)
             max-width: 170px
 
-    @media (max-width: 630px)
-        .overall:not(.focus)
-            max-width: 120px
-
     @media (max-width: 580px)
         font-size: 12px !important
-        .flags
-            .flag
-                margin-right: 0
-            .element
-                font-size: 0
         input, .input, .placeholder, .suggestion
             font-size: 12px !important
-
+        & > .field
+            &:nth-child(1)
+                flex-basis: 0
+                & > label
+                    .icon-wrap
+                        display: block
+                        margin: 0 5px 0 -6px
+            &:nth-child(2)
+                flex-grow: 1
+                min-width: 90px
+            &:nth-child(3)
+                min-width: 70px
+            &:nth-child(4)
+                min-width: 40px
+            & > label
+                .flags
+                    .flag
+                        margin-right: 0
+                    .element
+                        font-size: 0
     @media (max-width: 530px)
-        .icon-wrap
-            display: none
+        & > .field
+            padding: 0 10px
+            & > label
+                .icon-wrap
+                    display: none

@@ -7,7 +7,7 @@ import { getLocale } from "core";
 //};
 
 const shortMonth = (val) => {
-    if ("ar" === getLocale() || (val?.length < 5))
+    if ("ar" === getLocale())
         return val;
     return val.substr(0, 3);
 };

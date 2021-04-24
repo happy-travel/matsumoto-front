@@ -63,7 +63,7 @@ const SearchFormShortPart = ({ formik }) => {
                 ValueObject={generateCountriesValue(formik.values)}
                 value={formik.values.nationalityCode && formik.values.residencyCode}
             />
-            <div className="field button-holder">
+            <div className="button-holder">
                 <button type="submit" className="main button">
                     <span className="icon icon-search-white"/>
                 </button>
