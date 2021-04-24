@@ -1,5 +1,4 @@
-import { API, getLocale } from "core";
-import { switchLocale } from "core/misc/switch-locale";
+import { API, getLocale, setLocale } from "core";
 import { $personal } from "stores";
 
 const settingsCleaner = values => ({
@@ -44,7 +43,7 @@ export const loadAgentSettings = () => {
             if (!Object.keys(result || {}).length)
                 fillEmptyAgentSettings();
             if ("ar" == result.preferredLanguage && !getLocale())
-                switchLocale("ar");
+                setLocale("ar");
         }
     });
 };
@@ -55,8 +54,8 @@ export const saveAgentSettings = (values, after) => {
         body: settingsCleaner(values),
         success: () => {
             $personal.setSettings(values);
-            if ("ar" == result.preferredLanguage && "ar" != getLocale())
-                switchLocale("ar");
+            if ("ar" == values.preferredLanguage && "ar" != getLocale())
+                setLocale("ar");
         },
         after
     });

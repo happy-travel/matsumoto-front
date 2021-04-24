@@ -1,6 +1,6 @@
 import settings from "settings";
 import fetch from "./misc/fetch";
-import getLocale from "./misc/get-locale";
+import { getLocale } from "./misc/locale";
 
 const v1 = settings.edo(getLocale()),
       osaka = settings.osaka,

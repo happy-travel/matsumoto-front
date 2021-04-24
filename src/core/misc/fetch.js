@@ -87,6 +87,10 @@ export default api => {
                 )
                 .then(
                     (result) => {
+                        if (!rawResponse?.status) {
+                            reject(null);
+                            return;
+                        }
                         if ((rawResponse.status == 401) && isPageAvailableAuthorizedOnly()) {
                             Authorize.signinRedirect();
                             reject(null);
