@@ -20,8 +20,19 @@ const FieldSelect = (props) => {
         id,
         options,
         className,
-        value
+        value,
+        setValue
     } = props;
+
+    const select = (item, silent) => {
+        if (silent)
+            return;
+        if (setValue)
+            setValue(item.value);
+        if (formik)
+            formik.setFieldValue(id, item.value);
+  console.log(item);
+    };
 
     const ValueObject = value || getTextByValue(formik, id, options);
 
@@ -32,7 +43,7 @@ const FieldSelect = (props) => {
             className={"select" + __class(className)}
             Dropdown={FieldSelectDropdown}
             ValueObject={ValueObject}
-            readOnly
+            setValue={select}
         />
     );
 };

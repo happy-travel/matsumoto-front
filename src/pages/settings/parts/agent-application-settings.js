@@ -1,12 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import i18n from 'i18next';
+import i18n from "i18next";
 import { Loader, Flag } from "components/simple";
 import { CachedForm, FieldSelect, FieldSwitch, FORM_NAMES } from "components/form";
 import FieldCountry from "components/complex/field-country";
 import { loadAgentSettings, saveAgentSettings } from "simple/logic";
-import { switchLocale } from "core/misc/switch-locale";
+import { setLocale } from "core";
 import { $ui, $personal } from "stores";
 
 @observer
@@ -24,8 +24,8 @@ class AgentApplicationSettings extends React.Component {
         saveAgentSettings(
             values,
             () => {
-                if (values.preferredLanguage != i18n.language)
-                    switchLocale(values.preferredLanguage);{
+                if (values.preferredLanguage != i18n.language) {
+                    setLocale(values.preferredLanguage);
                     if (shouldDropSearchCache)
                         $ui.dropFormCache(FORM_NAMES.SearchForm);
                 }

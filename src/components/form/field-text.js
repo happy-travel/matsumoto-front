@@ -71,8 +71,8 @@ const FieldText = observer(({
     const onKeyDown = (event) => {
         if (!Dropdown || !options?.length) return;
 
-        const scroll = document.querySelectorAll(`#${id} .scroll > div:not(.subtitle)`),
-              scrollElem = document.querySelector(`#${id} .scroll`);
+        const scroll = document.querySelectorAll(`[data-dropdown="${id}"] .scroll > div:not(.subtitle)`),
+              scrollElem = document.querySelector(`[data-dropdown="${id}"] .scroll`);
 
         if (!scroll?.length)
             return;
@@ -89,8 +89,8 @@ const FieldText = observer(({
                 break;
             case "ArrowUp":
             case "ArrowDown":
-                let possible = optionIndex > 0,
-                    newIndex = optionIndex - 1,
+                let newIndex = optionIndex === null ? options.length -1 : optionIndex - 1,
+                    possible = newIndex >= 0 && newIndex < options.length,
                     correction = -100;
                 if ("ArrowDown" === event.key) {
                     possible = optionIndex === null || options.length > optionIndex + 1;

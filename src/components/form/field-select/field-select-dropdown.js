@@ -1,41 +1,27 @@
-import {observer} from "mobx-react";
 import React from "react";
 import { Flag } from "components/simple";
-import { $view } from "stores";
 
-@observer
-class FieldSelectDropdown extends React.Component {
-    setValue = (item) => {
-        var { formik, connected, setValue } = this.props;
-        if (setValue)
-            setValue(item.value);
-        if (formik)
-            formik.setFieldValue(connected, item.value);
-        $view.setOpenDropdown(null);
-    };
-
-    render() {
-        var {
-            options
-        } = this.props;
-
-        return (
-            <div className="select dropdown">
-                <div className="scroll">
-                    {options?.map((item, index) => (
-                        <div
-                            className="line"
-                            onClick={() => this.setValue(item)}
-                            key={index}
-                        >
-                            {item.flag && <Flag code={item.flag} /> }
-                            {item.text}
-                        </div>
-                    ))}
-                </div>
+const FieldSelectDropdown = ({
+    setValue,
+    options,
+    focusIndex
+}) => {
+    return (
+        <div className="select dropdown">
+            <div className="scroll">
+                {options?.map((item, index) => (
+                    <div
+                        onClick={() => setValue(item)}
+                        className={"line" + __class(focusIndex === index, "focused")}
+                        key={index}
+                    >
+                        {item.flag && <Flag code={item.flag} /> }
+                        {item.text}
+                    </div>
+                ))}
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 export default FieldSelectDropdown;
