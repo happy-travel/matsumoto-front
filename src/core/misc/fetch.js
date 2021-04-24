@@ -1,10 +1,15 @@
 import Authorize from "core/auth/authorize";
 import { isPageAvailableAuthorizedOnly } from "core/auth";
+import settings from "settings";
+import { getLocale } from "./locale";
 import { $notifications } from "stores";
+
+const getEdoRoute = (route) => route ? (settings.edo(getLocale()) + route) : null; 
+const getOsakaRoute = (route) => route ? (settings.osaka(getLocale()) + route) : null;
 
 export default api => {
     const showError = (err, url = "") => {
-        if (api.methods_dont_show_error.includes(url) || url?.includes("/state"))
+        if (api.methods_dont_show_error.some(route => url.includes(route)))
             return;
         if (typeof err.detail == "string")
             return $notifications.addNotification(err.detail);
@@ -16,7 +21,9 @@ export default api => {
     };
 
     api.request = ({
-        url, external_url,
+        url, 
+        osaka_url,
+        external_url,
         body = {}, formDataBody,
         method = "GET",
         response, // function(response)                - Fires first
@@ -32,7 +39,7 @@ export default api => {
                 return;
             }
 
-            var finalUrl = url || external_url,
+            let finalUrl = getEdoRoute(url) || getOsakaRoute(osaka_url) || external_url,
                 request = {
                     method: method,
                     headers: new Headers({
@@ -48,7 +55,7 @@ export default api => {
             if (["POST", "PUT", "DELETE"].includes(method))
                 request.body = JSON.stringify(body);
             else {
-                var getBody = Object.keys(body).map(key =>
+                let getBody = Object.keys(body).map(key =>
                     [key, body[key]].map(encodeURIComponent).join("=")
                 ).join("&");
                 finalUrl += (getBody ? "?" + getBody : "");
@@ -57,7 +64,7 @@ export default api => {
             if (formDataBody)
                 request.body = formDataBody;
 
-            var rawResponse = null,
+            let rawResponse = null,
                 failed = false;
             fetch(finalUrl, request)
                 .then(
@@ -69,7 +76,7 @@ export default api => {
                             return;
                         }
                         return res.text().then(text => {
-                            var value = null;
+                            let value = null;
                             if (text) {
                                 try {
                                     value = JSON.parse(text);

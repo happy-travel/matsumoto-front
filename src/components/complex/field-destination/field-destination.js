@@ -69,9 +69,11 @@ const FieldDestination = observer(({
         clearTimeout(throttle);
         throttle = setTimeout(() => {
             API.get({
-                url: $personal.settings.experimentalFeatures ?
-                        API.LOCATION_PREDICTION :
-                        API.EDO_LOCATION_PREDICTION,
+                ...(
+                    $personal.settings.experimentalFeatures ?
+                        { osaka_url: API.OSAKA_LOCATION_PREDICTION } :
+                        { url: API.EDO_LOCATION_PREDICTION }
+                ),
                 body: {
                     query: currentValue,
                     sessionId: session.google.create()

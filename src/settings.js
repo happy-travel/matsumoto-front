@@ -31,6 +31,6 @@ if (__localhost)
     settings.direct_payment_callback_host = "https://dev.happytravel.com";
 
 settings.edo = (culture) => settings.edo_url + culture + settings.edo_v1;
-settings.osaka = settings.osaka_url + settings.osaka_v1;
+settings.osaka = (culture) => settings.osaka_url + settings.osaka_v1;
 
 export default settings;
