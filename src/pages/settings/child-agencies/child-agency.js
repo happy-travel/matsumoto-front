@@ -27,7 +27,9 @@ const ChildAgencyPage = ({ match }) => {
         setLoading(false);
     };
 
-    useEffect(refresh, []);
+    useEffect(() => {
+        refresh();
+    }, []);
 
     const activate = () => {
         API.post({
