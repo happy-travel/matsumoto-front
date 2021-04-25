@@ -91,6 +91,10 @@ function getClientEnvironment(publicUrl) {
       env[key] = JSON.stringify(raw[key]);
       return env;
     }, {}),
+    '__localhost': '("localhost" == window.location.hostname)',
+    '__devEnv': '(window.location.hostname.indexOf("dev.happytravel.com") > -1)',
+    '__class': '(function(a,b,c){return a?(" "+(b?b:a)):(c?(" "+c):"");})',
+    '__plural': '(function(t,v,w){return v+" "+t(w,{count:parseInt(v)});})'
   };
 
   return { raw, stringified };

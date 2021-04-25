@@ -31,7 +31,6 @@ const FieldSelect = (props) => {
             setValue(item.value);
         if (formik)
             formik.setFieldValue(id, item.value);
-  console.log(item);
     };
 
     const ValueObject = value || getTextByValue(formik, id, options);

@@ -30,8 +30,13 @@ class Payment3DSecureCallbackPage extends React.Component {
         return <>
             <Loader white page />
             { __devEnv &&
-                <div className="top-alert development">
-                    <a href={("http://localhost:4000" + window.location.pathname + window.location.search)}>Process to localhost</a>
+                <div className="development-block">
+                    <a
+                        className="button"
+                        href={("http://localhost:4000" + window.location.pathname + window.location.search)}
+                    >
+                        Process to localhost
+                    </a>
                 </div>
             }
         </>;
