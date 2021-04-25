@@ -185,7 +185,10 @@ const RegistrationCounterparty = observer(() => {
                                     </div>
                                 </div>
                                 <div className="paragraph" style={{ paddingLeft: 0 }}>
-                                    By clicking this button, you agree with <Link to="/terms" className="link">HappyTravel’s Terms of Use</Link>
+                                    By clicking this button, you agree with{" "}
+                                    <Link to="/terms" className="link" target="_blank">
+                                        HappyTravel’s Terms of Use
+                                    </Link>
                                 </div>
                             </div>
                         )}
