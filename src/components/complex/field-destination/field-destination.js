@@ -134,9 +134,7 @@ const FieldDestination = observer(({
             }
         }
         if (!focused && !onlyStyles) {
-            const inputValue = formik.values[getIdOfInput(id)];
-            const currentValue = formik.values[id];
-            if (inputValue != currentValue && suggestion)
+            if (formik.values[getIdOfInput(id)] != formik.values[id])
                 setValue(suggestion.value);
         }
     };

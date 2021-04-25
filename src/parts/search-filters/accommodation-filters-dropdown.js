@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { CachedForm, FieldCheckbox, FieldRange } from "components/form";
 import { HotelStars } from "components/accommodation";
 import { searchLoadWithNewFilters } from "tasks/accommodation/search-loaders";
-import { $accommodation, $view } from "stores";
+import { $accommodation } from "stores";
 
 const AccommodationFiltersDropdown = observer(({ close }) => {
     const { t } = useTranslation();

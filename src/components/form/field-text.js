@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { getIn } from "formik";
 import { observer } from "mobx-react";
 import { getLocale } from "core";
@@ -32,7 +32,7 @@ const FieldText = observer(({
     noInput,
     onFocusChanged
 }) => {
-    const [focused, setFocusedState] = useState(false);
+    const [focused, setFocused] = useState(false);
     const [optionIndex, setOptionIndex] = useState(null);
     const [everTouched, setEverTouched] = useState(false);
     const [everChanged, setEverChanged] = useState(false);
@@ -44,37 +44,31 @@ const FieldText = observer(({
         [dropdownOpen, toggleDropdown] = useDropdown(refElement, refDropdown);
     }
 
-    const setFocused = (newValue, onlyStyles) => {
-        setFocusedState(newValue);
-        if (onFocusChanged)
-            onFocusChanged(newValue, onlyStyles);
-    };
-
     const focus = useCallback(() => {
         if (Dropdown) {
             toggleDropdown(true);
             setOptionIndex(null);
         }
         setFocused(true);
+        if (onFocusChanged)
+            onFocusChanged(true);
     }, []);
 
-    const blur = useCallback((event) => {
-        if (formik)
+    const blur = useCallback((event, onlyStyles) => {
+        if (formik && event)
             formik.handleBlur(event);
         if (!everTouched)
             setEverTouched(true);
-        if (!Dropdown)
-            setFocused(false);
+        if (onFocusChanged)
+            onFocusChanged(false, onlyStyles);
+        setFocused(false);
     }, [suggestion]);
 
     const onKeyDown = (event) => {
         if (!Dropdown || !options?.length) return;
 
-        const scroll = document.querySelectorAll(`[data-dropdown="${id}"] .scroll > div:not(.subtitle)`),
-              scrollElem = document.querySelector(`[data-dropdown="${id}"] .scroll`);
-
-        if (!scroll?.length)
-            return;
+        const scroll = document.querySelectorAll(`.dropdown .scroll > div:not(.subtitle)`),
+              scrollElem = document.querySelector(`.dropdown .scroll`);
 
         switch (event.key) {
             case "Enter":
@@ -82,7 +76,7 @@ const FieldText = observer(({
                 if (optionIndex !== null || suggestion?.value) {
                     event.preventDefault();
                     setValue(optionIndex !== null ? options[optionIndex] : suggestion?.value, false);
-                    setFocused(false, true);
+                    blur(null, true);
                     toggleDropdown(false);
                 }
                 break;
@@ -94,7 +88,7 @@ const FieldText = observer(({
                 }
                 if (newIndex >= 0 && newIndex < options.length) {
                     setOptionIndex(newIndex);
-                    scrollElem.scrollTo(0, scroll[newIndex]?.offsetTop - 20);
+                    scrollElem?.scrollTo(0, scroll?.[newIndex]?.offsetTop - 20);
                 }
                 if (setValue)
                     setValue(options[optionIndex], true);
@@ -108,8 +102,6 @@ const FieldText = observer(({
         if (formik) {
             formik.setFieldValue(id, "");
             formik.setFieldTouched(id, false);
-            if (Dropdown)
-                toggleDropdown(false);
             if (additionalFieldForValidation)
                 formik.setFieldValue(additionalFieldForValidation, false);
         }
@@ -140,9 +132,15 @@ const FieldText = observer(({
     const dropdownSetValue = (...params) => {
         if (setValue)
             setValue(...params);
-        setFocused(false, true);
+        blur(null, true);
         toggleDropdown(false);
     };
+
+    if (Dropdown)
+        useEffect(() => {
+            if (!dropdownOpen && suggestion)
+                blur(null);
+        }, [dropdownOpen]);
 
     const isFieldTouched = getIn(formik?.touched, id);
     const fieldValue = getIn(formik?.values, id);
@@ -190,7 +188,7 @@ const FieldText = observer(({
             className={
                 "field" +
                 __class(className) +
-                __class(Dropdown ? dropdownOpen : focused, "focus") +
+                __class(focused, "focus") +
                 __class(disabled, "disabled") +
                 __class(noInput, "no-input") +
                 __class(((errorText || additionalFieldError) && isFieldTouched), "error") +
@@ -217,7 +215,7 @@ const FieldText = observer(({
                                 placeholder={ !ValueObject ? placeholder : "" }
                                 onFocus={focus}
                                 onChange={changing}
-                                onBlur={blur}
+                                onBlur={Dropdown ? null : blur}
                                 value={finalValue}
                                 onKeyDown={onKeyDown}
                                 disabled={!!disabled}
