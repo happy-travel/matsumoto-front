@@ -6,13 +6,13 @@ import BasicHeader from "parts/header/basic-header";
 import { API, redirect } from "core";
 import NotFoundPage from "pages/common/not-found-page";
 import { PAYMENT_METHODS } from "enum";
-import { finishAgentRegistration } from "./registration-agent";
+import { finishAgentRegistration, getAuthBlockStyle } from "./registration-agent";
 import { Loader } from "components/simple";
 import Breadcrumbs from "components/breadcrumbs";
 import { CachedForm, FORM_NAMES, FieldText, FieldTextarea, FieldSelect } from "components/form";
 import FieldCountry from "components/complex/field-country";
 import { registrationCounterpartyValidator } from "components/form/validation";
-import { $personal, $notifications, $ui } from "stores";
+import { $personal } from "stores";
 
 const RegistrationCounterparty = observer(() => {
     const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ const RegistrationCounterparty = observer(() => {
         return <NotFoundPage />;
 
     return (
-        <div className="account block" style={{ backgroundImage: `url(/images/bg04.svg)`}}>
+        <div className="account block" style={getAuthBlockStyle()}>
             <BasicHeader />
             { loading && <Loader page /> }
             <section className="section">
