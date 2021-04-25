@@ -59,6 +59,7 @@ const SearchFormShortPart = ({ formik }) => {
                 formik={formik}
                 id="residencyPicker"
                 placeholder={t("Select")}
+                additionalFieldForValidation="nationality"
                 Dropdown={ResidencyDropdown}
                 ValueObject={generateCountriesValue(formik.values)}
                 value={formik.values.nationalityCode && formik.values.residencyCode}

@@ -4,7 +4,7 @@ export default function useDropdown(holderEl, dropdownEl) {
     holderEl = holderEl.current;
     dropdownEl = dropdownEl.current;
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(null);
 
     const toggleCurrent = useCallback(toggleState => {
         setIsOpen(toggleState !== undefined ? Boolean(toggleState) : !isOpen);

@@ -138,11 +138,10 @@ const FieldText = observer(({
 
     if (Dropdown)
         useEffect(() => {
-            if (!dropdownOpen && suggestion)
+            if (dropdownOpen === false)
                 blur(null);
         }, [dropdownOpen]);
 
-    const isFieldTouched = getIn(formik?.touched, id);
     const fieldValue = getIn(formik?.values, id);
 
     let suggestionText = decorate.cutFirstPart(suggestion?.text, fieldValue);
@@ -153,8 +152,8 @@ const FieldText = observer(({
     let errorText = getIn(formik?.errors, id);
     let additionalFieldError = additionalFieldForValidation && getIn(formik?.errors, additionalFieldForValidation);
     if (Dropdown && dropdownOpen) {
-        errorText = "";
-        additionalFieldError = "";
+        errorText = !!errorText;
+        additionalFieldError = !!additionalFieldError;
     }
 
     // todo: short search destination field workaround. rewrite in future
@@ -191,7 +190,7 @@ const FieldText = observer(({
                 __class(focused, "focus") +
                 __class(disabled, "disabled") +
                 __class(noInput, "no-input") +
-                __class(((errorText || additionalFieldError) && isFieldTouched), "error") +
+                __class(((errorText || additionalFieldError) && everTouched), "error") +
                 __class(!errorText && finalValue, "valid")
             }
         >
@@ -242,13 +241,13 @@ const FieldText = observer(({
                             { AfterIcon }
                         </div>
                     }
-                    { clearable && !!finalValue &&
-                        <div>
+                    { clearable &&
+                        <div hidden={!finalValue}>
                             <div className="clear" onClick={clear} />
                         </div>
                     }
                 </div>
-                { errorText?.length > 1 && isFieldTouched &&
+                { errorText?.length > 1 && everTouched &&
                     <div className={
                         "error-holder" +
                         __class(!everTouched || !everChanged || focused, "possible-hide")

@@ -16,7 +16,8 @@ const FieldCountry = observer(({
     anotherField,
     className,
     clearable,
-    required
+    required,
+    forceAnotherField
 } ) => {
     const [options, setOptions] = useState([]);
     const [suggestion, setSuggestion] = useState(null);
@@ -89,13 +90,13 @@ const FieldCountry = observer(({
     const setValue = (country, silent) => {
         if (silent)
             return;
-
-        setCountryPredictionsAndSuggestion(null);
-
+        setTimeout(() => {
+            setCountryPredictionsAndSuggestion(null);
+        }, 0);
         formik.setFieldValue(id, country.name);
         formik.setFieldValue(getCodeFieldId(id), country.code);
         if (anotherField)
-            if (!formik.values[getCodeFieldId(anotherField)]) {
+            if (forceAnotherField || !formik.values[getCodeFieldId(anotherField)]) {
                 formik.setFieldValue(anotherField, country.name);
                 formik.setFieldValue(getCodeFieldId(anotherField), country.code);
             }
@@ -117,8 +118,7 @@ const FieldCountry = observer(({
             onChange={inputChanged}
             options={options}
             setValue={setValue}
-            onClear={() => formik.setFieldValue(getCodeFieldId(id), "")}
-            className={"capitalize " + className}
+            className={"capitalize" + __class(className)}
             clearable={clearable}
             required={required}
             suggestion={suggestion}

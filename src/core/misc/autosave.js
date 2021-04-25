@@ -20,13 +20,16 @@ export default (store, key, shorter) => {
     else
         set(store, { build: settings.build }); // hack for autorun keep running over empty store
 
+    let throttle;
     autorun(() => {
         cached = session.get(key);
         store.build = settings.build;
         const newValue = JSON.stringify(shorter ? shorter(store) : store);
-        if (cached != newValue)
-            session.set(key, newValue);
-    }, {
-        delay: 500
+        if (cached != newValue) {
+            clearTimeout(throttle);
+            throttle = setTimeout(() => {
+                session.set(key, newValue);
+            }, 350)
+        }
     });
 };

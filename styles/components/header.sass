@@ -9,8 +9,11 @@ header
     transition: box-shadow 0.2s
     box-shadow: 0 .5px 0 #ffffff
     &.fixed
-        transition: box-shadow 1.2s
+        transition: box-shadow 1.2s, height 0.4s ease
         box-shadow: 0 .5px 0 $color-shadow-border
+        @include phone
+            height: 80px !important
+            overflow: hidden
     a
         display: inline-block
         vertical-align: top

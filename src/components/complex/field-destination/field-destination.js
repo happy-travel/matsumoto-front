@@ -102,14 +102,14 @@ const FieldDestination = observer(({
                 type: item.type
             });
             formik.setFieldValue(id, item.value);
-            if (silent !== true) {
+            if (silent !== true || short) {
                 formik.setFieldValue(getIdOfInput(id), item.value);
             }
         }
         if ($personal.settings.experimentalFeatures) {
             formik.setFieldValue("htIds", [item.htId]);
             formik.setFieldValue(id, item.predictionText);
-            if (silent !== true) {
+            if (silent !== true || short) {
                 formik.setFieldValue(getIdOfInput(id), item.predictionText);
             }
         }
@@ -134,8 +134,12 @@ const FieldDestination = observer(({
             }
         }
         if (!focused && !onlyStyles) {
-            if (formik.values[getIdOfInput(id)] != formik.values[id])
-                setValue(suggestion.value);
+            if (formik.values[getIdOfInput(id)] != formik.values[id]) {
+                if (suggestion)
+                    setValue(suggestion.value);
+                else if (short)
+                    formik.setFieldValue(getIdOfInput(id), formik.values[id]);
+            }
         }
     };
 

@@ -76,7 +76,7 @@ export const initAgent = () => {
 const initHeader = () => {
     const modifyHeaderOnScroll = () => {
         const distanceY = window.pageYOffset || document.documentElement.scrollTop,
-            shrinkOn = 10,
+            shrinkOn = 80,
             headerEl = document.getElementsByTagName("header")?.[0];
 
         if (!headerEl)
