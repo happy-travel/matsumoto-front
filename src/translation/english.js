@@ -358,5 +358,7 @@ translations: {
     "You have not filled guests information": "You have not filled guests information",
     "Please Select": "Please Select",
     "Legal Address": "Legal Address",
+    "Pay Later": "Pay Later",
+    "Offline": "Offline"
 }
 };

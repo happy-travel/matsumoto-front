@@ -174,15 +174,20 @@ class AccommodationStore {
     }
 
     selectRoomContractSet(result, preloaded) {
-        if (result?.roomContractSet?.rate.currency != preloaded?.rate?.currency ||
-            result?.roomContractSet?.rate.finalPrice !== preloaded?.rate?.finalPrice)
+        if (result.roomContractSet?.rate.currency != preloaded.rate?.currency ||
+            result.roomContractSet?.rate.finalPrice !== preloaded.rate?.finalPrice)
             result.roomContractSet.priceChangedAlert = true;
+
+        if (result.roomContractSet?.deadline.date != preloaded.deadline?.date)
+            result.roomContractSet.deadlineChangedAlert = true;
+
+        result.roomContractSet.availablePaymentMethods = result.availablePaymentMethods;
 
         this.selected = {
             ...this.selected,
-            accommodationFinal : result,
-            roomContractSet : result?.roomContractSet,
-            availabilityId : result?.availabilityId
+            accommodationFinal: result,
+            roomContractSet: result.roomContractSet,
+            availabilityId: result?.availabilityId
         };
         this.booking = {
             request: {},

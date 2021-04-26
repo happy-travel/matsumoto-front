@@ -50,9 +50,13 @@ const taskSubmitBookingForm = (values, { setSubmitting }) => {
     };
     $accommodation.setBookingRequest(request);
 
-    if ($payment.paymentMethod == PAYMENT_METHODS.ACCOUNT)
+    if ([PAYMENT_METHODS.ACCOUNT, PAYMENT_METHODS.OFFLINE].includes($payment.paymentMethod))
         API.post({
-            url: API.BOOK_BY_ACCOUNT,
+            url: (
+                PAYMENT_METHODS.ACCOUNT == $payment.paymentMethod ?
+                    API.BOOK_BY_ACCOUNT :
+                    API.BOOK_FOR_OFFLINE
+            ),
             body: request,
             success: result => {
                 if (!result?.bookingDetails?.referenceCode) {

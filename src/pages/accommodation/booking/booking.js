@@ -99,8 +99,9 @@ const AccommodationBookingPage = observer(() => {
                                 $accommodation.search.request.adultsTotal + $accommodation.search.request.childrenTotal
                             }
                         />
-                        <PaymentMethodSelector />
-
+                        <PaymentMethodSelector
+                            contractPaymentMethods={contract.availablePaymentMethods}
+                        />
                         { !!contract.priceChangedAlert &&
                             <div className="accent-frame">
                                 <div className="data only">
@@ -112,7 +113,6 @@ const AccommodationBookingPage = observer(() => {
                                 </div>
                             </div>
                         }
-
                         { !isRestricted ?
                             <div>
                                 { !contract.priceChangedAlert &&
@@ -125,7 +125,6 @@ const AccommodationBookingPage = observer(() => {
                                 </strong>
                             </div>
                         }
-
                         { !isRestricted &&
                             <div className="checkbox-holder">
                                 <FieldCheckbox
