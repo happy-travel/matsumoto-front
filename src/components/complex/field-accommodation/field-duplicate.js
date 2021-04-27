@@ -4,15 +4,15 @@ import DuplicateDropdown from "./dropdown-duplicate";
 import { $accommodation, $view } from "stores";
 
 const checkMatch = (accommodation , value) => {
-    var str = [
+    const str = [
         accommodation.accommodation.name,
         accommodation.accommodation.location.locality,
         accommodation.accommodation.location.address
     ].join(" ");
 
-    var highlight = value.trim().replace(/[\W_]+/g," ").split(' ');
+    const highlight = value.trim().replace(/[\W_]+/g," ").split(' ');
 
-    for (var i = 0; i < highlight.length; i++)
+    for (let i = 0; i < highlight.length; i++)
         if (highlight[i])
             if (str != str.replace(new RegExp(highlight[i], 'gi'), (s) => ("?")))
                 return true;

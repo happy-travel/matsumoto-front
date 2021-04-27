@@ -7,7 +7,7 @@ export const initInvite = () => {
     if (window.location.pathname.length > 1) // not index page
         return;
 
-    var params = getParams();
+    const params = getParams();
     if (!params.code) // not after auth
         return;
 

@@ -66,7 +66,6 @@ const BookingConfirmationView = ({ referenceCode, PaymentInformation }) => {
                         checkInDate={details.checkInDate}
                         checkOutDate={details.checkOutDate}
                         agentReference={details.agentReference}
-                        tags={booking.tags?.length}
                     />
                     { booking.paymentStatus &&
                         <Dual

@@ -78,7 +78,7 @@ const AccommodationBookingPage = observer(() => {
             cacheValidator={ cache => {
                 if (cache?.room?.length != initialValues?.room.length)
                     return false;
-                for (var i = 0; i < initialValues?.room.length; i++)
+                for (let i = 0; i < initialValues?.room.length; i++)
                     if (cache?.room?.[i]?.passengers?.length != initialValues?.room[i].passengers.length)
                         return false;
                 return true;

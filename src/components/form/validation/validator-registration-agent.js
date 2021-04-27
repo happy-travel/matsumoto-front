@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 export const emailForm =  {
     email: Yup.string()
-        .email("Invalid email")
+        .email("Incorrect email")
         .required("Required"),
 };
 

@@ -16,7 +16,7 @@ if (settings.sentry_dsn)
 tracker();
 
 window.setPageDirectionFromLS = () => {
-    var dir = ("ar" == getLocale() ? "rtl" : "ltr");
+    const dir = ("ar" == getLocale() ? "rtl" : "ltr");
     document.getElementsByTagName("html")[0].setAttribute("dir", dir);
 };
 window.setPageDirectionFromLS();

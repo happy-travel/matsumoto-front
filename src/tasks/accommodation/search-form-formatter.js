@@ -20,15 +20,15 @@ export const searchFormValuesCorrection = values => {
 };
 
 export const searchFormFormatter = values => {
-    var roomDetails = [];
-    for (var i = 0; i < values.roomDetails.length; i++) {
-        var room = {
+    let roomDetails = [];
+    for (let i = 0; i < values.roomDetails.length; i++) {
+        let room = {
             adultsNumber: values.roomDetails[i].adultsNumber,
             childrenNumber: values.roomDetails[i].childrenAges.length
         };
         if (values.roomDetails[i].childrenAges.length) {
             room.childrenAges = [];
-            for (var j = 0; j < values.roomDetails[i].childrenAges.length; j++)
+            for (let j = 0; j < values.roomDetails[i].childrenAges.length; j++)
                 room.childrenAges.push(parseInt(values.roomDetails[i].childrenAges[j] || 12));
         }
         roomDetails.push(room);

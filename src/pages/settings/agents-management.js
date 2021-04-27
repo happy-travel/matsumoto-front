@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
@@ -31,46 +31,40 @@ export const Searches = v => [
     v.name
 ];
 
-@observer
-class AgentsManagement extends React.Component {
-    state = {
-        agents: null
-    };
+const AgentsManagement = observer(() => {
+    const [agents, setAgents] = useState(null);
 
-    componentDidMount() {
+    useEffect(() => {
         if (!$personal.activeCounterparty)
             return;
 
         API.get({
             url: API.AGENCY_AGENTS,
-            success: agents => this.setState({ agents })
+            success: setAgents
         });
-    }
+    }, [$personal.activeCounterparty]);
 
-    render() {
-        var { t } = useTranslation(),
-            { agents } = this.state;
+    const { t } = useTranslation();
 
-        return (
-            <div className="settings block">
-                <SettingsHeader />
-                <SettingsNav />
-                <section>
-                    <h2>{t("All Agents")}</h2>
-                    <div style={{ marginTop: "-126px" }}>
-                        <Table
-                            list={agents}
-                            columns={agentsColumns(t)}
-                            onRowClick={item => redirect(`/settings/agents/${item.agentId}`)}
-                            textEmptyResult={t("No agents found")}
-                            textEmptyList={t("The agents list is empty")}
-                            searches={Searches}
-                        />
-                    </div>
-                </section>
-            </div>
-        );
-    }
-}
+    return (
+        <div className="settings block">
+            <SettingsHeader />
+            <SettingsNav />
+            <section>
+                <h2>{t("All Agents")}</h2>
+                <div style={{ marginTop: "-126px" }}>
+                    <Table
+                        list={agents}
+                        columns={agentsColumns(t)}
+                        onRowClick={item => redirect(`/settings/agents/${item.agentId}`)}
+                        textEmptyResult={t("No agents found")}
+                        textEmptyList={t("The agents list is empty")}
+                        searches={Searches}
+                    />
+                </div>
+            </section>
+        </div>
+    );
+});
 
 export default AgentsManagement;

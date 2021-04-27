@@ -6,7 +6,7 @@ export const Highlighted = ({ str, highlight }) => {
 
     highlight = highlight.trim().replace(/[\W_]+/g," ").split(' ');
 
-    for (var i = 0; i < highlight.length; i++)
+    for (let i = 0; i < highlight.length; i++)
         if (highlight[i])
             str = str.replace(new RegExp(highlight[i], 'gi'), (s) => ("<>" + s + "</>"));
     str = str.replace(new RegExp("<>", 'gi'), "<b>");

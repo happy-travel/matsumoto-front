@@ -4,10 +4,10 @@ import FieldText from "../field-text";
 import FieldSelectDropdown from "./field-select-dropdown";
 
 const getTextByValue = (formik, id, options) => {
-    var value = getIn(formik?.values, id);
+    const value = getIn(formik?.values, id);
 
     if (formik && typeof value != "undefined")
-        for (var i = 0; i < options.length; i++)
+        for (let i = 0; i < options.length; i++)
             if (options[i].value == value)
                 return options[i].text;
 

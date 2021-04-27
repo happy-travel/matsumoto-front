@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { API } from "core";
 import { INVOICE_TYPES } from "enum";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
@@ -7,106 +7,90 @@ import { useTranslation } from "react-i18next";
 import { emailFormValidator } from "components/form/validation";
 import { $ui, $view } from "stores";
 
-@observer
-class SendInvoiceModal extends React.Component {
-    state = {
-        success: null,
-        error: null,
-        loading: false,
-        booking: {}
-    };
+const SendInvoiceModal = observer(({ closeModal }) => {
+    const [success, setSuccess] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [booking, setBooking] = useState({});
 
-    componentDidMount() {
+    useEffect(() => {
         API.get({
             url: API.BOOKING_GET_BY_ID($view.modalData.bookingId),
-            success: booking => this.setState({ booking })
+            success: setBooking
         });
-    }
+    });
 
-    submit = (values) => {
-        var { bookingId, type } = $view.modalData;
-        this.setState({
-            loading: true
-        });
+    const submit = (values) => {
+        const { bookingId, type } = $view.modalData;
+        setLoading(true);
         API.post({
             url: type == INVOICE_TYPES.VOUCHER
                     ? API.BOOKING_VOUCHER_SEND(bookingId)
                     : API.BOOKING_INVOICE_SEND(bookingId),
             body: values,
             success: () => {
-                this.setState({
-                    success: true,
-                    loading: false
-                });
+                setSuccess(true);
                 $ui.dropFormCache(FORM_NAMES.SendInvoiceForm);
             },
-            error: () => {
-                this.setState({
-                    error: true,
-                    loading: false
-                });
-            }
+            error: () => setError(true),
+            after: () => setLoading(false)
         });
     };
 
-    render() {
-        var { t } = useTranslation(),
-            { type } = $view.modalData,
-            { closeModal } = this.props,
-            { error, success, loading, booking } = this.state;
+    const { t } = useTranslation();
+    const { type } = $view.modalData;
 
-        return (
-            <div className="confirm modal">
-                {closeModal && <div className="close-button" onClick={closeModal}>
-                    <span className="icon icon-close" />
-                </div>}
+    return (
+        <div className="confirm modal">
+            {closeModal && <div className="close-button" onClick={closeModal}>
+                <span className="icon icon-close" />
+            </div>}
 
-                <h2>{type == INVOICE_TYPES.VOUCHER ? t("Send Voucher") : t("Send Invoice")}</h2>
+            <h2>{type == INVOICE_TYPES.VOUCHER ? t("Send Voucher") : t("Send Invoice")}</h2>
 
-                { error && <div>{t("An error occured")}</div>}
+            { error && <div>{t("An error occured")}</div>}
 
-                { success &&
-                    <div>{
-                        type == INVOICE_TYPES.VOUCHER
-                            ? t("Booking voucher has been sent")
-                            : t("Booking invoice has been sent")
-                    }</div>
-                }
+            { success &&
+                <div>{
+                    type == INVOICE_TYPES.VOUCHER
+                        ? t("Booking voucher has been sent")
+                        : t("Booking invoice has been sent")
+                }</div>
+            }
 
-                { loading && <div>{t("Loading...")}</div>}
+            { loading && <div>{t("Loading...")}</div>}
 
-                { !error && !success && !loading &&
-                    <CachedForm
-                        id={ FORM_NAMES.SendInvoiceForm }
-                        initialValues={{ email: "" }}
-                        validationSchema={emailFormValidator}
-                        onSubmit={this.submit}
-                        render={formik => (
-                            <>
-                                <div className="form">
-                                    <p>
-                                        {t("Enter email to receive information about booking")} <br/>
-                                        { booking?.bookingDetails?.referenceCode }.
-                                    </p>
-                                    <div className="row">
-                                        <FieldText formik={formik}
-                                            id="email"
-                                            placeholder={t("Email")}
-                                        />
-                                    </div>
-                                    <div className="bottom">
-                                        <button className="button" type="submit">
-                                            {t("Confirm")}
-                                        </button>
-                                    </div>
+            { !error && !success && !loading &&
+                <CachedForm
+                    id={ FORM_NAMES.SendInvoiceForm }
+                    initialValues={{ email: "" }}
+                    validationSchema={emailFormValidator}
+                    onSubmit={submit}
+                    render={formik => (
+                        <>
+                            <div className="form">
+                                <p>
+                                    {t("Enter email to receive information about booking")} <br/>
+                                    { booking?.bookingDetails?.referenceCode }.
+                                </p>
+                                <div className="row">
+                                    <FieldText formik={formik}
+                                        id="email"
+                                        placeholder={t("Email")}
+                                    />
                                 </div>
-                            </>
-                        )}
-                    />
-                }
-            </div>
-        );
-    }
-}
+                                <div className="bottom">
+                                    <button className="button" type="submit">
+                                        {t("Confirm")}
+                                    </button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                />
+            }
+        </div>
+    );
+});
 
 export default SendInvoiceModal;

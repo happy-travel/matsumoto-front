@@ -9,7 +9,7 @@ const Breadcrumbs = ({
     backLink,
     backText
 }) => {
-    var { t } = useTranslation();
+    const { t } = useTranslation();
 
     if (!backText)
         backText = t('Back');

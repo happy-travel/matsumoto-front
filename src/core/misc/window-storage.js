@@ -6,7 +6,7 @@ export const windowLocalStorage = {
         }
     },
     get: (key) => {
-        var result = null;
+        let result = null;
         try {
             result = window.localStorage.getItem(key);
         } catch (e) {
@@ -22,9 +22,10 @@ export const windowLocalStorage = {
 };
 
 const checkWindowSessionAvailability = () => {
-    var result = false,
-        key = "availability_check",
-        test_result = Math.trunc(10000 * Math.random());
+    let result = false;
+    const key = "availability_check";
+    const test_result = Math.trunc(10000 * Math.random());
+
     try {
         window.sessionStorage.setItem(key, test_result);
         if (test_result == window.sessionStorage.getItem(key))

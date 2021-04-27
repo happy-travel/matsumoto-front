@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getParams, API } from "core";
 import { Loader } from "components/simple";
 import { paymentCallback } from "tasks/payment/finalize";
@@ -11,11 +11,11 @@ import { windowLocalStorage } from "core/misc/window-storage";
 //  at second :
 //      command=AUTHORIZATION
 
-class PaymentResultPage extends React.Component {
-    componentDidMount() {
-        var referenceCode = this.props.match.params.ref,
-            params = getParams(),
-            directLinkCode = windowLocalStorage.get(referenceCode);
+const PaymentResultPage = ({ match }) => {
+    useEffect(() => {
+        const referenceCode = match.params.ref;
+        const params = getParams();
+        const directLinkCode = windowLocalStorage.get(referenceCode);
 
         if (directLinkCode) {
             API.post({
@@ -27,7 +27,7 @@ class PaymentResultPage extends React.Component {
         }
 
         if (!params.token_name) {
-            var detail = "Payment processing error: No token received from payment system.";
+            let detail = "Payment processing error: No token received from payment system.";
             if (params.response_message)
                 detail += " Details: " + params.response_message;
 
@@ -35,7 +35,7 @@ class PaymentResultPage extends React.Component {
             return;
         }
 
-        var request = {
+        let request = {
             referenceCode,
             token: params.token_name,
             isSaveCardNeeded: "YES" == params.remember_me
@@ -54,25 +54,23 @@ class PaymentResultPage extends React.Component {
             body: request,
             after: (data, error) => paymentCallback(data, error)
         });
-    }
+    }, []);
 
-    render() {
-        return (
-            <>
-                <Loader white page />
-                { __devEnv &&
-                    <div className="development-block">
-                        <a
-                            className="button"
-                            href={("http://localhost:4000" + window.location.pathname + window.location.search)}
-                        >
-                            Process to localhost
-                        </a>
-                    </div>
-                }
-            </>
-        );
-    }
-}
+    return (
+        <>
+            <Loader white page />
+            { __devEnv &&
+                <div className="development-block">
+                    <a
+                        className="button"
+                        href={("http://localhost:4000" + window.location.pathname + window.location.search)}
+                    >
+                        Process to localhost
+                    </a>
+                </div>
+            }
+        </>
+    );
+};
 
 export default PaymentResultPage;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
@@ -12,90 +12,84 @@ import { removeSavedCard } from "tasks/payment/service";
 import { payBySavedCard } from "tasks/payment/processing";
 import { $payment } from "stores";
 
-@observer
-class PaymentSavedCardsFormPart extends React.Component {
-    state = {
-        loading: false,
-        selectedCardId: 0
-    };
+const PaymentSavedCardsFormPart = observer(() => {
+    const [loading, setLoading] = useState(false);
+    const [selectedCardId, setSelectedCardId] = useState(0);
 
-    selectCard = (id) => {
-        this.setState({
-            selectedCardId: id
-        });
-    };
-
-    submit = (values) => {
-        if (!this.state.selectedCardId)
+    const submit = (values) => {
+        if (!selectedCardId)
             return;
-        this.setState({
-            loading: true
-        });
-        payBySavedCard(values, this.state.selectedCardId);
+        setLoading(true);
+        payBySavedCard(values, selectedCardId);
     };
 
-    render () {
-        var { t } = useTranslation();
-        return (
-            <div className="form">
-                <Formik
-                    initialValues={{
-                        card_security_code: ""
-                    }}
-                    validateOnChange={true}
-                    validationSchema={savedCreditCardValidator}
-                    onSubmit={this.submit}
-                >
-                {formik => (
-                    <form onSubmit={formik.handleSubmit}>
-                        { this.state.loading && <Loader page /> }
-                        <div className="payment method cards">
-                            <div className="list">
-                                {$payment.savedCards.map((item, index) => {
-                                    let type = creditCardType(item.number)?.[0] || { type: "none", code: { name: "Code", size: 4 } };
-                                    return (
-                                        <div
-                                            onClick={() => this.selectCard(item.id)}
-                                            className={"item" + __class(item.id == this.state.selectedCardId, "selected")}
-                                            key={index}
+    const { t } = useTranslation();
+    return (
+        <div className="form">
+            <Formik
+                initialValues={{
+                    card_security_code: ""
+                }}
+                validateOnChange={true}
+                validationSchema={savedCreditCardValidator}
+                onSubmit={submit}
+            >
+            {formik => (
+                <form onSubmit={formik.handleSubmit}>
+                    { loading &&
+                        <Loader page />
+                    }
+                    <div className="payment method cards">
+                        <div className="list">
+                            { $payment.savedCards.map((item, index) => {
+                                let type = creditCardType(item.number)?.[0] || { type: "none", code: { name: "Code", size: 4 } };
+                                return (
+                                    <div
+                                        onClick={() => setSelectedCardId(item.id)}
+                                        className={"item" + __class(item.id == selectedCardId, "selected")}
+                                        key={index}
+                                    >
+                                        { allowedTypes[type.type] ?
+                                            <img src={allowedTypes[type.type]} alt="" /> :
+                                            null
+                                        }
+                                        <span>
+                                            {item.number}
+                                        </span>
+                                        <span>
+                                            {item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}
+                                        </span>
+                                        <FieldText
+                                            formik={formik}
+                                            id="card_security_code"
+                                            placeholder="---"
+                                            label={type.code.name}
+                                            className={"only-when-selected" + __class(formik.values.card_security_code.length != type.code.size, "force-incorrect")}
+                                            required
+                                            password
+                                            numeric
+                                            maxLength={type.code.size}
+                                        />
+                                        <b
+                                            className="only-when-selected link"
+                                            onClick={() => removeSavedCard(item.id)}
                                         >
-                                            {allowedTypes[type.type] ? <img src={allowedTypes[type.type]} alt="" /> : null}
-                                            <span>
-                                                {item.number}
-                                            </span>
-                                            <span>{item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}</span>
-                                            <FieldText
-                                                formik={formik}
-                                                id="card_security_code"
-                                                placeholder="---"
-                                                label={type.code.name}
-                                                className={"only-when-selected" + __class(formik.values.card_security_code.length != type.code.size, "force-invalid")}
-                                                required
-                                                password
-                                                numeric
-                                                maxLength={type.code.size}
-                                            />
-                                            <b
-                                                className="only-when-selected link"
-                                                onClick={() => removeSavedCard(item.id)}
-                                            >
-                                                Forget
-                                            </b>
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                                            Forget
+                                        </b>
+                                    </div>
+                                );
+                            })}
                         </div>
-                        <button type="submit" className={"main button" + __class(!this.state.selectedCardId, "disabled")}>
-                            <span className="icon icon-white-lock" />
-                            { t("Pay") + price($payment.subject.price) + t("using saved card")}
-                        </button>
-                    </form>
-                )}
-                </Formik>
-            </div>
-        );
-    }
-}
+                    </div>
+                    <button type="submit" className={"main button" + __class(!selectedCardId, "disabled")}>
+                        <span className="icon icon-white-lock" />
+                        { t("Pay") + price($payment.subject.price) + t("using saved card")}
+                    </button>
+                </form>
+            )}
+            </Formik>
+        </div>
+    );
+});
 
 export default PaymentSavedCardsFormPart;

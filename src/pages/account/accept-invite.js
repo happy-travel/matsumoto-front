@@ -1,32 +1,25 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { useState, useEffect } from "react";
 import Authorize from "core/auth/authorize";
 
-@observer
-class AccountInvite extends React.Component {
-    state = {
-        invitation: {}
-    };
+const AccountInvite = ({ match }) => {
+    const [invitation, setInvitation] = useState({});
 
-    componentDidMount() {
-        var invitation = this.props?.match?.params || {};
-        this.setState({ invitation });
+    useEffect(() => {
+        setInvitation(match?.params || {})
+    }, []);
+
+    if (invitation.code && invitation.email) {
+        Authorize.removeUser();
+        Authorize.signinRedirect({
+            extraQueryParams: {
+                customRedirectUrl: window.auth_host + "?invCode=" + this.state.invitation.code,
+                redirectToRegister: true,
+                userMail: this.state.invitation.email
+            }
+        });
     }
 
-    render() {
-        if (this.state.invitation.code && this.state.invitation.email) {
-            Authorize.removeUser();
-            Authorize.signinRedirect({
-                extraQueryParams: {
-                    customRedirectUrl: window.auth_host + "?invCode=" + this.state.invitation.code,
-                    redirectToRegister: true,
-                    userMail: this.state.invitation.email
-                }
-            });
-        }
-
-        return null;
-    }
-}
+    return null;
+};
 
 export default AccountInvite;

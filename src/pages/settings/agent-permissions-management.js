@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Formik } from "formik";
@@ -14,86 +14,69 @@ import { $personal } from "stores";
 const generateLabel = str => {
     if (!str)
         return "Unknown";
-    var split = str.split(/([A-Z])/);
-    for (var i = 0; i < split.length; i++)
+    const split = str.split(/([A-Z])/);
+    for (let i = 0; i < split.length; i++)
         if (split[i].match(/([A-Z])/))
             split[i]= " " + split[i];
     return split.join("");
 };
 
-@observer
-export default class AgentPermissionsManagement extends React.Component {
-    state = {
-        loading: true,
-        agent: {},
-        permissionsList: []
-    };
+const AgentPermissionsManagement = observer(({ match }) => {
+    const [loading, setLoading] = useState(true);
+    const [agent, setAgent] = useState({});
+    const [permissionsList, setPermissionsList] = useState([]);
 
-    enable = () => {
-        const { agentId } = this.props.match.params;
+    const { agentId } = match.params;
+    const { inAgencyPermissions } = agent;
+
+    useEffect(() => {
+        API.get({
+            url: API.AGENCY_AGENT(agentId),
+            success: (result) => {
+                setAgent(result);
+                setLoading(false);
+            }
+        });
+        API.get({
+            url: API.ALL_PERMISSIONS,
+            success: setPermissionsList
+        });
+    }, []);
+
+    const enable = () => {
         API.post({
             url: API.AGENT_ENABLE(agentId),
-            success: () => this.setState({
-                agent: {
-                    ...this.state.agent,
+            success: () =>
+                setAgent({
+                    ...agent,
                     isActive: true
-                }
-            })
+                })
         });
     };
 
-    disable = () => {
-        const { agentId } = this.props.match.params;
+    const disable = () => {
         API.post({
             url: API.AGENT_DISABLE(agentId),
-            success: () => this.setState({
-                agent: {
-                    ...this.state.agent,
+            success: () =>
+                setAgent({
+                    ...agent,
                     isActive: false
-                }
-            })
-        });
-    };
-
-    componentDidMount() {
-        if (this.props.match?.params) {
-            const { agentId } = this.props.match.params;
-
-            API.get({
-                url: API.AGENCY_AGENT(agentId),
-                success: (agent) => this.setState({
-                    agent,
-                    loading: false
                 })
-            });
-            API.get({
-                url: API.ALL_PERMISSIONS,
-                success: permissionsList => this.setState({ permissionsList })
-            });
-        }
-    }
-
-    submit = (values) => {
-        this.setState({ loading: true });
-
-        var { agentId } = this.props.match.params,
-            url = API.AGENT_PERMISSIONS(agentId),
-            body = Object.keys(values).map((key) => values[key] ? key : false).filter(item => item);
-
-        API.put({
-            url,
-            body,
-            success: () => redirect("/settings/agents"),
-            after: () => this.setState({ loading: false })
         });
     };
 
-    render() {
-        var { t } = useTranslation(),
-            { agent, permissionsList, loading } = this.state,
-            { inAgencyPermissions } = agent;
+    const submit = (values) => {
+        setLoading(true);
+        API.put({
+            url: API.AGENT_PERMISSIONS(agentId),
+            body: Object.keys(values).map((key) => values[key] ? key : false).filter(item => item),
+            success: () => redirect("/settings/agents"),
+            after: () => setLoading(false)
+        });
+    };
 
-        return (
+    const { t } = useTranslation();
+    return (
         <div className="settings block">
             <SettingsHeader />
 
@@ -130,14 +113,14 @@ export default class AgentPermissionsManagement extends React.Component {
                 <div>
                     {!agent.isActive ? <button
                         className="button"
-                        onClick={this.enable}
+                        onClick={enable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >
                         {t("Activate agent")}
                     </button> :
                     <button
                         className="button"
-                        onClick={this.disable}
+                        onClick={disable}
                         style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
                     >
                         {t("Deactivate agent")}
@@ -148,13 +131,12 @@ export default class AgentPermissionsManagement extends React.Component {
                     <h2>{t("Permissions")}</h2>
                     <div>
                         <Formik
-                            onSubmit={this.submit}
+                            onSubmit={submit}
                             initialValues={{
                                 ...permissionsList.reduce((obj, key) => (
                                     {...obj, [key]: inAgencyPermissions.includes(key)}),
                                 {})
                             }}
-                            enableReinitialize
                         >
                             {formik => (
                                 <form onSubmit={formik.handleSubmit}>
@@ -188,7 +170,6 @@ export default class AgentPermissionsManagement extends React.Component {
                     </div>
                 </> }
 
-
                 { $personal.permitted("MarkupManagement") &&
                     <Markups
                         id={agent.agentId}
@@ -200,6 +181,7 @@ export default class AgentPermissionsManagement extends React.Component {
             </section>
             }
         </div>
-        );
-    }
-}
+    );
+});
+
+export default AgentPermissionsManagement;

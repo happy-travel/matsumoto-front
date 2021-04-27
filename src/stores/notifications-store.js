@@ -1,8 +1,11 @@
-import { observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 class NotificationsStore {
-    @observable
     list = [];
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     addPermanentNotification(text, title, style = "warning", temporary) {
         const id = Math.trunc(Math.random() * 10000000);
@@ -30,7 +33,7 @@ class NotificationsStore {
     }
 
     closeNotification(id) {
-        var index;
+        let index;
         this.list.forEach((item, i) => {
             if (item.id == id)
                 index = i;

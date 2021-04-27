@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
@@ -27,7 +27,7 @@ export const finishAgentRegistration = (after) => {
             forgetInvite();
             $ui.dropFormCache(FORM_NAMES.RegistrationAgentForm);
             $ui.dropFormCache(FORM_NAMES.RegistrationCounterpartyForm);
-            $personal.$setRegistrationAgentForm({});
+            $personal.setRegistrationAgentForm({});
             $personal.setRegistrationCounterpartyForm({});
         },
         after
@@ -40,97 +40,91 @@ export const getAuthBlockStyle = () => {
     return { backgroundImage: `url(/images/account/${backgrounds[dayOfYear() % backgrounds.length]})`};
 };
 
-@observer
-class RegistrationAgent extends React.Component {
-    state = {
-        initialValues: {
-            "title": "",
-            "firstName": "",
-            "lastName": "",
-            "position": "",
-            "agencyName": ""
-        },
-        loading: false,
-        childAgencyRegistrationInfo: {},
-        invitationCode: null
-    };
+const RegistrationAgent = observer(() => {
+    const [loading, setLoading] = useState(false);
+    const [invitationCode, setInvitationCode] = useState(false);
+    const [childAgencyRegistrationInfo, setChildAgencyRegistrationInfo] = useState({});
+    const [initialValues, setInitialValues] = useState({
+        title: "",
+        firstName: "",
+        lastName: "",
+        position: "",
+        agencyName: ""
+    });
 
-    submit = (values) => {
-        $personal.$setRegistrationAgentForm(values);
-        if (this.state.invitationCode) {
-            this.setState({ loading: true });
+    const submit = (values) => {
+        $personal.setRegistrationAgentForm(values);
+        if (invitationCode) {
+            setLoading(true);
             let url = API.AGENT_REGISTER;
             let body = {
                 registrationInfo: {
                     ...values,
-                    email: this.state.initialValues.email
+                    email: initialValues.email
                 },
-                invitationCode: this.state.invitationCode
+                invitationCode: invitationCode
             };
-            if (this.state.childAgencyRegistrationInfo.name) {
+            if (childAgencyRegistrationInfo.name) {
                 url = API.AGENCY_REGISTER;
                 body = {
                     registrationInfo: {
                         ...values,
-                        email: this.state.initialValues.email
+                        email: initialValues.email
                     },
                     childAgencyRegistrationInfo: {
-                        ...this.state.childAgencyRegistrationInfo,
+                        ...childAgencyRegistrationInfo,
                         name: values.agencyName
                     },
-                    invitationCode: this.state.invitationCode
+                    invitationCode: invitationCode
                 }
             }
             API.post({
                 url,
                 body,
                 success: () => {
-                    finishAgentRegistration(() => this.setState({ loading: false}));
+                    finishAgentRegistration(() => setLoading(false));
                     redirect("/");
                 },
                 error: error => {
                     $notifications.addNotification(error?.title || error?.detail);
-                    this.setState({ loading: false});
+                    setLoading(false);
                 }
             });
         } else
             redirect("/signup/counterparty");
     };
 
-    componentDidMount() {
-        var invitationCode = getInvite();
-        if (invitationCode)
+    useEffect(() => {
+        const code = getInvite();
+        if (code)
             API.get({
-                url: API.INVITATION_DATA(invitationCode),
-                success: data => {
-                    let initialValues = data?.userRegistrationInfo;
+                url: API.INVITATION_DATA(code),
+                success: (data) => {
+                    let initials = data?.userRegistrationInfo;
                     if (data?.childAgencyRegistrationInfo?.name)
-                        initialValues = {
+                        initials = {
                             ...data.userRegistrationInfo,
                             agencyName: data.childAgencyRegistrationInfo.name
                         };
-                    this.setState({
-                        initialValues,
-                        invitationCode: invitationCode,
-                        childAgencyRegistrationInfo: data?.childAgencyRegistrationInfo
-                    });
+                    setInitialValues(initials);
+                    setInvitationCode(code);
+                    setChildAgencyRegistrationInfo(data?.childAgencyRegistrationInfo);
                 }
             });
-    }
+    }, []);
 
-    render() {
-        let { t } = useTranslation();
+    const { t } = useTranslation();
 
-        if ($personal.information?.email)
-            return <NotFoundPage />;
+    if ($personal.information?.email)
+        return <NotFoundPage />;
 
-        const { childAgencyRegistrationInfo, invitationCode, initialValues } = this.state;
-
-        return (
+    return (
 
 <div className="account block" style={getAuthBlockStyle()}>
     <BasicHeader />
-    { this.state.loading && <Loader page /> }
+    { loading &&
+        <Loader page />
+    }
     <section className="section">
         <div>
             <Breadcrumbs
@@ -157,13 +151,12 @@ class RegistrationAgent extends React.Component {
             <CachedForm
                 id={FORM_NAMES.RegistrationAgentForm}
                 initialValues={initialValues}
-                enableReinitialize
                 validationSchema={
                     childAgencyRegistrationInfo.name ?
                         registrationAgentValidatorWithEmailAndAgencyName :
                         registrationAgentValidator
                 }
-                onSubmit={this.submit}
+                onSubmit={submit}
                 render={formik => (
                     <div className="form">
                         { childAgencyRegistrationInfo.name ? <div className="row">
@@ -193,8 +186,7 @@ class RegistrationAgent extends React.Component {
         </div>
     </section>
 </div>
-        );
-    }
-}
+    );
+});
 
 export default RegistrationAgent;

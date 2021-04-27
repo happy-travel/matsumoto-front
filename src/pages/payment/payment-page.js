@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import settings from "settings";
 import { loadPaymentServiceData, loadSavedCards } from "tasks/payment/service";
 import { observer } from "mobx-react";
@@ -11,90 +11,86 @@ import PaymentSavedCardsFormPart from "./parts/saved-cards-form";
 import { payByForm } from "tasks/payment/processing";
 import { $payment } from "stores";
 
-@observer
-class PaymentPage extends React.Component {
-    state = {
-        loading: true,
-        addNew: false
-    };
+const PaymentPage = observer(() => {
+    const [loading, setLoading] = useState(true);
+    const [addNew, setAddNew] = useState(false);
 
-    async componentDidMount() {
-        const [service, cards] = await Promise.all([
-            loadPaymentServiceData(),
-            loadSavedCards()
-        ]);
-        $payment.setService(
-            service,
-            `${settings.direct_payment_callback_host}/payment/result/${$payment.subject.referenceCode}`
-        );
-        this.setState({
-            loading: false,
-            addNew: !cards.length
-        });
-    }
+    useEffect(() => {
+        const load = async () => {
+            const [service, cards] = await Promise.all([
+                loadPaymentServiceData(),
+                loadSavedCards()
+            ]);
+            $payment.setService(
+                service,
+                `${settings.direct_payment_callback_host}/payment/result/${$payment.subject.referenceCode}`
+            );
+            setLoading(false);
+            setAddNew(!cards.length);
+        };
+        load();
+    }, []);
 
-    render() {
-        const { t } = useTranslation();
+    const { t } = useTranslation();
 
-        if (this.state.loading)
-            return <Loader />;
+    if (loading)
+        return <Loader />;
 
-        return (
-<div className="payment block">
-    <section>
-        { $payment.subject.previousPaymentMethod &&
-            <Breadcrumbs
-                backText={t("Back to") + " " + $payment.subject.referenceCode}
-                backLink="/accommodation/booking"
-            />
-        }
-        { !$payment.subject.previousPaymentMethod &&
-            <Breadcrumbs
-                backText={t("Back to") + " " +  t("Your Booking")}
-                backLink="/accommodation/booking"
-            />
-        }
-
-        <div className="accent-frame">
-            <div className="data only">
-                <strong>Please note:</strong>
-                When paying by card, we hold funds on your account until the deadline date approach.
-                In case of cancellation, funds will be released in accordance with the service cancellation policy as soon as possible.
-            </div>
-        </div>
-
-        { (this.state.addNew || !$payment.savedCards.length) ?
-            <>
-                {!!$payment.savedCards.length &&
-                    <div className="return-to-saved-cards">
-                        <button onClick={() => this.setState({ addNew: false })} className="button">
-                            {t("Back to") + " " + t("Saved Cards")}
-                        </button>
-                    </div>
+    return (
+        <div className="payment block">
+            <section>
+                { $payment.subject.previousPaymentMethod &&
+                    <Breadcrumbs
+                        backText={t("Back to") + " " + $payment.subject.referenceCode}
+                        backLink="/accommodation/booking"
+                    />
                 }
-                <h2>
-                    {t("Please Enter Your Card Details")}
-                </h2>
-                <PaymentForm
-                    total={$payment.subject.price}
-                    pay={payByForm}
-                />
-            </> :
-            <>
-                <h2>
-                    {t("Pay using saved cards")}
-                </h2>
-                <PaymentSavedCardsFormPart />
-                <button onClick={() => this.setState({ addNew: true })} className="button">
-                    {t("Use another card")}
-                </button>
-            </>
-        }
-    </section>
-    <ReactTooltip place="top" type="dark" effect="solid" />
-</div>
-        );
-    }
-}
+                { !$payment.subject.previousPaymentMethod &&
+                    <Breadcrumbs
+                        backText={t("Back to") + " " +  t("Your Booking")}
+                        backLink="/accommodation/booking"
+                    />
+                }
+
+                <div className="accent-frame">
+                    <div className="data only">
+                        <strong>Please note:</strong>
+                        When paying by card, we hold funds on your account until the deadline date approach.
+                        In case of cancellation, funds will be released in accordance with the service cancellation policy as soon as possible.
+                    </div>
+                </div>
+
+                { (addNew || !$payment.savedCards.length) ?
+                    <>
+                        {!!$payment.savedCards.length &&
+                            <div className="return-to-saved-cards">
+                                <button onClick={() => setAddNew(false)} className="button">
+                                    {t("Back to") + " " + t("Saved Cards")}
+                                </button>
+                            </div>
+                        }
+                        <h2>
+                            {t("Please Enter Your Card Details")}
+                        </h2>
+                        <PaymentForm
+                            total={$payment.subject.price}
+                            pay={payByForm}
+                        />
+                    </> :
+                    <>
+                        <h2>
+                            {t("Pay using saved cards")}
+                        </h2>
+                        <PaymentSavedCardsFormPart />
+                        <button onClick={() => setAddNew(true)} className="button">
+                            {t("Use another card")}
+                        </button>
+                    </>
+                }
+            </section>
+            <ReactTooltip place="top" type="dark" effect="solid" />
+        </div>
+    );
+});
 
 export default PaymentPage;

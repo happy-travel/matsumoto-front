@@ -8,11 +8,10 @@ import CurrencySwitcher from "./currency-switcher";
 import { Authorized } from "core/auth";
 import { $ui } from "stores";
 
-@observer
-class Footer extends React.Component {
-render() {
+const Footer = observer(() => {
+    const HappyTravelDotCom = $ui.ourCompanyInfo;
+
     const { t } = useTranslation();
-    var ht = $ui.ourCompanyInfo;
     return (
         <footer>
             <section>
@@ -45,25 +44,25 @@ render() {
                     <h3>{t("Contacts")}</h3>
                     <ul>
                         <li>
-                            <span>{t("Email")}:</span> <a href={`mailto:${ht.email}`}>{ht.email}</a>
+                            <span>{t("Email")}:</span> <a href={`mailto:${HappyTravelDotCom.email}`}>{HappyTravelDotCom.email}</a>
                         </li>
                         <li>
-                            <span>{t("Phone")}:</span> {ht.phone}
+                            <span>{t("Phone")}:</span> {HappyTravelDotCom.phone}
                         </li>
                         <li>
-                            <span>{t("Address")}:</span> {ht.name}<br/>
-                            {ht.address}<br/>
-                            P.O. {ht.postalCode}<br/>
-                            {ht.city}, {ht.country}
+                            <span>{t("Address")}:</span> {HappyTravelDotCom.name}<br/>
+                            {HappyTravelDotCom.address}<br/>
+                            P.O. {HappyTravelDotCom.postalCode}<br/>
+                            {HappyTravelDotCom.city}, {HappyTravelDotCom.country}
                         </li>
                         <li>
-                            <span>TRN:</span> {ht.trn}
+                            <span>TRN:</span> {HappyTravelDotCom.trn}
                         </li>
                         <li>
-                            <span>IATA:</span> {ht.iata}
+                            <span>IATA:</span> {HappyTravelDotCom.iata}
                         </li>
                         <li>
-                            <span>Trade License:</span> {ht.tradeLicense}
+                            <span>Trade License:</span> {HappyTravelDotCom.tradeLicense}
                         </li>
                     </ul>
                 </div>
@@ -78,7 +77,7 @@ render() {
                 </div>
             </section>
             <section className="copyright">
-                <div>{t("_copyright")} © 2019 — {new Date().getFullYear()} {ht.name}</div>
+                <div>{t("_copyright")} © 2019 — {new Date().getFullYear()} {HappyTravelDotCom.name}</div>
                 <div className="service-info column">
                     <span>Web – {settings.build || 0} </span>
                     <span>API – {$ui.currentAPIVersion || 0}</span>
@@ -86,6 +85,6 @@ render() {
             </section>
         </footer>
     );
-}}
+});
 
 export default Footer;

@@ -32,10 +32,10 @@ const CounterpartySettings = observer(() => {
                     $notifications.addNotification("Couldn't get a contract file");
                 if (res.status == 200)
                     res.blob().then(blobby => {
-                        var anchor = document.createElement("a");
+                        let anchor = document.createElement("a");
                         document.body.appendChild(anchor);
 
-                        var objectUrl = window.URL.createObjectURL(blobby);
+                        const objectUrl = window.URL.createObjectURL(blobby);
                         anchor.href = objectUrl;
                         anchor.download = 'contract.pdf';
                         anchor.click();
@@ -62,11 +62,10 @@ const CounterpartySettings = observer(() => {
                                 ...$personal.counterpartyInfo
                             } || {}
                         }
-                        enableReinitialize={true}
                         onSubmit={() => {}}
                     >
                     {formik => {
-                        var params = {
+                        const params = {
                             formik: formik,
                             placeholder: t("Not provided"),
                             disabled: true

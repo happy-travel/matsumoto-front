@@ -9,32 +9,31 @@ const taskSubmitBookingForm = (values, { setSubmitting }) => {
         return null;
     }
 
-    var contract = $accommodation.selected.roomContractSet,
-        search = $accommodation.search.request;
+    const contract = $accommodation.selected.roomContractSet;
+    const search = $accommodation.search.request;
+    let roomDetails = [];
 
-    var roomDetails = [];
+    for (let i = 0; i < contract?.rooms?.length; i++) {
+        const adults = contract?.rooms[i]?.adultsNumber;
+        const total = adults + contract?.rooms[i]?.childrenAges.length;
+        let passengers = [];
 
-    for (var r = 0; r < contract?.rooms?.length; r++) {
-        var adults = contract?.rooms[r]?.adultsNumber,
-            total = adults + contract?.rooms[r]?.childrenAges.length,
-            passengers = [];
-
-        for (var i = 0; i < total; i++)
+        for (let j = 0; j < total; j++)
             passengers.push({
-                title: values.room[r].passengers[i].title,
-                firstName: values.room[r].passengers[i].firstName,
-                lastName: values.room[r].passengers[i].lastName,
-                age: i < adults ? 35 : contract?.rooms[r]?.childrenAges[i-adults],
-                ...( i == 0 ? { isLeader: true } : {} )
+                title: values.room[i].passengers[j].title,
+                firstName: values.room[i].passengers[j].firstName,
+                lastName: values.room[i].passengers[j].lastName,
+                age: j < adults ? 35 : contract?.rooms[i]?.childrenAges[j-adults],
+                ...( j == 0 ? { isLeader: true } : {} )
             });
 
         roomDetails.push({
-            type: contract.rooms[r]?.type,
+            type: contract.rooms[i]?.type,
             passengers
         })
     }
 
-    var request = {
+    const request = {
         searchId: $accommodation.search.id,
         resultId: $accommodation.selected.accommodation.id,
         roomContractSetId: contract.id,

@@ -15,9 +15,9 @@ const Amenities = ({ hotel }) => {
     const list = hotel.accommodationAmenities;
 
     const result = [];
-    for (var i = 0; i < 3; i++) {
-        var sub = [];
-        for (var j = 0; j < list.length; j++)
+    for (let i = 0; i < 3; i++) {
+        let sub = [];
+        for (let j = 0; j < list.length; j++)
             if (i == j % 3)
                 sub.push(
                     <li key={`amenity${j}`}>

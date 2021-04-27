@@ -11,12 +11,12 @@ const formFormatter = (values) => ({
 });
 
 const postVirtualForm = (path, values) => {
-    var form = document.createElement("form");
+    const form = document.createElement("form");
     form.setAttribute("method", "POST");
     form.setAttribute("action", path);
-    for (var key in values)
+    for (let key in values)
         if (values.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
+            const hiddenField = document.createElement("input");
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", key);
             hiddenField.setAttribute("value", values[key]);

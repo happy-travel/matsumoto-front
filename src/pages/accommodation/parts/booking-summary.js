@@ -10,8 +10,7 @@ const BookingSummary = ({
     checkOutDate,
     numberOfNights,
     numberOfGuests,
-    agentReference,
-    tags
+    agentReference
 }) => {
     const { t } = useTranslation();
 

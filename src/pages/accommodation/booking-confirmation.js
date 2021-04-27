@@ -6,33 +6,29 @@ import PaymentInformation from "./parts/payment-information";
 import BookingConfirmationView from "./parts/booking-confirmation-view";
 import { $payment } from "stores";
 
-@observer
-class AccommodationConfirmationPage extends React.Component {
-    render() {
-        const { t } = useTranslation();
-
-        return (
-            <div className="booking block">
-                <section>
-                    { !$payment.paymentResult.error &&
-                        <Breadcrumbs
-                            backLink="/bookings"
-                            backText={t("Back to") + " " + t("Bookings List")}
-                        />
-                    }
-                    { $payment.paymentResult.error &&
-                        <PaymentInformation />
-                    }
-                    { !$payment.paymentResult.error &&
-                        <BookingConfirmationView
-                            referenceCode={$payment.subject.referenceCode}
-                            PaymentInformation={<PaymentInformation />}
-                        />
-                    }
-                </section>
-            </div>
-        );
-    }
-}
+const AccommodationConfirmationPage = observer(() => {
+    const { t } = useTranslation();
+    return (
+        <div className="booking block">
+            <section>
+                { !$payment.paymentResult.error &&
+                    <Breadcrumbs
+                        backLink="/bookings"
+                        backText={t("Back to") + " " + t("Bookings List")}
+                    />
+                }
+                { $payment.paymentResult.error &&
+                    <PaymentInformation />
+                }
+                { !$payment.paymentResult.error &&
+                    <BookingConfirmationView
+                        referenceCode={$payment.subject.referenceCode}
+                        PaymentInformation={<PaymentInformation />}
+                    />
+                }
+            </section>
+        </div>
+    );
+});
 
 export default AccommodationConfirmationPage;

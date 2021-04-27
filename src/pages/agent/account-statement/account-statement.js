@@ -1,5 +1,4 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { date } from "simple";
@@ -16,14 +15,11 @@ const initialValues = {
     end: new Date()
 };
 
-@observer
-class AccountStatementPage extends React.Component {
-    state = {
-        filterTab: null,
-        payments: null
-    };
+const AccountStatementPage = () => {
+    const [filterTab, setFilterTab] = useState(null);
+    const [payments, setPayments] = useState(null);
 
-    fetchBillingHistory = (values) => {
+    const fetchBillingHistory = (values) => {
         if (!$personal.information?.counterparties?.length)
             return;
 
@@ -38,77 +34,73 @@ class AccountStatementPage extends React.Component {
                     date.format.api(date.addDay(values.end, 1))
                 }`
             },
-            success: payments => this.setState({ payments })
+            success: setPayments
         });
     };
 
-    componentDidMount() {
-        this.fetchBillingHistory();
-    }
+    useEffect(() => {
+        fetchBillingHistory();
+    }, []);
 
-    render() {
-        var { t } = useTranslation();
+    const filter = (result) => {
+        if (filterTab) {
+            if ("Future" == filterTab || "Past" == filterTab)
+                result = result.filter(item => {
+                    const isFuture = !date.passed(item.checkInDate);
+                    if ("Future" == filterTab)
+                        return isFuture;
+                    else
+                        return !isFuture;
+                });
+            if ("Cancelled" == filterTab)
+                result = result.filter(item => "Cancelled" == item.status);
+        }
+        return result;
+    };
 
-        var filter = result => {
-            if (this.state.filterTab) {
-                if ("Future" == this.state.filterTab ||
-                    "Past" == this.state.filterTab)
-                    result = result.filter(item => {
-                        var isFuture = !date.passed(item.checkInDate);
-                        if ("Future" == this.state.filterTab)
-                            return isFuture;
-                        else
-                            return !isFuture;
-                    });
-                if ("Cancelled" == this.state.filterTab)
-                    result = result.filter(item => "Cancelled" == item.status);
-            }
-            return result;
-        };
-
-        return (
-            <>
-                <div className="settings block">
-                    <SettingsHeader />
-                </div>
-                <SettingsNav />
-                <div className="management block payments-history">
-                    <section className="content">
-                        <Table
-                            columns={Columns(t)}
-                            list={this.state.payments}
-                            textEmptyResult={t("You don`t have any payment history for this dates")}
-                            filter={filter}
-                            sorters={Sorters(t)}
-                            searches={Searches}
-                            CustomFilter={
-                                <div className="form">
-                                    <Formik
-                                        initialValues={initialValues}
-                                        onSubmit={this.fetchBillingHistory}
-                                    >
-                                        {formik => (
-                                            <form>
-                                                <FieldDatepicker
-                                                    formik={formik}
-                                                    id="range"
-                                                    first="start"
-                                                    second="end"
-                                                    label={t("Dates")}
-                                                    placeholder={t("Dates")}
-                                                    onChange={formik.handleSubmit}
-                                                />
-                                            </form>
-                                        )}
-                                    </Formik>
-                                </div>
-                            }
-                        />
-                    </section>
-                </div>
-            </>
-        );
-    }
-}
+    const { t } = useTranslation();
+    return (
+        <>
+            <div className="settings block">
+                <SettingsHeader />
+            </div>
+            <SettingsNav />
+            <div className="management block payments-history">
+                <section className="content">
+                    <Table
+                        columns={Columns(t)}
+                        list={payments}
+                        textEmptyResult={t("You don`t have any payment history for this dates")}
+                        filter={filter}
+                        sorters={Sorters(t)}
+                        searches={Searches}
+                        CustomFilter={
+                            <div className="form">
+                                <Formik
+                                    initialValues={initialValues}
+                                    onSubmit={fetchBillingHistory}
+                                >
+                                    {formik => (
+                                        <form>
+                                            <FieldDatepicker
+                                                formik={formik}
+                                                id="range"
+                                                first="start"
+                                                second="end"
+                                                label={t("Dates")}
+                                                placeholder={t("Dates")}
+                                                onChange={formik.handleSubmit}
+                                            />
+                                        </form>
+                                    )}
+                                </Formik>
+                            </div>
+                        }
+                    />
+                </section>
+            </div>
+        </>
+    );
+};
 
 export default AccountStatementPage;

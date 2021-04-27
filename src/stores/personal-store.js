@@ -1,12 +1,9 @@
-import { observable, computed } from "mobx";
+import { computed, makeAutoObservable } from "mobx";
 import autosave from "core/misc/autosave";
-import setter from "core/mobx/setter";
 import { APR_VALUES } from "enum";
 import { decorate } from "simple";
 
 class PersonalStore {
-    @observable
-    @setter
     information = {
         email: null,
         lastName: null,
@@ -14,40 +11,21 @@ class PersonalStore {
         title: null,
         position: null
     };
-
-    @observable
     settings = {
         weekStarts: 0,
         availableCredit: true
     };
-
-    @observable
-    @setter
     counterpartyInfo = null;
-
-    @observable
-    @setter
-    companyInfo = null;
-
-    @observable
-    @setter
     balance = null;
-
-    @observable
-    @setter
     agencyAPR = APR_VALUES.NotDisplay;
-
-    @observable
-    @setter
     bookingList = null;
-
-    @observable
     registration = {
         agent: {},
         counterparty: {}
     };
 
     constructor() {
+        makeAutoObservable(this);
         autosave(this, "_personal_store_cache");
     }
 
@@ -66,7 +44,7 @@ class PersonalStore {
         };
     }
 
-    $setRegistrationAgentForm(form) {
+    setRegistrationAgentForm(form) {
         this.registration.agent = form;
     }
 
@@ -94,6 +72,12 @@ class PersonalStore {
             }
         };
     }
+
+    setInformation(values) { this.information = values; }
+    setCounterpartyInfo(values) { this.counterpartyInfo = values; }
+    setBalance(values) { this.balance = values; }
+    setAgencyAPR(values) { this.agencyAPR = values; }
+    setBookingList(values) { this.bookingList = values; }
 }
 
 export default new PersonalStore();

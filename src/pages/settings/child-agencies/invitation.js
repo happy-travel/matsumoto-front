@@ -1,5 +1,4 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { Loader } from "components/simple";
@@ -10,15 +9,13 @@ import FormAgentData from "parts/form-agent-data";
 import Breadcrumbs from "components/breadcrumbs";
 import { $ui } from "stores";
 
-@observer
-class ChildAgencyInvitationPage extends React.Component {
-    state = {
-        success: false,
-        form: null
-    };
+const ChildAgencyInvitationPage = () => {
+    const [success, setSuccess] = useState(false);
+    const [name, setName] = useState("");
+    const [form, setForm] = useState(null);
 
-    submit = (values) => {
-        this.setState({ success: null });
+    const submit = (values) => {
+        setSuccess(null);
         API.post({
             url: values.send ? API.CHILD_AGENCY_INVITE_SEND : API.CHILD_AGENCY_INVITE_GENERATE,
             body: {
@@ -35,129 +32,129 @@ class ChildAgencyInvitationPage extends React.Component {
             },
             success: data => {
                 $ui.dropFormCache(FORM_NAMES.CreateInviteForm);
-                this.setState({
-                    success:
-                        (values.send || !data) ?
-                            true :
-                            window.location.origin + "/signup/invite/" + values.email + "/" + data,
-                    name: (values.firstName || values.lastName) ? (values.firstName + " " + values.lastName) : null
-                });
+                setSuccess((values.send || !data) ?
+                    true :
+                    window.location.origin + "/signup/invite/" + values.email + "/" + data
+                );
+                setName((values.firstName || values.lastName) ? (values.firstName + " " + values.lastName) : null);
             },
-            error: () => this.setState({ success: false })
+            error: () => setSuccess(false)
         });
     };
 
-    reset = () => {
-        this.setState({ success: false });
+    const reset = () => {
+        setSuccess(false);
     };
 
-    submitButtonClick(send, formik) {
+    const submitButtonClick = (send, formik) => {
         formik.setFieldValue("send", send);
         formik.handleSubmit();
-    }
+    };
 
-    render() {
-        var { t } = useTranslation();
+    const { t } = useTranslation();
 
-        return (
-            <div className="settings block">
-                <section>
-                    <Breadcrumbs items={[
-                        {
-                            text: t("Agency"),
-                            link: "/settings/counterparty"
-                        },
-                        {
-                            text: t("Child Agencies"),
-                            link: "/settings/child-agencies"
-                        }, {
-                            text: t("Invitation")
-                        }
-                    ]}/>
-                    <h2>{t("Invite child agency")}</h2>
-                    { this.state.success === null && <Loader /> }
-                    { this.state.success && <div>
-                        {this.state.success === true ?
-                            <div>
-                                { this.state.name ?
-                                    <h3>{t("Your invitation sent to")} {this.state.name}</h3> :
-                                    <h3>{t("Your invitation sent")}</h3> }
-                                <br/>
-                            </div> :
-                            <div>
-                                <div className="form">
-                                    <h3>{t("Send this link as an invitation")}</h3>
-                                    <br/>
-                                    <FieldText
-                                        value={this.state.success}
-                                    />
-                                </div>
-                                <br/>
-                                <button className="button" style={{ marginBottom: 20 }} onClick={() => copyToClipboard(this.state.success)}>
-                                    {t("Copy to Clipboard")}
-                                </button>
-                            </div>}
-                        <button className="button" onClick={this.reset}>
-                            {t("Send one more invite")}
-                        </button>
-                    </div> }
-
-                    { false === this.state.success && <CachedForm
-                        id={FORM_NAMES.CreateInviteForm}
-                        initialValues={{
-                            agencyName: "",
-                            email: "",
-                            title: "",
-                            firstName: "",
-                            lastName: "",
-                            position: ""
-                        }}
-                        validationSchema={registrationAgentValidatorWithEmailAndAgencyName}
-                        onSubmit={this.submit}
-                        render={formik => (
+    return (
+        <div className="settings block">
+            <section>
+                <Breadcrumbs items={[
+                    {
+                        text: t("Agency"),
+                        link: "/settings/counterparty"
+                    },
+                    {
+                        text: t("Child Agencies"),
+                        link: "/settings/child-agencies"
+                    }, {
+                        text: t("Invitation")
+                    }
+                ]}/>
+                <h2>{t("Invite child agency")}</h2>
+                { success === null &&
+                    <Loader />
+                }
+                { success && <div>
+                    {success === true ?
+                        <div>
+                            { name ?
+                                <h3>{t("Your invitation sent to")} {name}</h3> :
+                                <h3>{t("Invitation sent")}</h3> }
+                            <br/>
+                        </div> :
+                        <div>
                             <div className="form">
-                                <div className="row">
-                                    <FieldText formik={formik}
-                                               id="agencyName"
-                                               label={t("Child Agency Name")}
-                                               placeholder={t("Child Agency Name")}
-                                               required
-                                    />
-                                </div>
-                                <div className="row">
-                                    <FieldText formik={formik}
-                                               id="email"
-                                               label={t("Email")}
-                                               placeholder={t("Email")}
-                                               required
-                                    />
-                                </div>
-                                <FormAgentData formik={formik} />
-                                <div className="row">
-                                    <div className="field" style={{ width: "50%" }}>
-                                        <div className="inner">
-                                            <button onClick={() => this.submitButtonClick(true, formik)}
-                                                    className={"button" + __class(!formik.isValid, "disabled")}>
-                                                {t("Send Invitation")}
-                                            </button>
-                                        </div>
+                                <h3>{t("Send this link as an invitation")}</h3>
+                                <br/>
+                                <FieldText
+                                    value={success}
+                                />
+                            </div>
+                            <br/>
+                            <button className="button" style={{ marginBottom: 20 }} onClick={() => copyToClipboard(success)}>
+                                {t("Copy to Clipboard")}
+                            </button>
+                        </div>}
+                    <button className="button" onClick={reset}>
+                        {t("Send one more invite")}
+                    </button>
+                </div> }
+
+                { false === success && <CachedForm
+                    id={FORM_NAMES.CreateInviteForm}
+                    initialValues={{
+                        agencyName: "",
+                        email: "",
+                        title: "",
+                        firstName: "",
+                        lastName: "",
+                        position: ""
+                    }}
+                    validationSchema={registrationAgentValidatorWithEmailAndAgencyName}
+                    onSubmit={submit}
+                    render={formik => (
+                        <div className="form">
+                            <div className="row">
+                                <FieldText
+                                    formik={formik}
+                                    id="agencyName"
+                                    label={t("Child Agency Name")}
+                                    placeholder={t("Child Agency Name")}
+                                    required
+                                />
+                            </div>
+                            <div className="row">
+                                <FieldText
+                                    formik={formik}
+                                    id="email"
+                                    label={t("Email")}
+                                    placeholder={t("Email")}
+                                    required
+                                />
+                            </div>
+                            <FormAgentData formik={formik} />
+                            <div className="row">
+                                <div className="field" style={{ width: "50%" }}>
+                                    <div className="inner">
+                                        <button onClick={() => submitButtonClick(true, formik)}
+                                                className={"button" + __class(!formik.isValid, "disabled")}>
+                                            {t("Send Invitation")}
+                                        </button>
                                     </div>
-                                    <div className="field" style={{ width: "50%" }}>
-                                        <div className="inner">
-                                            <button onClick={() => this.submitButtonClick(false, formik)}
-                                                    className={"button" + __class(!formik.isValid, "disabled")}>
-                                                {t("Generate Invitation Link")}
-                                            </button>
-                                        </div>
+                                </div>
+                                <div className="field" style={{ width: "50%" }}>
+                                    <div className="inner">
+                                        <button onClick={() => submitButtonClick(false, formik)}
+                                                className={"button" + __class(!formik.isValid, "disabled")}>
+                                            {t("Generate Invitation Link")}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        )}
-                    /> }
-                </section>
-            </div>
-        );
-    }
-}
+                        </div>
+                    )}
+                /> }
+            </section>
+        </div>
+    );
+};
 
 export default ChildAgencyInvitationPage;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -33,69 +33,59 @@ const invitationsColumns = t => [
     }
 ];
 
-@observer
-class InvitationsManagement extends React.Component {
-    state = {
-        redirect: null,
-        invitations: null,
-        creation: false
-    };
+const InvitationsManagement = observer(() => {
+    const [invitations, setInvitations] = useState(null);
 
-    componentDidMount() {
+    useEffect(() => {
         if (!$personal.activeCounterparty)
             return;
 
-        var url = API.AGENT_INVITATIONS;
-        if ($personal.permitted("ObserveAgencyInvitations"))
-            url = API.AGENCY_INVITATIONS;
-
         API.get({
-            url,
-            success: invitations => this.setState({
-                invitations,
-                redirect: invitations.length ? null : '/settings/invitations/send'
-            })
+            url: $personal.permitted("ObserveAgencyInvitations") ?
+                API.AGENCY_INVITATIONS :
+                API.AGENT_INVITATIONS,
+            success: (result) => {
+                setInvitations(result);
+                if (!result.length)
+                    redirect("/settings/invitations/send");
+            }
         });
-    }
+    }, []);
 
-    render() {
-        var { t } = useTranslation(),
-            { invitations } = this.state;
-
-        return (
-            <div className="settings block">
-                <SettingsHeader />
-                <SettingsNav />
-                <section>
-                    {invitations === null ?
-                        <Loader /> :
-                        <>
-                            {!!invitations?.length &&
-                                <>
-                                    <h2>{
-                                        $personal.permitted("ObserveAgencyInvitations") ?
-                                        t("Unaccepted Agency Invitations") :
-                                        t("Unaccepted Invitations")
-                                    }</h2>
-                                    <Table
-                                        list={invitations}
-                                        columns={invitationsColumns(t)}
-                                        textEmptyList={t("There are no available invitations")}
-                                        onRowClick={item => redirect(`/settings/invitations/${item.id}`)}
-                                    />
-                                </>
-                            }
-                            <Link to="/settings/invitations/send">
-                                <button className="button" style={{ marginTop: 25 }}>
-                                    {t("Invite an agent")}
-                                </button>
-                            </Link>
-                        </>
-                    }
-                </section>
-            </div>
-        );
-    }
-}
+    const { t } = useTranslation();
+    return (
+        <div className="settings block">
+            <SettingsHeader />
+            <SettingsNav />
+            <section>
+                { invitations === null ?
+                    <Loader /> :
+                    <>
+                        {!!invitations?.length &&
+                            <>
+                                <h2>{
+                                    $personal.permitted("ObserveAgencyInvitations") ?
+                                    t("Unaccepted Agency Invitations") :
+                                    t("Unaccepted Invitations")
+                                }</h2>
+                                <Table
+                                    list={invitations}
+                                    columns={invitationsColumns(t)}
+                                    textEmptyList={t("There are no available invitations")}
+                                    onRowClick={item => redirect(`/settings/invitations/${item.id}`)}
+                                />
+                            </>
+                        }
+                        <Link to="/settings/invitations/send">
+                            <button className="button" style={{ marginTop: 25 }}>
+                                {t("Invite an agent")}
+                            </button>
+                        </Link>
+                    </>
+                }
+            </section>
+        </div>
+    );
+});
 
 export default InvitationsManagement;

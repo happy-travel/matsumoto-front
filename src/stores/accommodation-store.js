@@ -1,4 +1,4 @@
-import { observable, computed } from "mobx"
+import { computed, makeAutoObservable } from "mobx"
 import autosave from "core/misc/autosave";
 import { SEARCH_STATUSES } from "enum";
 import {
@@ -7,11 +7,11 @@ import {
     generateFiltersLine,
     generateSorterLine
 } from "tasks/utils/accommodation-filtering";
+import { accommodationStoreCacheShorter } from "tasks/utils/accommodation-store-cache-shorter";
 
 const DAY_IN_SECONDS = 24 * 60 * 60 * 1000;
 
 class AccommodationStore {
-    @observable
     search = {
         loading: false,
         request: null,
@@ -29,8 +29,6 @@ class AccommodationStore {
         roomsLastCheckedAt: null,
         roomsCreatedAt: null
     };
-
-    @observable
     selected = {
         accommodation: null,
         roomContractSet: null,
@@ -40,27 +38,14 @@ class AccommodationStore {
         sorter: null,
         filters: null
     };
-
-    @observable
     booking = {
         request: {},
         result: null
     };
 
     constructor() {
-        autosave(
-            this,
-            "_accommodation_store_cache",
-            (initial) => {
-                const short = JSON.parse(JSON.stringify(initial));
-                if (short?.search?.result?.length > 10) {
-                    short.search.result = short.search.result.slice(0, 10);
-                    short.search.page = 0;
-                    short.search.hasMoreSearchResults = true;
-                }
-                return short;
-            }
-        );
+        makeAutoObservable(this);
+        autosave(this, "_accommodation_store_cache", accommodationStoreCacheShorter);
     }
 
     setNewSearchRequest(request) {

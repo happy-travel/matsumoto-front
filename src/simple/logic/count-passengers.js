@@ -1,7 +1,7 @@
 export const countPassengers = (values, field) => {
     let result = 0,
         rooms = values?.roomDetails || values?.rooms;
-    for (var i = 0; i < rooms?.length; i++) {
+    for (let i = 0; i < rooms?.length; i++) {
         if (!field || "childrenNumber" == field)
             result += (rooms[i].childrenAges?.length || 0);
         if (!field || "adultsNumber" == field)

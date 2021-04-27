@@ -2,9 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { FieldText, FieldSelect } from "components/form";
 
-export default ({
-    formik,
-}) => {
+const FormAgentData = ({ formik }) => {
     const { t } = useTranslation();
     return (
         <>
@@ -49,3 +47,5 @@ export default ({
         </>
     );
 };
+
+export default FormAgentData;

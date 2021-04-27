@@ -1,12 +1,13 @@
-import { observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { MODALS } from "enum/modals-enum";
 
 class ViewStore {
-    @observable
     modal = null;
-
-    @observable
     modalData = null;
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     setModal(id, data) {
         this.modal = id || null;

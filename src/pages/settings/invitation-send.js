@@ -1,5 +1,4 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { Loader } from "components/simple";
@@ -10,15 +9,13 @@ import FormAgentData from "parts/form-agent-data";
 import SettingsHeader from "pages/settings/parts/settings-header";
 import { $ui, $personal, $notifications } from "stores";
 
-@observer
-class InvitationSendPage extends React.Component {
-    state = {
-        success: false,
-        form: null
-    };
+const InvitationSendPage = () => {
+    const [success, setSuccess] = useState(false);
+    const [form, setForm] = useState(null);
+    const [name, setName] = useState("");
 
-    submit = (values) => {
-        this.setState({ success: null });
+    const submit = (values) => {
+        setSuccess(null);
         API.post({
             url: values.send ? API.AGENT_INVITE_SEND : API.AGENT_INVITE_GENERATE,
             body: {
@@ -31,47 +28,36 @@ class InvitationSendPage extends React.Component {
                     title: values.title
                 }
             },
-            success: data => {
+            success: (data) => {
                 $ui.dropFormCache(FORM_NAMES.CreateInviteForm);
-                this.setState({
-                    success:
-                        (values.send || !data) ?
-                        true :
-                        window.location.origin + "/signup/invite/" + values.email + "/" + data,
-                    name: (values.firstName || values.lastName) ? (values.firstName + " " + values.lastName) : null
-                });
+                setSuccess((values.send || !data) ?
+                    true :
+                    window.location.origin + "/signup/invite/" + values.email + "/" + data
+                );
+                setName((values.firstName || values.lastName) ? (values.firstName + " " + values.lastName) : null);
             },
-            error: (error) => {
-                this.setState({ success: false });
-                $notifications.addNotification(error?.title || error?.detail);
-            }
+            error: () => setSuccess(false)
         });
     };
 
-    reset = () => {
-        this.setState({ success: false });
-    };
-
-    submitButtonClick(send, formik) {
+    const submitButtonClick = (send, formik) => {
         formik.setFieldValue("send", send);
         formik.handleSubmit();
-    }
+    };
 
-    render() {
-        var { t } = useTranslation();
-
-        return (
+    const { t } = useTranslation();
+    return (
     <div className="settings block">
         <SettingsHeader />
         <section>
             <h2>{t("Invite an agent")}</h2>
-            { this.state.success === null && <Loader /> }
-            { this.state.success && <div>
-                {this.state.success === true ?
+            { success === null && <Loader /> }
+            { success && <div>
+                {success === true ?
                 <div>
-                    { this.state.name ?
-                        <h3>{t("Your invitation sent to")} {this.state.name}</h3> :
-                        <h3>{t("Your invitation sent")}</h3> }
+                    { name ?
+                        <h3>{t("Your invitation sent to")} {name}</h3> :
+                        <h3>{t("Invitation sent")}</h3> }
                     <br/>
                 </div> :
                 <div>
@@ -79,31 +65,34 @@ class InvitationSendPage extends React.Component {
                         <h3>{t("Send this link as an invitation")}</h3>
                         <br/>
                         <FieldText
-                            value={this.state.success}
+                            value={success}
                         />
                     </div>
                     <br/>
-                    <button className="button" style={{ marginBottom: 20 }} onClick={() => copyToClipboard(this.state.success)}>
+                    <button className="button" style={{ marginBottom: 20 }} onClick={() => copyToClipboard(success)}>
                         {t("Copy to Clipboard")}
                     </button>
                 </div>}
-                <button className="button" onClick={this.reset}>
+                <button className="button" onClick={() => setSuccess(false)}>
                     {t("Send one more invite")}
                 </button>
             </div> }
-            { false === this.state.success && <p>
-                {t("Invite someone to create a free Happytravel.com account and start booking today")}<br/>
-                <br/>
-            </p> }
 
-            { false === this.state.success && <CachedForm
+            { false === success &&
+                <p>
+                    {t("Invite someone to create a free Happytravel.com account and start booking today")}<br/>
+                    <br/>
+                </p>
+            }
+
+            { false === success && <CachedForm
                 id={FORM_NAMES.CreateInviteForm}
                 initialValues={{
-                    "email": "",
-                    "title": "",
-                    "firstName": "",
-                    "lastName": "",
-                    "position": ""
+                    email: "",
+                    title: "",
+                    firstName: "",
+                    lastName: "",
+                    position: ""
                 }}
                 validationSchema={registrationAgentValidatorWithEmail}
                 onSubmit={this.submit}
@@ -141,8 +130,7 @@ class InvitationSendPage extends React.Component {
             /> }
         </section>
     </div>
-        );
-    }
-}
+    );
+};
 
 export default InvitationSendPage;

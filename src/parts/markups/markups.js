@@ -1,51 +1,41 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { useEffect, useState } from "react";
 import { API } from "core";
 import MarkupFormPart from "parts/markups/markup-form-part";
 import MarkupsListPart from "parts/markups/markups-list-part";
 
-@observer
-class Markups extends React.Component {
-    state = {
-        markups: [],
-        templates: [],
-        isExpanded: false
-    }
+const Markups = ({ markupsRoute, id, emptyText }) => {
+    const [markups, setMarkups] = useState([]);
+    const [templates, setTemplates] = useState([]);
+    const [isExpanded, setIsExpanded] = useState(false);
 
-    componentDidMount() {
-        API.get({
-            url: API.MARKUP_TEMPLATES,
-            success: templates => this.setState({ templates })
-        });
-        this.load();
-    }
-
-    load = () => {
-        let { markupsRoute, id } = this.props;
+    const load = () => {
         API.get({
             url: markupsRoute(id),
-            success: markups => this.setState({
-                markups,
-                isExpanded: !markups?.length
-            })
+            success: (result) => {
+                setMarkups(result);
+                setIsExpanded(!result?.length);
+            }
         });
     };
 
-    remove = (markupId) => {
-        let { markupRoute, id } = this.props;
+    useEffect(() => {
+        API.get({
+            url: API.MARKUP_TEMPLATES,
+            success: setTemplates
+        });
+        load();
+    }, []);
+
+
+    const remove = (markupId) => {
         API.delete({
             url: markupRoute(id, markupId),
-            success: () => this.load()
+            success: load
         });
     };
 
-    create = (values, formik) => {
-        let { markupsRoute, id } = this.props,
-            { templates } = this.state,
-            amount = values.amount;
-
-        amount = amount.replaceAll(",", ".");
-
+    const create = (values, formik) => {
+        const amount = values.amount.replaceAll(",", ".");
         API.post({
             url: markupsRoute(id),
             body: {
@@ -58,40 +48,35 @@ class Markups extends React.Component {
                 currency: "USD"
             },
             success: () => {
-                this.load();
+                load();
                 formik.resetForm();
             }
         });
     };
 
-    render() {
-        const { markups, templates } = this.state,
-            { emptyText } = this.props;
 
-        return (
-            <div className="markup-management">
-                <MarkupsListPart
-                    emptyText={emptyText}
-                    markups={markups}
-                    onRemove={this.remove}
+    return (
+        <div className="markup-management">
+            <MarkupsListPart
+                emptyText={emptyText}
+                markups={markups}
+                onRemove={remove}
+            />
+            {!isExpanded ?
+                <button
+                    className="button"
+                    onClick={() => setIsExpanded(true)}
+                    style={{ padding: "0 25px", margin: "20px 0 0" }}
+                >
+                    Add Markup
+                </button> :
+                <MarkupFormPart
+                    templates={templates}
+                    onSubmit={create}
                 />
-                {!this.state.isExpanded ?
-                    <button
-                        className="button"
-                        onClick={() => this.setState({ isExpanded: true })}
-                        style={{ padding: "0 25px", margin: "20px 0 0" }}
-                    >
-                        Add Markup
-                    </button>
-                :
-                    <MarkupFormPart
-                        templates={templates}
-                        onSubmit={this.create}
-                    />
-                }
-            </div>
-        );
-    }
-}
+            }
+        </div>
+    );
+};
 
 export default Markups;

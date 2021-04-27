@@ -8,14 +8,14 @@ const authGetFromStorage = () => windowSessionStorage.get(STORAGE_KEY);
 const authRemoveFromStorage = () => windowSessionStorage.remove(STORAGE_KEY);
 
 const authSetToStorage = (auth) => {
-    var email = auth?.email || auth?.profile?.email;
+    const email = auth?.email || auth?.profile?.email;
     if (!email) {
         if (authGetFromStorage())
             authRemoveFromStorage();
         return;
     }
 
-    var value = btoa(email);
+    const value = btoa(email);
     if (value == authGetFromStorage())
         return;
 

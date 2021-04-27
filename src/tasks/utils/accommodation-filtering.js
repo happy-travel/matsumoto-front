@@ -5,8 +5,8 @@ export const atLeastOne = (obj) => {
         return false;
     if (obj.length)
         return true;
-    var result = false;
-    for (var i in obj)
+    let result = false;
+    for (let i in obj)
         if (obj.hasOwnProperty(i))
             result = result || obj[i];
     return result;
@@ -20,7 +20,7 @@ export const generateFiltersLine = filters => {
     if (!atLeastOne(filters))
         return "";
 
-    var list = [];
+    let list = [];
 
     if (atLeastOne(filters.price) && (filters.price.min > 0 || filters.price.max < TEMPORARY_MAX_PRICE))
         list.push(`RoomContractSets/any(d: d/Rate/FinalPrice/Amount lt ${filters.price.max} and d/Rate/FinalPrice/Amount gt ${filters.price.min})`);
@@ -63,8 +63,8 @@ export const createFilters = hotels => {
         __source: new Set()
     };
 
-    for (var i = 0; i < hotels.length; i++) {
-        var hotel = hotels[i];
+    for (let i = 0; i < hotels.length; i++) {
+        let hotel = hotels[i];
 
         /* todo: when we create a map, use this array
         mapPoints.push({
@@ -89,7 +89,7 @@ export const applyFilters = (hotels, filters) => {
     if (!filters)
         return hotels;
 
-    var result = hotels;
+    let result = hotels;
 
     // if (atLeastOne(filters.ratings))
     //    result = result.filter(hotel => filters.ratings[hotel?.accommodation?.rating]);
@@ -97,7 +97,7 @@ export const applyFilters = (hotels, filters) => {
     result = JSON.parse(JSON.stringify(result));
 
     if (atLeastOne(filters.price) && (filters.price.min > 0 || filters.price.max < TEMPORARY_MAX_PRICE))
-        for (var i = 0; i < result.length; i++)
+        for (let i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => (
                     item.rate.finalPrice.amount >= filters.price.min &&
@@ -105,7 +105,7 @@ export const applyFilters = (hotels, filters) => {
                 ));
 
     if (atLeastOne(filters.boardBasis))
-        for (i = 0; i < result.length; i++)
+        for (let i = 0; i < result.length; i++)
             if (result[i].roomContractSets?.length)
                 result[i].roomContractSets = result[i].roomContractSets.filter(item => filters.boardBasis[item?.rooms?.[0]?.boardBasis]);
 

@@ -27,7 +27,7 @@ export const session = {
     },
     google: {
         create: () => {
-            var result = session.get(googleSessionStorageKey);
+            let result = session.get(googleSessionStorageKey);
             if (!result) {
                 result = require('uuid/v4')();
                 session.set(googleSessionStorageKey, result);

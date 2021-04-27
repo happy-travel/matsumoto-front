@@ -65,7 +65,7 @@ const searchLoadNextPage = () => {
 };
 
 const searchLoadWithNewFilters = values => {
-    var { filtersLine } = $accommodation;
+    const { filtersLine } = $accommodation;
     $accommodation.setSearchSelectedFilters(values);
     if (filtersLine != $accommodation.filtersLine) {
         $accommodation.setSearchIsLoading(true);

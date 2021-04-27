@@ -269,7 +269,7 @@ translations: {
     "Send Invitation": "Send Invitation",
     "Invitations": "Invitations",
     "Invite an agent": "Invite an agent",
-    "Your invitation sent": "Your invitation sent",
+    "Invitation sent": "Invitation sent",
     "Your invitation sent to": "Your invitation sent to",
     "Send one more invite": "Send one more invite",
     "Invite someone to create a free Happytravel.com account and start booking today": "Invite someone to create a free Happytravel.com account and start booking today",

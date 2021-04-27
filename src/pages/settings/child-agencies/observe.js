@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
-import { price, date } from "simple";
+import { date } from "simple";
 import Table from "components/table";
 import Breadcrumbs from "components/breadcrumbs";
 import { $personal } from "stores";
@@ -28,56 +28,50 @@ export const Searches = v => [
     v.id,
 ];
 
-@observer
-class ChildAgencyObservePage extends React.Component {
-    state = {
-        agencies: null
-    };
+const ChildAgencyObservePage = () => {
+    const [agencies, setAgencies] = useState(null);
 
-    componentDidMount() {
+    useEffect(() => {
         if (!$personal.activeCounterparty)
             return;
 
         API.get({
             url: API.CHILD_AGENCIES,
-            success: agencies => this.setState({ agencies })
+            success: setAgencies
         });
-    }
+    }, []);
 
-    render() {
-        var { t } = useTranslation(),
-            { agencies } = this.state;
+    const { t } = useTranslation();
 
-        return (
-            <div className="settings block">
-                <section>
-                    <Breadcrumbs items={[
-                        {
-                            text: t("Agency"),
-                            link: "/settings/counterparty"
-                        },
-                        {
-                            text: t("Child Agencies")
-                        }
-                    ]}/>
-                    <h2>{t("Child Agencies")}</h2>
-                    <div style={{ marginTop: "-126px" }}>
-                        <Table
-                            list={agencies}
-                            columns={childAgenciesColumns(t)}
-                            onRowClick={item => redirect(`/settings/child-agencies/${item.id}`)}
-                            textEmptyResult={t("No child agencies found")}
-                            textEmptyList={t("Child agencies list is empty")}
-                            searches={Searches}
-                        />
-                    </div>
-                    <Link to="/settings/child-agencies/invite" className="button" style={{ marginTop: 40 }}>
-                        {t("Invite Child Agency")}
-                    </Link>
-                </section>
-            </div>
-        );
-    }
-}
+    return (
+        <div className="settings block">
+            <section>
+                <Breadcrumbs items={[
+                    {
+                        text: t("Agency"),
+                        link: "/settings/counterparty"
+                    },
+                    {
+                        text: t("Child Agencies")
+                    }
+                ]}/>
+                <h2>{t("Child Agencies")}</h2>
+                <div style={{ marginTop: "-126px" }}>
+                    <Table
+                        list={agencies}
+                        columns={childAgenciesColumns(t)}
+                        onRowClick={item => redirect(`/settings/child-agencies/${item.id}`)}
+                        textEmptyResult={t("No child agencies found")}
+                        textEmptyList={t("Child agencies list is empty")}
+                        searches={Searches}
+                    />
+                </div>
+                <Link to="/settings/child-agencies/invite" className="button" style={{ marginTop: 40 }}>
+                    {t("Invite Child Agency")}
+                </Link>
+            </section>
+        </div>
+    );
+};
 
 export default ChildAgencyObservePage;

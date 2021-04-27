@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getParams, API } from "core";
 import { Loader } from "components/simple";
 import { windowLocalStorage } from "core/misc/window-storage";
 import { paymentCallback } from "tasks/payment/finalize";
 import { directPaymentCallback } from "tasks/payment/direct/direct-finalize";
 
-class Payment3DSecureCallbackPage extends React.Component {
-    componentDidMount() {
-        var params = getParams(),
-            directLinkCode = windowLocalStorage.get(params.merchant_reference);
+const Payment3DSecureCallbackPage = () => {
+    useEffect(() => {
+        const params = getParams();
+        const directLinkCode = windowLocalStorage.get(params.merchant_reference);
 
         if (directLinkCode) {
             API.post({
@@ -24,10 +24,10 @@ class Payment3DSecureCallbackPage extends React.Component {
             body: params,
             after: (data, error) => paymentCallback(data, error)
         });
-    }
+    }, []);
 
-    render() {
-        return <>
+    return (
+        <>
             <Loader white page />
             { __devEnv &&
                 <div className="development-block">
@@ -39,8 +39,8 @@ class Payment3DSecureCallbackPage extends React.Component {
                     </a>
                 </div>
             }
-        </>;
-    }
-}
+        </>
+    );
+};
 
 export default Payment3DSecureCallbackPage;

@@ -16,7 +16,7 @@ const AccommodationTitlePage = observer(({ noSearch }) => {
     <>
         { !noSearch &&
             <div className="search-fullsize-wrapper">
-                <Search fullsize />
+                <Search fullsize key="search-full" />
             </div>
         }
         <div className="tiles block">
