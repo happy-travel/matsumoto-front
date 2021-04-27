@@ -21,7 +21,7 @@ const Breadcrumbs = ({
                     { items.map((item, index) => (
                         <React.Fragment key={index}>
                             { item.link ?
-                                <Link to={item.link}>
+                                <Link to={item.link} onClick={item.onClick}>
                                     {item.text}
                                 </Link>
                               :

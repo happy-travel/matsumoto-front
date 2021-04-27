@@ -18,8 +18,7 @@ import paymentResultSecond                from "pages/payment/result-second";
 import paymentDirectLink                  from "pages/payment/external/direct-link-page";
 import paymentDirectLinkConfirm           from "pages/payment/external/direct-link-confirmation";
 
-import registrationAgent                  from "pages/signup/registration-agent";
-import registrationCounterparty           from "pages/signup/registration-counterparty";
+import signUpPage                         from "pages/signup/signup";
 import acceptInvite                       from "pages/signup/accept-invite";
 
 import bookingsManagement                 from "pages/bookings-management/bookings-management";
@@ -63,7 +62,7 @@ export const routesWithHeaderAndFooter = [
 export const routesWithFooter = [
     ...routesWithHeaderAndFooter,
     "/pay/*",
-    "/signup/*"
+    "/signup"
 ];
 
 export const routesWithSearch = [
@@ -94,8 +93,7 @@ const Routes = () => (
     <Route exact path="/pay/confirmation"                 component={paymentDirectLinkConfirm} title="Confirmation" />
     <Route exact path="/pay/:code"                        component={paymentDirectLink} />
 
-    <Route exact path="/signup/agent"                     component={registrationAgent} title="Sign Up" />
-    <Route exact path="/signup/counterparty"              component={registrationCounterparty} title="Sign Up" />
+    <Route exact path="/signup"                           component={signUpPage} title="Sign Up" />
     <Route exact path="/signup/invite/:email/:code"       component={acceptInvite} title="Sign Up" />
 
     <Route exact path={["/settings", "/settings/agent"]}

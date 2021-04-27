@@ -1,16 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import autosave from "core/misc/autosave";
 import { APR_VALUES } from "enum";
-import { decorate } from "simple";
 
 class PersonalStore {
-    information = {
-        email: null,
-        lastName: null,
-        firstName: null,
-        title: null,
-        position: null
-    };
+    information = {};
     settings = {
         weekStarts: 0,
         availableCredit: true
@@ -19,10 +12,6 @@ class PersonalStore {
     balance = null;
     agencyAPR = APR_VALUES.NotDisplay;
     bookingList = null;
-    registration = {
-        agent: {},
-        counterparty: {}
-    };
 
     constructor() {
         makeAutoObservable(this);
@@ -41,35 +30,6 @@ class PersonalStore {
         this.settings = {
             ...this.settings,
             ...value
-        };
-    }
-
-    setRegistrationAgentForm(form) {
-        this.registration.agent = form;
-    }
-
-    setRegistrationCounterpartyForm(form) {
-        form.phone = decorate.removeNonDigits(form.phone);
-        if (form.fax)
-            form.fax = decorate.removeNonDigits(form.fax);
-
-        this.registration.counterparty = {
-            counterpartyInfo: {
-                id: 1,
-                name: form.name,
-                legalAddress: form.legalAddress,
-                preferredPaymentMethod: form.preferredPaymentMethod
-            },
-            rootAgencyInfo: {
-                address: form.address,
-                countryCode: form.countryCode,
-                countryName: form.country,
-                city: form.city,
-                phone: form.phone,
-                fax: form.fax,
-                postalCode: form.postalCode,
-                website: form.website
-            }
         };
     }
 

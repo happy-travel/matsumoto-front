@@ -6,7 +6,7 @@ import { setLocale } from "core";
 import { Loader, Flag } from "components/simple";
 import { CachedForm, FieldSelect, FieldSwitch, FORM_NAMES } from "components/form";
 import FieldCountry from "components/complex/field-country";
-import { loadAgentSettings, saveAgentSettings } from "simple/logic";
+import { loadAgentSettings, saveAgentSettings } from "tasks/utils/agent-settings";
 import { $ui, $personal } from "stores";
 
 const ApplicationSettings = observer(() => {

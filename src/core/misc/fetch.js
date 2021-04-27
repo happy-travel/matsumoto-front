@@ -14,9 +14,9 @@ export default api => {
         if (typeof err.detail == "string")
             return $notifications.addNotification(err.detail);
         if (typeof err.title == "string")
-            return $notifications.addNotification(err.title, "Server error");
+            return $notifications.addNotification(err.title, "Error");
         if (typeof err == "string")
-            return $notifications.addNotification(err, "Server message");
+            return $notifications.addNotification(err, "Information");
         $notifications.addNotification("Server Request Error");
     };
 

@@ -18,7 +18,6 @@ translations: {
     "Don`t have an account?": "هل لديك حساب؟",
     "Login Information": "معلومات تسجيل الدخول",
     "Agent Information": "معلومات المستخدم",
-    "Company Information": "معلومات الشركة",
     "Already have an account?": "هل لديك حساباً؟",
     "Log In Here": "لتسجيل الدخول اضغط هنا",
     "Password complexity": "درجة تعقيد كلمة المرور",

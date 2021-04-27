@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { Flag, Loader } from "components/simple";
 import { FieldText, FieldTextarea } from "components/form";
-import { loadCounterpartyInfo } from "simple/logic";
+import { loadCounterpartyInfo } from "tasks/utils/agent-settings";
 import { $personal, $notifications } from "stores";
 
 const AgencyLegalInformation = observer(() => {

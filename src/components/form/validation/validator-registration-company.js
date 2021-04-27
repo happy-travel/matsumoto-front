@@ -9,15 +9,9 @@ export default Yup.object().shape({
         .min(2, "Too short")
         .max(2000, "Too long")
         .required("Required"),
-    legalAddress: Yup.string()
-        .min(2, "Too short")
-        .max(2000, "Too long")
-        .required("Required"),
     country: Yup.string()
         .required("Required"),
     city: Yup.string()
-        .required("Required"),
-    preferredPaymentMethod: Yup.string()
         .required("Required"),
     phone: Yup.string()
         .max(30, "Too long")

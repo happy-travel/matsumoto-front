@@ -45,7 +45,7 @@ const InvitationsManagement = observer(() => {
             success: (result) => {
                 setInvitations(result);
                 if (!result.length)
-                    redirect("/settings/invitations/send");
+                    redirect("/settings/agency/invitations/send");
             }
         });
     }, []);
