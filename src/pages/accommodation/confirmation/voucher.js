@@ -91,7 +91,11 @@ const AccommodationConfirmationVoucherPage = observer(({ match }) => {
                         <div>{__plural(t, voucher.nightCount, "Night")}</div>
 
                         <div className="text">Arrival Date:</div>
-                        <div>{date.format.c(voucher.checkInDate)}</div>
+                        <div>
+                            {date.format.c(voucher.checkInDate)},
+                            {" "}{t("from")}{" "}
+                            {voucher.accommodation.checkInTime}
+                        </div>
 
                         <div className="text">Departure Date:</div>
                         <div>{date.format.c(voucher.checkOutDate)}</div>
@@ -148,13 +152,11 @@ const AccommodationConfirmationVoucherPage = observer(({ match }) => {
 
             {!voucher.deadlineDate &&
                 <div className="deadline-notify">
-                    <span className="icon icon-info-green"/>
                     FREE Cancellation
                 </div>
             }
             {!date.passed(voucher.deadlineDate) &&
                 <div className="deadline-notify">
-                    <span className="icon icon-info-green"/>
                     FREE Cancellation until {date.format.c(voucher.deadlineDate)}
                 </div>
             }

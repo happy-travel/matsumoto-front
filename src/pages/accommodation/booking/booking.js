@@ -132,7 +132,14 @@ const AccommodationBookingPage = observer(() => {
                                     id="accepted"
                                     label={<>
                                         {t("I have read and accepted")}
-                                        <Link target="_blank" to="/terms" className="underlined link">{t("Terms & Conditions")}</Link>
+                                        <Link
+                                            target="_blank"
+                                            to="/terms"
+                                            className="underlined link"
+                                            onClick={(event) => event.stopPropagation()}
+                                        >
+                                            {t("Terms & Conditions")}
+                                        </Link>
                                     </>}
                                 />
                             </div>

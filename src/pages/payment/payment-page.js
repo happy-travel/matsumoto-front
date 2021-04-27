@@ -42,7 +42,7 @@ const PaymentPage = observer(() => {
                 { $payment.subject.previousPaymentMethod &&
                     <Breadcrumbs
                         backText={t("Back to") + " " + $payment.subject.referenceCode}
-                        backLink="/accommodation/booking"
+                        backLink={`/booking/${$payment.subject.referenceCode}`}
                     />
                 }
                 { !$payment.subject.previousPaymentMethod &&

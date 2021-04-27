@@ -79,12 +79,10 @@ class AccommodationStore {
     }
 
     setSearchResult(results, page = 0) {
-        if (results?.length) {
-            if (page != 0)
-                this.search.result.push(...results);
-            else
-                this.search.result = results;
-        }
+        if (page != 0 && results?.length)
+            this.search.result.push(...results);
+        else
+            this.search.result = results;
 
         this.search.loading = false;
         this.search.lastCheckedAt = Number(new Date());

@@ -40,9 +40,9 @@ const BookingSummary = ({
                 </div>
             }
             { !!photo &&
-            <div className="photo-holder">
-                <div className="photo" style={{ backgroundImage: `${photo}` }} />
-            </div>
+                <div className="photo-holder">
+                    <div className="photo" style={{ backgroundImage: `url(${photo})` }} />
+                </div>
             }
 
             <h4>
@@ -69,7 +69,7 @@ const BookingSummary = ({
                 b={date.format.a(checkOutDate)}
             />
             <Dual
-                a={t("Number of Rooms")}
+                a={t("Rooms")}
                 b={__plural(t, rooms.length, "Room")}
             />
             <Dual
@@ -78,7 +78,7 @@ const BookingSummary = ({
             />
             <Dual
                 a={t("Guest_plural")}
-                b={__plural(t, numberOfGuests || details.numberOfPassengers, "Night")}
+                b={__plural(t, numberOfGuests || details.numberOfPassengers, "Guest")}
             />
             <h4>{t("Room & Total Cost")}</h4>
             { rooms?.map((room, i) => (
@@ -87,7 +87,6 @@ const BookingSummary = ({
                         <RoomPrices
                             prices={room.dailyRoomRates}
                             index={rooms?.length > 1 ? i+1 : ""}
-
                         />
                     }
                     <Dual

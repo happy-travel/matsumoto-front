@@ -11,7 +11,7 @@ const AuthCallbackComponent = ({ history }) => {
     };
 
     const onRedirectError = () => {
-        history.push("/");
+        history.push(lastPage());
     };
 
     useEffect(() => {

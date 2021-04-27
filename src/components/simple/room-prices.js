@@ -29,9 +29,6 @@ const RoomPrices = ({ prices, index }) => {
     if (!(prices && prices.length))
         return null;
 
-    if (prices.length == 1 || !prices[0].fromDate)
-        return price(prices[0].finalPrice);
-
     const optimized = optimize(prices);
 
     if (optimized.length == 1)

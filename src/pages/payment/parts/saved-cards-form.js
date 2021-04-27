@@ -49,33 +49,39 @@ const PaymentSavedCardsFormPart = observer(() => {
                                         className={"item" + __class(item.id == selectedCardId, "selected")}
                                         key={index}
                                     >
-                                        { allowedTypes[type.type] ?
-                                            <img src={allowedTypes[type.type]} alt="" /> :
-                                            null
-                                        }
-                                        <span>
-                                            {item.number}
-                                        </span>
-                                        <span>
-                                            {item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}
-                                        </span>
-                                        <FieldText
-                                            formik={formik}
-                                            id="card_security_code"
-                                            placeholder="---"
-                                            label={type.code.name}
-                                            className={"only-when-selected" + __class(formik.values.card_security_code.length != type.code.size, "force-incorrect")}
-                                            required
-                                            password
-                                            numeric
-                                            maxLength={type.code.size}
-                                        />
-                                        <b
-                                            className="only-when-selected link"
-                                            onClick={() => removeSavedCard(item.id)}
-                                        >
-                                            Forget
-                                        </b>
+                                        <div className="data">
+                                            <div>
+                                                { allowedTypes[type.type] ?
+                                                    <img src={allowedTypes[type.type]} alt="" /> :
+                                                    null
+                                                }
+                                            </div>
+                                            <div>
+                                                {item.number}
+                                            </div>
+                                            <div>
+                                                {item.expirationDate.substr(2,2) + " / " + item.expirationDate.substr(0,2)}
+                                            </div>
+                                        </div>
+                                        <div className="only-when-selected">
+                                            <span
+                                                className="link"
+                                                onClick={() => removeSavedCard(item.id)}
+                                            >
+                                                Forget
+                                            </span>
+                                            <FieldText
+                                                formik={formik}
+                                                id="card_security_code"
+                                                placeholder="---"
+                                                label={type.code.name}
+                                                className={__class(formik.values.card_security_code.length != type.code.size, "force-incorrect")}
+                                                required
+                                                password
+                                                numeric
+                                                maxLength={type.code.size}
+                                            />
+                                        </div>
                                     </div>
                                 );
                             })}

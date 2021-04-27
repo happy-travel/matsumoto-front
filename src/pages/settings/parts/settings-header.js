@@ -19,12 +19,6 @@ const SettingsHeader = observer(() => {
     return (
         <div className="settings-header">
             <section>
-                <div className="logout-wrapper">
-                    <Link to="/logout" className="button">
-                        <i className="icon icon-logout" />
-                        {t("Log out")}
-                    </Link>
-                </div>
                 <div className="agent">
                     <div className="photo">
                         <div className="no-avatar" />
@@ -43,6 +37,12 @@ const SettingsHeader = observer(() => {
                             </div>
                         }
                     </div>
+                </div>
+                <div className="logout-wrapper">
+                    <Link to="/logout" className="button">
+                        <i className="icon icon-logout" />
+                        {t("Log out")}
+                    </Link>
                 </div>
             </section>
             <div className="settings-nav">

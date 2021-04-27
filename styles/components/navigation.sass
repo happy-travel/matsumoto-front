@@ -21,18 +21,19 @@
             font-size: 15px
             &:hover
                 color: $color-brand
-            &.active
-                cursor: default
-                &:hover
-                    color: $color-text
-                &:after
-                    content: ' '
-                    height: 4px
-                    left: 8px
-                    right: 8px
-                    bottom: 0
-                    width: auto
-                    background: $color-brand
-                    background: linear-gradient(180deg, #FFCD0B 0%, #FBAC19 100%)
-                    border-radius: 25px
-                    position: absolute
+            @include except-phone
+                &.active
+                    cursor: default
+                    &:hover
+                        color: $color-text
+                    &:after
+                        content: ' '
+                        height: 4px
+                        left: 8px
+                        right: 8px
+                        bottom: 0
+                        width: auto
+                        background: $color-brand
+                        background: linear-gradient(180deg, #FFCD0B 0%, #FBAC19 100%)
+                        border-radius: 25px
+                        position: absolute
