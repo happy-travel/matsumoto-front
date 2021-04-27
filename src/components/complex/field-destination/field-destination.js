@@ -40,9 +40,9 @@ const FieldDestination = observer(({
     const setDestinationSuggestion = (newOptions) => {
         if (newOptions?.length) {
             const prediction = newOptions[0];
-            if (!$personal.settings.experimentalFeatures)
+            if ($personal.settings.oldSearchEnabled)
                 setSuggestion({ text: prediction.value, value: prediction });
-            if ($personal.settings.experimentalFeatures)
+            if (!$personal.settings.oldSearchEnabled)
                 setSuggestion({ text: prediction.predictionText, value: prediction });
             return;
         }
@@ -70,7 +70,7 @@ const FieldDestination = observer(({
         throttle = setTimeout(() => {
             API.get({
                 ...(
-                    $personal.settings.experimentalFeatures ?
+                    !$personal.settings.oldSearchEnabled ?
                         { osaka_url: API.OSAKA_LOCATION_PREDICTION } :
                         { url: API.EDO_LOCATION_PREDICTION }
                 ),
@@ -82,7 +82,7 @@ const FieldDestination = observer(({
                     if (currentValue != event.target.value.trim())
                         return;
                     setDestinationPredictionsAndSuggestion(
-                        $personal.settings.experimentalFeatures ?
+                        !$personal.settings.oldSearchEnabled ?
                             data :
                             sortResults(data)
                     );
@@ -94,7 +94,7 @@ const FieldDestination = observer(({
     const setValue = (item, silent) => {
         if (!item)
             return;
-        if (!$personal.settings.experimentalFeatures) {
+        if ($personal.settings.oldSearchEnabled) {
             formik.setFieldValue("htIds", {
                 id: item.id,
                 sessionId: session.google.current(),
@@ -106,7 +106,7 @@ const FieldDestination = observer(({
                 formik.setFieldValue(getIdOfInput(id), item.value);
             }
         }
-        if ($personal.settings.experimentalFeatures) {
+        if (!$personal.settings.oldSearchEnabled) {
             formik.setFieldValue("htIds", [item.htId]);
             formik.setFieldValue(id, item.predictionText);
             if (silent !== true || short) {

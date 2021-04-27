@@ -62,8 +62,8 @@ const ApplicationSettings = observer(() => {
                             <div className="row">
                                 <FieldSwitch
                                     formik={formik}
-                                    id="experimentalFeatures"
-                                    label={t("Enable experimental features (may be unstable)")}
+                                    id="oldSearchEnabled"
+                                    label="Previous Version of the Search Processing"
                                 />
                             </div>
                             <div className="row double">

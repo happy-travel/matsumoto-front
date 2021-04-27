@@ -9,7 +9,7 @@ const settingsCleaner = values => ({
     weekStarts: values.weekStarts,
     preferredLanguage: values.preferredLanguage,
     availableCredit: values.availableCredit,
-    experimentalFeatures: values.experimentalFeatures
+    oldSearchEnabled: values.oldSearchEnabled
 });
 
 export const loadCounterpartyInfo = (callback = () => {}) => {
