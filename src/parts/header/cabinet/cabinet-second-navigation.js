@@ -14,13 +14,13 @@ const CabinetSecondNavigation = observer(() => {
                 <div className="navigation cabinet-second-navigation"><section><nav>
                     <li><NavLink exact to="/settings/agency">{t("Legal Information")}</NavLink></li>
                     { $personal.permitted("ObserveAgents") &&
-                        <li><NavLink exact to="/settings/agency/agents">{t("Agents Management")}</NavLink></li>
+                        <li><NavLink to="/settings/agency/agents">{t("Agents Management")}</NavLink></li>
                     }
                     { $personal.permitted("AgentInvitation") &&
-                        <li><NavLink exact to="/settings/agency/invitations">{t("Invitations")}</NavLink></li>
+                        <li><NavLink to="/settings/agency/invitations">{t("Invitations")}</NavLink></li>
                     }
                     { $personal.permitted("AgencyImagesManagement") &&
-                        <li><NavLink exact to="/settings/agency/voucher">{t("Voucher Personalisation")}</NavLink></li>
+                        <li><NavLink to="/settings/agency/voucher">{t("Voucher Personalisation")}</NavLink></li>
                     }
                 </nav></section></div>
             )} />

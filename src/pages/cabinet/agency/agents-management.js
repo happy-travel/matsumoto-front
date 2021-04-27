@@ -50,7 +50,7 @@ const AgentsManagement = observer(() => {
                 <Table
                     list={agents}
                     columns={agentsColumns(t)}
-                    onRowClick={item => redirect(`/settings/agents/${item.agentId}`)}
+                    onRowClick={item => redirect(`/settings/agency/agents/${item.agentId}`)}
                     textEmptyResult={t("No agents found")}
                     textEmptyList={t("The agents list is empty")}
                     searches={Searches}

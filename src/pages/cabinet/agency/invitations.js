@@ -53,28 +53,27 @@ const InvitationsManagement = observer(() => {
     const { t } = useTranslation();
     return (
         <div className="cabinet block">
-
-
             <section>
                 { invitations === null ?
                     <Loader /> :
                     <>
-                        {!!invitations?.length &&
+                        { !!invitations?.length &&
                             <>
-                                <h2>{
-                                    $personal.permitted("ObserveAgencyInvitations") ?
-                                    t("Unaccepted Agency Invitations") :
-                                    t("Unaccepted Invitations")
-                                }</h2>
+                                <h2>
+                                    { $personal.permitted("ObserveAgencyInvitations") ?
+                                        t("Unaccepted Agency Invitations") :
+                                        t("Unaccepted Invitations")
+                                    }
+                                </h2>
                                 <Table
                                     list={invitations}
                                     columns={invitationsColumns(t)}
                                     textEmptyList={t("There are no available invitations")}
-                                    onRowClick={item => redirect(`/settings/invitations/${item.id}`)}
+                                    onRowClick={item => redirect(`/settings/agency/invitations/${item.id}`)}
                                 />
                             </>
                         }
-                        <Link to="/settings/invitations/send">
+                        <Link to="/settings/agency/invitations/send">
                             <button className="button" style={{ marginTop: 25 }}>
                                 {t("Invite an agent")}
                             </button>

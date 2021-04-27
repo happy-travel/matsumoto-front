@@ -92,8 +92,8 @@ const InvitationResendPage = ({ match }) => {
                     <h3>{t("Invitation sent")}</h3>
                     <br/>
                 </div>
-                <Link to="/settings/invitations">
-                    <button className="button small">
+                <Link to="/settings/agency/invitations">
+                    <button className="button">
                         {t("Back to") + " " + t("Invitations")}
                     </button>
                 </Link>

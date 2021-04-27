@@ -82,14 +82,10 @@ const AgentPermissionsManagement = observer(({ match }) => {
             { loading ?
                 <Loader /> :
             <section>
-                <Breadcrumbs items={[
-                    {
-                        text: t("Agent Management"),
-                        link: "/settings/agents"
-                    }, {
-                        text: loading ? t("Agent Permissions") : PassengerName({ passenger: agent })
-                    }
-                ]}/>
+                <Breadcrumbs
+                    backLink="/settings/agency/agents"
+                    backText={t("Back to") + " " + t("Agents Management")}
+                />
                 <h2>{t("Information")}</h2>
                 <div className="row">
                     <b>{t("Agent")}</b>:{" "}
