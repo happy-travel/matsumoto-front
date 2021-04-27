@@ -3,7 +3,7 @@ import { API } from "core";
 import MarkupFormPart from "parts/markups/markup-form-part";
 import MarkupsListPart from "parts/markups/markups-list-part";
 
-const Markups = ({ markupsRoute, id, emptyText }) => {
+const Markups = ({ markupRoute, markupsRoute, id, emptyText }) => {
     const [markups, setMarkups] = useState([]);
     const [templates, setTemplates] = useState([]);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -53,7 +53,6 @@ const Markups = ({ markupsRoute, id, emptyText }) => {
             }
         });
     };
-
 
     return (
         <div className="markup-management">

@@ -69,7 +69,7 @@ const AgentPermissionsManagement = observer(({ match }) => {
         API.put({
             url: API.AGENT_PERMISSIONS(agentId),
             body: Object.keys(values).map((key) => values[key] ? key : false).filter(item => item),
-            success: () => redirect("/settings/agents"),
+            success: () => redirect("/settings/agency/agents"),
             after: () => setLoading(false)
         });
     };

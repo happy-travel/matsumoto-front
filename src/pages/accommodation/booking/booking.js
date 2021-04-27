@@ -165,7 +165,7 @@ const AccommodationBookingPage = observer(() => {
                                                             id={`room.${r}.passengers.${index}.title`}
                                                             placeholder={index < room.adultsNumber ?
                                                                 t("Select") :
-                                                                t("Child") + ", " + __plural(t, room.childrenAges[index - room.adultsNumber], "year")
+                                                                __plural(t, room.childrenAges[index - room.adultsNumber], "year")
                                                             }
                                                             label={t("Title")}
                                                             options={[
