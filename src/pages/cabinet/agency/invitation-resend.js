@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
 import { PassengerName } from "simple";
 import { Loader } from "components/simple";
-import SettingsHeader from "pages/settings/parts/settings-header";
 import { $personal } from "stores";
 
 const InvitationResendPage = ({ match }) => {
@@ -42,8 +41,8 @@ const InvitationResendPage = ({ match }) => {
     const { t } = useTranslation();
 
     return (
-    <div className="settings block">
-        <SettingsHeader />
+    <div className="cabinet block">
+
         <section>
             <h2>{t("Invitation Information")}</h2>
             { !invitation ? <Loader /> : <>

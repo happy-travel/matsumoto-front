@@ -54,27 +54,11 @@ const ChildAgencyPage = ({ match }) => {
     const { t } = useTranslation();
 
     return (
-        <div className="settings block">
+        <div className="cabinet block">
             <section>
                 { loading ?
                     <Loader /> :
                     <>
-                        <Breadcrumbs
-                            items={[
-                                {
-                                    text: t("Agency"),
-                                    link: "/settings/counterparty"
-                                },
-                                {
-                                    text: t("Child Agencies"),
-                                    link: "/settings/child-agencies"
-                                }, {
-                                    text: agency.name
-                                }
-                            ]}
-                            noBackButton
-                        />
-
                         <h2>{t("Information")}</h2>
                         <div className="row">
                             <b>{t("Agency")}</b>: {agency.name}

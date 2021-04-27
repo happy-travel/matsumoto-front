@@ -274,7 +274,7 @@ translations: {
     "Send one more invite": "Send one more invite",
     "Invite someone to create a free Happytravel.com account and start booking today": "Invite someone to create a free Happytravel.com account and start booking today",
     "Accommodation": "Accommodation",
-    "Account statement": "Account statement",
+    "Account Statement": "Account Statement",
     "No reservations found": "No reservations found",
     "Created": "Created",
     "Amount": "Amount",
@@ -359,6 +359,11 @@ translations: {
     "Please Select": "Please Select",
     "Legal Address": "Legal Address",
     "Pay Later": "Pay Later",
-    "Offline": "Offline"
+    "Offline": "Offline",
+    "Personal": "Personal",
+    "Child Agencies": "Child Agencies",
+    "Application Settings": "Application Settings",
+    "Agents Management": "Agents Management",
+    "Voucher Personalisation": "Voucher Personalisation"
 }
 };

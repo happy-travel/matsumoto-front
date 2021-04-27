@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { API } from "core";
 import { Formik } from "formik";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react";
 import { Flag, Loader } from "components/simple";
 import { FieldText, FieldTextarea } from "components/form";
-import SettingsHeader from "pages/settings/parts/settings-header";
-import SettingsNav from "pages/settings/parts/settings-nav";
-import VoucherImage from "./parts/voucher-image";
 import { loadCounterpartyInfo } from "simple/logic";
 import { $personal, $notifications } from "stores";
 
-const CounterpartySettings = observer(() => {
+const AgencyLegalInformation = observer(() => {
     const [loading, setLoading] = useState(true);
     const [agency, setAgency] = useState({});
 
@@ -47,11 +43,8 @@ const CounterpartySettings = observer(() => {
     };
 
     const { t } = useTranslation();
-
     return (
-        <div className="settings block">
-            <SettingsHeader />
-            <SettingsNav />
+        <div className="cabinet block">
             { loading ?
                 <Loader /> :
                 <section>
@@ -62,6 +55,7 @@ const CounterpartySettings = observer(() => {
                                 ...$personal.counterpartyInfo
                             } || {}
                         }
+                        enableReinitialize
                         onSubmit={() => {}}
                     >
                     {formik => {
@@ -96,19 +90,6 @@ const CounterpartySettings = observer(() => {
                                         </button> :
                                         <span>No Contract Uploaded</span>
                                     }
-                                </div>
-                            }
-
-                            {($personal.permitted("ObserveChildAgencies") ||
-                              $personal.permitted("InviteChildAgencies")) &&
-                                <div>
-                                    <h2>{t("Child Agencies")}</h2>
-                                    <Link to="/settings/child-agencies" className="button" style={{ marginRight: 20 }}>
-                                        {t("Observe Child Agencies")}
-                                    </Link>
-                                    <Link to="/settings/child-agencies/invite" className="button">
-                                        {t("Invite Child Agency")}
-                                    </Link>
                                 </div>
                             }
 
@@ -163,27 +144,10 @@ const CounterpartySettings = observer(() => {
                         );
                     }}
                     </Formik>
-                    { $personal.permitted("AgencyImagesManagement") &&
-                        <>
-                            <h2>{t("Voucher Personalisation")}</h2>
-                            <div>
-                                <VoucherImage
-                                    route={API.AGENCY_LOGO}
-                                    title={t("Logo")}
-                                    text="Recommended size: 226 x 114 pixels"
-                                />
-                                <VoucherImage
-                                    route={API.AGENCY_BANNER}
-                                    title={t("Banner")}
-                                    text="Recommended size: 726 x 111 pixels"
-                                />
-                            </div>
-                        </>
-                    }
                 </section>
             }
         </div>
     );
 });
 
-export default CounterpartySettings;
+export default AgencyLegalInformation;

@@ -7,7 +7,6 @@ import { PassengerName } from "simple";
 import { Loader } from "components/simple";
 import Breadcrumbs from "components/breadcrumbs";
 import { FieldSwitch } from "components/form";
-import SettingsHeader from "./parts/settings-header";
 import Markups from "parts/markups/markups";
 import { $personal } from "stores";
 
@@ -77,8 +76,8 @@ const AgentPermissionsManagement = observer(({ match }) => {
 
     const { t } = useTranslation();
     return (
-        <div className="settings block">
-            <SettingsHeader />
+        <div className="cabinet block">
+
 
             { loading ?
                 <Loader /> :

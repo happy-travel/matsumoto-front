@@ -6,8 +6,7 @@ import { copyToClipboard } from "simple/logic";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationAgentValidatorWithEmail } from "components/form/validation";
 import FormAgentData from "parts/form-agent-data";
-import SettingsHeader from "pages/settings/parts/settings-header";
-import { $ui, $personal, $notifications } from "stores";
+import { $ui, $personal } from "stores";
 
 const InvitationSendPage = () => {
     const [success, setSuccess] = useState(false);
@@ -46,8 +45,8 @@ const InvitationSendPage = () => {
 
     const { t } = useTranslation();
     return (
-    <div className="settings block">
-        <SettingsHeader />
+    <div className="cabinet block">
+
         <section>
             <h2>{t("Invite an agent")}</h2>
             { success === null && <Loader /> }

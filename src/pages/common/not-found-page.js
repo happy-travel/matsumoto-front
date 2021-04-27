@@ -7,16 +7,12 @@ const NotFoundPage = () => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.querySelectorAll("header, footer").forEach(
-            item => item ? item.style.display = "none" : null
-        );
+        document.querySelector("body").className="on-error-page";
         setTimeout(() => {
             document.title = "Happytravel.com";
         }, 0);
         return () => {
-            document.querySelectorAll("header, footer").forEach(
-                item => item ? item.style.display = "block" : null
-            );
+            document.querySelector("body").className="";
         }
     }, []);
 

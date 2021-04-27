@@ -6,8 +6,6 @@ import { API, redirect } from "core";
 import { PassengerName } from "simple";
 import { Loader } from "components/simple";
 import Table from "components/table";
-import SettingsHeader from "./parts/settings-header";
-import SettingsNav from "pages/settings/parts/settings-nav";
 import { $personal } from "stores";
 
 const invitationsColumns = t => [
@@ -54,9 +52,9 @@ const InvitationsManagement = observer(() => {
 
     const { t } = useTranslation();
     return (
-        <div className="settings block">
-            <SettingsHeader />
-            <SettingsNav />
+        <div className="cabinet block">
+
+
             <section>
                 { invitations === null ?
                     <Loader /> :

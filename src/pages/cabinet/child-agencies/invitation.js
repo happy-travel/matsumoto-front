@@ -54,20 +54,8 @@ const ChildAgencyInvitationPage = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="settings block">
+        <div className="cabinet block">
             <section>
-                <Breadcrumbs items={[
-                    {
-                        text: t("Agency"),
-                        link: "/settings/counterparty"
-                    },
-                    {
-                        text: t("Child Agencies"),
-                        link: "/settings/child-agencies"
-                    }, {
-                        text: t("Invitation")
-                    }
-                ]}/>
                 <h2>{t("Invite child agency")}</h2>
                 { success === null &&
                     <Loader />

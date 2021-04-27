@@ -1,0 +1,84 @@
+.cabinet
+    section
+        max-width: 886px
+        padding-bottom: 150px
+    h2
+        margin: 50px 0 35px
+        font-size: 20px
+        line-height: 24px
+        color: #231F20
+    .row
+        margin-bottom: 18px
+    .form
+        .row.controls
+            padding: 0 !important
+            margin-top: 9px
+            margin-bottom: 0
+            justify-content: flex-end
+            .button
+                min-width: 215px
+            .field
+                flex-grow: 0
+                width: auto
+            @include phone
+                .field
+                    width: 100%
+        &.agent-data
+            flex-wrap: wrap
+            flex-direction: row
+            @include phone
+                flex-direction: column
+            @include except-phone
+                .row:nth-child(1)
+                    order: 1
+                    padding-right: 9px
+                .row:nth-child(2)
+                    order: 3
+                    padding-right: 9px
+                .row:nth-child(3)
+                    order: 4
+                    padding-left: 9px
+                .row:nth-child(4)
+                    order: 2
+                    padding-left: 9px
+                .row:nth-child(5)
+                    order: 5
+                .row:last-child
+                    width: 100%
+                .row
+                    width: 50%
+        &.app-settings
+            .row:nth-child(3)
+                margin-top: 30px
+            @include except-phone
+                .field
+                    width: 50%
+            @include phone
+                .double
+                    flex-direction: column
+                    margin-bottom: 0
+                    .field
+                        margin-right: 0
+                        margin-bottom: 20px
+        .permissions
+            flex-wrap: wrap
+            display: flex
+            .row
+                width: 50%
+    h2.in-table + .table
+        margin-top: -110px
+    .search-wrapper
+        padding: 73px 0 82px
+        max-width: 700px
+        .field:last-child
+            max-width: 330px
+    .breadcrumbs
+        margin: 45px 0 -25px
+
+.voucher-image
+    margin-bottom: 60px
+    .box
+        margin: 10px 0
+    img
+        max-width: 500px
+        max-height: 300px

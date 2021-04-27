@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Link, Route, Switch } from "react-router-dom";
 import AgentMenu from "./agent-menu";
 import { routesWithSearch } from "core/routes";
+import CabinetHeader from "./cabinet/cabinet-header";
 import Search from "parts/search-form/search-form";
 import { $personal } from "stores";
 
@@ -43,6 +44,7 @@ const Header = () => (
         <div className="print">
             <img className="print-logo" src="/images/logo/logo.png" alt="" />
         </div>
+        <Route path="/settings" component={CabinetHeader} />
     </>
 );
 

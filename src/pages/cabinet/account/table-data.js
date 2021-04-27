@@ -17,9 +17,11 @@ export const Columns = t => [
     },
     {
         header: t("Reference code"),
-        cell: row => <Link className="link" to={`/booking/${row.referenceCode}`}>
-                         {row.referenceCode}
-                     </Link>
+        cell: row => (
+            <Link className="link" to={`/booking/${row.referenceCode}`}>
+                {row.referenceCode}
+            </Link>
+        )
     },
     {
         header: t("Accommodation"),

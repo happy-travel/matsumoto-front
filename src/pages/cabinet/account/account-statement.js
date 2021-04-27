@@ -6,8 +6,6 @@ import { Formik } from "formik";
 import Table from "components/table";
 import { FieldDatepicker } from "components/form";
 import { Columns, Sorters, Searches } from "./table-data";
-import SettingsHeader from "pages/settings/parts/settings-header";
-import SettingsNav from "pages/settings/parts/settings-nav";
 import { $personal } from "stores";
 
 const initialValues = {
@@ -61,10 +59,7 @@ const AccountStatementPage = () => {
     const { t } = useTranslation();
     return (
         <>
-            <div className="settings block">
-                <SettingsHeader />
-            </div>
-            <SettingsNav />
+
             <div className="management block payments-history">
                 <section className="content">
                     <Table

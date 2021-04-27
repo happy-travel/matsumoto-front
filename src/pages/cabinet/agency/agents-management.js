@@ -4,8 +4,6 @@ import { useTranslation } from "react-i18next";
 import { API, redirect } from "core";
 import { date } from "simple";
 import Table from "components/table";
-import SettingsHeader from "pages/settings/parts/settings-header";
-import SettingsNav from "pages/settings/parts/settings-nav";
 import { $personal } from "stores";
 
 const agentsColumns = t => [
@@ -45,23 +43,18 @@ const AgentsManagement = observer(() => {
     }, [$personal.activeCounterparty]);
 
     const { t } = useTranslation();
-
     return (
-        <div className="settings block">
-            <SettingsHeader />
-            <SettingsNav />
+        <div className="cabinet block">
             <section>
-                <h2>{t("All Agents")}</h2>
-                <div style={{ marginTop: "-126px" }}>
-                    <Table
-                        list={agents}
-                        columns={agentsColumns(t)}
-                        onRowClick={item => redirect(`/settings/agents/${item.agentId}`)}
-                        textEmptyResult={t("No agents found")}
-                        textEmptyList={t("The agents list is empty")}
-                        searches={Searches}
-                    />
-                </div>
+                <h2 className="in-table">{t("All Agents")}</h2>
+                <Table
+                    list={agents}
+                    columns={agentsColumns(t)}
+                    onRowClick={item => redirect(`/settings/agents/${item.agentId}`)}
+                    textEmptyResult={t("No agents found")}
+                    textEmptyList={t("The agents list is empty")}
+                    searches={Searches}
+                />
             </section>
         </div>
     );

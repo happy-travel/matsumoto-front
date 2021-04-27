@@ -1,83 +1,7 @@
-.settings
+.cabinet-header
+    padding-top: 60px
     section
         max-width: 886px
-        padding-bottom: 150px
-    h2
-        margin: 70px 0 40px
-        font-size: 20px
-        line-height: 24px
-        color: #231F20
-    .row
-        margin-bottom: 18px
-    .form
-        .row.controls
-            padding: 0 !important
-            margin-top: 9px
-            margin-bottom: 0
-            justify-content: flex-end
-            .button
-                min-width: 215px
-            .field
-                flex-grow: 0
-                width: auto
-            @include phone
-                .field
-                    width: 100%
-        &.agent-data
-            flex-wrap: wrap
-            flex-direction: row
-            @include phone
-                flex-direction: column
-            @include except-phone
-                .row:nth-child(1)
-                    order: 1
-                    padding-right: 9px
-                .row:nth-child(2)
-                    order: 3
-                    padding-right: 9px
-                .row:nth-child(3)
-                    order: 4
-                    padding-left: 9px
-                .row:nth-child(4)
-                    order: 2
-                    padding-left: 9px
-                .row:nth-child(5)
-                    order: 5
-                .row:last-child
-                    width: 100%
-                .row
-                    width: 50%
-        &.app-settings
-            .row:nth-child(3)
-                margin-top: 30px
-            @include except-phone
-                .field
-                    width: 50%
-            @include phone
-                .double
-                    flex-direction: column
-                    margin-bottom: 0
-                    .field
-                        margin-right: 0
-                        margin-bottom: 20px
-        .permissions
-            flex-wrap: wrap
-            display: flex
-            .row
-                width: 50%
-    .search-wrapper
-        padding: 73px 0 82px
-        max-width: 700px
-        .field:last-child
-            max-width: 330px
-    .breadcrumbs
-        margin: 45px 0 -25px
-    &.navigation
-        section
-            padding-bottom: 0
-
-.settings-header
-    section
         padding: 75px 10px
         display: flex
         justify-content: space-between
@@ -146,11 +70,12 @@
             &:hover
                 .icon
                     filter: none
-    .settings-nav
+    .cabinet-main-navigation
         box-shadow: 0 .5px 0 $color-shadow-border
         section
-            padding: 0
+            padding: 0 7px
             display: flex
+            justify-content: flex-start
         a
             font-size: 13px
             line-height: 16px
@@ -159,11 +84,11 @@
             margin: 0 10px
             padding: 19px 14px
             position: relative
-            font-weight: 500
-            &:hover, &.active
+            &:hover
                 color: $color-text
             &.active
                 cursor: default
+                color: $color-brand
                 &:after
                     content: ' '
                     height: 4px
@@ -174,10 +99,7 @@
                     bottom: 0
                     left: 0
 
-.voucher-image
-    margin-bottom: 60px
-    .box
-        margin: 10px 0
-    img
-        max-width: 500px
-        max-height: 300px
+.cabinet-header + .block-wrapper,
+.cabinet-second-navigation + .block-wrapper
+    padding-top: 0
+    min-height: 0
