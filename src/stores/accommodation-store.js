@@ -1,4 +1,4 @@
-import { computed, makeAutoObservable } from "mobx"
+import { makeAutoObservable } from "mobx"
 import autosave from "core/misc/autosave";
 import { SEARCH_STATUSES } from "enum";
 import {
@@ -109,7 +109,7 @@ class AccommodationStore {
             this.search.resultCount = resultCount;
     }
 
-    @computed get hotelArray() {
+    get hotelArray() {
         return applyFilters(this.search.result, this.selected.filters) || [];
     }
 
@@ -129,11 +129,11 @@ class AccommodationStore {
         this.selected.sorter = sorter;
     }
 
-    @computed get filtersLine() {
+    get filtersLine() {
         return generateFiltersLine(this.selected.filters);
     }
 
-    @computed get sorterLine() {
+    get sorterLine() {
         return generateSorterLine(this.selected.sorter);
     }
 

@@ -1,4 +1,4 @@
-import { computed, makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import autosave from "core/misc/autosave";
 import { APR_VALUES } from "enum";
 import { decorate } from "simple";
@@ -29,7 +29,7 @@ class PersonalStore {
         autosave(this, "_personal_store_cache");
     }
 
-    @computed get activeCounterparty() {
+    get activeCounterparty() {
         return this.information?.counterparties?.[0] || {};
     }
 
