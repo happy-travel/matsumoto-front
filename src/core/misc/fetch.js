@@ -39,7 +39,7 @@ export default api => {
                 return;
             }
 
-            let finalUrl = getEdoRoute(url) || getOsakaRoute(osaka_url) || external_url,
+            let finalUrl = getEdoRoute(url) || getOsakaRoute(osaka_url) || getEdoRoute(external_url),
                 request = {
                     method: method,
                     headers: new Headers({

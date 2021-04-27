@@ -45,7 +45,7 @@ const PaymentDirectLinkPage = observer(({ match }) => {
            setOrder(loadedOrder);
        };
        load();
-    });
+    }, []);
 
     const { t } = useTranslation();
     return (
