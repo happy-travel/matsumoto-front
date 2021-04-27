@@ -12,12 +12,11 @@ const BookingSummary = ({
     numberOfGuests,
     agentReference
 }) => {
-    const { t } = useTranslation();
-
     const rooms = contract.rooms || details.roomDetails || [];
     const finalPrice = contract.rate?.finalPrice || contract.totalPrice;
-    const photo = details.photo?.sourceUrl;
+    const photo = details.photo?.sourceUrl || details.accommodationInfo?.photo?.sourceUrl;
 
+    const { t } = useTranslation();
     return (
         <>
             <div className="subtitle">
