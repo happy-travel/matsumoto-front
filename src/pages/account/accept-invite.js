@@ -12,9 +12,9 @@ const AccountInvite = ({ match }) => {
         Authorize.removeUser();
         Authorize.signinRedirect({
             extraQueryParams: {
-                customRedirectUrl: window.auth_host + "?invCode=" + this.state.invitation.code,
+                customRedirectUrl: window.auth_host + "?invCode=" + invitation.code,
                 redirectToRegister: true,
-                userMail: this.state.invitation.email
+                userMail: invitation.email
             }
         });
     }

@@ -11,7 +11,6 @@ import { $ui, $personal, $notifications } from "stores";
 
 const InvitationSendPage = () => {
     const [success, setSuccess] = useState(false);
-    const [form, setForm] = useState(null);
     const [name, setName] = useState("");
 
     const submit = (values) => {
@@ -85,49 +84,56 @@ const InvitationSendPage = () => {
                 </p>
             }
 
-            { false === success && <CachedForm
-                id={FORM_NAMES.CreateInviteForm}
-                initialValues={{
-                    email: "",
-                    title: "",
-                    firstName: "",
-                    lastName: "",
-                    position: ""
-                }}
-                validationSchema={registrationAgentValidatorWithEmail}
-                onSubmit={this.submit}
-                render={formik => (
-                    <div className="form">
-                        <div className="row">
-                            <FieldText formik={formik}
-                                id="email"
-                                label={t("Email")}
-                                placeholder={t("Email")}
-                                required
-                            />
-                        </div>
-                        <FormAgentData formik={formik} />
-                        <div className="row">
-                            <div className="field" style={{ width: "50%" }}>
-                                <div className="inner">
-                                    <button onClick={() => this.submitButtonClick(true, formik)}
-                                            className={"button" + __class(!formik.isValid, "disabled")}>
-                                        {t("Send Invitation")}
-                                    </button>
+            { false === success &&
+                <CachedForm
+                    id={FORM_NAMES.CreateInviteForm}
+                    initialValues={{
+                        email: "",
+                        title: "",
+                        firstName: "",
+                        lastName: "",
+                        position: ""
+                    }}
+                    validationSchema={registrationAgentValidatorWithEmail}
+                    onSubmit={submit}
+                    render={(formik) => (
+                        <div className="form">
+                            <div className="row">
+                                <FieldText
+                                    formik={formik}
+                                    id="email"
+                                    label={t("Email")}
+                                    placeholder={t("Email")}
+                                    required
+                                />
+                            </div>
+                            <FormAgentData formik={formik} />
+                            <div className="row">
+                                <div className="field" style={{ width: "50%" }}>
+                                    <div className="inner">
+                                        <button
+                                            onClick={() => submitButtonClick(true, formik)}
+                                            className={"button" + __class(!formik.isValid, "disabled")}
+                                        >
+                                            {t("Send Invitation")}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="field" style={{ width: "50%" }}>
+                                    <div className="inner">
+                                        <button
+                                            onClick={() => submitButtonClick(false, formik)}
+                                            className={"button" + __class(!formik.isValid, "disabled")}
+                                        >
+                                            {t("Generate Invitation Link")}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="field" style={{ width: "50%" }}>
-                                <div className="inner">
-                                    <button onClick={() => this.submitButtonClick(false, formik)}
-                                            className={"button" + __class(!formik.isValid, "disabled")}>
-                                        {t("Generate Invitation Link")}
-                                    </button>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                )}
-            /> }
+                    )}
+                />
+            }
         </section>
     </div>
     );

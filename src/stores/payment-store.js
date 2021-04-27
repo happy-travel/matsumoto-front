@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable } from "mobx";
 import { getParams } from "core";
 import autosave from "core/misc/autosave";
 
