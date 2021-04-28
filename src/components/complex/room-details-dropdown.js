@@ -146,14 +146,14 @@ const RoomDetailsDropdown = observer(({ formik }) => {
                                                             className="btn enabled"
                                                             onClick={() => formik.setFieldValue(
                                                                 `roomDetails.${number}.childrenAges.${r}`,
-                                                                Math.max(0, (formik.values["roomDetails"][number]["childrenAges"][r] || 0) - 1) + ""
+                                                                Math.max(0, (formik.values["roomDetails"][number]["childrenAges"][r] || 12) - 1) + ""
                                                             )}
                                                         >–</div>
                                                         <div
                                                             className="btn enabled"
                                                             onClick={() => formik.setFieldValue(
                                                                 `roomDetails.${number}.childrenAges.${r}`,
-                                                                parseInt(formik.values["roomDetails"][number]["childrenAges"][r] || 0) + 1
+                                                                parseInt(formik.values["roomDetails"][number]["childrenAges"][r] || 12) + 1
                                                             )}
                                                         >+</div>
                                                     </div>
