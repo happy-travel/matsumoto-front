@@ -15,7 +15,7 @@ const CabinetHeader = observer(() => {
                 url: API.ACCOUNT_BALANCE("USD"),
                 success: (value) => $personal.setBalance(value)
             });
-    }, []);
+    }, [$personal.permitted("ObserveBalance")]);
 
     const { t } = useTranslation();
     return (
