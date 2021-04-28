@@ -18,7 +18,7 @@ const DestinationDropdown = observer(({
             <div className="scroll">
                 {options.map?.((item, index) => {
                     let destinationType = null;
-                    if ($personal.settings.experimentalFeatures)
+                    if (!$personal.settings.oldSearchEnabled)
                         destinationType = null;
                     else if (index === 0 || item.type !== options[index - 1]?.type)
                         destinationType = <div className="subtitle">{item.type}</div>;
@@ -30,10 +30,10 @@ const DestinationDropdown = observer(({
                                 className={"line" + __class(focusIndex === index, "focused")}
                                 onClick={() => setValue(item)}
                             >
-                                { !$personal.settings.experimentalFeatures &&
+                                { $personal.settings.oldSearchEnabled &&
                                     <Highlighted str={item.value} highlight={value}/>
                                 }
-                                { $personal.settings.experimentalFeatures &&
+                                { !$personal.settings.oldSearchEnabled &&
                                     <Highlighted str={item.predictionText} highlight={value}/>
                                 }
                             </div>

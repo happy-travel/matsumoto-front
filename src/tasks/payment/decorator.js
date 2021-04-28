@@ -4,12 +4,13 @@ import { decorate } from "simple";
 export const prettyCardNumber = (cardNumber, card) => {
     cardNumber = decorate.removeNonDigits(cardNumber);
     if (card) {
-        var offsets = [].concat(0, card.gaps, cardNumber.length);
-        var components = [];
+        let offsets = [].concat(0, card.gaps, cardNumber.length);
+        let components = [];
 
-        for (var i = 0; offsets[i] < cardNumber.length; i++) {
-            var start = offsets[i];
-            var end = Math.min(offsets[i + 1], cardNumber.length);
+        for (let i = 0; offsets[i] < cardNumber.length; i++) {
+            const start = offsets[i];
+            const end = Math.min(offsets[i + 1], cardNumber.length);
+
             components.push(cardNumber.substring(start, end));
         }
 
@@ -23,8 +24,8 @@ export const decorateCardholderName = (e) => {
 };
 
 export const decorateExpirationDate = (e) => {
-    var previous = e.target?.dataset?.previous || "",
-        value = e.target?.value || "";
+    const previous = e.target?.dataset?.previous || "";
+    let value = e.target?.value || "";
 
     if ((previous.slice(-1) == "/") && (value.length == 2) && (previous.length == 3))
         return;
@@ -52,9 +53,10 @@ export const decorateExpirationDate = (e) => {
 };
 
 export const formatExpiryDate = (values) => {
-    var value = expirationDate(values.expiry_date),
-        MM = value.month,
-        YY = value.year;
+    const value = expirationDate(values.expiry_date);
+    let MM = value.month;
+    let YY = value.year;
+
     if (1 == MM.length) MM = "0" + MM;
     if (4 == YY.length) YY = YY.slice(-2);
     return YY + MM;

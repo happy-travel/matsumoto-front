@@ -1,42 +1,25 @@
-import { observable } from "mobx"
+import { makeAutoObservable } from "mobx";
 import { getParams } from "core";
 import autosave from "core/misc/autosave";
-import setter from "core/mobx/setter";
-import { PAYMENT_METHODS } from "enum";
 
 class PaymentStore {
-    @observable
     subject = {
         price: null,
         referenceCode: null,
         previousPaymentMethod: null
     };
-
-    @observable
-    @setter
-    paymentMethod = PAYMENT_METHODS.CARD;
-
-    @observable
+    paymentMethod = null;
     paymentResult = {
         status: null,
         error: null
     };
-
-    @observable
-    @setter([])
     savedCards = [];
-
-    @observable
     requestUrl;
-
-    @observable
     service = {};
-
-    @observable
-    @setter(false)
     saveCreditCard = false;
 
     constructor() {
+        makeAutoObservable(this);
         autosave(this, "_payment_store_cache");
     }
 
@@ -77,6 +60,10 @@ class PaymentStore {
         };
         this.requestUrl = service.tokenizationUrl;
     }
+
+    setPaymentMethod(values) { this.paymentMethod = values; }
+    setSavedCards(values) { this.savedCards = values || [] }
+    setSaveCreditCard(values) { this.saveCreditCard = values || false; }
 }
 
 export default new PaymentStore();

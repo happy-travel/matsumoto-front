@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { API } from "core";
@@ -6,40 +6,34 @@ import { date, price } from "simple";
 import { Loader } from "components/simple";
 import { $view, $accommodation } from "stores";
 
-@observer
-class CancellationConfirmationModal extends React.Component {
-    state = {
-        penalty: null,
-        loading: false
-    };
+const CancellationConfirmationModal = observer(({ closeModal }) => {
+    const [penalty, setPenalty] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    componentDidMount() {
-        var { bookingId } = $view.modalData;
+    useEffect(() => {
+        const { bookingId } = $view.modalData;
         API.get({
             url: API.BOOKING_PENALTY(bookingId),
-            success: (penalty) => this.setState({ penalty })
+            success: setPenalty
         });
-    }
+    }, []);
 
-    bookingCancel = () => {
-        var { bookingId } = $view.modalData;
-        this.setState({ loading: true });
+    const bookingCancel = () => {
+        const { bookingId } = $view.modalData;
+        setLoading(true);
         API.post({
             url: API.BOOKING_CANCEL(bookingId),
             success: () => {
                 window.location.reload();
             },
-            error: () => this.setState({ loading: false })
+            error: () => setLoading(false)
         });
     };
 
-    render() {
-        var { t } = useTranslation(),
-            { bookingDetails } = $view.modalData,
-            { closeModal } = this.props,
-            { penalty, loading } = this.state;
+    const { t } = useTranslation();
+    const { bookingDetails } = $view.modalData;
 
-        return (
+    return (
     <div className="confirm modal">
         { loading &&
             <Loader page />
@@ -91,7 +85,7 @@ class CancellationConfirmationModal extends React.Component {
                 <div className="bottom">
                     <button
                         className={"button" + __class(!date.passed(bookingDetails.deadlineDate), "green")}
-                        onClick={this.bookingCancel}
+                        onClick={bookingCancel}
                     >
                         {t("Cancel booking")}
                     </button>
@@ -99,8 +93,7 @@ class CancellationConfirmationModal extends React.Component {
             </>
         }
     </div>
-        );
-    }
-}
+    );
+});
 
 export default CancellationConfirmationModal;

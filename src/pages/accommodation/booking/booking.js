@@ -78,7 +78,7 @@ const AccommodationBookingPage = observer(() => {
             cacheValidator={ cache => {
                 if (cache?.room?.length != initialValues?.room.length)
                     return false;
-                for (var i = 0; i < initialValues?.room.length; i++)
+                for (let i = 0; i < initialValues?.room.length; i++)
                     if (cache?.room?.[i]?.passengers?.length != initialValues?.room[i].passengers.length)
                         return false;
                 return true;
@@ -99,8 +99,9 @@ const AccommodationBookingPage = observer(() => {
                                 $accommodation.search.request.adultsTotal + $accommodation.search.request.childrenTotal
                             }
                         />
-                        <PaymentMethodSelector />
-
+                        <PaymentMethodSelector
+                            contractPaymentMethods={contract.availablePaymentMethods}
+                        />
                         { !!contract.priceChangedAlert &&
                             <div className="accent-frame">
                                 <div className="data only">
@@ -112,7 +113,6 @@ const AccommodationBookingPage = observer(() => {
                                 </div>
                             </div>
                         }
-
                         { !isRestricted ?
                             <div>
                                 { !contract.priceChangedAlert &&
@@ -125,7 +125,6 @@ const AccommodationBookingPage = observer(() => {
                                 </strong>
                             </div>
                         }
-
                         { !isRestricted &&
                             <div className="checkbox-holder">
                                 <FieldCheckbox
@@ -133,7 +132,14 @@ const AccommodationBookingPage = observer(() => {
                                     id="accepted"
                                     label={<>
                                         {t("I have read and accepted")}
-                                        <Link target="_blank" to="/terms" className="underlined link">{t("Terms & Conditions")}</Link>
+                                        <Link
+                                            target="_blank"
+                                            to="/terms"
+                                            className="underlined link"
+                                            onClick={(event) => event.stopPropagation()}
+                                        >
+                                            {t("Terms & Conditions")}
+                                        </Link>
                                     </>}
                                 />
                             </div>
@@ -159,7 +165,7 @@ const AccommodationBookingPage = observer(() => {
                                                             id={`room.${r}.passengers.${index}.title`}
                                                             placeholder={index < room.adultsNumber ?
                                                                 t("Select") :
-                                                                t("Child") + ", " + __plural(t, room.childrenAges[index - room.adultsNumber], "year")
+                                                                __plural(t, room.childrenAges[index - room.adultsNumber], "year")
                                                             }
                                                             label={t("Title")}
                                                             options={[

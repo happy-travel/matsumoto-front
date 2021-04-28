@@ -1,0 +1,105 @@
+.cabinet-header
+    padding-top: 60px
+    section
+        max-width: 886px
+        padding: 75px 10px
+        display: flex
+        justify-content: space-between
+        .agent
+            display: flex
+            color: $color-text-light
+            .photo
+                width: 100px
+                height: 100px
+                position: relative
+                border-radius: 80px
+                margin: 0 30px 0 15px
+                overflow: hidden
+                .no-avatar, img
+                    width: 100%
+                    height: 100%
+                .no-avatar
+                    background: url("../images/no-avatar.svg") center center no-repeat
+                    background-size: cover
+            .data
+                display: flex
+                flex-direction: column
+                justify-content: center
+                h1
+                    font-size: 24px
+                    line-height: 28px
+                    font-weight: 500
+                    color: $color-text
+                .company
+                    font-weight: 500
+                .status
+                    width: 14px
+                    height: 14px
+                    display: inline-block
+                    margin-right: 7px
+                    vertical-align: bottom
+                    border-radius: 25px
+                    &.PendingVerification
+                        background: lightyellow
+                        border: 3px solid yellow
+                    &.FullAccess
+                        background: $color-green
+                        border: 3px solid #bbecd2
+                    &.DeclinedVerification
+                        background: red
+                        border: 3px solid lightcoral
+                    &.ReadOnly
+                        background: blue
+                        border: 3px solid skyblue
+                div
+                    margin-top: 10px
+                    span
+                        color: $color-green
+    .logout-wrapper
+        white-space: nowrap
+        .button
+            display: block
+            height: 34px
+            line-height: 30px
+            padding: 0 16px 0 10px
+            font-weight: 400
+            .icon
+                margin: -3px 6px 0 0
+                vertical-align: middle
+                filter: grayscale(1)
+            &:hover
+                .icon
+                    filter: none
+    .cabinet-main-navigation
+        box-shadow: 0 .5px 0 $color-shadow-border
+        section
+            padding: 0 7px
+            display: flex
+            justify-content: flex-start
+        a
+            font-size: 13px
+            line-height: 16px
+            text-align: center
+            color: $color-text-light
+            margin: 0 10px
+            padding: 19px 14px
+            position: relative
+            &:hover
+                color: $color-text
+            &.active
+                cursor: default
+                color: $color-brand
+                &:after
+                    content: ' '
+                    height: 4px
+                    width: 100%
+                    background: linear-gradient(90deg, #F9A51B 0%, #FECE08 100%)
+                    border-radius: 25px
+                    position: absolute
+                    bottom: 0
+                    left: 0
+
+.cabinet-header + .block-wrapper,
+.cabinet-second-navigation + .block-wrapper
+    padding-top: 0
+    min-height: 0

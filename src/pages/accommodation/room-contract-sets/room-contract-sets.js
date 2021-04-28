@@ -16,20 +16,24 @@ import { $accommodation, $notifications } from "stores";
 
 const HEADER_SCROLL_CORRECTION_DESKTOP = 160;
 const HEADER_SCROLL_CORRECTION_MOBILE = 180;
-const DESKTOP_WIDTH = 1100;
+const HEADER_SCROLL_CORRECTION_PHONE = 100;
+const PHONE_WIDTH = 768;
+const DESKTOP_WIDTH = 1000;
 
 const scroll = (event, id) => {
     let correction = HEADER_SCROLL_CORRECTION_DESKTOP;
     if (window.innerWidth < DESKTOP_WIDTH)
         correction = HEADER_SCROLL_CORRECTION_MOBILE;
+    if (window.innerWidth < PHONE_WIDTH)
+        correction = HEADER_SCROLL_CORRECTION_PHONE;
     window.scrollTo(
         0,
         (document.getElementById(id || (event.target.dataset["scroll"]))?.offsetTop || 0) - correction
     );
 };
 
-let buttons, elements, throttle;
 const onScroll = () => {
+    let buttons, elements, throttle;
     if (window.innerWidth < DESKTOP_WIDTH)
         return;
     if (throttle)
@@ -74,7 +78,7 @@ const AccommodationRoomContractsSetsPage = observer(() => {
         }, 100);
     }, [details]);
 
-//todo: move to booking logic block
+    //todo: move to booking logic block
     const roomContractSetSelect = (roomContractSet) => {
         setLoading(true);
         API.get({
@@ -153,7 +157,7 @@ const AccommodationRoomContractsSetsPage = observer(() => {
                         <div dangerouslySetInnerHTML={{__html: description}} />
                         { details.schedule.checkInTime &&
                             <div className="checkin-time">
-                                {t("Check-in From")}:{" "}
+                                {t("Check-in from")}{" "}
                                 {details.schedule.checkInTime?.substr(0,5) || details.schedule.checkInTime}
                             </div>
                         }

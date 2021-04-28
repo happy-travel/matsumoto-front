@@ -9,7 +9,7 @@ const optimize = (prices) => {
 
     let result = [],
         start = 0;
-    for (var i = 0; i < sorted.length + 1; i++) {
+    for (let i = 0; i < sorted.length + 1; i++) {
         if (sorted[start].finalPrice.amount !== sorted[i]?.finalPrice?.amount) {
             result.push({
                 fromDate: sorted[start].fromDate,
@@ -28,9 +28,6 @@ const RoomPrices = ({ prices, index }) => {
 
     if (!(prices && prices.length))
         return null;
-
-    if (prices.length == 1 || !prices[0].fromDate)
-        return price(prices[0].finalPrice);
 
     const optimized = optimize(prices);
 

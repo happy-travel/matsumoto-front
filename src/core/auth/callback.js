@@ -1,30 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Authorize from "./authorize";
-import { Loader } from "components/simple";
 import { authSetToStorage } from "./index";
 import { lastPage } from "core/misc/tracker";
 
-class AuthCallbackComponent extends React.PureComponent {
-    componentDidMount() {
-        Authorize.removeUser();
-        Authorize.signinRedirectCallback()
-            .then(this.onRedirectSuccess)
-            .catch(this.onRedirectError);
-    }
-
-    onRedirectSuccess = auth => {
+const AuthCallbackComponent = ({ history }) => {
+    const onRedirectSuccess = (auth) => {
         Authorize.clearStaleState();
         authSetToStorage(auth);
-        this.props.history.push(lastPage());
+        history.push(lastPage());
     };
 
-    onRedirectError = error => {
-        this.props.history.push("/");
+    const onRedirectError = () => {
+        history.push(lastPage());
     };
 
-    render() {
-        return <Loader page />;
-    }
-}
+    useEffect(() => {
+        Authorize.signinRedirectCallback()
+            .then(onRedirectSuccess)
+            .catch(onRedirectError);
+    });
+
+    return null;
+};
 
 export default AuthCallbackComponent;

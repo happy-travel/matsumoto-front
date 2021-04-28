@@ -8,14 +8,14 @@ const authGetFromStorage = () => windowSessionStorage.get(STORAGE_KEY);
 const authRemoveFromStorage = () => windowSessionStorage.remove(STORAGE_KEY);
 
 const authSetToStorage = (auth) => {
-    var email = auth?.email || auth?.profile?.email;
+    const email = auth?.email || auth?.profile?.email;
     if (!email) {
         if (authGetFromStorage())
             authRemoveFromStorage();
         return;
     }
 
-    var value = btoa(email);
+    const value = btoa(email);
     if (value == authGetFromStorage())
         return;
 
@@ -38,7 +38,7 @@ const PagesAvailableUnauthorized = [
     "/pay/", "/pay/confirmation", "/payment/result", "/payments/callback"
 ];
 
-const isSignUpRoutes = () => window.location.href.indexOf("/signup/") > -1;
+const isSignUpRoutes = () => window.location.href.includes("/signup");
 
 const isPageAvailableAuthorizedOnly = () => PagesAvailableUnauthorized.every(
     item => !window.location.href.includes(item)
@@ -46,13 +46,10 @@ const isPageAvailableAuthorizedOnly = () => PagesAvailableUnauthorized.every(
 
 export {
     Authorized,
-
     authGetFromStorage,
     authSetToStorage,
     authRemoveFromStorage,
-
     authSetDirectPayment,
-
     isSignUpRoutes,
     isPageAvailableAuthorizedOnly
 }

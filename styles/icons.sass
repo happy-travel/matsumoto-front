@@ -33,6 +33,10 @@
         filter: grayscale(1)
     &.icon-white-lock
         @include icon("./icons/elements/white-lock.svg")
+    &.icon-info
+        @include icon("./icons/elements/info-blue.svg", 12, 12)
+    &.icon-logout
+        @include icon("./icons/elements/logout.svg", 24, 24)
 
     &.icon-search-location
         @include icon("./icons/search/location.svg", 14, 14)
@@ -57,11 +61,3 @@
         @include icon("./icons/notification/warning.svg", 40, 40)
     &.icon-information
         @include icon("./icons/notification/information.svg", 40, 40)
-
-    &.icon-info
-        @include icon("./icons/old/info-blue.svg", 12, 12)
-    &.icon-info-green
-        @include icon("./icons/old/info-green.svg")
-        background-size: contain
-    &.icon-logout
-        @include icon("./icons/old/logout.svg", 24, 24)

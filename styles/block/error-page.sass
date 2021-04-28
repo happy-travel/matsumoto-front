@@ -1,9 +1,23 @@
+.on-error-page
+    height: 100vh
+    min-height: 600px
+    header, footer, .cabinet-header, .cabinet-second-navigation
+        display: none
+
 .error-page
     text-align: center
+    &.block
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        min-height: 100vh
+        padding: 50px 0
     .picture
         margin: 0 auto
         position: relative
-        width: 840px
+        max-width: 840px
+        width: auto
         height: 500px
         background: url("/images/other/service.png") center center no-repeat
         background-size: contain
@@ -14,6 +28,8 @@
             flex-direction: column
             justify-content: center
             padding: 125px 20px 0 0
+            @include phone
+                padding-top: 80px
             h1, h2
                 font-weight: 700
             h1

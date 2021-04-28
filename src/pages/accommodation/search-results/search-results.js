@@ -114,7 +114,7 @@ const AccommodationSearchResultsPage = observer(() => {
                     <Loader /> :
                     ( !!hotelArray.length &&
                         <div className="finish">
-                            Shown {hotelArray.length} out of {search.resultCount}
+                            {hotelArray.length} out of {search.resultCount} shown
                         </div>
                     )
                 }

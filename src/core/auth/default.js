@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Authorize from "./authorize";
 import { isPageAvailableAuthorizedOnly, Authorized } from "core/auth";
-import { Loader } from "components/simple";
 import { initAgent } from "core/init";
 
-class AuthDefaultComponent extends React.PureComponent {
-    render() {
+const AuthDefaultComponent = () => {
+    useEffect(() => {
         if (Authorized())
             initAgent();
 
@@ -14,12 +13,10 @@ class AuthDefaultComponent extends React.PureComponent {
                 if (!user?.access_token)
                     Authorize.signinRedirect();
             });
-            if (!Authorized())
-                return <Loader white page />;
         }
+    }, []);
 
-        return null;
-    }
-}
+    return null;
+};
 
 export default AuthDefaultComponent;

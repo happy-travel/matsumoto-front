@@ -9,7 +9,7 @@ const Breadcrumbs = ({
     backLink,
     backText
 }) => {
-    var { t } = useTranslation();
+    const { t } = useTranslation();
 
     if (!backText)
         backText = t('Back');
@@ -21,7 +21,7 @@ const Breadcrumbs = ({
                     { items.map((item, index) => (
                         <React.Fragment key={index}>
                             { item.link ?
-                                <Link to={item.link}>
+                                <Link to={item.link} onClick={item.onClick}>
                                     {item.text}
                                 </Link>
                               :

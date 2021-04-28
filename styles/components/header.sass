@@ -37,13 +37,13 @@ header
                 box-shadow: none
 
     .agent-link
-        display: inline-block
         padding: 5px
         height: 46px
         margin-left: 14px
+        display: inline-flex
+        flex-direction: row
         .icon
-            float: left
-            margin: 13px 9px 0 9px
+            margin: 0 9px
         &:hover
             .icon
                 filter: none
@@ -88,18 +88,18 @@ header
     .with-search
         .notifications
             top: 170px
-        header
-            height: 160px
-            .search-wrapper
-                display: block
-                position: absolute
-                top: 80px
-                left: 50%
-                transform: translateX(-50%)
-                max-width: 100%
-                padding: 0 5px
-                section
-                    justify-content: space-around
+    header.with-search
+        height: 160px
+        .search-wrapper
+            display: block
+            position: absolute
+            top: 80px
+            left: 50%
+            transform: translateX(-50%)
+            max-width: 100%
+            padding: 0 5px
+            section
+                justify-content: space-around
 
 @include phone
     header
@@ -109,9 +109,8 @@ header
             justify-content: flex-start
 
 @include desktop
-    .with-search
-        header
-            .logo-wrapper
-                width: 240px
-                transform: none
-                justify-content: flex-start
+    header.with-search
+        .logo-wrapper
+            width: 240px
+            transform: none
+            justify-content: flex-start

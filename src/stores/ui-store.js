@@ -1,30 +1,17 @@
-import { observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import autosave from "core/misc/autosave";
-import setter from "core/mobx/setter";
-import { decorate } from "simple";
 
 const ourCompanyInfoDefault = {"name":"HappyTravelDotCom Travel and Tourism LLC","address":"B105, Saraya Avenue building","country":"United Arab Emirates","city":"Dubai","phone":"+971-4-2940007","email":"info@happytravel.com","postalCode":"Box 36690","trn":"100497287100003","iata":"96-0 4653","tradeLicense":"828719"};
 
 class UIStore {
-    @observable
     regions = [];
-
-    @observable
-    @setter([])
     currencies = [];
-
-    @observable
-    @setter
     ourCompanyInfo = ourCompanyInfoDefault;
-
-    @observable
     formCache = {};
-
-    @observable
-    @setter
     currentAPIVersion = null;
 
     constructor() {
+        makeAutoObservable(this);
         autosave(this, "_ui_store_cache");
     }
 
@@ -45,9 +32,9 @@ class UIStore {
 
     getFormCache(formName) {
         if (!formName) return null;
-        if (!this.formCache[formName])
+        if (!this.formCache?.[formName])
             return null;
-        var result = null;
+        let result = null;
         try {
             result = JSON.parse(this.formCache[formName]);
         } catch (e) {}
@@ -66,6 +53,10 @@ class UIStore {
     dropAllFormCaches() {
         this.formCache = {};
     }
+
+    setCurrencies(values) { this.currencies = values || []; }
+    setOurCompanyInfo(values) { this.ourCompanyInfo = values; }
+    setCurrentAPIVersion(values) { this.currentAPIVersion = values; }
 }
 
 export default new UIStore();

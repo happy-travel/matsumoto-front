@@ -1,30 +1,25 @@
-import { autorun, set } from "mobx";
+import { set, autorun } from "mobx";
 import { session } from "../storage";
 import settings from "settings";
 
 export default (store, key, shorter) => {
-    var cached = session.get(key);
-    const reserve = JSON.parse(JSON.stringify(store));
+    let cached = session.get(key);
 
     if (cached)
         try {
-            var value = JSON.parse(cached);
+            let value = JSON.parse(cached);
             if (value.build == settings.build)
                 set(store, value);
-            else
-                set(store, reserve);
         }
-        catch (e) {
-            set(store, reserve);
+        catch (error) {
+            console.error(error);
         }
-    else
-        set(store, { build: settings.build }); // hack for autorun keep running over empty store
 
     let throttle;
     autorun(() => {
         cached = session.get(key);
-        store.build = settings.build;
-        const newValue = JSON.stringify(shorter ? shorter(store) : store);
+        const extendedValue = { ...store, build: settings.build };
+        const newValue = JSON.stringify(shorter ? shorter(extendedValue) : extendedValue);
         if (cached != newValue) {
             clearTimeout(throttle);
             throttle = setTimeout(() => {

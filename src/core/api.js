@@ -15,6 +15,7 @@ const API_METHODS = {
     PAYMENTS_CARD_SAVED   : "/payments/bookings/card/saved",
     PAYMENTS_CALLBACK     : "/payments/callback",
     BOOK_BY_ACCOUNT       : "/accommodations/bookings/book-by-account",
+    BOOK_FOR_OFFLINE      : "/accommodations/bookings/book-for-offline",
     CARDS_REMOVE          : cardId =>
                             `/cards/${cardId}`,
 

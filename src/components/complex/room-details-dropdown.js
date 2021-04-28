@@ -19,7 +19,7 @@ const
         if (!formik)
             return;
 
-        var currentRooms = formik.values.roomDetails.length,
+        let currentRooms = formik.values.roomDetails.length,
             currentPeopleInAnotherRooms = formik.values.roomDetails?.reduce((acc, currentValue, index) => {
                 if ("rooms" != field && roomNumber == index)
                     return acc;
@@ -59,7 +59,7 @@ const
                     childrenAges: []
                 }]);
             if (current > finalNewValue) {
-                var roomDetails = formik.values.roomDetails;
+                let roomDetails = formik.values.roomDetails;
                 roomDetails.pop();
                 formik.setFieldValue("roomDetails", roomDetails);
             }
@@ -69,7 +69,7 @@ const
             formik.setFieldValue(`roomDetails.${roomNumber}.adultsNumber`, finalNewValue);
 
         if ("childrenNumber" == field) {
-            var childrenAges = formik.values.roomDetails[roomNumber].childrenAges;
+            let childrenAges = formik.values.roomDetails[roomNumber].childrenAges;
             if (current < finalNewValue)
                 childrenAges.push(null);
             if (current > finalNewValue)
@@ -96,83 +96,79 @@ const Row = ({ room, text, field, value, formik }) => {
     );
 };
 
-@observer
-class PeopleDropdown extends React.Component {
-    render() {
-        var { t } = useTranslation(),
-            { formik } = this.props;
+const RoomDetailsDropdown = observer(({ formik }) => {
+    const { t } = useTranslation();
 
-        return (
-            <div className="room-details dropdown">
-                <Row
-                     formik={formik}
-                     room={0}
-                     text="Room_plural"
-                     field="rooms"
-                     value={formik.values.roomDetails.length}
-                />
+    return (
+        <div className="room-details dropdown">
+            <Row
+                 formik={formik}
+                 room={0}
+                 text="Room_plural"
+                 field="rooms"
+                 value={formik.values.roomDetails.length}
+            />
 
-                <FieldArray
-                    render={() => (
-                        formik.values.roomDetails.map((room, number) => (
-                            <React.Fragment key={number}>
-                                {(formik.values.roomDetails.length > 1) && <h3>Room {number+1} Settings</h3>}
-                                <Row
-                                     formik={formik}
-                                     room={number}
-                                     text="Adult_plural"
-                                     field="adultsNumber"
-                                     value={room.adultsNumber}
-                                />
-                                <Row
-                                     formik={formik}
-                                     room={number}
-                                     text="Children"
-                                     field="childrenNumber"
-                                     value={room.childrenAges?.length}
-                                />
-                                {(room.childrenAges?.length > 0) &&
-                                    <div className="form">
-                                        <h4>{t("Please enter children ages")}</h4>
-                                        <div className="row children">
-                                            <FieldArray
-                                                render={() => (
-                                                    room.childrenAges.map((item, r) => (
-                                                        <div className="part" key={r}>
-                                                            <FieldText formik={formik}
-                                                                id={`roomDetails.${number}.childrenAges.${r}`}
-                                                                placeholder="12"
-                                                                maxLength={2}
-                                                                numeric
-                                                            />
-                                                            <div
-                                                                className="btn active"
-                                                                onClick={() => formik.setFieldValue(
-                                                                    `roomDetails.${number}.childrenAges.${r}`,
-                                                                    Math.max(0, (formik.values["roomDetails"][number]["childrenAges"][r] || 0) - 1) + ""
-                                                                )}
-                                                            >–</div>
-                                                            <div
-                                                                className="btn active"
-                                                                onClick={() => formik.setFieldValue(
-                                                                    `roomDetails.${number}.childrenAges.${r}`,
-                                                                    parseInt(formik.values["roomDetails"][number]["childrenAges"][r] || 0) + 1
-                                                                )}
-                                                            >+</div>
-                                                        </div>
-                                                    ))
-                                                )}
-                                            />
-                                        </div>
+            <FieldArray
+                render={() => (
+                    formik.values.roomDetails.map((room, number) => (
+                        <React.Fragment key={number}>
+                            {(formik.values.roomDetails.length > 1) && <h3>Room {number+1} Settings</h3>}
+                            <Row
+                                 formik={formik}
+                                 room={number}
+                                 text="Adult_plural"
+                                 field="adultsNumber"
+                                 value={room.adultsNumber}
+                            />
+                            <Row
+                                 formik={formik}
+                                 room={number}
+                                 text="Children"
+                                 field="childrenNumber"
+                                 value={room.childrenAges?.length}
+                            />
+                            {(room.childrenAges?.length > 0) &&
+                                <div className="form">
+                                    <h4>{t("Please enter children ages")}</h4>
+                                    <div className="row children">
+                                        <FieldArray
+                                            render={() => (
+                                                room.childrenAges.map((item, r) => (
+                                                    <div className="part" key={r}>
+                                                        <FieldText formik={formik}
+                                                            id={`roomDetails.${number}.childrenAges.${r}`}
+                                                            placeholder="12"
+                                                            maxLength={2}
+                                                            numeric
+                                                        />
+                                                        <div
+                                                            className="btn enabled"
+                                                            onClick={() => formik.setFieldValue(
+                                                                `roomDetails.${number}.childrenAges.${r}`,
+                                                                Math.max(0, (formik.values["roomDetails"][number]["childrenAges"][r] || 12) - 1) + ""
+                                                            )}
+                                                        >–</div>
+                                                        <div
+                                                            className="btn enabled"
+                                                            onClick={() => formik.setFieldValue(
+                                                                `roomDetails.${number}.childrenAges.${r}`,
+                                                                parseInt(formik.values["roomDetails"][number]["childrenAges"][r] || 12) + 1
+                                                            )}
+                                                        >+</div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        />
                                     </div>
-                                }
-                            </React.Fragment>
-                        ))
-                    )}
-                />
-            </div>
-        );
-    }
-}
+                                </div>
+                            }
+                        </React.Fragment>
+                    ))
+                )}
+            />
+        </div>
+    );
+});
 
-export default PeopleDropdown;
+export default RoomDetailsDropdown;

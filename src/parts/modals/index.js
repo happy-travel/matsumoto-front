@@ -16,27 +16,23 @@ const modalComponent = {
     [MODALS.READ_ONLY]: ReadOnlyModal
 };
 
-@observer
-class Index extends React.Component {
-    closeModal = () => $view.setModal(null);
+const IndexModalComponent = observer(() => {
+    const closeModal = () => $view.setModal(null);
+    const Content = modalComponent[$view.modal];
 
-    render() {
-        var Content = modalComponent[$view.modal];
+    if (!Content)
+        return null;
 
-        if (!Content)
-            return null;
-
-        return (
-            <div className="modal-wrapper">
-                <div className="overlay" onClick={this.closeModal} />
-                <div className="modal-scroll">
-                    <Content
-                        closeModal={this.closeModal}
-                    />
-                </div>
+    return (
+        <div className="modal-wrapper">
+            <div className="overlay" onClick={closeModal} />
+            <div className="modal-scroll">
+                <Content
+                    closeModal={closeModal}
+                />
             </div>
-        );
-    }
-}
+        </div>
+    );
+});
 
-export default Index;
+export default IndexModalComponent;

@@ -1,8 +1,7 @@
 .navigation
     position: relative
     background: $color-background
-    height: 54px
-    line-height: 54px
+    min-height: 54px
     z-index: 150
     @include desktop
         position: sticky
@@ -10,21 +9,22 @@
         box-shadow: 0 .5px 0 $color-shadow-border
     nav
         display: flex
+        align-items: flex-end
         flex-grow: 1
-        margin-left: -20px
+        margin-left: -15px
+        line-height: 24px
         a, .item
-            padding: 0 10px
-            margin: 0 12px
+            padding: 15px 20px
+            margin: 0 5px
             display: block
             position: relative
             cursor: pointer
-            font-size: 15px
+            font-size: 13px
             &:hover
                 color: $color-brand
             &.active
                 cursor: default
-                &:hover
-                    color: $color-text
+                color: $color-brand
                 &:after
                     content: ' '
                     height: 4px
@@ -36,3 +36,12 @@
                     background: linear-gradient(180deg, #FFCD0B 0%, #FBAC19 100%)
                     border-radius: 25px
                     position: absolute
+    &.cabinet-second-navigation
+        box-shadow: 0 .5px 0 rgba(0, 0, 0, .1)
+        background: #FAFAFA
+        margin-top: 1px
+        section
+            padding: 0 20px
+            max-width: 886px
+            a.active
+                color: $color-text

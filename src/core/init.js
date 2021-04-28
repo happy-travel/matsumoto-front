@@ -2,8 +2,8 @@ import Authorize from "./auth/authorize";
 import React from "react";
 import { isPageAvailableAuthorizedOnly, authSetToStorage, isSignUpRoutes } from "core/auth";
 import { API } from "core";
-import { initInvite } from "core/auth/invite";
-import { loadAgentSettings } from "simple/logic";
+import { initInvite } from "tasks/signup/invitation";
+import { loadAgentSettings } from "tasks/utils/agent-settings";
 import { searchCheckAndFix } from "tasks/accommodation/search-init-fix";
 import { APR_VALUES } from "enum";
 import { $ui, $personal, $notifications } from "stores";
@@ -38,7 +38,7 @@ export const initAgent = () => {
                 if (response.status == 400 && "Could not get agent data" == error?.detail) {
                     if (isPageAvailableAuthorizedOnly()) {
                         $notifications.closeAllNotifications();
-                        window.location.href = window.location.origin + "/signup/agent";
+                        window.location.href = window.location.origin + "/signup";
                     }
                 } else
                     authSetToStorage(agent);

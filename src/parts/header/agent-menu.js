@@ -15,7 +15,7 @@ const AgentMenu = observer(() => {
                     {t("Bookings")}
                 </Link>
             }
-            <Link to="/settings" className="button agent-link" title={agentName}>
+            <Link to="/settings/agent" className="button agent-link" title={agentName}>
                 <span className="icon icon-burger" />
                 <span className="avatar" />
             </Link>

@@ -28,7 +28,7 @@ const AccommodationSearchSorters = observer(() => {
             { dropdownOpen &&
                 <FieldSelectDropdown
                     options={[
-                        { text: t("Unsorted"), value: {} },
+                        { text: t("Not Sorted"), value: {} },
                         { text: <>{t("Price")} <em>({t("High to Low")})</em></>, value: { price: 1 } },
                         { text: <>{t("Price")} <em>({t("Low to High")})</em></>, value: { price: -1 } },
                     ]}

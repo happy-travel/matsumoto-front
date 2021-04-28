@@ -1,21 +1,26 @@
-import React from "react";
-import { Formik } from "formik";
+import React, { useState } from "react";
+import { Formik, Form } from "formik";
 import { $ui } from "stores";
 
-class CachedForm extends React.Component {
-    getInitialValues = () => {
-        var {
-            initialValues = {},
-            cacheValidator,
-            valuesOverwrite = values => values
-        } = this.props,
-            formName = this.props.id,
-            cached = $ui.getFormCache(formName),
+const CachedForm = ({
+    initialValues = {},
+    cacheValidator,
+    valuesOverwrite = values => values,
+    id,
+    onSubmit,
+    validationSchema,
+    render
+}) => {
+    const [everSubmitted, setEverSubmitted] = useState(false);
+    const [initialized, setInitialized] = useState(0);
+
+    const getInitialValues = () => {
+        let cached = $ui.getFormCache(id),
             isValid = false;
 
-        if (!cached)
+        if (!cached) {
             return valuesOverwrite(initialValues);
-
+        }
         if (cacheValidator) {
             try {
                 isValid = cacheValidator(cached);
@@ -29,63 +34,45 @@ class CachedForm extends React.Component {
         return valuesOverwrite(initialValues);
     };
 
-    state = {
-        initialValues: this.getInitialValues(),
-        everSubmitted: false
-    };
+    const firstInitialValues = getInitialValues();
 
-    handleReset = (formik) => {
-        const {
-            initialValues = {}
-        } = this.props,
-            formName = this.props.id;
-
-        this.setState({ everSubmitted: false });
+    const handleReset = (formik) => {
+        setEverSubmitted(true);
         formik.resetForm();
         formik.setValues(initialValues);
-        $ui.setFormCache(formName, null);
+        $ui.setFormCache(id, null);
     };
 
-    handleChange = (values) => {
-        $ui.setFormCache(this.props.id, values);
+    const handleChange = (values) => {
+        if (initialized)
+            $ui.setFormCache(id, values);
+        else
+            setInitialized(true);
     };
 
-    handleSubmit = (props, extended) => {
-        this.setState({ everSubmitted: true });
-        if (this.props.onSubmit)
-            this.props.onSubmit(props, extended);
+    const handleSubmit = (props, extended) => {
+        setEverSubmitted(true);
+        if (onSubmit)
+            onSubmit(props, extended);
     };
 
-    render() {
-        var {
-            onSubmit,
-            validationSchema,
-            render,
-            enableReinitialize,
-            initialValues,
-            cacheValidator,
-            valuesOverwrite
-        } = this.props,
-            formName = this.props.id;
-
-        return (
-            <Formik
-                onSubmit={this.handleSubmit}
-                validate={values => this.handleChange(values)}
-                initialValues={!enableReinitialize ? this.state.initialValues : this.getInitialValues()}
-                validationSchema={validationSchema}
-                validateOnChange={true}
-                validateOnMount={true}
-                enableReinitialize={enableReinitialize}
-            >
-                {formik => (
-                    <form onSubmit={formik.handleSubmit} className={__class(!this.state.everSubmitted, "never-submitted")}>
-                        {render(formik, () => this.handleReset(formik) )}
-                    </form>
-                )}
-            </Formik>
-        );
-    }
-}
+    return (
+        <Formik
+            onSubmit={handleSubmit}
+            initialValues={firstInitialValues}
+            validate={handleChange}
+            validationSchema={validationSchema}
+            validateOnChange
+            validateOnMount
+            enableReinitialize
+        >
+            {formik => (
+                <Form className={everSubmitted ? "" : "never-submitted"}>
+                    {render(formik, () => handleReset(formik) )}
+                </Form>
+            )}
+        </Formik>
+    );
+};
 
 export default CachedForm;

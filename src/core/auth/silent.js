@@ -1,21 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Authorize from "./authorize";
 
-class AuthSilentCallbackComponent extends React.PureComponent {
-
-    componentDidMount() {
+const AuthSilentCallbackComponent = () => {
+    useEffect(() => {
         Authorize.signinSilentCallback().catch(error => {
             console.error("Silent auth failed: " + error);
         });
-    }
+    }, []);
 
-    render() {
-        return null;
-    }
-}
-
+    return null;
+};
 
 export default AuthSilentCallbackComponent;
-
-
-

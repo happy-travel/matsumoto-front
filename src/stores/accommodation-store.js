@@ -1,4 +1,4 @@
-import { observable, computed } from "mobx"
+import { makeAutoObservable } from "mobx"
 import autosave from "core/misc/autosave";
 import { SEARCH_STATUSES } from "enum";
 import {
@@ -7,11 +7,11 @@ import {
     generateFiltersLine,
     generateSorterLine
 } from "tasks/utils/accommodation-filtering";
+import { accommodationStoreCacheShorter } from "tasks/utils/accommodation-store-cache-shorter";
 
 const DAY_IN_SECONDS = 24 * 60 * 60 * 1000;
 
 class AccommodationStore {
-    @observable
     search = {
         loading: false,
         request: null,
@@ -29,8 +29,6 @@ class AccommodationStore {
         roomsLastCheckedAt: null,
         roomsCreatedAt: null
     };
-
-    @observable
     selected = {
         accommodation: null,
         roomContractSet: null,
@@ -40,27 +38,14 @@ class AccommodationStore {
         sorter: null,
         filters: null
     };
-
-    @observable
     booking = {
         request: {},
         result: null
     };
 
     constructor() {
-        autosave(
-            this,
-            "_accommodation_store_cache",
-            (initial) => {
-                const short = JSON.parse(JSON.stringify(initial));
-                if (short?.search?.result?.length > 10) {
-                    short.search.result = short.search.result.slice(0, 10);
-                    short.search.page = 0;
-                    short.search.hasMoreSearchResults = true;
-                }
-                return short;
-            }
-        );
+        makeAutoObservable(this);
+        autosave(this, "_accommodation_store_cache", accommodationStoreCacheShorter);
     }
 
     setNewSearchRequest(request) {
@@ -94,12 +79,10 @@ class AccommodationStore {
     }
 
     setSearchResult(results, page = 0) {
-        if (results?.length) {
-            if (page != 0)
-                this.search.result.push(...results);
-            else
-                this.search.result = results;
-        }
+        if (page != 0 && results?.length)
+            this.search.result.push(...results);
+        else
+            this.search.result = results;
 
         this.search.loading = false;
         this.search.lastCheckedAt = Number(new Date());
@@ -126,7 +109,7 @@ class AccommodationStore {
             this.search.resultCount = resultCount;
     }
 
-    @computed get hotelArray() {
+    get hotelArray() {
         return applyFilters(this.search.result, this.selected.filters) || [];
     }
 
@@ -146,11 +129,11 @@ class AccommodationStore {
         this.selected.sorter = sorter;
     }
 
-    @computed get filtersLine() {
+    get filtersLine() {
         return generateFiltersLine(this.selected.filters);
     }
 
-    @computed get sorterLine() {
+    get sorterLine() {
         return generateSorterLine(this.selected.sorter);
     }
 
@@ -174,15 +157,20 @@ class AccommodationStore {
     }
 
     selectRoomContractSet(result, preloaded) {
-        if (result?.roomContractSet?.rate.currency != preloaded?.rate?.currency ||
-            result?.roomContractSet?.rate.finalPrice !== preloaded?.rate?.finalPrice)
+        if (result.roomContractSet?.rate.currency != preloaded.rate?.currency ||
+            result.roomContractSet?.rate.finalPrice !== preloaded.rate?.finalPrice)
             result.roomContractSet.priceChangedAlert = true;
+
+        if (result.roomContractSet?.deadline.date != preloaded.deadline?.date)
+            result.roomContractSet.deadlineChangedAlert = true;
+
+        result.roomContractSet.availablePaymentMethods = result.availablePaymentMethods;
 
         this.selected = {
             ...this.selected,
-            accommodationFinal : result,
-            roomContractSet : result?.roomContractSet,
-            availabilityId : result?.availabilityId
+            accommodationFinal: result,
+            roomContractSet: result.roomContractSet,
+            availabilityId: result?.availabilityId
         };
         this.booking = {
             request: {},
