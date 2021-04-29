@@ -122,7 +122,7 @@ const AccommodationConfirmationVoucherPage = observer(({ match }) => {
                             <PassengerName passenger={room.passengers[0]} />
                         </div>
                         { room.supplierRoomReferenceCode &&
-                            <div>Room reference code: room.supplierRoomReferenceCode</div>
+                            <div>Room reference code: {room.supplierRoomReferenceCode}</div>
                         }
                         {(room.passengers.length > 1) &&
                             <div>
