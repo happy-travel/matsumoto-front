@@ -5,8 +5,6 @@ const dev = {
 };
 
 let settings = {
-    default_culture       : "en",
-
     edo_url               : process.env.EDO_URL || dev.EDO_URL,
     edo_v1                : "/api/1.0",
 
