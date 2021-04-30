@@ -6,14 +6,16 @@ const routesWithSearch = [
     "/search",
     "/search/contract"
 ]; //todo: temporary workaround
-const isWithSearch = (props) => routesWithSearch.includes(props.path);
+const isWithSearch = (path) => routesWithSearch.includes(path);
 
 const Route = (props) => {
     useEffect(() => {
         document.title = ( props.title ? (props.title + " – ") : "" ) + "Happytravel.com";
         window.scrollTo(0, 0);
 
-        document.getElementById("app").className = (isWithSearch(props) ? "with-search" : "");
+        const tmpAppDOMElement = document.getElementById("app");
+        if (tmpAppDOMElement && tmpAppDOMElement.offsetWidth)
+            tmpAppDOMElement.className = (isWithSearch(props?.path) ? "with-search" : "");
         tracker();
     });
 
