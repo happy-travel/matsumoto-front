@@ -1,4 +1,4 @@
-FROM node:12.3.1-alpine as builder
+FROM node:16.0.0-alpine as builder
 
 RUN apk update && \
     apk add --no-cache git
@@ -27,7 +27,7 @@ ENV SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
 
 RUN npm run build
 
-FROM nginx:1.16.0-alpine
+FROM nginx:1.20.0-alpine
 
 RUN apk update && \
     apk add --no-cache curl
