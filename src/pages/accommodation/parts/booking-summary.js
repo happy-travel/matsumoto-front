@@ -82,7 +82,7 @@ const BookingSummary = ({
             <h4>{t("Room & Total Cost")}</h4>
             { rooms?.map((room, i) => (
                 <React.Fragment key={"trc"+i}>
-                    { room.dailyRoomRates?.[0].finalPrice !== undefined &&
+                    { room.dailyRoomRates?.[0]?.finalPrice !== undefined &&
                         <RoomPrices
                             prices={room.dailyRoomRates}
                             index={rooms?.length > 1 ? i+1 : ""}
