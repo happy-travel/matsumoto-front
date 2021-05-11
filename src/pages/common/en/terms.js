@@ -201,45 +201,35 @@ export default () => (
             </ol>
 
             <h2>4. Personal Data and Data Privacy</h2>
-            <p className="indent">Happy Travel respects your privacy. Please consult our privacy policy for further
+            <p className="indent">
+                Happy Travel respects your privacy. Please consult our privacy policy for further
                 information about how we use your personal
-                data <a href="https://happytravel.com/privacy" className="link">
-                    https://happytravel.com/privacy
-                </a>.</p>
+                data <a href="https://happytravel.com/privacy" className="link">https://happytravel.com/privacy</a>.
+            </p>
 
-            <h2>5. Policies</h2>
-            <ul>
-                <li>
-                    <h3>Pricing</h3>
-                    <p>Prices are confirmed only at the final stage of the booking process, depending on the type of product purchased.</p>
-                </li>
-                <li>
-                    <h3>Booking Confirmation</h3>
-                    <p>Once you complete your booking, you will receive an email acknowledging the details of your booking and a confirmation number. The completion of your booking will depend on the terms of the individual signed mutual agreement.</p>
-                    <p>We reserve the right to cancel the booking if the booking does not comply with the payment terms agreed as per the signed mutual agreement.</p>
-                </li>
-                <li>
-                    <h3>Payment policy</h3>
-                    <p>Payment can be made by the payment methods listed on the individual signed mutual agreement.</p>
-                    <p>We accept bank transfers, cash and credit card payments which are Visa, MasterCard, American Express.</p>
-                </li>
-                <li>
-                    <h3>Cancellation policy</h3>
-                    <p>By making a reservation with an accommodation provider, you accept and agree to the relevant cancellation and no-show policy.</p>
-                    <p>You may be charged for your cancellation according to booking conditions, (pre)payment and no-show policy or not be entitled to any repayment of any (pre)paid amount. The cancellation policy for each booking may be different and will be outlined on your booking confirmation.</p>
-                </li>
-                <li>
-                    <h3>Refund policy</h3>
-                    <p>Refund requests must be received in writing and processed only if it complies with the terms and conditions of the booking. Any refund request that does not fall under the requisite terms and conditions of the booking will be denied.</p>
-                    <p>Refund requests require a minimum of twenty-one (21) days for processing. No claims will be reviewed once a refund is processed.</p>
-                </li>
-                <li>
-                    <h3>Delivery policy</h3>
-                    <p>Not Applicable.</p>
-                </li>
-            </ul>
+            <h2>5. Pricing</h2>
+            <p className="indent">Prices are confirmed only at the final stage of the booking process, depending on the type of product purchased.</p>
 
-            <h2>6. Intellectual Property</h2>
+            <h2>6. Booking Confirmation</h2>
+            <p className="indent">Once you complete your booking, you will receive an email acknowledging the details of your booking and a confirmation number. The completion of your booking will depend on the terms of the individual signed mutual agreement.</p>
+            <p className="indent">We reserve the right to cancel the booking if the booking does not comply with the payment terms agreed as per the signed mutual agreement.</p>
+
+            <h2>7. Payment policy</h2>
+            <p className="indent">Payment can be made by the payment methods listed on the individual signed mutual agreement.</p>
+            <p className="indent">We accept bank transfers, cash and credit card payments which are Visa, MasterCard, American Express.</p>
+
+            <h2>8. Cancellation policy</h2>
+            <p className="indent">By making a reservation with an accommodation provider, you accept and agree to the relevant cancellation and no-show policy.</p>
+            <p className="indent">You may be charged for your cancellation according to booking conditions, (pre)payment and no-show policy or not be entitled to any repayment of any (pre)paid amount. The cancellation policy for each booking may be different and will be outlined on your booking confirmation.</p>
+
+            <h2>9. Refund policy</h2>
+            <p className="indent">Refund requests must be received in writing and processed only if it complies with the terms and conditions of the booking. Any refund request that does not fall under the requisite terms and conditions of the booking will be denied.</p>
+            <p className="indent">Refund requests require a minimum of twenty-one (21) days for processing. No claims will be reviewed once a refund is processed.</p>
+
+            <h2>10. Delivery policy</h2>
+            <p className="indent">Not Applicable.</p>
+
+            <h2>11. Intellectual Property</h2>
             <ol className="roman">
                 <li>“Intellectual Property” refers to intellectual property of every sort, whether or
                     not registered, registrable or applied for in any country, including intellectual
@@ -281,7 +271,7 @@ export default () => (
                     post to our Site.</li>
             </ol>
 
-            <h2>7. Warranty Disclaimer</h2>
+            <h2>12. Warranty Disclaimer</h2>
             <p className="indent">This Site, all content and services provided on the Site, are provided “as is”, “as
                 available” and without warranties of any kind, whether express or implied, to the
                 fullest extent permissible pursuant to applicable law. Happy Travel and its
@@ -306,9 +296,9 @@ export default () => (
                 interruptions in the transmission or receipt of reservations or, any other technical
                 defect whether human or technical in nature.</p>
 
-            <h2>8. Limitation of Liability and Indemnification</h2>
+            <h2>13. Limitation of Liability and Indemnification</h2>
             <ol className="roman">
-                <li>Subject to clause 7(ii) below, Happy Travel and its officers, directors, managers,
+                <li>Subject to clause 13(ii) below, Happy Travel and its officers, directors, managers,
                     employees, representatives, agents, subsidiaries, affiliates, licensors or others
                     involved in creating, sponsoring, promoting, or otherwise making available the Site
                     and its contents shall not be liable to you or any other party for any direct,
@@ -334,7 +324,7 @@ export default () => (
                     your actions, inactions or omission.</li>
             </ol>
 
-            <h2>9. Law and Jurisdiction</h2>
+            <h2>14. Law and Jurisdiction</h2>
             <ol className="roman">
                 <li>These Terms of Use and any dispute and/or claim arising out of or in connection
                     with them, or their subject matter or formation (including non-contractual disputes
