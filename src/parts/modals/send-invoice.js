@@ -18,7 +18,7 @@ const SendInvoiceModal = observer(({ closeModal }) => {
             url: API.BOOKING_GET_BY_ID($view.modalData.bookingId),
             success: setBooking
         });
-    });
+    }, []);
 
     const submit = (values) => {
         const { bookingId, type } = $view.modalData;
