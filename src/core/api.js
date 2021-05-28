@@ -5,8 +5,6 @@ const API_METHODS = {
     BASE_CURRENCIES       : "/payments/currencies",
 
     COUNTRIES_PREDICTION  : "/locations/countries",
-    EDO_LOCATION_PREDICTION : "/locations/predictions",
-    OSAKA_LOCATION_PREDICTION : "/predictions",
 
     CARDS_SAVED           : "/cards",
     CARDS_SETTINGS        : "/cards/settings",
@@ -141,7 +139,9 @@ const API_METHODS = {
 
     REPORT_DUPLICATE     : "/accommodations-mapping/duplicate-reports",
 
-    OUR_COMPANY          : "/company"
+    OUR_COMPANY          : "/company",
+
+    OSAKA_LOCATION_PREDICTION : "/predictions",
 };
 
 API_METHODS.methods_dont_show_error = [

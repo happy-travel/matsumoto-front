@@ -3,27 +3,6 @@ import { observer } from "mobx-react";
 import { FieldText } from "components/form";
 import DestinationDropdown from "./dropdown-destination";
 import { API, session } from "core";
-import { decorate } from "simple";
-import { $personal } from "stores";
-
-const typesWeights = {
-    "landmark": 1,
-    "destination": 2,
-    "accommodation": 3,
-    "location": 4,
-};
-
-const sortResults = (newOptions, currentValue) => {
-    let result = [];
-    if (newOptions) {
-        result = newOptions.sort((a, b) => typesWeights[b.type?.toLowerCase()] - typesWeights[a.type?.toLowerCase()]);
-        result = [
-            ...result.filter(item => decorate.cutFirstPart(item.value, currentValue)),
-            ...result.filter(item => !decorate.cutFirstPart(item.value, currentValue))
-        ];
-    }
-    return result;
-};
 
 const getIdOfInput = (id) => id + "Input";
 
@@ -40,10 +19,7 @@ const FieldDestination = observer(({
     const setDestinationSuggestion = (newOptions) => {
         if (newOptions?.length) {
             const prediction = newOptions[0];
-            if ($personal.settings.oldSearchEnabled)
-                setSuggestion({ text: prediction.value, value: prediction });
-            if (!$personal.settings.oldSearchEnabled)
-                setSuggestion({ text: prediction.predictionText, value: prediction });
+            setSuggestion({ text: prediction.predictionText, value: prediction });
             return;
         }
         setSuggestion(null);
@@ -69,11 +45,7 @@ const FieldDestination = observer(({
         clearTimeout(throttle);
         throttle = setTimeout(() => {
             API.get({
-                ...(
-                    !$personal.settings.oldSearchEnabled ?
-                        { osaka_url: API.OSAKA_LOCATION_PREDICTION } :
-                        { url: API.EDO_LOCATION_PREDICTION }
-                ),
+                osaka_url: API.OSAKA_LOCATION_PREDICTION,
                 body: {
                     query: currentValue,
                     sessionId: session.google.create()
@@ -81,11 +53,7 @@ const FieldDestination = observer(({
                 after: (data) => {
                     if (currentValue != event.target.value.trim())
                         return;
-                    setDestinationPredictionsAndSuggestion(
-                        !$personal.settings.oldSearchEnabled ?
-                            data :
-                            sortResults(data)
-                    );
+                    setDestinationPredictionsAndSuggestion(data);
                 }
             });
         }, 200);
@@ -94,24 +62,10 @@ const FieldDestination = observer(({
     const setValue = (item, silent) => {
         if (!item)
             return;
-        if ($personal.settings.oldSearchEnabled) {
-            formik.setFieldValue("htIds", {
-                id: item.id,
-                sessionId: session.google.current(),
-                source: item.source,
-                type: item.type
-            });
-            formik.setFieldValue(id, item.value);
-            if (silent !== true || short) {
-                formik.setFieldValue(getIdOfInput(id), item.value);
-            }
-        }
-        if (!$personal.settings.oldSearchEnabled) {
-            formik.setFieldValue("htIds", [item.htId]);
-            formik.setFieldValue(id, item.predictionText);
-            if (silent !== true || short) {
-                formik.setFieldValue(getIdOfInput(id), item.predictionText);
-            }
+        formik.setFieldValue("htIds", [item.htId]);
+        formik.setFieldValue(id, item.predictionText);
+        if (silent !== true || short) {
+            formik.setFieldValue(getIdOfInput(id), item.predictionText);
         }
         if (silent !== true)
             setDestinationPredictionsAndSuggestion(null);

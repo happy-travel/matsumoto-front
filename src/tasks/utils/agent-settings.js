@@ -8,8 +8,7 @@ const settingsCleaner = values => ({
     residencyCode: values.residencyCode,
     weekStarts: values.weekStarts,
     preferredLanguage: values.preferredLanguage,
-    availableCredit: values.availableCredit,
-    oldSearchEnabled: values.oldSearchEnabled
+    availableCredit: values.availableCredit
 });
 
 export const loadCounterpartyInfo = (callback = () => {}) => {

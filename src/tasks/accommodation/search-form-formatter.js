@@ -38,15 +38,8 @@ export const searchFormFormatter = values => {
         checkInDate: date.format.api(values.checkInDate),
         checkOutDate: date.format.api(values.checkOutDate),
         roomDetails: roomDetails,
-        ...(!$personal.settings.oldSearchEnabled ? {} : {
-            location: {
-                predictionResult: values.htIds
-            }
-        }),
         nationality: values.nationalityCode,
         residency: values.residencyCode,
-        ...($personal.settings.oldSearchEnabled ? {} : {
-            htIds: values.htIds
-        }),
+        htIds: values.htIds
     };
 };
