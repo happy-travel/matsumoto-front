@@ -151,7 +151,6 @@ translations: {
     "footer_address_line_5": "Dubai, United Arab Emirates",
     "Sign In": "تسجيل الدخول",
     "Get started with a new account": "ابدأ بحساب جديد",
-    "Confirm Booking": "تأكيد الحجز",
     "Please enter here": "من فضلك ادخل هنا",
     "Enter First Name": "الرجاء إدخال الاسم الأول",
     "Enter Last Name": "الرجاء إدخال اسم العائلة",

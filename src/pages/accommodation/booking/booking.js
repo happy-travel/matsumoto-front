@@ -55,11 +55,11 @@ const AccommodationBookingPage = observer(() => {
     const ContinueButton = ({ formik }) => (
         <button type="submit" className={"button main" + __class(!formik.isValid, "disabled")}>
             { formik.isValid || !formik.values.accepted ?
-                 (
-                     PAYMENT_METHODS.ACCOUNT == $payment.paymentMethod ?
-                        t("Pay") + price(contract.rate.finalPrice) :
-                        t("Confirm Booking")
-                 ) :
+                (
+                    PAYMENT_METHODS.ACCOUNT == $payment.paymentMethod ?
+                        t("Book & Pay") + price(contract.rate.finalPrice) :
+                        t("Book & Confirm")
+                ) :
                 t("You have not filled guests information")
             }
         </button>
@@ -181,7 +181,7 @@ const AccommodationBookingPage = observer(() => {
                                                             formik={formik}
                                                             id={`room.${r}.passengers.${index}.firstName`}
                                                             placeholder={t("Enter First Name")}
-                                                                   label={t("First Name")}
+                                                            label={t("First Name")}
                                                             onChange={transliterate}
                                                         />
                                                     </td>

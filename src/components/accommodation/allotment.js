@@ -11,7 +11,7 @@ const Allotment = ({ room, contract }) => {
     const { t } = useTranslation();
     return (
         <ul className="allotment">
-            { !contract.isAdvancePurchaseRate &&
+            { !contract.isAdvancePurchaseRate ?
                 <li className={__class(warnAboutDeadlineIsNear, "warning", "important")}>
                     <div className="primary">
                         { deadline.date ?
@@ -28,6 +28,12 @@ const Allotment = ({ room, contract }) => {
                             ))}
                         </div>
                     }
+                </li> :
+                <li className="warning">
+                    <div className="primary">
+                        <div className="primary">{t("Within deadline")}</div>
+                        <div className="additional">{t("Restricted rate")}</div>
+                    </div>
                 </li>
             }
             <li className="warn">
