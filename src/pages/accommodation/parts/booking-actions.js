@@ -62,7 +62,7 @@ const BookingActionPart = observer(({ booking }) => {
                     <button
                         className={
                             "button" +
-                            __class(date.passed(details.checkInDate), "gray")
+                            __class(date.isPast(details.checkInDate), "gray")
                         }
                         onClick={showCancellationConfirmation}
                     >

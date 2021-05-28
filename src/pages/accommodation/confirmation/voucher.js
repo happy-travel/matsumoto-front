@@ -155,7 +155,7 @@ const AccommodationConfirmationVoucherPage = observer(({ match }) => {
                     FREE Cancellation
                 </div>
             }
-            {!date.passed(voucher.deadlineDate) &&
+            {date.isFuture(voucher.deadlineDate) &&
                 <div className="deadline-notify">
                     FREE Cancellation until {date.format.c(voucher.deadlineDate)}
                 </div>

@@ -219,7 +219,7 @@ translations: {
     "Meeting Rooms": "غرف الإجتماعات",
     "No Information": "لا يوجد معلومات",
     "Create PDF": "إنشاء PDF",
-    "You are about to cancel your booking": "أنت على وشك إلغاء الحجز",
+    "You are about to cancel booking": "أنت على وشك إلغاء الحجز",
     "has passed. A cancellation fee will be charged according to accommodation's cancellation policy.": "اجتاز. سيتم فرض رسوم إلغاء وفقًا لسياسة إلغاء الإقامة",
     "Are you sure you want to cancel your booking?": "هل أنت متأكد تريد إلغاء الحجز؟"
 }

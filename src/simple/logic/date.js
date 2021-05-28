@@ -46,10 +46,19 @@ const addDay = (date, amount) => {
     return result;
 };
 
-const passed = (date) => {
+const isPast = (date) => {
     if (!date)
         return true;
     let result = new Date() > new Date(date);
+    if (format.api(new Date()) == format.api(date))
+        result = false;
+    return result;
+};
+
+const isFuture = (date) => {
+    if (!date)
+        return true;
+    let result = new Date() < new Date(date);
     if (format.api(new Date()) == format.api(date))
         result = false;
     return result;
@@ -86,6 +95,7 @@ export default {
     format,
     addDay,
     addMonth,
-    passed,
+    isPast,
+    isFuture,
     parseDateRangeFromString
 };

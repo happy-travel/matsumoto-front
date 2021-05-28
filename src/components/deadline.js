@@ -37,7 +37,7 @@ const Deadline = ({ roomContractSet, searchId, resultId }) => {
         );
 
     if (deadline) {
-        if (!date.passed(deadline))
+        if (date.isFuture(deadline))
             return (
                 <div className={"deadline future" + __class(!isRequestPossible, "requested")}>
                     {t("Deadline")} – {date.format.a(deadline)}

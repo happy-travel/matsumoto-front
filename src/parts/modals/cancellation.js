@@ -45,46 +45,38 @@ const CancellationConfirmationModal = observer(({ closeModal }) => {
             </div>
         }
 
-        { date.passed(bookingDetails.checkInDate) ?
+        { date.isPast(bookingDetails.checkInDate) ?
             <>
-
                 <h2>{t("Cancellation Deadline")}</h2>
                 <p style={{ maxWidth: 290 }}>
                     {t("Cancellation is not possible furthermore, Check-in Date passed")}.
                 </p>
-
-            </>
-        :
+            </> :
             <>
                 <h2>{t("Are you sure you want to cancel your booking?")}</h2>
                 <p>
-                    {t("You are about to cancel your booking")} {bookingDetails.referenceCode}
+                    {t("You are about to cancel booking")} {bookingDetails.referenceCode}
                 </p>
-
-                { date.passed(bookingDetails.deadlineDate) &&
-                    <>
-                        <p>
-                            {t("Cancellation Deadline")} {date.format.a(bookingDetails.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
-                        </p>
-                        <p className="danger">
-                            { penalty?.amount ?
-                                <>
-                                    {t("Cancellation cost")}: {price(penalty)}
-                                </> :
-                                <br />
-                            }
-                        </p>
-                    </>}
-
-                { !date.passed(bookingDetails.deadlineDate) &&
+                { date.isFuture(bookingDetails.deadlineDate) ?
                     <p>
                         {t("FREE Cancellation - Without Prepayment")}
+                    </p> :
+                    <p>
+                        {t("Cancellation Deadline")} {date.format.a(bookingDetails.deadlineDate)} {t("has passed. A cancellation fee will be charged according to accommodation's cancellation policy.")}
                     </p>
                 }
+                <p className="danger">
+                    { penalty?.amount ?
+                        <>
+                            {t("Cancellation cost")}: {price(penalty)}
+                        </> :
+                        <br />
+                    }
+                </p>
 
                 <div className="bottom">
                     <button
-                        className={"button" + __class(!date.passed(bookingDetails.deadlineDate), "green")}
+                        className={"button" + __class(date.isFuture(bookingDetails.deadlineDate), "green")}
                         onClick={bookingCancel}
                     >
                         {t("Cancel booking")}

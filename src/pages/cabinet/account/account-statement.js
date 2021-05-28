@@ -44,7 +44,7 @@ const AccountStatementPage = () => {
         if (filterTab) {
             if ("Future" == filterTab || "Past" == filterTab)
                 result = result.filter(item => {
-                    const isFuture = !date.passed(item.checkInDate);
+                    const isFuture = !date.isPast(item.checkInDate);
                     if ("Future" == filterTab)
                         return isFuture;
                     else

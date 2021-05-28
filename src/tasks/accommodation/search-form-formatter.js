@@ -10,8 +10,8 @@ export const searchFormValuesCorrection = values => {
         values.nationality = $personal.settings.nationality || "";
         values.nationalityCode = $personal.settings.nationalityCode || "";
     }
-    if (date.passed(values.checkInDate) ||
-        date.passed(values.checkOutDate) ||
+    if (date.isPast(values.checkInDate) ||
+        date.isPast(values.checkOutDate) ||
         new Date(values.checkInDate) > new Date(values.checkOutDate)) {
         values.checkInDate = new Date();
         values.checkOutDate = date.addDay(new Date(), 1);

@@ -6,7 +6,7 @@ import { MealPlan } from "components/accommodation";
 const Allotment = ({ room, contract }) => {
     const { remarks } = room;
     let deadline = room.deadline || room.deadlineDetails;
-    const warnAboutDeadlineIsNear = deadline?.date && date.passed(date.addDay(deadline.date, -7));
+    const warnAboutDeadlineIsNear = deadline?.date && date.isPast(date.addDay(deadline.date, -7));
 
     const { t } = useTranslation();
     return (

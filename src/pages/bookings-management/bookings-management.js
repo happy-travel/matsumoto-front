@@ -58,7 +58,7 @@ const AgencyBookingsManagementPage = observer(() => {
 
             if ("Future" == filterTab || "Complete" == filterTab)
                 result = result.filter(item => {
-                    const isFuture = !date.passed(item.checkInDate);
+                    const isFuture = !date.isPast(item.checkInDate);
                     return ("Future" == filterTab) ? isFuture : !isFuture;
                 });
         }

@@ -235,7 +235,7 @@ translations: {
     "Meeting Rooms": "Meeting Rooms",
     "No Information": "No Information",
     "Create PDF": "Create PDF",
-    "You are about to cancel your booking": "You are about to cancel your booking",
+    "You are about to cancel booking": "You are about to cancel booking",
     "has passed. A cancellation fee will be charged according to accommodation's cancellation policy.": "has passed. A cancellation fee will be charged according to your accommodation's cancellation policy.",
     "Are you sure you want to cancel your booking?": "Are you sure you want to cancel your booking?",
     "option": "option",
