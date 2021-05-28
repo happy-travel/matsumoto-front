@@ -28,12 +28,13 @@ const RoomSummary = observer(({ resultId, roomContractSet, onSelect, secondStep 
                 <div>
                     <MealPlan room={roomContractSet.rooms[0]} />
                 </div>
-                { !roomContractSet.isAdvancePurchaseRate &&
+                { !roomContractSet.isAdvancePurchaseRate ?
                     <Deadline
                         searchId={$accommodation.search.id}
                         resultId={resultId}
                         roomContractSet={roomContractSet}
-                    />
+                    /> :
+                    t("Within deadline")
                 }
                 <div>
                     { (isRestricted && !secondStep) &&
@@ -62,7 +63,6 @@ const RoomSummary = observer(({ resultId, roomContractSet, onSelect, secondStep 
                         {t("Restricted Rate")}
                     </strong> :
                     <div className="button-wrapper">
-                        <span className="hide">{isRestricted ? t("Restricted Rate") : t("Choose option")}</span>
                         <button className="button small main" onClick={onSelect}>
                             <i className="icon icon-arrow-next" />
                         </button>
