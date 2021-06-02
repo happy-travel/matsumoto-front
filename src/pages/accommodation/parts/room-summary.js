@@ -20,7 +20,7 @@ const RoomSummary = observer(({ resultId, roomContractSet, onSelect, secondStep 
                 <h3>
                     <GroupRoomTypesAndCount contracts={roomContractSet.rooms} />
                 </h3>
-                {roomContractSet.supplier &&
+                { roomContractSet.supplier &&
                     <div>
                         <i>Supplier: {" " + roomContractSet.supplier}</i>
                     </div>
@@ -37,7 +37,7 @@ const RoomSummary = observer(({ resultId, roomContractSet, onSelect, secondStep 
                     t("Within deadline")
                 }
                 <div>
-                    { (isRestricted && !secondStep) &&
+                    { roomContractSet.isAdvancePurchaseRate &&
                         <div className="tag">
                             {t("Restricted Rate")}
                         </div>
