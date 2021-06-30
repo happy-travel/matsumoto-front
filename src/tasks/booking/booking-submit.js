@@ -3,6 +3,8 @@ import { PAYMENT_METHODS } from "enum";
 import { $accommodation, $notifications, $payment } from "stores";
 
 const taskSubmitBookingForm = (values, { setSubmitting }) => {
+    setSubmitting(true);
+
     if (!$accommodation.selected?.accommodationFinal?.accommodation?.id) {
         setSubmitting(false);
         $notifications.addNotification("Booking unsuccessful, please try again later or contact us for help.");
