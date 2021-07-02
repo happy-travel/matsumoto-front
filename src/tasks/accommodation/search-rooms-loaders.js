@@ -16,7 +16,7 @@ const requestRooms = (roomsTaskState) => {
     API.get({
         url: API.A_SEARCH_TWO_RESULT(
             search.id,
-            selected.accommodation.id
+            selected.accommodationFullDetails.htId
         ),
         success: result => {
             $accommodation.setRoomsTaskState(roomsTaskState);
@@ -35,7 +35,7 @@ const subscribeSearchRoomsResults = () =>
     setInterval(() => {
         const { search, selected } = $accommodation;
 
-        if (!search.id || !selected?.accommodation?.id || !SEARCH_STATUSES.isPending(search.roomsTaskState))
+        if (!search.id || !selected?.accommodationFullDetails?.htId || !SEARCH_STATUSES.isPending(search.roomsTaskState))
             return;
 
         if (search.roomsLastCheckedAt - search.roomsCreatedAt > POLLING_DURATION) {
@@ -46,7 +46,7 @@ const subscribeSearchRoomsResults = () =>
         API.get({
             url: API.A_SEARCH_TWO_CHECK(
                 search.id,
-                selected.accommodation.id
+                selected.accommodationFullDetails.htId
             ),
             success: roomsTaskState => {
                 if (SEARCH_STATUSES.isReadyToLoad(roomsTaskState))
@@ -66,7 +66,7 @@ const searchRoomsCreate = accommodation => {
     API.get({
         url: API.ACCOMMODATION_DETAILS(
             $accommodation.search.id,
-            accommodation.id
+            accommodation.htId
         ),
         success: result => $accommodation.setSelectedAccommodationFullDetails(result)
     });

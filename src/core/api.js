@@ -84,21 +84,21 @@ const API_METHODS = {
 
     AGENCY_BOOKINGS_LIST  : "/accommodations/bookings/agency",
 
-    ACCOMMODATION_DETAILS : (searchId, resultId) =>
-                            `/accommodations/availabilities/searches/${searchId}/results/${resultId}/accommodation `,
+    ACCOMMODATION_DETAILS : (searchId, htId) =>
+                            `/accommodations/availabilities/searches/${searchId}/results/${htId}/accommodation `,
     A_SEARCH_ONE_CREATE   : "/accommodations/availabilities/searches",
     A_SEARCH_ONE_CHECK    : searchId =>
                             `/accommodations/availabilities/searches/${searchId}/state`,
     A_SEARCH_ONE_RESULT   : searchId =>
                             `/accommodations/availabilities/searches/${searchId}`,
-    A_SEARCH_TWO_CHECK    : (searchId, resultId) =>
-                            `/accommodations/availabilities/searches/${searchId}/results/${resultId}/state`,
-    A_SEARCH_TWO_RESULT   : (searchId, resultId) =>
-                            `/accommodations/availabilities/searches/${searchId}/results/${resultId}`,
-    A_SEARCH_STEP_THREE   : (searchId, resultId, roomContractSetId) =>
-                            `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}`,
-    REQUEST_DEADLINE      : (searchId, resultId, roomContractSetId) =>
-                            `/accommodations/availabilities/searches/${searchId}/results/${resultId}/room-contract-sets/${roomContractSetId}/deadline`,
+    A_SEARCH_TWO_CHECK    : (searchId, htId) =>
+                            `/accommodations/availabilities/searches/${searchId}/results/${htId}/state`,
+    A_SEARCH_TWO_RESULT   : (searchId, htId) =>
+                            `/accommodations/availabilities/searches/${searchId}/results/${htId}`,
+    A_SEARCH_STEP_THREE   : (searchId, htId, roomContractSetId) =>
+                            `/accommodations/availabilities/searches/${searchId}/results/${htId}/room-contract-sets/${roomContractSetId}`,
+    REQUEST_DEADLINE      : (searchId, htId, roomContractSetId) =>
+                            `/accommodations/availabilities/searches/${searchId}/results/${htId}/room-contract-sets/${roomContractSetId}/deadline`,
 
     PAYMENTS_HISTORY      : `/agent/payments-history`,
 

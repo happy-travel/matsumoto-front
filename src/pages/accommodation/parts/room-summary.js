@@ -7,7 +7,7 @@ import Deadline from "components/deadline";
 import { APR_VALUES } from "enum";
 import { $accommodation, $personal } from "stores";
 
-const RoomSummary = observer(({ resultId, roomContractSet, onSelect, secondStep }) => {
+const RoomSummary = observer(({ htId, roomContractSet, onSelect, secondStep }) => {
     const isRestricted = roomContractSet.isAdvancePurchaseRate && ($personal.agencyAPR <= APR_VALUES.DisplayOnly);
 
     const { t } = useTranslation();
@@ -31,7 +31,7 @@ const RoomSummary = observer(({ resultId, roomContractSet, onSelect, secondStep 
                 { !roomContractSet.isAdvancePurchaseRate ?
                     <Deadline
                         searchId={$accommodation.search.id}
-                        resultId={resultId}
+                        htId={htId}
                         roomContractSet={roomContractSet}
                     /> :
                     t("Within deadline")

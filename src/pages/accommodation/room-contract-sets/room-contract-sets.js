@@ -84,7 +84,7 @@ const AccommodationRoomContractsSetsPage = observer(() => {
         API.get({
             url: API.A_SEARCH_STEP_THREE(
                 $accommodation.search.id,
-                selectedAccommodation.id,
+                details.htId,
                 roomContractSet.id
             ),
             success: (result) => {
@@ -106,11 +106,6 @@ const AccommodationRoomContractsSetsPage = observer(() => {
                 link="/search"
             />
         );
-
-    if (!selectedAccommodation?.id) {
-        redirect("/");
-        return null;
-    }
 
     if (!details)
         return <Loader page />;
@@ -172,7 +167,7 @@ const AccommodationRoomContractsSetsPage = observer(() => {
                             <RoomSummary
                                 key={index}
                                 roomContractSet={roomContractSet}
-                                resultId={selectedAccommodation.id}
+                                htId={details.htId}
                                 onSelect={() => roomContractSetSelect(roomContractSet)}
                                 secondStep
                             />

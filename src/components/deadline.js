@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { API } from "core";
 import { date } from "simple";
 
-const Deadline = ({ roomContractSet, searchId, resultId }) => {
+const Deadline = ({ roomContractSet, searchId, htId }) => {
     const { t } = useTranslation();
 
     const [result, setResult] = useState(null);
@@ -15,7 +15,7 @@ const Deadline = ({ roomContractSet, searchId, resultId }) => {
         API.get({
             url: API.REQUEST_DEADLINE(
                 searchId,
-                resultId,
+                htId,
                 roomContractSet.id
             ),
             success: data => {

@@ -5,12 +5,6 @@ import { $accommodation, $notifications, $payment } from "stores";
 const taskSubmitBookingForm = (values, { setSubmitting }) => {
     setSubmitting(true);
 
-    if (!$accommodation.selected?.accommodationFinal?.accommodation?.id) {
-        setSubmitting(false);
-        $notifications.addNotification("Booking unsuccessful, please try again later or contact us for help.");
-        return null;
-    }
-
     const contract = $accommodation.selected.roomContractSet;
     const search = $accommodation.search.request;
     let roomDetails = [];
@@ -37,7 +31,7 @@ const taskSubmitBookingForm = (values, { setSubmitting }) => {
 
     const request = {
         searchId: $accommodation.search.id,
-        resultId: $accommodation.selected.accommodation.id,
+        htId: $accommodation.selected.accommodationFullDetails.htId,
         roomContractSetId: contract.id,
         nationality: search.nationality,
         paymentMethod: $payment.paymentMethod,

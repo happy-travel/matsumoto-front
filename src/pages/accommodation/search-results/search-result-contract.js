@@ -84,7 +84,7 @@ const AccommodationSearchResultContract = ({ contract }) => {
                         key={index}
                         roomContractSet={roomContractSet}
                         onSelect={accommodationSelect}
-                        resultId={contract.id}
+                        htId={contract.htId}
                     />
                 ) }
             </div>
