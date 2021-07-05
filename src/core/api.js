@@ -8,9 +8,9 @@ const API_METHODS = {
 
     CARDS_SAVED           : "/cards",
     CARDS_SETTINGS        : "/cards/settings",
-    CARDS_SIGN            : "/cards/signatures",
-    PAYMENTS_CARD_NEW     : "/payments/bookings/card/new",
-    PAYMENTS_CARD_SAVED   : "/payments/bookings/card/saved",
+    CARDS_SIGN            : "/cards/signatures/calculate",
+    PAYMENTS_CARD_NEW     : "/payments/accommodations/bookings/cards/new/pay",
+    PAYMENTS_CARD_SAVED   : "/payments/accommodations/bookings/cards/saved/pay",
     PAYMENTS_CALLBACK     : "/payments/callback",
     BOOK_BY_ACCOUNT       : "/accommodations/bookings/book-by-account",
     BOOK_FOR_OFFLINE      : "/accommodations/bookings/book-for-offline",
@@ -18,11 +18,11 @@ const API_METHODS = {
                             `/cards/${cardId}`,
 
     ACCOUNT_BALANCE       : currencyCode =>
-                            `/payments/accounts/balance/${currencyCode}`,
+                            `/agency-accounts/currencies/${currencyCode}/balance`,
 
     AGENT                 : "/agent",
     AGENT_REGISTER        : "/agent/register",
-    AGENCY_REGISTER       : "/agency/register",
+    AGENCY_REGISTER       : "/agency/child-agencies/register",
     AGENT_REGISTER_MASTER : "/agent/register-master",
     AGENT_PROPERTIES      : "/agent/properties",
     INVITATION_DATA       : invitationCode =>
@@ -33,21 +33,21 @@ const API_METHODS = {
                             `/agent/invitations/${invitationId}/resend`,
     AGENT_INVITE_DISABLE  : invitationId =>
                             `/agent/invitations/${invitationId}/disable`,
-    AGENT_INVITATIONS     : "/agent/invitations",
+    AGENT_INVITATIONS     : "/agent/invitations/not-accepted",
     AGENT_ACCEPTED_INVITES: "/agent/invitations/accepted",
-    AGENCY_INVITATIONS    : "/agency/invitations",
-    AGENCY_ACCEPTED_INVITES: "/agency/invitations/accepted", // todo: some misunderstandings possible. This methods should be renamed in API
+    AGENCY_INVITATIONS    : "/agency/invitations/not-accepted",
+    AGENCY_ACCEPTED_INVITES: "/agency/invitations/accepted",
     AGENCY_ACCOUNTS       : `/agency-accounts`,
 
     CHILD_AGENCY          : agencyId =>
                             `/agency/child-agencies/${agencyId}`,
     CHILD_AGENCIES        : "/agency/child-agencies",
-    CHILD_AGENCY_INVITE_SEND: "/agency/invitations/send",
-    CHILD_AGENCY_INVITE_GENERATE: "/agency/invitations/generate",
+    CHILD_AGENCY_INVITE_SEND: "/agency/child-agencies/invitations/send",
+    CHILD_AGENCY_INVITE_GENERATE: "/agency/child-agencies/invitations/generate",
     CHILD_AGENCY_MARKUPS  : agencyId =>
-                            `/agency/child-agencies/${agencyId}/markups`,
+                            `/agency/child-agencies/${agencyId}/markup-policies`,
     CHILD_AGENCY_MARKUP   : (agencyId, policyId) =>
-                            `/agency/child-agencies/${agencyId}/markups/${policyId}`,
+                            `/agency/child-agencies/${agencyId}/markup-policies/${policyId}`,
     CHILD_AGENCY_ACTIVATE : agencyId =>
                             `/agency/child-agencies/${agencyId}/activate`,
     CHILD_AGENCY_DEACTIVATE: agencyId =>
@@ -68,13 +68,13 @@ const API_METHODS = {
     BOOKING_STATUS        : bookingId =>
                             `/accommodations/bookings/${bookingId}/refresh-status`,
     BOOKING_INVOICE       : bookingId =>
-                            `/accommodations/supporting-documentation/${bookingId}/invoice`,
+                            `/accommodations/bookings/${bookingId}/supporting-documents/invoice`,
     BOOKING_INVOICE_SEND  : bookingId =>
-                            `/accommodations/supporting-documentation/${bookingId}/invoice/send`,
+                            `/accommodations/bookings/${bookingId}/supporting-documents/invoice/send`,
     BOOKING_VOUCHER       : bookingId =>
-                            `/accommodations/supporting-documentation/${bookingId}/voucher`,
+                            `/accommodations/bookings/${bookingId}/supporting-documents/voucher`,
     BOOKING_VOUCHER_SEND  : bookingId =>
-                            `/accommodations/supporting-documentation/${bookingId}/voucher/send`,
+                            `/accommodations/bookings/${bookingId}/supporting-documents/voucher/send`,
     BOOKING_GET_BY_ID     : bookingId =>
                             `/accommodations/bookings/${bookingId}`,
     BOOKING_GET_BY_CODE   : referenceCode =>
@@ -133,9 +133,9 @@ const API_METHODS = {
     AGENCY_PAYMENT_OPTION: `/agency/system-settings/displayed-payment-options`,
     MARKUP_TEMPLATES     : "/markup-templates",
     AGENT_MARKUPS        : agentId =>
-                           `/agency/agents/${agentId}/markups`,
+                           `/agency/agents/${agentId}/markup-policies`,
     AGENT_MARKUP         : (agentId, policyId) =>
-                           `/agency/agents/${agentId}/markups/${policyId}`,
+                           `/agency/agents/${agentId}/markup-policies/${policyId}`,
 
     REPORT_DUPLICATE     : "/accommodations-mapping/duplicate-reports",
 
