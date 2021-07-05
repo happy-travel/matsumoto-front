@@ -48,11 +48,11 @@ const AgentManagement = observer(({ match }) => {
         });
     };
 
-    const submit = (values) => {
+    const submit = ({ roleIds }) => {
         setLoading(true);
         API.put({
             url: API.AGENT_ROLES(agentId),
-            body: Object.keys(values).map((key) => values[key] ? parseInt(key) : false).filter(item => item),
+            body: Object.keys(roleIds).map((key) => roleIds[key] ? parseInt(key) : false).filter(item => item),
             success: () => redirect("/settings/agency/agents"),
             after: () => setLoading(false)
         });
@@ -115,7 +115,7 @@ const AgentManagement = observer(({ match }) => {
                         <Formik
                             onSubmit={submit}
                             initialValues={{
-                                ...inAgencyRoleIds.reduce((obj, key) => (
+                                roleIds: inAgencyRoleIds.reduce((obj, key) => (
                                     {...obj, [key]: inAgencyRoleIds.includes(key)}),
                                 {})
                             }}

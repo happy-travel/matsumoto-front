@@ -7,6 +7,7 @@ import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationAgentValidatorWithEmail } from "components/form/validation";
 import FormAgentData from "parts/form-agent-data";
 import { $ui, $personal } from "stores";
+import PermissionsSelector from "./permissions-selector";
 
 const InvitationSendPage = () => {
     const [success, setSuccess] = useState(false);
@@ -23,7 +24,8 @@ const InvitationSendPage = () => {
                     firstName: values.firstName,
                     lastName: values.lastName,
                     position: values.position,
-                    title: values.title
+                    title: values.title,
+                    roleIds: Object.keys(values.roleIds).map((key) => values.roleIds[key] ? parseInt(key) : false).filter(item => item)
                 }
             },
             success: (data) => {
@@ -91,7 +93,8 @@ const InvitationSendPage = () => {
                         title: "",
                         firstName: "",
                         lastName: "",
-                        position: ""
+                        position: "",
+                        roleIds: []
                     }}
                     validationSchema={registrationAgentValidatorWithEmail}
                     onSubmit={submit}
@@ -107,7 +110,9 @@ const InvitationSendPage = () => {
                                 />
                             </div>
                             <FormAgentData formik={formik} />
-                            <div className="row">
+                            <h2>{t("Permissions")}</h2>
+                            <PermissionsSelector formik={formik} />
+                            <div className="row" style={{ marginTop: 30 }}>
                                 <div className="field" style={{ width: "50%" }}>
                                     <div className="inner">
                                         <button

@@ -29,17 +29,15 @@ const PermissionsSelector = ({ formik }) => {
                     <div className="item">
                         <FieldCheckbox
                             formik={formik}
-                            id={role.id}
+                            id={"roleIds." + role.id}
                             label={role.name}
                         />
-                    </div>
-                    { role.permissions.map(permission => (
-                        <div className="subitem" key={permission}>
-                            <div className={"checkbox readonly" + __class(formik.values[role.id], "on")}>
-                                { generateLabel(permission) }
-                            </div>
+                        <div className="subitem">
+                            { role.permissions.map(permission => (
+                                generateLabel(permission)
+                            )).join()}
                         </div>
-                    ))}
+                    </div>
                 </div>
             ))}
         </div>

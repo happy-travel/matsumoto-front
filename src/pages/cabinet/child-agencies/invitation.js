@@ -6,13 +6,12 @@ import { copyToClipboard } from "simple/logic";
 import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationAgentValidatorWithEmailAndAgencyName } from "components/form/validation";
 import FormAgentData from "parts/form-agent-data";
-import Breadcrumbs from "components/breadcrumbs";
 import { $ui } from "stores";
+import PermissionsSelector from "../agency/permissions-selector";
 
 const ChildAgencyInvitationPage = () => {
     const [success, setSuccess] = useState(false);
     const [name, setName] = useState("");
-    const [form, setForm] = useState(null);
 
     const submit = (values) => {
         setSuccess(null);
@@ -24,7 +23,8 @@ const ChildAgencyInvitationPage = () => {
                     firstName: values.firstName,
                     lastName: values.lastName,
                     position: values.position,
-                    title: values.title
+                    title: values.title,
+                    roleIds: Object.keys(values.roleIds).map((key) => values.roleIds[key] ? parseInt(key) : false).filter(item => item)
                 },
                 childAgencyRegistrationInfo: {
                     name: values.agencyName
@@ -94,7 +94,8 @@ const ChildAgencyInvitationPage = () => {
                         title: "",
                         firstName: "",
                         lastName: "",
-                        position: ""
+                        position: "",
+                        roleIds: []
                     }}
                     validationSchema={registrationAgentValidatorWithEmailAndAgencyName}
                     onSubmit={submit}
@@ -119,6 +120,8 @@ const ChildAgencyInvitationPage = () => {
                                 />
                             </div>
                             <FormAgentData formik={formik} />
+                            <h2>{t("Permissions")}</h2>
+                            <PermissionsSelector formik={formik} />
                             <div className="row">
                                 <div className="field" style={{ width: "50%" }}>
                                     <div className="inner">

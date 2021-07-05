@@ -30,7 +30,11 @@ export const emailFormValidator = Yup.object().shape(emailForm);
 
 export const registrationAgentValidatorWithEmail = Yup.object().shape({
     ...validator,
-    ...emailForm
+    ...emailForm,
+    roleIds: Yup.mixed()
+        .test('roles', 'At least one role required', roleIds => {
+            return Object.keys(roleIds).some(key => roleIds[key])
+        })
 });
 
 export const registrationAgentValidatorWithEmailAndAgencyName = Yup.object().shape({
