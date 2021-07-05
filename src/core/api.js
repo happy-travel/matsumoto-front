@@ -37,7 +37,9 @@ const API_METHODS = {
     AGENT_ACCEPTED_INVITES: "/agent/invitations/accepted",
     AGENCY_INVITATIONS    : "/agency/invitations/not-accepted",
     AGENCY_ACCEPTED_INVITES: "/agency/invitations/accepted",
-    AGENCY_ACCOUNTS       : `/agency-accounts`,
+    AGENCY_ACCOUNTS       : "/agency-accounts",
+    AGENT_ALL_ROLES       : "/agent-roles",
+    // ALL_PERMISSIONS    : "/all-permissions-list", // todo: is it legacy?
 
     CHILD_AGENCY          : agencyId =>
                             `/agency/child-agencies/${agencyId}`,
@@ -126,9 +128,10 @@ const API_METHODS = {
     COUNTERPARTY_FILE    : "/counterparty/contract-file",
     COMPANY_INFO         : "/company",
     AGENT_SETTINGS       : "/agent/settings/application",
-    ALL_PERMISSIONS      : "/all-permissions-list",
     AGENT_PERMISSIONS    : agentId =>
-                           `/agency/agents/${agentId}/permissions`,
+                           `/agency/agents/${agentId}/permissions`, // todo: is it legacy?
+    AGENT_ROLES          : agentId =>
+                           `/agency/agents/${agentId}/roles`,
     AGENCY_APR_SETTINGS  : `/agency/system-settings/apr-settings`,
     AGENCY_PAYMENT_OPTION: `/agency/system-settings/displayed-payment-options`,
     MARKUP_TEMPLATES     : "/markup-templates",

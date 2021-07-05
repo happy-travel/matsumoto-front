@@ -18,13 +18,14 @@
         input, .suggestion span
             text-transform: capitalize
 .checkbox
-    cursor: pointer
     background: url("../images/checkbox-off.svg") no-repeat left center
     padding-left: 27px
     line-height: 22px
     display: inline-flex
     user-select: none
-    &:hover
+    &:not(.readonly)
+        cursor: pointer
+    &:hover:not(.readonly)
         color: $color-brand
     &.on
         background-image: url("../images/checkbox-on.svg")

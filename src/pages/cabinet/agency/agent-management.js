@@ -6,27 +6,15 @@ import { API, redirect } from "core";
 import { PassengerName } from "simple";
 import { Loader } from "components/simple";
 import Breadcrumbs from "components/breadcrumbs";
-import { FieldSwitch } from "components/form";
 import Markups from "parts/markups/markups";
+import PermissionsSelector from "./permissions-selector";
 import { $personal } from "stores";
 
-const generateLabel = str => {
-    if (!str)
-        return "Unknown";
-    const split = str.split(/([A-Z])/);
-    for (let i = 0; i < split.length; i++)
-        if (split[i].match(/([A-Z])/))
-            split[i]= " " + split[i];
-    return split.join("");
-};
-
-const AgentPermissionsManagement = observer(({ match }) => {
+const AgentManagement = observer(({ match }) => {
     const [loading, setLoading] = useState(true);
     const [agent, setAgent] = useState({});
-    const [permissionsList, setPermissionsList] = useState([]);
-
     const { agentId } = match.params;
-    const { inAgencyPermissions } = agent;
+    const { inAgencyRoleIds } = agent;
 
     useEffect(() => {
         API.get({
@@ -35,10 +23,6 @@ const AgentPermissionsManagement = observer(({ match }) => {
                 setAgent(result);
                 setLoading(false);
             }
-        });
-        API.get({
-            url: API.ALL_PERMISSIONS,
-            success: setPermissionsList
         });
     }, []);
 
@@ -67,8 +51,8 @@ const AgentPermissionsManagement = observer(({ match }) => {
     const submit = (values) => {
         setLoading(true);
         API.put({
-            url: API.AGENT_PERMISSIONS(agentId),
-            body: Object.keys(values).map((key) => values[key] ? key : false).filter(item => item),
+            url: API.AGENT_ROLES(agentId),
+            body: Object.keys(values).map((key) => values[key] ? parseInt(key) : false).filter(item => item),
             success: () => redirect("/settings/agency/agents"),
             after: () => setLoading(false)
         });
@@ -77,8 +61,6 @@ const AgentPermissionsManagement = observer(({ match }) => {
     const { t } = useTranslation();
     return (
         <div className="cabinet block">
-
-
             { loading ?
                 <Loader /> :
             <section>
@@ -86,73 +68,73 @@ const AgentPermissionsManagement = observer(({ match }) => {
                     backLink="/settings/agency/agents"
                     backText={t("Back to") + " " + t("Agents Management")}
                 />
-                <h2>{t("Information")}</h2>
-                <div className="row">
-                    <b>{t("Agent")}</b>:{" "}
-                    {PassengerName({ passenger: agent })}
-                </div>
-                <div className="row">
-                    <b>{t("Position")}</b>:{" "}
-                    {agent.position}
-                </div>
-                <div className="row">
-                    <b>{t("Status")}</b>:{" "}
-                    {agent.isActive ? "Active" : "Inactive"}
-                </div>
-                { agent.isMaster ? <div className="row">
-                    <b>{t("Main agent")}</b>
-                </div> : "" }
-
-                { $personal.permitted("AgentStatusManagement") &&
-                  $personal.information.id != agent.agentId &&
                 <div>
-                    {!agent.isActive ? <button
-                        className="button"
-                        onClick={enable}
-                        style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
-                    >
-                        {t("Activate agent")}
-                    </button> :
-                    <button
-                        className="button"
-                        onClick={disable}
-                        style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
-                    >
-                        {t("Deactivate agent")}
-                    </button>}
-                </div> }
+                    <h2>{t("Information")}</h2>
+                    <div className="row">
+                        <b>{t("Agent")}</b>:{" "}
+                        { PassengerName({ passenger: agent }) }
+                    </div>
+                    <div className="row">
+                        <b>{t("Position")}</b>:{" "}
+                        {agent.position}
+                    </div>
+                    <div className="row">
+                        <b>{t("Status")}</b>:{" "}
+                        { agent.isActive ? "Active" : "Inactive" }
+                    </div>
+                    { agent.isMaster &&
+                        <div className="row">
+                            <b>{t("Main agent")}</b>
+                        </div>
+                    }
 
-                { $personal.permitted("PermissionManagement") && <>
+                    { $personal.permitted("AgentStatusManagement") &&
+                      $personal.information.id != agent.agentId &&
+                        <div>
+                            {!agent.isActive ? <button
+                                className="button"
+                                onClick={enable}
+                                style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
+                            >
+                                {t("Activate agent")}
+                            </button> :
+                            <button
+                                className="button"
+                                onClick={disable}
+                                style={{ paddingLeft: "20px", paddingRight: "20px", marginRight: "20px" }}
+                            >
+                                {t("Deactivate agent")}
+                            </button>}
+                        </div>
+                    }
+                </div>
+
+                { $personal.permitted("PermissionManagement") && <div>
                     <h2>{t("Permissions")}</h2>
                     <div>
                         <Formik
                             onSubmit={submit}
                             initialValues={{
-                                ...permissionsList.reduce((obj, key) => (
-                                    {...obj, [key]: inAgencyPermissions.includes(key)}),
+                                ...inAgencyRoleIds.reduce((obj, key) => (
+                                    {...obj, [key]: inAgencyRoleIds.includes(key)}),
                                 {})
                             }}
                         >
-                            {formik => (
+                            { formik => (
                                 <form onSubmit={formik.handleSubmit}>
                                     <div className="form">
-                                        <div className="permissions">
-                                            {permissionsList.map(key => (
-                                                <div className="row" key={key}>
-                                                    <FieldSwitch formik={formik}
-                                                                 id={key}
-                                                                 label={generateLabel(key)}
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-
+                                        <PermissionsSelector formik={formik} />
                                         <div className="row controls">
                                             <div className="field">
                                                 <div className="label"/>
                                                 <div className="inner">
-                                                    <button type="submit" className={"button button-controls" +
-                                                    __class(!formik.dirty, "disabled")}>
+                                                    <button
+                                                        type="submit"
+                                                        className={
+                                                            "button button-controls" +
+                                                            __class(!formik.dirty, "disabled")
+                                                        }
+                                                    >
                                                         {t("Save changes")}
                                                     </button>
                                                 </div>
@@ -163,7 +145,7 @@ const AgentPermissionsManagement = observer(({ match }) => {
                             )}
                         </Formik>
                     </div>
-                </> }
+                </div> }
 
                 { $personal.permitted("MarkupManagement") &&
                     <Markups
@@ -179,4 +161,4 @@ const AgentPermissionsManagement = observer(({ match }) => {
     );
 });
 
-export default AgentPermissionsManagement;
+export default AgentManagement;

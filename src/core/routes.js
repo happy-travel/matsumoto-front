@@ -30,7 +30,7 @@ import invitationsManagement              from "pages/cabinet/agency/invitations
 import invitationSend                     from "pages/cabinet/agency/invitation-send";
 import invitationResend                   from "pages/cabinet/agency/invitation-resend";
 import agentsManagement                   from "pages/cabinet/agency/agents-management";
-import agentPermissionsManagement         from "pages/cabinet/agency/agent-permissions-management";
+import agentManagement                    from "pages/cabinet/agency/agent-management";
 import agencyLegalInformation             from "pages/cabinet/agency/agency-legal-information";
 import voucherPersonalization             from "pages/cabinet/agency/agency-voucher-personalization";
 
@@ -102,7 +102,7 @@ const Routes = () => (
     <Route exact path={["/settings/agency", "/settings/agency/information"]}
                                                           component={agencyLegalInformation} title="Legal Information" />
     <Route exact path="/settings/agency/agents"           component={agentsManagement} title="Agent Management" />
-    <Route exact path="/settings/agency/agents/:agentId/" component={agentPermissionsManagement} title="Agent Management" />
+    <Route exact path="/settings/agency/agents/:agentId/" component={agentManagement} title="Agent Management" />
     <Route exact path="/settings/agency/invitations/send" component={invitationSend} title="Invite an Agent" />
     <Route exact path="/settings/agency/invitations/:id"  component={invitationResend} title="Invitation" />
     <Route exact path="/settings/agency/invitations"      component={invitationsManagement} title="Invitations" />
