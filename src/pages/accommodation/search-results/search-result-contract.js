@@ -65,16 +65,18 @@ const AccommodationSearchResultContract = ({ contract }) => {
                             )} {t("available")}
                         </div>
 
-                        <div className="features">
-                            <button
-                                className={"button mini-label" + __class(contract.hasDuplicate, "disabled")}
-                                id={contract.supplier + "." + contract.accommodation.id}
-                                onClick={
-                                    !contract.hasDuplicate ? () => $view.setModal(MODALS.REPORT_DUPLICATE, contract) : null
-                                }>
-                                    {contract.hasDuplicate ? t("Marked as Duplicate") : t("Mark as duplicate")}
-                            </button>
-                        </div>
+                        { /* todo: remove legacy
+                            <div className="features">
+                                <button
+                                    className={"button mini-label" + __class(contract.hasDuplicate, "disabled")}
+                                    id={contract.supplier + "." + contract.accommodation.id}
+                                    onClick={
+                                        !contract.hasDuplicate ? () => $view.setModal(MODALS.REPORT_DUPLICATE, contract) : null
+                                    }>
+                                        {contract.hasDuplicate ? t("Marked as Duplicate") : t("Mark as duplicate")}
+                                </button>
+                            </div>
+                        */ }
                     </div>
                 </div>
             </div>
