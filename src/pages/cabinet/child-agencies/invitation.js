@@ -7,7 +7,6 @@ import { CachedForm, FORM_NAMES, FieldText } from "components/form";
 import { registrationAgentValidatorWithEmailAndAgencyName } from "components/form/validation";
 import FormAgentData from "parts/form-agent-data";
 import { $ui } from "stores";
-import PermissionsSelector from "../agency/permissions-selector";
 
 const ChildAgencyInvitationPage = () => {
     const [success, setSuccess] = useState(false);
@@ -23,8 +22,7 @@ const ChildAgencyInvitationPage = () => {
                     firstName: values.firstName,
                     lastName: values.lastName,
                     position: values.position,
-                    title: values.title,
-                    roleIds: Object.keys(values.roleIds).map((key) => values.roleIds[key] ? parseInt(key) : false).filter(item => item)
+                    title: values.title
                 },
                 childAgencyRegistrationInfo: {
                     name: values.agencyName
@@ -120,8 +118,6 @@ const ChildAgencyInvitationPage = () => {
                                 />
                             </div>
                             <FormAgentData formik={formik} />
-                            <h2>{t("Permissions")}</h2>
-                            <PermissionsSelector formik={formik} />
                             <div className="row">
                                 <div className="field" style={{ width: "50%" }}>
                                     <div className="inner">
