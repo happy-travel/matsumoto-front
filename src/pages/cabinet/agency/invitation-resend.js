@@ -34,7 +34,7 @@ const InvitationResendPage = ({ match }) => {
     const disable = () => {
         API.post({
             url: API.AGENT_INVITE_DISABLE(id),
-            success: () => redirect("/settings/invitations")
+            success: () => redirect("/settings/agency/invitations")
         });
     };
 
