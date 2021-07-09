@@ -24,7 +24,7 @@ const AccommodationBookingPage = observer(() => {
         $accommodation.setBookingRequest(null);
     }, []);
 
-    if (!$accommodation.selected?.accommodationFinal?.accommodation?.id)
+    if (!$accommodation.selected?.accommodationFinal?.accommodation?.htId)
         return (
             <ViewFailed
                 button={t("View Other Options")}
