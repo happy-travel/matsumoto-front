@@ -157,8 +157,8 @@ class AccommodationStore {
     }
 
     selectRoomContractSet(result, preloaded) {
-        if (result.roomContractSet?.rate.currency != preloaded.rate?.currency ||
-            result.roomContractSet?.rate.finalPrice !== preloaded.rate?.finalPrice)
+        if (result.roomContractSet?.rate.finalPrice.currency != preloaded.rate?.finalPrice.currency ||
+            result.roomContractSet?.rate.finalPrice.amount !== preloaded.rate?.finalPrice.amount)
             result.roomContractSet.priceChangedAlert = true;
 
         if (result.roomContractSet?.deadline.date != preloaded.deadline?.date)
