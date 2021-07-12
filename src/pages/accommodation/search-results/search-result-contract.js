@@ -43,14 +43,6 @@ const AccommodationSearchResultContract = ({ contract }) => {
                         </div>
 
                         <HotelStars count={contract.accommodation.rating} />
-
-                        <div className="text">
-                            { contract.supplier &&
-                                <div>
-                                    <i>Supplier: {" " + contract.supplier}</i>
-                                </div>
-                            }
-                        </div>
                     </div>
                     <div className="bottom">
                         <div className="availability" onClick={accommodationSelect}>
