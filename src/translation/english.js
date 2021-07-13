@@ -365,6 +365,9 @@ translations: {
     "Child Agencies": "Child Agencies",
     "Application Settings": "Application Settings",
     "Agents Management": "Agents Management",
-    "Voucher Personalisation": "Voucher Personalisation"
+    "Voucher Personalisation": "Voucher Personalisation",
+    "changed to": "changed to",
+    "at": "at",
+    "by": "by"
 }
 };
