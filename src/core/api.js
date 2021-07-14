@@ -79,6 +79,8 @@ const API_METHODS = {
                             `/accommodations/bookings/${bookingId}/supporting-documents/voucher/send`,
     BOOKING_GET_BY_ID     : bookingId =>
                             `/accommodations/bookings/${bookingId}`,
+    BOOKING_HISTORY       : bookingId =>
+                            `/accommodations/bookings/${bookingId}/status-history`,
     BOOKING_GET_BY_CODE   : referenceCode =>
                             `/accommodations/bookings/refcode/${referenceCode}`,
     BOOKING_PAY_WITH_CARD : referenceCode =>

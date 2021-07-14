@@ -7,6 +7,7 @@ import ViewFailed from "parts/view-failed";
 import BookingActionPart from "./booking-actions";
 import BookingDetailsView from "./booking-details-view";
 import BookingSummary from "../parts/booking-summary"
+import BookingHistory from "../parts/booking-history"
 
 const BookingConfirmationView = ({ referenceCode, PaymentInformation }) => {
     const { t } = useTranslation();
@@ -106,6 +107,7 @@ const BookingConfirmationView = ({ referenceCode, PaymentInformation }) => {
                         </div>
                     </div>
                     <BookingDetailsView booking={booking} />
+                    <BookingHistory booking={booking} />
                 </div>
             </div>
         </>

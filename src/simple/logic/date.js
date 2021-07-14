@@ -28,6 +28,7 @@ const format = {
     a: date => !date ? '' : dateFormat("DAY, dd MTH yyyy", date),
     c: date => !date ? '' : dateFormat("dd-MM-yyyy", date),
     e: date => !date ? '' : dateFormat("dd-MTH-yyyy", date),
+    time: date => !date ? '' : dateFormat("hh:mm", date),
     day: date => !date ? '' : dateFormat("MTH DD", date),
     shortDay: date => !date ? '' : dateFormat("mth DD", date),
 };
